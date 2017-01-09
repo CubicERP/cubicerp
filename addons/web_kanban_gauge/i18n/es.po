@@ -1,0 +1,39 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* web_kanban_gauge
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-23 20:11+0000\n"
+"PO-Revision-Date: 2016-11-23 15:11-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: web_kanban_gauge
+#. openerp-web
+#: code:addons/web_kanban_gauge/static/src/js/kanban_gauge.js:151
+#, python-format
+msgid "Click to change value"
+msgstr "Pulse para cambiar el valor"
+
+#. module: web_kanban_gauge
+#. openerp-web
+#: code:addons/web_kanban_gauge/static/src/js/kanban_gauge.js:113
+#, python-format
+msgid "Only Integer Value should be valid."
+msgstr "El único valor válido es un entero."
+
+#. module: web_kanban_gauge
+#. openerp-web
+#: code:addons/web_kanban_gauge/static/src/js/kanban_gauge.js:113
+#, python-format
+msgid "Wrong value entered!"
+msgstr "Valor introducido no válido"

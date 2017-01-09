@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_picking_cost">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="font-family: Helvetica; font-size: 12px;">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="page" style="font-family: Helvetica; font-size: 12px;">
+                        <h1>Landed Cost</h1>
+                    	<h3><span t-field="o.origin"/> - <span t-field="o.name"/></h3>
+                    	<h4><span t-esc="get_cost(o.landed_costs_ids)['names']"/></h4>
+                    	<h5><span t-field="o.date"/></h5>
+                    	
+                    	<table style="width: 45%">
+                          <tbody>
+                            <tr style="height: 6mm;" t-foreach="get_cost_lines(o.landed_costs_ids)" t-as="line_cost">
+                                <td>
+                                	<span t-field="line_cost.name"/> :
+                                </td>
+                                <td class="text-right">
+                                    <span t-raw="'{:,.2f}'.format(line_cost.price_unit)"/> <span t-raw="line_cost.currency_id.name"/>
+                                </td>
+                            </tr>
+                            <tr style="height: 6mm;">
+                                <td>
+                                	Total Cost :
+                                </td>
+                                <td class="text-right">
+                                    <span t-raw="'{:,.2f}'.format(get_cost(o.landed_costs_ids)['total'])"/> <span t-raw="o.company_id.currency_id.name"/>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+	                        
+                        <table style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+                          <thead>
+                          	<tr style="height: 6mm;">
+                          		<th class="text-center" style="border: 1px solid black; padding: 2px;">Product</th>
+                          		<th class="text-right" style="border: 1px solid black; padding: 2px;">Landed Cost</th>
+                          		<th class="text-right" style="border: 1px solid black; padding: 2px;">Quantity</th>
+                          		<th class="text-right" style="border: 1px solid black; padding: 2px;">Unit Price</th>
+                          		<th class="text-right" style="border: 1px solid black; padding: 2px;">Total Price</th>
+                          	</tr>
+                          </thead>
+                          <tbody>
+                            <tr  t-foreach="o.move_lines" t-as="line">
+                                <td style="border: 1px solid black; padding: 2px;">
+                                	<span t-field="line.product_id.name"/>
+                                </td>
+                                <td class="text-right" style="border: 1px solid black; padding: 2px;">
+                                    <span t-raw="'{:,.2f}'.format(get_line(line)['cif'])"/>
+                                </td>
+                                <td class="text-right" style="border: 1px solid black; padding: 2px;">
+                                    <span t-raw="'{:,.0f}'.format(line.product_qty)"/>
+                                </td>
+                                <td class="text-right" style="border: 1px solid black; padding: 2px;">
+                                    <span  t-raw="'{:,.2f}'.format(line.price_unit)"/>
+                                </td>
+                                <td class="text-right" style="border: 1px solid black; padding: 2px;">
+                                    <span  t-raw="'{:,.2f}'.format(get_line(line)['total'])"/>
+                                </td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="footer" style="font-family: Helvetica; font-size: 12px;">
+                    </div>
+                 </t>
+             </t>
+        </template>
+        
+        <report
+            id="stock_report_picking_cost"
+            model="stock.picking"
+            string="Landed Costs"
+            report_type="qweb-pdf"
+            name="stock_landed_costs.report_picking_cost"
+            file="stock_landed_costs.report_picking_cost"
+        />
+
+        <record id="paperformat_picking" model="report.paperformat">
+            <field name="name">Picking Landed Costs</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">295</field>
+            <field name="page_width">215</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">41</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">16</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <record id="stock_report_picking_cost" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_picking" />
+        </record>
+    </data>
+</openerp>

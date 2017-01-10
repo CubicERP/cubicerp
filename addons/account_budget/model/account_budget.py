@@ -217,8 +217,8 @@ class crossovered_budget_lines(osv.osv):
             acc_ids = account_obj._get_children_and_consol(cr, uid, acc_ids, context=context)
             date_to = line.date_to
             date_from = line.date_from
-            analytic_amount = line.general_budget_id.value_type == 'quantity' and 'unit_amount' or 'amount'
-            move_amount = line.general_budget_id.value_type == 'quantity' and 'quantity' or 'debit-credit'
+            analytic_amount = line.value_type == 'quantity' and 'unit_amount' or 'amount'
+            move_amount = line.value_type == 'quantity' and 'quantity' or 'debit-credit'
             analytic_account_ids = []
             if line.analytic_account_id:
                 analytic_context = context.copy()

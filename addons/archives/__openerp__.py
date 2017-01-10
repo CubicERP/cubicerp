@@ -42,7 +42,6 @@ Dashboard / Reports for archives will include:
         "hr",
         "document",
         "mail",
-        "stock",
         ],
     "data":[
         "archives_view.xml",

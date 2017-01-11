@@ -150,7 +150,6 @@
                                 data-target="#navbar-content">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
                         </button>
                         <ul class="pull-left list-unstyled list-inline oe_systray" style="display: none;"/>
                     </div>

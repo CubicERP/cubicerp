@@ -54,6 +54,9 @@
                 <xpath expr="//tree/field[@name='analytic_account_id']" position="after">
                     <field name="budget_struct_id"/>
                 </xpath>
+                <xpath expr="//form['Account Entry']/group/group/field[@name='period_id']" position="after">
+                    <field name="budget_period_id"/>
+                </xpath>
 			</field>
 		</record>
 

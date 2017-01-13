@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from openerp.exceptions import ValidationError
 
@@ -30,6 +30,8 @@ from openerp.tools import ustr, DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 
 import openerp.addons.decimal_precision as dp
+
+
 
 
 # ---------------------------------------------------------
@@ -167,6 +169,7 @@ class CrossoveredBudget(models.Model):
                                  readonly=True, default=lambda self: self._default_company_id)
     budget_id = fields.Many2one('budget.budget', string='Main Budget', required=True, ondelete='restrict',
                                 states={'draft': [('readonly', False)]}, readonly=True)
+    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
 
     def _default_company_id(self):
         return self.env['res.company']._company_default_get('account.budget.post')
@@ -433,3 +436,22 @@ class CrossoveredBudgetLines(models.Model):
                 if result:
                     raise ValidationError(_(
                         "Overload of control budgets in lines for budgetary position  and analytic account with same dates."))
+
+class BudgetPeriod(models.Model):
+    _name = "budget.period"
+
+    name = fields.Char(string='Name', required=True)
+    code = fields.Char(string='Code', size=64)
+    start_date = fields.Date(string='Start of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
+    end_date = fields.Date(string='End of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
+    state = fields.Selection(
+        [('open', 'Open'),
+         ('close', 'Close')],
+        string='Status', default='open')
+
+    # def _default_start_date(self):
+    #     return lambda *a: datetime.strftime('%Y-01-01')
+    #
+    # def _default_end_date(self):
+    #     return lambda *a: datetime.strftime('%Y-%m-%d')
+

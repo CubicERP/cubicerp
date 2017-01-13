@@ -1,3 +1,6 @@
+# JetBranch Pycharm IDE directories
+.idea/
+
 # sphinx build directories
 _build/
 data/
@@ -6,17 +9,23 @@ data/
 .*
 !.gitignore
 !.mailmap
+
 # compiled python files
 *.py[co]
+
 # setup.py egg_info
 *.egg-info
+
 # emacs backup files
 *~
+
 # hg stuff
 *.orig
 status
+
 # odoo filestore
 openerp/filestore
+
 # maintenance migration scripts
 openerp/addons/base/maintenance
 

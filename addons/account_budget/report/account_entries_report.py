@@ -21,20 +21,19 @@
 
 from datetime import date, datetime
 
-from openerp.osv import fields, osv, expression
+# from openerp.osv import fields, osv, expression
+from openerp import models, fields, api, _
 from openerp.tools import ustr, DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 
 import openerp.addons.decimal_precision as dp
 
 
-class account_entries_report(osv.osv):
+class account_entries_report(models.Model):
     _name = "account.entries.report"
     _inherit = "account.entries.report"
 
-    _columns = {
-        'budget_struct_id': fields.many2one('account.budget.struct', 'Budget Struct', readonly=True),
-    }
+    budget_struct_id = fields.Many2one('account.budget.struct', string='Budget Struct', readonly=True)
 
     def _get_select(self):
         res = super(account_entries_report, self)._get_select()

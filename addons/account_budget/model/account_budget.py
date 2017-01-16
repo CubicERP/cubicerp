@@ -101,7 +101,7 @@ class AccountBudgetPost(models.Model):
         if not args:
             args = []
         args = args[:]
-        ids = []
+        budget_position = []
 
         if name:
             if operator not in expression.NEGATIVE_TERM_OPERATORS:
@@ -111,25 +111,26 @@ class AccountBudgetPost(models.Model):
                     'like': ('=like', plus_percent),
                 }.get(operator, (operator, lambda n: n))
 
-                ids = self.search(['|', ('code', code_op, code_conv(name)),
+                budget_position = self.search(['|', ('code', code_op, code_conv(name)),
                                    ('name', operator, name)] + args, limit=limit)
 
-                if not ids and len(name.split()) >= 2:
+                if not budget_position and len(name.split()) >= 2:
                     # Separating code and name of account for searching
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
-                    ids = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
+                    budget_position = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
                                       limit=limit)
             else:
-                ids = self.search(['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                budget_position = self.search(['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
                                   limit=limit)
                 # as negation want to restric, do if already have results
-                if ids and len(name.split()) >= 2:
+                if budget_position and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
-                    ids = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                       ('id', 'in', ids)] + args, limit=limit)
+                    budget_position = self.search([('code', operator, operand1), ('name', operator, operand2),
+                                       ('id', 'in', budget_position)] + args, limit=limit)
         else:
-            ids = self.search(args, limit=limit)
-        return self.name_get()
+            budget_position = self.search(args, limit=limit)
+        return budget_position.name_get()
+
 
 
 class BudgetBudget(models.Model):
@@ -211,6 +212,7 @@ class CrossoveredBudget(models.Model):
 class CrossoveredBudgetLines(models.Model):
     @api.multi
     def _prac_amt(self):
+        cr, uid, ctx = self._cr, self._uid, self._context
         res = {}
         result = 0.0
         if self._context is None:

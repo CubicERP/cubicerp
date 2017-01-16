@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record model='ir.ui.view' id='journal_form_view_inherit_transfer'>
+			<field name='name'>account.journal.form.inherit.transfer</field>
+			<field name='model'>account.journal</field>
+			<field name='inherit_id' ref='account.view_account_journal_form'></field>
+			<field name='arch' type='xml'>
+                <field name="entry_posted" position="after">
+                    <field name="have_partner" attrs="{'invisible':[('type','not in',['cash','bank'])]}"></field>
+                </field>
+                <field name="sequence_id" position="after">
+                    <field name="account_transit" domain="[('type','in',('liquidity','other',)),('company_id','=',company_id)]" 
+                    	attrs="{'required':[('type','in',['cash','bank'])],'invisible':[('type','not in',['cash','bank'])]}"></field>
+                </field>
+                
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='voucher_form_view_inherit_transfer'>
+			<field name='name'>account.voucher.form.inherit.transfer</field>
+			<field name='model'>account.voucher</field>
+			<field name='inherit_id' ref='account_voucher.view_voucher_form'/>
+			<field name='arch' type='xml'>
+                <field name="type" position="replace">
+                    <field name="type" required="1"></field>
+                </field>
+                <field name="currency_id" position="after">
+                    <field name="transfer_id" attrs="{'invisible':[('type','!=','transfer')],'required':[('type','=','transfer')]}"></field>
+                </field>
+			</field>
+		</record>
+        
+	</data>
+</openerp>

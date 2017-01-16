@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <menuitem name='Archives' id='archives_menu' parent='knowledge.menu_document' sequence='10'/>
+
+		<record model="ir.ui.view" id="view_document_kanban">
+			<field name="name">archives.document.kanban</field>
+			<field name="model">archives.document</field>
+			<field name="arch" type="xml">
+				<kanban default_group_by="process_step_id">
+					<field name="color"/>
+                    <field name="process_step_id"/>
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
+												oe_kanban_global_click_edit oe_semantic_html_override
+												oe_kanban_card #{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}">
+								<div class="oe_dropdown_kanban">
+									<!-- dropdown menu -->
+									<div class="oe_dropdown_toggle">
+										<span class="oe_e">#</span>
+										<ul class="oe_dropdown_menu">
+											<li><a type="delete">Delete</a></li>
+											<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+										</ul>
+									</div>
+									<div class="oe_clear"></div>
+								</div>
+							<!--</div>-->
+								<div t-attf-class="oe_kanban_content">
+								<!-- title -->
+									Document: <field name="name"/><br />
+									Start date: <field name="date_start"/><br />
+                                    Partner: <field name="partner_id"/><br />
+									Responsible: <field name="responsible_id"/>
+								</div>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+        <record id="view_document_tree" model="ir.ui.view">
+            <field name="name">archives.document.tree</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <tree string="Document List">
+                	<field name="retention_table_id"/>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="collection_id"/>
+                    <field name="responsible_id"/>
+                    <field name="parent_id"/>
+                    <field name="process_step_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_document_form" model="ir.ui.view">
+            <field name="name">archives.document.form</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <form string="Archives Document">
+                    <header>
+                        <!--button name="action_done" states="pending" string="Done" class="oe_highlight"/>
+                        <button name="action_cancel" states="pending" string="Cancel"/>
+                        <field name="state" widget="statusbar"/-->
+                        <field name="process_step_id" widget="statusbar" clickable="True"
+                            options="{'fold_field': 'fold'}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Document " attrs="{'invisible':[('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="retention_table_id"/>
+                                <field name="responsible_id"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_compute"/>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                        <group>
+                        	<field name="subject"/>
+                        </group>
+                        <notebook>
+                            <page string="Step History">
+                                <field name="step_ids">
+                                	<tree editable="top">
+                                		<field name="step_id"/>
+                                        <field name="department_id"/>
+                                		<field name="date_start"/>
+                                        <field name="date_compute"/>
+                                        <field name="date_end"/>
+                                		<field name="state"/>
+                                	</tree>
+                                </field>
+                            </page>
+                            <page string="Moves">
+                                <field name="move_ids">
+                                	<tree editable="top">
+                                		<field name="type"/>
+                                		<field name="date_start"/>
+                                		<field name="source_user_id"/>
+                                		<field name="dest_user_id"/>
+                                		<field name="state"/>
+                                	</tree>
+                                </field>
+                            </page>
+                            <page string="Versions">
+                                <field name="version_ids">
+                                	<tree>
+                                		<field name="name"/>
+                                		<field name="date"/>
+                                		<field name="attachment_ids"/>
+                                	</tree>
+                                	<form>
+                                		<group>
+                                			<group>
+                                				<field name="name"/>
+                                			</group>
+                                			<group>
+                                				<field name="date"/>
+                                			</group>
+                                		</group>
+                                		<separator string="Attachment"/>
+                                		<field name="attachment_ids"/>
+                                	</form>
+                                	
+                                </field>
+                            </page>
+	                        <page string="Other Info">
+	                            <group col="4">
+	                                <group name="one">
+                                        <field name="collection_id"/>
+	                                	<field name="partner_id"/>
+	                                	<field name="folios"/>
+	                                	<field name="adjunct"/>
+	                                </group>
+	                                <group name="two">
+	                                	<field name="propagate"/>
+	                                	<field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="state"/>
+	                                </group>
+	                            </group>
+	                        </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+	    </record>
+		<record id="view_document_filter" model="ir.ui.view">
+            <field name="name">archives.document.filter</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <search string="Archives">
+                    <field name="name" string="Transfer" filter_domain="[('name','ilike',self)]"/>
+                    <filter name="pending" string="Pending" domain="[('state','=','pending')]"/>
+                    <filter name="done" string="Done" domain="[('state','=','done')]"/>
+                    <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    	<filter string="Retention Table" icon="terp-folder-orange" domain="[]" context="{'group_by':'retention_table_id'}"/>
+                        <filter string="Responsible" icon="terp-folder-orange" domain="[]" context="{'group_by':'responsible_id'}"/>
+                        <filter string="Collection" icon="terp-folder-orange" domain="[]" context="{'group_by':'collection_id'}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Date Start" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+	    <record model="ir.actions.act_window" id="document_action">
+		    <field name="name">Documents</field>
+		    <field name="res_model">archives.document</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">kanban,tree,form</field>
+	    </record>
+	    <menuitem name='Documents' id='document_menu' parent='archives_menu' action="document_action" sequence='10'/>
+
+
+        <record id="view_process_tree" model="ir.ui.view">
+            <field name="name">archives.process.tree</field>
+            <field name="model">archives.process</field>
+            <field name="arch" type="xml">
+                <tree string="Process List">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="retention_table_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_process_form" model="ir.ui.view">
+            <field name="name">archives.process.form</field>
+            <field name="model">archives.process</field>
+            <field name="arch" type="xml">
+                <form string="Archives Process">
+                    <header>
+                        <button name="action_run" states="cancel" string="Run" class="oe_highlight"/>
+                        <button name="action_cancel" states="run" string="Cancel"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Process " attrs="{'invisible':[('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="retention_table_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Process Steps">
+                                <field name="step_ids">
+                                	<tree>
+                                		<field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="department_id"/>
+                                		<field name="work_time"/>
+                                	</tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="name"/>
+                                                    <field name="department_id"/>
+                                                    <field name="sequence"/>
+                                                </group>
+                                                <group>
+                                                    <field name="work_time"/>
+                                                    <field name="fold"/>
+                                                </group>
+                                            </group>
+                                            <separator string="Current Documents"/>
+                                            <field name="document_ids"/>
+                                            <separator string="Retention Table Control"/>
+                                            <field name="retention_table_ids"/>
+                                        </sheet>
+                                	</form>
+                                </field>
+                            </page>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+	    </record>
+
+        <record model="ir.actions.act_window" id="process_action">
+		    <field name="name">Process</field>
+		    <field name="res_model">archives.process</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Process' id='process_menu' action="process_action" sequence='20' parent='archives_menu'/>
+
+        <record id="view_collection_tree" model="ir.ui.view">
+            <field name="name">archives.collection.tree</field>
+            <field name="model">archives.collection</field>
+            <field name="arch" type="xml">
+                <tree string="Collection List">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_collection_form" model="ir.ui.view">
+            <field name="name">archives.collection.form</field>
+            <field name="model">archives.collection</field>
+            <field name="arch" type="xml">
+                <form string="Archives Collection">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Collection " attrs="{'invisible':[('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="location_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Moves">
+                                <field name="move_ids">
+                                	<tree editable="top">
+                                		<field name="name"/>
+                                		<field name="date"/>
+                                		<field name="employee_id"/>
+                                        <field name="location_id"/>
+                                		<field name="location_dest_id"/>
+                                	</tree>
+                                </field>
+                            </page>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+	    </record>
+
+        <record model="ir.actions.act_window" id="collection_action">
+		    <field name="name">Collection</field>
+		    <field name="res_model">archives.collection</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Collection' id='collection_menu' action="collection_action" sequence='30' parent='archives_menu'/>
+
+		<menuitem name='Archives' id='archives_config_menu' parent='knowledge.menu_document_configuration' sequence='30'/>
+
+        <record id="view_retention_table_tree" model="ir.ui.view">
+            <field name="name">archives.retention.table.tree</field>
+            <field name="model">archives.retention.table</field>
+            <field name="arch" type="xml">
+                <tree string="Retention Table List">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                    <field name="retention_time_handling"/>
+                    <field name="retention_time_archive"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_retention_table_form" model="ir.ui.view">
+            <field name="name">archives.retention.table.form</field>
+            <field name="model">archives.retention.table</field>
+            <field name="arch" type="xml">
+                <form string="Retention Table">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Retention Table " attrs="{'invisible':[('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="type"/>
+                                <field name="parent_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="retention_time_handling"/>
+                                <field name="retention_time_archive"/>
+                                <field name="final_disposition_preserve"/>
+                                <field name="final_disposition_microfilm"/>
+                                <field name="final_disposition_removal"/>
+                                <field name="final_disposition_selection"/>
+                            </group>
+                        </group>
+                        <separator string="Departments"/>
+                        <field name="department_ids">
+                            <tree editable="top">
+                                <field name="department_id"/>
+                                <field name="work_time"/>
+                            </tree>
+                        </field>
+                        <separator string="Medium Type"/>
+                        <field name="medium_type_ids"/>
+                    </sheet>
+                </form>
+            </field>
+	    </record>
+
+        <record model="ir.actions.act_window" id="retention_table_action">
+		    <field name="name">Retention Table</field>
+		    <field name="res_model">archives.retention.table</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Retention Table' id='retention_table_menu' action="retention_table_action" sequence='10' parent='archives_config_menu'/>
+
+        <record id="view_collection_location_tree" model="ir.ui.view">
+            <field name="name">archives.collection.location.tree</field>
+            <field name="model">archives.collection.location</field>
+            <field name="arch" type="xml">
+                <tree string="Collection Location List">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_collection_location_form" model="ir.ui.view">
+            <field name="name">archives.collection.location.form</field>
+            <field name="model">archives.collection.location</field>
+            <field name="arch" type="xml">
+                <form string="Collection Location">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                                <field name="partner_id"/>
+                            </group>
+                        </group>
+                        <separator string="Medium Type"/>
+                        <field name="medium_type_ids"/>
+                    </sheet>
+                </form>
+            </field>
+	    </record>
+        <record model="ir.actions.act_window" id="collection_location_action">
+		    <field name="name">Collection Location</field>
+		    <field name="res_model">archives.collection.location</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Collection Location' id='collection_location_menu' action="collection_location_action" sequence='30' parent='archives_config_menu'/>
+
+        <record model="ir.actions.act_window" id="document_move_type_action">
+		    <field name="name">Documento Move Type</field>
+		    <field name="res_model">archives.document.move.type</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Document Move Type' id='document_move_type_menu' action="document_move_type_action" sequence='70' parent='archives_config_menu'/>
+
+        <record model="ir.actions.act_window" id="medium_action">
+		    <field name="name">Medium</field>
+		    <field name="res_model">archives.medium.type</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Medium' id='medium_menu' action="medium_action" sequence='90' parent='archives_config_menu'/>
+	    
+	</data>
+</openerp>

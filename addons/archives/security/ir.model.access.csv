@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_account_transfer,account.transfer,model_account_transfer,,1,0,0,0
+access_account_transfer_user,account.transfer user,model_account_transfer,group_transfer_user,1,1,1,0
+access_account_transfer_manager,account.transfer manager,model_account_transfer,group_transfer_manager,1,1,1,1

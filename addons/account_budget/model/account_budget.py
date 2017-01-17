@@ -32,8 +32,6 @@ from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 
 
-
-
 # ---------------------------------------------------------
 # Utils
 # ---------------------------------------------------------
@@ -112,25 +110,25 @@ class AccountBudgetPost(models.Model):
                 }.get(operator, (operator, lambda n: n))
 
                 budget_position = self.search(['|', ('code', code_op, code_conv(name)),
-                                   ('name', operator, name)] + args, limit=limit)
+                                               ('name', operator, name)] + args, limit=limit)
 
                 if not budget_position and len(name.split()) >= 2:
                     # Separating code and name of account for searching
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_position = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
-                                      limit=limit)
+                                                  limit=limit)
             else:
-                budget_position = self.search(['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
-                                  limit=limit)
+                budget_position = self.search(
+                    ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                    limit=limit)
                 # as negation want to restric, do if already have results
                 if budget_position and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_position = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                       ('id', 'in', budget_position)] + args, limit=limit)
+                                                   ('id', 'in', budget_position)] + args, limit=limit)
         else:
             budget_position = self.search(args, limit=limit)
         return budget_position.name_get()
-
 
 
 class BudgetBudget(models.Model):
@@ -175,7 +173,6 @@ class CrossoveredBudget(models.Model):
     def _default_company_id(self):
         return self.env['res.company']._company_default_get('account.budget.post')
 
-
     @api.multi
     def line_update_date(self):
         for budget in self:
@@ -212,63 +209,68 @@ class CrossoveredBudget(models.Model):
 class CrossoveredBudgetLines(models.Model):
     @api.multi
     def _prac_amt(self):
-        cr, uid, ctx = self._cr, self._uid, self._context
+        cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
         res = {}
         result = 0.0
-        if self._context is None:
-            context = {}
+        if ctx is None:
+            ctx = {}
         account_obj = self.env['account.account']
+        analytic_obj = self.env['account.analytic.account']
         for line in self:
-            acc_ids = [x.id for x in line.general_budget_id.account_ids]
+            # acc_ids = [x.id for x in line.general_budget_id.account_ids]
+            acc_ids = line.general_budget_id.mapped('account_ids')
             if not acc_ids:
                 raise osv.except_osv(_('Error!'),
                                      _("The Budget '%s' has no accounts!") % ustr(line.general_budget_id.name))
-            acc_ids = account_obj._get_children_and_consol(acc_ids)
+            acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
             analytic_amount = line.value_type == 'quantity' and 'unit_amount' or 'amount'
             move_amount = line.value_type == 'quantity' and 'quantity' or 'debit-credit'
             analytic_account_ids = []
             if line.analytic_account_id:
-                analytic_context = context.copy()
+                analytic_context = ctx.copy()
                 analytic_context['analytic_child_bottom'] = True
-                analytic_account_ids = \
-                    self.pool.get('account.analytic.account')._child_compute([line.analytic_account_id.id],
-                                                                             False, [], context=analytic_context)[
-                        line.analytic_account_id.id]
-                analytic_account_ids = tuple(analytic_account_ids + [line.analytic_account_id.id])
+                analytic_account_ids = analytic_obj.with_context(analytic_context).browse(
+                    [line.analytic_account_id.id])._child_compute(name=['child_complete_ids'], arg=None)
+
+                for key, value in analytic_account_ids.items():
+                    account_child = list(set([key]).union(value))
+
+                if account_child:
+                    analytic_account_ids = list(set(account_child).union([line.analytic_account_id.id]))
 
             if line.analytic_account_id.id and line.position_restrict:
-                self._cr.execute(
+                cr.execute(
                     "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
                                                       "WHERE aml.budget_post_id=%s AND aal.account_id in %s AND (aal.date "
                                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                       "aal.general_account_id=ANY(%s)",
                     (line.general_budget_id.id, analytic_account_ids, date_from, date_to, acc_ids,))
-                result = self._cr.fetchone()[0]
+                result = cr.fetchone()[0]
             elif line.analytic_account_id.id:
-                self._cr.execute(
+                cr.execute(
                     "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line WHERE account_id in %s AND (date "
                                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                       "general_account_id=ANY(%s)",
-                    (analytic_account_ids, date_from, date_to, acc_ids,))
-                result = self.cr.fetchone()[0]
+                    (tuple(analytic_account_ids), date_from, date_to, acc_ids,))
+                result = cr.fetchone()[0]
             elif line.position_restrict:
-                self._cr.execute(
+                cr.execute(
                     "SELECT SUM(" + move_amount + ") FROM account_move_line "
                                                   "WHERE budget_post_id=%s AND (date "
                                                   "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                   "account_id=ANY(%s)",
                     (line.general_budget_id.id, date_from, date_to, acc_ids,))
-                result = self._cr.fetchone()[0]
+                result = cr.fetchone()[0]
             else:
-                self._cr.execute(
+                cr.execute(
                     "SELECT SUM(" + move_amount + ") FROM account_move_line "
                                                   "WHERE (date "
                                                   "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                   "account_id=ANY(%s)",
                     (date_from, date_to, acc_ids,))
-                result = self._cr.fetchone()[0]
+                result = cr.fetchone()[0]
             if result is None:
                 result = 0.00
             res[line.id] = result * line.coefficient
@@ -439,6 +441,7 @@ class CrossoveredBudgetLines(models.Model):
                     raise ValidationError(_(
                         "Overload of control budgets in lines for budgetary position  and analytic account with same dates."))
 
+
 class BudgetPeriod(models.Model):
     _name = "budget.period"
 
@@ -456,4 +459,3 @@ class BudgetPeriod(models.Model):
     #
     # def _default_end_date(self):
     #     return lambda *a: datetime.strftime('%Y-%m-%d')
-

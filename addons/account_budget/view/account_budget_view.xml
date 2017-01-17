@@ -259,7 +259,6 @@
                                 <field name="code" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <label for="date_from" string="Duration"/>
                                 <div>
-                                    <field name="budget_period_id"/>
                                     <field name="date_from" class="oe_inline"
                                            attrs="{'readonly':[('state','!=','draft')]}"/>
                                     -
@@ -269,6 +268,7 @@
                                             class="oe_link oe_edit_only oe_inline"
                                             help="Update the dates of all lines"/>
                                 </div>
+                                <field name="budget_period_id"/>
                                 <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                             </group>
                         </group>

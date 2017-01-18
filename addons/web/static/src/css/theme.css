@@ -372,10 +372,6 @@ View Manager Header: Search Form
 }
 
 .openerp .oe_searchview_drawer_container {
-    position: fixed;
-    width: 100%;
-    left: 0px;
-    z-index: 9999;
     background: white;
     box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4) !important
 }
@@ -921,4 +917,21 @@ Kanban View
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card,
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card:hover {
     border: 0px !important;
+}
+
+/***********************************************************************************************************************
+Calendar View
+***********************************************************************************************************************/
+.openerp .oe_view_manager_view_calendar {
+    padding: 15px;
+}
+
+.openerp .oe_calendar_table {
+    margin-top: 0px;
+    margin-left: 0px;
+    align-items: flex-start;
+}
+
+.oe_calendar_sidebar_container .oe_calendar_sidebar {
+    padding-top: 32px;
 }

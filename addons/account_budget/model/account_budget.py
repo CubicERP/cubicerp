@@ -285,8 +285,9 @@ class CrossoveredBudgetLines(models.Model):
 
     @api.multi
     def _theo_amt(self):
-        if self._context is None:
-            context = {}
+        ctx = self._context
+        if ctx is None:
+            ctx = {}
 
         res = {}
         for line in self:
@@ -341,24 +342,27 @@ class CrossoveredBudgetLines(models.Model):
 
     @api.multi
     def _get_line_from_analytic(self):
-        budget_line_ids = []
-        for line in self.env['account.analytic.line'].browse(self.ids):
-            for post in line.general_account_id.budget_post_ids:
-                budget_line_ids += self.pool['crossovered.budget.lines'].search(
-                    [('general_budget_id', '=', post.id),
-                     ('analytic_account_id', '=',
-                      line.account_id.id),
-                     ('state', 'in',
-                      ['draft', 'confirm', 'validate'])])
+        #TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
+        budget_line_ids = None
+        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['crossovered.budget.lines']
+
+        for analytic_line in analytic_line_obj.search([]):
+            for post in analytic_line.general_account_id.budget_post_ids:
+                budget_line_ids += budget_line_obj.search(
+                    [
+                        ('general_budget_id', '=', post.id),
+                        ('analytic_account_id', '=', analytic_line.account_id.id),
+                        ('state', 'in', ['draft', 'confirm', 'validate'])
+                    ])
         return budget_line_ids
 
     @api.multi
     def _get_line_from_move(self):
         budget_line_ids = []
-        for move_line in self.pool['account.move.line'].browse(self.ids):
+        for move_line in self.env['account.move.line'].browse(self.ids):
             for post in move_line.account_id.budget_post_ids:
                 if move_line.analytic_account_id:
-                    budget_line_ids += self.pool['crossovered.budget.lines'].search([
+                    budget_line_ids += self.env['crossovered.budget.lines'].search([
                         ('general_budget_id', '=', post.id),
                         ('analytic_account_id', '=', move_line.analytic_account_id.ids),
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
@@ -371,10 +375,11 @@ class CrossoveredBudgetLines(models.Model):
 
     @api.multi
     def _get_line_from_main_budget(self):
-        budget_line_ids = []
-        for main_budget in self.pool['budget.budget'].browse(self.ids):
+        budget_line_ids = None
+        main_budget_obj = self.env['budget.budget']
+        for main_budget in main_budget_obj.search([]):
             for budget in main_budget.budget_ids:
-                budget_line_ids += [l.id for l in budget.crossovered_budget_line]
+                budget_line_ids += budget.mapped('crossovered_budget_line')
         return budget_line_ids
 
     _name = "crossovered.budget.lines"

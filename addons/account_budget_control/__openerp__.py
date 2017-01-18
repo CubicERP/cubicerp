@@ -30,7 +30,7 @@ The control of budgets, enables you to track your all budgets, allowing the appr
 
 Key Features
 ------------
-* Add Budget control on Requisitions or Tenders
+* Add Budget control on Requisitions
 * Add Budget control on Purchase Orders
 * Add Budget control on Invoices
 * Add Budget control on Vouchers
@@ -50,7 +50,7 @@ Dashboard / Reports for archives will include:
         "purchase_requisition",
         ],
     "data":[
-        "budget_view.xml",
+        #"budget_view.xml",
 	    ],
     "demo_xml": [],
     "active": False,

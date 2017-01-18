@@ -55,6 +55,7 @@
                         <field name="exclusive" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                         <field name="account_analytic_id" colspan="2" groups="purchase.group_analytic_accounting" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                         <field name="multiple_rfq_per_supplier" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        <field name="parent_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     </group>
                     <group>
                         <field name="date_end" attrs="{'readonly': [('state','not in',('draft'))]}"/>

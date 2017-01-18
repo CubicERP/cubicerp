@@ -40,6 +40,7 @@ class purchase_requisition(osv.osv):
 
     _columns = {
         'name': fields.char('Requisition', required=True, copy=False),
+        'parent_id': fields.many2one('purchase.requisition', string="Parent Requisition"),
         'origin': fields.char('Source Document'),
         'ordering_date': fields.date('Scheduled Ordering Date'),
         'date_end': fields.datetime('Bid Submission Deadline'),

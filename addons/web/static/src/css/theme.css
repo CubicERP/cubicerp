@@ -756,13 +756,16 @@ Form View: Footer
 /***********************************************************************************************************************
 Form View: Widgets
 ***********************************************************************************************************************/
-.openerp .oe_form input[type="text"],
-.openerp .oe_form input[type="password"],
-.openerp .oe_form input[type="file"],
-.openerp .oe_form select,
-.openerp .oe_form textarea {
+.openerp .oe_form .oe_form_field {
     min-width: 190px !important;
     max-width: 190px !important;
+}
+
+.openerp .oe_form .oe_form_field_text,
+.openerp .oe_form .oe_form_field_one2many,
+.openerp .oe_form .oe_form_field_many2many {
+    min-width: 100% !important;
+    max-width: 100% !important;
 }
 
 .openerp .oe_form_field_many2one {

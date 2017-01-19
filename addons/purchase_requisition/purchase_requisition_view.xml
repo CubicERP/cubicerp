@@ -32,10 +32,10 @@
             <header>              
                 <button name="sent_suppliers" states="draft" string="Confirm Call" class="oe_highlight"/>
                 <button name="open_bid" states="in_progress" string="Close Call for Bids" class="oe_highlight"/>
-                <button name="tender_reset" states="cancel" string="Reset to Draft" type="object" />
+                <button name="draft" states="cancel" string="Reset to Draft" />
                 <button name="open_product_line" states="open" string="Choose product lines" type="object" class="oe_highlight" groups="purchase.group_advance_bidding"/>
                 <button name="generate_po" states="open" string="Done" type="object" class="oe_highlight"/>
-                <button name="cancel_requisition" states="draft,in_progress" string="Cancel Call"/>
+                <button name="cancel_requisition" states="draft,in_progress,open,done" string="Cancel Call"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,open,done" statusbar_colors='{"in_progress":"blue"}'/>
             </header>
             <sheet>
@@ -51,19 +51,13 @@
                 </div>
                 <group>
                     <group>
-                        <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'purchase_requisition.group_purchase_requisition_user', 'purchase.group_purchase_user', 'account.group_account_invoice']}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                         <field name="exclusive" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="account_analytic_id" colspan="2" groups="purchase.group_analytic_accounting" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="multiple_rfq_per_supplier" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="parent_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        <field name="account_analytic_id" groups="purchase.group_analytic_accounting" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     </group>
                     <group>
                         <field name="date_end" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                         <field name="ordering_date" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                         <field name="schedule_date" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="origin" placeholder="e.g. OP0025" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="picking_type_id" widget="selection" groups="stock.group_locations" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                        <field name="company_id" groups="base.group_multi_company" widget="selection" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     </group>
                 </group>
                 <notebook>
@@ -115,6 +109,23 @@
                         </field>
                         <separator string="Terms and Conditions"/>
                         <field name="description" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                    </page>
+                    <page string="Original Requisitions" attrs="{'invisible':[('child_ids','=',False)]}">
+                        <field name="child_ids"/>
+                    </page>
+                    <page string="Others">
+                        <group>
+                            <group>
+                                <field name="parent_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                                <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'purchase_requisition.group_purchase_requisition_user', 'purchase.group_purchase_user', 'account.group_account_invoice']}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                                <field name="multiple_rfq_per_supplier" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                            </group>
+                            <group>
+                                <field name="origin" placeholder="e.g. OP0025" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                                <field name="picking_type_id" widget="selection" groups="stock.group_locations" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                                <field name="company_id" groups="base.group_multi_company" widget="selection" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                            </group>
+                        </group>
                     </page>
                 </notebook>
             </sheet>
@@ -190,7 +201,7 @@
 
     <menuitem
         id="menu_purchase_requisition_pro_mgt"
-        sequence="10"
+        sequence="3"
         parent="purchase.menu_procurement_management"
         action="action_purchase_requisition"/>
 

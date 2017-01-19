@@ -40,7 +40,8 @@ class purchase_requisition(osv.osv):
 
     _columns = {
         'name': fields.char('Requisition', required=True, copy=False),
-        'parent_id': fields.many2one('purchase.requisition', string="Parent Requisition"),
+        'parent_id': fields.many2one('purchase.requisition', string="Generated Requisition", ondelete='cascade'),
+        'child_ids': fields.one2many('purchase.requisition', 'parent_id', string="Original Requisitions"),
         'origin': fields.char('Source Document'),
         'ordering_date': fields.date('Scheduled Ordering Date'),
         'date_end': fields.datetime('Bid Submission Deadline'),
@@ -97,16 +98,11 @@ class purchase_requisition(osv.osv):
     def tender_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'open'}, context=context)
 
-    def tender_reset(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'draft'})
-        for p_id in ids:
-            # Deleting the existing instance of workflow for PO
-            self.delete_workflow(cr, uid, [p_id])
-            self.create_workflow(cr, uid, [p_id])
-        return True
-
     def tender_done(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'done'}, context=context)
+
+    def tender_draft(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'draft'}, context=context)
 
     def open_product_line(self, cr, uid, ids, context=None):
         """ This opens product line view to view all lines from the different quotations, groupby default by product and partner to show comparaison

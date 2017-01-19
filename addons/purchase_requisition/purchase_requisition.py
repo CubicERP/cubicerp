@@ -63,6 +63,9 @@ class purchase_requisition(osv.osv):
         'multiple_rfq_per_supplier': fields.boolean('Multiple RFQ per supplier'),
         'account_analytic_id': fields.many2one('account.analytic.account', 'Analytic Account'),
         'picking_type_id': fields.many2one('stock.picking.type', 'Picking Type', required=True),
+        'compliance': fields.boolean("Compliance", readonly=True,
+                                     help="This is used by the end user to accept and approve to the products and"
+                                          " services delivered by the supplier")
     }
 
     def _get_picking_in(self, cr, uid, context=None):
@@ -87,22 +90,84 @@ class purchase_requisition(osv.osv):
         purchase_order_obj = self.pool.get('purchase.order')
         # try to set all associated quotations to cancel state
         for tender in self.browse(cr, uid, ids, context=context):
+            if tender.parent_id:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has a generated requisition. You must cancel the requisition %s') % (tender.name,tender.parent_id.name))
+            self._tender_cancel(cr, uid, [tender.id] + [c.id for c in tender.child_ids], context=context)
+        return True
+
+    def _tender_cancel(self, cr, uid, ids, context=None):
+        purchase_order_obj = self.pool.get('purchase.order')
+        # try to set all associated quotations to cancel state
+        for tender in self.browse(cr, uid, ids, context=context):
             for purchase_order in tender.purchase_ids:
                 purchase_order_obj.action_cancel(cr, uid, [purchase_order.id], context=context)
                 purchase_order_obj.message_post(cr, uid, [purchase_order.id], body=_('Cancelled by the tender associated to this quotation.'), context=context)
         return self.write(cr, uid, ids, {'state': 'cancel'})
 
     def tender_in_progress(self, cr, uid, ids, context=None):
+        for tender in self.browse(cr, uid, ids, context=context):
+            if tender.parent_id:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has a generated requisition. You must confirm the requisition %s') % (
+                                     tender.name, tender.parent_id.name))
+            self._tender_in_progress(cr, uid, [tender.id] + [c.id for c in tender.child_ids], context=context)
+        return True
+
+    def _tender_in_progress(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'in_progress'}, context=context)
 
     def tender_open(self, cr, uid, ids, context=None):
+        for tender in self.browse(cr, uid, ids, context=context):
+            if tender.parent_id:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has a generated requisition. You must open the requisition %s') % (
+                                         tender.name, tender.parent_id.name))
+            self._tender_open(cr, uid, [tender.id] + [c.id for c in tender.child_ids], context=context)
+        return True
+
+    def _tender_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'open'}, context=context)
 
     def tender_done(self, cr, uid, ids, context=None):
+        for tender in self.browse(cr, uid, ids, context=context):
+            if tender.parent_id:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has a generated requisition. You must done the requisition %s') % (
+                                         tender.name, tender.parent_id.name))
+            self._tender_done(cr, uid, [tender.id] + [c.id for c in tender.child_ids], context=context)
+        return True
+
+    def _tender_done(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'done'}, context=context)
 
     def tender_draft(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'draft'}, context=context)
+        for tender in self.browse(cr, uid, ids, context=context):
+            if tender.parent_id:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has a generated requisition. You must draft the requisition %s') % (
+                                         tender.name, tender.parent_id.name))
+            self._tender_draft(cr, uid, [tender.id] + [c.id for c in tender.child_ids], context=context)
+        return True
+
+    def _tender_draft(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'draft', 'compliance': False}, context=context)
+
+    def tender_compliance(self, cr, uid, ids, context=None):
+        for tender in self.browse(cr, uid, ids, context=context):
+            if tender.child_ids:
+                raise osv.except_osv(_('Warning!'), _(
+                    'The requisition %s has child requisitions. You must compliance the child requisitions') % (
+                                         tender.name))
+            tender_ids = [tender.id]
+            if tender.parent_id:
+                if len(tender.parent_id.child_ids) == len(set([c.id for c in tender.parent_id.child_ids if c.compliance] + [tender.id])):
+                    tender_ids += [tender.parent_id.id]
+            self._tender_compliance(cr, uid, tender_ids, context=context)
+        return True
+
+    def _tender_compliance(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'compliance': True}, context=context)
 
     def open_product_line(self, cr, uid, ids, context=None):
         """ This opens product line view to view all lines from the different quotations, groupby default by product and partner to show comparaison

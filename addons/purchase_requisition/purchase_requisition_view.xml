@@ -35,6 +35,8 @@
                 <button name="draft" states="cancel" string="Reset to Draft" />
                 <button name="open_product_line" states="open" string="Choose product lines" type="object" class="oe_highlight" groups="purchase.group_advance_bidding"/>
                 <button name="generate_po" states="open" string="Done" type="object" class="oe_highlight"/>
+                <button name="tender_compliance" string="Compliance" type="object" class="oe_highlight"
+                        attrs="{'invisible':['|',('state','!=','done'),('compliance','=',True)]}"/>
                 <button name="cancel_requisition" states="draft,in_progress,open,done" string="Cancel Call"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,open,done" statusbar_colors='{"in_progress":"blue"}'/>
             </header>
@@ -87,7 +89,7 @@
                         <div class="oe_right oe_button_box" style="margin-top: 10px">
                             <button name="%(action_purchase_requisition_partner)d" type="action"
                                 string="Request a Quotation" icon="gtk-execute"
-                                attrs="{'invisible': ['|', ('line_ids','=',[]),('state', 'in', ('draft' ,'open','done'))]}"/>
+                                attrs="{'invisible': ['|', ('line_ids','=',[]),('state', 'in', ('draft' ,'done'))]}"/>
                             <button name="open_rfq" type="object" string="View RFQs/Bids" attrs="{'invisible': [('state', 'in', ('draft'))]}"/>
                         </div>
                         <separator string="Requests for Quotation"/>
@@ -110,7 +112,7 @@
                         <separator string="Terms and Conditions"/>
                         <field name="description" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     </page>
-                    <page string="Original Requisitions" attrs="{'invisible':[('child_ids','=',False)]}">
+                    <page string="Original Requisitions" attrs="{'invisible':[('child_ids','=',[])]}">
                         <field name="child_ids"/>
                     </page>
                     <page string="Others">
@@ -119,6 +121,7 @@
                                 <field name="parent_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                                 <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'purchase_requisition.group_purchase_requisition_user', 'purchase.group_purchase_user', 'account.group_account_invoice']}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                                 <field name="multiple_rfq_per_supplier" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                                <field name="compliance"/>
                             </group>
                             <group>
                                 <field name="origin" placeholder="e.g. OP0025" attrs="{'readonly': [('state','not in',('draft'))]}"/>

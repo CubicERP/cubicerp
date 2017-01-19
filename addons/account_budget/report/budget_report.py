@@ -51,7 +51,7 @@ class budget_report(report_sxw.rml_parse):
         }
         result = []
 
-        budgets = self.pool.get('account.budget.post').browse(self.cr, self.uid, [object.id], self.context.copy())
+        budgets = self.pool.get('budget.position').browse(self.cr, self.uid, [object.id], self.context.copy())
         c_b_lines_obj = self.pool.get('budget.budget.lines')
         acc_analytic_obj = self.pool.get('account.analytic.account')
         for budget_id in budgets:

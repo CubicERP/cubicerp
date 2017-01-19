@@ -73,8 +73,8 @@
                   <!--sequence="10"/>-->
 
         <record id="view_budget_post_tree" model="ir.ui.view">
-            <field name="name">account.budget.post.tree</field>
-            <field name="model">account.budget.post</field>
+            <field name="name">budget.position.tree</field>
+            <field name="model">budget.position</field>
             <field name="arch" type="xml">
                 <tree string="Budgetary Position">
                     <field name="name"/>
@@ -85,8 +85,8 @@
         </record>
 
         <record model="ir.ui.view" id="view_budget_post_form">
-            <field name="name">account.budget.post.form</field>
-            <field name="model">account.budget.post</field>
+            <field name="name">budget.position.form</field>
+            <field name="model">budget.position</field>
             <field name="arch" type="xml">
                 <form string="Budgetary Position">
                     <group col="4">
@@ -132,8 +132,8 @@
         </record>
 
         <record id="view_budget_post_search" model="ir.ui.view">
-            <field name="name">account.budget.post.search</field>
-            <field name="model">account.budget.post</field>
+            <field name="name">budget.position.search</field>
+            <field name="model">budget.position</field>
             <field name="arch" type="xml">
                 <search string="Budgetary Position">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
@@ -145,7 +145,7 @@
 
         <record id="open_budget_post_form" model="ir.actions.act_window">
             <field name="name">Budgetary Positions</field>
-            <field name="res_model">account.budget.post</field>
+            <field name="res_model">budget.position</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>

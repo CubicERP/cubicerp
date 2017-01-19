@@ -115,7 +115,7 @@ class AccountBudgetStruct(models.Model):
 
 
 class AccountBudgetPost(models.Model):
-    _name = "account.budget.post"
+    _name = "budget.position"
     _description = "Budgetary Position"
 
     code = fields.Char(string='Code', size=64)
@@ -125,7 +125,7 @@ class AccountBudgetPost(models.Model):
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self._default_company_id)
 
     def _default_company_id(self):
-        return lambda self: self.pool.get('res.company')._company_default_get('account.budget.post')
+        return lambda self: self.pool.get('res.company')._company_default_get('budget.position')
 
     _order = "code,name"
 
@@ -222,7 +222,7 @@ class CrossoveredBudget(models.Model):
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
 
     def _default_company_id(self):
-        return self.env['res.company']._company_default_get('account.budget.post')
+        return self.env['res.company']._company_default_get('budget.position')
 
     @api.multi
     def line_update_date(self):
@@ -446,7 +446,7 @@ class CrossoveredBudgetLines(models.Model):
                                         readonly=True, store=True)
 
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
-    general_budget_id = fields.Many2one('account.budget.post', 'Budgetary Position', required=True)
+    general_budget_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
     struct_budget_id = fields.Many2one('account.budget.struct', 'Budgetary Struct')
     value_type = fields.Selection([('amount', 'Amount'),
                                    ('quantity', 'Quantity'),

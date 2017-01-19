@@ -45,7 +45,7 @@ class AccountBudgetReport(models.Model):
         data = self.read()[0]
         datas = {
             'ids': ctx.get('active_ids', []),
-            'model': 'account.budget.post',
+            'model': 'budget.position',
             'form': data
         }
         datas['form']['ids'] = datas['ids']

@@ -3,14 +3,14 @@
 
     <!-- Budgetary Positions -->
     <data noupdate="1">
-        <record id="account_budget_post_sales0" model="account.budget.post">
+        <record id="account_budget_post_sales0" model="budget.position">
             <field eval="&quot;&quot;&quot;Sales&quot;&quot;&quot;" name="name"/>
             <field eval="&quot;&quot;&quot;SAL&quot;&quot;&quot;" name="code"/>
             <field eval="[(6,0,[ref('account.a_sale')])]" name="account_ids"/>
         </record>
     </data>
     <data noupdate="1">
-        <record id="account_budget_post_purchase0" model="account.budget.post">
+        <record id="account_budget_post_purchase0" model="budget.position">
             <field eval="&quot;&quot;&quot;Purchases&quot;&quot;&quot;" name="name"/>
             <field eval="&quot;&quot;&quot;PUR&quot;&quot;&quot;" name="code"/>
             <field eval="[(6,0,[ref('account.a_expense')])]" name="account_ids"/>

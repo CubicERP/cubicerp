@@ -32,7 +32,7 @@ import openerp.addons.decimal_precision as dp
 class AccountAccount(models.Model):
     _inherit = "account.account"
 
-    budget_post_ids = fields.Many2many('account.budget.post', 'account_budget_rel', 'account_id', 'budget_id',
+    budget_post_ids = fields.Many2many('budget.position', 'account_budget_rel', 'account_id', 'budget_id',
                                        string='Budget Positions')
 
 

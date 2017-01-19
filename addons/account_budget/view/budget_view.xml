@@ -4,8 +4,8 @@
 
         <menuitem name="Budgets" id="menu_action_account_budget_post_tree"
                   parent="account.menu_finance_generic_reporting" sequence="6"/>
-        <menuitem id="next_id_31" name="Budgets" parent="account.menu_finance" sequence="6"/>
-        <menuitem id="next_id_pos" name="Budgets" parent="account.menu_finance_configuration" sequence="50"/>
+        <!--<menuitem id="next_id_31" name="Budgets" parent="account.menu_finance" sequence="6"/>-->
+        <!--<menuitem id="next_id_pos" name="Budgets" parent="account.menu_finance_configuration" sequence="50"/>-->
         <!--
     Budgets
     -->
@@ -67,10 +67,10 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="next_id_pos"
-                  sequence="10"/>
-        <menuitem name="Budget Period" action="open_budget_period" id="menu_budget_period" parent="next_id_pos"
-                  sequence="10"/>
+        <!--<menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="next_id_pos"-->
+                  <!--sequence="10"/>-->
+        <!--<menuitem name="Budget Period" action="open_budget_period" id="menu_budget_period" parent="next_id_pos"-->
+                  <!--sequence="10"/>-->
 
         <record id="view_budget_post_tree" model="ir.ui.view">
             <field name="name">account.budget.post.tree</field>
@@ -150,7 +150,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem action="open_budget_post_form" id="menu_budget_post_form" parent="next_id_pos" sequence="20"/>
+        <!--<menuitem action="open_budget_post_form" id="menu_budget_post_form" parent="next_id_pos" sequence="20"/>-->
 
 
         <record model="ir.ui.view" id="main_budget_view_form">
@@ -223,9 +223,9 @@
                 </p>
             </field>
         </record>
-        <menuitem parent="next_id_31" name="Main Budget"
-                  id="menu_act_main_budget_view"
-                  action="act_main_budget_view" sequence="10"/>
+        <!--<menuitem parent="next_id_31" name="Main Budget"-->
+                  <!--id="menu_act_main_budget_view"-->
+                  <!--action="act_main_budget_view" sequence="10"/>-->
 
         <record model="ir.ui.view" id="crossovered_budget_view_form">
             <field name="name">crossovered.budget.view.form</field>
@@ -393,9 +393,9 @@
                 </p>
             </field>
         </record>
-        <menuitem parent="next_id_31"
-                  id="menu_act_crossovered_budget_view"
-                  action="act_crossovered_budget_view" sequence="20"/>
+        <!--<menuitem parent="next_id_31"-->
+                  <!--id="menu_act_crossovered_budget_view"-->
+                  <!--action="act_crossovered_budget_view" sequence="20"/>-->
 
 
         <record model="ir.ui.view" id="view_crossovered_budget_line_tree">
@@ -540,9 +540,9 @@
             <field name="view_id" ref="view_crossovered_budget_line_tree"/>
         </record>
 
-        <menuitem name="Budget Lines" parent="next_id_31"
-                  id="menu_act_crossovered_budget_lines_view"
-                  action="act_crossovered_budget_lines_view" sequence="30"/>
+        <!--<menuitem name="Budget Lines" parent="next_id_31"-->
+                  <!--id="menu_act_crossovered_budget_lines_view"-->
+                  <!--action="act_crossovered_budget_lines_view" sequence="30"/>-->
 
     </data>
 </openerp>

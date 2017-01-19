@@ -39,7 +39,7 @@ class AccountAccount(models.Model):
 class AccountAnalyticAaccount(models.Model):
     _inherit = "account.analytic.account"
 
-    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'analytic_account_id', string='Budget Lines')
+    crossovered_budget_line = fields.One2many('budget.budget.lines', 'analytic_account_id', string='Budget Lines')
 
 
 class account_move_line(models.Model):

@@ -19,7 +19,7 @@ class TestTheoreticalAmount(TransactionCase):
             'date_from': '2014-01-01',
             'date_to': '2014-12-31',
         })
-        crossovered_budget_line_obj = self.registry('crossovered.budget.lines')
+        crossovered_budget_line_obj = self.registry('budget.budget.lines')
         crossovered_budget_line_id = crossovered_budget_line_obj.create(cr, uid, {
             'crossovered_budget_id': crossovered_budget_id,
             'general_budget_id': self.ref('account_budget.account_budget_post_sales0'),

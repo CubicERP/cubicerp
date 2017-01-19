@@ -57,7 +57,7 @@ class AccountBudgetStruct(models.Model):
     parent_id = fields.Many2one('account.budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
-    line_ids = fields.One2many('crossovered.budget.lines', 'struct_budget_id', string="Budgetary Lines")
+    line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")
 
     _order = 'code,name'
     _sql_constraints = [('code_unique', 'UNIQUE(code)', 'The code must be unique!')]
@@ -121,7 +121,7 @@ class AccountBudgetPost(models.Model):
     code = fields.Char(string='Code', size=64)
     name = fields.Char(string='Name', required=True)
     account_ids = fields.Many2many('account.account', 'account_budget_rel', 'budget_id', 'account_id', 'Accounts')
-    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'general_budget_id', 'Budget Lines')
+    crossovered_budget_line = fields.One2many('budget.budget.lines', 'general_budget_id', 'Budget Lines')
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self._default_company_id)
 
     def _default_company_id(self):
@@ -211,7 +211,7 @@ class CrossoveredBudget(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('cancel', 'Cancelled'), ('confirm', 'Confirmed'), ('validate', 'Validated'),
          ('done', 'Done')], 'Status', select=True, required=True, readonly=True, copy=False, default='draft')
-    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'crossovered_budget_id',
+    crossovered_budget_line = fields.One2many('budget.budget.lines', 'crossovered_budget_id',
                                               string='Budget Lines',
                                               states={'draft': [('readonly', False)]}, readonly=True, copy=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
@@ -227,7 +227,7 @@ class CrossoveredBudget(models.Model):
     @api.multi
     def line_update_date(self):
         for budget in self:
-            self.env['crossovered.budget.lines'].write([l.id for l in budget.crossovered_budget_line],
+            self.env['budget.budget.lines'].write([l.id for l in budget.crossovered_budget_line],
                                                        {'date_from': budget.date_from, 'date_to': budget.date_to})
         return True
 
@@ -395,7 +395,7 @@ class CrossoveredBudgetLines(models.Model):
     def _get_line_from_analytic(self):
         #TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
         budget_line_ids = None
-        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['crossovered.budget.lines']
+        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['budget.budget.lines']
 
         for analytic_line in analytic_line_obj.search([]):
             for post in analytic_line.general_account_id.budget_post_ids:
@@ -413,12 +413,12 @@ class CrossoveredBudgetLines(models.Model):
         for move_line in self.env['account.move.line'].browse(self.ids):
             for post in move_line.account_id.budget_post_ids:
                 if move_line.analytic_account_id:
-                    budget_line_ids += self.env['crossovered.budget.lines'].search([
+                    budget_line_ids += self.env['budget.budget.lines'].search([
                         ('general_budget_id', '=', post.id),
                         ('analytic_account_id', '=', move_line.analytic_account_id.ids),
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
                 else:
-                    budget_line_ids += self.pool['crossovered.budget.lines'].search([
+                    budget_line_ids += self.pool['budget.budget.lines'].search([
                         ('general_budget_id', '=', post.id),
                         ('analytic_account_id', '=', False),
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
@@ -433,7 +433,7 @@ class CrossoveredBudgetLines(models.Model):
                 budget_line_ids += budget.mapped('crossovered_budget_line')
         return budget_line_ids
 
-    _name = "crossovered.budget.lines"
+    _name = "budget.budget.lines"
     _description = "Budget Line"
 
     sequence = fields.Integer('Sequence', default=5)

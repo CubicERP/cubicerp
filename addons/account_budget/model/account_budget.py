@@ -62,6 +62,57 @@ class AccountBudgetStruct(models.Model):
     _order = 'code,name'
     _sql_constraints = [('code_unique', 'UNIQUE(code)', 'The code must be unique!')]
 
+    @api.multi
+    def name_get(self):
+        if not self:
+            return []
+
+        reads = self.read(['name', 'code'])
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' ' + name
+            res.append((record['id'], name))
+        return res
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if self._context is None:
+            self._context = {}
+        if not args:
+            args = []
+        args = args[:]
+
+        if name:
+            if operator not in expression.NEGATIVE_TERM_OPERATORS:
+                plus_percent = lambda n: n + '%'
+                code_op, code_conv = {
+                    'ilike': ('=ilike', plus_percent),
+                    'like': ('=like', plus_percent),
+                }.get(operator, (operator, lambda n: n))
+
+                budget_struct = self.search(['|', ('code', code_op, code_conv(name)),
+                                               ('name', operator, name)] + args, limit=limit)
+
+                if not budget_struct and len(name.split()) >= 2:
+                    # Separating code and name of account for searching
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
+                                                  limit=limit)
+            else:
+                budget_struct = self.search(
+                    ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                    limit=limit)
+                # as negation want to restric, do if already have results
+                if budget_struct and len(name.split()) >= 2:
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
+                                                   ('id', 'in', budget_position)] + args, limit=limit)
+        else:
+            budget_struct = self.search(args, limit=limit)
+        return budget_struct.name_get()
+
 
 class AccountBudgetPost(models.Model):
     _name = "account.budget.post"

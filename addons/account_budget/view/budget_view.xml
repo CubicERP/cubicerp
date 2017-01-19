@@ -53,7 +53,7 @@
         </record>
 
         <record id="open_budget_struct" model="ir.actions.act_window">
-            <field name="name">Positions Type</field>
+            <field name="name">Budgetary Struct</field>
             <field name="res_model">account.budget.struct</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

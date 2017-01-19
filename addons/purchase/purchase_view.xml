@@ -389,7 +389,7 @@
         </record>
         <menuitem action="purchase_rfq" id="menu_purchase_rfq"
             parent="menu_procurement_management"
-            sequence="0"/>
+            sequence="5"/>
 
         <record id="purchase_form_action" model="ir.actions.act_window">
             <field name="name">Purchase Orders</field>

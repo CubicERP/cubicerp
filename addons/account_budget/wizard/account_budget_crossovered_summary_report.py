@@ -48,7 +48,7 @@ class AccountBudgetCrossveredSummaryReport(models.Model):
         data = self.read()[0]
         datas = {
             'ids': ctx.get('active_ids', []),
-            'model': 'crossovered.budget',
+            'model': 'budget.budget',
             'form': data
         }
         datas['form']['ids'] = datas['ids']

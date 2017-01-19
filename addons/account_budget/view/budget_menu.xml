@@ -19,10 +19,10 @@
                   id="menu_act_budget_budget_lines_view"
                   action="act_crossovered_budget_lines_view" sequence="30"/>
         <!--Budget Struct Menu-->
-        <menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="menu_budget_conf"
+        <menuitem name="Budgetary Struct" action="open_budget_struct" id="menu_budget_struct" parent="menu_budget_conf"
                   sequence="40"/>
         <!--Budget Period Menu-->
-        <menuitem name="Budget Period" action="open_budget_period" id="menu_budget_period" parent="menu_budget_conf"
+        <menuitem name="Budgetary Period" action="open_budget_period" id="menu_budget_period" parent="menu_budget_conf"
                   sequence="42"/>
         <!--Budget Positions Menu-->
         <menuitem action="open_budget_post_form" id="menu_budget_post_form" parent="menu_budget_conf"

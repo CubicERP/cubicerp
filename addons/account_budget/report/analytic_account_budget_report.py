@@ -57,14 +57,14 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
         for account_id in accounts:
             res = {}
             b_line_ids = []
-            for line in account_id.crossovered_budget_line:
+            for line in account_id.budget_budget_line_ids:
                 b_line_ids.append(line.id)
             if not b_line_ids:
                 return []
             d_from = form['date_from']
             d_to = form['date_to']
 
-            self.cr.execute('SELECT DISTINCT(crossovered_budget_id) FROM crossovered_budget_lines WHERE id =ANY(%s)',(b_line_ids,))
+            self.cr.execute('SELECT DISTINCT(budget_budget_id) FROM budget_budget_line_ids WHERE id =ANY(%s)',(b_line_ids,))
             budget_ids = self.cr.fetchall()
 
             context = {'wizard_date_from':d_from,'wizard_date_to':d_to}
@@ -82,7 +82,7 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
                 }
                 result.append(res)
 
-                line_ids = c_b_lines_obj.search(self.cr, self.uid, [('id', 'in', b_line_ids), ('crossovered_budget_id','=',budget_ids[i][0])])
+                line_ids = c_b_lines_obj.search(self.cr, self.uid, [('id', 'in', b_line_ids), ('budget_budget_id','=',budget_ids[i][0])])
                 line_id = c_b_lines_obj.browse(self.cr, self.uid, line_ids)
                 tot_theo = tot_pln = tot_prac = tot_perc = 0
 
@@ -92,9 +92,9 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
                         theo = pract = 0.00
                         theo = c_b_lines_obj._theo_amt(self.cr, self.uid, [line.id], context)[line.id]
                         pract = c_b_lines_obj._prac_amt(self.cr, self.uid, [line.id], context)[line.id]
-                        if line.general_budget_id.id in done_budget:
+                        if line.budget_position_id.id in done_budget:
                             for record in result:
-                               if record['b_id'] == line.general_budget_id.id  and record['a_id'] == line.analytic_account_id.id:
+                               if record['b_id'] == line.budget_position_id.id and record['a_id'] == line.analytic_account_id.id:
                                     record['theo'] += theo
                                     record['pln'] += line.planned_amount
                                     record['prac'] += pract
@@ -105,9 +105,9 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
                                     tot_perc += line.percentage
                         else:
                             res1 = {
-                                 'b_id': line.general_budget_id.id,
+                                 'b_id': line.budget_position_id.id,
                                  'a_id': line.analytic_account_id.id,
-                                 'name': line.general_budget_id.name,
+                                 'name': line.budget_position_id.name,
                                  'status': 2,
                                  'theo': theo,
                                  'pln': line.planned_amount,
@@ -119,15 +119,15 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
                             tot_prac += pract
                             tot_perc += line.percentage
                             result.append(res1)
-                            done_budget.append(line.general_budget_id.id)
+                            done_budget.append(line.budget_position_id.id)
                     else:
-                       if line.general_budget_id.id in done_budget:
+                       if line.budget_position_id.id in done_budget:
                             continue
                        else:
                             res1={
-                                    'b_id': line.general_budget_id.id,
+                                    'b_id': line.budget_position_id.id,
                                     'a_id': line.analytic_account_id.id,
-                                     'name': line.general_budget_id.name,
+                                     'name': line.budget_position_id.name,
                                      'status': 2,
                                      'theo': 0.00,
                                      'pln': 0.00,
@@ -135,7 +135,7 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
                                      'perc': 0.00
                             }
                             result.append(res1)
-                            done_budget.append(line.general_budget_id.id)
+                            done_budget.append(line.budget_position_id.id)
                 if tot_theo == 0.00:
                     tot_perc = 0.00
                 else:

@@ -52,8 +52,9 @@ Three reports are available:
     'data': [
         'security/ir.model.access.csv',
         'security/account_budget_security.xml',
-        'view/account_budget_view.xml',
+        'view/budget_view.xml',
         'view/account_view.xml',
+        'view/budget_menu.xml',
         'account_budget_workflow.xml',
         'wizard/account_budget_analytic_view.xml',
         'wizard/account_budget_report_view.xml',

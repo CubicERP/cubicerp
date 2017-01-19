@@ -52,7 +52,7 @@ class AnalyticAccountBudgetReport(report_sxw.rml_parse):
         result = []
         accounts = self.pool.get('account.analytic.account').browse(self.cr, self.uid, [object.id], self.context.copy())
         c_b_lines_obj = self.pool.get('budget.budget.lines')
-        obj_c_budget = self.pool.get('crossovered.budget')
+        obj_c_budget = self.pool.get('budget.budget')
 
         for account_id in accounts:
             res = {}

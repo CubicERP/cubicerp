@@ -228,8 +228,8 @@
                   <!--action="act_main_budget_view" sequence="10"/>-->
 
         <record model="ir.ui.view" id="crossovered_budget_view_form">
-            <field name="name">crossovered.budget.view.form</field>
-            <field name="model">crossovered.budget</field>
+            <field name="name">budget.budget.view.form</field>
+            <field name="model">budget.budget</field>
             <field name="arch" type="xml">
                 <form string="Budget">
                     <header>
@@ -323,8 +323,8 @@
         </record>
 
         <record model="ir.ui.view" id="crossovered_budget_view_tree">
-            <field name="name">crossovered.budget.view.tree</field>
-            <field name="model">crossovered.budget</field>
+            <field name="name">budget.budget.view.tree</field>
+            <field name="model">budget.budget</field>
             <field name="arch" type="xml">
                 <tree colors="blue:state == 'draft';gray:state in ('done','cancel');black:state in ('confirm','validate')"
                       string="Budget">
@@ -341,8 +341,8 @@
         </record>
 
         <record id="view_crossovered_budget_search" model="ir.ui.view">
-            <field name="name">crossovered.budget.search</field>
-            <field name="model">crossovered.budget</field>
+            <field name="name">budget.budget.search</field>
+            <field name="model">budget.budget</field>
             <field name="arch" type="xml">
                 <search string="Budget">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
@@ -371,7 +371,7 @@
 
         <record model="ir.actions.act_window" id="act_crossovered_budget_view">
             <field name="name">Budgets</field>
-            <field name="res_model">crossovered.budget</field>
+            <field name="res_model">budget.budget</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
@@ -423,7 +423,7 @@
             </field>
         </record>
         <record model="ir.ui.view" id="view_crossovered_budget_line_form">
-            <field name="name">crossovered.budget.line.form</field>
+            <field name="name">budget.budget.line.form</field>
             <field name="model">budget.budget.lines</field>
             <field name="arch" type="xml">
                 <form string="Budget Lines">
@@ -451,7 +451,7 @@
             </field>
         </record>
         <record model="ir.ui.view" id="view_crossovered_budget_line_graph">
-            <field name="name">crossovered.budget.line.graph</field>
+            <field name="name">budget.budget.line.graph</field>
             <field name="model">budget.budget.lines</field>
             <field name="arch" type="xml">
                 <graph string="Budget Lines Graph" type="bar">

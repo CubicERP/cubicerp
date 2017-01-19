@@ -5,8 +5,8 @@
     <!-- Workflow definition -->
 
     <record model="workflow" id="wkf_crossovered_budget">
-        <field name="name">wkf.crossovered.budget</field>
-        <field name="osv">crossovered.budget</field>
+        <field name="name">wkf.budget.budget</field>
+        <field name="osv">budget.budget</field>
         <field name="on_create">True</field>
     </record>
 

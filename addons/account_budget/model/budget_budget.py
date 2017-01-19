@@ -192,13 +192,13 @@ class BudgetBudget(models.Model):
     type = fields.Selection([('control', 'Control'),
                              ('view', 'View')],
                             'Type', required=True, default='control')
-    budget_ids = fields.One2many('crossovered.budget', 'budget_id', string="Budgets")
+    budget_ids = fields.One2many('budget.budget', 'budget_id', string="Budgets")
 
     _order = "code,name"
 
 
 class CrossoveredBudget(models.Model):
-    _name = "crossovered.budget"
+    _name = "budget.budget"
     _description = "Budget"
 
     name = fields.Char(string='Name', required=True, states={'draft': [('readonly', False)]}, readonly=True)
@@ -438,7 +438,7 @@ class CrossoveredBudgetLines(models.Model):
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
-    crossovered_budget_id = fields.Many2one('crossovered.budget', 'Budget', ondelete='cascade', select=True,
+    crossovered_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True)
     main_budget_id = fields.Many2one('crossovered_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
 

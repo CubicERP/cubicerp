@@ -13,7 +13,7 @@ class TestTheoreticalAmount(TransactionCase):
     def setUp(self):
         super(TestTheoreticalAmount, self).setUp()
         cr, uid, = self.cr, self.uid
-        crossovered_budget_id = self.registry('crossovered.budget').create(cr, uid, {
+        crossovered_budget_id = self.registry('budget.budget').create(cr, uid, {
             'name': 'test budget name',
             'code': 'test budget code',
             'date_from': '2014-01-01',

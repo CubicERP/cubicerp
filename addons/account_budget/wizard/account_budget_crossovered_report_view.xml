@@ -35,7 +35,7 @@
             <field name="key2">client_print_multi</field>
             <field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_budget_crossvered_report'))" />
             <field name="key">action</field>
-            <field name="model">crossovered.budget</field>
+            <field name="model">budget.budget</field>
         </record>
     </data>
 </openerp>

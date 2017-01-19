@@ -55,7 +55,7 @@ Three reports are available:
         'view/budget_view.xml',
         'view/account_view.xml',
         'view/budget_menu.xml',
-        'account_budget_workflow.xml',
+        'budget_budget_workflow.xml',
         'wizard/budget_budget_analytic_view.xml',
         'wizard/account_budget_report_view.xml',
         'wizard/budget_budget_summary_report_view.xml',
@@ -65,7 +65,7 @@ Three reports are available:
         'report/budget_report.xml',
         'report/crossovered_budget_report.xml',
     ],
-    'demo': ['account_budget_demo.xml'],
+    'demo': ['budget_budget_demo.xml'],
     'test': [
         'test/budget_budget.yml',
         'test/budget_budget_report.yml',

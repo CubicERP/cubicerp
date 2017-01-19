@@ -49,12 +49,12 @@ def strToDatetime(strdate):
 
 
 class AccountBudgetStruct(models.Model):
-    _name = "account.budget.struct"
+    _name = "budget.struct"
     _description = "Budgetary Struct"
 
     code = fields.Char(string='Code', size=64)
     name = fields.Char(string='Name', required=True)
-    parent_id = fields.Many2one('account.budget.struct', string="Parent", domain=[('type', '=', 'view')])
+    parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
     line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")
@@ -447,7 +447,7 @@ class CrossoveredBudgetLines(models.Model):
 
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
     general_budget_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
-    struct_budget_id = fields.Many2one('account.budget.struct', 'Budgetary Struct')
+    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct')
     value_type = fields.Selection([('amount', 'Amount'),
                                    ('quantity', 'Quantity'),
                                    ('code', 'Python Code')], string="Value Type")

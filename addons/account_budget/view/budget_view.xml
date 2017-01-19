@@ -10,8 +10,8 @@
     Budgets
     -->
         <record id="view_budget_struct_tree" model="ir.ui.view">
-            <field name="name">account.budget.struct.tree</field>
-            <field name="model">account.budget.struct</field>
+            <field name="name">budget.struct.tree</field>
+            <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <tree string="Budgetary Struct" colors="blue:type=='view'">
                     <field name="code"/>
@@ -22,8 +22,8 @@
         </record>
 
         <record model="ir.ui.view" id="view_budget_struct_form">
-            <field name="name">account.budget.struct.form</field>
-            <field name="model">account.budget.struct</field>
+            <field name="name">budget.struct.form</field>
+            <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <form string="Budgetary Struct">
                     <group col="4">
@@ -39,8 +39,8 @@
         </record>
 
         <record id="view_budget_struct_search" model="ir.ui.view">
-            <field name="name">account.budget.struct.search</field>
-            <field name="model">account.budget.struct</field>
+            <field name="name">budget.struct.search</field>
+            <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <search string="Budgetary Struct">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
@@ -54,7 +54,7 @@
 
         <record id="open_budget_struct" model="ir.actions.act_window">
             <field name="name">Budgetary Struct</field>
-            <field name="res_model">account.budget.struct</field>
+            <field name="res_model">budget.struct</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>

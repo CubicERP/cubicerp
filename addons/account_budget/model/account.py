@@ -45,7 +45,7 @@ class AccountAnalyticAaccount(models.Model):
 class account_move_line(models.Model):
     _inherit = "account.move.line"
 
-    budget_struct_id = fields.Many2one('account.budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
+    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

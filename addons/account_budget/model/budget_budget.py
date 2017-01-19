@@ -108,7 +108,7 @@ class AccountBudgetStruct(models.Model):
                 if budget_struct and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                                   ('id', 'in', budget_position)] + args, limit=limit)
+                                                   ('id', 'in', budget_struct)] + args, limit=limit)
         else:
             budget_struct = self.search(args, limit=limit)
         return budget_struct.name_get()
@@ -183,7 +183,7 @@ class AccountBudgetPost(models.Model):
 
 
 class BudgetBudget(models.Model):
-    _name = "budget.budget"
+    _name = "budget.main"
     _decription = "Main Budget"
     _inherit = ['mail.thread']
 
@@ -217,7 +217,7 @@ class CrossoveredBudget(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  states={'draft': [('readonly', False)]},
                                  readonly=True, default=lambda self: self._default_company_id)
-    budget_id = fields.Many2one('budget.budget', string='Main Budget', required=True, ondelete='restrict',
+    budget_id = fields.Many2one('budget.main', string='Main Budget', required=True, ondelete='restrict',
                                 states={'draft': [('readonly', False)]}, readonly=True)
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
 
@@ -427,7 +427,7 @@ class CrossoveredBudgetLines(models.Model):
     @api.multi
     def _get_line_from_main_budget(self):
         budget_line_ids = None
-        main_budget_obj = self.env['budget.budget']
+        main_budget_obj = self.env['budget.main']
         for main_budget in main_budget_obj.search([]):
             for budget in main_budget.budget_ids:
                 budget_line_ids += budget.mapped('crossovered_budget_line')

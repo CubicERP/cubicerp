@@ -53,11 +53,13 @@
         </record>
 
         <record id="open_budget_struct" model="ir.actions.act_window">
-            <field name="name">Positions Type</field>
+            <field name="name">Budgetary Struct</field>
             <field name="res_model">account.budget.struct</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+        <menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="next_id_pos"
+                  sequence="10"/>
 
         <!--ACTION BUDGET PERIOD-->
         <record id="open_budget_period" model="ir.actions.act_window">
@@ -66,9 +68,6 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-        <menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="next_id_pos"
-                  sequence="10"/>
         <menuitem name="Budget Period" action="open_budget_period" id="menu_budget_period" parent="next_id_pos"
                   sequence="10"/>
 

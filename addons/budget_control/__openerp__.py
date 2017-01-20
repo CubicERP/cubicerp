@@ -45,7 +45,7 @@ Dashboard / Reports for archives will include:
     "category": "Account",
     "depends": [
         "account",
-        "account_budget",
+        "budget",
         "purchase",
         "purchase_requisition",
         ],

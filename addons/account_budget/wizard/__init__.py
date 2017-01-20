@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-import budget_budget_report
-import budget_budget_analytic
-import budget_budget_summary_report
+import account_budget_crossovered_report
+import account_budget_analytic
+import account_budget_crossovered_summary_report
 import account_budget_report
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

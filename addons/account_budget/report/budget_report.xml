@@ -114,7 +114,7 @@
 
         <report
             id="action_report_budget"
-            model="budget.position"
+            model="account.budget.post"
             string="Budget"
             report_type="qweb-pdf"
             name="account_budget.report_budget"

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -23,10 +23,11 @@ import time
 # from openerp.osv import fields, osv
 from openerp import models, fields, api, _
 
-class AccountBudgetReport(models.Model):
 
-    _name = "account.budget.report"
-    _description = "Account Budget report for analytic account"
+class AccountBudgetAnalytic(models.TransientModel):
+
+    _name = 'account.budget.analytic'
+    _description = 'Account Budget report for analytic account'
 
     date_from = fields.Date(string='Start of period', required=True, default=lambda self: self._default_date_from)
     date_to = fields.Date(string='End of period', required=True, default=lambda self: self._default_date_to)
@@ -45,11 +46,10 @@ class AccountBudgetReport(models.Model):
         data = self.read()[0]
         datas = {
             'ids': ctx.get('active_ids', []),
-            'model': 'account.budget.post',
+            'model': 'account.analytic.account',
             'form': data
         }
         datas['form']['ids'] = datas['ids']
-        datas['form']['report'] = 'analytic-full'
-        return self.pool['report'].get_action([], 'account_budget.report_budget', data=datas)
+        return self.env['report'].get_action([], 'account_budget.report_analyticaccountbudget', data=datas)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

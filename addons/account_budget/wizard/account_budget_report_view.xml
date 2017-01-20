@@ -36,7 +36,7 @@
       <field name="key2">client_print_multi</field>
       <field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_budget_report'))" />
       <field name="key">action</field>
-      <field name="model">budget.position</field>
+      <field name="model">account.budget.post</field>
     </record>
 
   </data>

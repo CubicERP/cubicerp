@@ -33,7 +33,7 @@ class account_entries_report(models.Model):
     _name = "account.entries.report"
     _inherit = "account.entries.report"
 
-    budget_struct_id = fields.Many2one('budget.struct', string='Budget Struct', readonly=True)
+    budget_struct_id = fields.Many2one('account.budget.struct', string='Budget Struct', readonly=True)
 
     def _get_select(self):
         res = super(account_entries_report, self)._get_select()

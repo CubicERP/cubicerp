@@ -32,20 +32,20 @@ import openerp.addons.decimal_precision as dp
 class AccountAccount(models.Model):
     _inherit = "account.account"
 
-    budget_post_ids = fields.Many2many('budget.position', 'account_budget_rel', 'account_id', 'budget_id',
+    budget_post_ids = fields.Many2many('account.budget.post', 'account_budget_rel', 'account_id', 'budget_id',
                                        string='Budget Positions')
 
 
 class AccountAnalyticAaccount(models.Model):
     _inherit = "account.analytic.account"
 
-    budget_budget_line_ids = fields.One2many('budget.budget.lines', 'analytic_account_id', string='Budget Lines')
+    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'analytic_account_id', string='Budget Lines')
 
 
 class account_move_line(models.Model):
     _inherit = "account.move.line"
 
-    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
+    budget_struct_id = fields.Many2one('account.budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

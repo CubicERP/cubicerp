@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    "name": "Budgets Control",
+    "name": "Budget Control",
     "version": "1.0",
     "description": """
 Control all budgets of an organization
@@ -44,9 +44,9 @@ Dashboard / Reports for archives will include:
     "website": "http://cubicERP.com",
     "category": "Account",
     "depends": [
+        "account",
         "account_budget",
         "purchase",
-        "account_voucher",
         "purchase_requisition",
         ],
     "data":[

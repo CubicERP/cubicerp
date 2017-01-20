@@ -2,10 +2,10 @@
 <openerp>
     <data>
         <!-- Top menu item -->
-        <menuitem name="Budgets" id="top_menu_budget" sequence="60"/>
+        <menuitem name="Budget" id="top_menu_budget" sequence="60"/>
 
         <!--Budgets, Reports and Configuration Menu-->
-        <menuitem id="menu_item_budget" name="Budgets" parent="top_menu_budget" sequence="6"/>
+        <menuitem id="menu_item_budget" name="Budget" parent="top_menu_budget" sequence="6"/>
         <menuitem id="menu_budget_report" name="Report" parent="top_menu_budget" sequence="7"/>
         <menuitem id="menu_budget_conf" name="Configuration" parent="top_menu_budget" sequence="8"/>
         <!--Main Budget Menu-->

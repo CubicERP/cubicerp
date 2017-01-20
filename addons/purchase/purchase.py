@@ -320,7 +320,17 @@ class purchase_order(osv.osv):
         'related_location_id': fields.related('picking_type_id', 'default_location_dest_id', type='many2one', relation='stock.location', string="Related location", store=True),
         'related_usage': fields.related('location_id', 'usage', type='char', readonly=True),
         'shipment_count': fields.function(_count_all, type='integer', string='Incoming Shipments', multi=True),
-        'invoice_count': fields.function(_count_all, type='integer', string='Invoices', multi=True)
+        'invoice_count': fields.function(_count_all, type='integer', string='Invoices', multi=True),
+        'compliance': fields.boolean("Compliance", readonly=True,
+                                     help="Use this to accept and approve the products and services "
+                                          " delivered by the supplier. Use compliance button to modify this field"),
+        'compliance_method': fields.selection([('never', 'Never apply compliance button'),
+                                               ('services', 'Compliance only for full service order'),
+                                               ('always', 'Always apply compliance button')],
+                                              'Compliance Control', required=True,
+            readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+            help="The compliance feature is used to block the validation of related invoices without compliance check"
+            ),
     }
     _defaults = {
         'date_order': fields.datetime.now,
@@ -328,6 +338,7 @@ class purchase_order(osv.osv):
         'name': lambda obj, cr, uid, context: '/',
         'shipped': 0,
         'invoice_method': 'order',
+        'compliance_method': 'never',
         'invoiced': 0,
         'pricelist_id': lambda self, cr, uid, context: context.get('partner_id', False) and self.pool.get('res.partner').browse(cr, uid, context['partner_id']).property_product_pricelist_purchase.id,
         'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'purchase.order', context=c),
@@ -595,7 +606,14 @@ class purchase_order(osv.osv):
                     _("You cannot confirm a purchase order with Invoice Control Method 'Based on incoming shipments' that doesn't contain any stockable item."))
             for line in po.order_line:
                 if line.state=='draft':
-                    todo.append(line.id)        
+                    todo.append(line.id)
+            compliance = False
+            if po.compliance_method == 'never':
+                compliance = True
+            elif po.compliance_method == 'services' and self.has_stockable_product(cr,uid,[po.id]):
+                compliance = True
+            if compliance <> po.compliance:
+                self.write(cr, uid, [po.id], {'compliance': compliance}, context=context)
         self.pool.get('purchase.order.line').action_confirm(cr, uid, todo, context)
         for id in ids:
             self.write(cr, uid, [id], {'state' : 'confirmed', 'validator' : uid}, context=context)
@@ -673,7 +691,7 @@ class purchase_order(osv.osv):
     def action_cancel_draft(self, cr, uid, ids, context=None):
         if not len(ids):
             return False
-        self.write(cr, uid, ids, {'state':'draft','shipped':0})
+        self.write(cr, uid, ids, {'state':'draft','shipped':0,'compliance':False})
         self.set_order_line_status(cr, uid, ids, 'draft', context=context)
         for po in self.browse(cr, SUPERUSER_ID, ids, context=context):
             for picking in po.picking_ids:
@@ -772,6 +790,9 @@ class purchase_order(osv.osv):
                 .signal_workflow(cr, uid, map(attrgetter('id'), purchase.invoice_ids), 'invoice_cancel')
         self.signal_workflow(cr, uid, ids, 'purchase_cancel')
         return True
+
+    def purchase_compliance(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'compliance': True}, context=context)
 
     def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id, group_id, context=None):
         ''' prepare the stock move data from the PO line. This function returns a list of dictionary ready to be used in stock.move's create()'''
@@ -1694,9 +1715,12 @@ class account_invoice(osv.Model):
         else:
             user_id = uid
         po_ids = purchase_order_obj.search(cr, user_id, [('invoice_ids', 'in', ids)], context=context)
-        for po_id in po_ids:
-            purchase_order_obj.message_post(cr, user_id, po_id, body=_("Invoice received"), context=context)
-            purchase_order_obj._set_po_lines_invoiced(cr, user_id, [po_id], context=context)
+        for purchase in purchase_order_obj.browse(cr, user_id, po_ids, context=context):
+            if not purchase.compliance:
+                raise osv.except_osv(_('Error!'),
+                                     _('To validate this invoice you need accomplish the purchase order %s (press button compliance).')%purchase.name)
+            purchase_order_obj.message_post(cr, user_id, purchase.id, body=_("Invoice received"), context=context)
+            purchase_order_obj._set_po_lines_invoiced(cr, user_id, [purchase.id], context=context)
         return res
 
     def confirm_paid(self, cr, uid, ids, context=None):

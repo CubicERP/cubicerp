@@ -23,13 +23,10 @@ import time
 # from openerp.osv import fields, osv
 from openerp import models, fields, api, _
 
+class AccountBudgetCrossveredReport(models.TransientModel):
 
-class AccountBudgetCrossveredSummaryReport(models.Model):
-    """
-    This wizard provides the crossovered budget summary report'
-    """
-    _name = 'account.budget.crossvered.summary.report'
-    _description = 'Account Budget  crossvered summary report'
+    _name = "account.budget.crossvered.report"
+    _description = "Account Budget crossvered report"
 
     date_from = fields.Date(string='Start of period', required=True, default=lambda self: self._default_date_from)
     date_to = fields.Date(string='End of period', required=True, default=lambda self: self._default_date_to)
@@ -48,11 +45,11 @@ class AccountBudgetCrossveredSummaryReport(models.Model):
         data = self.read()[0]
         datas = {
             'ids': ctx.get('active_ids', []),
-            'model': 'crossovered.budget',
+            'model': 'budget.budget',
             'form': data
         }
         datas['form']['ids'] = datas['ids']
-        datas['form']['report'] = 'analytic-one'
-        return self.pool['report'].get_action([], 'account_budget.report_crossoveredbudget', data=datas)
+        datas['form']['report'] = 'analytic-full'
+        return self.env['report'].get_action([], 'account_budget.report_crossoveredbudget', data=datas)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

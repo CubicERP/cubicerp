@@ -13,21 +13,21 @@ class TestTheoreticalAmount(TransactionCase):
     def setUp(self):
         super(TestTheoreticalAmount, self).setUp()
         cr, uid, = self.cr, self.uid
-        crossovered_budget_id = self.registry('crossovered.budget').create(cr, uid, {
+        budget_budget_id = self.registry('budget.budget').create(cr, uid, {
             'name': 'test budget name',
             'code': 'test budget code',
             'date_from': '2014-01-01',
             'date_to': '2014-12-31',
         })
-        crossovered_budget_line_obj = self.registry('crossovered.budget.lines')
-        crossovered_budget_line_id = crossovered_budget_line_obj.create(cr, uid, {
-            'crossovered_budget_id': crossovered_budget_id,
-            'general_budget_id': self.ref('account_budget.account_budget_post_sales0'),
+        budget_budget_lines_obj = self.registry('budget.budget.lines')
+        budget_budget_lines_id = budget_budget_lines_obj.create(cr, uid, {
+            'budget_budget_id': budget_budget_id,
+            'budget_position_id': self.ref('account_budget.account_budget_post_sales0'),
             'date_from': '2014-01-01',
             'date_to': '2014-12-31',
             'planned_amount': -364,
         })
-        self.line = crossovered_budget_line_obj.browse(cr, uid, crossovered_budget_line_id)
+        self.line = budget_budget_lines_obj.browse(cr, uid, budget_budget_lines_id)
 
         self.patcher = patch('openerp.addons.account_budget.account_budget.datetime', wraps=datetime)
         self.mock_datetime = self.patcher.start()

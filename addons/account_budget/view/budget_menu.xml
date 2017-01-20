@@ -17,7 +17,7 @@
         <!--Budget Budget Lines Menu-->
         <menuitem name="Budget Lines" parent="menu_item_budget"
                   id="menu_act_budget_budget_lines_view"
-                  action="act_crossovered_budget_lines_view" sequence="30"/>
+                  action="act_budget_budget_lines_view" sequence="30"/>
         <!--Budget Struct Menu-->
         <menuitem name="Budgetary Struct" action="open_budget_struct" id="menu_budget_struct" parent="menu_budget_conf"
                   sequence="40"/>

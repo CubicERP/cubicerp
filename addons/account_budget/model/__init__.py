@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-import account_budget
+import budget_budget
 import account
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -13,7 +13,7 @@
 - 
   !python {model: account.budget.spread}: |
     self.check_spread(cr, uid, [ref("account_budget_spread_0")], {"lang": 'en_US',
-      "active_model": "account.budget.post", "active_ids": [ref("account_budget.account_budget_post_sales0")],
+      "active_model": "budget.position", "active_ids": [ref("account_budget.account_budget_post_sales0")],
       "tz": False, "active_id": ref("account_budget.account_budget_post_sales0"),
       })
 

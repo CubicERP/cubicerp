@@ -48,16 +48,16 @@ def strToDatetime(strdate):
 # ---------------------------------------------------------
 
 
-class AccountBudgetStruct(models.Model):
-    _name = "account.budget.struct"
+class BudgetStruct(models.Model):
+    _name = "budget.struct"
     _description = "Budgetary Struct"
 
     code = fields.Char(string='Code', size=64)
     name = fields.Char(string='Name', required=True)
-    parent_id = fields.Many2one('account.budget.struct', string="Parent", domain=[('type', '=', 'view')])
+    parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
-    line_ids = fields.One2many('crossovered.budget.lines', 'struct_budget_id', string="Budgetary Lines")
+    line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")
 
     _order = 'code,name'
     _sql_constraints = [('code_unique', 'UNIQUE(code)', 'The code must be unique!')]
@@ -108,24 +108,24 @@ class AccountBudgetStruct(models.Model):
                 if budget_struct and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                                   ('id', 'in', budget_position)] + args, limit=limit)
+                                                   ('id', 'in', budget_struct)] + args, limit=limit)
         else:
             budget_struct = self.search(args, limit=limit)
         return budget_struct.name_get()
 
 
-class AccountBudgetPost(models.Model):
-    _name = "account.budget.post"
+class BudgetPosition(models.Model):
+    _name = "budget.position"
     _description = "Budgetary Position"
 
     code = fields.Char(string='Code', size=64)
     name = fields.Char(string='Name', required=True)
     account_ids = fields.Many2many('account.account', 'account_budget_rel', 'budget_id', 'account_id', 'Accounts')
-    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'general_budget_id', 'Budget Lines')
+    budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_position_id', 'Budget Lines')
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self._default_company_id)
 
     def _default_company_id(self):
-        return lambda self: self.pool.get('res.company')._company_default_get('account.budget.post')
+        return lambda self: self.pool.get('res.company')._company_default_get('budget.position')
 
     _order = "code,name"
 
@@ -182,8 +182,8 @@ class AccountBudgetPost(models.Model):
         return budget_position.name_get()
 
 
-class BudgetBudget(models.Model):
-    _name = "budget.budget"
+class BudgetMain(models.Model):
+    _name = "budget.main"
     _decription = "Main Budget"
     _inherit = ['mail.thread']
 
@@ -192,13 +192,13 @@ class BudgetBudget(models.Model):
     type = fields.Selection([('control', 'Control'),
                              ('view', 'View')],
                             'Type', required=True, default='control')
-    budget_ids = fields.One2many('crossovered.budget', 'budget_id', string="Budgets")
+    budget_ids = fields.One2many('budget.budget', 'budget_id', string="Budgets")
 
     _order = "code,name"
 
 
-class CrossoveredBudget(models.Model):
-    _name = "crossovered.budget"
+class BudgetBudget(models.Model):
+    _name = "budget.budget"
     _description = "Budget"
 
     name = fields.Char(string='Name', required=True, states={'draft': [('readonly', False)]}, readonly=True)
@@ -211,23 +211,23 @@ class CrossoveredBudget(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('cancel', 'Cancelled'), ('confirm', 'Confirmed'), ('validate', 'Validated'),
          ('done', 'Done')], 'Status', select=True, required=True, readonly=True, copy=False, default='draft')
-    crossovered_budget_line = fields.One2many('crossovered.budget.lines', 'crossovered_budget_id',
+    budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_budget_id',
                                               string='Budget Lines',
                                               states={'draft': [('readonly', False)]}, readonly=True, copy=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  states={'draft': [('readonly', False)]},
                                  readonly=True, default=lambda self: self._default_company_id)
-    budget_id = fields.Many2one('budget.budget', string='Main Budget', required=True, ondelete='restrict',
+    budget_id = fields.Many2one('budget.main', string='Main Budget', required=True, ondelete='restrict',
                                 states={'draft': [('readonly', False)]}, readonly=True)
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
 
     def _default_company_id(self):
-        return self.env['res.company']._company_default_get('account.budget.post')
+        return self.env['res.company']._company_default_get('budget.position')
 
     @api.multi
     def line_update_date(self):
         for budget in self:
-            self.env['crossovered.budget.lines'].write([l.id for l in budget.crossovered_budget_line],
+            self.env['budget.budget.lines'].write([l.id for l in budget.budget_budget_line_ids],
                                                        {'date_from': budget.date_from, 'date_to': budget.date_to})
         return True
 
@@ -257,7 +257,7 @@ class CrossoveredBudget(models.Model):
         return True
 
 
-class CrossoveredBudgetLines(models.Model):
+class BudgetBudgetLines(models.Model):
     @api.multi
     def _prac_amt(self):
         cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
@@ -269,10 +269,10 @@ class CrossoveredBudgetLines(models.Model):
         analytic_obj = self.env['account.analytic.account']
         for line in self:
             # acc_ids = [x.id for x in line.general_budget_id.account_ids]
-            acc_ids = line.general_budget_id.mapped('account_ids')
+            acc_ids = line.budget_position_id.mapped('account_ids')
             if not acc_ids:
                 raise osv.except_osv(_('Error!'),
-                                     _("The Budget '%s' has no accounts!") % ustr(line.general_budget_id.name))
+                                     _("The Budget '%s' has no accounts!") % ustr(line.budget_position_id.name))
             acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
@@ -297,7 +297,7 @@ class CrossoveredBudgetLines(models.Model):
                                                       "WHERE aml.budget_post_id=%s AND aal.account_id in %s AND (aal.date "
                                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                       "aal.general_account_id=ANY(%s)",
-                    (line.general_budget_id.id, analytic_account_ids, date_from, date_to, acc_ids,))
+                    (line.budget_position_id.id, analytic_account_ids, date_from, date_to, acc_ids,))
                 result = cr.fetchone()[0]
             elif line.analytic_account_id.id:
                 cr.execute(
@@ -312,7 +312,7 @@ class CrossoveredBudgetLines(models.Model):
                                                   "WHERE budget_post_id=%s AND (date "
                                                   "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                   "account_id=ANY(%s)",
-                    (line.general_budget_id.id, date_from, date_to, acc_ids,))
+                    (line.budget_position_id.id, date_from, date_to, acc_ids,))
                 result = cr.fetchone()[0]
             else:
                 cr.execute(
@@ -395,13 +395,13 @@ class CrossoveredBudgetLines(models.Model):
     def _get_line_from_analytic(self):
         #TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
         budget_line_ids = None
-        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['crossovered.budget.lines']
+        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['budget.budget.lines']
 
         for analytic_line in analytic_line_obj.search([]):
             for post in analytic_line.general_account_id.budget_post_ids:
                 budget_line_ids += budget_line_obj.search(
                     [
-                        ('general_budget_id', '=', post.id),
+                        ('budget_position_id', '=', post.id),
                         ('analytic_account_id', '=', analytic_line.account_id.id),
                         ('state', 'in', ['draft', 'confirm', 'validate'])
                     ])
@@ -413,13 +413,13 @@ class CrossoveredBudgetLines(models.Model):
         for move_line in self.env['account.move.line'].browse(self.ids):
             for post in move_line.account_id.budget_post_ids:
                 if move_line.analytic_account_id:
-                    budget_line_ids += self.env['crossovered.budget.lines'].search([
-                        ('general_budget_id', '=', post.id),
+                    budget_line_ids += self.env['budget.budget.lines'].search([
+                        ('budget_position_id', '=', post.id),
                         ('analytic_account_id', '=', move_line.analytic_account_id.ids),
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
                 else:
-                    budget_line_ids += self.pool['crossovered.budget.lines'].search([
-                        ('general_budget_id', '=', post.id),
+                    budget_line_ids += self.pool['budget.budget.lines'].search([
+                        ('budget_position_id', '=', post.id),
                         ('analytic_account_id', '=', False),
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
         return budget_line_ids
@@ -427,27 +427,27 @@ class CrossoveredBudgetLines(models.Model):
     @api.multi
     def _get_line_from_main_budget(self):
         budget_line_ids = None
-        main_budget_obj = self.env['budget.budget']
+        main_budget_obj = self.env['budget.main']
         for main_budget in main_budget_obj.search([]):
             for budget in main_budget.budget_ids:
-                budget_line_ids += budget.mapped('crossovered_budget_line')
+                budget_line_ids += budget.mapped('budget_budget_line_ids')
         return budget_line_ids
 
-    _name = "crossovered.budget.lines"
+    _name = "budget.budget.lines"
     _description = "Budget Line"
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
-    crossovered_budget_id = fields.Many2one('crossovered.budget', 'Budget', ondelete='cascade', select=True,
+    budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True)
-    main_budget_id = fields.Many2one('crossovered_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
+    main_budget_id = fields.Many2one('budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
 
-    main_budget_type = fields.Selection(related='crossovered_budget_id.budget_id.type', string="Main Budget Type",
+    main_budget_type = fields.Selection(related='budget_budget_id.budget_id.type', string="Main Budget Type",
                                         readonly=True, store=True)
 
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
-    general_budget_id = fields.Many2one('account.budget.post', 'Budgetary Position', required=True)
-    struct_budget_id = fields.Many2one('account.budget.struct', 'Budgetary Struct')
+    budget_position_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
+    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct')
     value_type = fields.Selection([('amount', 'Amount'),
                                    ('quantity', 'Quantity'),
                                    ('code', 'Python Code')], string="Value Type")
@@ -463,32 +463,32 @@ class CrossoveredBudgetLines(models.Model):
     available_amount = fields.Float(compute="_avail", string='Pending Amount',
                                     digits_compute=dp.get_precision('Account'))
     percentage = fields.Float(compute="_perc", string='Percentage')
-    company_id = fields.Many2one(related="crossovered_budget_id.company_id", string='Company', store=True,
+    company_id = fields.Many2one(related="budget_budget_id.company_id", string='Company', store=True,
                                  readonly=True)
 
     position_restrict = fields.Boolean(string="Position Restricted")
     coefficient = fields.Float(string="Coefficient", required=True, digits=(16, 8), default=1.0)
-    state = fields.Selection(related='crossovered_budget_id.state', string="State", readonly=True, store=True)
+    state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
 
     _order = 'sequence,name'
 
     @api.multi
     @api.constrains('main_budget_type',
                     'analytic_account_id',
-                    'general_budget_id',
+                    'budget_position_id',
                     'date_from',
                     'date_to')
     def _check_overload(self):
         for line in self:
             if line.main_budget_type == 'control':
-                self._cr.execute("SELECT id FROM crossovered_budget_lines "
+                self._cr.execute("SELECT id FROM budget_budget_line_ids "
                                  "WHERE analytic_account_id= %s"
-                                 "  AND general_budget_id= %s"
+                                 "  AND budget_position_id= %s"
                                  "  AND main_budget_type='control' AND id <> %s"
                                  "  AND ((date_from >= %s AND date_from <= %s)"
                                  "      OR (date_to >= %s AND date_to <= %s))",
                                  (line.analytic_account_id.id,
-                                  line.general_budget_id.id,
+                                  line.budget_position_id.id,
                                   line.id,
                                   line.date_from, line.date_to,
                                   line.date_from, line.date_to))

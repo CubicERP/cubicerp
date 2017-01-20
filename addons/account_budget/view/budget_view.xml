@@ -438,6 +438,7 @@
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="paid_date"/>
+                            <field name="value_type"/>
                             <field name="planned_amount"/>
                             <field name="practical_amount"/>
                             <field name="theoritical_amount"/>

@@ -56,7 +56,7 @@ Odoo Generics
 }
 
 .oe_form_uri {
-    color: #208A6D !important;
+    color: #e26666 !important;
     text-decoration-style: dashed !important;
 }
 
@@ -64,7 +64,7 @@ Odoo Generics
 .oe_form_uri:active,
 .oe_form_uri:link,
 .oe_form_uri:focus {
-    color: #185d46;
+    color: #ab1919;
     text-decoration-style: dashed !important;
 }
 

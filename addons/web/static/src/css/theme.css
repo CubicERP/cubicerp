@@ -74,7 +74,7 @@ Odoo Generics
 }
 
 .openerp .badge {
-    background-color: #0EA6DE !important;
+    background-color: #e26666 !important;
 }
 
 .openerp .oe_fade {
@@ -111,7 +111,7 @@ Main Navbar
 ***********************************************************************************************************************/
 #main_navbar {
     display: flex;
-    background: #0E8DD1 0% 0% !important;
+    background: #ab1919 0% 0% !important;
     box-shadow: 0px 0px 8px rgb(102, 102, 102) !important;
     position: relative;
     z-index: 9999;
@@ -195,7 +195,7 @@ Letf Bar
 }
 
 .oe_leftbar .oe_secondary_menu_section {
-    color: #5e274f !important;
+    color: #ab1919 !important;
     border-bottom: 1px dashed #ccc;
 }
 
@@ -205,7 +205,7 @@ Letf Bar
     padding-left: 10px !important;
     padding-top: 3px !important;
 
-    color: #21b799 !important;
+    color: #e26666 !important;
     background-color: #e6e6e6 !important;
 }
 
@@ -307,7 +307,7 @@ View Manager Header: Breadcrumb
 }
 
 .oe_breadcrumb_title a.oe_breadcrumb_item {
-    color: RGBA(33, 183, 153, 0.66) !important;
+    color: black !important;
     text-decoration: none !important;
     border-bottom: 1px dashed #DDDDDD !important;
 }
@@ -339,11 +339,11 @@ View Manager Header: Search Form
 }
 
 .oe_searchview .oe_searchview_facets .oe_facet_category {
-    background: #0EA6DE 0% 0% !important;
+    background: #e26666 0% 0% !important;
 }
 
 .oe_searchview .oe_searchview_facets .oe_facet_remove {
-    color: #0EA6DE !important;
+    color: #e26666 !important;
 }
 
 .oe_searchview .oe_searchview_facets .oe_facet_remove:hover {
@@ -423,12 +423,12 @@ Page Header Section: Views Selector
     line-height: 20px !important;
     width: 28px !important;
     height: 28px !important;
-    color: #428BCA !important;
+    color: #6D6D6D !important;
 }
 
 .oe_view_manager .oe_view_manager_switch li.active {
     transition: all 1s linear;
-    background: rgb(14, 166, 222) !important;
+    background: #6D6D6D !important;
 }
 
 .oe_view_manager .oe_view_manager_switch li.active a {
@@ -455,11 +455,11 @@ View Manager Header: Paginator
 .oe_pager_group a {
     border: medium none !important;
     border-radius: 0px !important;
-    color: #428BCA !important;
+    color: #6d6d6d !important;
 }
 
 .oe_pager_group a:hover {
-    color: #21b799 !important;
+    color: black !important;
 }
 
 .oe_popup_list_pager > *:first-child {
@@ -479,7 +479,7 @@ Secondary Buttons or without Focus
     text-shadow: initial !important;
     box-shadow: none !important;
     background: transparent !important;
-    color: rgb(33, 183, 153) !important;
+    color: #e26666 !important;
     text-transform: uppercase !important;
     font-weight: normal !important;
 }
@@ -488,7 +488,7 @@ Secondary Buttons or without Focus
 .oe_form_button_create:hover,
 .oe_form_button_cancel:hover,
 .oe_abstractformpopup-form-close:hover {
-    color: #21b799 !important;
+    color: #ab1919 !important;
     background-color: #e6e6e6 !important;
     border-color: #e0e0e0 !important;
 }
@@ -508,7 +508,7 @@ Primary Buttons or Focused
     border-radius: 0px !important;
     text-shadow: initial !important;
     box-shadow: none !important;
-    background: #21b799 !important;
+    background: #6D6D6D !important;
     text-transform: uppercase !important;
     box-sizing: content-box !important;
 }
@@ -519,8 +519,8 @@ Primary Buttons or Focused
 .oe_form_button_edit:hover,
 .oe_form_button_save:hover,
 .oe_selectcreatepopup-search-create:hover {
-    background: rgb(32, 138, 109) !important;
-    color: white !important;
+    background: #cccccc !important;
+    color: black !important;
     box-shadow: none !important;
 }
 
@@ -623,11 +623,11 @@ Form View
 }
 
 .oe_form_container header .oe_button.oe_highlight {
-    background: #21b799 none repeat scroll 0% 0% !important;
+    background: #6d6d6d none repeat scroll 0% 0% !important;
 }
 
 .oe_form_container header .oe_button.oe_highlight:hover {
-    background: rgb(32, 138, 109) !important;
+    background: #cccccc !important;
     color: white !important;
     box-shadow: none !important;
 }
@@ -653,7 +653,7 @@ Form View
 
 .openerp ul.oe_form_status li.oe_active,
 .openerp ul.oe_form_status_clickable li.oe_active {
-    background: #45B9EC !important;
+    background: #6d6d6d !important;
 }
 
 .openerp ul.oe_form_status li > .label,

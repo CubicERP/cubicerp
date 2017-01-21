@@ -718,6 +718,7 @@ Form View: Footer
 .openerp .oe_form div.oe_chatter {
     display: flex;
     flex-direction: row-reverse;
+    padding: 16px 0px;
 }
 
 .openerp .oe_followers {
@@ -750,15 +751,14 @@ Form View: Footer
 .openerp .oe_record_thread {
     display: block;
     flex-grow: 1;
-    margin-right: 20px;
+    margin: 0px 20px 0px 0px !important;
 }
 
 /***********************************************************************************************************************
 Form View: Widgets
 ***********************************************************************************************************************/
 .openerp .oe_form .oe_form_field {
-    min-width: 190px !important;
-    max-width: 190px !important;
+
 }
 
 .openerp .oe_form .oe_form_field_text,
@@ -770,6 +770,11 @@ Form View: Widgets
 
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
+    width: auto !important;
+}
+.openerp .oe_form_field_many2one > div {
+    min-width: 190px !important;
+    max-width: 190px !important;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {

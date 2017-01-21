@@ -52,8 +52,24 @@ class BudgetStruct(models.Model):
     _name = "budget.struct"
     _description = "Budgetary Struct"
 
+    @api.multi
+    @api.depends('name','parent_id')
+    def _get_full_name(self, name=None, args=None):
+        for elmt in self:
+            elmt.complete_name = self._get_one_full_name(elmt)
+
+    def _get_one_full_name(self, elmt, level=6):
+        if level <= 0:
+            return '...'
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id, level - 1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
+
     code = fields.Char(string='Code', size=64)
     name = fields.Char(string='Name', required=True)
+    complete_name = fields.Char("Full Name", compute=_get_full_name)
     parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
@@ -440,7 +456,7 @@ class BudgetBudgetLines(models.Model):
     name = fields.Char('Reference')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True)
-    main_budget_id = fields.Many2one('budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
+    main_budget_id = fields.Many2one('budget.main', related='budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
 
     main_budget_type = fields.Selection(related='budget_budget_id.budget_id.type', string="Main Budget Type",
                                         readonly=True, store=True)
@@ -501,17 +517,41 @@ class BudgetBudgetLines(models.Model):
 class BudgetPeriod(models.Model):
     _name = "budget.period"
 
+    company_id = fields.Many2one('res.company', string="Company", default=lambda s: s.env['res.users'].browse(s._uid).company_id)
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=64)
-    start_date = fields.Date(string='Start of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
-    end_date = fields.Date(string='End of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
+    start_date = fields.Date(string='Start of period', required=True, default=fields.Date.today)
+    end_date = fields.Date(string='End of period', required=True, default=fields.Date.today)
     state = fields.Selection(
         [('open', 'Open'),
          ('close', 'Close')],
         string='Status', default='open')
 
-    # def _default_start_date(self):
-    #     return lambda *a: datetime.strftime('%Y-01-01')
-    #
-    # def _default_end_date(self):
-    #     return lambda *a: datetime.strftime('%Y-%m-%d')
+    @api.one
+    def action_open(self):
+        self.state = 'open'
+
+    @api.one
+    def action_close(self):
+        self.state = 'close'
+
+    @api.returns('self')
+    @api.model
+    def find(self, dt=None):
+        if not dt:
+            dt = fields.Date.today()
+        args = [('start_date', '<=', dt), ('end_date', '>=', dt)]
+        if self._context.get('company_id', False):
+            args.append(('company_id', '=', self._context['company_id']))
+        else:
+            company_id = self.env['res.users'].browse(self._uid).company_id.id
+            args.append(('company_id', '=', company_id))
+        result = []
+        if not result:
+            result = self.search(args)
+        # if not result:
+        #     model, action_id = self.pool['ir.model.data'].get_object_reference(cr, uid, 'account',
+        #                                                                        'action_account_period')
+        #     msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
+        #     raise openerp.exceptions.RedirectWarning(msg, action_id, _('Go to the configuration panel'))
+        return result

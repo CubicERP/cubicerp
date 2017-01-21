@@ -50,7 +50,8 @@ Dashboard / Reports for archives will include:
         "purchase_requisition",
         ],
     "data":[
-        #"budget_view.xml",
+        "view/budget_view.xml",
+        "data/budget_data.xml",
 	    ],
     "demo_xml": [],
     "active": False,

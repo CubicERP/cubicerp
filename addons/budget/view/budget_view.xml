@@ -14,9 +14,9 @@
             <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <tree string="Budgetary Struct" colors="blue:type=='view'">
+                    <field name="complete_name"/>
                     <field name="code"/>
-                    <field name="name"/>
-                    <field name="parent_id"/>
+                    <field name="type"/>
                 </tree>
             </field>
         </record>
@@ -26,14 +26,23 @@
             <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <form string="Budgetary Struct">
-                    <group col="4">
-                        <field name="name"/>
-                        <field name="code"/>
-                        <field name="type"/>
-                        <field name="parent_id"/>
-                    </group>
-                    <separator string="Budgetary Lines"/>
-                    <field name="line_ids"/>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -515,15 +524,19 @@
             <field name="model">budget.period</field>
             <field name="arch" type="xml">
                 <form string="Budget Period">
+                    <header>
+                        <button name="action_open" states="done" string="Draft"/>
+                        <button name="action_close" states="draft" string="Post" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet string="Budget Period">
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="start_date"/>
-                                <field name="state"/>
+                                <field name="code"/>
                             </group>
                             <group>
-                                <field name="code"/>
+                                <field name="start_date"/>
                                 <field name="end_date"/>
                             </group>
                         </group>

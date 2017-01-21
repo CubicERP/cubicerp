@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from openerp.osv import fields, osv
+from openerp.osv import fields, osv, expression
 import openerp.addons.decimal_precision as dp
 from openerp.tools import float_compare
 from openerp.tools.translate import _
@@ -361,15 +361,18 @@ class account_asset_asset(osv.osv):
     def _check_recursion(self, cr, uid, ids, context=None, parent=None):
         return super(account_asset_asset, self)._check_recursion(cr, uid, ids, context=context, parent=parent)
 
-    def _check_prorata(self, cr, uid, ids, context=None):
+    def _check_code(self, cr, uid, ids, context=None):
         for asset in self.browse(cr, uid, ids, context=context):
-            if asset.prorata and asset.method_time != 'number':
-                return False
+            if asset.code:
+                if self.search(cr, uid, [('code','=',asset.code),
+                                         ('state','<>','close'),
+                                         ('id','<>',asset.id)], context=context):
+                    return False
         return True
 
     _constraints = [
         (_check_recursion, 'Error ! You cannot create recursive assets.', ['parent_id']),
-        #(_check_prorata, 'Prorata temporis can be applied only for time method "number of depreciations".', ['prorata']),
+        (_check_code, 'The code must be unique for assets in draft or open state.', ['code']),
     ]
 
     def name_get(self, cr, uid, ids, context=None):
@@ -385,6 +388,43 @@ class account_asset_asset(osv.osv):
                 name = record['code'] + ' ' + name
             res.append((record['id'], name))
         return res
+
+    def name_search(self, cr, uid, name, args=None, operator='ilike', limit=100, context=None):
+        if context is None:
+            context = {}
+        if not args:
+            args = []
+        args = args[:]
+
+        if name:
+            if operator not in expression.NEGATIVE_TERM_OPERATORS:
+                plus_percent = lambda n: n + '%'
+                code_op, code_conv = {
+                    'ilike': ('=ilike', plus_percent),
+                    'like': ('=like', plus_percent),
+                }.get(operator, (operator, lambda n: n))
+
+                element = self.search(cr, uid, ['|', ('code', code_op, code_conv(name)),
+                                             ('name', operator, name)] + args, limit=limit, context=context)
+
+                if not element and len(name.split()) >= 2:
+                    # Separating code and name of account for searching
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search(cr, uid, [('code', operator, operand1), ('name', operator, operand2)] + args,
+                                                limit=limit, context=context)
+            else:
+                element = self.search(cr, uid,
+                    ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                    limit=limit, context=context)
+                # as negation want to restric, do if already have results
+                if element and len(name.split()) >= 2:
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search(cr, uid, [('code', operator, operand1), ('name', operator, operand2),
+                                                 ('id', 'in', budget_position)] + args, limit=limit, context=context)
+        else:
+            element = self.search(cr, uid, args, limit=limit, context=context)
+
+        return self.name_get(cr, uid, element, context=context)
 
     def onchange_category_id(self, cr, uid, ids, category_id, context=None):
         res = {'value':{}}

@@ -773,6 +773,7 @@ Form View: Widgets
     display: inline-block !important;
     width: auto !important;
 }
+
 .openerp .oe_form_field_many2one > div {
     min-width: 190px !important;
     max-width: 190px !important;

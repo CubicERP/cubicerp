@@ -222,6 +222,9 @@ class res_company(osv.osv):
             args = (args or []) + [('id', 'in', cmp_ids)]
         return super(res_company, self).name_search(cr, uid, name=name, args=args, operator=operator, context=context, limit=limit)
 
+    def company_default_get(self, cr, uid, object=False, field=False, context=None):
+        return self.pool.get('res.company').browse(cr, uid, self._company_default_get(cr, uid, object=object, field=field, context=context), context=context)
+
     def _company_default_get(self, cr, uid, object=False, field=False, context=None):
         """
         Check if the object for this company have a default value

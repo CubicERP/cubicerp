@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_budget_control" name="Budget Control" parent="budget.top_menu_budget" sequence="65"/>
+
+        <record id="view_budget_entry_tree" model="ir.ui.view">
+            <field name="name">budget.move.tree</field>
+            <field name="model">budget.move</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Entry">
+                    <field name="name"/>
+                    <field name="period_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_budget_entry_form">
+            <field name="name">budget.move.form</field>
+            <field name="model">budget.move</field>
+            <field name="arch" type="xml">
+                <form string="Budget Entry">
+                    <header>
+                        <button name="action_draft" states="done" string="Draft"/>
+                        <button name="action_done" states="draft" string="Post" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="ref"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="period_id"/>
+                                <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Transactions">
+                                <field name="line_ids">
+                                    <tree editable="botton">
+                                        <field name="name"/>
+                                        <field name="struct_id"/>
+                                        <field name="analytic_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="available" sum="Available"/>
+                                        <field name="committed" sum="Committed"/>
+                                        <field name="provision" sum="Provision"/>
+                                        <field name="paid" sum="Paid"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other">
+                                <group>
+                                    <group>
+                                        <field name="move_line_id"/>
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--record id="view_budget_struct_search" model="ir.ui.view">
+            <field name="name">budget.struct.search</field>
+            <field name="model">budget.struct</field>
+            <field name="arch" type="xml">
+                <search string="Budgetary Struct">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
+                           string="Position Type"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Financial Report" context="{'group_by':'financial_report_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record-->
+
+        <record id="action_budget_entry" model="ir.actions.act_window">
+            <field name="name">Budget Entry</field>
+            <field name="res_model">budget.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem parent="menu_budget_control" name="Control Entry"
+                  id="menu_budget_entry" action="action_budget_entry" sequence="10"/>
+
+    </data>
+</openerp>

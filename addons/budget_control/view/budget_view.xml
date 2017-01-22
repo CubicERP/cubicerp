@@ -41,6 +41,7 @@
                             <group>
                                 <field name="date"/>
                                 <field name="period_id"/>
+                                <field name="company_id" widget="selection" groups="base.group_multi_company"/>
                             </group>
                         </group>
                         <notebook>
@@ -93,7 +94,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem parent="menu_budget_control" name="Budget Entry"
+        <menuitem parent="menu_budget_control" name="Control Entry"
                   id="menu_budget_entry" action="action_budget_entry" sequence="10"/>
 
     </data>

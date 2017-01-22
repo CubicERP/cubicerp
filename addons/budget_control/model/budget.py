@@ -40,6 +40,9 @@ class BudgetMove(models.Model):
                                 states={'draft': [('readonly', False)]}, readonly=True)
     state = fields.Selection([('draft','Draft'),
                               ('done','Done')], string="State", readonly=True, default='draft')
+    company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
+                                 states={'draft': [('readonly', False)]},
+                                 default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
 
     @api.model
     def create(self, vals):
@@ -54,7 +57,10 @@ class BudgetMoveLine(models.Model):
     name = fields.Char("Name", required=True)
     move_id = fields.Many2one("budget.move", string="Move", required=True, ondelete="cascade")
     period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True, store=True)
-    struct_id = fields.Many2one('budget.struct', string="Struct", required=True)
+    company_id = fields.Many2one("res.company", related="move_id.company_id", string='Company', store=True,
+                                 readonly=True)
+    struct_id = fields.Many2one('budget.struct', string="Struct", required=True,
+                                domain=[('type','=','normal')])
     analytic_id = fields.Many2one('account.analytic.account', string="Analytic Account")
     partner_id = fields.Many2one('res.partner', string="Partner")
     available = fields.Float("Available")

@@ -67,9 +67,9 @@ class BudgetStruct(models.Model):
             parent_path = ''
         return parent_path + elmt.name
 
-    code = fields.Char(string='Code', size=64)
+    code = fields.Char(string='Code', size=64, required=True)
     name = fields.Char(string='Name', required=True)
-    complete_name = fields.Char("Full Name", compute=_get_full_name)
+    complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
     parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
@@ -138,10 +138,7 @@ class BudgetPosition(models.Model):
     name = fields.Char(string='Name', required=True)
     account_ids = fields.Many2many('account.account', 'account_budget_rel', 'budget_id', 'account_id', 'Accounts')
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_position_id', 'Budget Lines')
-    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self._default_company_id)
-
-    def _default_company_id(self):
-        return lambda self: self.pool.get('res.company')._company_default_get('budget.position')
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
 
     _order = "code,name"
 
@@ -230,15 +227,12 @@ class BudgetBudget(models.Model):
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_budget_id',
                                               string='Budget Lines',
                                               states={'draft': [('readonly', False)]}, readonly=True, copy=True)
-    company_id = fields.Many2one('res.company', string='Company', required=True,
+    company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]},
-                                 readonly=True, default=lambda self: self._default_company_id)
+                                 default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
     budget_id = fields.Many2one('budget.main', string='Main Budget', required=True, ondelete='restrict',
                                 states={'draft': [('readonly', False)]}, readonly=True)
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
-
-    def _default_company_id(self):
-        return self.env['res.company']._company_default_get('budget.position')
 
     @api.multi
     def line_update_date(self):
@@ -479,9 +473,8 @@ class BudgetBudgetLines(models.Model):
     available_amount = fields.Float(compute="_avail", string='Pending Amount',
                                     digits_compute=dp.get_precision('Account'))
     percentage = fields.Float(compute="_perc", string='Percentage')
-    company_id = fields.Many2one(related="budget_budget_id.company_id", string='Company', store=True,
+    company_id = fields.Many2one("res.company", related="budget_budget_id.company_id", string='Company', store=True,
                                  readonly=True)
-
     position_restrict = fields.Boolean(string="Position Restricted")
     coefficient = fields.Float(string="Coefficient", required=True, digits=(16, 8), default=1.0)
     state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
@@ -517,7 +510,8 @@ class BudgetBudgetLines(models.Model):
 class BudgetPeriod(models.Model):
     _name = "budget.period"
 
-    company_id = fields.Many2one('res.company', string="Company", default=lambda s: s.env['res.users'].browse(s._uid).company_id)
+    company_id = fields.Many2one('res.company', 'Company', required=True,
+                                 default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=64)
     start_date = fields.Date(string='Start of period', required=True, default=fields.Date.today)

@@ -27,18 +27,17 @@
             <field name="arch" type="xml">
                 <form string="Budgetary Struct">
                     <sheet>
-                        <div class="oe_title">
-                            <label for="name" class="oe_edit_only"/>
-                            <h1>
-                                <field name="name" class="oe_inline"/>
-                            </h1>
-                        </div>
+
+                        <label for="code" class="oe_edit_only" string="Account Code and Name"/>
+                        <h1>
+                            <field name="code" class="oe_inline" placeholder="Struct Code" style="width: 4em"/> -
+                            <field name="name" class="oe_inline" placeholder="Struct Name"/>
+                        </h1>
                         <group>
                             <group>
                                 <field name="parent_id"/>
                             </group>
                             <group>
-                                <field name="code"/>
                                 <field name="type"/>
                             </group>
                         </group>
@@ -379,7 +378,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="act_crossovered_budget_view">
-            <field name="name">Budgets</field>
+            <field name="name">Budget</field>
             <field name="res_model">budget.budget</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -519,14 +518,27 @@
         </record>
 
         <!--BUDGET PERIOD-->
+        <record model="ir.ui.view" id="budget_period_view_tree">
+            <field name="name">budget.period.view.tree</field>
+            <field name="model">budget.period</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Periods" colors="blue:state=='open'">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
         <record model="ir.ui.view" id="budget_period_view_form">
             <field name="name">budget.period.view.form</field>
             <field name="model">budget.period</field>
             <field name="arch" type="xml">
                 <form string="Budget Period">
                     <header>
-                        <button name="action_open" states="done" string="Draft"/>
-                        <button name="action_close" states="draft" string="Post" class="oe_highlight"/>
+                        <button name="action_open" states="close" type="object" string="Open"/>
+                        <button name="action_close" states="open" type="object" string="Close" class="oe_highlight"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet string="Budget Period">
@@ -538,6 +550,7 @@
                             <group>
                                 <field name="start_date"/>
                                 <field name="end_date"/>
+                                <field name="company_id" widget="selection" groups="base.group_multi_company"/>
                             </group>
                         </group>
 
@@ -554,9 +567,6 @@
             <field name="view_id" ref="view_budget_budget_lines_tree"/>
         </record>
 
-        <!--<menuitem name="Budget Lines" parent="next_id_31"-->
-                  <!--id="menu_act_crossovered_budget_lines_view"-->
-                  <!--action="act_crossovered_budget_lines_view" sequence="30"/>-->
 
     </data>
 </openerp>

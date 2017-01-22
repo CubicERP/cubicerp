@@ -5,6 +5,8 @@ var _t = instance.web._t,
    _lt = instance.web._lt;
 var QWeb = instance.web.qweb;
 
+var KEY_FIX_WIDTH_TO_PARENT = 'fix_width_to_parent';
+
 /** @namespace */
 instance.web.form = {};
 
@@ -1381,7 +1383,9 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
             field_modifiers = JSON.parse($field.attr('modifiers') || '{}');
 
         if ($field.attr('nolabel') === '1')
+            //$field.attr('colspan', KEY_FIX_WIDTH_TO_PARENT);
             return;
+
         $field.attr('nolabel', '1');
         var found = false;
         this.$form.find('label[for="' + name + '"]').each(function(i ,el) {
@@ -1392,6 +1396,7 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
             });
         });
         if (found)
+            //$field.attr('colspan', KEY_FIX_WIDTH_TO_PARENT);
             return;
 
         var $label = $('<label/>').attr({
@@ -1402,6 +1407,7 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
             "class": $field.attr('class'),
         });
         $label.insertBefore($field);
+
         if (field_colspan > 1) {
             $field.attr('colspan', field_colspan - 1);
         }
@@ -1418,122 +1424,88 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
         this.fields_to_init.push($field);
         return $field;
     },
-    process_group: function($group) {
+    process_group: function ($group) {
         var self = this;
-        $group.children('field').each(function() {
+        $group.children('field').each(function () {
             self.preprocess_field($(this));
         });
-        var $new_group = this.render_element('FormRenderingGroup', $group.getAttributes());
-        var $table;
-        if ($new_group.first().is('table.oe_form_group')) {
-            $table = $new_group;
-        } else if ($new_group.filter('table.oe_form_group').length) {
-            $table = $new_group.filter('table.oe_form_group').first();
-        } else {
-            $table = $new_group.find('table.oe_form_group').first();
-        }
 
-        var $tr, $td,
-            cols = parseInt($group.attr('col') || 2, 10),
-            row_cols = cols;
+        var $container = self.create_group_container($group);
+        var container_cols = parseInt($container.attr('col'), 10);
+        var container_section_width = (100 / container_cols);
 
+        var row_breacker = 0; // to know when create new row
+        var $row, $col;
         var children = [];
-        $group.children().each(function(a,b,c) {
+        $group.children().each(function (a, b, c) {
             var $child = $(this);
-            var colspan = parseInt($child.attr('colspan') || 1, 10);
-            var tagName = $child[0].tagName.toLowerCase();
-            var $td = $('<td/>').addClass('oe_form_group_cell').attr('colspan', colspan);
-            var newline = tagName === 'newline';
 
-            // Note FME: those classes are used in layout debug mode
-            if ($tr && row_cols > 0 && (newline || row_cols < colspan)) {
-                $tr.addClass('oe_form_group_row_incomplete');
-                if (newline) {
-                    $tr.addClass('oe_form_group_row_newline');
-                }
-            }
-            if (newline) {
-                $tr = null;
+            var child_colspan = $child.attr('colspan');
+            if (child_colspan == KEY_FIX_WIDTH_TO_PARENT)
+                child_colspan = container_cols;
+            else
+                child_colspan = parseInt(child_colspan || 1, 10);
+            child_colspan = (child_colspan <= container_cols) ? child_colspan : container_cols;
+
+            var tagName = $child[0].tagName.toLowerCase();
+
+            if (tagName === 'newline') {
+                $('<div/>').attr({"class": "oe_form_group_row_newline"}).appendTo($container);
+                $row = null;
                 return;
             }
-            if (!$tr || row_cols < colspan) {
-                $tr = $('<tr/>').addClass('oe_form_group_row').appendTo($table);
-                row_cols = cols;
-            } else if (tagName==='group') {
-                // When <group> <group/><group/> </group>, we need a spacing between the two groups
-                $td.addClass('oe_group_right');
+
+            if (tagName === 'separator') {
+                // add this container in current their state
+                $group.before($container);
+                // create a new container
+                $container = self.create_group_container($group);
+                // add a row
+                $row = $('<div/>').attr({"class": "oe_form_group_row oe_form_group_row_separator"}).appendTo($container);
+                row_breacker = container_cols - 1;
             }
-            row_cols -= colspan;
+
+            if (!$row || row_breacker == container_cols) {
+                $row = $('<div/>').attr({"class": "oe_form_group_row"}).appendTo($container);
+                row_breacker = 0; // reset counter
+            }
+
+            $col = $('<div/>').attr({
+                "class": "oe_form_group_cell",
+                "colspan": child_colspan
+            });
+
+            row_breacker++;
+
+            if (tagName == 'group') {
+                $col.addClass('oe_form_group_cell_group');
+                $col.css({'width': (container_section_width * child_colspan) + "%"});
+            }
+
+            if ($child.attr('for'))
+                $col.addClass('oe_form_group_cell_label');
+
+            //$col.css({'width': (section_width * child_colspan) + "%"});
+
+            //if($child.attr('colspan') == KEY_FIX_WIDTH_TO_PARENT)
+            //    $col.css({'width': "100%"});
 
             // invisibility transfer
             var field_modifiers = JSON.parse($child.attr('modifiers') || '{}');
             var invisible = field_modifiers.invisible;
-            self.handle_common_properties($td, $("<dummy>").attr("modifiers", JSON.stringify({invisible: invisible})));
+            self.handle_common_properties($col, $("<dummy>").attr("modifiers", JSON.stringify({invisible: invisible})));
 
-            $tr.append($td.append($child));
+            $row.append($col.append($child));
             children.push($child[0]);
         });
-        if (row_cols && $td) {
-            $td.attr('colspan', parseInt($td.attr('colspan'), 10) + row_cols);
-        }
-        $group.before($new_group).remove();
+        $group.before($container).remove();
 
-        $table.find('> tbody > tr').each(function() {
-            var to_compute = [],
-                row_cols = cols,
-                total = 100;
-            $(this).children().each(function() {
-                var $td = $(this),
-                    $child = $td.children(':first');
-                if ($child.attr('cell-class')) {
-                    $td.addClass($child.attr('cell-class'));
-                }
-                switch ($child[0].tagName.toLowerCase()) {
-                    case 'separator':
-                        break;
-                    case 'label':
-                        if ($child.attr('for')) {
-                            $td.attr('width', '1%').addClass('oe_form_group_cell_label');
-                            row_cols-= $td.attr('colspan') || 1;
-                            total--;
-                        }
-                        break;
-                    default:
-                        var width = _.str.trim($child.attr('width') || ''),
-                            iwidth = parseInt(width, 10);
-                        if (iwidth) {
-                            if (width.substr(-1) === '%') {
-                                total -= iwidth;
-                                width = iwidth + '%';
-                            } else {
-                                // Absolute width
-                                $td.css('min-width', width + 'px');
-                            }
-                            $td.attr('width', width);
-                            $child.removeAttr('width');
-                            row_cols-= $td.attr('colspan') || 1;
-                        } else {
-                            to_compute.push($td);
-                        }
-
-                }
-            });
-            if (row_cols) {
-                var unit = Math.floor(total / row_cols);
-                if (!$(this).is('.oe_form_group_row_incomplete')) {
-                    _.each(to_compute, function($td, i) {
-                        var width = parseInt($td.attr('colspan'), 10) * unit;
-                        $td.attr('width', width + '%');
-                        total -= width;
-                    });
-                }
-            }
-        });
-        _.each(children, function(el) {
+        _.each(children, function (el) {
             self.process($(el));
         });
-        this.handle_common_properties($new_group, $group);
-        return $new_group;
+
+        this.handle_common_properties($container, $group);
+        return $container;
     },
     process_notebook: function($notebook) {
         var self = this;
@@ -1623,6 +1595,15 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
         $new_element.addClass($node.attr("class") || "");
         $new_element.attr('style', $node.attr('style'));
         return {invisibility_changer: ic,};
+    },
+
+    create_group_container: function ($group) {
+        var $container = this.render_element('FormRenderingGroup', $group.getAttributes());
+        var container_cols = parseInt($group.attr('col') || 2, 10);
+        var container_colspan = parseInt($group.attr('colspan') || 1, 10);
+        var section_width = (100 / container_cols);
+        $container.attr({'col': container_cols, 'colspan': container_colspan});
+        return $container;
     },
 });
 

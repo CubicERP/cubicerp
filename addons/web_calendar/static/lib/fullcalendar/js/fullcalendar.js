@@ -746,13 +746,10 @@ function Header(calendar, options) {
 		tm = options.theme ? 'ui' : 'fc';
 		var sections = options.header;
 		if (sections) {
-			element = $("<table class='fc-header' style='width:100%'/>")
-				.append(
-					$("<tr/>")
-						.append(renderSection('left'))
-						.append(renderSection('center'))
-						.append(renderSection('right'))
-				);
+			element = $("<div class='row fc-header'/>")
+				.append(renderSection('center'))
+				.append(renderSection('left'))
+				.append(renderSection('right'));
 			return element;
 		}
 	}
@@ -764,7 +761,11 @@ function Header(calendar, options) {
 	
 	
 	function renderSection(position) {
-		var e = $("<td class='fc-header-" + position + "'/>");
+		col = 'col-xs-12'
+		if(position != 'center')
+			col = 'col-xs-6'
+
+		var e = $("<div class='" + col + " col-sm-4 fc-header" + "'/>");
 		var buttonStr = options.header[position];
 		if (buttonStr) {
 			$.each(buttonStr.split(' '), function(i) {

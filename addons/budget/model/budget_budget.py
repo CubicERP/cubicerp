@@ -195,27 +195,34 @@ class BudgetPosition(models.Model):
         return budget_position.name_get()
 
 
-class BudgetMain(models.Model):
-    _name = "budget.main"
-    _decription = "Main Budget"
-    _inherit = ['mail.thread']
-
-    code = fields.Char(string='Code', size=16)
-    name = fields.Char(string='Name', required=True)
-    type = fields.Selection([('control', 'Control'),
-                             ('view', 'View')],
-                            'Type', required=True, default='control')
-    budget_ids = fields.One2many('budget.budget', 'budget_id', string="Budgets")
-
-    _order = "code,name"
-
-
 class BudgetBudget(models.Model):
     _name = "budget.budget"
     _description = "Budget"
+    
+    @api.multi
+    @api.depends('name','parent_id')
+    def _get_full_name(self, name=None, args=None):
+        for elmt in self:
+            elmt.complete_name = self._get_one_full_name(elmt)
+
+    def _get_one_full_name(self, elmt, level=6):
+        if level <= 0:
+            return '...'
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id, level - 1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
+
+    @api.model
+    def _get_period(self):
+        periods = self.env['budget.period'].find()
+        return periods and periods[0] or False
 
     name = fields.Char(string='Name', required=True, states={'draft': [('readonly', False)]}, readonly=True)
-    code = fields.Char(string='Code', size=16, states={'draft': [('readonly', False)]}, readonly=True)
+    code = fields.Char(string='Code', size=16, required=True, states={'draft': [('readonly', False)]}, readonly=True)
+    budget_period_id = fields.Many2one('budget.period', required=True, string='Budget Period', default=_get_period,
+                                       states={'draft': [('readonly', False)]}, readonly=True)
     creating_user_id = fields.Many2one('res.users', string='Responsible User', states={'draft': [('readonly', False)]},
                                        readonly=True, default=lambda self: self._uid)
     validating_user_id = fields.Many2one('res.users', 'Validate User', readonly=True)
@@ -230,9 +237,63 @@ class BudgetBudget(models.Model):
     company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]},
                                  default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
-    budget_id = fields.Many2one('budget.main', string='Main Budget', required=True, ondelete='restrict',
+    parent_id = fields.Many2one('budget.budget', string='Parent Budget', domain=[('type','=','view')],
                                 states={'draft': [('readonly', False)]}, readonly=True)
-    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
+    type = fields.Selection([('control', 'Control'),
+                             ('view', 'View')],
+                            'Type', required=True, default='control')
+    complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
+
+    _order = 'code,name'
+
+    @api.multi
+    def name_get(self):
+        if not self:
+            return []
+
+        reads = self.read(['name', 'code'])
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' ' + name
+            res.append((record['id'], name))
+        return res
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        args = args[:]
+
+        if name:
+            if operator not in expression.NEGATIVE_TERM_OPERATORS:
+                plus_percent = lambda n: n + '%'
+                code_op, code_conv = {
+                    'ilike': ('=ilike', plus_percent),
+                    'like': ('=like', plus_percent),
+                }.get(operator, (operator, lambda n: n))
+
+                element = self.search(['|', ('code', code_op, code_conv(name)),
+                                               ('name', operator, name)] + args, limit=limit)
+
+                if not element and len(name.split()) >= 2:
+                    # Separating code and name of account for searching
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
+                                                  limit=limit)
+            else:
+                element = self.search(
+                    ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                    limit=limit)
+                # as negation want to restric, do if already have results
+                if element and len(name.split()) >= 2:
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search([('code', operator, operand1), ('name', operator, operand2),
+                                                   ('id', 'in', element)] + args, limit=limit)
+        else:
+            element = self.search(args, limit=limit)
+        return element.name_get()
 
     @api.multi
     def line_update_date(self):
@@ -240,6 +301,12 @@ class BudgetBudget(models.Model):
             self.env['budget.budget.lines'].write([l.id for l in budget.budget_budget_line_ids],
                                                        {'date_from': budget.date_from, 'date_to': budget.date_to})
         return True
+
+    @api.one
+    @api.onchange('budget_period_id')
+    def onchange_period(self):
+        self.date_from = self.budget_period_id.start_date
+        self.date_to = self.budget_period_id.end_date
 
     @api.multi
     def budget_confirm(self):
@@ -434,27 +501,14 @@ class BudgetBudgetLines(models.Model):
                         ('state', 'in', ['draft', 'confirm', 'validate'])])
         return budget_line_ids
 
-    @api.multi
-    def _get_line_from_main_budget(self):
-        budget_line_ids = None
-        main_budget_obj = self.env['budget.main']
-        for main_budget in main_budget_obj.search([]):
-            for budget in main_budget.budget_ids:
-                budget_line_ids += budget.mapped('budget_budget_line_ids')
-        return budget_line_ids
-
     _name = "budget.budget.lines"
     _description = "Budget Line"
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
-                                            required=True)
-    main_budget_id = fields.Many2one('budget.main', related='budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
-
-    main_budget_type = fields.Selection(related='budget_budget_id.budget_id.type', string="Main Budget Type",
-                                        readonly=True, store=True)
-
+                                            required=True, domain=[('type','<>','view')])
+    parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
     budget_position_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
     struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct')

@@ -485,7 +485,10 @@
             <div class="row">
                 <div class="col-xs-12 buttons_container">
                     <div class="oe_view_manager_buttons"/>
-                    <div class="oe_view_manager_sidebar"/>
+                    <div style="display: flex;">
+                        <div class="oe_view_manager_sidebar"/>
+                        <select t-if="widget.session.debug" class="oe_debug_view"/>
+                    </div>
                     <div class="switcher_and_pager_container">
                         <div class="oe_view_manager_pager"/>
                         <ul class="oe_view_manager_switch oe_button_group list-inline">
@@ -602,56 +605,56 @@
 
 <t t-name="Sidebar">
     <div class="oe_sidebar">
-        <t t-foreach="widget.sections" t-as="section">
-            <div class="oe_form_dropdown_section">
-                <button class="oe_dropdown_toggle oe_dropdown_arrow" t-if="section.name != 'buttons'">
-                    <t t-if="section.name == 'files'" t-raw="widget.items[section.name].length || ''"/>
-                    <t t-esc="section.label"/>
-                    <i class="fa fa-caret-down"/>
-                </button>
-                <t t-if="section.name == 'buttons'" t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
-                    <button t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url"
-                        target="_blank" class="oe_sidebar_button oe_highlight">
-                        <t t-raw="item.label"/>
+            <t t-foreach="widget.sections" t-as="section">
+                <div class="oe_form_dropdown_section">
+                    <button class="oe_dropdown_toggle oe_dropdown_arrow" t-if="section.name != 'buttons'">
+                        <t t-if="section.name == 'files'" t-raw="widget.items[section.name].length || ''"/>
+                        <t t-esc="section.label"/>
+                        <i class="fa fa-caret-down"/>
                     </button>
-                </t>
-                <ul class="oe_dropdown_menu">
-                    <li t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
-                        <t t-if="section.name == 'files'">
-                            <t t-set="item.title">
-                                <b>Attachment : </b><br/>
-                                <t t-raw="item.name"/>
-                            </t>
-                            <t t-if="item.create_uid and item.create_uid[0]" t-set="item.title">
-                                <t t-raw="item.title"/><br/>
-                                <b>Created by : </b><br/>
-                                <t t-raw="item.create_uid[1] + ' ' + item.create_date"/>
-                            </t>
-                            <t t-if="item.create_uid and item.write_uid and item.create_uid[0] != item.write_uid[0]" t-set="item.title">
-                                <t t-raw="item.title"/><br/>
-                                <b>Modified by : </b><br/>
-                                <t t-raw="item.write_uid[1] + ' ' + item.write_date"/>
-                            </t>
-                        </t>
-                        <a class="oe_sidebar_action_a" t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url" target="_blank">
+                    <t t-if="section.name == 'buttons'" t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
+                        <button t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url"
+                            target="_blank" class="oe_sidebar_button oe_highlight">
                             <t t-raw="item.label"/>
-                        </a>
-                         <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_delete_item" t-att-data-id="item.id" title="Delete this attachment">x</a>
-                    </li>
-                    <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="oe_sidebar_add_attachment">
-                        <t t-call="HiddenInputFile">
-                            <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
-                            <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
-                            <input type="hidden" name="model" t-att-value="widget.dataset and widget.dataset.model"/>
-                            <input type="hidden" name="id" t-att-value="widget.model_id"/>
-                            <input type="hidden" name="session_id" t-att-value="widget.session.session_id" t-if="widget.session.override_session"/>
-                            <span>Add...</span>
-                        </t>
-                    </li>
-                </ul>
-            </div>
-        </t>
-    </div>
+                        </button>
+                    </t>
+                    <ul class="oe_dropdown_menu">
+                        <li t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
+                            <t t-if="section.name == 'files'">
+                                <t t-set="item.title">
+                                    <b>Attachment : </b><br/>
+                                    <t t-raw="item.name"/>
+                                </t>
+                                <t t-if="item.create_uid and item.create_uid[0]" t-set="item.title">
+                                    <t t-raw="item.title"/><br/>
+                                    <b>Created by : </b><br/>
+                                    <t t-raw="item.create_uid[1] + ' ' + item.create_date"/>
+                                </t>
+                                <t t-if="item.create_uid and item.write_uid and item.create_uid[0] != item.write_uid[0]" t-set="item.title">
+                                    <t t-raw="item.title"/><br/>
+                                    <b>Modified by : </b><br/>
+                                    <t t-raw="item.write_uid[1] + ' ' + item.write_date"/>
+                                </t>
+                            </t>
+                            <a class="oe_sidebar_action_a" t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url" target="_blank">
+                                <t t-raw="item.label"/>
+                            </a>
+                             <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_delete_item" t-att-data-id="item.id" title="Delete this attachment">x</a>
+                        </li>
+                        <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="oe_sidebar_add_attachment">
+                            <t t-call="HiddenInputFile">
+                                <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
+                                <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
+                                <input type="hidden" name="model" t-att-value="widget.dataset and widget.dataset.model"/>
+                                <input type="hidden" name="id" t-att-value="widget.model_id"/>
+                                <input type="hidden" name="session_id" t-att-value="widget.session.session_id" t-if="widget.session.override_session"/>
+                                <span>Add...</span>
+                            </t>
+                        </li>
+                    </ul>
+                </div>
+            </t>
+        </div>
 </t>
 
 <t t-name="TreeView">

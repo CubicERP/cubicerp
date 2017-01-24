@@ -99,11 +99,19 @@ Odoo Generics
 }
 
 .table > thead > tr > th {
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 .oe_module_desc {
     word-wrap: break-word !important;
+}
+
+.openerp .oe_debug_view {
+    padding: 0px !important;
+}
+
+.openerp .oe_debug_view:empty {
+    display: none !important;
 }
 
 /***********************************************************************************************************************

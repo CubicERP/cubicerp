@@ -21,6 +21,7 @@
 
 from datetime import date, datetime, timedelta
 
+# from doc._extensions.html_domain import strikethrough
 from openerp.exceptions import ValidationError
 
 from openerp.osv import expression, osv
@@ -93,13 +94,13 @@ class BudgetStruct(models.Model):
                 }.get(operator, (operator, lambda n: n))
 
                 budget_struct = self.search(['|', ('code', code_op, code_conv(name)),
-                                               ('name', operator, name)] + args, limit=limit)
+                                             ('name', operator, name)] + args, limit=limit)
 
                 if not budget_struct and len(name.split()) >= 2:
                     # Separating code and name of account for searching
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
-                                                  limit=limit)
+                                                limit=limit)
             else:
                 budget_struct = self.search(
                     ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
@@ -108,7 +109,7 @@ class BudgetStruct(models.Model):
                 if budget_struct and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                                   ('id', 'in', budget_struct)] + args, limit=limit)
+                                                 ('id', 'in', budget_struct)] + args, limit=limit)
         else:
             budget_struct = self.search(args, limit=limit)
         return budget_struct.name_get()
@@ -212,8 +213,8 @@ class BudgetBudget(models.Model):
         [('draft', 'Draft'), ('cancel', 'Cancelled'), ('confirm', 'Confirmed'), ('validate', 'Validated'),
          ('done', 'Done')], 'Status', select=True, required=True, readonly=True, copy=False, default='draft')
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_budget_id',
-                                              string='Budget Lines',
-                                              states={'draft': [('readonly', False)]}, readonly=True, copy=True)
+                                             string='Budget Lines',
+                                             states={'draft': [('readonly', False)]}, readonly=True, copy=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  states={'draft': [('readonly', False)]},
                                  readonly=True, default=lambda self: self._default_company_id)
@@ -228,7 +229,7 @@ class BudgetBudget(models.Model):
     def line_update_date(self):
         for budget in self:
             self.env['budget.budget.lines'].write([l.id for l in budget.budget_budget_line_ids],
-                                                       {'date_from': budget.date_from, 'date_to': budget.date_to})
+                                                  {'date_from': budget.date_from, 'date_to': budget.date_to})
         return True
 
     @api.multi
@@ -255,6 +256,71 @@ class BudgetBudget(models.Model):
     def budget_done(self):
         self.write({'state': 'done'})
         return True
+
+    @api.multi
+    def get_budget_line_ids(self):
+
+        class BrowsableObject(object):
+            def __init__(self, pool, cr, uid, budget_id, dict):
+                self.pool = pool
+                self.cr = cr
+                self.uid = uid
+                self.budget_id = budget_id
+                self.dict = dict
+
+            def __getattr__(self, attr):
+                return attr in self.dict and self.dict.__getitem__(attr) or 0.0
+
+        class BudgetLine(BrowsableObject):
+            """a class that will be used into the python code, mainly for usability purposes"""
+            def sum(self, struct_code, position_code=None, date_from=None, date_to=None):
+                # if date_to is None:
+                #     date_to = datetime.now().strftime('%Y-%m-%d')
+                result = 0.0
+                domain = [('budget_struct.code', '=', struct_code)]
+
+                if position_code:
+                    domain.append([('budget_position_id.code', '=', position_code)])
+                if date_from:
+                    domain.append([('date_to', '>=', date_from)])
+                if date_to:
+                    domain.append([('date_from', '<=', date_to)])
+
+                budget_lines = self.env['budget.budget.lines'].search(domain)
+
+                #TODO buscar los apuntes analiticos a partir de las cuentas analiticas de las lineas del presupuesto y sumar su analytic_amount
+                for line in budget_lines:
+                    if line.analytic_account_id and line.position_restrict:
+                        result = sum(self.env['account.analytic.line'].search([
+                            ('account_id', 'in', line.with_context(analytic_child_bottom=True).mapped('analytic_account_id.child_complete_ids').ids),
+                            ('budget_position_id', '=', line.budget_position_id.id),
+                            ('general_account_id', 'in', line.budget_position_id.mapped('account_ids')),
+                            ('to_date', '>=', line.date_from),
+                            ('to_date', '<=', line.date_to),
+                        ]).mapped('analytic_amount'))
+
+                    elif line.analytic_account_id:
+                        result = sum(self.env['account.analytic.line'].search([
+                            ('account_id', 'in', line.with_context(analytic_child_bottom=True).mapped(
+                                'analytic_account_id.child_complete_ids').ids),
+                            ('general_account_id', 'in', line.budget_position_id.mapped('account_ids')),
+                            ('to_date', '>=', line.date_from),
+                            ('to_date', '<=', line.date_to),
+                        ]).mapped('analytic_amount'))
+
+                return result or 0.0
+
+        budget_line_dict = {}
+        for budget_line in self.budget_budget_line_ids:
+            budget_line_dict[budget_line.budget_struct.code] = 0.0
+
+        budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, self.id, budget_line_dict)
+        sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
+
+        localdict = {'budget_lines': sorted_budget_line_ids, 'result': None}
+
+        for line in sorted_budget_line_ids:
+            line._compute_planned_amount_python_code(localdict)
 
 
 class BudgetBudgetLines(models.Model):
@@ -393,7 +459,7 @@ class BudgetBudgetLines(models.Model):
 
     @api.multi
     def _get_line_from_analytic(self):
-        #TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
+        # TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
         budget_line_ids = None
         analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['budget.budget.lines']
 
@@ -433,13 +499,19 @@ class BudgetBudgetLines(models.Model):
                 budget_line_ids += budget.mapped('budget_budget_line_ids')
         return budget_line_ids
 
+    @api.one
+    def _compute_indicators(self, localdict={}):
+        localdict.setdefault('budget_line', self)
+        if self.value_type == 'amount':
+            return self.amount_fix, float(eval(self.quantity, localdict)), 100.0
+
     _name = "budget.budget.lines"
     _description = "Budget Line"
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
-                                            required=True)
+                                       required=True)
     main_budget_id = fields.Many2one('budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
 
     main_budget_type = fields.Selection(related='budget_budget_id.budget_id.type', string="Main Budget Type",
@@ -469,6 +541,35 @@ class BudgetBudgetLines(models.Model):
     position_restrict = fields.Boolean(string="Position Restricted")
     coefficient = fields.Float(string="Coefficient", required=True, digits=(16, 8), default=1.0)
     state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
+
+    # INDICATORS
+    amount_python_code = fields.Text(string='Python Code')
+    practical_amount_python_code = fields.Float(string='Planned Amount', compute='_compute_planned_amount_python_code',
+                                              inverse='_inverse_planned_amount_python_code', store=True)
+
+    @api.one
+    @api.depends('value_type')
+    def _compute_planned_amount_python_code(self, localdict):
+        # TODO campo calculado y almacenable que cuando el tipo de valor (value_type) es code se calcula segun expresion
+        """
+        buscar el apunte contable
+        :return:
+        """
+        localdict['budget_line'] = self
+        if self.value_type not in ['code']:
+            try:
+                return self.practical_amount, float(eval(self.practical_amount, localdict))
+            except:
+                raise osv.except_osv(_('Error!'),
+                                     _('Wrong amount or quantity defined for the budget line %s (%s).') % (
+                                         self.name, self.budget_struct_id.code))
+        else:
+            try:
+                eval(self.amount_python_code, localdict, mode='exec', nocopy=True)
+                return float(localdict['result'])
+            except Exception, e:
+                raise osv.except_osv(_('Error!'), _('Wrong python code defined for salary rule %s (%s).') % (
+                    self.name, self.code) + "\n\n" + str(e))
 
     _order = 'sequence,name'
 

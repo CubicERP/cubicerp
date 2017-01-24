@@ -439,7 +439,9 @@
                             <field name="date_to"/>
                             <field name="paid_date"/>
                             <field name="value_type"/>
-                            <field name="planned_amount"/>
+                            <field name="planned_amount" invisible="1"/>
+                            <field name="amount_python_code" attrs="{'invisible':[('value_type','not in',['quantity'])]}"/>
+                            <field name="practical_amount_python_code" invisible="0"/>
                             <field name="practical_amount"/>
                             <field name="theoritical_amount"/>
                             <field name="percentage"/>

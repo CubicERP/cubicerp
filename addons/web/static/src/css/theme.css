@@ -106,6 +106,14 @@ Odoo Generics
     word-wrap: break-word !important;
 }
 
+.openerp .oe_debug_view {
+    padding: 0px !important;
+}
+
+.openerp .oe_debug_view:empty {
+    display: none !important;
+}
+
 /***********************************************************************************************************************
 Main Navbar
 ***********************************************************************************************************************/

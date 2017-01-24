@@ -21,16 +21,16 @@
 
 from datetime import date, datetime, timedelta
 
-# from doc._extensions.html_domain import strikethrough
 from openerp.exceptions import ValidationError
 
 from openerp.osv import expression, osv
 from openerp import models, fields, api, _
-from openerp.osv.fields import selection
 from openerp.tools import ustr, DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
+from openerp.tools.safe_eval import safe_eval as eval
 
 import openerp.addons.decimal_precision as dp
+
 
 
 # ---------------------------------------------------------
@@ -53,8 +53,24 @@ class BudgetStruct(models.Model):
     _name = "budget.struct"
     _description = "Budgetary Struct"
 
-    code = fields.Char(string='Code', size=64)
+    @api.multi
+    @api.depends('name','parent_id')
+    def _get_full_name(self, name=None, args=None):
+        for elmt in self:
+            elmt.complete_name = self._get_one_full_name(elmt)
+
+    def _get_one_full_name(self, elmt, level=6):
+        if level <= 0:
+            return '...'
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id, level - 1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
+
+    code = fields.Char(string='Code', size=64, required=True)
     name = fields.Char(string='Name', required=True)
+    complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
     parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
@@ -94,13 +110,13 @@ class BudgetStruct(models.Model):
                 }.get(operator, (operator, lambda n: n))
 
                 budget_struct = self.search(['|', ('code', code_op, code_conv(name)),
-                                             ('name', operator, name)] + args, limit=limit)
+                                               ('name', operator, name)] + args, limit=limit)
 
                 if not budget_struct and len(name.split()) >= 2:
                     # Separating code and name of account for searching
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
-                                                limit=limit)
+                                                  limit=limit)
             else:
                 budget_struct = self.search(
                     ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
@@ -109,7 +125,7 @@ class BudgetStruct(models.Model):
                 if budget_struct and len(name.split()) >= 2:
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
-                                                 ('id', 'in', budget_struct)] + args, limit=limit)
+                                                   ('id', 'in', budget_struct)] + args, limit=limit)
         else:
             budget_struct = self.search(args, limit=limit)
         return budget_struct.name_get()
@@ -123,10 +139,7 @@ class BudgetPosition(models.Model):
     name = fields.Char(string='Name', required=True)
     account_ids = fields.Many2many('account.account', 'account_budget_rel', 'budget_id', 'account_id', 'Accounts')
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_position_id', 'Budget Lines')
-    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self._default_company_id)
-
-    def _default_company_id(self):
-        return lambda self: self.pool.get('res.company')._company_default_get('budget.position')
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
 
     _order = "code,name"
 
@@ -183,27 +196,34 @@ class BudgetPosition(models.Model):
         return budget_position.name_get()
 
 
-class BudgetMain(models.Model):
-    _name = "budget.main"
-    _decription = "Main Budget"
-    _inherit = ['mail.thread']
-
-    code = fields.Char(string='Code', size=16)
-    name = fields.Char(string='Name', required=True)
-    type = fields.Selection([('control', 'Control'),
-                             ('view', 'View')],
-                            'Type', required=True, default='control')
-    budget_ids = fields.One2many('budget.budget', 'budget_id', string="Budgets")
-
-    _order = "code,name"
-
-
 class BudgetBudget(models.Model):
     _name = "budget.budget"
     _description = "Budget"
 
+    @api.multi
+    @api.depends('name','parent_id')
+    def _get_full_name(self, name=None, args=None):
+        for elmt in self:
+            elmt.complete_name = self._get_one_full_name(elmt)
+
+    def _get_one_full_name(self, elmt, level=6):
+        if level <= 0:
+            return '...'
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id, level - 1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
+
+    @api.model
+    def _get_period(self):
+        periods = self.env['budget.period'].find()
+        return periods and periods[0] or False
+
     name = fields.Char(string='Name', required=True, states={'draft': [('readonly', False)]}, readonly=True)
-    code = fields.Char(string='Code', size=16, states={'draft': [('readonly', False)]}, readonly=True)
+    code = fields.Char(string='Code', size=16, required=True, states={'draft': [('readonly', False)]}, readonly=True)
+    budget_period_id = fields.Many2one('budget.period', required=True, string='Budget Period', default=_get_period,
+                                       states={'draft': [('readonly', False)]}, readonly=True)
     creating_user_id = fields.Many2one('res.users', string='Responsible User', states={'draft': [('readonly', False)]},
                                        readonly=True, default=lambda self: self._uid)
     validating_user_id = fields.Many2one('res.users', 'Validate User', readonly=True)
@@ -213,24 +233,81 @@ class BudgetBudget(models.Model):
         [('draft', 'Draft'), ('cancel', 'Cancelled'), ('confirm', 'Confirmed'), ('validate', 'Validated'),
          ('done', 'Done')], 'Status', select=True, required=True, readonly=True, copy=False, default='draft')
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'budget_budget_id',
-                                             string='Budget Lines',
-                                             states={'draft': [('readonly', False)]}, readonly=True, copy=True)
-    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                              string='Budget Lines',
+                                              states={'draft': [('readonly', False)]}, readonly=True, copy=True)
+    company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]},
-                                 readonly=True, default=lambda self: self._default_company_id)
-    budget_id = fields.Many2one('budget.main', string='Main Budget', required=True, ondelete='restrict',
+                                 default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
+    parent_id = fields.Many2one('budget.budget', string='Parent Budget', domain=[('type','=','view')],
                                 states={'draft': [('readonly', False)]}, readonly=True)
-    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
+    type = fields.Selection([('control', 'Control'),
+                             ('view', 'View')],
+                            'Type', required=True, default='control')
+    complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
 
-    def _default_company_id(self):
-        return self.env['res.company']._company_default_get('budget.position')
+    _order = 'code,name'
+
+    @api.multi
+    def name_get(self):
+        if not self:
+            return []
+
+        reads = self.read(['name', 'code'])
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['code']:
+                name = record['code'] + ' ' + name
+            res.append((record['id'], name))
+        return res
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        args = args[:]
+
+        if name:
+            if operator not in expression.NEGATIVE_TERM_OPERATORS:
+                plus_percent = lambda n: n + '%'
+                code_op, code_conv = {
+                    'ilike': ('=ilike', plus_percent),
+                    'like': ('=like', plus_percent),
+                }.get(operator, (operator, lambda n: n))
+
+                element = self.search(['|', ('code', code_op, code_conv(name)),
+                                               ('name', operator, name)] + args, limit=limit)
+
+                if not element and len(name.split()) >= 2:
+                    # Separating code and name of account for searching
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search([('code', operator, operand1), ('name', operator, operand2)] + args,
+                                                  limit=limit)
+            else:
+                element = self.search(
+                    ['&', '!', ('code', '=like', name + "%"), ('name', operator, name)] + args,
+                    limit=limit)
+                # as negation want to restric, do if already have results
+                if element and len(name.split()) >= 2:
+                    operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
+                    element = self.search([('code', operator, operand1), ('name', operator, operand2),
+                                                   ('id', 'in', element)] + args, limit=limit)
+        else:
+            element = self.search(args, limit=limit)
+        return element.name_get()
 
     @api.multi
     def line_update_date(self):
         for budget in self:
             self.env['budget.budget.lines'].write([l.id for l in budget.budget_budget_line_ids],
-                                                  {'date_from': budget.date_from, 'date_to': budget.date_to})
+                                                       {'date_from': budget.date_from, 'date_to': budget.date_to})
         return True
+
+    @api.one
+    @api.onchange('budget_period_id')
+    def onchange_period(self):
+        self.date_from = self.budget_period_id.start_date
+        self.date_to = self.budget_period_id.end_date
 
     @api.multi
     def budget_confirm(self):
@@ -324,32 +401,31 @@ class BudgetBudget(models.Model):
 
 
 class BudgetBudgetLines(models.Model):
+
+    _name = "budget.budget.lines"
+    _description = "Budget Line"
+
     @api.multi
-    def _prac_amt(self):
+    @api.depends('struct_budget_id','budget_position_id','analytic_account_id') # Falta apuntar a los campos del account.move.line y account.analytic.line
+    def _practical_amount(self):
         cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
         res = {}
-        result = 0.0
-        if ctx is None:
-            ctx = {}
-        account_obj = self.env['account.account']
         analytic_obj = self.env['account.analytic.account']
         for line in self:
-            # acc_ids = [x.id for x in line.general_budget_id.account_ids]
-            acc_ids = line.budget_position_id.mapped('account_ids')
-            if not acc_ids:
-                raise osv.except_osv(_('Error!'),
-                                     _("The Budget '%s' has no accounts!") % ustr(line.budget_position_id.name))
-            acc_ids = acc_ids._get_children_and_consol()
+            acc_ids = []
+            if line.budget_position_id:
+                acc_ids = line.budget_position_id.mapped('account_ids')
+                if not acc_ids:
+                    raise osv.except_osv(_('Error!'),
+                                         _("The Budget Position '%s' has no accounts!") % ustr(line.budget_position_id.name))
+                acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
-            analytic_amount = line.value_type == 'quantity' and 'unit_amount' or 'amount'
-            move_amount = line.value_type == 'quantity' and 'quantity' or 'debit-credit'
             analytic_account_ids = []
             if line.analytic_account_id:
                 analytic_context = ctx.copy()
                 analytic_context['analytic_child_bottom'] = True
-                analytic_account_ids = analytic_obj.with_context(analytic_context).browse(
-                    [line.analytic_account_id.id])._child_compute(name=['child_complete_ids'], arg=None)
+                analytic_account_ids = analytic_obj.with_context(analytic_context).browse([line.analytic_account_id.id])._child_compute(name=['child_complete_ids'], arg=None)
 
                 for key, value in analytic_account_ids.items():
                     account_child = list(set([key]).union(value))
@@ -357,47 +433,54 @@ class BudgetBudgetLines(models.Model):
                 if account_child:
                     analytic_account_ids = list(set(account_child).union([line.analytic_account_id.id]))
 
-            if line.analytic_account_id.id and line.position_restrict:
+            if line.analytic_account_id.id and line.budget_position_id:
                 cr.execute(
-                    "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
-                                                      "WHERE aml.budget_post_id=%s AND aal.account_id in %s AND (aal.date "
+                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
                                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                       "aal.general_account_id=ANY(%s)",
-                    (line.budget_position_id.id, analytic_account_ids, date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            elif line.analytic_account_id.id:
+                    (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to, acc_ids,))
+                result = cr.fetchone()
+            elif line.analytic_account_id:
                 cr.execute(
-                    "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line WHERE account_id in %s AND (date "
-                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
-                                                      "general_account_id=ANY(%s)",
-                    (tuple(analytic_account_ids), date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            elif line.position_restrict:
+                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
+                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                    (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to,))
+                result = cr.fetchone()
+            elif line.budget_position_id:
                 cr.execute(
-                    "SELECT SUM(" + move_amount + ") FROM account_move_line "
-                                                  "WHERE budget_post_id=%s AND (date "
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                                                  "WHERE budget_struct_id=%s AND (date "
                                                   "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                   "account_id=ANY(%s)",
-                    (line.budget_position_id.id, date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
+                    (line.struct_budget_id.id, date_from, date_to, acc_ids,))
+                result = cr.fetchone()
             else:
                 cr.execute(
-                    "SELECT SUM(" + move_amount + ") FROM account_move_line "
-                                                  "WHERE (date "
-                                                  "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
-                                                  "account_id=ANY(%s)",
-                    (date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            if result is None:
-                result = 0.00
-            res[line.id] = result * line.coefficient
-        return res
-
-    @api.multi
-    def _prac(self):
-        res = {}
-        for line in self:
-            res[line.id] = self._prac_amt()[line.id]
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                                                  "WHERE budget_struct_id=%s AND (date "
+                                                  "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                    (line.struct_budget_id.id,date_from, date_to,))
+                result = cr.fetchone()
+            quantity = 0.0 if result[0] is None else result[0]
+            amount = 0.0 if result[1] is None else result[1]
+            if line.value_type == 'amount':
+                line.practical_amount = amount
+            elif line.value_type == 'quantity':
+                line.practical_amount = quantity
+            else: #python code
+                localdict = {}
+                localdict['quantity'] = quantity
+                localdict['amount'] = amount
+                localdict['line'] = None
+                localdict['lines'] = {}
+                try:
+                    eval(line.python_code, localdict, mode='exec', nocopy=True)
+                    line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
+                except Exception, e:
+                    raise osv.except_osv(_('Error!'), _('Wrong python condition defined for budget line %s (%s).') % (
+                    line.name, line.struct_budget_id.name) + "\n\n" + str(e))
         return res
 
     @api.multi
@@ -457,124 +540,78 @@ class BudgetBudgetLines(models.Model):
             res[line.id] = line.planned_amount - line.practical_amount
         return res
 
-    @api.multi
-    def _get_line_from_analytic(self):
-        # TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
-        budget_line_ids = None
-        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['budget.budget.lines']
+    # INDICATORS
+    amount_python_code = fields.Text(string='Python Code')
+    practical_amount_python_code = fields.Float(string='Planned Amount',
+                                                compute='_compute_planned_amount_python_code',
+                                                inverse='_inverse_planned_amount_python_code', store=True)
 
-        for analytic_line in analytic_line_obj.search([]):
-            for post in analytic_line.general_account_id.budget_post_ids:
-                budget_line_ids += budget_line_obj.search(
-                    [
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', analytic_line.account_id.id),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])
-                    ])
-        return budget_line_ids
-
-    @api.multi
-    def _get_line_from_move(self):
-        budget_line_ids = []
-        for move_line in self.env['account.move.line'].browse(self.ids):
-            for post in move_line.account_id.budget_post_ids:
-                if move_line.analytic_account_id:
-                    budget_line_ids += self.env['budget.budget.lines'].search([
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', move_line.analytic_account_id.ids),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])])
-                else:
-                    budget_line_ids += self.pool['budget.budget.lines'].search([
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', False),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])])
-        return budget_line_ids
-
-    @api.multi
-    def _get_line_from_main_budget(self):
-        budget_line_ids = None
-        main_budget_obj = self.env['budget.main']
-        for main_budget in main_budget_obj.search([]):
-            for budget in main_budget.budget_ids:
-                budget_line_ids += budget.mapped('budget_budget_line_ids')
-        return budget_line_ids
-
-    @api.one
-    def _compute_indicators(self, localdict={}):
-        localdict.setdefault('budget_line', self)
-        if self.value_type == 'amount':
-            return self.amount_fix, float(eval(self.quantity, localdict)), 100.0
-
-    _name = "budget.budget.lines"
-    _description = "Budget Line"
+    # @api.one
+    # @api.depends('value_type')
+    # def _compute_planned_amount_python_code(self, localdict):
+    #     # TODO campo calculado y almacenable que cuando el tipo de valor (value_type) es code se calcula segun expresion
+    #     """
+    #     buscar el apunte contable
+    #     :return:
+    #     """
+    #     localdict['budget_line'] = self
+    #     if self.value_type not in ['code']:
+    #         try:
+    #             return self.practical_amount, float(eval(self.practical_amount, localdict))
+    #         except:
+    #             raise osv.except_osv(_('Error!'),
+    #                                  _('Wrong amount or quantity defined for the budget line %s (%s).') % (
+    #                                      self.name, self.budget_struct_id.code))
+    #     else:
+    #         try:
+    #             eval(self.amount_python_code, localdict, mode='exec', nocopy=True)
+    #             return float(localdict['result'])
+    #         except Exception, e:
+    #             raise osv.except_osv(_('Error!'), _('Wrong python code defined for salary rule %s (%s).') % (
+    #                 self.name, self.code) + "\n\n" + str(e))
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
-                                       required=True)
-    main_budget_id = fields.Many2one('budget_budget_id.budget_id', string="Main Budget", readonly=True, store=True)
-
-    main_budget_type = fields.Selection(related='budget_budget_id.budget_id.type', string="Main Budget Type",
-                                        readonly=True, store=True)
-
+                                            required=True, domain=[('type','<>','view')])
+    parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
+    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
-    budget_position_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
-    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct')
+    budget_position_id = fields.Many2one('budget.position', 'Budgetary Position')
     value_type = fields.Selection([('amount', 'Amount'),
                                    ('quantity', 'Quantity'),
-                                   ('code', 'Python Code')], string="Value Type")
+                                   ('code', 'Python Code')], string="Value Type", default="amount", required=True)
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
     paid_date = fields.Date('Paid Date')
     planned_amount = fields.Float('Planned Amount', required=True, digits_compute=dp.get_precision('Account'))
-    practical_amount = fields.Float(compute="_prac", string='Practical Amount',
+    practical_amount = fields.Float(compute="_practical_amount", string='Practical Amount',
                                     digits_compute=dp.get_precision('Account'), store=True)
-
     theoritical_amount = fields.Float(compute="_theo", string='Theoretical Amount',
                                       digits_compute=dp.get_precision('Account'))
     available_amount = fields.Float(compute="_avail", string='Pending Amount',
                                     digits_compute=dp.get_precision('Account'))
     percentage = fields.Float(compute="_perc", string='Percentage')
-    company_id = fields.Many2one(related="budget_budget_id.company_id", string='Company', store=True,
+    company_id = fields.Many2one("res.company", related="budget_budget_id.company_id", string='Company', store=True,
                                  readonly=True)
+    python_code = fields.Text("Python Code", default='''# Available variables:
+#----------------------
+# amount: Debit - Credit
+# quantity: Quantity
+# line: budget.budget.line object (this line)
+# lines: object containing the lines reference (previously computed)
 
-    position_restrict = fields.Boolean(string="Position Restricted")
-    coefficient = fields.Float(string="Coefficient", required=True, digits=(16, 8), default=1.0)
+# Note: returned value have to be set in the variable 'result'
+
+result = amount''',
+    )
     state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
 
-    # INDICATORS
-    amount_python_code = fields.Text(string='Python Code')
-    practical_amount_python_code = fields.Float(string='Planned Amount', compute='_compute_planned_amount_python_code',
-                                              inverse='_inverse_planned_amount_python_code', store=True)
-
-    @api.one
-    @api.depends('value_type')
-    def _compute_planned_amount_python_code(self, localdict):
-        # TODO campo calculado y almacenable que cuando el tipo de valor (value_type) es code se calcula segun expresion
-        """
-        buscar el apunte contable
-        :return:
-        """
-        localdict['budget_line'] = self
-        if self.value_type not in ['code']:
-            try:
-                return self.practical_amount, float(eval(self.practical_amount, localdict))
-            except:
-                raise osv.except_osv(_('Error!'),
-                                     _('Wrong amount or quantity defined for the budget line %s (%s).') % (
-                                         self.name, self.budget_struct_id.code))
-        else:
-            try:
-                eval(self.amount_python_code, localdict, mode='exec', nocopy=True)
-                return float(localdict['result'])
-            except Exception, e:
-                raise osv.except_osv(_('Error!'), _('Wrong python code defined for salary rule %s (%s).') % (
-                    self.name, self.code) + "\n\n" + str(e))
 
     _order = 'sequence,name'
 
     @api.multi
-    @api.constrains('main_budget_type',
+    @api.constrains('struct_budget_id',
                     'analytic_account_id',
                     'budget_position_id',
                     'date_from',
@@ -585,34 +622,60 @@ class BudgetBudgetLines(models.Model):
                 self._cr.execute("SELECT id FROM budget_budget_line_ids "
                                  "WHERE analytic_account_id= %s"
                                  "  AND budget_position_id= %s"
-                                 "  AND main_budget_type='control' AND id <> %s"
+                                 "  AND struct_budget_id=%s AND id <> %s"
                                  "  AND ((date_from >= %s AND date_from <= %s)"
                                  "      OR (date_to >= %s AND date_to <= %s))",
                                  (line.analytic_account_id.id,
                                   line.budget_position_id.id,
+                                  line.struct_budget_id.id,
                                   line.id,
                                   line.date_from, line.date_to,
                                   line.date_from, line.date_to))
                 result = self._cr.fetchone()
                 if result:
                     raise ValidationError(_(
-                        "Overload of control budgets in lines for budgetary position  and analytic account with same dates."))
+                        "Overload of control budgets in lines for budgetary struct, position  and analytic account with same dates."))
 
 
 class BudgetPeriod(models.Model):
     _name = "budget.period"
 
+    company_id = fields.Many2one('res.company', 'Company', required=True,
+                                 default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', size=64)
-    start_date = fields.Date(string='Start of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
-    end_date = fields.Date(string='End of period', required=True, default=datetime.now().strftime('%Y-%m-%d'))
+    start_date = fields.Date(string='Start of period', required=True, default=fields.Date.today)
+    end_date = fields.Date(string='End of period', required=True, default=fields.Date.today)
     state = fields.Selection(
         [('open', 'Open'),
          ('close', 'Close')],
         string='Status', default='open')
 
-    # def _default_start_date(self):
-    #     return lambda *a: datetime.strftime('%Y-01-01')
-    #
-    # def _default_end_date(self):
-    #     return lambda *a: datetime.strftime('%Y-%m-%d')
+    @api.one
+    def action_open(self):
+        self.state = 'open'
+
+    @api.one
+    def action_close(self):
+        self.state = 'close'
+
+    @api.returns('self')
+    @api.model
+    def find(self, dt=None):
+        if not dt:
+            dt = fields.Date.today()
+        args = [('start_date', '<=', dt), ('end_date', '>=', dt)]
+        if self._context.get('company_id', False):
+            args.append(('company_id', '=', self._context['company_id']))
+        else:
+            company_id = self.env['res.users'].browse(self._uid).company_id.id
+            args.append(('company_id', '=', company_id))
+        result = []
+        if not result:
+            result = self.search(args)
+        # if not result:
+        #     model, action_id = self.pool['ir.model.data'].get_object_reference(cr, uid, 'account',
+        #                                                                        'action_account_period')
+        #     msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
+        #     raise openerp.exceptions.RedirectWarning(msg, action_id, _('Go to the configuration panel'))
+        return result

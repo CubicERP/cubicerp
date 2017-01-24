@@ -1,44 +1,64 @@
-# JetBranch Pycharm IDE directories
-.idea/
-
-# sphinx build directories
-_build/
+.settings/
+backup/
+log/
+junk/
 data/
+.oer.pid
+.openerp_serverrc
+.DS_Store
+.idea
 
-# dotfiles
-.*
-!.gitignore
-!.mailmap
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-# compiled python files
-*.py[co]
+# C extensions
+*.so
 
-# setup.py egg_info
-*.egg-info
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# emacs backup files
-*~
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# hg stuff
-*.orig
-status
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
 
-# odoo filestore
-openerp/filestore
+# Translations
+*.mo
 
-# maintenance migration scripts
-openerp/addons/base/maintenance
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
-# generated for windows installer?
-install/win32/*.bat
-install/win32/meta.py
+# Rope
+.ropeproject
 
-# various virtualenv
-/bin/
-/build/
-/dist/
-/include/
-/lib/
-/man/
-/share/
-/src/
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+

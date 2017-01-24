@@ -1192,11 +1192,16 @@ instance.web.WebClient = instance.web.Client.extend({
         if (client_options) {
             _.extend(this.client_options, client_options);
         }
+
         this._current_state = null;
         this.menu_dm = new instance.web.DropMisordered();
         this.action_mutex = new $.Mutex();
         this.set('title_part', {"zopenerp": "CubicERP"});
+
+        this.leftbar_close = true;
+        this.apply_effect_to_leftbar();
     },
+
     start: function() {
         var self = this;
         this.on("change:title_part", this, this._title_changed);
@@ -1474,6 +1479,50 @@ instance.web.WebClient = instance.web.Client.extend({
             return this._super.apply(this, arguments);
         }
     },
+
+    apply_effect_to_leftbar: function () {
+        /*
+         This method apply collapsible effect to leftbar
+         **/
+        var self = this;
+        var leftbar_content_w = $('.oe_leftbar_content').width();
+        $('.oe_leftbar').css({'left': -leftbar_content_w + 'px'});
+
+        function open_leftbar() {
+            if (self.leftbar_close)
+                toggle();
+        }
+
+        function toggle() {
+            if (self.leftbar_close) {
+                $('.oe_leftbar').animate({left: '0px'}, {duration: 1000});
+                $('.leftbar_opener .glyphicon').css({
+                    transition: 'all 1s linear',
+                    transform: 'rotate(180deg)'
+                });
+                instance.web.blockUI({message: ''});
+                $('.blockOverlay').css({cursor: 'pointer'}).click(function () {
+                    $('.leftbar_opener').trigger('click');
+                });
+            } else {
+                $('.oe_leftbar').animate({left: -leftbar_content_w + 'px'}, {duration: 1000});
+                $('.leftbar_opener .glyphicon').css({
+                    transition: 'all 1s linear',
+                    transform: 'rotate(0deg)'
+                });
+                instance.web.unblockUI();
+            }
+            self.leftbar_close = !self.leftbar_close;
+        }
+
+        $('.leftbar_opener').on('click', toggle);
+        $('#oe_main_menu_navbar > #navbar-content a').on('click', open_leftbar);
+        $(document).keydown(function (key) {
+            if (key.key == 'Escape') {
+                toggle();
+            }
+        });
+    }
 });
 
 instance.web.EmbeddedClient = instance.web.Client.extend({

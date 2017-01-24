@@ -1,19 +1,17 @@
 <template>
-  <t t-name="CalendarView"> 
-    <table cellspacing="0" cellpadding="0" border="0" width="100%" class="oe_calendar_table">
-        <tr>
-            <td width="100%">
-                <div class="oe_calendar_view">        
+  <t t-name="CalendarView">
+      <div class="row oe_calendar_table">
+            <div class="col-fill">
+                <div class="oe_calendar_view">
                   <div class="oe_calendar_widget" />
                   <div class="oe_calendar_buttons"/>
-                  <div class="oe_calendar_qc_placeholder"/>                    
-                </div>                
-            </td>
-            <td class='oe_calendar_sidebar_container'>
-                 
-            </td>            
-        </tr>
-    </table>
+                  <div class="oe_calendar_qc_placeholder"/>
+                </div>
+            </div>
+            <div class='col-auto-width oe_calendar_sidebar_container'>
+
+            </div>
+      </div>
   </t>
   
    <t t-name="CalendarView.sidebar">

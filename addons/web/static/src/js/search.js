@@ -799,14 +799,13 @@ instance.web.SearchViewDrawer = instance.web.Widget.extend({
         // build drawer
         var in_drawer = this.select_for_drawer();
 
-        var $first_col = this.$(".col-md-7"),
-            $snd_col = this.$(".col-md-5");
+        var $first_col = this.$(".section_1");
+        var $snd_col = this.$(".section_2");
 
-        var add_custom_filters = in_drawer[0].appendTo($first_col),
-            add_filters = in_drawer[1].appendTo($first_col),
-            add_rest = $.when.apply(null, _(in_drawer.slice(2)).invoke('appendTo', $snd_col)),
-            defaults_fetched = $.when.apply(null, _(this.inputs).invoke(
-                'facet_for_defaults', this.searchview.defaults));
+        var add_custom_filters = in_drawer[0].appendTo($first_col);
+        var add_filters = in_drawer[1].appendTo($first_col);
+        var add_rest = $.when.apply(null, _(in_drawer.slice(2)).invoke('appendTo', $snd_col));
+        var defaults_fetched = $.when.apply(null, _(this.inputs).invoke('facet_for_defaults', this.searchview.defaults));
 
         return $.when(defaults_fetched, add_custom_filters, add_filters, add_rest);
     },

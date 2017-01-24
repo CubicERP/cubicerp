@@ -8,9 +8,6 @@
         <menuitem id="menu_item_budget" name="Budget" parent="top_menu_budget" sequence="60"/>
         <menuitem id="menu_budget_report" name="Report" parent="top_menu_budget" sequence="70"/>
         <menuitem id="menu_budget_conf" name="Configuration" parent="top_menu_budget" sequence="80"/>
-        <!--Main Budget Menu-->
-        <menuitem parent="menu_item_budget" name="Main Budget"
-                  id="menu_act_budget_main" action="act_main_budget_view" sequence="10"/>
         <!--Budget Budget Menu-->
         <menuitem parent="menu_item_budget" id="menu_act_budget_budget_view" action="act_crossovered_budget_view"
                   sequence="20"/>

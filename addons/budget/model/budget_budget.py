@@ -341,7 +341,7 @@ class BudgetBudgetLines(models.Model):
     _description = "Budget Line"
 
     @api.multi
-    @api.depends('struct_budget_id','budget_position_id','analytic_account_id') # Falta apuntar a los campos del account.move.line y account.analytic.line
+    @api.depends('struct_budget_id','budget_position_id','analytic_account_id','python_code','value_type') # Falta apuntar a los campos del account.move.line y account.analytic.line
     def _practical_amount(self):
         cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
         res = {}
@@ -369,18 +369,29 @@ class BudgetBudgetLines(models.Model):
                     analytic_account_ids = list(set(account_child).union([line.analytic_account_id.id]))
 
             if line.analytic_account_id.id and line.budget_position_id:
+                # cr.execute(
+                #     "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                #                                       "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
+                #                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
+                #                                       "aal.general_account_id=ANY(%s)",
+                #     (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to, acc_ids,))
                 cr.execute(
-                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
-                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
-                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
-                                                      "aal.general_account_id=ANY(%s)",
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                    "WHERE budget_struct_id=%s AND analytic_account_id in %s AND (date "
+                    "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
+                    "account_id=ANY(%s)",
                     (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to, acc_ids,))
                 result = cr.fetchone()
             elif line.analytic_account_id:
+                # cr.execute(
+                #     "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                #                                       "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
+                #                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                #     (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to,))
                 cr.execute(
-                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
-                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
-                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                    "WHERE budget_struct_id=%s AND analytic_account_id in %s AND (date "
+                    "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
                     (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to,))
                 result = cr.fetchone()
             elif line.budget_position_id:
@@ -419,6 +430,7 @@ class BudgetBudgetLines(models.Model):
         return res
 
     @api.multi
+    @api.depends('planned_amount','date_from','date_to','paid_date')
     def _theo_amt(self):
         ctx = self._context
         if ctx is None:
@@ -427,7 +439,6 @@ class BudgetBudgetLines(models.Model):
         res = {}
         for line in self:
             today = datetime.now()
-
             if line.paid_date:
                 if strToDate(line.date_to) <= strToDate(line.paid_date):
                     theo_amt = 0.00
@@ -447,40 +458,29 @@ class BudgetBudgetLines(models.Model):
                 else:
                     theo_amt = line.planned_amount
 
-            res[line.id] = theo_amt
-        return res
-
-    @api.multi
-    def _theo(self):
-        res = {}
-        for line in self:
-            res[line.id] = self._theo_amt()[line.id]
-        return res
+            line.theoritical_amount = theo_amt
 
     @api.multi
     @api.depends('practical_amount', 'theoritical_amount')
     def _perc(self):
-        res = {}
         for line in self:
             if line.theoritical_amount <> 0.00:
-                res[line.id] = float((line.practical_amount or 0.0) / line.theoritical_amount) * 100
+                line.percentage = float((line.practical_amount or 0.0) / line.theoritical_amount) * 100
             else:
-                res[line.id] = 0.00
-        return res
+                line.percentage = 0.00
 
     @api.multi
+    @api.depends('planned_amount', 'practical_amount')
     def _avail(self):
-        res = {}
         for line in self:
-            res[line.id] = line.planned_amount - line.practical_amount
-        return res
+            line.available_amount = line.planned_amount - line.practical_amount
 
     sequence = fields.Integer('Sequence', default=5)
-    name = fields.Char('Reference')
+    name = fields.Char('Code')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True, domain=[('type','<>','view')])
     parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
-    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True)
+    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True, domain=[('type','<>','view')])
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
     budget_position_id = fields.Many2one('budget.position', 'Budgetary Position')
     value_type = fields.Selection([('amount', 'Amount'),
@@ -492,7 +492,7 @@ class BudgetBudgetLines(models.Model):
     planned_amount = fields.Float('Planned Amount', required=True, digits_compute=dp.get_precision('Account'))
     practical_amount = fields.Float(compute="_practical_amount", string='Practical Amount',
                                     digits_compute=dp.get_precision('Account'), store=True)
-    theoritical_amount = fields.Float(compute="_theo", string='Theoretical Amount',
+    theoritical_amount = fields.Float(compute="_theo_amt", string='Theoretical Amount',
                                       digits_compute=dp.get_precision('Account'))
     available_amount = fields.Float(compute="_avail", string='Pending Amount',
                                     digits_compute=dp.get_precision('Account'))
@@ -522,7 +522,7 @@ result = amount''',
                     'date_to')
     def _check_overload(self):
         for line in self:
-            if line.main_budget_type == 'control':
+            if line.parent_budget_id.type == 'control':
                 self._cr.execute("SELECT id FROM budget_budget_line_ids "
                                  "WHERE analytic_account_id= %s"
                                  "  AND budget_position_id= %s"

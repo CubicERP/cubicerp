@@ -199,7 +199,7 @@ class BudgetPosition(models.Model):
 class BudgetBudget(models.Model):
     _name = "budget.budget"
     _description = "Budget"
-    
+
     @api.multi
     @api.depends('name','parent_id')
     def _get_full_name(self, name=None, args=None):
@@ -346,8 +346,45 @@ class BudgetBudgetLines(models.Model):
         cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
         res = {}
         analytic_obj = self.env['account.analytic.account']
+
+        class BrowsableObject(object):
+            def __init__(self, pool, cr, uid, budget_id, dict):
+                self.pool = pool
+                self.cr = cr
+                self.uid = uid
+                self.budget_id = budget_id
+                self.dict = dict
+
+            def __getattr__(self, attr):
+                return attr in self.dict and self.dict.__getitem__(attr) or 0.0
+
+        class BudgetLine(BrowsableObject):
+            """a class that will be used into the python code, mainly for usability purposes"""
+            def get_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
+                # if date_to is None:
+                #     date_to = datetime.now().strftime('%Y-%m-%d')
+                budget_lines = None
+                domain = [('budget_struct.code', '=', struct_code)]
+
+                if position_code:
+                    domain.append([('budget_position_id.code', '=', position_code)])
+                if date_from:
+                    domain.append([('date_to', '>=', date_from)])
+                if date_to:
+                    domain.append([('date_from', '<=', date_to)])
+
+                budget_lines = self.env['budget.budget.lines'].search(domain)
+                return budget_lines
+
+        budget_line_dict = {}
+
         for line in self:
             acc_ids = []
+
+            budget_line_dict[line.struct_budget_id.code] = None
+            budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, line.budget_budget_id.id, budget_line_dict)
+            sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
+
             if line.budget_position_id:
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
@@ -420,7 +457,7 @@ class BudgetBudgetLines(models.Model):
                 localdict['quantity'] = quantity
                 localdict['amount'] = amount
                 localdict['line'] = None
-                localdict['lines'] = {}
+                localdict['lines'] = sorted_budget_line_ids
                 try:
                     eval(line.python_code, localdict, mode='exec', nocopy=True)
                     line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
@@ -511,6 +548,7 @@ class BudgetBudgetLines(models.Model):
 result = amount''',
     )
     state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
+
 
     _order = 'sequence,name'
 

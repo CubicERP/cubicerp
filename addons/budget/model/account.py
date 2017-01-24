@@ -42,25 +42,19 @@ class AccountAnalyticAaccount(models.Model):
     budget_budget_line_ids = fields.One2many('budget.budget.lines', 'analytic_account_id', string='Budget Lines')
 
 
+class AccountPeriod(models.Model):
+    _inherit = 'account.period'
+
+    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
+
+
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
 
 
-class AccountMove(models.Model):
-    _inherit = 'account.move'
-
-    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
-
-
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
     budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
-
-
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
-
-    budget_period_id = fields.Many2one('budget.period', string='Force Budget Period')

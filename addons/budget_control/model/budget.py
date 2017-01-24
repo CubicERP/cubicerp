@@ -50,6 +50,17 @@ class BudgetMove(models.Model):
             vals['name'] = self.env['ir.sequence'].get('budget.control.move')
         return super(BudgetMove, self).create(vals)
 
+    @api.one
+    def action_draft(self):
+        self.state = 'draft'
+
+    @api.one
+    def action_done(self):
+        for line in self.line_ids:
+            if line.state <> 'valid':
+                exceptions.ValidationError(_("The lines must be in valid state. The line %s is invalid")%line.name)
+        self.state = 'done'
+
 class BudgetMoveLine(models.Model):
     _name = "budget.move.line"
     _description = "Budget Move Line"
@@ -67,3 +78,41 @@ class BudgetMoveLine(models.Model):
     committed = fields.Float("Committed")
     provision = fields.Float("Provision")
     paid = fields.Float("Paid")
+    state = fields.Selection([('draft','Draft'),
+                              ('valid','Valid')], string="State", readonly=True, default='valid')
+
+    @api.model
+    def create(self, vals):
+        if 'available' in vals or 'committed' in vals or 'provision' in vals or 'paid' in vals:
+            res = vals.get('available', 0.0) + vals.get('committed', 0.0) + vals.get('provision', 0.0) + vals.get('paid', 0.0)
+            valid_ids = []
+            for line in self.env['budget.move'].browse(vals['move_id']).line_ids:
+                res += line.available + line.committed + line.provision + line.paid
+                valid_ids += line.state == 'draft' and [line] or []
+            if res == 0.0:
+                vals['state'] = 'valid'
+                for line in valid_ids:
+                    line.state = 'valid'
+            else:
+                vals['state'] = 'draft'
+        return super(BudgetMoveLine, self).create(vals)
+
+    @api.one
+    def write(self, vals):
+        if 'available' in vals or 'committed' in vals or 'provision' in vals or 'paid' in vals:
+            res = vals.get('available', 0.0) + vals.get('committed', 0.0) + vals.get('provision', 0.0) + vals.get('paid', 0.0)
+            move_id = vals.get('move_id', self.move_id.id)
+            valid_ids = []
+            for line in self.env['budget.move'].browse(move_id).line_ids:
+                if line.id <> self.id:
+                    res += line.available + line.committed + line.provision + line.paid
+                    valid_ids += line.state=='draft' and [line] or []
+            if res == 0.0:
+                vals['state'] = 'valid'
+                for line in valid_ids:
+                    line.state = 'valid'
+            else:
+                vals['state'] = 'draft'
+        return super(BudgetMoveLine, self).write(vals)
+
+

@@ -334,8 +334,18 @@ class BudgetBudget(models.Model):
         self.write({'state': 'done'})
         return True
 
+
+class BudgetBudgetLines(models.Model):
+
+    _name = "budget.budget.lines"
+    _description = "Budget Line"
+
     @api.multi
-    def get_budget_line_ids(self):
+    @api.depends('struct_budget_id','budget_position_id','analytic_account_id') # Falta apuntar a los campos del account.move.line y account.analytic.line
+    def _practical_amount(self):
+        cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
+        res = {}
+        analytic_obj = self.env['account.analytic.account']
 
         class BrowsableObject(object):
             def __init__(self, pool, cr, uid, budget_id, dict):
@@ -350,10 +360,10 @@ class BudgetBudget(models.Model):
 
         class BudgetLine(BrowsableObject):
             """a class that will be used into the python code, mainly for usability purposes"""
-            def sum(self, struct_code, position_code=None, date_from=None, date_to=None):
+            def get_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
                 # if date_to is None:
                 #     date_to = datetime.now().strftime('%Y-%m-%d')
-                result = 0.0
+                budget_lines = None
                 domain = [('budget_struct.code', '=', struct_code)]
 
                 if position_code:
@@ -364,55 +374,17 @@ class BudgetBudget(models.Model):
                     domain.append([('date_from', '<=', date_to)])
 
                 budget_lines = self.env['budget.budget.lines'].search(domain)
-
-                #TODO buscar los apuntes analiticos a partir de las cuentas analiticas de las lineas del presupuesto y sumar su analytic_amount
-                for line in budget_lines:
-                    if line.analytic_account_id and line.position_restrict:
-                        result = sum(self.env['account.analytic.line'].search([
-                            ('account_id', 'in', line.with_context(analytic_child_bottom=True).mapped('analytic_account_id.child_complete_ids').ids),
-                            ('budget_position_id', '=', line.budget_position_id.id),
-                            ('general_account_id', 'in', line.budget_position_id.mapped('account_ids')),
-                            ('to_date', '>=', line.date_from),
-                            ('to_date', '<=', line.date_to),
-                        ]).mapped('analytic_amount'))
-
-                    elif line.analytic_account_id:
-                        result = sum(self.env['account.analytic.line'].search([
-                            ('account_id', 'in', line.with_context(analytic_child_bottom=True).mapped(
-                                'analytic_account_id.child_complete_ids').ids),
-                            ('general_account_id', 'in', line.budget_position_id.mapped('account_ids')),
-                            ('to_date', '>=', line.date_from),
-                            ('to_date', '<=', line.date_to),
-                        ]).mapped('analytic_amount'))
-
-                return result or 0.0
+                return budget_lines
 
         budget_line_dict = {}
-        for budget_line in self.budget_budget_line_ids:
-            budget_line_dict[budget_line.budget_struct.code] = 0.0
 
-        budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, self.id, budget_line_dict)
-        sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
-
-        localdict = {'budget_lines': sorted_budget_line_ids, 'result': None}
-
-        for line in sorted_budget_line_ids:
-            line._compute_planned_amount_python_code(localdict)
-
-
-class BudgetBudgetLines(models.Model):
-
-    _name = "budget.budget.lines"
-    _description = "Budget Line"
-
-    @api.multi
-    @api.depends('struct_budget_id','budget_position_id','analytic_account_id') # Falta apuntar a los campos del account.move.line y account.analytic.line
-    def _practical_amount(self):
-        cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
-        res = {}
-        analytic_obj = self.env['account.analytic.account']
         for line in self:
             acc_ids = []
+
+            budget_line_dict[line.struct_budget_id.code] = None
+            budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, line.budget_budget_id.id, budget_line_dict)
+            sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
+
             if line.budget_position_id:
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
@@ -474,7 +446,7 @@ class BudgetBudgetLines(models.Model):
                 localdict['quantity'] = quantity
                 localdict['amount'] = amount
                 localdict['line'] = None
-                localdict['lines'] = {}
+                localdict['lines'] = sorted_budget_line_ids
                 try:
                     eval(line.python_code, localdict, mode='exec', nocopy=True)
                     line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
@@ -539,36 +511,6 @@ class BudgetBudgetLines(models.Model):
         for line in self:
             res[line.id] = line.planned_amount - line.practical_amount
         return res
-
-    # INDICATORS
-    amount_python_code = fields.Text(string='Python Code')
-    practical_amount_python_code = fields.Float(string='Planned Amount',
-                                                compute='_compute_planned_amount_python_code',
-                                                inverse='_inverse_planned_amount_python_code', store=True)
-
-    # @api.one
-    # @api.depends('value_type')
-    # def _compute_planned_amount_python_code(self, localdict):
-    #     # TODO campo calculado y almacenable que cuando el tipo de valor (value_type) es code se calcula segun expresion
-    #     """
-    #     buscar el apunte contable
-    #     :return:
-    #     """
-    #     localdict['budget_line'] = self
-    #     if self.value_type not in ['code']:
-    #         try:
-    #             return self.practical_amount, float(eval(self.practical_amount, localdict))
-    #         except:
-    #             raise osv.except_osv(_('Error!'),
-    #                                  _('Wrong amount or quantity defined for the budget line %s (%s).') % (
-    #                                      self.name, self.budget_struct_id.code))
-    #     else:
-    #         try:
-    #             eval(self.amount_python_code, localdict, mode='exec', nocopy=True)
-    #             return float(localdict['result'])
-    #         except Exception, e:
-    #             raise osv.except_osv(_('Error!'), _('Wrong python code defined for salary rule %s (%s).') % (
-    #                 self.name, self.code) + "\n\n" + str(e))
 
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')

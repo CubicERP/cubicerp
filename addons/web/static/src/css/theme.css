@@ -381,11 +381,21 @@ View Manager Header: Search Form
 
 .openerp .oe_searchview_drawer_container {
     background: white;
-    box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4) !important
+    box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4) !important;
+    padding: 8px 15px;
 }
 
 .oe_popup_search > *:first-child {
     margin-top: 15px !important;
+}
+
+.oe_searchview_drawer .section_1,
+.oe_searchview_drawer .section_2 {
+    align-self: flex-start;
+}
+
+.oe_searchview_drawer .section_1 {
+    flex-grow: 1;
 }
 
 @media (min-width: 802px) {

@@ -99,7 +99,7 @@ Odoo Generics
 }
 
 .table > thead > tr > th {
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 .oe_module_desc {

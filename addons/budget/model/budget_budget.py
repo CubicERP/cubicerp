@@ -19,7 +19,11 @@
 #
 ##############################################################################
 
-from datetime import date, datetime, timedelta
+import time
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from dateutil import relativedelta
 
 from openerp.exceptions import ValidationError
 
@@ -348,11 +352,11 @@ class BudgetBudgetLines(models.Model):
         analytic_obj = self.env['account.analytic.account']
 
         class BrowsableObject(object):
-            def __init__(self, pool, cr, uid, budget_id, dict):
+            def __init__(self, pool, cr, uid, budget_line, dict):
                 self.pool = pool
                 self.cr = cr
                 self.uid = uid
-                self.budget_id = budget_id
+                self.budget_line = budget_line
                 self.dict = dict
 
             def __getattr__(self, attr):
@@ -360,30 +364,25 @@ class BudgetBudgetLines(models.Model):
 
         class BudgetLine(BrowsableObject):
             """a class that will be used into the python code, mainly for usability purposes"""
-            def get_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
-                # if date_to is None:
-                #     date_to = datetime.now().strftime('%Y-%m-%d')
-                budget_lines = None
-                domain = [('budget_struct.code', '=', struct_code)]
+            def get_bgt_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
+                domain = [('struct_budget_id.code', '=', struct_code)]
 
                 if position_code:
-                    domain.append([('budget_position_id.code', '=', position_code)])
+                    domain +=[('budget_position_id.code', '=', position_code)]
                 if date_from:
-                    domain.append([('date_to', '>=', date_from)])
+                    domain +=[('date_to', '>=', datetime.strptime(date_from, '%Y-%m-%d'))]
                 if date_to:
-                    domain.append([('date_from', '<=', date_to)])
+                    domain += [('date_from', '<=', datetime.strptime(date_to, '%Y-%m-%d'))]
 
-                budget_lines = self.env['budget.budget.lines'].search(domain)
-                return budget_lines
+                return self.env['budget.budget.lines'].search(domain)
 
         budget_line_dict = {}
 
-        for line in self:
+        for line in self.sorted(key=lambda bl: bl.sequence):
             acc_ids = []
 
             budget_line_dict[line.struct_budget_id.code] = None
-            budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, line.budget_budget_id.id, budget_line_dict)
-            sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
+            browsable_bgt_lines = BudgetLine(self.pool, self._cr, self._uid, line, budget_line_dict)
 
             if line.budget_position_id:
                 acc_ids = line.budget_position_id.mapped('account_ids')
@@ -456,8 +455,8 @@ class BudgetBudgetLines(models.Model):
                 localdict = {}
                 localdict['quantity'] = quantity
                 localdict['amount'] = amount
-                localdict['line'] = None
-                localdict['lines'] = sorted_budget_line_ids
+                localdict['line'] = line
+                localdict['lines'] = browsable_bgt_lines
                 try:
                     eval(line.python_code, localdict, mode='exec', nocopy=True)
                     line.practical_amount = 'result' in localdict and localdict['result'] or 0.0

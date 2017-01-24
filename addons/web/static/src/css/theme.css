@@ -389,6 +389,11 @@ View Manager Header: Search Form
     margin-top: 15px !important;
 }
 
+.openerp .oe_searchview_drawer h4,
+.openerp .oe_searchview_drawer h4 * {
+    padding-left: 0px !important;
+}
+
 .oe_searchview_drawer .section_1,
 .oe_searchview_drawer .section_2 {
     align-self: flex-start;

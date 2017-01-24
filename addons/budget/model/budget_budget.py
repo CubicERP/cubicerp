@@ -25,11 +25,12 @@ from openerp.exceptions import ValidationError
 
 from openerp.osv import expression, osv
 from openerp import models, fields, api, _
-from openerp.osv.fields import selection
 from openerp.tools import ustr, DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
+from openerp.tools.safe_eval import safe_eval as eval
 
 import openerp.addons.decimal_precision as dp
+
 
 
 # ---------------------------------------------------------
@@ -335,32 +336,31 @@ class BudgetBudget(models.Model):
 
 
 class BudgetBudgetLines(models.Model):
+
+    _name = "budget.budget.lines"
+    _description = "Budget Line"
+
     @api.multi
-    def _prac_amt(self):
+    @api.depends('struct_budget_id','budget_position_id','analytic_account_id') # Falta apuntar a los campos del account.move.line y account.analytic.line
+    def _practical_amount(self):
         cr, uid, ctx, account_child = self._cr, self._uid, self._context, None
         res = {}
-        result = 0.0
-        if ctx is None:
-            ctx = {}
-        account_obj = self.env['account.account']
         analytic_obj = self.env['account.analytic.account']
         for line in self:
-            # acc_ids = [x.id for x in line.general_budget_id.account_ids]
-            acc_ids = line.budget_position_id.mapped('account_ids')
-            if not acc_ids:
-                raise osv.except_osv(_('Error!'),
-                                     _("The Budget '%s' has no accounts!") % ustr(line.budget_position_id.name))
-            acc_ids = acc_ids._get_children_and_consol()
+            acc_ids = []
+            if line.budget_position_id:
+                acc_ids = line.budget_position_id.mapped('account_ids')
+                if not acc_ids:
+                    raise osv.except_osv(_('Error!'),
+                                         _("The Budget Position '%s' has no accounts!") % ustr(line.budget_position_id.name))
+                acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
-            analytic_amount = line.value_type == 'quantity' and 'unit_amount' or 'amount'
-            move_amount = line.value_type == 'quantity' and 'quantity' or 'debit-credit'
             analytic_account_ids = []
             if line.analytic_account_id:
                 analytic_context = ctx.copy()
                 analytic_context['analytic_child_bottom'] = True
-                analytic_account_ids = analytic_obj.with_context(analytic_context).browse(
-                    [line.analytic_account_id.id])._child_compute(name=['child_complete_ids'], arg=None)
+                analytic_account_ids = analytic_obj.with_context(analytic_context).browse([line.analytic_account_id.id])._child_compute(name=['child_complete_ids'], arg=None)
 
                 for key, value in analytic_account_ids.items():
                     account_child = list(set([key]).union(value))
@@ -368,47 +368,54 @@ class BudgetBudgetLines(models.Model):
                 if account_child:
                     analytic_account_ids = list(set(account_child).union([line.analytic_account_id.id]))
 
-            if line.analytic_account_id.id and line.position_restrict:
+            if line.analytic_account_id.id and line.budget_position_id:
                 cr.execute(
-                    "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
-                                                      "WHERE aml.budget_post_id=%s AND aal.account_id in %s AND (aal.date "
+                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
                                                       "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                       "aal.general_account_id=ANY(%s)",
-                    (line.budget_position_id.id, analytic_account_ids, date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            elif line.analytic_account_id.id:
+                    (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to, acc_ids,))
+                result = cr.fetchone()
+            elif line.analytic_account_id:
                 cr.execute(
-                    "SELECT SUM(" + analytic_amount + ") FROM account_analytic_line WHERE account_id in %s AND (date "
-                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
-                                                      "general_account_id=ANY(%s)",
-                    (tuple(analytic_account_ids), date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            elif line.position_restrict:
+                    "SELECT sum(unit_amount), sum(amount) FROM account_analytic_line aal join account_move_line aml on (aal.move_id=aml.id) "
+                                                      "WHERE aml.budget_struct_id=%s AND aal.account_id in %s AND (aal.date "
+                                                      "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                    (line.struct_budget_id.id, tuple(analytic_account_ids), date_from, date_to,))
+                result = cr.fetchone()
+            elif line.budget_position_id:
                 cr.execute(
-                    "SELECT SUM(" + move_amount + ") FROM account_move_line "
-                                                  "WHERE budget_post_id=%s AND (date "
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                                                  "WHERE budget_struct_id=%s AND (date "
                                                   "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
                                                   "account_id=ANY(%s)",
-                    (line.budget_position_id.id, date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
+                    (line.struct_budget_id.id, date_from, date_to, acc_ids,))
+                result = cr.fetchone()
             else:
                 cr.execute(
-                    "SELECT SUM(" + move_amount + ") FROM account_move_line "
-                                                  "WHERE (date "
-                                                  "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd')) AND "
-                                                  "account_id=ANY(%s)",
-                    (date_from, date_to, acc_ids,))
-                result = cr.fetchone()[0]
-            if result is None:
-                result = 0.00
-            res[line.id] = result * line.coefficient
-        return res
-
-    @api.multi
-    def _prac(self):
-        res = {}
-        for line in self:
-            res[line.id] = self._prac_amt()[line.id]
+                    "SELECT sum(quantity), sum(debit-credit) FROM account_move_line "
+                                                  "WHERE budget_struct_id=%s AND (date "
+                                                  "between to_date(%s,'yyyy-mm-dd') AND to_date(%s,'yyyy-mm-dd'))",
+                    (line.struct_budget_id.id,date_from, date_to,))
+                result = cr.fetchone()
+            quantity = 0.0 if result[0] is None else result[0]
+            amount = 0.0 if result[1] is None else result[1]
+            if line.value_type == 'amount':
+                line.practical_amount = amount
+            elif line.value_type == 'quantity':
+                line.practical_amount = quantity
+            else: #python code
+                localdict = {}
+                localdict['quantity'] = quantity
+                localdict['amount'] = amount
+                localdict['line'] = None
+                localdict['lines'] = {}
+                try:
+                    eval(line.python_code, localdict, mode='exec', nocopy=True)
+                    line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
+                except Exception, e:
+                    raise osv.except_osv(_('Error!'), _('Wrong python condition defined for budget line %s (%s).') % (
+                    line.name, line.struct_budget_id.name) + "\n\n" + str(e))
         return res
 
     @api.multi
@@ -468,60 +475,23 @@ class BudgetBudgetLines(models.Model):
             res[line.id] = line.planned_amount - line.practical_amount
         return res
 
-    @api.multi
-    def _get_line_from_analytic(self):
-        #TODO esta funcion no la llaman en ningun lugar, devuelvo los records o su lista de ids
-        budget_line_ids = None
-        analytic_line_obj, budget_line_obj = self.env['account.analytic.line'], self.env['budget.budget.lines']
-
-        for analytic_line in analytic_line_obj.search([]):
-            for post in analytic_line.general_account_id.budget_post_ids:
-                budget_line_ids += budget_line_obj.search(
-                    [
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', analytic_line.account_id.id),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])
-                    ])
-        return budget_line_ids
-
-    @api.multi
-    def _get_line_from_move(self):
-        budget_line_ids = []
-        for move_line in self.env['account.move.line'].browse(self.ids):
-            for post in move_line.account_id.budget_post_ids:
-                if move_line.analytic_account_id:
-                    budget_line_ids += self.env['budget.budget.lines'].search([
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', move_line.analytic_account_id.ids),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])])
-                else:
-                    budget_line_ids += self.pool['budget.budget.lines'].search([
-                        ('budget_position_id', '=', post.id),
-                        ('analytic_account_id', '=', False),
-                        ('state', 'in', ['draft', 'confirm', 'validate'])])
-        return budget_line_ids
-
-    _name = "budget.budget.lines"
-    _description = "Budget Line"
-
     sequence = fields.Integer('Sequence', default=5)
     name = fields.Char('Reference')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True, domain=[('type','<>','view')])
     parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
+    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
-    budget_position_id = fields.Many2one('budget.position', 'Budgetary Position', required=True)
-    struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct')
+    budget_position_id = fields.Many2one('budget.position', 'Budgetary Position')
     value_type = fields.Selection([('amount', 'Amount'),
                                    ('quantity', 'Quantity'),
-                                   ('code', 'Python Code')], string="Value Type")
+                                   ('code', 'Python Code')], string="Value Type", default="amount", required=True)
     date_from = fields.Date('Start Date', required=True)
     date_to = fields.Date('End Date', required=True)
     paid_date = fields.Date('Paid Date')
     planned_amount = fields.Float('Planned Amount', required=True, digits_compute=dp.get_precision('Account'))
-    practical_amount = fields.Float(compute="_prac", string='Practical Amount',
+    practical_amount = fields.Float(compute="_practical_amount", string='Practical Amount',
                                     digits_compute=dp.get_precision('Account'), store=True)
-
     theoritical_amount = fields.Float(compute="_theo", string='Theoretical Amount',
                                       digits_compute=dp.get_precision('Account'))
     available_amount = fields.Float(compute="_avail", string='Pending Amount',
@@ -529,14 +499,23 @@ class BudgetBudgetLines(models.Model):
     percentage = fields.Float(compute="_perc", string='Percentage')
     company_id = fields.Many2one("res.company", related="budget_budget_id.company_id", string='Company', store=True,
                                  readonly=True)
-    position_restrict = fields.Boolean(string="Position Restricted")
-    coefficient = fields.Float(string="Coefficient", required=True, digits=(16, 8), default=1.0)
+    python_code = fields.Text("Python Code", default='''# Available variables:
+#----------------------
+# amount: Debit - Credit
+# quantity: Quantity
+# line: budget.budget.line object (this line)
+# lines: object containing the lines reference (previously computed)
+
+# Note: returned value have to be set in the variable 'result'
+
+result = amount''',
+    )
     state = fields.Selection(related='budget_budget_id.state', string="State", readonly=True, store=True)
 
     _order = 'sequence,name'
 
     @api.multi
-    @api.constrains('main_budget_type',
+    @api.constrains('struct_budget_id',
                     'analytic_account_id',
                     'budget_position_id',
                     'date_from',
@@ -547,18 +526,19 @@ class BudgetBudgetLines(models.Model):
                 self._cr.execute("SELECT id FROM budget_budget_line_ids "
                                  "WHERE analytic_account_id= %s"
                                  "  AND budget_position_id= %s"
-                                 "  AND main_budget_type='control' AND id <> %s"
+                                 "  AND struct_budget_id=%s AND id <> %s"
                                  "  AND ((date_from >= %s AND date_from <= %s)"
                                  "      OR (date_to >= %s AND date_to <= %s))",
                                  (line.analytic_account_id.id,
                                   line.budget_position_id.id,
+                                  line.struct_budget_id.id,
                                   line.id,
                                   line.date_from, line.date_to,
                                   line.date_from, line.date_to))
                 result = self._cr.fetchone()
                 if result:
                     raise ValidationError(_(
-                        "Overload of control budgets in lines for budgetary position  and analytic account with same dates."))
+                        "Overload of control budgets in lines for budgetary struct, position  and analytic account with same dates."))
 
 
 class BudgetPeriod(models.Model):

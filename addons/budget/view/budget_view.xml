@@ -173,11 +173,11 @@
                         </group>
                         <notebook attrs="{'invisible':[('type','=','view')]}">
                             <page string="Budget Lines">
-                                <field name="budget_budget_line_ids" colspan="4" nolabel="1"
-                                       attrs="{'readonly':[('state','!=','draft')]}"
+                                <field name="budget_budget_line_ids"
                                        context="{'default_date_from':date_from,'default_date_to':date_to}">
                                     <tree string="Budget Lines">
                                         <field name="sequence" invisible="1"/>
+                                        <field name="struct_budget_id"/>
                                         <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
                                         <field name="budget_position_id"/>
                                         <field name="name"/>
@@ -191,15 +191,15 @@
                                     <form string="Budget Lines">
                                         <group>
                                             <group>
+                                                <field name="struct_budget_id"/>
                                                 <field name="analytic_account_id"
                                                        groups="analytic.group_analytic_accounting"/>
                                                 <field name="budget_position_id"/>
-                                                <field name="name"/>
                                                 <field name="planned_amount"/>
-                                                <field name="position_restrict"/>
-                                                <field name="coefficient"/>
+                                                <field name="value_type"/>
                                             </group>
                                             <group>
+                                                <field name="name"/>
                                                 <label for="date_from" string="Duration"/>
                                                 <div>
                                                     <field name="date_from" class="oe_inline"/>
@@ -212,6 +212,9 @@
                                                        groups="base.group_multi_company"/>
                                             </group>
                                         </group>
+                                        <separator string="Python Code" attrs="{'invisible':[('value_type','!=','code')]}"/>
+                                        <field name="python_code"
+                                               attrs="{'invisible':[('value_type','!=','code')],'required':[('value_type','=','code')]}"/>
                                     </form>
                                 </field>
                             </page>

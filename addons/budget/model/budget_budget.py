@@ -68,10 +68,29 @@ class BudgetStruct(models.Model):
             parent_path = ''
         return parent_path + elmt.name
 
+    def _complete_child_ids(self, struct):
+        res = []
+        childs = [c for c in struct.child_ids]
+        while childs:
+            c2 = childs
+            childs = []
+            for c in c2:
+                res += [c.id]
+                for c3 in c.child_ids:
+                    childs += [c3]
+        return res
+
+    @api.multi
+    def _full_child_ids(self):
+        for struct in self:
+            struct.full_child_ids = self._complete_child_ids(struct)
+
     code = fields.Char(string='Code', size=64, required=True)
     name = fields.Char(string='Name', required=True)
     complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
     parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
+    child_ids = fields.One2many('budget.struct', 'parent_id', string='Childs')
+    full_child_ids = fields.Many2many('budget.struct', string="Full Childs", compute=_full_child_ids)
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
     line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")

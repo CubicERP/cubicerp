@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -68,8 +68,7 @@ class BudgetMoveLine(models.Model):
     name = fields.Char("Name", required=True)
     move_id = fields.Many2one("budget.move", string="Move", required=True, ondelete="cascade")
     period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True, store=True)
-    company_id = fields.Many2one("res.company", related="move_id.company_id", string='Company', store=True,
-                                 readonly=True)
+    company_id = fields.Many2one("res.company", related="move_id.company_id", string='Company', store=True, readonly=True)
     struct_id = fields.Many2one('budget.struct', string="Struct", required=True,
                                 domain=[('type','=','normal')])
     analytic_id = fields.Many2one('account.analytic.account', string="Analytic Account")

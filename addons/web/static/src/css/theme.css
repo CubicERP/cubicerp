@@ -386,11 +386,14 @@ View Manager Header: Search Form
 .openerp .oe_searchview_drawer_container {
     background: white;
     box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4) !important;
-    padding: 8px 15px;
 }
 
 .oe_popup_search > *:first-child {
     margin-top: 15px !important;
+}
+
+.openerp .oe_searchview_drawer {
+    padding: 8px 15px;
 }
 
 .openerp .oe_searchview_drawer h4,

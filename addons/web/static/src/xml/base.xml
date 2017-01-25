@@ -373,22 +373,22 @@
         </li>
 </t>
 <t t-name="UserMenu.about">
-
     <div class="oe_about">
-
         <div class="container-fluid">
             <div class="row">
                 <a class="oe_activate_debug_mode oe_right label label-primary" href="?debug" >Activate the developer mode</a>
             </div>
             <div class="row">
-                <div class="col-sm-offset-2 col-md-offset-2 col-sm-8 col-md-8 user-details">
+                <div class="col-xs-12 user-details">
                     <div class="user-image">
-                        <img src="/web/static/src/img/logo2.png" alt="Cubic ERP (Based on Odoo and OpenERP)" title="Cubic ERP (Based on Odoo and OpenERP)" class="img-circle"/>
+                        <img src="/web/static/src/img/logo2.png"
+                             alt="Cubic ERP (Based on Odoo and OpenERP)"
+                             title="Cubic ERP (Based on Odoo and OpenERP)" class="img-circle"/>
                     </div>
                     <div class="user-info-block">
                         <div class="user-heading">
-                            <br/><span class="help-block">Cubic ERP is a business application software 100% open source, based on Odoo AGPL versión and OpenERP (Odoo and OpenERP are trademarks registered by their owners http://www.odoo.com)</span>
-                            <h3>Version <t t-esc="version_info.server_version"/></h3>
+                            <span class="help-block">Enterprise and Government Management Software</span>
+                            <h3 class="version">Version 9.0</h3>
                         </div>
 
                         <ul class="list-inline text-center navigation">
@@ -402,37 +402,50 @@
                                     <span class="glyphicon glyphicon-envelope"></span>
                                 </a>
                             </li>
-                            <li>
-                                <a data-toggle="tab" href="#events">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </a>
-                            </li>
                              <li>
-                                <a data-toggle="tab" href="#social">
-                                    <span class="glyphicon glyphicon-share"></span>
+                                <a data-toggle="tab" href="#collaborations">
+                                    <span class="glyphicon glyphicon-user"></span>
                                 </a>
                             </li>
                         </ul>
-                        <div class="user-body">
+                        <div class="user-body" style="border-top: 1px solid rgb(162,70,137);">
                             <div class="tab-content">
                                 <div id="settings" class="tab-pane active">
                                     <p>Licenced under the terms of <a target="_blank" href="http://www.gnu.org/licenses/agpl.html" style="text-decoration: underline;">GNU Affero General Public License</a></p>
                                     <p>For more information visit <a target="_blank" href="https://cubicerp.com" style="text-decoration: underline;">CubicERP.com</a></p>
                                 </div>
                                 <div id="email" class="tab-pane">
-                                    <h4>Cubic ERP S.A.C.</h4>
-                                    <!-- TODO - ALIAS contactus -->
+                                    <p><h4>Cubic ERP S.A.C.</h4></p>
                                     <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our website</a>
                                     <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our Forum</a>
-                                </div>
-                                <div id="events" class="tab-pane">
-                                    <h4>Discover Events of CubicERP around the world...</h4>
-                                    <a class='btn btn-link' href='https://www.cubicerp.com/event'> Our next Events</a>
-                                </div>
-                                <div id="social" class="tab-pane">
-                                    <h4>Follow Us...</h4>
+                                    <p><h4>Follow Us...</h4></p>
                                     <a href="https://www.facebook.com/cubic.erp"><i class="fa fa-facebook-square fa-3x social-fb"></i></a>
                                     <a href="https://twitter.com/CubicERP"><i class="fa fa-twitter-square fa-3x social-tw"></i></a>
+                                </div>
+                                <div id="collaborations" class="tab-pane">
+                                    <p><h4>Collaborations</h4></p>
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed">
+                                            <tr>
+                                                <td>Yury Oscar Tello</td>
+                                                <td><span class="badge">Project Leader</span></td>
+                                                <td>Anniel Rodriguez Izquierdo</td>
+                                                <td><span class="badge">developer</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pedro Antonio Valdez Guibert</td>
+                                                <td><span class="badge">developer</span></td>
+                                                <td>Pedro Pablo Infante Toirac</td>
+                                                <td><span class="badge">developer</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jesus Enrique Font Peña</td>
+                                                <td><span class="badge">developer</span></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1576,7 +1589,7 @@
      class="oe_searchview_input"
      contenteditable="true"
      tabindex="0"/>
-<!-- tabindex: makes div focusable -->
+    <!-- tabindex: makes div focusable -->
 <div t-name="SearchView.FacetView"
      class="oe_tag oe_tag_dark oe_searchview_facet"
      tabindex="0"
@@ -1784,7 +1797,7 @@
     <span/>
 </t>
 <t t-name="SearchView.extended_search.proposition.integer">
-    <input type="number" class="field_integer" value = "0" step="1"/>
+    <input type="number" class="field_integer" value="0" step="1"/>
 </t>
 <t t-name="SearchView.extended_search.proposition.float">
     <input class="field_float"

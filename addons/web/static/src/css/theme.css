@@ -170,6 +170,10 @@ Main Navbar
     margin-left: 15px;
 }
 
+#oe_main_menu_navbar .oe_systray .oe_timezone_systray .fa {
+    color: yellow !important;
+}
+
 .leftbar_opener {
     background: transparent;
     border: none;
@@ -382,11 +386,14 @@ View Manager Header: Search Form
 .openerp .oe_searchview_drawer_container {
     background: white;
     box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4) !important;
-    padding: 8px 15px;
 }
 
 .oe_popup_search > *:first-child {
     margin-top: 15px !important;
+}
+
+.openerp .oe_searchview_drawer {
+    padding: 8px 15px;
 }
 
 .openerp .oe_searchview_drawer h4,
@@ -974,4 +981,29 @@ Calendar View
 
 .oe_calendar_sidebar_container .oe_calendar_sidebar {
     padding-top: 32px;
+}
+
+/***********************************************************************************************************************
+About Us
+***********************************************************************************************************************/
+.oe_about table td {
+    border: 0px !important;
+    text-align: center;
+}
+
+.oe_about a.oe_activate_debug_mode {
+    margin-top: 8px;
+}
+
+.oe_about .help-block {
+    margin-bottom: 0px;
+}
+
+.oe_about .help-block .version {
+    margin-top: 4px;
+}
+
+.oe_about .navigation {
+    margin-bottom: 8px;
+    margin-top: 25px;
 }

@@ -387,12 +387,11 @@
                     </div>
                     <div class="user-info-block">
                         <div class="user-heading">
-                            <br/>
                             <span class="help-block">Enterprise and Government Management Software</span>
-                            <h3>Version 9.0</h3>
+                            <h3 class="version">Version 9.0</h3>
                         </div>
 
-                        <ul class="list-inline text-center navigation" style="margin-bottom: 8px;margin-top: 25px;">
+                        <ul class="list-inline text-center navigation">
                             <li class="active">
                                 <a data-toggle="tab" href="#settings">
                                     <span class="glyphicon glyphicon-cog"></span>

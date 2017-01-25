@@ -991,6 +991,19 @@ About Us
     text-align: center;
 }
 
-a.oe_activate_debug_mode {
+.oe_about a.oe_activate_debug_mode {
     margin-top: 8px;
+}
+
+.oe_about .help-block {
+    margin-bottom: 0px;
+}
+
+.oe_about .help-block .version {
+    margin-top: 4px;
+}
+
+.oe_about .navigation {
+    margin-bottom: 8px;
+    margin-top: 25px;
 }

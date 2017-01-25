@@ -170,6 +170,10 @@ Main Navbar
     margin-left: 15px;
 }
 
+#oe_main_menu_navbar .oe_systray .oe_timezone_systray .fa {
+    color: yellow !important;
+}
+
 .leftbar_opener {
     background: transparent;
     border: none;

@@ -8,7 +8,7 @@
             <field name="name">budget.move.tree</field>
             <field name="model">budget.move</field>
             <field name="arch" type="xml">
-                <tree string="Budget Entry" colors="blue:state=='draft'">
+                <tree string="Budget Transaction" colors="blue:state=='draft'">
                     <field name="name"/>
                     <field name="period_id"/>
                     <field name="date"/>
@@ -21,7 +21,7 @@
             <field name="name">budget.move.form</field>
             <field name="model">budget.move</field>
             <field name="arch" type="xml">
-                <form string="Budget Entry">
+                <form string="Budget Transaction">
                     <header>
                         <button name="action_draft" type="object" states="done" string="Draft"/>
                         <button name="action_done" type="object" states="draft" string="Post" class="oe_highlight"/>
@@ -89,13 +89,13 @@
         </record-->
 
         <record id="action_budget_entry" model="ir.actions.act_window">
-            <field name="name">Budget Entry</field>
+            <field name="name">Budget Transaction</field>
             <field name="res_model">budget.move</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem parent="menu_budget_control" name="Control Entry"
+        <menuitem parent="menu_budget_control"
                   id="menu_budget_entry" action="action_budget_entry" sequence="10"/>
 
     </data>

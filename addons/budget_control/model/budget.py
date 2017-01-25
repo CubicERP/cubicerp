@@ -58,7 +58,7 @@ class BudgetMove(models.Model):
     def action_done(self):
         for line in self.line_ids:
             if line.state <> 'valid':
-                exceptions.ValidationError(_("The lines must be in valid state. The line %s is invalid")%line.name)
+                raise exceptions.ValidationError(_("The lines must be in valid state. The line %s (%s) is invalid")%(line.name,line.struct_id.get_name()))
         self.state = 'done'
 
 class BudgetMoveLine(models.Model):
@@ -115,4 +115,17 @@ class BudgetMoveLine(models.Model):
                 vals['state'] = 'draft'
         return super(BudgetMoveLine, self).write(vals)
 
-
+    @api.cr_uid_ids_context
+    def unlink(self, cr, uid, ids, context=None):
+        valid_ids = []
+        draft_ids = []
+        for del_line in self.browse(cr, uid, ids, context=context):
+            res = 0.0
+            line_ids = []
+            for line in del_line.move_id.line_ids:
+                if line.id <> del_line.id:
+                    res += line.available + line.committed + line.provision + line.paid
+                    line_ids += [line.id]
+            if line_ids:
+                self.write(cr, uid, line_ids, {'state': res == 0.0 and 'valid' or 'draft'}, context=context)
+        return super(BudgetMoveLine, self).unlink(cr, uid, ids, context=context)

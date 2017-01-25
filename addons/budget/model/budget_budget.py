@@ -389,7 +389,7 @@ class BudgetBudgetLines(models.Model):
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
                     raise osv.except_osv(_('Error!'),
-                                         _("The Budget Position '%s' has no accounts!") % ustr(line.budget_position_id.name))
+                                         _("The Budget Position '%s' has not accounts!") % ustr(line.budget_position_id.name))
                 acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
@@ -516,6 +516,7 @@ class BudgetBudgetLines(models.Model):
     name = fields.Char('Code')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True, domain=[('type','<>','view')])
+    budget_period_id = fields.Many2one('budget.period', string='Period Budget', related="budget_budget_id.budget_period_id", store=True)
     parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
     struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True, domain=[('type','<>','view')])
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
@@ -562,12 +563,16 @@ result = amount''',
         for line in self:
             if line.parent_budget_id.type == 'control':
                 self._cr.execute("SELECT id FROM budget_budget_line_ids "
-                                 "WHERE analytic_account_id= %s"
+                                 "WHERE company_id= %s"
+                                 "  AND budget_period_id= %s"
+                                 "  AND analytic_account_id= %s"
                                  "  AND budget_position_id= %s"
                                  "  AND struct_budget_id=%s AND id <> %s"
                                  "  AND ((date_from >= %s AND date_from <= %s)"
                                  "      OR (date_to >= %s AND date_to <= %s))",
-                                 (line.analytic_account_id.id,
+                                 (line.company_id.id,
+                                  line.budget_period_id.id,
+                                  line.analytic_account_id.id,
                                   line.budget_position_id.id,
                                   line.struct_budget_id.id,
                                   line.id,

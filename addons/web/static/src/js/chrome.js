@@ -1006,6 +1006,7 @@ instance.web.UserMenu =  instance.web.Widget.extend({
     init: function(parent) {
         this._super(parent);
         this.update_promise = $.Deferred().resolve();
+
     },
     start: function() {
         var self = this;
@@ -1086,6 +1087,9 @@ instance.web.UserMenu =  instance.web.Widget.extend({
         var self = this;
         self.rpc("/web/webclient/version_info", {}).done(function(res) {
             var $help = $(QWeb.render("UserMenu.about", {version_info: res}));
+            if(instance.session.debug) {
+                $help.find('a.oe_activate_debug_mode').addClass('hidden');
+            }
             $help.find('a.oe_activate_debug_mode').click(function (e) {
                 e.preventDefault();
                 window.location = $.param.querystring( window.location.href, 'debug');

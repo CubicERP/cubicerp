@@ -1538,7 +1538,7 @@ instance.web.WebClient = instance.web.Client.extend({
         $('.oe_menu_leaf').on('click', toggle);
 
         $(document).keydown(function (key) {
-            if (key.key == 'Escape') {
+            if (key.key == 'Control') {
                 toggle();
             }
         });

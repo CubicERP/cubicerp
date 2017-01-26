@@ -1535,6 +1535,8 @@ instance.web.WebClient = instance.web.Client.extend({
 
         $('.leftbar_opener').on('click', toggle);
         $('#oe_main_menu_navbar > #navbar-content a').on('click', open_leftbar);
+        $('.oe_menu_leaf').on('click', toggle);
+
         $(document).keydown(function (key) {
             if (key.key == 'Escape') {
                 toggle();

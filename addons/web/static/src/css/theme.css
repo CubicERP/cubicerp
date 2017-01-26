@@ -820,6 +820,10 @@ Form View: Widgets
     display: block !important;
 }
 
+.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header {
+    display: none !important;
+}
+
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required select:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]) {

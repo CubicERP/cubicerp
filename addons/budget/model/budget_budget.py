@@ -553,7 +553,7 @@ class BudgetBudgetLines(models.Model):
     paid_date = fields.Date('Paid Date')
     planned_amount = fields.Float('Planned Amount', required=True, digits_compute=dp.get_precision('Account'))
     practical_amount = fields.Float(compute="_practical_amount", string='Practical Amount',
-                                    digits_compute=dp.get_precision('Account'))
+                                    digits_compute=dp.get_precision('Account'), store=True)
     theoritical_amount = fields.Float(compute="_theo_amt", string='Theoretical Amount',
                                       digits_compute=dp.get_precision('Account'))
     available_amount = fields.Float(compute="_avail", string='Pending Amount',

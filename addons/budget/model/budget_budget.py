@@ -381,8 +381,8 @@ class BudgetBudgetLines(models.Model):
         class BudgetLine(BrowsableObject):
             """a class that will be used into the python code, mainly for usability purposes"""
             def get(self, line_name, position_code=None, date_from=None, date_to=None):
-
                 domain = [('name', '=', line_name)]
+                bgt_line_obj = self.env['budget.budget.lines']
 
                 if position_code:
                     domain +=[('budget_position_id.code', '=', position_code)]
@@ -390,7 +390,7 @@ class BudgetBudgetLines(models.Model):
                     domain +=[('date_to', '>=', datetime.strptime(date_from, '%Y-%m-%d'))]
                 if date_to:
                     domain += [('date_from', '<=', datetime.strptime(date_to, '%Y-%m-%d'))]
-                res = self.env['budget.budget.lines'].search(domain)
+                res = bgt_line_obj.search(domain)
                 return res.practical_amount if res else 0.0
 
         budget_line_dict = {line.name: 0.0 for line in self}

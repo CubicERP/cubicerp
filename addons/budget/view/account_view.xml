@@ -54,6 +54,17 @@
 			</field>
 		</record>
 
+        <record model='ir.ui.view' id='view_account_period_tree'>
+			<field name='name'>account.period.tree.inherit.budget</field>
+			<field name='model'>account.period</field>
+			<field name='inherit_id' ref='account.view_account_period_tree'/>
+			<field name='arch' type='xml'>
+                <xpath expr="//field[@name='special']" position="after">
+                    <field name="budget_period_id"/>
+                </xpath>
+			</field>
+		</record>
+
         <record model='ir.ui.view' id='invoice_form'>
 			<field name='name'>account.invoice.form.inherit.budget</field>
 			<field name='model'>account.invoice</field>

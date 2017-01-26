@@ -369,15 +369,13 @@
             <li><a href="#" data-menu="about">About Us</a></li>
             <li><a href="https://www.cubicerp.com/forum/ayuda-1" data-menu="help">Help</a></li>
             <li><a href="#" data-menu="logout">Log out</a></li>
+            <li><a href="?debug" class="oe_activate_debug_mode">Developer Mode</a></li>
         </ul>
     </li>
 </t>
 <t t-name="UserMenu.about">
     <div class="oe_about">
         <div class="container-fluid">
-            <div class="row">
-                <a class="oe_activate_debug_mode oe_right label label-primary" href="?debug" >Activate the developer mode</a>
-            </div>
             <div class="row">
                 <div class="col-xs-12 user-details">
                     <div class="user-image">

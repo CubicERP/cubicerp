@@ -1030,8 +1030,10 @@ instance.web.UserMenu =  instance.web.Widget.extend({
             var func = new instance.web.Model("res.users").get_func("read");
             return self.alive(func(self.session.uid, ["name", "company_id"])).then(function(res) {
                 var topbar_name = res.name;
-                if(instance.session.debug)
+                if(instance.session.debug) {
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, instance.session.db);
+                    self.$el.find('a.oe_activate_debug_mode').addClass('hidden');
+                }
                 if(res.company_id[0] > 1)
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
                 self.$el.find('.oe_topbar_name').text(topbar_name);
@@ -1100,10 +1102,8 @@ instance.web.UserMenu =  instance.web.Widget.extend({
                 //-------------------------------------------------
                 $help.find('#loading_modules_authors').addClass('hidden');
                 //-------------------------------------------------
-                if(instance.session.debug) {
-                    $help.find('a.oe_activate_debug_mode').addClass('hidden');
-                }
-                $help.find('a.oe_activate_debug_mode').click(function (e) {
+
+                self.$el.find('a.oe_activate_debug_mode').click(function (e) {
                     e.preventDefault();
                     window.location = $.param.querystring( window.location.href, 'debug');
                 });

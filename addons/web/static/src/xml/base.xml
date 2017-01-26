@@ -424,27 +424,22 @@
                                 </div>
                                 <div id="collaborations" class="tab-pane">
                                     <p><h4>Collaborations</h4></p>
-                                    <div class="table-responsive">
-                                        <table class="table table-condensed">
-                                            <tr>
-                                                <td>Yury Oscar Tello</td>
-                                                <td><span class="badge">Project Leader</span></td>
-                                                <td>Anniel Rodriguez Izquierdo</td>
-                                                <td><span class="badge">developer</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Pedro Antonio Valdez Guibert</td>
-                                                <td><span class="badge">developer</span></td>
-                                                <td>Pedro Pablo Infante Toirac</td>
-                                                <td><span class="badge">developer</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jesus Enrique Font Peña</td>
-                                                <td><span class="badge">developer</span></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
+                                    <div class="container-fluid">
+                                        <div class="row" style="font-size: 10px;text-align: left;">
+                                            <div class="col-xs-4">- Yury Oscar Tello</div>
+                                            <div class="col-xs-4">- Anniel Rodriguez Izquierdo</div>
+                                            <div class="col-xs-4">- Pedro Antonio Valdez Guibert</div>
+                                            <div class="col-xs-4">- Pedro Pablo Infante Toirac</div>
+                                            <div class="col-xs-4">- Jesus Enrique Font Peña</div>
+                                            <div class="col-xs-12" id="loading_modules_authors">
+                                                <span class="badge">loading modules authors...</span>
+                                            </div>
+                                            <t t-foreach="model_names" t-as="name">
+                                                <div class="col-xs-4">
+                                                    - <t t-esc="name"></t>
+                                                </div>
+                                            </t>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

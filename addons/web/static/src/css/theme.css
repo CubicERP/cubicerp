@@ -788,7 +788,8 @@ Form View: Footer
 Form View: Widgets
 ***********************************************************************************************************************/
 .openerp .oe_form .oe_form_field {
-
+    min-width: 200px;
+    max-width: 200px;
 }
 
 .openerp .oe_form .oe_form_field_text,
@@ -802,11 +803,8 @@ Form View: Widgets
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
     width: auto !important;
-}
-
-.openerp .oe_form_field_many2one > div {
-    min-width: 190px !important;
-    max-width: 190px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {

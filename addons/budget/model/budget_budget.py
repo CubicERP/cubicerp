@@ -352,11 +352,8 @@ class BudgetBudgetLines(models.Model):
         analytic_obj = self.env['account.analytic.account']
 
         class BrowsableObject(object):
-            def __init__(self, pool, cr, uid, budget_line, dict):
-                self.pool = pool
-                self.cr = cr
-                self.uid = uid
-                self.budget_line = budget_line
+            def __init__(self, env, dict):
+                self.env = env
                 self.dict = dict
 
             def __getattr__(self, attr):
@@ -364,8 +361,9 @@ class BudgetBudgetLines(models.Model):
 
         class BudgetLine(BrowsableObject):
             """a class that will be used into the python code, mainly for usability purposes"""
-            def get_bgt_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
-                domain = [('struct_budget_id.code', '=', struct_code)]
+            def get(self, line_name, position_code=None, date_from=None, date_to=None):
+
+                domain = [('name', '=', line_name)]
 
                 if position_code:
                     domain +=[('budget_position_id.code', '=', position_code)]
@@ -373,17 +371,17 @@ class BudgetBudgetLines(models.Model):
                     domain +=[('date_to', '>=', datetime.strptime(date_from, '%Y-%m-%d'))]
                 if date_to:
                     domain += [('date_from', '<=', datetime.strptime(date_to, '%Y-%m-%d'))]
+                res = self.env['budget.budget.lines'].search(domain)
+                return res.practical_amount if res else 0.0
 
-                return self.env['budget.budget.lines'].search(domain)
+        budget_line_dict = {line.name: 0.0 for line in self}
+        brw_line_obj = BudgetLine(self.env, budget_line_dict)
 
-        budget_line_dict = {}
 
         for line in self.sorted(key=lambda bl: bl.sequence):
             acc_ids = []
 
-            budget_line_dict[line.struct_budget_id.code] = None
-            browsable_bgt_lines = BudgetLine(self.pool, self._cr, self._uid, line, budget_line_dict)
-
+            return_value = 0.0
             if line.budget_position_id:
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
@@ -448,22 +446,29 @@ class BudgetBudgetLines(models.Model):
             quantity = 0.0 if result[0] is None else result[0]
             amount = 0.0 if result[1] is None else result[1]
             if line.value_type == 'amount':
-                line.practical_amount = amount
+                #line.practical_amount = amount
+                return_value = amount
             elif line.value_type == 'quantity':
-                line.practical_amount = quantity
+                #line.practical_amount = quantity
+                return_value = quantity
             else: #python code
                 localdict = {}
                 localdict['quantity'] = quantity
                 localdict['amount'] = amount
                 localdict['line'] = line
-                localdict['lines'] = browsable_bgt_lines
+                localdict['lines'] = brw_line_obj
+                localdict['result'] = None
                 try:
-                    eval(line.python_code, localdict, mode='exec', nocopy=True)
-                    line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
+                    #return_value = eval(line.python_code, localdict, mode='exec', nocopy=True)
+                    return_value = {}
+                    exec line.python_code in localdict, return_value
+                    return_value = 'result' in return_value and float(return_value['result']) or 0.0
                 except Exception, e:
                     raise osv.except_osv(_('Error!'), _('Wrong python condition defined for budget line %s (%s).') % (
                     line.name, line.struct_budget_id.name) + "\n\n" + str(e))
-        return res
+            brw_line_obj.dict[line.name] += return_value
+            line.practical_amount = return_value
+        #return res
 
     @api.multi
     @api.depends('planned_amount','date_from','date_to','paid_date')
@@ -527,7 +532,7 @@ class BudgetBudgetLines(models.Model):
     paid_date = fields.Date('Paid Date')
     planned_amount = fields.Float('Planned Amount', required=True, digits_compute=dp.get_precision('Account'))
     practical_amount = fields.Float(compute="_practical_amount", string='Practical Amount',
-                                    digits_compute=dp.get_precision('Account'), store=True)
+                                    digits_compute=dp.get_precision('Account'))
     theoritical_amount = fields.Float(compute="_theo_amt", string='Theoretical Amount',
                                       digits_compute=dp.get_precision('Account'))
     available_amount = fields.Float(compute="_avail", string='Pending Amount',

@@ -43,6 +43,39 @@
             </field>
         </record-->
 
+        <record model='ir.ui.view' id='view_account_period_form'>
+			<field name='name'>account.period.form.inherit.budget</field>
+			<field name='model'>account.period</field>
+			<field name='inherit_id' ref='account.view_account_period_form'/>
+			<field name='arch' type='xml'>
+                <xpath expr="//field[@name='fiscalyear_id']" position="after">
+                    <field name="budget_period_id" widget="selection"/>
+                </xpath>
+			</field>
+		</record>
+
+        <record model='ir.ui.view' id='invoice_form'>
+			<field name='name'>account.invoice.form.inherit.budget</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_form'/>
+			<field name='arch' type='xml'>
+                <xpath expr="//field[@name='invoice_line']//field[@name='account_analytic_id']" position="after">
+                    <field name="budget_struct_id"/>
+                </xpath>
+			</field>
+		</record>
+
+        <record model='ir.ui.view' id='invoice_supplier_form'>
+			<field name='name'>account.invoice.supplier.form.inherit.budget</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_supplier_form'/>
+			<field name='arch' type='xml'>
+                <xpath expr="//field[@name='invoice_line']//field[@name='account_analytic_id']" position="after">
+                    <field name="budget_struct_id"/>
+                </xpath>
+			</field>
+		</record>
+
         <record model='ir.ui.view' id='view_move_form'>
 			<field name='name'>account.move.form.inherit.budget</field>
 			<field name='model'>account.move</field>
@@ -53,9 +86,6 @@
                 </xpath>
                 <xpath expr="//tree/field[@name='analytic_account_id']" position="after">
                     <field name="budget_struct_id"/>
-                </xpath>
-                <xpath expr="//form['Account Entry']/group/group/field[@name='period_id']" position="after">
-                    <field name="budget_period_id"/>
                 </xpath>
 			</field>
 		</record>

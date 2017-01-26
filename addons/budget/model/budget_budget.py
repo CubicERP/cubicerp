@@ -72,10 +72,29 @@ class BudgetStruct(models.Model):
             parent_path = ''
         return parent_path + elmt.name
 
+    def _complete_child_ids(self, struct):
+        res = []
+        childs = [c for c in struct.child_ids]
+        while childs:
+            c2 = childs
+            childs = []
+            for c in c2:
+                res += [c.id]
+                for c3 in c.child_ids:
+                    childs += [c3]
+        return res
+
+    @api.multi
+    def _full_child_ids(self):
+        for struct in self:
+            struct.full_child_ids = self._complete_child_ids(struct)
+
     code = fields.Char(string='Code', size=64, required=True)
     name = fields.Char(string='Name', required=True)
     complete_name = fields.Char("Full Name", compute=_get_full_name, store=True)
     parent_id = fields.Many2one('budget.struct', string="Parent", domain=[('type', '=', 'view')])
+    child_ids = fields.One2many('budget.struct', 'parent_id', string='Childs')
+    full_child_ids = fields.Many2many('budget.struct', string="Full Childs", compute=_full_child_ids)
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
     line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")
@@ -386,7 +405,7 @@ class BudgetBudgetLines(models.Model):
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
                     raise osv.except_osv(_('Error!'),
-                                         _("The Budget Position '%s' has no accounts!") % ustr(line.budget_position_id.name))
+                                         _("The Budget Position '%s' has not accounts!") % ustr(line.budget_position_id.name))
                 acc_ids = acc_ids._get_children_and_consol()
             date_to = line.date_to
             date_from = line.date_from
@@ -520,6 +539,7 @@ class BudgetBudgetLines(models.Model):
     name = fields.Char('Code')
     budget_budget_id = fields.Many2one('budget.budget', 'Budget', ondelete='cascade', select=True,
                                             required=True, domain=[('type','<>','view')])
+    budget_period_id = fields.Many2one('budget.period', string='Period Budget', related="budget_budget_id.budget_period_id", store=True)
     parent_budget_id = fields.Many2one('budget.budget', string='Parent Budget', related="budget_budget_id.parent_id", store=True)
     struct_budget_id = fields.Many2one('budget.struct', 'Budgetary Struct', required=True, domain=[('type','<>','view')])
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
@@ -566,12 +586,16 @@ result = amount''',
         for line in self:
             if line.parent_budget_id.type == 'control':
                 self._cr.execute("SELECT id FROM budget_budget_line_ids "
-                                 "WHERE analytic_account_id= %s"
+                                 "WHERE company_id= %s"
+                                 "  AND budget_period_id= %s"
+                                 "  AND analytic_account_id= %s"
                                  "  AND budget_position_id= %s"
                                  "  AND struct_budget_id=%s AND id <> %s"
                                  "  AND ((date_from >= %s AND date_from <= %s)"
                                  "      OR (date_to >= %s AND date_to <= %s))",
-                                 (line.analytic_account_id.id,
+                                 (line.company_id.id,
+                                  line.budget_period_id.id,
+                                  line.analytic_account_id.id,
                                   line.budget_position_id.id,
                                   line.struct_budget_id.id,
                                   line.id,

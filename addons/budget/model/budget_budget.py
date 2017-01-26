@@ -478,10 +478,11 @@ class BudgetBudgetLines(models.Model):
                 localdict['lines'] = brw_line_obj
                 localdict['result'] = None
                 try:
-                    #return_value = eval(line.python_code, localdict, mode='exec', nocopy=True)
-                    return_value = {}
-                    exec line.python_code in localdict, return_value
-                    return_value = 'result' in return_value and float(return_value['result']) or 0.0
+
+                    local_res = {}
+                    #local_res = eval(line.python_code, localdict, mode='exec', nocopy=True)
+                    exec line.python_code in localdict, local_res
+                    return_value = 'result' in local_res and float(local_res['result']) or 0.0
                 except Exception, e:
                     raise osv.except_osv(_('Error!'), _('Wrong python condition defined for budget line %s (%s).') % (
                     line.name, line.struct_budget_id.name) + "\n\n" + str(e))

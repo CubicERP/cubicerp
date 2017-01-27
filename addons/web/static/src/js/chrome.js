@@ -1018,7 +1018,18 @@ instance.web.UserMenu =  instance.web.Widget.extend({
                 f($(this));
             }
         });
-        this.$el.parent().show()
+        //-------------------------------------------------
+        self.$el.find('a.oe_desactivate_debug_mode').click(function (e) {
+            e.preventDefault();
+            window.open(window.location.href.replace('debug', ""), '_self');
+        });
+        //-------------------------------------------------
+        self.$el.find('a.oe_activate_debug_mode').click(function (e) {
+            e.preventDefault();
+            window.open($.param.querystring(window.location.href, 'debug'), '_self');
+        });
+        //-------------------------------------------------
+        this.$el.parent().show();
     },
     do_update: function () {
         var self = this;
@@ -1033,6 +1044,10 @@ instance.web.UserMenu =  instance.web.Widget.extend({
                 if(instance.session.debug) {
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, instance.session.db);
                     self.$el.find('a.oe_activate_debug_mode').addClass('hidden');
+                    self.$el.find('a.oe_desactivate_debug_mode').removeClass('hidden');
+                } else {
+                    self.$el.find('a.oe_activate_debug_mode').removeClass('hidden');
+                    self.$el.find('a.oe_desactivate_debug_mode').addClass('hidden');
                 }
                 if(res.company_id[0] > 1)
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
@@ -1102,11 +1117,6 @@ instance.web.UserMenu =  instance.web.Widget.extend({
                 //-------------------------------------------------
                 $help.find('#loading_modules_authors').addClass('hidden');
                 //-------------------------------------------------
-
-                self.$el.find('a.oe_activate_debug_mode').click(function (e) {
-                    e.preventDefault();
-                    window.location = $.param.querystring( window.location.href, 'debug');
-                });
                 new instance.web.Dialog(this, {
                     size: 'medium',
                     dialogClass: 'oe_act_window',
@@ -1538,7 +1548,7 @@ instance.web.WebClient = instance.web.Client.extend({
         $('.oe_menu_leaf').on('click', toggle);
 
         $(document).keydown(function (key) {
-            if (key.key == 'Control') {
+            if (key.key == 'Escape' && $(this).find('.modal').length == 0) {
                 toggle();
             }
         });
@@ -1611,8 +1621,6 @@ instance.web.embed = function (origin, dbname, login, key, action, options) {
     var client = new instance.web.EmbeddedClient(null, origin, dbname, login, key, action, options);
     client.insertAfter(currentScript);
 };
-
-
 
 /* 
  * The Android/iPhone App is a JS/HTML app that launches the

@@ -180,6 +180,7 @@ Main Navbar
     color: white !important;
     padding-left: 18px !important;
     height: 34px;
+    font-size: 24px;
 }
 
 .leftbar_opener:hover {
@@ -822,6 +823,11 @@ Form View: Widgets
 
 .openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header {
     display: none !important;
+}
+
+.openerp .oe_list.oe_list_editable.oe_editing .oe_form_field_many2one {
+    min-width: 113px !important;
+    max-width: 113px !important;
 }
 
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),

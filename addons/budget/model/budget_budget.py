@@ -391,7 +391,7 @@ class BudgetBudgetLines(models.Model):
                 if date_to:
                     domain += [('date_from', '<=', datetime.strptime(date_to, '%Y-%m-%d'))]
                 res = bgt_line_obj.search(domain)
-                return res.practical_amount if res else 0.0
+                return sum(res.mapped('practical_amount')) or 0.0
 
         budget_line_dict = {line.name: 0.0 for line in self}
         brw_line_obj = BudgetLine(self.env, budget_line_dict)
@@ -489,6 +489,10 @@ class BudgetBudgetLines(models.Model):
             brw_line_obj.dict[line.name] += return_value
             line.practical_amount = return_value
         #return res
+
+    _sql_constraints = [
+        ('name_unique', 'UNIQUE (name)', 'The code must be unique!')
+    ]
 
     @api.multi
     @api.depends('planned_amount','date_from','date_to','paid_date')

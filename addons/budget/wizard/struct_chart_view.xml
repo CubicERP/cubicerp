@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="budget_struct_chart_form_view" model="ir.ui.view">
+            <field name="name">budget.struct.chart.form.view</field>
+            <field name="model">budget.struct.chart</field>
+            <field name="arch" type="xml">
+                <form string="Struct Charts">
+                    <group>
+                        <label for="budget_period_id"/>
+                        <div> 
+                            <field name="budget_period_id" class="oe_inline"/>
+                            <label align="0.7" string="(If you do not select a specific budget period, all open fiscal years will be selected.)" class="oe_inline"/>
+                        </div>
+                        <field name="type"/>
+                    </group>
+                    <footer>
+                        <button string="Open Charts" name="struct_chart_open_window" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="budget_struct_tree_view" model="ir.ui.view">
+            <field name="name">budget.struct.tree.view</field>
+            <field name="model">budget.struct</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Chart of Struct" toolbar="1" >
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="budget_struct_tree_action" model="ir.actions.act_window">
+            <field name="name">Chart of Struct</field>
+            <field name="res_model">budget.struct</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="budget_struct_tree_view"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+
+        <record id="budget_struct_chart_action" model="ir.actions.act_window">
+            <field name="name">Chart of Struct</field>
+            <field name="res_model">budget.struct.chart</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="budget_struct_chart_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Chart of Structs" parent="menu_budget_conf"
+                  id="budget_struct_char_menuitem"
+                  action="budget_struct_chart_action" sequence="45"/>
+    </data>
+</openerp>

@@ -70,8 +70,9 @@
 			<field name='model'>account.invoice</field>
 			<field name='inherit_id' ref='account.invoice_form'/>
 			<field name='arch' type='xml'>
-                <xpath expr="//field[@name='invoice_line']//field[@name='account_analytic_id']" position="after">
+                <xpath expr="//field[@name='move_id']" position="before">
                     <field name="budget_struct_id"/>
+                    <field name="budget_analytic_id"/>
                 </xpath>
 			</field>
 		</record>
@@ -81,8 +82,22 @@
 			<field name='model'>account.invoice</field>
 			<field name='inherit_id' ref='account.invoice_supplier_form'/>
 			<field name='arch' type='xml'>
-                <xpath expr="//field[@name='invoice_line']//field[@name='account_analytic_id']" position="after">
+                <xpath expr="//field[@name='move_id']" position="after">
                     <field name="budget_struct_id"/>
+                </xpath>
+			</field>
+		</record>
+
+        <record model='ir.ui.view' id='view_vendor_payment_form'>
+			<field name='name'>account.voucher.payment.form.inherit.budget</field>
+			<field name='model'>account.voucher</field>
+			<field name='inherit_id' ref='account_voucher.view_vendor_payment_form'/>
+			<field name='arch' type='xml'>
+                <xpath expr="//group[@string='Internal Notes']/.." position="inside">
+                    <group string="Budget">
+                        <field name="budget_struct_id"/>
+                        <field name="budget_analytic_id"/>
+                    </group>
                 </xpath>
 			</field>
 		</record>
@@ -111,7 +126,6 @@
                 </field>
 			</field>
 		</record>
-
 
         <record id="view_account_move_line_filter" model="ir.ui.view">
             <field name="name">Journal Items (Search) inherit budget</field>

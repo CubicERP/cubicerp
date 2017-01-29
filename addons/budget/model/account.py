@@ -54,7 +54,39 @@ class AccountMoveLine(models.Model):
     budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
 
 
-class AccountInvoiceLine(models.Model):
-    _inherit = "account.invoice.line"
+class AccountInvoice(models.Model):
+    _inherit = "account.invoice"
 
     budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
+    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')])
+
+    def line_get_convert(self, cr, uid, x, part, date, context=None):
+        res = super(AccountInvoice, self).line_get_convert(cr, uid, x, part, date, context=context)
+        res['budget_struct_id'] = x.get('budget_struct_id', False)
+        res['analytic_account_id'] = x.get('budget_analytic_id', False)
+        return res
+
+    def _get_first_line_values(self, inv, name, total, date_maturity, diff_currency, total_currency, ref):
+        res = super(AccountInvoice, self)._get_first_line_values(inv, name, total, date_maturity, diff_currency, total_currency, ref)
+        if inv.budget_struct_id:
+            res['budget_struct_id'] = inv.budget_struct_id.id
+        if inv.analytic_account_id:
+            res['analytic_account_id'] = inv.analytic_account_id.id
+        return res
+
+
+class AccountVoucher(models.Model):
+    _inherit = "account.voucher"
+
+    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
+    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')])
+
+    @api.model
+    def first_move_line_get(self, voucher_id, move_id, company_currency, current_currency):
+        res = super(AccountVoucher, self).first_move_line_get(voucher_id, move_id, company_currency, current_currency)
+        voucher = self.browse(voucher_id)
+        if voucher.budget_struct_id:
+            res['budget_struct_id'] = voucher.budget_struct_id.id
+        if voucher.budget_analytic_id:
+            res['analytic_account_id'] = voucher.budget_analytic_id.id
+        return res

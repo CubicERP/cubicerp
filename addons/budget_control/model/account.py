@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,42 +19,40 @@
 #
 ##############################################################################
 
-from datetime import date, datetime
-
-# from openerp.osv import fields, osv, expression
 from openerp import models, fields, api, _
-from openerp.tools import ustr, DEFAULT_SERVER_DATE_FORMAT
-from openerp.tools.translate import _
-
-import openerp.addons.decimal_precision as dp
 
 
-class AccountAccount(models.Model):
-    _inherit = "account.account"
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
 
-    budget_post_ids = fields.Many2many('budget.position', 'account_budget_rel', 'account_id', 'budget_id',
-                                       string='Budget Positions')
-
-
-class AccountAnalyticAaccount(models.Model):
-    _inherit = "account.analytic.account"
-
-    budget_budget_line_ids = fields.One2many('budget.budget.lines', 'analytic_account_id', string='Budget Lines')
+    budget_move_posted = fields.Boolean('Automatic Budget Transactions Posted', help="Mark this option to posted automatically the budget transactions")
 
 
-class AccountPeriod(models.Model):
-    _inherit = 'account.period'
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
-    budget_period_id = fields.Many2one('budget.period', string='Budget Period')
+    budget_move_ids = fields.One2many('budget.move', 'account_move_id', string='Budget Transactions', readonly=True)
+
+    @api.multi
+    def post(self):
+        for move in self:
+            for line in move.line_id:
+                if line.budget_struct_id:
+                    tran = self.env['budget.move'].create_from_account(line)
+                    if line.journal_id.budget_move_posted:
+                        tran.action_done()
+        return super(AccountMove, self).post()
+
+    @api.multi
+    def button_cancel(self):
+        for move in self:
+            for line in move.line_id:
+                if line.budget_line_ids:
+                    line.budget_line_ids.unlink()
+        return super(AccountMove, self).button_cancel()
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
-
-
-class AccountInvoiceLine(models.Model):
-    _inherit = "account.invoice.line"
-
-    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
+    budget_line_ids = fields.One2many('budget.move', 'move_line_id', string='Budget Transactions', readonly=True)

@@ -19,7 +19,11 @@
 #
 ##############################################################################
 
-from datetime import date, datetime, timedelta
+import time
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from dateutil import relativedelta
 
 from openerp.exceptions import ValidationError
 
@@ -367,11 +371,8 @@ class BudgetBudgetLines(models.Model):
         analytic_obj = self.env['account.analytic.account']
 
         class BrowsableObject(object):
-            def __init__(self, pool, cr, uid, budget_id, dict):
-                self.pool = pool
-                self.cr = cr
-                self.uid = uid
-                self.budget_id = budget_id
+            def __init__(self, env, dict):
+                self.env = env
                 self.dict = dict
 
             def __getattr__(self, attr):
@@ -379,31 +380,27 @@ class BudgetBudgetLines(models.Model):
 
         class BudgetLine(BrowsableObject):
             """a class that will be used into the python code, mainly for usability purposes"""
-            def get_lines(self, struct_code, position_code=None, date_from=None, date_to=None):
-                # if date_to is None:
-                #     date_to = datetime.now().strftime('%Y-%m-%d')
-                budget_lines = None
-                domain = [('budget_struct.code', '=', struct_code)]
+            def get(self, line_name, position_code=None, date_from=None, date_to=None):
+                domain = [('name', '=', line_name)]
+                bgt_line_obj = self.env['budget.budget.lines']
 
                 if position_code:
-                    domain.append([('budget_position_id.code', '=', position_code)])
+                    domain +=[('budget_position_id.code', '=', position_code)]
                 if date_from:
-                    domain.append([('date_to', '>=', date_from)])
+                    domain +=[('date_to', '>=', datetime.strptime(date_from, '%Y-%m-%d'))]
                 if date_to:
-                    domain.append([('date_from', '<=', date_to)])
+                    domain += [('date_from', '<=', datetime.strptime(date_to, '%Y-%m-%d'))]
+                res = bgt_line_obj.search(domain)
+                return res.practical_amount if res else 0.0
 
-                budget_lines = self.env['budget.budget.lines'].search(domain)
-                return budget_lines
+        budget_line_dict = {line.name: 0.0 for line in self}
+        brw_line_obj = BudgetLine(self.env, budget_line_dict)
 
-        budget_line_dict = {}
 
-        for line in self:
+        for line in self.sorted(key=lambda bl: bl.sequence):
             acc_ids = []
 
-            budget_line_dict[line.struct_budget_id.code] = None
-            budget_line_obj = BudgetLine(self.pool, self._cr, self._uid, line.budget_budget_id.id, budget_line_dict)
-            sorted_budget_line_ids = [id for id, sequence in sorted(budget_line_obj, key=lambda x: x[1])]
-
+            return_value = 0.0
             if line.budget_position_id:
                 acc_ids = line.budget_position_id.mapped('account_ids')
                 if not acc_ids:
@@ -468,22 +465,30 @@ class BudgetBudgetLines(models.Model):
             quantity = 0.0 if result[0] is None else result[0]
             amount = 0.0 if result[1] is None else result[1]
             if line.value_type == 'amount':
-                line.practical_amount = amount
+                #line.practical_amount = amount
+                return_value = amount
             elif line.value_type == 'quantity':
-                line.practical_amount = quantity
+                #line.practical_amount = quantity
+                return_value = quantity
             else: #python code
                 localdict = {}
                 localdict['quantity'] = quantity
                 localdict['amount'] = amount
-                localdict['line'] = None
-                localdict['lines'] = sorted_budget_line_ids
+                localdict['line'] = line
+                localdict['lines'] = brw_line_obj
+                localdict['result'] = None
                 try:
-                    eval(line.python_code, localdict, mode='exec', nocopy=True)
-                    line.practical_amount = 'result' in localdict and localdict['result'] or 0.0
+
+                    local_res = {}
+                    #local_res = eval(line.python_code, localdict, mode='exec', nocopy=True)
+                    exec line.python_code in localdict, local_res
+                    return_value = 'result' in local_res and float(local_res['result']) or 0.0
                 except Exception, e:
                     raise osv.except_osv(_('Error!'), _('Wrong python condition defined for budget line %s (%s).') % (
                     line.name, line.struct_budget_id.name) + "\n\n" + str(e))
-        return res
+            brw_line_obj.dict[line.name] += return_value
+            line.practical_amount = return_value
+        #return res
 
     @api.multi
     @api.depends('planned_amount','date_from','date_to','paid_date')

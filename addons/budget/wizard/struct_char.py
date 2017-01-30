@@ -56,15 +56,13 @@ class StructChart(models.Model):
         @param ids: List of account chart’s IDs
         @return: dictionary of Open account chart window on given fiscalyear and all Entries or posted entries
         """
-        model_data_obj = self.env['ir.model.data']
-        action_obj = self.env['ir.actions.act_window']
-        if not self._context:
-            self._context = {}
-        data = self.read([])[0]
-        result = model_data_obj.get_object_reference('budget', 'budget_struct_tree_action')
-        id = result and result[1] or False  # xml_id
-        result = action_obj.browse([id]).read([])[0]
-        result['domain'] = str([('id', 'in', self._get_structs().ids)])
+        self.ensure_one()
+
+        result = self.env.ref('budget.open_budget_struct').read()[0]
+
+        result['context'] = str({'group_by': 'parent_id'})
+        result['domain'] = str([('id', 'in', self._get_structs().ids), ('type', '=', self.type)])
+        result['flags'] = {'search_view': False}
         return result
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

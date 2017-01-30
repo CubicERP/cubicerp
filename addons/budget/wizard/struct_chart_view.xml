@@ -23,27 +23,27 @@
             </field>
         </record>
 
-        <record id="budget_struct_tree_view" model="ir.ui.view">
-            <field name="name">budget.struct.tree.view</field>
-            <field name="model">budget.struct</field>
-            <field name="field_parent">child_ids</field>
-            <field name="arch" type="xml">
-                <tree string="Chart of Struct" toolbar="1" >
-                    <field name="code"/>
-                    <field name="name"/>
-                    <field name="type"/>
-                    <field name="parent_id" invisible="1"/>
-                </tree>
-            </field>
-        </record>
+        <!--<record id="budget_struct_tree_view" model="ir.ui.view">-->
+            <!--<field name="name">budget.struct.tree.view</field>-->
+            <!--<field name="model">budget.struct</field>-->
+            <!--&lt;!&ndash;<field name="field_parent">full_child_ids</field>&ndash;&gt;-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree string="Chart of Struct" toolbar="1" >-->
+                    <!--<field name="code"/>-->
+                    <!--<field name="name"/>-->
+                    <!--<field name="type"/>-->
+                    <!--<field name="parent_id" invisible="1"/>-->
+                <!--</tree>-->
+            <!--</field>-->
+        <!--</record>-->
 
-        <record id="budget_struct_tree_action" model="ir.actions.act_window">
-            <field name="name">Chart of Struct</field>
-            <field name="res_model">budget.struct</field>
-            <field name="view_type">tree</field>
-            <field name="view_id" ref="budget_struct_tree_view"/>
-            <field name="domain">[('parent_id','=',False)]</field>
-        </record>
+        <!--<record id="budget_struct_tree_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Chart of Struct</field>-->
+            <!--<field name="res_model">budget.struct</field>-->
+            <!--<field name="view_type">tree</field>-->
+            <!--<field name="view_id" ref="budget_struct_tree_view"/>-->
+            <!--<field name="domain">[('parent_id','=',False)]</field>-->
+        <!--</record>-->
 
         <record id="budget_struct_chart_action" model="ir.actions.act_window">
             <field name="name">Chart of Struct</field>

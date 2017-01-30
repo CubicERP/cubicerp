@@ -123,6 +123,8 @@ class BudgetStruct(models.Model):
         if not args:
             args = []
         args = args[:]
+        args = [tuple(item) for item in args]
+        budget_struct = self.search(args, limit=limit)
 
         if name:
             if operator not in expression.NEGATIVE_TERM_OPERATORS:
@@ -149,8 +151,6 @@ class BudgetStruct(models.Model):
                     operand1, operand2 = name.split(' ', 1)  # name can contain spaces e.g. OpenERP S.A.
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
                                                    ('id', 'in', budget_struct)] + args, limit=limit)
-        else:
-            budget_struct = self.search(args, limit=limit)
         return budget_struct.name_get()
 
 

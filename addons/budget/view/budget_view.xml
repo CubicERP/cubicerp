@@ -17,6 +17,7 @@
                     <field name="complete_name"/>
                     <field name="code"/>
                     <field name="type"/>
+                    <field name="parent_id" invisible="1"/>
                 </tree>
             </field>
         </record>

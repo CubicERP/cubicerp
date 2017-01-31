@@ -7,12 +7,14 @@
             <field name="arch" type="xml">
                 <form string="Struct Charts">
                     <group>
-                        <label for="budget_period_id"/>
-                        <div> 
-                            <field name="budget_period_id" class="oe_inline"/>
-                            <label align="0.7" string="(If you do not select a specific budget period, all open fiscal years will be selected.)" class="oe_inline"/>
-                        </div>
-                        <field name="type"/>
+                        <group>
+                            <field name="struct_parent_id"/>
+                            <field name="analytic_acc_id"/>
+                        </group>
+                        <group>
+                            <field name="budget_period_id"/>
+                            <field name="company_id"/>
+                        </group>
                     </group>
                     <footer>
                         <button string="Open Charts" name="struct_chart_open_window" type="object" class="oe_highlight"/>
@@ -54,8 +56,8 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem name="Chart of Structs" parent="menu_budget_conf"
-                  id="budget_struct_char_menuitem"
-                  action="budget_struct_chart_action" sequence="45"/>
+        <!--<menuitem name="Chart of Structs" parent="menu_budget_conf"-->
+                  <!--id="budget_struct_char_menuitem"-->
+                  <!--action="budget_struct_chart_action" sequence="45"/>-->
     </data>
 </openerp>

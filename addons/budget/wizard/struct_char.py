@@ -29,12 +29,13 @@ class StructChart(models.Model):
     _name = "budget.struct.chart"
     _description = "Struct Chart"
 
+    struct_parent_id = fields.Many2one('budget.struct', string='Budget Struct', required=True)
+    company_id = fields.Many2one('res.company', string='Company')
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
-    type = fields.Selection([('normal', 'Normal'),
-                             ('view', 'View')], string="Type", default='normal')
+    analytic_acc_id = fields.Many2one('account.analytic.account', string='Analytic Account')
 
     @api.multi
-    def _get_structs(self):
+    def _get_structs(self, budget_parent=None, analytic_acc=None, period=None, company=None):
         """Return default Period value"""
         # find all budget lines with this period
         # get the struct of this lines
@@ -54,7 +55,7 @@ class StructChart(models.Model):
         @param cr: the current row, from the database cursor,
         @param uid: the current user’s ID for security checks,
         @param ids: List of account chart’s IDs
-        @return: dictionary of Open account chart window on given fiscalyear and all Entries or posted entries
+        @return:
         """
         self.ensure_one()
 

@@ -797,15 +797,15 @@ Form View: Widgets
 .openerp .oe_form .oe_form_field_text textarea,
 .openerp .oe_form .oe_form_field_one2many,
 .openerp .oe_form .oe_form_field_many2many {
-    min-width: 100% !important;
-    max-width: 100% !important;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
-    width: auto !important;
-    min-width: 220px !important;
-    max-width: 220px !important;
+    width: auto;
+    min-width: 220px;
+    max-width: 220px;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {
@@ -825,16 +825,11 @@ Form View: Widgets
     display: none !important;
 }
 
-.openerp .oe_list.oe_list_editable.oe_editing .oe_form_field_many2one {
-    min-width: 113px !important;
-    max-width: 113px !important;
-}
-
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required select:not([disabled]):not([readonly]),
-.openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]) {
-    background-color: transparent !important;
-    border-color: #e26666;
+.openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]){
+    background-color: white !important;
+    border-color: #e26666 !important;
 }
 
 @media (max-width: 1024px) {

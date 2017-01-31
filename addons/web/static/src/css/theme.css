@@ -512,7 +512,7 @@ Secondary Buttons or without Focus
     background: transparent !important;
     color: #e26666 !important;
     text-transform: uppercase !important;
-    font-weight: normal !important;
+    font-weight: bold !important;
 }
 
 .oe_form_button:hover,
@@ -542,6 +542,7 @@ Primary Buttons or Focused
     background: #6D6D6D !important;
     text-transform: uppercase !important;
     box-sizing: content-box !important;
+    font-weight: bold !important;
 }
 
 .oe_highlight:hover,
@@ -637,6 +638,10 @@ Form View
     min-width: initial !important;
     max-width: initial !important;
     width: 1170px;
+}
+
+.openerp .oe_view_manager_new .oe_form_nosheet {
+    margin-top: 16px;
 }
 
 .openerp .oe_form header {

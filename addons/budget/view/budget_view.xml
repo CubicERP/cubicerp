@@ -18,6 +18,10 @@
                     <field name="code"/>
                     <field name="type"/>
                     <field name="parent_id" invisible="1"/>
+
+                    <field name="planned_amount" invisible="not context.get('show_amounts', False)"/>
+                    <field name="practical_amount" invisible="not context.get('show_amounts', False)"/>
+                    <field name="available_amount" invisible="not context.get('show_amounts', False)"/>
                 </tree>
             </field>
         </record>
@@ -30,13 +34,19 @@
                     <sheet>
                         <label for="code" class="oe_edit_only" string="Struct Code and Name"/>
                         <h1>
-                            <field name="code" class="oe_inline" placeholder="Struct Code" style="width: 4em"/> -
+                            <field name="code" class="oe_inline" placeholder="Struct Code" style="width: 4em"/>
+                            -
                             <field name="name" class="oe_inline" placeholder="Struct Name"/>
                         </h1>
                         <group>
                             <group name="one">
                                 <field name="parent_id"/>
                                 <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="planned_amount" invisible="1"/>
+                                <field name="practical_amount" invisible="1"/>
+                                <field name="available_amount" invisible="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -74,9 +84,9 @@
         </record>
 
         <!--<menuitem name="Budget Struct" action="open_budget_struct" id="menu_budget_struct" parent="next_id_pos"-->
-                  <!--sequence="10"/>-->
+        <!--sequence="10"/>-->
         <!--<menuitem name="Budget Period" action="open_budget_period" id="menu_budget_period" parent="next_id_pos"-->
-                  <!--sequence="10"/>-->
+        <!--sequence="10"/>-->
 
         <record id="view_budget_post_tree" model="ir.ui.view">
             <field name="name">budget.position.tree</field>
@@ -149,7 +159,8 @@
                     <sheet string="Budget">
                         <label for="code" class="oe_edit_only" string="Budget Code and Name"/>
                         <h1>
-                            <field name="code" class="oe_inline" placeholder="Budget Code" style="width: 4em"/> -
+                            <field name="code" class="oe_inline" placeholder="Budget Code" style="width: 4em"/>
+                            -
                             <field name="name" class="oe_inline" placeholder="Budget Name"/>
                         </h1>
                         <group>
@@ -211,7 +222,8 @@
                                                        groups="base.group_multi_company"/>
                                             </group>
                                         </group>
-                                        <separator string="Python Code" attrs="{'invisible':[('value_type','!=','code')]}"/>
+                                        <separator string="Python Code"
+                                                   attrs="{'invisible':[('value_type','!=','code')]}"/>
                                         <field name="python_code"
                                                attrs="{'invisible':[('value_type','!=','code')],'required':[('value_type','=','code')]}"/>
                                     </form>
@@ -306,8 +318,8 @@
             </field>
         </record>
         <!--<menuitem parent="next_id_31"-->
-                  <!--id="menu_act_crossovered_budget_view"-->
-                  <!--action="act_crossovered_budget_view" sequence="20"/>-->
+        <!--id="menu_act_crossovered_budget_view"-->
+        <!--action="act_crossovered_budget_view" sequence="20"/>-->
 
 
         <record model="ir.ui.view" id="view_budget_budget_lines_tree">

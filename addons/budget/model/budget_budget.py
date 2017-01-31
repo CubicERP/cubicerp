@@ -73,6 +73,11 @@ class BudgetStruct(models.Model):
         return parent_path + elmt.name
 
     def _complete_child_ids(self, struct):
+        """
+
+        :param struct:
+        :return: list of the ids of the all struct children
+        """
         res = []
         childs = [c for c in struct.child_ids]
         while childs:
@@ -83,6 +88,27 @@ class BudgetStruct(models.Model):
                 for c3 in c.child_ids:
                     childs += [c3]
         return res
+
+    def get_struct_amount(self, struct):
+        planned_amount, practical_amount, available_amount = 0.0, 0.0, 0.0
+        lines_obj = self.env['budget.budget.lines']
+        lines = lines_obj.search([
+            ('struct_budget_id', 'in', (struct.full_child_ids | struct).ids),
+        ])
+        for line in lines:
+            planned_amount += line.planned_amount
+            practical_amount += line.practical_amount
+            available_amount += line.available_amount
+        return planned_amount, practical_amount, available_amount
+
+    @api.multi
+    @api.depends('line_ids')
+    def _compute_struct_amount(self):
+        for struct in self:
+            planned, practical, avail = self.get_struct_amount(struct)
+            struct.planned_amount = planned
+            struct.practical_amount = practical
+            struct.avail_amount = avail
 
     @api.multi
     def _full_child_ids(self):
@@ -98,6 +124,10 @@ class BudgetStruct(models.Model):
     type = fields.Selection([('normal', 'Normal'),
                              ('view', 'View')], string="Type", required=True)
     line_ids = fields.One2many('budget.budget.lines', 'struct_budget_id', string="Budgetary Lines")
+
+    planned_amount = fields.Float(string='Planned Amount', compute='_compute_struct_amount')
+    practical_amount = fields.Float(string='Practical Amount', compute='_compute_struct_amount')
+    available_amount = fields.Float(string='Available Amount', compute='_compute_struct_amount')
 
     _order = 'code,name'
     _sql_constraints = [('code_unique', 'UNIQUE(code)', 'The code must be unique!')]

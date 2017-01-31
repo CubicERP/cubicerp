@@ -39,14 +39,21 @@ class StructChart(models.Model):
         """Return default Period value"""
         # find all budget lines with this period
         # get the struct of this lines
-        domain, budget_line_obj, structs = [], self.env['budget.budget.lines'], None
+        self.ensure_one()
+        domain, lines_obj, structs = [], self.env['budget.budget.lines'], None
         for chart in self:
             if chart.budget_period_id:
                 domain.extend([('budget_period_id', '=', chart.budget_period_id.id)])
-            structs = budget_line_obj.search(domain).mapped('struct_budget_id')
-            if chart.type:
-                structs.filtered(lambda struct: struct.type == chart.type)
-        return structs
+            if chart.struct_parent_id:
+                struct_ids = chart.struct_parent_id | chart.struct_parent_id.full_child_ids
+                domain.extend([('struct_budget_id', 'in', struct_ids.ids)])
+            if chart.analytic_acc_id:
+                analytic_ids = chart.analytic_acc_id | chart.analytic_acc_id.child_complete_ids
+                domain.extend([('analytic_account_id', 'in', analytic_ids.ids)])
+            if chart.company_id:
+                domain.extend([('company_id', '=', chart.company_id.id)])
+
+        return lines_obj.search(domain).mapped('struct_budget_id')
 
     @api.multi
     def struct_chart_open_window(self):
@@ -61,8 +68,8 @@ class StructChart(models.Model):
 
         result = self.env.ref('budget.open_budget_struct').read()[0]
 
-        result['context'] = str({'group_by': 'parent_id'})
-        result['domain'] = str([('id', 'in', self._get_structs().ids), ('type', '=', self.type)])
+        result['context'] = str({'group_by': 'parent_id', 'show_amounts': True})
+        result['domain'] = str([('id', 'in', self._get_structs().ids)])
         result['flags'] = {'search_view': False}
         return result
 

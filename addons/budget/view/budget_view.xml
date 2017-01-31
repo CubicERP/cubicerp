@@ -59,11 +59,20 @@
             <field name="model">budget.struct</field>
             <field name="arch" type="xml">
                 <search string="Budgetary Struct">
+
+                    <field name="parent_id"/>
+                    <field name="type"/>
+                    <field name="line_ids"/>
+
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]"
                            string="Position Type"/>
                     <group expand="0" string="Group By">
                         <filter string="Financial Report" context="{'group_by':'financial_report_id'}"/>
+                        <filter string="Type" context="{'group_by':'type'}"/>
+                        <filter string="Parent" context="{'group_by':'parent_id'}"/>
                     </group>
+
+
                 </search>
             </field>
         </record>

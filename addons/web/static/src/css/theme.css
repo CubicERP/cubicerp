@@ -797,8 +797,8 @@ Form View: Widgets
 .openerp .oe_form .oe_form_field_text textarea,
 .openerp .oe_form .oe_form_field_one2many,
 .openerp .oe_form .oe_form_field_many2many {
-    min-width: 100% !important;
-    max-width: 100% !important;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .openerp .oe_form_field_many2one {
@@ -828,7 +828,7 @@ Form View: Widgets
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required select:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]){
-    background-color: transparent !important;
+    background-color: white !important;
     border-color: #e26666 !important;
 }
 

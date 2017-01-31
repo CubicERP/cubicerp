@@ -10,8 +10,14 @@
             <field name="arch" type="xml">
                 <tree string="Budget Transaction" colors="blue:state=='draft'">
                     <field name="name"/>
-                    <field name="period_id"/>
+                    <field name="period_id" invisible="1"/>
+                    <field name="ref"/>
                     <field name="date"/>
+                    <field name="total_amount"/>
+                    <field name="available"/>
+                    <field name="committed"/>
+                    <field name="provision"/>
+                    <field name="paid"/>
                     <field name="state"/>
                 </tree>
             </field>

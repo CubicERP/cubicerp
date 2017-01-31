@@ -47,12 +47,28 @@ class AccountMove(models.Model):
     def button_cancel(self):
         for move in self:
             for line in move.line_id:
-                if line.budget_line_ids:
-                    line.budget_line_ids.unlink()
+                if line.budget_move_ids:
+                    line.budget_move_ids.unlink()
         return super(AccountMove, self).button_cancel()
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    budget_line_ids = fields.One2many('budget.move', 'move_line_id', string='Budget Transactions', readonly=True)
+    budget_move_ids = fields.One2many('budget.move', 'move_line_id', string='Budget Transactions', readonly=True)
+
+    @api.multi
+    def reconcile_partial(self, type='auto', writeoff_acc_id=False, writeoff_period_id=False, writeoff_journal_id=False):
+        reconcile_id = super(AccountMoveLine, self).reconcile_partial(type=type, writeoff_acc_id=writeoff_acc_id,
+                                                                writeoff_period_id=writeoff_period_id,
+                                                                writeoff_journal_id=writeoff_journal_id)
+        self.env['budget.move'].create_from_reconcile(reconcile_id)
+        return reconcile_id
+
+    @api.multi
+    def reconcile(self, type='auto', writeoff_acc_id=False, writeoff_period_id=False, writeoff_journal_id=False):
+        reconcile_id = super(AccountMoveLine, self).reconcile(type=type, writeoff_acc_id=writeoff_acc_id,
+                                                              writeoff_period_id=writeoff_period_id,
+                                                              writeoff_journal_id=writeoff_journal_id)
+        self.env['budget.move'].create_from_reconcile(reconcile_id)
+        return reconcile_id

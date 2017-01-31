@@ -31,6 +31,31 @@ class BudgetMove(models.Model):
         periods = self.env['budget.period'].find()
         return periods and periods[0] or False
 
+    @api.multi
+    @api.depends('line_ids','line_ids.available','line_ids.committed','line_ids.provision','line_ids.paid')
+    def _compute_amount(self):
+        for move in self:
+            available = committed = provision = paid = total_amount = 0.0
+            for line in move.line_ids:
+                available += line.available
+                committed += line.committed
+                provision += line.provision
+                paid += line.paid
+                if line.available > 0.0:
+                    total_amount += line.available
+                if line.committed > 0.0:
+                    total_amount += line.committed
+                if line.provision > 0.0:
+                    total_amount += line.provision
+                if line.paid > 0.0:
+                    total_amount += line.paid
+
+            move.available = available
+            move.committed = committed
+            move.provision = provision
+            move.paid = paid
+            move.total_amount = total_amount
+
     name = fields.Char("Name", required=True, default="/", states={'draft': [('readonly', False)]}, readonly=True)
     ref = fields.Char("Reference", states={'draft': [('readonly', False)]}, readonly=True)
     date = fields.Date("Date", required=True, default=fields.Date.today, states={'draft': [('readonly', False)]}, readonly=True)
@@ -48,6 +73,11 @@ class BudgetMove(models.Model):
     company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]},
                                  default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
+    available = fields.Float("Available", compute=_compute_amount)
+    committed = fields.Float("Committed", compute=_compute_amount)
+    provision = fields.Float("Provision", compute=_compute_amount)
+    paid = fields.Float("Paid", compute=_compute_amount)
+    total_amount = fields.Float("Total Amount", compute=_compute_amount)
 
     @api.one
     def unlink(self):
@@ -82,30 +112,35 @@ class BudgetMove(models.Model):
             res['period_id'] = line.move_id.period_id.budget_period_id.id
         return res
 
-    def _create_lines_values(self, move, line):
-        amount = line.debit - line.credit
+    def _create_lines_values(self, move, line, amount=None, struct_id=None, analytic_id=None):
+        if amount is None:
+            amount = line.debit - line.credit
+        if struct_id is None:
+            struct_id = line.budget_struct_id.id
+        if analytic_id is None:
+            analytic_id = line.analytic_account_id.id
         l1 = {
             'move_id': move.id,
             'name': line.name,
-            'struct_id': line.budget_struct_id.id,
+            'struct_id': struct_id,
         }
         l2 = {
             'move_id': move.id,
             'name': line.name,
-            'struct_id': line.budget_struct_id.id,
+            'struct_id': struct_id,
         }
-        if line.analytic_account_id:
-            l1['analytic_id'] = line.analytic_account_id.id
-            l2['analytic_id'] = line.analytic_account_id.id
+        if analytic_id:
+            l1['analytic_id'] = analytic_id
+            l2['analytic_id'] = analytic_id
         if line.partner_id:
             l1['partner_id'] = line.partner_id.id
-            l2['partner_id'] = line.partner_id.id # TODO: must be dynamic
+            l2['partner_id'] = line.partner_id.id
         if line.move_id.journal_id.type in ('cash','bank'):
-            l1['paid'] = amount
-            l2['provision'] = amount * -1.0 # TODO: must be dynamic
+            l1['paid'] = amount * -1.0
+            l2['provision'] = amount
         elif line.move_id.journal_id.type in ('sale','sale_refund','purchase','purchase_refund'):
-            l1['provision'] = amount * -1.0
-            l2['committed'] = amount # TODO: must be dynamic
+            l1['provision'] = amount
+            l2['committed'] = amount * -1.0
         else:
             raise exceptions.ValidationError(_("The journal kind %s is not supported to make automatic budget "
                                                "transactions. Make a manually budget transaction for the line %s!") %
@@ -117,6 +152,29 @@ class BudgetMove(models.Model):
         for line_dict in self._create_lines_values(move, line):
             self.env['budget.move.line'].create(line_dict)
         return move
+
+    def create_from_reconcile(self, reconcile_id):
+        reconcile = self.env['account.move.reconcile'].browse(reconcile_id)
+        cash = []
+        prom = {}
+        vals = []
+        for line in reconcile.line_id:
+            if line.journal_id.type in ('cash','bank') and not line.budget_struct_id:
+                cash += [line]
+            elif line.journal_id.type not in ('cash','bank') and line.budget_struct_id:
+                prom[(line.budget_struct_id.id,line.analytic_account_id.id,line.partner_id.id)] = \
+                    prom.get((line.budget_struct_id.id,line.analytic_account_id.id,line.partner_id.id), 0.0) + \
+                    (line.debit - line.credit)
+                vals.append((line.debit - line.credit))
+        total_vals = sum(vals)
+        if cash and total_vals:
+            for c in cash:
+                move = self.create(self._create_move_values(c))
+                for k in prom:
+                    amount = (c.debit-c.credit) * prom[k] / total_vals
+                    for line_dict in self._create_lines_values(move, c, amount=amount, struct_id=k[0],analytic_id=k[1]):
+                        self.env['budget.move.line'].create(line_dict)
+
 
 class BudgetMoveLine(models.Model):
     _name = "budget.move.line"

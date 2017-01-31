@@ -57,8 +57,10 @@ class AccountMoveLine(models.Model):
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
-    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')])
+    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')],
+                                       readonly=True, states={'draft': [('readonly', False)]})
+    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')],
+                                         readonly=True, states={'draft': [('readonly', False)]})
 
     def line_get_convert(self, cr, uid, x, part, date, context=None):
         res = super(AccountInvoice, self).line_get_convert(cr, uid, x, part, date, context=context)
@@ -70,23 +72,45 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self)._get_first_line_values(inv, name, total, date_maturity, diff_currency, total_currency, ref)
         if inv.budget_struct_id:
             res['budget_struct_id'] = inv.budget_struct_id.id
-        if inv.analytic_account_id:
-            res['analytic_account_id'] = inv.analytic_account_id.id
+        if inv.budget_analytic_id:
+            res['budget_analytic_id'] = inv.budget_analytic_id.id
         return res
 
 
 class AccountVoucher(models.Model):
     _inherit = "account.voucher"
 
-    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')])
-    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')])
+    budget_struct_id = fields.Many2one('budget.struct', 'Budget Struct', domain=[('type', '=', 'normal')],
+                                       readonly=True, states={'draft': [('readonly', False)]},
+                                       help="Use this to force the Budget Struct in the account move line")
+    budget_analytic_id = fields.Many2one('account.analytic.account', 'Budget Analytic', domain=[('type', '<>', 'view')],
+                                         readonly=True, states={'draft': [('readonly', False)]},
+                                         help="Use this to force the Analytic Account in the account move line")
 
     @api.model
-    def first_move_line_get(self, voucher_id, move_id, company_currency, current_currency):
-        res = super(AccountVoucher, self).first_move_line_get(voucher_id, move_id, company_currency, current_currency)
+    def writeoff_move_line_get(self, voucher_id, line_total, move_id, name, company_currency, current_currency):
+        res = super(AccountVoucher, self).writeoff_move_line_get(voucher_id, line_total, move_id, name, company_currency, current_currency)
         voucher = self.browse(voucher_id)
-        if voucher.budget_struct_id:
+        if res and voucher.budget_struct_id:
             res['budget_struct_id'] = voucher.budget_struct_id.id
-        if voucher.budget_analytic_id:
+        if res and voucher.budget_analytic_id:
             res['analytic_account_id'] = voucher.budget_analytic_id.id
+        return res
+
+    @api.model
+    def _get_move_line_vals(self, line, name, move_id, company_currency, amount_currency=0.0):
+        res = super(AccountVoucher, self)._get_move_line_vals(line, name, move_id, company_currency, amount_currency=amount_currency)
+        if res and line.voucher_id.budget_struct_id:
+            res['budget_struct_id'] = line.voucher_id.budget_struct_id.id
+        if res and line.voucher_id.budget_analytic_id:
+            res['analytic_account_id'] = line.voucher_id.budget_analytic_id.id
+        return res
+
+    @api.model
+    def _get_exchange_lines(self, line, move_id, amount_residual, company_currency, current_currency):
+        res = super(AccountVoucher, self)._get_exchange_lines(line, move_id, amount_residual, company_currency, current_currency)
+        if res and line.voucher_id.budget_struct_id:
+            res[0]['budget_struct_id'] = line.voucher_id.budget_struct_id.id
+        if res and line.voucher_id.budget_analytic_id:
+            res[0]['analytic_account_id'] = line.voucher_id.budget_analytic_id.id
         return res

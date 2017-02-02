@@ -180,7 +180,7 @@ instance.web.ActionManager = instance.web.Widget.extend({
                 }
             }
         }
-        return titles.join(' <span class="oe_fade">/</span> ');
+        return titles.join(' <span class="oe_fade">></span> ');
     },
     do_push_state: function(state) {
         state = state || {};

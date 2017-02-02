@@ -1018,7 +1018,18 @@ instance.web.UserMenu =  instance.web.Widget.extend({
                 f($(this));
             }
         });
-        this.$el.parent().show()
+        //-------------------------------------------------
+        self.$el.find('a.oe_desactivate_debug_mode').click(function (e) {
+            e.preventDefault();
+            window.open(window.location.href.replace('debug', ""), '_self');
+        });
+        //-------------------------------------------------
+        self.$el.find('a.oe_activate_debug_mode').click(function (e) {
+            e.preventDefault();
+            window.open($.param.querystring(window.location.href, 'debug'), '_self');
+        });
+        //-------------------------------------------------
+        this.$el.parent().show();
     },
     do_update: function () {
         var self = this;
@@ -1030,8 +1041,14 @@ instance.web.UserMenu =  instance.web.Widget.extend({
             var func = new instance.web.Model("res.users").get_func("read");
             return self.alive(func(self.session.uid, ["name", "company_id"])).then(function(res) {
                 var topbar_name = res.name;
-                if(instance.session.debug)
+                if(instance.session.debug) {
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, instance.session.db);
+                    self.$el.find('a.oe_activate_debug_mode').addClass('hidden');
+                    self.$el.find('a.oe_desactivate_debug_mode').removeClass('hidden');
+                } else {
+                    self.$el.find('a.oe_activate_debug_mode').removeClass('hidden');
+                    self.$el.find('a.oe_desactivate_debug_mode').addClass('hidden');
+                }
                 if(res.company_id[0] > 1)
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
                 self.$el.find('.oe_topbar_name').text(topbar_name);
@@ -1086,19 +1103,26 @@ instance.web.UserMenu =  instance.web.Widget.extend({
     on_menu_about: function() {
         var self = this;
         self.rpc("/web/webclient/version_info", {}).done(function(res) {
-            var $help = $(QWeb.render("UserMenu.about", {version_info: res}));
-            if(instance.session.debug) {
-                $help.find('a.oe_activate_debug_mode').addClass('hidden');
-            }
-            $help.find('a.oe_activate_debug_mode').click(function (e) {
-                e.preventDefault();
-                window.location = $.param.querystring( window.location.href, 'debug');
+            new instance.web.Model('ir.module.module').query(["author"]).order_by(['author']).all().then(function(result) {
+                model_names = {}
+                _.each(result, function(module) {
+                    if(module.author != '')
+                        model_names[module.author] = 1;
+                });
+                //-------------------------------------------------
+                var $help = $(QWeb.render("UserMenu.about", {
+                    version_info: res,
+                    model_names: model_names,
+                }));
+                //-------------------------------------------------
+                $help.find('#loading_modules_authors').addClass('hidden');
+                //-------------------------------------------------
+                new instance.web.Dialog(this, {
+                    size: 'medium',
+                    dialogClass: 'oe_act_window',
+                    title: _t("About"),
+                }, $help).open();
             });
-            new instance.web.Dialog(this, {
-                size: 'medium',
-                dialogClass: 'oe_act_window',
-                title: _t("About"),
-            }, $help).open();
         });
     },
 });
@@ -1521,8 +1545,10 @@ instance.web.WebClient = instance.web.Client.extend({
 
         $('.leftbar_opener').on('click', toggle);
         $('#oe_main_menu_navbar > #navbar-content a').on('click', open_leftbar);
+        $('.oe_menu_leaf').on('click', toggle);
+
         $(document).keydown(function (key) {
-            if (key.key == 'Escape') {
+            if (key.key == 'Escape' && $(this).find('.modal').length == 0) {
                 toggle();
             }
         });
@@ -1595,8 +1621,6 @@ instance.web.embed = function (origin, dbname, login, key, action, options) {
     var client = new instance.web.EmbeddedClient(null, origin, dbname, login, key, action, options);
     client.insertAfter(currentScript);
 };
-
-
 
 /* 
  * The Android/iPhone App is a JS/HTML app that launches the

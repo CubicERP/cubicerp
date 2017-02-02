@@ -180,6 +180,7 @@ Main Navbar
     color: white !important;
     padding-left: 18px !important;
     height: 34px;
+    font-size: 24px;
 }
 
 .leftbar_opener:hover {
@@ -788,7 +789,8 @@ Form View: Footer
 Form View: Widgets
 ***********************************************************************************************************************/
 .openerp .oe_form .oe_form_field {
-
+    min-width: 200px;
+    max-width: 200px;
 }
 
 .openerp .oe_form .oe_form_field_text,
@@ -802,11 +804,8 @@ Form View: Widgets
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
     width: auto !important;
-}
-
-.openerp .oe_form_field_many2one > div {
-    min-width: 190px !important;
-    max-width: 190px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {
@@ -820,6 +819,15 @@ Form View: Widgets
 
 .openerp .oe_form .oe_form_field_one2many > .oe_view_manager {
     display: block !important;
+}
+
+.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header {
+    display: none !important;
+}
+
+.openerp .oe_list.oe_list_editable.oe_editing .oe_form_field_many2one {
+    min-width: 113px !important;
+    max-width: 113px !important;
 }
 
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),

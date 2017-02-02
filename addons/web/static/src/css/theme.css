@@ -802,6 +802,7 @@ Form View: Widgets
     max-width: 200px;
 }
 
+.openerp .oe_form .oe_form_field_html,
 .openerp .oe_form .oe_form_field_text,
 .openerp .oe_form .oe_form_field_text textarea,
 .openerp .oe_form .oe_form_field_one2many,

@@ -29,7 +29,7 @@ class StructChart(models.Model):
     _name = "budget.struct.chart"
     _description = "Struct Chart"
 
-    struct_parent_id = fields.Many2one('budget.struct', string='Budget Struct', required=True)
+    struct_parent_id = fields.Many2one('budget.struct', string='Budget Struct')
     company_id = fields.Many2one('res.company', string='Company')
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
     analytic_acc_id = fields.Many2one('account.analytic.account', string='Analytic Account')
@@ -40,18 +40,19 @@ class StructChart(models.Model):
         # find all budget lines with this period
         # get the struct of this lines
         self.ensure_one()
-        domain, lines_obj, structs = [], self.env['budget.budget.lines'], None
+        lines_obj, structs = self.env['budget.budget.lines'], None
         for chart in self:
+            domain = []
             if chart.budget_period_id:
-                domain.extend([('budget_period_id', '=', chart.budget_period_id.id)])
+                domain += [('budget_period_id', '=', chart.budget_period_id.id)]
             if chart.struct_parent_id:
-                struct_ids = chart.struct_parent_id | chart.struct_parent_id.full_child_ids
-                domain.extend([('struct_budget_id', 'in', struct_ids.ids)])
+                struct_ids = (chart.struct_parent_id | chart.struct_parent_id.full_child_ids).ids
+                domain += [('struct_budget_id', 'in', struct_ids)]
             if chart.analytic_acc_id:
                 analytic_ids = chart.analytic_acc_id | chart.analytic_acc_id.child_complete_ids
-                domain.extend([('analytic_account_id', 'in', analytic_ids.ids)])
+                domain += [('analytic_account_id', 'in', analytic_ids.ids)]
             if chart.company_id:
-                domain.extend([('company_id', '=', chart.company_id.id)])
+                domain += [('company_id', '=', chart.company_id.id)]
 
         return lines_obj.search(domain).mapped('struct_budget_id')
 
@@ -66,11 +67,15 @@ class StructChart(models.Model):
         """
         self.ensure_one()
 
-        result = self.env.ref('budget.open_budget_struct').read()[0]
+        result = self.env.ref('budget.budget_struct_hierarchy_tree_action').read()[0]
+        domain = [('parent_id', '=', False)]
+        if self.struct_parent_id:
+            domain = [('parent_id', '=', self.struct_parent_id.id)]
 
-        result['context'] = str({'group_by': 'parent_id', 'show_amounts': True})
-        result['domain'] = str([('id', 'in', self._get_structs().ids)])
-        result['flags'] = {'search_view': False}
+        result['context'] = str({'show_amounts': True})
+        result['domain'] = str(domain)
+        # result['domain'] = str([('parent_id', '=', self.struct_parent_id), ('id', 'in', self._get_structs().ids)])
+        #result['flags'] = {'search_view': False}
         return result
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -39,13 +39,22 @@
             <!--</field>-->
         <!--</record>-->
 
-        <!--<record id="budget_struct_tree_action" model="ir.actions.act_window">-->
-            <!--<field name="name">Chart of Struct</field>-->
-            <!--<field name="res_model">budget.struct</field>-->
-            <!--<field name="view_type">tree</field>-->
-            <!--<field name="view_id" ref="budget_struct_tree_view"/>-->
-            <!--<field name="domain">[('parent_id','=',False)]</field>-->
-        <!--</record>-->
+        <record id="budget_struct_hierarchy_tree_action" model="ir.actions.act_window">
+            <field name="name">Chart of Struct</field>
+            <field name="res_model">budget.struct</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="budget.view_budget_struct_tree"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+
+        <!-- Enable drill-down from Chart Of Structs tree view -->
+        <act_window
+            id="action_budget_struct_hierarchy_items"
+            name="Budget Lines"
+            context="{'search_default_struct_budget_id': [active_id]}"
+            res_model="budget.budget.lines"
+            src_model="budget.struct"
+            key2="tree_but_open"/>
 
         <record id="budget_struct_chart_action" model="ir.actions.act_window">
             <field name="name">Chart of Struct</field>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as

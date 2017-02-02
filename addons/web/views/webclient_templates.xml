@@ -141,7 +141,7 @@
 
         <template id="web.menu">
             <div id="main_navbar">
-                <button type="button" class="leftbar_opener" title="Press ESC o click here to toggle menu">
+                <button type="button" class="leftbar_opener" title="Press Control o click here to toggle menu">
                     <span class="glyphicon glyphicon-th-large"></span>
                 </button>
                 <nav class="navbar" role="navigation" id='oe_main_menu_navbar'>

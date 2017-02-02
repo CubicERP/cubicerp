@@ -21,6 +21,7 @@
 
 from openerp import models, fields, api, exceptions, _
 
+
 class BudgetMove(models.Model):
     _name = "budget.move"
     _description = "Budget Move Transaction"
@@ -30,6 +31,31 @@ class BudgetMove(models.Model):
         periods = self.env['budget.period'].find()
         return periods and periods[0] or False
 
+    @api.multi
+    @api.depends('line_ids','line_ids.available','line_ids.committed','line_ids.provision','line_ids.paid')
+    def _compute_amount(self):
+        for move in self:
+            available = committed = provision = paid = total_amount = 0.0
+            for line in move.line_ids:
+                available += line.available
+                committed += line.committed
+                provision += line.provision
+                paid += line.paid
+                if line.available > 0.0:
+                    total_amount += line.available
+                if line.committed > 0.0:
+                    total_amount += line.committed
+                if line.provision > 0.0:
+                    total_amount += line.provision
+                if line.paid > 0.0:
+                    total_amount += line.paid
+
+            move.available = available
+            move.committed = committed
+            move.provision = provision
+            move.paid = paid
+            move.total_amount = total_amount
+
     name = fields.Char("Name", required=True, default="/", states={'draft': [('readonly', False)]}, readonly=True)
     ref = fields.Char("Reference", states={'draft': [('readonly', False)]}, readonly=True)
     date = fields.Date("Date", required=True, default=fields.Date.today, states={'draft': [('readonly', False)]}, readonly=True)
@@ -38,15 +64,30 @@ class BudgetMove(models.Model):
     line_ids = fields.One2many('budget.move.line', 'move_id', string="Lines", states={'draft': [('readonly', False)]}, readonly=True)
     move_line_id = fields.Many2one('account.move.line', string="Move Line",
                                 states={'draft': [('readonly', False)]}, readonly=True)
+    account_move_id = fields.Many2one('account.move', string="Account Entry", related="move_line_id.move_id",
+                                      readonly=True, store=True)
+    account_journal_id = fields.Many2one('account.journal', string="Account Journal", readonly=True, store=True,
+                                         related="move_line_id.move_id.journal_id")
     state = fields.Selection([('draft','Draft'),
                               ('done','Done')], string="State", readonly=True, default='draft')
     company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]},
                                  default=lambda s: s.env['res.company'].company_default_get('budget.budget'))
+    available = fields.Float("Available", compute=_compute_amount)
+    committed = fields.Float("Committed", compute=_compute_amount)
+    provision = fields.Float("Provision", compute=_compute_amount)
+    paid = fields.Float("Paid", compute=_compute_amount)
+    total_amount = fields.Float("Total Amount", compute=_compute_amount)
+
+    @api.one
+    def unlink(self):
+        if self.state == 'done':
+            raise exceptions.ValidationError(_("The Budget Transaction %s must be in draft state, to be deleted!")%(self.name))
+        return super(BudgetMove, self).unlink()
 
     @api.model
     def create(self, vals):
-        if vals.get('name') == '/':
+        if vals.get('name','/') == '/':
             vals['name'] = self.env['ir.sequence'].get('budget.control.move')
         return super(BudgetMove, self).create(vals)
 
@@ -60,6 +101,80 @@ class BudgetMove(models.Model):
             if line.state <> 'valid':
                 raise exceptions.ValidationError(_("The lines must be in valid state. The line %s (%s) is invalid")%(line.name,line.struct_id.get_name()))
         self.state = 'done'
+
+    def _create_move_values(self, line):
+        res = {
+            'ref': line.move_id.ref,
+            'date': line.move_id.date,
+            'move_line_id': line.id,
+        }
+        if line.move_id.period_id.budget_period_id:
+            res['period_id'] = line.move_id.period_id.budget_period_id.id
+        return res
+
+    def _create_lines_values(self, move, line, amount=None, struct_id=None, analytic_id=None):
+        if amount is None:
+            amount = line.debit - line.credit
+        if struct_id is None:
+            struct_id = line.budget_struct_id.id
+        if analytic_id is None:
+            analytic_id = line.analytic_account_id.id
+        l1 = {
+            'move_id': move.id,
+            'name': line.name,
+            'struct_id': struct_id,
+        }
+        l2 = {
+            'move_id': move.id,
+            'name': line.name,
+            'struct_id': struct_id,
+        }
+        if analytic_id:
+            l1['analytic_id'] = analytic_id
+            l2['analytic_id'] = analytic_id
+        if line.partner_id:
+            l1['partner_id'] = line.partner_id.id
+            l2['partner_id'] = line.partner_id.id
+        if line.move_id.journal_id.type in ('cash','bank'):
+            l1['paid'] = amount * -1.0
+            l2['provision'] = amount
+        elif line.move_id.journal_id.type in ('sale','sale_refund','purchase','purchase_refund'):
+            l1['provision'] = amount
+            l2['committed'] = amount * -1.0
+        else:
+            raise exceptions.ValidationError(_("The journal kind %s is not supported to make automatic budget "
+                                               "transactions. Make a manually budget transaction for the line %s!") %
+                                             (line.move_id.journal_id.type,line.name))
+        return [l1, l2]
+
+    def create_from_account(self, line):
+        move = self.create(self._create_move_values(line))
+        for line_dict in self._create_lines_values(move, line):
+            self.env['budget.move.line'].create(line_dict)
+        return move
+
+    def create_from_reconcile(self, reconcile_id):
+        reconcile = self.env['account.move.reconcile'].browse(reconcile_id)
+        cash = []
+        prom = {}
+        vals = []
+        for line in reconcile.line_id:
+            if line.journal_id.type in ('cash','bank') and not line.budget_struct_id:
+                cash += [line]
+            elif line.journal_id.type not in ('cash','bank') and line.budget_struct_id:
+                prom[(line.budget_struct_id.id,line.analytic_account_id.id,line.partner_id.id)] = \
+                    prom.get((line.budget_struct_id.id,line.analytic_account_id.id,line.partner_id.id), 0.0) + \
+                    (line.debit - line.credit)
+                vals.append((line.debit - line.credit))
+        total_vals = sum(vals)
+        if cash and total_vals:
+            for c in cash:
+                move = self.create(self._create_move_values(c))
+                for k in prom:
+                    amount = (c.debit-c.credit) * prom[k] / total_vals
+                    for line_dict in self._create_lines_values(move, c, amount=amount, struct_id=k[0],analytic_id=k[1]):
+                        self.env['budget.move.line'].create(line_dict)
+
 
 class BudgetMoveLine(models.Model):
     _name = "budget.move.line"
@@ -114,17 +229,15 @@ class BudgetMoveLine(models.Model):
                 vals['state'] = 'draft'
         return super(BudgetMoveLine, self).write(vals)
 
-    @api.cr_uid_ids_context
-    def unlink(self, cr, uid, ids, context=None):
-        valid_ids = []
-        draft_ids = []
-        for del_line in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def unlink(self):
+        for del_line in self:
             res = 0.0
             line_ids = []
             for line in del_line.move_id.line_ids:
                 if line.id <> del_line.id:
                     res += line.available + line.committed + line.provision + line.paid
-                    line_ids += [line.id]
+                    line_ids += [line]
             if line_ids:
-                self.write(cr, uid, line_ids, {'state': res == 0.0 and 'valid' or 'draft'}, context=context)
-        return super(BudgetMoveLine, self).unlink(cr, uid, ids, context=context)
+                line_ids.write({'state': res == 0.0 and 'valid' or 'draft'})
+        return super(BudgetMoveLine, self).unlink()

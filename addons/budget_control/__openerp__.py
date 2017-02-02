@@ -52,6 +52,7 @@ Dashboard / Reports for archives will include:
     "data":[
         "view/budget_control_view.xml",
         "view/budget_budget_view.xml",
+        "view/account_view.xml",
         "data/budget_data.xml",
 	    ],
     "demo_xml": [],

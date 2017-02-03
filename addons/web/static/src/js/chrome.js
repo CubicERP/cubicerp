@@ -1517,34 +1517,27 @@ instance.web.WebClient = instance.web.Client.extend({
     toggle_leftbar : function() {
         var self = this;
 
-        if (self.leftbar_close) {
+        if ($('.oe_leftbar').offset().left < 0) {
             $('.oe_leftbar').animate({left: '0px'}, {duration: 1000});
-            $('.leftbar_opener .glyphicon').css({
-                transition: 'all 1s linear',
-                transform: 'rotate(180deg)'
-            });
             instance.web.blockUI({message: ''});
             $('.blockOverlay').css({cursor: 'pointer'}).click(function () {
                 $('.leftbar_opener').trigger('click');
             });
         } else {
-            $('.oe_leftbar').animate({left: -self.leftbar_content_w + 'px'}, {duration: 1000});
-            $('.leftbar_opener .glyphicon').css({
-                transition: 'all 1s linear',
-                transform: 'rotate(0deg)'
-            });
+            $('.oe_leftbar').animate({left: -$('.oe_leftbar_content').width() + 'px'}, {duration: 1000});
             instance.web.unblockUI();
         }
-        self.leftbar_close = !self.leftbar_close;
+        $('.leftbar_opener .glyphicon').css({
+            transition: 'all 1s linear',
+            transform: 'rotate(180deg)'
+        });
     },
     apply_effect_to_leftbar: function () {
         var self = this;
-        this.leftbar_close = true;
-        self.leftbar_content_w = $('.oe_leftbar_content').width();
-        $('.oe_leftbar').css({'left': -self.leftbar_content_w + 'px'});
+        $('.oe_leftbar').css({'left': -$('.oe_leftbar_content').width() + 'px'});
 
         $('.leftbar_opener').on('click', self.toggle_leftbar);
-        $('.oe_menu_leaf').on('click', self.toggle_leftbar);
+        $('.oe_menu_leaf,.oe_menu_text').on('click', self.toggle_leftbar);
 
         $(document).keydown(function (key) {
             if (key.key == 'Escape' && $(this).find('.modal').length == 0) {

@@ -482,6 +482,16 @@
             <field name="view_id" ref="view_budget_budget_lines_tree"/>
         </record>
 
+        <!--<record id="open_budget_budget_lines_from_hierarchy" model="ir.actions.act_window">-->
+            <!--<field name="name">Budget Budget Lines</field>-->
+            <!--<field name="res_model">budget.budget.lines</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="view_id" ref="view_budget_budget_lines_tree"></field>-->
+            <!--<field name="domain">[('id','in',[active_id])]</field>-->
+            <!--<field name="context">{}</field>-->
+        <!--</record>-->
+
 
     </data>
 </openerp>

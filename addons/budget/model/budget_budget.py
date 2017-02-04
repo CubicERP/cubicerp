@@ -89,12 +89,23 @@ class BudgetStruct(models.Model):
                     childs += [c3]
         return res
 
-    def get_struct_amount(self, struct):
-        planned_amount, practical_amount, available_amount = 0.0, 0.0, 0.0
+    def get_struct_amount(self, struct=None, period=None, company=None, analytic=None):
+        planned_amount = practical_amount = available_amount = 0.0
         lines_obj = self.env['budget.budget.lines']
-        lines = lines_obj.search([
-            ('struct_budget_id', 'in', (struct.full_child_ids | struct).ids),
-        ])
+        domain = []
+        if struct:
+            domain += [('struct_budget_id', 'in', (struct.full_child_ids | struct).ids),]
+
+        if period:
+            domain += [('budget_period_id', '=', period.id)]
+
+        if company:
+            domain += [('company_id', '=', company.id)]
+
+        if analytic:
+            domain += [('analytic_account_id', 'in', (analytic | analytic.child_ids).ids)]
+
+        lines = lines_obj.search(domain)
         for line in lines:
             planned_amount += line.planned_amount
             practical_amount += line.practical_amount
@@ -105,7 +116,7 @@ class BudgetStruct(models.Model):
     @api.depends('line_ids')
     def _compute_struct_amount(self):
         for struct in self:
-            planned, practical, avail = self.get_struct_amount(struct)
+            planned, practical, avail = self.get_struct_amount(struct, period=None, company=None, analytic=None)
             struct.planned_amount = planned
             struct.practical_amount = practical
             struct.avail_amount = avail
@@ -182,6 +193,14 @@ class BudgetStruct(models.Model):
                     budget_struct = self.search([('code', operator, operand1), ('name', operator, operand2),
                                                    ('id', 'in', budget_struct)] + args, limit=limit)
         return budget_struct.name_get()
+
+    # @api.model
+    # def get_formview_action(self):
+    #     if 'show_amounts' in self._context:
+    #         action = self.env.ref('budget.act_budget_budget_lines_view').read()[0]
+    #         return action
+    #     return super(BudgetStruct, self).get_formview_action()
+        
 
 
 class BudgetPosition(models.Model):

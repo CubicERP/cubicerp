@@ -168,9 +168,28 @@ Main Navbar
 }
 
 #oe_main_menu_navbar .navbar-header .oe_systray {
-    margin-top: 5px;
+    margin-top: 8px;
     margin-bottom: 5px;
     margin-left: 15px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile {
+    margin-top: 5px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .oe_topbar_name {
+    height: 18px;
+    color: white;
+    padding-left: 6px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .caret {
+    color: white;
 }
 
 #oe_main_menu_navbar .oe_systray .oe_timezone_systray .fa {

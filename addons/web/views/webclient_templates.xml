@@ -152,6 +152,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <ul class="pull-left list-unstyled list-inline oe_systray" style="display: none;"/>
+                        <ul class="pull-right list-unstyled oe_user_menu_placeholder_mobile" style="display: none;"/>
                     </div>
                     <div class="collapse navbar-collapse" id="navbar-content">
                         <ul class="nav navbar-nav navbar-left oe_application_menu_placeholder">
@@ -165,7 +166,7 @@
                                 <ul id="menu_more" class="dropdown-menu"></ul>
                             </li>
                         </ul>
-                        <ul class="nav navbar-nav navbar-right oe_user_menu_placeholder" style="display: none;"/>
+                        <ul class="nav navbar-nav navbar-right oe_user_menu_placeholder hidden-xs" style="display: none;"/>
                         <ul class="nav navbar-nav navbar-right oe_systray hidden-xs" style="display: none;"/>
                     </div>
                 </nav>

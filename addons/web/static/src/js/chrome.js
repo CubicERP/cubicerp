@@ -1179,6 +1179,136 @@
         },
     });
 
+    instance.web.UserMenuMobile = instance.web.Widget.extend({
+        template: "UserMenu",
+        init: function (parent) {
+            this._super(parent);
+            this.update_promise = $.Deferred().resolve();
+
+        },
+        start: function () {
+            var self = this;
+            this._super.apply(this, arguments);
+            this.$el.on('click', '.dropdown-menu li a[data-menu]', function (ev) {
+                ev.preventDefault();
+                var f = self['on_menu_' + $(this).data('menu')];
+                if (f) {
+                    f($(this));
+                }
+            });
+            //-------------------------------------------------
+            self.$el.find('a.oe_desactivate_debug_mode').click(function (e) {
+                e.preventDefault();
+                window.open(window.location.href.replace('debug', ""), '_self');
+            });
+            //-------------------------------------------------
+            self.$el.find('a.oe_activate_debug_mode').click(function (e) {
+                e.preventDefault();
+                window.open($.param.querystring(window.location.href, 'debug'), '_self');
+            });
+            //-------------------------------------------------
+            this.$el.parent().show();
+        },
+        do_update: function () {
+            var self = this;
+            var fct = function () {
+                var $avatar = self.$el.find('.oe_topbar_avatar');
+                $avatar.attr('src', $avatar.data('default-src'));
+                if (!self.session.uid)
+                    return;
+                var func = new instance.web.Model("res.users").get_func("read");
+                return self.alive(func(self.session.uid, ["name", "company_id"])).then(function (res) {
+                    var topbar_name = res.name;
+                    if (instance.session.debug) {
+                        topbar_name = _.str.sprintf("%s (%s)", topbar_name, instance.session.db);
+                        self.$el.find('a.oe_activate_debug_mode').addClass('hidden');
+                        self.$el.find('a.oe_desactivate_debug_mode').removeClass('hidden');
+                    } else {
+                        self.$el.find('a.oe_activate_debug_mode').removeClass('hidden');
+                        self.$el.find('a.oe_desactivate_debug_mode').addClass('hidden');
+                    }
+                    if (res.company_id[0] > 1)
+                        topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
+                    self.$el.find('.oe_topbar_name').text(topbar_name);
+                    if (!instance.session.debug) {
+                        topbar_name = _.str.sprintf("%s (%s)", topbar_name, instance.session.db);
+                    }
+                    var avatar_src = self.session.url('/web/binary/image', {
+                        model: 'res.users',
+                        field: 'image_small',
+                        id: self.session.uid
+                    });
+                    $avatar.attr('src', avatar_src);
+
+                    openerp.web.bus.trigger('resize');  // Re-trigger the reflow logic
+                });
+            };
+            this.update_promise = this.update_promise.then(fct, fct);
+        },
+        on_menu_help: function () {
+            window.open('http://help.odoo.com', '_blank');
+        },
+        on_menu_logout: function () {
+            this.trigger('user_logout');
+        },
+        on_menu_settings: function () {
+            var self = this;
+            if (!this.getParent().has_uncommitted_changes()) {
+                self.rpc("/web/action/load", {action_id: "base.action_res_users_my"}).done(function (result) {
+                    result.res_id = instance.session.uid;
+                    self.getParent().action_manager.do_action(result);
+                });
+            }
+        },
+        on_menu_account: function () {
+            var self = this;
+            if (!this.getParent().has_uncommitted_changes()) {
+                var P = new instance.web.Model('ir.config_parameter');
+                P.call('get_param', ['database.uuid']).then(function (dbuuid) {
+                    var state = {
+                        'd': instance.session.db,
+                        'u': window.location.protocol + '//' + window.location.host,
+                    };
+                    var params = {
+                        response_type: 'token',
+                        client_id: dbuuid || '',
+                        state: JSON.stringify(state),
+                        scope: 'userinfo',
+                    };
+                    instance.web.redirect('https://accounts.odoo.com/oauth2/auth?' + $.param(params));
+                }).fail(function (result, ev) {
+                    ev.preventDefault();
+                    instance.web.redirect('https://accounts.odoo.com/account');
+                });
+            }
+        },
+        on_menu_about: function () {
+            var self = this;
+            self.rpc("/web/webclient/version_info", {}).done(function (res) {
+                new instance.web.Model('ir.module.module').query(["author"]).order_by(['author']).all().then(function (result) {
+                    model_names = {}
+                    _.each(result, function (module) {
+                        if (module.author != '')
+                            model_names[module.author] = 1;
+                    });
+                    //-------------------------------------------------
+                    var $help = $(QWeb.render("UserMenu.about", {
+                        version_info: res,
+                        model_names: model_names,
+                    }));
+                    //-------------------------------------------------
+                    $help.find('#loading_modules_authors').addClass('hidden');
+                    //-------------------------------------------------
+                    new instance.web.Dialog(this, {
+                        size: 'medium',
+                        dialogClass: 'oe_act_window',
+                        title: _t("About"),
+                    }, $help).open();
+                });
+            });
+        },
+    });
+
     instance.web.FullscreenWidget = instance.web.Widget.extend({
         /**
          * Widgets extending the FullscreenWidget will be displayed fullscreen,
@@ -1372,6 +1502,11 @@
             self.user_menu.appendTo(this.$el.parents().find('.oe_user_menu_placeholder'));
             self.user_menu.on('user_logout', self, self.on_logout);
             self.user_menu.do_update();
+
+            self.user_menu_mobile = new instance.web.UserMenuMobile(self);
+            self.user_menu_mobile.appendTo(this.$el.parents().find('.oe_user_menu_placeholder_mobile'));
+            self.user_menu_mobile.on('user_logout', self, self.on_logout);
+            self.user_menu_mobile.do_update();
 
             self.bind_hashchange();
             self.set_title();

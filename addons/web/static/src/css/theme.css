@@ -2,6 +2,10 @@
 Globals
 ***********************************************************************************************************************/
 .row {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
@@ -121,6 +125,10 @@ Odoo Generics
 Main Navbar
 ***********************************************************************************************************************/
 #main_navbar {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     background: #ab1919 0% 0% !important;
     box-shadow: 0px 0px 8px rgb(102, 102, 102) !important;
@@ -167,10 +175,21 @@ Main Navbar
     padding-right: 10px !important;
 }
 
+#oe_main_menu_navbar .navbar-header .navbar-toggle {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
 #oe_main_menu_navbar .navbar-header .oe_systray {
     margin-top: 8px;
     margin-bottom: 5px;
-    margin-left: 15px;
+    margin-left: 0px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_systray > li {
+    margin-left: 0px !important;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 #oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile {
@@ -178,6 +197,10 @@ Main Navbar
 }
 
 #oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .dropdown-toggle {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     align-items: center;
 }
@@ -281,6 +304,10 @@ View Manager Header
 }
 
 .oe_view_manager .oe_view_manager_header .buttons_container {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-flow: row wrap !important;
     justify-content: space-between !important;
@@ -778,6 +805,10 @@ Form View
 Form View: Footer
 ***********************************************************************************************************************/
 .openerp .oe_form div.oe_chatter {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-direction: row-reverse;
     padding: 16px 0px;
@@ -789,6 +820,10 @@ Form View: Footer
 }
 
 .openerp .oe_followers .oe_subtype_list {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
 }
 
@@ -904,6 +939,10 @@ Form View: Widgets
     }
 
     .openerp .oe_form .oe_form_group > .oe_form_group_row {
+        display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox; /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Chrome */
         display: flex;
         flex-direction: column;
     }
@@ -975,6 +1014,10 @@ Kanban View
 }
 
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column_cards {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-flow: row wrap;
     justify-content: center;

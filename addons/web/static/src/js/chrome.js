@@ -1320,10 +1320,12 @@ instance.web.WebClient = instance.web.Client.extend({
         self.menu.setElement(this.$el.parents().find('.oe_application_menu_placeholder'));
         self.menu.start();
         self.menu.on('menu_click', this, this.on_menu_action);
+
         self.user_menu = new instance.web.UserMenu(self);
         self.user_menu.appendTo(this.$el.parents().find('.oe_user_menu_placeholder'));
         self.user_menu.on('user_logout', self, self.on_logout);
         self.user_menu.do_update();
+
         self.bind_hashchange();
         self.set_title();
         self.check_timezone();
@@ -1523,14 +1525,19 @@ instance.web.WebClient = instance.web.Client.extend({
             $('.blockOverlay').css({cursor: 'pointer'}).click(function () {
                 $('.leftbar_opener').trigger('click');
             });
+            $('.leftbar_opener .glyphicon').css({
+                transition: 'all 1s linear',
+                transform: 'rotate(180deg)'
+            });
         } else {
             $('.oe_leftbar').animate({left: -$('.oe_leftbar_content').width() + 'px'}, {duration: 1000});
             instance.web.unblockUI();
+            $('.leftbar_opener .glyphicon').css({
+                transition: 'all 1s linear',
+                transform: 'rotate(0deg)'
+            });
         }
-        $('.leftbar_opener .glyphicon').css({
-            transition: 'all 1s linear',
-            transform: 'rotate(180deg)'
-        });
+
     },
     apply_effect_to_leftbar: function () {
         var self = this;

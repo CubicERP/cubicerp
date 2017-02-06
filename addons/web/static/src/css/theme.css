@@ -868,7 +868,7 @@ Form View: Widgets
 
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
-    width: auto;
+    width: 100% !important;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {
@@ -893,6 +893,11 @@ Form View: Widgets
 .openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]) {
     background-color: white !important;
     border-color: #e26666 !important;
+}
+
+.openerp .oe_form .oe_form_field_text.oe_inline,
+.openerp .oe_form .oe_form_field_text.oe_inline > textarea {
+    width: 100% !important;
 }
 
 @media (max-width: 1024px) {
@@ -958,6 +963,10 @@ Form View: Widgets
         min-width: 100% !important;
         max-width: 100% !important;
         border-bottom: 1px solid #eee;
+    }
+
+    .openerp .oe_form .oe_form_field {
+        padding: 4px 0px 4px 0px;
     }
 
     .openerp .oe_form div.oe_chatter {

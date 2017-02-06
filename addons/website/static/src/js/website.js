@@ -316,6 +316,10 @@
                 for (var i = 0; i < keys.length; i++){
                     treat_node(templates[keys[i]]);
                 }
+
+                $('#wrapwrap > main').css({
+                    'margin-bottom': $('#wrapwrap > footer').height() + 40 + 'px'
+                });
             }).promise();
         }
         return all_ready;

@@ -14,9 +14,9 @@
                     <field name="paid" invisible="context.get('show_amounts', False)"/>
                 </xpath>
 
-                <field name="planned_amount" invisible="not context.get('show_amounts', False)"/>
-                <field name="practical_amount" invisible="not context.get('show_amounts', False)"/>
-                <field name="available_amount" invisible="not context.get('show_amounts', False)"/>
+                <field name="planned_amount" invisible="context.get('show_amounts', False)"/>
+                <field name="practical_amount" invisible="context.get('show_amounts', False)"/>
+                <field name="available_amount" invisible="context.get('show_amounts', False)"/>
 
             </field>
         </record>

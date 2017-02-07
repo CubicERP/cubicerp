@@ -107,7 +107,7 @@ class StructChart(models.Model):
         action_id = self._get_tre_but_open_action()
 
         res['context'] = str({
-            'show_amounts': False,
+            'show_amounts': True,
             'action_id': action_id.id,
             })
         return res

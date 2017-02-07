@@ -36,10 +36,10 @@
                     <field name="code"/>
                     <field name="type"/>
 
-                    <field name="available" invisible="context.get('show_amounts')"/>
-                    <field name="committed" invisible="context.get('show_amounts')"/>
-                    <field name="provision" invisible="context.get('show_amounts')"/>
-                    <field name="paid" invisible="context.get('show_amounts')"/>
+                    <field name="available" invisible="not context.get('show_amounts')"/>
+                    <field name="committed" invisible=" not context.get('show_amounts')"/>
+                    <field name="provision" invisible=" not context.get('show_amounts')"/>
+                    <field name="paid" invisible="not context.get('show_amounts')"/>
 
                     <field name="parent_id" invisible="1"/>
 

@@ -57,7 +57,7 @@ class StructChart(models.Model):
         return lines_obj.search(domain).mapped('struct_budget_id')
 
     @api.model
-    def _get_tre_but_open_action(self):
+    def _get_tree_but_open_action(self):
         return self.env.ref('budget.act_budget_budget_lines_view')
 
     @api.model
@@ -74,20 +74,29 @@ class StructChart(models.Model):
         @return:
         """
         self.ensure_one()
+        domain = []
+        struct_obj, parent_struct = self.env['budget.struct'], self.struct_parent_id
+
+        domain = [('id', 'in',
+                   [parent_struct.id] if parent_struct else struct_obj.search([]).ids)]
+        struct_ids = struct_obj.search(domain)
 
         result = self._get_hierarchy_action().read()[0]
         result['domain'] = str([
             ('parent_id', '=', self.struct_parent_id.id if self.struct_parent_id else False),
-            ])
+        ])
 
-        action_id = self._get_tre_but_open_action()
+        action_id = self._get_tree_but_open_action()
         result['context'] = str({
             'show_amounts': True,
             'action_id': action_id.id,
-            })
+            'company_id': self.company_id.id or None,
+            'period_id': self.budget_period_id.id or None,
+            'analytic_id': self.analytic_acc_id.id or None,
+        })
 
         # result['domain'] = str([('parent_id', '=', self.struct_parent_id), ('id', 'in', self._get_structs().ids)])
-        #result['flags'] = {'search_view': False}
+        # result['flags'] = {'search_view': False}
         return result
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

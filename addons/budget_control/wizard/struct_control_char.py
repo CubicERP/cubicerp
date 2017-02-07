@@ -79,11 +79,11 @@ class StructChart(models.Model):
     _inherit = "budget.struct.chart"
 
     @api.model
-    def _get_tre_but_open_action(self):
+    def _get_tree_but_open_action(self):
         if self._context.get('src_wizard_act'):
             return self.env.ref('budget_control.budget_move_lines_tree_view_action')
 
-        return super(StructChart, self)._get_tre_but_open_action()
+        return super(StructChart, self)._get_tree_but_open_action()
 
     @api.model
     def _get_hierarchy_action(self):
@@ -104,11 +104,14 @@ class StructChart(models.Model):
         """
         res = super(StructChart, self).struct_chart_open_window()
 
-        action_id = self._get_tre_but_open_action()
+        action_id = self._get_tree_but_open_action()
 
         res['context'] = str({
             'show_amounts': True,
             'action_id': action_id.id,
+            'company_id': self.company_id.id or None,
+            'period_id': self.budget_period_id.id or None,
+            'analytic_id': self.analytic_acc_id.id or None,
             })
         return res
 

@@ -868,7 +868,7 @@ Form View: Widgets
 
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
-    width: 100% !important;
+    width: 100%;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {

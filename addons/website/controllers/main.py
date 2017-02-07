@@ -367,7 +367,7 @@ class Website(openerp.addons.web.controllers.main.Home):
         except (urllib2.HTTPError, urllib2.URLError):
             return []
         xmlroot = ET.fromstring(request.read())
-        return json.dumps([sugg[0].attrib['data'] for sugg in xmlroot if len(sugg) and sugg[0].attrib['data']])
+        return json.dumps([sugg[0].attrib['data'].replace(keywords, '') for sugg in xmlroot if len(sugg) and sugg[0].attrib['data']])
 
     #------------------------------------------------------
     # Helpers

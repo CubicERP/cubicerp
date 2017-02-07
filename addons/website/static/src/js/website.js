@@ -161,6 +161,7 @@
     };
 
     website.error = function(data, url) {
+        //noinspection JSAnnotator
         var $error = $(openerp.qweb.render('website.error_dialog', {
             'title': data.data ? data.data.arguments[0] : "",
             'message': data.data ? data.data.arguments[1] : data.statusText,

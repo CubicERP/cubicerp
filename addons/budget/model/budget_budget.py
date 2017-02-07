@@ -194,7 +194,7 @@ class BudgetStruct(models.Model):
                                                    ('id', 'in', budget_struct)] + args, limit=limit)
         return budget_struct.name_get()
 
-    # @api.model
+    # @api.one
     # def get_formview_action(self):
     #     if 'show_amounts' in self._context:
     #         action = self.env.ref('budget.act_budget_budget_lines_view').read()[0]

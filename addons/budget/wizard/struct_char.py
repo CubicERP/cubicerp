@@ -56,6 +56,14 @@ class StructChart(models.Model):
 
         return lines_obj.search(domain).mapped('struct_budget_id')
 
+    @api.model
+    def _get_tre_but_open_action(self):
+        return self.env.ref('budget.act_budget_budget_lines_view')
+
+    @api.model
+    def _get_hierarchy_action(self):
+        return self.env.ref('budget.budget_struct_hierarchy_tree_action')
+
     @api.multi
     def struct_chart_open_window(self):
         """
@@ -67,13 +75,17 @@ class StructChart(models.Model):
         """
         self.ensure_one()
 
-        result = self.env.ref('budget.budget_struct_hierarchy_tree_action').read()[0]
-        domain = [('parent_id', '=', False)]
-        if self.struct_parent_id:
-            domain = [('parent_id', '=', self.struct_parent_id.id)]
+        result = self._get_hierarchy_action().read()[0]
+        result['domain'] = str([
+            ('parent_id', '=', self.struct_parent_id.id if self.struct_parent_id else False),
+            ])
 
-        result['context'] = str({'show_amounts': True})
-        result['domain'] = str(domain)
+        action_id = self._get_tre_but_open_action()
+        result['context'] = str({
+            'show_amounts': True,
+            'action_id': action_id.id,
+            })
+
         # result['domain'] = str([('parent_id', '=', self.struct_parent_id), ('id', 'in', self._get_structs().ids)])
         #result['flags'] = {'search_view': False}
         return result

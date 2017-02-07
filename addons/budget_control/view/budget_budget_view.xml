@@ -3,24 +3,29 @@
     <data>
 
         <record model='ir.ui.view' id='view_budget_struct_tree'>
-			<field name='name'>budget.struct.tree.inherit.budget</field>
-			<field name='model'>budget.struct</field>
-			<field name='inherit_id' ref='budget.view_budget_struct_tree'/>
-			<field name='arch' type='xml'>
+            <field name='name'>budget.struct.tree.inherit.budget</field>
+            <field name='model'>budget.struct</field>
+            <field name='inherit_id' ref='budget.view_budget_struct_tree'/>
+            <field name='arch' type='xml'>
                 <xpath expr="//field[@name='type']" position="after">
-                    <field name="available"/>
-                    <field name="committed"/>
-                    <field name="provision"/>
-                    <field name="paid"/>
+                    <field name="available" invisible="context.get('show_amounts', False)"/>
+                    <field name="committed" invisible="context.get('show_amounts', False)"/>
+                    <field name="provision" invisible="context.get('show_amounts', False)"/>
+                    <field name="paid" invisible="context.get('show_amounts', False)"/>
                 </xpath>
-			</field>
-		</record>
+
+                <field name="planned_amount" invisible="not context.get('show_amounts', False)"/>
+                <field name="practical_amount" invisible="not context.get('show_amounts', False)"/>
+                <field name="available_amount" invisible="not context.get('show_amounts', False)"/>
+
+            </field>
+        </record>
 
         <record model='ir.ui.view' id='view_budget_struct_form'>
-			<field name='name'>budget.struct.form.inherit.budget</field>
-			<field name='model'>budget.struct</field>
-			<field name='inherit_id' ref='budget.view_budget_struct_form'/>
-			<field name='arch' type='xml'>
+            <field name='name'>budget.struct.form.inherit.budget</field>
+            <field name='model'>budget.struct</field>
+            <field name='inherit_id' ref='budget.view_budget_struct_form'/>
+            <field name='arch' type='xml'>
                 <xpath expr="//group[@name='one']" position="after">
                     <group name="two">
                         <field name="available"/>
@@ -29,8 +34,8 @@
                         <field name="paid"/>
                     </group>
                 </xpath>
-			</field>
-		</record>
+            </field>
+        </record>
 
     </data>
 </openerp>

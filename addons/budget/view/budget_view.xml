@@ -344,11 +344,11 @@
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="paid_date"/>
-                    <field name="planned_amount"/>
-                    <field name="practical_amount"/>
+                    <field name="planned_amount" invisible="not context.get('show_amounts', False)"/>
+                    <field name="practical_amount" invisible="not context.get('show_amounts', False)"/>
                     <field name="theoritical_amount"/>
                     <field name="percentage"/>
-                    <field name="available_amount"/>
+                    <field name="available_amount" invisible="not context.get('show_amounts', False)"/>
                 </tree>
             </field>
         </record>

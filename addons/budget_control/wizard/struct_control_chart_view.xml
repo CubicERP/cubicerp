@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--<record id="budget_struct_control_chart_form_view" model="ir.ui.view">-->
+            <!--<field name="name">budget.struct.chart.form.view</field>-->
+            <!--<field name="model">budget.struct.control.chart</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form string="Struct Charts">-->
+                    <!--<group>-->
+                        <!--<group>-->
+                            <!--<field name="struct_id"/>-->
+                            <!--<field name="analytic_id"/>-->
+                        <!--</group>-->
+                        <!--<group>-->
+                            <!--<field name="period_id"/>-->
+                            <!--<field name="company_id"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
+                    <!--<footer>-->
+                        <!--<button string="Open Charts" name="struct_chart_open_window" type="object"-->
+                                <!--class="oe_highlight"/>-->
+                        <!--or-->
+                        <!--<button string="Cancel" class="oe_link" special="cancel"/>-->
+                    <!--</footer>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="view_budget_struct_control_hierarchy2" model="ir.ui.view">
+            <field name="name">view.budget.struct.control.hierarchy</field>
+            <field name="model">budget.struct</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Budgetary Struct" colors="blue:type=='view'">
+                    <field name="complete_name"/>
+                    <field name="code"/>
+                    <field name="type"/>
+
+                    <field name="available" invisible="context.get('show_amounts')"/>
+                    <field name="committed" invisible="context.get('show_amounts')"/>
+                    <field name="provision" invisible="context.get('show_amounts')"/>
+                    <field name="paid" invisible="context.get('show_amounts')"/>
+
+                    <field name="parent_id" invisible="1"/>
+
+                    <field name="planned_amount" invisible="1"/>
+                    <field name="practical_amount" invisible="1"/>
+                    <field name="available_amount" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--<record id="budget_struct_control_chart_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Struct Control</field>-->
+            <!--<field name="res_model">budget.struct.control.chart</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="view_id" ref="budget_struct_control_chart_form_view"/>-->
+            <!--<field name="target">new</field>-->
+        <!--</record>-->
+
+        <record id="budget_struct_control_hierarchy_tree_action2" model="ir.actions.act_window">
+            <field name="name">Struct Control</field>
+            <field name="res_model">budget.struct</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="view_budget_struct_control_hierarchy2"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+
+        <record id="ir_open_budget_move_lines_tree" model="ir.values">
+            <field name="key2" eval="'tree_but_open'"/>
+            <field name="model" eval="'budget.struct'"/>
+            <field name="name">Open Tree Budget Move Lines</field>
+            <field name="context">{'search_default_struct_id': [active_id]}</field>
+            <field name="value"
+                   eval="'ir.actions.act_window,%d'%budget_move_lines_tree_view_action"/>
+        </record>
+
+        <!--  -->
+        <record id="budget_struct_chart_action2" model="ir.actions.act_window">
+            <field name="name">Struct Control</field>
+            <field name="res_model">budget.struct.chart</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="budget.budget_struct_chart_form_view"/>
+            <field name="context">{'src_wizard_act': True}</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Struct Control" parent="budget.menu_budget_chart" id="struct_control_char_menu"
+                  action="budget_control.budget_struct_chart_action2"
+                  sequence="30"/>
+    </data>
+</openerp>

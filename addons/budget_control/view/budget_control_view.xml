@@ -79,6 +79,27 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="budget_move_lines_tree_view">
+            <field name="name">budget.move.lines.tree.view</field>
+            <field name="model">budget.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Move Lines">
+                    <field name="name" groups="analytic.group_analytic_accounting"/>
+                    <field name="move_id" invisible="1"/>
+                    <field name="period_id"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                    <field name="struct_id"/>
+                    <field name="analytic_id"/>
+                    <field name="partner_id"/>
+                    <field name="available"/>
+                    <field name="committed"/>
+                    <field name="provision"/>
+                    <field name="paid"/>
+                </tree>
+            </field>
+        </record>
+
         <!--record id="view_budget_struct_search" model="ir.ui.view">
             <field name="name">budget.struct.search</field>
             <field name="model">budget.struct</field>
@@ -92,6 +113,16 @@
                 </search>
             </field>
         </record-->
+
+
+           <record id="budget_move_lines_tree_view_action" model="ir.actions.act_window">
+                   <field name="name">Budget Move Line Tree View</field>
+                   <field name="res_model">budget.move.line</field>
+                   <field name="view_type">form</field>
+                   <field name="view_mode">tree,form</field>
+                   <field name="view_id" ref="budget_move_lines_tree_view"></field>
+                   <field name="context">{}</field>
+           </record>
 
         <record id="action_budget_entry" model="ir.actions.act_window">
             <field name="name">Budget Transaction</field>

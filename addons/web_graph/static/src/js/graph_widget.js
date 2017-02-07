@@ -30,8 +30,8 @@ openerp.web_graph.Graph = openerp.web.Widget.extend({
 
     start: function() {
         var self = this;
-        this.table = $('<table>');
-        this.$('.graph_main_content').append(this.table);
+        this.table = $('<table class="table">');
+        this.$('.graph_main_content').addClass('table-responsive').append(this.table);
 
         var indexes = {'pivot': 0, 'bar': 1, 'line': 2, 'chart': 3};
         this.$('.graph_mode_selection label').eq(indexes[this.mode]).addClass('active');

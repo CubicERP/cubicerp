@@ -229,8 +229,7 @@
                 this.dataset.select_id(record.get('id'));
             } else {
                 record = this.make_empty_record(false);
-                this.records.add(record, {
-                    at: this.prepends_on_create() ? 0 : null});
+                this.records.add(record, {at: this.prepends_on_create() ? 0 : null});
             }
             return this.ensure_saved().then(function(){
                 return $.when.apply(null, self.editor.form.render_value_defs);
@@ -299,9 +298,20 @@
          */
         resize_field: function (field, cell) {
             var $cell = $(cell);
+            field.set_dimensions(
+                $cell.outerHeight(),
+                $cell.outerWidth());
 
-            field.set_dimensions($cell.outerHeight(), $cell.outerWidth());
-            field.$el.css({top: 0, left: 0}).position({
+            field.$el.attr('width',$cell.outerWidth())
+            field.$el.attr('height',$cell.outerHeight())
+
+            field.$el.css({
+                top: 0, left: 0,
+                "min-width": $cell.outerWidth() + 'px !important;',
+                "width"    : $cell.outerWidth() + 'px !important;',
+                "max-width": $cell.outerWidth() + 'px !important;',
+                height     : $cell.outerHeight() + 'px !important;'
+            }).position({
                 my: 'left top',
                 at: 'left top',
                 of: $cell

@@ -70,13 +70,7 @@
             self.$el.append("Loading...");
             function addSuggestions (list) {
                 self.$el.empty();
-                // TODO Improve algorithm + Ajust based on custom user keywords
-                var regex = new RegExp(self.root, "gi");
-                var cleanList = _.map(list, function (word) {
-                    return word.replace(regex, "").trim();
-                });
-                // TODO Order properly ?
-                _.each(_.uniq(cleanList), function (keyword) {
+                _.each(list, function (keyword) {
                     if (keyword) {
                         var suggestion = new website.seo.Suggestion(self, {
                             root: self.root,

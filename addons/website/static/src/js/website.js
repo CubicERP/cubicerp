@@ -161,6 +161,7 @@
     };
 
     website.error = function(data, url) {
+        //noinspection JSAnnotator
         var $error = $(openerp.qweb.render('website.error_dialog', {
             'title': data.data ? data.data.arguments[0] : "",
             'message': data.data ? data.data.arguments[1] : data.statusText,
@@ -316,6 +317,10 @@
                 for (var i = 0; i < keys.length; i++){
                     treat_node(templates[keys[i]]);
                 }
+
+                $('#wrapwrap > main').css({
+                    'margin-bottom': $('#wrapwrap > footer').height() + 40 + 'px'
+                });
             }).promise();
         }
         return all_ready;

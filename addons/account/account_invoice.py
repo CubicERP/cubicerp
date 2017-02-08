@@ -791,6 +791,18 @@ class account_invoice(models.Model):
                 line.append((0,0,val))
         return line
 
+    def _get_first_line_values(self,inv, name,total,date_maturity,diff_currency,total_currency, ref):
+        return {
+                'type': 'dest',
+                'name': name,
+                'price': total,
+                'account_id': inv.account_id.id,
+                'date_maturity': date_maturity,
+                'amount_currency': diff_currency and total_currency,
+                'currency_id': diff_currency and inv.currency_id.id,
+                'ref': ref,
+            }
+
     @api.multi
     def action_move_create(self):
         """ Creates invoice related analytics and financial move lines """
@@ -864,27 +876,9 @@ class account_invoice(models.Model):
                     if i + 1 == len(totlines):
                         amount_currency += res_amount_currency
 
-                    iml.append({
-                        'type': 'dest',
-                        'name': name,
-                        'price': t[1],
-                        'account_id': inv.account_id.id,
-                        'date_maturity': t[0],
-                        'amount_currency': diff_currency and amount_currency,
-                        'currency_id': diff_currency and inv.currency_id.id,
-                        'ref': ref,
-                    })
+                    iml.append(self._get_first_line_values(inv, name,t[1],t[0],diff_currency,amount_currency, ref))
             else:
-                iml.append({
-                    'type': 'dest',
-                    'name': name,
-                    'price': total,
-                    'account_id': inv.account_id.id,
-                    'date_maturity': inv.date_due,
-                    'amount_currency': diff_currency and total_currency,
-                    'currency_id': diff_currency and inv.currency_id.id,
-                    'ref': ref
-                })
+                iml.append(self._get_first_line_values(inv, name,total,inv.date_due,diff_currency,total_currency, ref))
 
             date = date_invoice
 

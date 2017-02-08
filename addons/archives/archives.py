@@ -45,14 +45,14 @@ class archives_retention_table(models.Model):
     retention_time_handling = fields.Integer('Retention Time Handling', help="Time in years")
     retention_time_archive = fields.Integer('Retention Time Archive', help="Time in years")
     final_disposition_preserve = fields.Boolean('Final Disposition Preserve')
-    final_disposition_microfilm = fields.Boolean('Final Disposition Microfilm')
+    final_disposition_medium = fields.Boolean('Final Disposition Medium')
+    final_medium_type_id = fields.Many2one('archives.medium.type', 'Final Medium Type')
     final_disposition_removal = fields.Boolean('Final Disposition Removal')
     final_disposition_selection = fields.Boolean('Final Disposition Selection')
     medium_type_ids = fields.Many2many('archives.medium.type','archives_table_medium_rel', string="Medium Types",
                                        help="Leave blank to permit all medium types")
     department_ids = fields.One2many('archives.table.department', 'retention_table_id', string='Departments',
                                      help="Leave blank to permit all departments")
-    
     active = fields.Boolean('Acive', default=True)
 
 
@@ -76,6 +76,7 @@ class archives_process_step(models.Model):
     name = fields.Char('Name', required=True)
     process_id = fields.Many2one('archives.process','Process', required=True, ondelete="cascade")
     department_id = fields.Many2one('hr.department', 'Department')
+    job_id = fields.Many2one('hr.job', 'Job')
     document_ids = fields.One2many('archives.document', 'process_step_id', string='Current Documents')
     retention_table_ids = fields.Many2many('archives.retention.table', 'archives_process_table_rel',
                                            string='Retention Table Control',
@@ -124,6 +125,7 @@ class archives_collection(models.Model):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     
     name = fields.Char('Code', required=True)
+    parent_id = fields.Many2one('archives.collection', string="Copy Of")
     description = fields.Text('Description')
     location_id = fields.Many2one('archives.collection.location', 'Current Location', readonly=True) #Función
     move_ids = fields.One2many('archives.collection.move', 'collection_id', string="Moves")
@@ -133,6 +135,10 @@ class archives_collection(models.Model):
                               ('archive','Archive'),
                               ('destruction','Destruction'),
                               ('conversion','Conversion')], 'State', related='location_id.type', readonly=True)
+    restrict_location_id = fields.Many2many('archives.collection.location', 'archives_collection_location_rel', string="Restrict Locations",
+                                            help="Restrict the moves to selected locations for this collection. Leave blank to allow all locations")
+    active = fields.Boolean('Active')
+
     
 class archives_collection_move(models.Model):
     _name = "archives.collection.move"
@@ -143,10 +149,16 @@ class archives_collection_move(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Responsible Employee")
     location_id = fields.Many2one('archives.collection.location', string="Source Location", required=True)
     location_dest_id = fields.Many2one('archives.collection.location', string="Destinity Location", required=True)
-    
+    partner_id = fields.Many2one('res.partner', string="Partner")
+
+
 class archives_document(models.Model):
     _name = "archives.document"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+
+    @api.model
+    def _get_attach_model(self):
+        return []
     
     name = fields.Char('Name', size=32, required=True, readonly=True, states={'pending': [('readonly', False)]})
     parent_id = fields.Many2one('archives.document', string="Parent Document",
@@ -178,10 +190,12 @@ class archives_document(models.Model):
                                  readonly=True, states={'pending': [('readonly', False)]})
     version_ids = fields.One2many('archives.document.version', 'document_id', string="Versions",
                                  readonly=True, states={'pending': [('readonly', False)]})
+    attach_model = fields.Reference(_get_attach_model, string="Attach Models")
     company_id = fields.Many2one('res.company', string="Company", required=True, 
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True, states={'pending': [('readonly', False)]})
     color = fields.Integer('Color')
+    active = fields.Boolean('Active', default=True)
 
     def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
         access_rights_uid = access_rights_uid or uid
@@ -201,7 +215,7 @@ class archives_document(models.Model):
     }
     
 
-class achives_document_version(models.Model):
+class archives_document_version(models.Model):
     _name = "archives.document.version"
     
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
@@ -209,11 +223,13 @@ class achives_document_version(models.Model):
     date = fields.Date('Date', required=True)
     attachment_ids = fields.One2many('ir.attachment', 'archive_version_id', string="Attachments")
 
-class achives_document_move_type(models.Model):
+
+class archives_document_move_type(models.Model):
     _name = "archives.document.move.type"
     name = fields.Char('Name', required=True)
 
-class achives_document_move(models.Model):
+
+class archives_document_move(models.Model):
     _name = "archives.document.move"
     
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)

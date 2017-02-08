@@ -358,37 +358,36 @@
 </t>
 
 <t t-name="UserMenu">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img class="oe_topbar_avatar" t-att-data-default-src="_s + '/web/static/src/img/user_menu_avatar.png'"/>
-                <span class="oe_topbar_name"/> <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#" data-menu="settings">Preferences</a></li>
-                <!--li><a href="#" data-menu="account">My account</a></li-->
-                <li><a href="#" data-menu="about">About Us</a></li>
-                <li><a href="#" data-menu="help">Help</a></li>
-                <li><a href="#" data-menu="logout">Log out</a></li>
-            </ul>
-        </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img class="oe_topbar_avatar" t-att-data-default-src="_s + '/web/static/src/img/user_menu_avatar.png'"/>
+            <span class="oe_topbar_name"/> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="#" data-menu="settings">Preferences</a></li>
+            <!--li><a href="#" data-menu="account">My account</a></li-->
+            <li><a href="#" data-menu="about">About Us</a></li>
+            <li><a href="https://www.cubicerp.com/forum/ayuda-1" data-menu="help">Help</a></li>
+            <li><a href="#" class="oe_activate_debug_mode">Developer Mode</a></li>
+            <li><a href="#" class="oe_desactivate_debug_mode hidden">Normal Mode</a></li>
+            <li><a href="#" data-menu="logout">Log out</a></li>
+        </ul>
+    </li>
 </t>
 <t t-name="UserMenu.about">
-
     <div class="oe_about">
-
         <div class="container-fluid">
             <div class="row">
-                <a class="oe_activate_debug_mode oe_right label label-primary" href="?debug" >Activate the developer mode</a>
-            </div>
-            <div class="row">
-                <div class="col-sm-offset-2 col-md-offset-2 col-sm-8 col-md-8 user-details">
+                <div class="col-xs-12 user-details">
                     <div class="user-image">
-                        <img src="/web/static/src/img/logo2.png" alt="Cubic ERP (Based on Odoo and OpenERP)" title="Cubic ERP (Based on Odoo and OpenERP)" class="img-circle"/>
+                        <img src="/web/static/src/img/logo2.png"
+                             alt="Cubic ERP (Based on Odoo and OpenERP)"
+                             title="Cubic ERP (Based on Odoo and OpenERP)" class="img-circle"/>
                     </div>
                     <div class="user-info-block">
                         <div class="user-heading">
-                            <br/><span class="help-block">Cubic ERP is a business application software 100% open source, based on Odoo AGPL versión and OpenERP (Odoo and OpenERP are trademarks registered by their owners http://www.odoo.com)</span>
-                            <h3>Version <t t-esc="version_info.server_version"/></h3>
+                            <span class="help-block">Enterprise and Government Management Software</span>
+                            <h3 class="version">Version 9.0</h3>
                         </div>
 
                         <ul class="list-inline text-center navigation">
@@ -402,37 +401,63 @@
                                     <span class="glyphicon glyphicon-envelope"></span>
                                 </a>
                             </li>
-                            <li>
-                                <a data-toggle="tab" href="#events">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </a>
-                            </li>
                              <li>
-                                <a data-toggle="tab" href="#social">
-                                    <span class="glyphicon glyphicon-share"></span>
+                                <a data-toggle="tab" href="#collaborations">
+                                    <span class="glyphicon glyphicon-user"></span>
                                 </a>
                             </li>
                         </ul>
-                        <div class="user-body">
+                        <div class="user-body" style="border-top: 1px solid rgb(162,70,137);">
                             <div class="tab-content">
                                 <div id="settings" class="tab-pane active">
                                     <p>Licenced under the terms of <a target="_blank" href="http://www.gnu.org/licenses/agpl.html" style="text-decoration: underline;">GNU Affero General Public License</a></p>
+                                    <p>
+                                        Cubic ERP, Enterprise and Government Management Software
+                                        Copyright (C) 2017 Cubic ERP S.A.C. (http://cubicerp.com).
+
+                                        This program is free software: you can redistribute it and/or modify
+                                        it under the terms of the GNU Affero General Public License as
+                                        published by the Free Software Foundation, either version 3 of the
+                                        License, or (at your option) any later version.
+
+                                        This program is distributed in the hope that it will be useful,
+                                        but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                        GNU Affero General Public License for more details.
+
+                                        You should have received a copy of the GNU Affero General Public License
+                                        along with this program.  If not, see http://www.gnu.org/licenses/.
+                                    </p>
                                     <p>For more information visit <a target="_blank" href="https://cubicerp.com" style="text-decoration: underline;">CubicERP.com</a></p>
                                 </div>
                                 <div id="email" class="tab-pane">
-                                    <h4>Cubic ERP S.A.C.</h4>
-                                    <!-- TODO - ALIAS contactus -->
+                                    <p><h4>Cubic ERP S.A.C.</h4></p>
                                     <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our website</a>
                                     <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our Forum</a>
-                                </div>
-                                <div id="events" class="tab-pane">
-                                    <h4>Discover Events of CubicERP around the world...</h4>
-                                    <a class='btn btn-link' href='https://www.cubicerp.com/event'> Our next Events</a>
-                                </div>
-                                <div id="social" class="tab-pane">
-                                    <h4>Follow Us...</h4>
+                                    <p><h4>Follow Us...</h4></p>
                                     <a href="https://www.facebook.com/cubic.erp"><i class="fa fa-facebook-square fa-3x social-fb"></i></a>
                                     <a href="https://twitter.com/CubicERP"><i class="fa fa-twitter-square fa-3x social-tw"></i></a>
+                                </div>
+                                <div id="collaborations" class="tab-pane">
+                                    <p><h4>Contributors</h4></p>
+                                    <div class="container-fluid">
+                                        <div class="row" style="font-size: 10px;text-align: left;">
+                                            <div class="col-xs-4">- Yury Oscar Tello</div>
+                                            <div class="col-xs-4">- Alexander Cuellar Morales</div>
+                                            <div class="col-xs-4">- Anniel Rodriguez Izquierdo</div>
+                                            <div class="col-xs-4">- Pedro Antonio Valdez Guibert</div>
+                                            <div class="col-xs-4">- Pedro Pablo Infante Toirac</div>
+                                            <div class="col-xs-4">- Jesus Enrique Font Peña</div>
+                                            <div class="col-xs-12" id="loading_modules_authors">
+                                                <span class="badge">loading modules authors...</span>
+                                            </div>
+                                            <t t-foreach="model_names" t-as="name">
+                                                <div class="col-xs-4">
+                                                    - <t t-esc="name"></t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -471,46 +496,45 @@
 
 <t t-name="ViewManager">
     <div class="oe_view_manager">
-        <table class="oe_view_manager_header">
-            <col width="20%"/>
-            <col width="35%"/>
-            <col width="15%"/>
-            <col width="30%"/>
-            <tr class="oe_header_row oe_header_row_top">
-                <td colspan="2">
-                        <h2 class="oe_view_title" t-if="widget.flags.display_title !== false">
-                            <span class="oe_view_title_text oe_breadcrumb_title"/>
-                        </h2>
-                </td>
-                <td colspan="2">
-                        <div class="oe_view_manager_view_search"/>
-                </td>
-            </tr>
-            <tr class="oe_header_row">
-                <td>
-                        <div class="oe_view_manager_buttons"/>
-                </td>
-                <td colspan="2">
+        <div class="container-fluid oe_view_manager_header">
+            <div class="row">
+                <div class="col-fill">
+                    <div class="oe_view_title" t-if="widget.flags.display_title !== false">
+                        <span class="oe_view_title_text oe_breadcrumb_title"/>
+                    </div>
+                </div>
+                <div class="col-auto-width">
+                    <div class="oe_view_manager_view_search"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 buttons_container">
+                    <div class="oe_view_manager_buttons"/>
+                    <div style="display: flex;">
                         <div class="oe_view_manager_sidebar"/>
-                </td>
-                <td>
-                    <ul class="oe_view_manager_switch oe_button_group oe_right">
-                        <t t-if="widget.views_src.length > 1" t-foreach="widget.views_src" t-as="view">
-                          <li class="oe_e">
-                            <a t-attf-class="oe_vm_switch_#{view.view_type}" t-att-data-view-type="view.view_type"
-                               t-att-title="view.button_label"/>
-                          </li>
-                        </t>
-                    </ul>
-                    <div class="oe_view_manager_pager oe_right"/>
-                </td>
-            </tr>
-        </table>
-
-    <div class="oe_view_manager_wrapper">
-        <div>
-            <div class="oe_view_manager_body">
-                <div class="oe_searchview_drawer_container"/>
+                        <select t-if="widget.session.debug" class="oe_debug_view"/>
+                    </div>
+                    <div class="switcher_and_pager_container">
+                        <div class="oe_view_manager_pager"/>
+                        <ul class="oe_view_manager_switch oe_button_group list-inline">
+                            <t t-if="widget.views_src.length > 1" t-foreach="widget.views_src" t-as="view">
+                                <li class="oe_e">
+                                    <a t-attf-class="oe_vm_switch_#{view.view_type}"
+                                       t-att-data-view-type="view.view_type"
+                                       t-att-title="view.button_label"/>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="oe_view_manager_wrapper">
+            <div>
+                <div class="oe_view_manager_body">
+                    <!--section of filters-->
+                    <div class="oe_searchview_drawer_container"/>
+                    <!--widget dinamically append here views-->
                     <t t-foreach="widget.views_src" t-as="view">
                         <div t-attf-class="oe_view_manager_view_#{view.view_type}"/>
                     </t>
@@ -606,56 +630,56 @@
 
 <t t-name="Sidebar">
     <div class="oe_sidebar">
-        <t t-foreach="widget.sections" t-as="section">
-            <div class="oe_form_dropdown_section">
-                <button class="oe_dropdown_toggle oe_dropdown_arrow" t-if="section.name != 'buttons'">
-                    <t t-if="section.name == 'files'" t-raw="widget.items[section.name].length || ''"/>
-                    <t t-esc="section.label"/>
-                    <i class="fa fa-caret-down"/>
-                </button>
-                <t t-if="section.name == 'buttons'" t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
-                    <button t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url"
-                        target="_blank" class="oe_sidebar_button oe_highlight">
-                        <t t-raw="item.label"/>
+            <t t-foreach="widget.sections" t-as="section">
+                <div class="oe_form_dropdown_section">
+                    <button class="oe_dropdown_toggle oe_dropdown_arrow" t-if="section.name != 'buttons'">
+                        <t t-if="section.name == 'files'" t-raw="widget.items[section.name].length || ''"/>
+                        <t t-esc="section.label"/>
+                        <i class="fa fa-caret-down"/>
                     </button>
-                </t>
-                <ul class="oe_dropdown_menu">
-                    <li t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
-                        <t t-if="section.name == 'files'">
-                            <t t-set="item.title">
-                                <b>Attachment : </b><br/>
-                                <t t-raw="item.name"/>
-                            </t>
-                            <t t-if="item.create_uid and item.create_uid[0]" t-set="item.title">
-                                <t t-raw="item.title"/><br/>
-                                <b>Created by : </b><br/>
-                                <t t-raw="item.create_uid[1] + ' ' + item.create_date"/>
-                            </t>
-                            <t t-if="item.create_uid and item.write_uid and item.create_uid[0] != item.write_uid[0]" t-set="item.title">
-                                <t t-raw="item.title"/><br/>
-                                <b>Modified by : </b><br/>
-                                <t t-raw="item.write_uid[1] + ' ' + item.write_date"/>
-                            </t>
-                        </t>
-                        <a class="oe_sidebar_action_a" t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url" target="_blank">
+                    <t t-if="section.name == 'buttons'" t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
+                        <button t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url"
+                            target="_blank" class="oe_sidebar_button oe_highlight">
                             <t t-raw="item.label"/>
-                        </a>
-                         <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_delete_item" t-att-data-id="item.id" title="Delete this attachment">x</a>
-                    </li>
-                    <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="oe_sidebar_add_attachment">
-                        <t t-call="HiddenInputFile">
-                            <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
-                            <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
-                            <input type="hidden" name="model" t-att-value="widget.dataset and widget.dataset.model"/>
-                            <input type="hidden" name="id" t-att-value="widget.model_id"/>
-                            <input type="hidden" name="session_id" t-att-value="widget.session.session_id" t-if="widget.session.override_session"/>
-                            <span>Add...</span>
-                        </t>
-                    </li>
-                </ul>
-            </div>
-        </t>
-    </div>
+                        </button>
+                    </t>
+                    <ul class="oe_dropdown_menu">
+                        <li t-foreach="widget.items[section.name]" t-as="item" t-att-class="item.classname">
+                            <t t-if="section.name == 'files'">
+                                <t t-set="item.title">
+                                    <b>Attachment : </b><br/>
+                                    <t t-raw="item.name"/>
+                                </t>
+                                <t t-if="item.create_uid and item.create_uid[0]" t-set="item.title">
+                                    <t t-raw="item.title"/><br/>
+                                    <b>Created by : </b><br/>
+                                    <t t-raw="item.create_uid[1] + ' ' + item.create_date"/>
+                                </t>
+                                <t t-if="item.create_uid and item.write_uid and item.create_uid[0] != item.write_uid[0]" t-set="item.title">
+                                    <t t-raw="item.title"/><br/>
+                                    <b>Modified by : </b><br/>
+                                    <t t-raw="item.write_uid[1] + ' ' + item.write_date"/>
+                                </t>
+                            </t>
+                            <a class="oe_sidebar_action_a" t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url" target="_blank">
+                                <t t-raw="item.label"/>
+                            </a>
+                             <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_delete_item" t-att-data-id="item.id" title="Delete this attachment">x</a>
+                        </li>
+                        <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="oe_sidebar_add_attachment">
+                            <t t-call="HiddenInputFile">
+                                <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
+                                <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
+                                <input type="hidden" name="model" t-att-value="widget.dataset and widget.dataset.model"/>
+                                <input type="hidden" name="id" t-att-value="widget.model_id"/>
+                                <input type="hidden" name="session_id" t-att-value="widget.session.session_id" t-if="widget.session.override_session"/>
+                                <span>Add...</span>
+                            </t>
+                        </li>
+                    </ul>
+                </div>
+            </t>
+        </div>
 </t>
 
 <t t-name="TreeView">
@@ -701,44 +725,50 @@
     </td>
 </tr>
 
-<table t-name="ListView" class="oe_list_content">
-    <t t-set="columns_count" t-value="visible_columns.length + (options.selectable ? 1 : 0) + (options.deletable ? 1 : 0)"/>
-    <thead>
-        <tr t-if="(!!options.action_buttons and !options.$buttons) or (!!options.pager and !options.$pager)">
-            <th t-att-colspan="columns_count">
-                <div class="oe_list_buttons"/>
-                <div class="oe_list_sidebar"/>
-                <div class="oe_list_pager"/>
-            </th>
-        </tr>
-        <tr t-if="options.header" class="oe_list_header_columns">
-            <t t-foreach="columns" t-as="column">
-                <th t-if="column.meta">
-                    <t t-esc="column.string"/>
+<div t-name="ListView" class="table-responsive">
+    <table class="table table-hover table-condensed oe_list_content">
+        <t t-set="columns_count" t-value="visible_columns.length + (options.selectable ? 1 : 0) + (options.deletable ? 1 : 0)"/>
+        <thead>
+            <tr t-if="(!!options.action_buttons and !options.$buttons) or (!!options.pager and !options.$pager)">
+                <th t-att-colspan="columns_count">
+                    <div class="oe_list_buttons"/>
+                    <div class="oe_list_sidebar"/>
+                    <div class="oe_list_pager"/>
                 </th>
-            </t>
-            <th t-if="options.selectable" width="1"  >
-                <input type="checkbox" class="oe_list_record_selector"/>
-            </th>
-            <t t-foreach="columns" t-as="column">
-                <th t-if="!column.meta and column.invisible !== '1'" t-att-data-id="column.id"
-                    t-attf-class="oe_list_header_#{column.widget or column.type} #{((options.sortable and column.tag !== 'button') ? 'oe_sortable' : null)}"><div>
-                    <t t-if="column.tag !== 'button'"><t t-esc="column.string"/></t>
-                </div></th>
-            </t>
-            <th t-if="options.deletable" class="oe_list_record_delete" width="13px"/>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td t-if="options.selectable"/>
-            <td t-foreach="aggregate_columns" t-as="column" class="oe_list_footer oe_number"
-                t-att-data-field="column.id" t-att-title="column.label">
-            </td>
-            <td t-if="options.deletable" class="oe_list_record_delete"/>
-        </tr>
-    </tfoot>
-</table>
+            </tr>
+            <tr t-if="options.header" class="oe_list_header_columns">
+                <t t-foreach="columns" t-as="column">
+                    <th t-if="column.meta">
+                        <t t-esc="column.string"/>
+                    </th>
+                </t>
+                <th t-if="options.selectable" width="1">
+                    <input type="checkbox" class="oe_list_record_selector"/>
+                </th>
+                <t t-foreach="columns" t-as="column">
+                    <th t-if="!column.meta and column.invisible !== '1'" t-att-data-id="column.id"
+                        t-attf-class="oe_list_header_#{column.widget or column.type} #{((options.sortable and column.tag !== 'button') ? 'oe_sortable' : null)}">
+                        <div>
+                            <t t-if="column.tag !== 'button'">
+                                <t t-esc="column.string"/>
+                            </t>
+                        </div>
+                    </th>
+                </t>
+                <th t-if="options.deletable" class="oe_list_record_delete" width="13px"/>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td t-if="options.selectable"/>
+                <td t-foreach="aggregate_columns" t-as="column" class="oe_list_footer oe_number"
+                    t-att-data-field="column.id" t-att-title="column.label">
+                </td>
+                <td t-if="options.deletable" class="oe_list_record_delete"/>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 <t t-name="ListView.buttons">
     <div class="oe_list_buttons">
     <t t-if="!widget.no_leaf and widget.options.action_buttons !== false and widget.options.addable and widget.is_action_enabled('create')">
@@ -909,13 +939,13 @@
 </t>
 <t t-name="FormRenderingSheet">
     <div class="oe_form_sheetbg">
-        <div t-attf-class="oe_form_sheet oe_form_sheet_width #{classnames}">
+        <div t-attf-class="container oe_form_sheet oe_form_sheet_width #{classnames}">
         </div>
     </div>
 </t>
 <t t-name="FormRenderingGroup">
     <t t-if="string" t-call="FormRenderingSeparator"/>
-    <table border="0" cellpadding="0" cellspacing="0" t-attf-class="oe_form_group #{classnames}"/>
+    <div t-attf-class="oe_form_group #{classnames}"/>
 </t>
 <t t-name="FormRenderingNotebook">
     <div class="oe_clear">
@@ -1480,25 +1510,27 @@
 </t>
 
 <t t-name="AbstractFormPopup.render">
-    <div>
-        <table style="width:100%">
-            <tr style="width:100%">
-                <td style="width:100%">
-                    <div class="oe_popup_search" style="width:100%"></div>
-                </td>
-            </tr>
-            <tr style="width:100%">
-                <td style="width:100%">
-                    <div class="oe_popup_list_pager"></div>
-                </td>
-            </tr>
-            <tr style="width:100%">
-                <td style="width:100%">
-                    <div class="oe_popup_list" style="width:100%"></div>
-                </td>
-            </tr>
-        </table>
-        <div class="oe_popup_form" style="width:100%"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="oe_popup_search"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="oe_popup_list_pager"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="oe_popup_list"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="oe_popup_form"></div>
+            </div>
+        </div>
     </div>
 </t>
 <t t-name="SelectCreatePopup.search.buttons">
@@ -1538,12 +1570,13 @@
     <t t-jquery="thead.ui-widget-header > tr:first">
         this.removeAttr('t-if');
     </t>
-
     <t t-jquery="td.oe-actions">
         this.removeAttr('t-if');
     </t>
     <t t-jquery="td.oe-actions" t-operation="prepend">
-        <h3 class="oe_view_title"><t t-esc="fields_view.arch.attrs.string"/></h3>
+        <div class="oe_view_title">
+            <t t-esc="fields_view.arch.attrs.string"/>
+        </div>
     </t>
 </t>
 
@@ -1556,15 +1589,19 @@
 </div>
 
 <div t-name="SearchViewDrawer" class="oe_searchview_drawer" style="display:none;">
-    <div class="col-md-7"></div>
-    <div class="col-md-5"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="section_1"></div>
+            <div class="section_2"></div>
+        </div>
+    </div>
 </div>
 
 <div t-name="SearchView.InputView"
      class="oe_searchview_input"
      contenteditable="true"
      tabindex="0"/>
-<!-- tabindex: makes div focusable -->
+    <!-- tabindex: makes div focusable -->
 <div t-name="SearchView.FacetView"
      class="oe_tag oe_tag_dark oe_searchview_facet"
      tabindex="0"
@@ -1772,7 +1809,7 @@
     <span/>
 </t>
 <t t-name="SearchView.extended_search.proposition.integer">
-    <input type="number" class="field_integer" value = "0" step="1"/>
+    <input type="number" class="field_integer" value="0" step="1"/>
 </t>
 <t t-name="SearchView.extended_search.proposition.float">
     <input class="field_float"

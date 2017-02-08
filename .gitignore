@@ -1,35 +1,65 @@
-# sphinx build directories
-_build/
-
-# dotfiles
-.*
-!.gitignore
-!.mailmap
-# compiled python files
-*.py[co]
-# setup.py egg_info
-*.egg-info
-# emacs backup files
-*~
-# hg stuff
-*.orig
-status
-# odoo filestore
-openerp/filestore
+.settings/
+backup/
+log/
+junk/
 data/
-# maintenance migration scripts
-openerp/addons/base/maintenance
+.oer.pid
+.openerp_serverrc
+.DS_Store
+.idea
 
-# generated for windows installer?
-install/win32/*.bat
-install/win32/meta.py
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.orig
 
-# various virtualenv
-/bin/
-/build/
-/dist/
-/include/
-/lib/
-/man/
-/share/
-/src/
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+

@@ -20,33 +20,36 @@
 ##############################################################################
 
 import time
-from openerp.osv import fields, osv
+# from openerp.osv import fields, osv
+from openerp import models, fields, api, _
 
-
-class account_budget_crossvered_report(osv.osv_memory):
+class AccountBudgetCrossveredReport(models.TransientModel):
 
     _name = "account.budget.crossvered.report"
     _description = "Account Budget crossvered report"
-    _columns = {
-        'date_from': fields.date('Start of period', required=True),
-        'date_to': fields.date('End of period', required=True),
-    }
-    _defaults = {
-        'date_from': lambda *a: time.strftime('%Y-01-01'),
-        'date_to': lambda *a: time.strftime('%Y-%m-%d'),
-    }
 
-    def check_report(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        data = self.read(cr, uid, ids, context=context)[0]
+    date_from = fields.Date(string='Start of period', required=True, default=lambda self: self._default_date_from)
+    date_to = fields.Date(string='End of period', required=True, default=lambda self: self._default_date_to)
+
+    def _default_date_from(self):
+        return lambda *a: time.strftime('%Y-01-01')
+
+    def _default_date_to(self):
+        return lambda *a: time.strftime('%Y-%m-%d')
+
+    @api.multi
+    def check_report(self):
+        ctx = self._context
+        if ctx is None:
+            ctx = {}
+        data = self.read()[0]
         datas = {
-            'ids': context.get('active_ids', []),
+            'ids': ctx.get('active_ids', []),
             'model': 'crossovered.budget',
             'form': data
         }
         datas['form']['ids'] = datas['ids']
         datas['form']['report'] = 'analytic-full'
-        return self.pool['report'].get_action(cr, uid, [], 'account_budget.report_crossoveredbudget', data=datas, context=context)
+        return self.env['report'].get_action([], 'account_budget.report_crossoveredbudget', data=datas)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

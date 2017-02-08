@@ -147,6 +147,7 @@
 	                                	<field name="propagate"/>
 	                                	<field name="company_id" groups="base.group_multi_company"/>
                                         <field name="state"/>
+                                        <field name="active"/>
 	                                </group>
 	                            </group>
 	                        </page>
@@ -302,7 +303,12 @@
                             </h1>
                         </div>
                         <group>
-                            <field name="location_id"/>
+                            <group>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
                         </group>
                         <notebook>
                             <page string="Moves">
@@ -375,9 +381,10 @@
                                 <field name="retention_time_handling"/>
                                 <field name="retention_time_archive"/>
                                 <field name="final_disposition_preserve"/>
-                                <field name="final_disposition_microfilm"/>
                                 <field name="final_disposition_removal"/>
                                 <field name="final_disposition_selection"/>
+                                <field name="final_disposition_medium"/>
+                                <field name="final_medium_type_id" attrs="{'invisible':[('final_disposition_medium','=',False)]}"/>
                             </group>
                         </group>
                         <separator string="Departments"/>

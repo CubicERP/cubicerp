@@ -736,3 +736,28 @@ div.carousel .item.text_only .container > .carousel-caption > div {
 div.carousel .item.text_only .container > .carousel-image {
     display: none !important;
 }
+
+
+/*MODIFICATIONS ------------------------------------------*/
+#wrapwrap > * {
+    display: block;
+}
+
+#wrapwrap main {
+    z-index: 1 !important;
+    position: relative !important;
+    height: auto !important;
+    background-color: #FFFFFF !important;
+    display: block !important;
+    box-shadow: 0px 0px 8px rgb(102, 102, 102) !important;
+}
+
+#wrapwrap footer {
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    position: fixed !important;
+    z-index: 0 !important;
+    padding-top: 60px !important;
+    height: auto !important;
+}

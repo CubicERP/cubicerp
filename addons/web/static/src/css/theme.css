@@ -2,6 +2,10 @@
 Globals
 ***********************************************************************************************************************/
 .row {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
@@ -36,7 +40,6 @@ Odoo Generics
 
 .openerp .oe_leftbar a.oe_logo img {
     margin-top: 10px !important;
-    width: 96px;
 }
 
 .openerp .oe-view-manager .oe-view-manager-content {
@@ -75,6 +78,10 @@ Odoo Generics
 
 .openerp .badge {
     background-color: #e26666 !important;
+}
+
+.openerp .oe_tags {
+    min-height: 30px;
 }
 
 .openerp .oe_fade {
@@ -118,6 +125,10 @@ Odoo Generics
 Main Navbar
 ***********************************************************************************************************************/
 #main_navbar {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     background: #ab1919 0% 0% !important;
     box-shadow: 0px 0px 8px rgb(102, 102, 102) !important;
@@ -164,10 +175,44 @@ Main Navbar
     padding-right: 10px !important;
 }
 
+#oe_main_menu_navbar .navbar-header .navbar-toggle {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
 #oe_main_menu_navbar .navbar-header .oe_systray {
-    margin-top: 5px;
+    margin-top: 8px;
     margin-bottom: 5px;
-    margin-left: 15px;
+    margin-left: 0px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_systray > li {
+    margin-left: 0px !important;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile {
+    margin-top: 5px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .dropdown-toggle {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
+    display: flex;
+    align-items: center;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .oe_topbar_name {
+    height: 18px;
+    color: white;
+    padding-left: 6px;
+}
+
+#oe_main_menu_navbar .navbar-header .oe_user_menu_placeholder_mobile .caret {
+    color: white;
 }
 
 #oe_main_menu_navbar .oe_systray .oe_timezone_systray .fa {
@@ -259,6 +304,10 @@ View Manager Header
 }
 
 .oe_view_manager .oe_view_manager_header .buttons_container {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-flow: row wrap !important;
     justify-content: space-between !important;
@@ -756,6 +805,10 @@ Form View
 Form View: Footer
 ***********************************************************************************************************************/
 .openerp .oe_form div.oe_chatter {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-direction: row-reverse;
     padding: 16px 0px;
@@ -767,6 +820,10 @@ Form View: Footer
 }
 
 .openerp .oe_followers .oe_subtype_list {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
 }
 
@@ -798,8 +855,7 @@ Form View: Footer
 Form View: Widgets
 ***********************************************************************************************************************/
 .openerp .oe_form .oe_form_field {
-    min-width: 200px;
-    max-width: 200px;
+    padding: 4px 15px 4px 0px;
 }
 
 .openerp .oe_form .oe_form_field_html,
@@ -807,15 +863,12 @@ Form View: Widgets
 .openerp .oe_form .oe_form_field_text textarea,
 .openerp .oe_form .oe_form_field_one2many,
 .openerp .oe_form .oe_form_field_many2many {
-    min-width: 100%;
-    max-width: 100%;
+    padding-right: 0px;
 }
 
 .openerp .oe_form_field_many2one {
     display: inline-block !important;
-    width: auto;
-    min-width: 220px;
-    max-width: 220px;
+    width: 100%;
 }
 
 .openerp .oe_form_field_many2one .oe_m2o_cm_button {
@@ -840,6 +893,11 @@ Form View: Widgets
 .openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]) {
     background-color: white !important;
     border-color: #e26666 !important;
+}
+
+.openerp .oe_form .oe_form_field_text.oe_inline,
+.openerp .oe_form .oe_form_field_text.oe_inline > textarea {
+    width: 100% !important;
 }
 
 @media (max-width: 1024px) {
@@ -886,6 +944,10 @@ Form View: Widgets
     }
 
     .openerp .oe_form .oe_form_group > .oe_form_group_row {
+        display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox; /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Chrome */
         display: flex;
         flex-direction: column;
     }
@@ -901,6 +963,10 @@ Form View: Widgets
         min-width: 100% !important;
         max-width: 100% !important;
         border-bottom: 1px solid #eee;
+    }
+
+    .openerp .oe_form .oe_form_field {
+        padding: 4px 0px 4px 0px;
     }
 
     .openerp .oe_form div.oe_chatter {
@@ -957,6 +1023,10 @@ Kanban View
 }
 
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column_cards {
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
     display: flex;
     flex-flow: row wrap;
     justify-content: center;

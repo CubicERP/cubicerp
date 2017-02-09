@@ -93,9 +93,14 @@ class archives_process_step(models.Model):
 class archives_transition(models.Model):
     _name = "archives.transition"
 
+    sequence = fields.Integer("Sequence", default=5)
     src_step_id = fields.Many2one('archives.process.step', string="Source Step")
     dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
     condition = fields.Text("Python Condition")
+    params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window")
+    group_id = fields.Many2one('res.groups', string="Group Restriction")
+
+    _order = "sequence"
 
 
 class archives_process_step_job(models.Model):

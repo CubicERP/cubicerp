@@ -23,9 +23,6 @@ from openerp import models, fields, api, _
 
 
 class AssignBudgetPeriod(models.Model):
-    """
-    For Chart of Struct
-    """
     _name = "assign.budget.period"
     _description = "Assign Budget Period"
 
@@ -49,6 +46,10 @@ class AssignBudgetPeriod(models.Model):
 
     @api.model
     def get_account_period_ids(self):
+        """
+
+        :return: the account.period selected to set their budget.period
+        """
         return self.env['account.period'].browse(self._context.get('active_ids', None))
 
     @api.multi

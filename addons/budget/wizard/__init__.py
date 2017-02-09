@@ -23,7 +23,7 @@ import budget_budget_report
 import budget_budget_analytic
 import budget_budget_summary_report
 import account_budget_report
-from . import struct_char
+from . import struct_char, assign_budget_period
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

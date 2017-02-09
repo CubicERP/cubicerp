@@ -67,6 +67,9 @@ class archives_process(models.Model):
     state = fields.Selection([('run','Run'),
                               ('cancel','Cancel')], 'State', readonly=True, default="run")
     step_ids = fields.One2many('archives.process.step', 'process_id', string="Steps")
+    load_balance = fields.Selection([('robin', 'Round Robin'),
+                                     ('random', 'Random'),
+                                     ('alive', 'First Alive')], required=True, string="Load Balancing", default='robin')
 
 
 class archives_process_step(models.Model):
@@ -76,7 +79,7 @@ class archives_process_step(models.Model):
     name = fields.Char('Name', required=True)
     process_id = fields.Many2one('archives.process','Process', required=True, ondelete="cascade")
     department_id = fields.Many2one('hr.department', 'Department')
-    job_id = fields.Many2one('hr.job', 'Job')
+    job_ids = fields.One2many('archives.process.step.job', 'step_id', 'Jobs')
     document_ids = fields.One2many('archives.document', 'process_step_id', string='Current Documents')
     retention_table_ids = fields.Many2many('archives.retention.table', 'archives_process_table_rel',
                                            string='Retention Table Control',
@@ -85,6 +88,24 @@ class archives_process_step(models.Model):
     fold = fields.Boolean('Folded in Kanban View',
                            help='This stage is folded in the kanban view when'
                                 'there are no records in that stage to display.')
+
+
+class archives_transition(models.Model):
+    _name = "archives.transition"
+
+    src_step_id = fields.Many2one('archives.process.step', string="Source Step")
+    dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
+    condition = fields.Text("Python Condition")
+
+
+class archives_process_step_job(models.Model):
+    _name = "archives.process.step.job"
+
+    step_id = fields.Many2one("archives.process.step", 'Process Step')
+    job_id = fields.Many2one('hr.job', 'Job')
+    sequence = fields.Integer("Priorty", default=5)
+
+    _order = "sequence"
 
 
 class archives_document_step(models.Model):

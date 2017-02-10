@@ -59,6 +59,7 @@ class archives_retention_table(models.Model):
 class archives_process(models.Model):
     _name = "archives.process"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _parent_store = True
     
     name = fields.Char('Code', size=32, required=True)
     parent_id = fields.Many2one('archives.process', 'Parent Process')
@@ -70,6 +71,24 @@ class archives_process(models.Model):
     load_balance = fields.Selection([('robin', 'Round Robin'),
                                      ('random', 'Random'),
                                      ('alive', 'First Alive')], required=True, string="Load Balancing", default='robin')
+    parent_left = fields.Integer('Parent Left')
+    parent_right = fields.Integer('Parent Right')
+
+    step_count = fields.Integer('Step Count', compute='_compute_step_count')
+    document_count = fields.Integer('Document', compute='_compute_document_count')
+
+    color = fields.Integer('Color')
+
+    @api.multi
+    @api.depends('step_ids')
+    def _compute_step_count(self):
+        for record in self:
+            record.step_count = len(record.step_ids)
+
+    @api.multi
+    def _compute_document_count(self):
+        pass
+
 
 
 class archives_process_step(models.Model):
@@ -222,6 +241,8 @@ class archives_document(models.Model):
                                  readonly=True, states={'pending': [('readonly', False)]})
     color = fields.Integer('Color')
     active = fields.Boolean('Active', default=True)
+
+    process_init_id = fields.Many2one('archives.process', string="Process", required=True, readonly=True, states={'pending': [('readonly', False)]})
 
     def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
         access_rights_uid = access_rights_uid or uid

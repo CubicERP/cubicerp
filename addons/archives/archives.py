@@ -87,7 +87,8 @@ class archives_process(models.Model):
 
     @api.multi
     def _compute_document_count(self):
-        pass
+        for record in self:
+            record.document_count = 0
 
 
 class archives_process_step(models.Model):
@@ -245,11 +246,11 @@ class archives_document(models.Model):
                                  compute="_compute_process_id")
 
     @api.multi
-    @api.depends('steps_ids.step_id')
+    @api.depends('step_ids.step_id')
     def _compute_process_id(self):
         """ return the process of the last document's step """
         for record in self:
-            record.process_id = record.steps_ids[:1].process_id
+            record.process_id = record.step_ids[:1].process_id
 
     def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
         access_rights_uid = access_rights_uid or uid

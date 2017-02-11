@@ -72,8 +72,8 @@
                     <sheet>
                         <div class="oe_title">
                             <h1>
-                                <label for="process_init_id" class="oe_edit_only"/>
-                                <field name="process_init_id" class="oe_inline"/>
+                                <label for="process_id" class="oe_edit_only"/>
+                                <field name="process_id" class="oe_inline"/>
 
                                 <label for="name" attrs="{'invisible':[('name','=','/')]}" class="oe_edit_only"/>
                                 <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
@@ -319,6 +319,7 @@
                     <field name="step_ids"/>
                     <field name="step_count"/>
                     <field name="document_count"/>
+                    <field name="color" />
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
@@ -344,18 +345,18 @@
 
                                     <div class="oe_kanban_bottom_right">
                                         <a t-if="record.step_count.raw_value" name="attachment_tree_view" type="object"
-                                            style="margin-right: 10px"> <field name="step_count"
-                                            />Steps</a>
+                                            style="margin-right: 10px"> Steps: <field name="step_count"
+                                            /></a>
                                         <a name="%(archives_process_2document_action)d" type="action" style="margin-right: 10px">
-                                            <t t-raw="record.document_count.raw_value"/> Documents
+                                           Documents: <t t-raw="record.document_count.raw_value"/>
                                         </a>
                                     </div>
 
-                                    <div class="oe_kanban_footer_left">
+                                    <!--<div class="oe_kanban_footer_left">
                                         <span >
                                             <field name="state"/>
                                         </span>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </t>
@@ -371,7 +372,7 @@
 		    <field name="name">Process</field>
 		    <field name="res_model">archives.process</field>
 		    <field name="view_type">form</field>
-		    <field name="view_mode">tree,form</field>
+		    <field name="view_mode">tree,form,kanban</field>
 	    </record>
 	    <menuitem name='Process' id='process_menu' action="process_action" sequence='20' parent='archives_menu'/>
 

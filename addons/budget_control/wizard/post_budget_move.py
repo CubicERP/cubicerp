@@ -22,39 +22,38 @@
 from openerp import models, fields, api, _
 
 
-class AssignBudgetPeriod(models.TransientModel):
-    _name = "assign.budget.period"
-    _description = "Assign Budget Period"
-
-    period_id = fields.Many2one('budget.period', string='Budget Period')
+class PostBudgetMove(models.TransientModel):
+    _name = "post.budget.move"
+    _description = "Post Budget Move"
 
     @api.model
-    def domain_account_period(self):
+    def domain_budget_move_ids(self):
         return [
-            ('id', 'in', (self.get_account_period_ids()).ids)
+            ('id', 'in', (self.get_budget_move_ids()).ids)
         ]
 
     @api.model
-    def default_account_period_ids(self):
-        return self.get_account_period_ids()
+    def default_budget_move_ids(self):
+        return self.get_budget_move_ids()
 
-    account_period_ids = fields.Many2many('account.period', 'account_periods_account_period_rel_',
-                                          'account_period_ids', 'account_period', 'Account Periods',
-                                          domain=domain_account_period,
-                                          default=default_account_period_ids,
+    budget_move_ids = fields.Many2many('budget.move', 'budget_move_ids_budget_move_rel_',
+                                          'budget_move_ids', 'budget_move', 'Budget Move',
+                                          domain=domain_budget_move_ids,
+                                          default=default_budget_move_ids,
                                           )
 
     @api.model
-    def get_account_period_ids(self):
+    def get_budget_move_ids(self):
         """
 
         :return: the account.period selected to set their budget.period
         """
-        return self.env['account.period'].browse(self._context.get('active_ids', None))
+        return self.env['budget.move'].browse(self._context.get('active_ids', None))
 
     @api.multi
-    def to_assign_account_period(self):
+    def multi_post_budget_move(self):
         self.ensure_one()
-        self.account_period_ids.write({'budget_period_id': self.period_id.id})
+        for move in self.budget_move_ids:
+            move.action_done()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

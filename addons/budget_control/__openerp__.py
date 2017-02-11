@@ -55,6 +55,7 @@ Dashboard / Reports for archives will include:
         "view/account_view.xml",
         # "data/budget_data.xml",
         "wizard/struct_control_chart_view.xml",
+        "wizard/post_budget_move.xml",
 	    ],
     "demo_xml": [],
     "active": False,

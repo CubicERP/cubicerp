@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from . import struct_control_char
+from . import struct_control_char, post_budget_move
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

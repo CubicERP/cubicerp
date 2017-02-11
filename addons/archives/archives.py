@@ -53,7 +53,7 @@ class archives_retention_table(models.Model):
                                        help="Leave blank to permit all medium types")
     department_ids = fields.One2many('archives.table.department', 'retention_table_id', string='Departments',
                                      help="Leave blank to permit all departments")
-    active = fields.Boolean('Acive', default=True)
+    active = fields.Boolean('Active', default=True)
 
 
 class archives_process(models.Model):
@@ -88,7 +88,6 @@ class archives_process(models.Model):
     @api.multi
     def _compute_document_count(self):
         pass
-
 
 
 class archives_process_step(models.Model):
@@ -135,6 +134,8 @@ class archives_process_step_job(models.Model):
 class archives_document_step(models.Model):
     _name = "archives.document.step"
 
+    _order = "date_start desc"
+
     step_id = fields.Many2one('archives.process.step', 'Process Step')
     department_id = fields.Many2one('hr.department', 'Department')
     document_id = fields.Many2one('archives.document', string='Document')
@@ -145,8 +146,6 @@ class archives_document_step(models.Model):
                               ('run', 'Run'),
                               ('done', 'Done'),
                               ('cancel', 'Cancel')], 'State', readonly=True, default="wait")
-
-    _order = "date_start desc"
 
 
 class archives_collection_location(models.Model):
@@ -242,7 +241,15 @@ class archives_document(models.Model):
     color = fields.Integer('Color')
     active = fields.Boolean('Active', default=True)
 
-    process_init_id = fields.Many2one('archives.process', string="Process", required=True, readonly=True, states={'pending': [('readonly', False)]})
+    process_id = fields.Many2one('archives.process', string="Process", required=True,
+                                 compute="_compute_process_id")
+
+    @api.multi
+    @api.depends('steps_ids.step_id')
+    def _compute_process_id(self):
+        """ return the process of the last document's step """
+        for record in self:
+            record.process_id = record.steps_ids[:1].process_id
 
     def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
         access_rights_uid = access_rights_uid or uid

@@ -112,6 +112,8 @@ class archives_process_step(models.Model):
 class archives_transition(models.Model):
     _name = "archives.transition"
 
+    _order = "sequence"
+
     sequence = fields.Integer("Sequence", default=5)
     src_step_id = fields.Many2one('archives.process.step', string="Source Step")
     dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
@@ -119,8 +121,7 @@ class archives_transition(models.Model):
     params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window")
     group_id = fields.Many2one('res.groups', string="Group Restriction")
 
-    _order = "sequence"
-
+    # TODO: Add boolean parameter to merge wizard's params of other transition
 
 class archives_process_step_job(models.Model):
     _name = "archives.process.step.job"
@@ -147,6 +148,8 @@ class archives_document_step(models.Model):
                               ('run', 'Run'),
                               ('done', 'Done'),
                               ('cancel', 'Cancel')], 'State', readonly=True, default="wait")
+    # document's movement fields
+    move_ids = fields.One2many('archives.document.move', 'document_step_id', "Document's movement")
 
 
 class archives_collection_location(models.Model):
@@ -288,6 +291,9 @@ class archives_document_move(models.Model):
     _name = "archives.document.move"
     
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
+    # in what step was the document when it moved
+    document_step_id = fields.Many2one('archives.document.step', string="Document Steps",
+                                       help="In what step was the document when it moved")
     type = fields.Many2one('archives.document.move.type', string="Move Type", required=True)
     date_start = fields.Datetime('Date Start')
     date_end = fields.Datetime('Date End')

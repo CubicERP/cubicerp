@@ -87,9 +87,16 @@ class archives_process(models.Model):
 
     @api.multi
     def _compute_document_count(self):
+        lis_doc=[]
         for record in self:
-            record.document_count = 0
-
+            for step in record.step_ids:
+                val_obj = self.env['archives.document.step'].search([('step_id', '=', step.id)])
+                for aux in val_obj:
+                    if aux.document_id.id:
+                        if aux.document_id.id not in lis_doc:
+                            lis_doc.append(aux.document_id.id)
+            record.document_count = len(lis_doc)
+            lis_doc =[]
 
 class archives_process_step(models.Model):
     _name = "archives.process.step"
@@ -219,8 +226,7 @@ class archives_document(models.Model):
     date_start = fields.Datetime('Date Start', readonly=True, states={'pending': [('readonly', False)]})
     date_compute = fields.Datetime('Date Compute', readonly=True)
     date_end = fields.Datetime('Date End', readonly=True)
-    partner_id = fields.Many2one('res.partner', string='Reply To',
-                                 readonly=True, states={'pending': [('readonly', False)]})
+    partner_id = fields.Many2one('res.partner', string='Reply To')#, readonly=True, states={'pending': [('readonly', False)]}
     state = fields.Selection([('pending','Pending'),
                               ('done','Done'),
                               ('cancel','Cancel')], 'State', readonly=True, default="pending")
@@ -242,20 +248,42 @@ class archives_document(models.Model):
     color = fields.Integer('Color')
     active = fields.Boolean('Active', default=True)
 
-    process_id = fields.Many2one('archives.process', string="Process", required=True,
-                                 compute="_compute_process_id")
+    process_id = fields.Many2one('archives.process', string="Process", required=True) #, compute="_compute_process_id"
 
-    @api.multi
-    @api.depends('step_ids.step_id')
-    def _compute_process_id(self):
-        """ return the process of the last document's step """
-        for record in self:
-            record.process_id = record.step_ids[:1].process_id
+    # @api.multi
+    # @api.depends('step_ids.step_id')
+    # def _compute_process_id(self):
+    #     """ return the process of the last document's step """
+    #     for record in self:
+    #         record.process_id = record.step_ids[:1].document_id
+
+    def _resolve_process_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
+        if context is None:
+            context = {}
+        if type(context.get('default_process_id')) in (int, long):
+            return context['default_process_id']
+        if isinstance(context.get('default_process_id'), basestring):
+            process_name = context['default_process_id']
+            process_ids = self.pool.get('archives.process').name_search(cr, uid, name=process_name, context=context)
+            if len(process_ids) == 1:
+                return process_ids[0][0]
+        return None
 
     def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
         access_rights_uid = access_rights_uid or uid
         stage_obj = self.pool.get('archives.process.step')
-        stage_ids = stage_obj.search(cr, uid, [], context=context)
+
+        search_domain = []
+        process_id = self._resolve_process_id_from_context(cr, uid, context=context)
+        if process_id:
+            search_domain += ['|', ('process_id', '=', process_id)]
+        search_domain += [('id', 'in', ids)]
+
+        stage_ids = stage_obj._search(cr, uid, search_domain, access_rights_uid=access_rights_uid, context=context)
         result = stage_obj.name_get(cr, access_rights_uid, stage_ids, context=context)
         # restore order of the search
         result.sort(lambda x, y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))

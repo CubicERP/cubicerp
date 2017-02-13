@@ -58,6 +58,7 @@
                     <field name="responsible_id"/>
                     <field name="parent_id"/>
                     <field name="process_step_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -271,6 +272,8 @@
                             </group>
                             <group>
                                 <field name="retention_table_id"/>
+                                <field name="load_balance"/>
+                                <field name="document_count" string="Documents"/>
                             </group>
                         </group>
                         <notebook>

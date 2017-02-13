@@ -20,6 +20,7 @@ import random
 
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
+from openerp.exceptions import Warning
 # from openerp.exceptions import
 
 class archives_medium_type(models.Model):
@@ -487,6 +488,32 @@ class archives_document(models.Model):
     _group_by_full = {
         'process_step_id': _read_group_stage_ids
         }
+
+    @api.model
+    def create(self, vals):
+        res = super(archives_document, self).create(vals)
+        if len(vals.get('step_ids')) != 0:
+            # list_step = sorted(vals.get('step_ids'),key='date_start')
+            list_step = self.env['archives.document.step'].browse(vals.get('step_ids'))
+            vals.update({'process_step_id': list_step[0].step_id})
+        else:
+
+            process = self.env['archives.process'].browse(vals.get('process_id'))
+            if len(process.step_ids) ==0:
+                raise Warning(_('Warning!'), _(
+                    'You must define steps in the document or at least in the process related to it'))
+            vals_document_step = {}
+            vals_document_step['step_id'] = process.step_ids[0].id
+            vals_document_step['department_id'] = process.step_ids[0].department_id.id
+
+            document_step = self.env['archives.document.step'].create(vals_document_step)
+            res.step_ids += document_step
+            lis_doc = process.step_ids[0].document_ids
+            lis_doc += res
+            process.step_ids[0].document_ids = lis_doc
+            vals.update({'process_step_id': process.step_ids[0].id})
+
+        return res
 
     @api.multi
     @api.depends('move_ids.dest_user_id')

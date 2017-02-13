@@ -20,6 +20,7 @@ import random
 
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
+from openerp.exceptions import Warning
 # from openerp.exceptions import
 
 class archives_medium_type(models.Model):
@@ -491,7 +492,8 @@ class archives_document(models.Model):
 
             process = self.env['archives.process'].browse(vals.get('process_id'))
             if len(process.step_ids) ==0:
-                a=0
+                raise Warning(_('Warning!'), _(
+                    'You must define steps in the document or at least in the process related to it'))
             vals_document_step = {}
             vals_document_step['step_id'] = process.step_ids[0].id
             vals_document_step['department_id'] = process.step_ids[0].department_id.id

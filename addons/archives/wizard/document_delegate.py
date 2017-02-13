@@ -32,7 +32,7 @@ class DocumentDelegate(models.TransientModel):
     @api.model
     def _compute_user_id_domain(self):
         """ filter user by process and department ."""
-        document =  self.env['archives.document'].browse(self._context.get('active_id'))
+        # document =  self.env['archives.document'].browse(self._context.get('active_id'))
         employee = self.env.user.employee_ids[:1]
 
         candidates = self.env['hr.employee']
@@ -45,8 +45,8 @@ class DocumentDelegate(models.TransientModel):
                                                                                e != employee.parent_id and
                                                                                e != employee.coach_id and
                                                                                e != employee)
-            # sort the users according to process load_balancd policy
-            candidates = self.env['archives.process.step'].sort_candidates(candidates, document.process_step_id)
+            # # sort the users according to process load_balancd policy
+            # candidates = self.env['archives.process.step'].sort_candidates(candidates, document.process_step_id)
 
             # later retrieve the manager of the subordinated departments
             candidates |= employee.department_id.mapped('child_ids.manager_id')
@@ -55,8 +55,7 @@ class DocumentDelegate(models.TransientModel):
 
 
     user_id = fields.Many2one('res.users', 'User to Delegate', required=True, auto_join=True,
-                              domain=_compute_user_id_domain,
-                              context="{'show_employee_job': True}")
+                              domain=_compute_user_id_domain)
 
     @api.multi
     def _compute_user_id(self):

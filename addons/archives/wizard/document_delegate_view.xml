@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <form string="Document Delegate/ Escale">
                     <group>
-                        <field name="user_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                        <field name="user_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"
+                            context="{'arch_process_policy': context.get('arch_process_policy'), 'arch_document_id': context.get('arch_document_id'), 'arch_behavior': context.get('arch_behavior'), 'show_employee_job': True}"/>
                     </group>
                     <fotter>
                         <button string="Delegate"
@@ -28,6 +29,14 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="archives_document_delegate_view_form"/>
+            <field name="context">{
+                'arch_document_id': active_id,
+                'arch_behavior': context.get('arch_behavior', 'delegate'),
+                'arch_process_id': context.get('process_id'),
+                'arch_process_policy': True,
+                'show_employee_job': True,
+                }
+            </field>
             <field name="target">new</field>
         </record>
 

@@ -19,6 +19,7 @@
 import random
 
 from openerp import api, fields, models, _
+from openerp import SUPERUSER_ID
 # from openerp.exceptions import
 
 class archives_medium_type(models.Model):
@@ -191,6 +192,8 @@ class archives_process_step(models.Model):
         if not candidates:
             return candidates
 
+        query = ''
+
         # random sort of the given candidates
         if step_id.process_id.load_balance == 'random':
             random.shuffle(candidates)
@@ -244,6 +247,41 @@ class archives_process_step(models.Model):
     @api.model
     def check_availability(self, candidate):
         return True
+
+    @api.cr
+    def _register_hook(self, cr):
+        """ Register discovered exporters addons dynamically to configuration settings model's fields
+            and registers then in the model's table """
+
+        def make_res_users_search():
+            """ instantiate a _search method for order users based on process policy """
+            @api.model
+            def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+                result = _search.origin(self, args=args, offset=offset, limit=limit, order=order,
+                                        count=count, access_rights_uid=access_rights_uid)
+
+                if not result:
+                    return result
+
+                if not count and self._context.get('arch_process_policy', False):
+                    if self._context.get('arch_document_id'):
+                        if self._context.get('arch_behavior') == 'delegate':
+                            document = self.env['archives.document'].browse(self._context.get('arch_document_id'))
+                            candidates = self.env['hr.employee'].search([
+                                                        ('user_id', 'in', result),
+                                                        ])
+                            res = self.env['archives.process.step'].sort_candidates(
+                                                            candidates,
+                                                            document.process_step_id
+                                                            )
+                            return res and [r.user_id.id for r in res] or []
+
+                return result
+
+            return _search
+
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        env['res.users']._patch_method('_search', make_res_users_search())
 
 
 class archives_transition(models.Model):

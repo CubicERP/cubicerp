@@ -34,6 +34,7 @@
 								<div t-attf-class="oe_kanban_content">
 								<!-- title -->
 									Document: <field name="name"/><br />
+                                    Process: <field name="process_id" /><br />
 									Start date: <field name="date_start"/><br />
                                     Client: <field name="partner_id"/><br />
 									Responsible: <field name="responsible_id"/>
@@ -88,12 +89,12 @@
                                 <!-- document navigation across structure -->
                                  <button class="oe_inline oe_stat_button" name="%(document_delegate_action)d"
                                     string="Escalate" icon="fa-angle-double-up" type="action"
-                                    context="{'behavior': 'escalate'}"
+                                    context="{'arch_behavior': 'escalate'}"
                                     >
                                 </button>
                                 <button  class="oe_inline oe_stat_button" name="%(document_delegate_action)d"
                                     string="Delegate"  icon="fa-angle-double-down" type="action"
-                                    context="{'behavior': 'delegate'}"
+                                    context="{'arch_behavior': 'delegate'}"
                                     >
                                 </button>
                                  <button class="oe_inline oe_stat_button" string="Previous Step" icon="fa-angle-double-left">
@@ -195,11 +196,13 @@
             <field name="arch" type="xml">
                 <search string="Archives">
                     <field name="name" string="Transfer" filter_domain="[('name','ilike',self)]"/>
+                    <field name="process_id" filter_domain="[('process_id','child_of',self)]"/>
                     <filter name="pending" string="Pending" domain="[('state','=','pending')]"/>
                     <filter name="done" string="Done" domain="[('state','=','done')]"/>
                     <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]"/>
                     <separator/>
                     <group expand="0" string="Group By...">
+                        <filter string="Process" name="process" context="{'group_by':'process_id'}"/>
                     	<filter string="Retention Table" icon="terp-folder-orange" domain="[]" context="{'group_by':'retention_table_id'}"/>
                         <filter string="Responsible" icon="terp-folder-orange" domain="[]" context="{'group_by':'responsible_id'}"/>
                         <filter string="Collection" icon="terp-folder-orange" domain="[]" context="{'group_by':'collection_id'}"/>

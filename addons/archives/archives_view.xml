@@ -87,13 +87,13 @@
                         <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
                             <div name="navigations" attrs="{'invisible':[('state','=', 'cancel')]}" >
                                 <!-- document navigation across structure -->
-                                 <button class="oe_inline oe_stat_button" name="%(document_delegate_action)d"
-                                    string="Escalate" icon="fa-angle-double-up" type="action"
+                                 <button class="oe_inline oe_stat_button" name="action_delegate"
+                                    string="Escalate" icon="fa-angle-double-up" type="object"
                                     context="{'arch_behavior': 'escalate'}"
                                     >
                                 </button>
-                                <button  class="oe_inline oe_stat_button" name="%(document_delegate_action)d"
-                                    string="Delegate"  icon="fa-angle-double-down" type="action"
+                                <button  class="oe_inline oe_stat_button" name="action_delegate"
+                                    string="Delegate"  icon="fa-angle-double-down" type="object"
                                     context="{'arch_behavior': 'delegate'}"
                                     >
                                 </button>

@@ -64,6 +64,7 @@ class archives_process(models.Model):
     
     name = fields.Char('Code', size=32, required=True)
     parent_id = fields.Many2one('archives.process', 'Parent Process')
+    child_ids = fields.One2many('archives.process', 'parent_id', 'Chield Process')
     retention_table_id = fields.Many2one('archives.retention.table', 'Retention Table', required=True)
     description = fields.Text('Description')
     state = fields.Selection([('run','Run'),
@@ -84,13 +85,13 @@ class archives_process(models.Model):
     @api.depends('step_ids')
     def _compute_step_count(self):
         for record in self:
-            record.step_count = len(record.step_ids)
+            record.step_count = len(record .mapped('step_ids'))
 
     @api.multi
     @api.depends('step_ids.document_ids')
     def _compute_document_count(self):
         for record in self:
-            record.document_count = len(record.mapped('step_ids.document_ids'))
+            record.document_count = len((record | record.child_ids).mapped('step_ids.document_ids'))
 
 
 class archives_process_step(models.Model):
@@ -240,7 +241,7 @@ class archives_process_step(models.Model):
             self.env.cr.execute(query, (step_id.id, tuple(candidates.ids),))
             data = {item.pop('employee_id'): item for item in self.env.cr.dictfetchall()}
 
-            candidates = candidates.sorted(key=lambda r: data.get(r.id, {'key': 0})['key'])
+            candidates = candidates.sorted(key=lambda r: data.get(r.id, {'key': 9999999999})['key'])
 
         return candidates
 
@@ -265,16 +266,23 @@ class archives_process_step(models.Model):
 
                 if not count and self._context.get('arch_process_policy', False):
                     if self._context.get('arch_document_id'):
-                        if self._context.get('arch_behavior') == 'delegate':
-                            document = self.env['archives.document'].browse(self._context.get('arch_document_id'))
-                            candidates = self.env['hr.employee'].search([
+                        candidates = self.env['hr.employee'].search([
                                                         ('user_id', 'in', result),
                                                         ])
+                        if self._context.get('arch_behavior') == 'delegate':
+                            document = self.env['archives.document'].browse(self._context.get('arch_document_id'))
                             res = self.env['archives.process.step'].sort_candidates(
                                                             candidates,
                                                             document.process_step_id
                                                             )
-                            return res and [r.user_id.id for r in res] or []
+                        else:
+                            HrDepartment = self.env['hr.department']
+                            HrDepartment._fields['parent_left'].group_operator = 'max'
+                            statistic = HrDepartment.read_group([], ['parent_left'], [], lazy=False)
+                            max_parent_left = statistic[0]['parent_left']
+                            res = candidates.sorted(key=lambda e: e.department_id.parent_left or max_parent_left*2)
+
+                        return res and [r.user_id.id for r in res] or []
 
                 return result
 
@@ -498,6 +506,68 @@ class archives_document(models.Model):
     def _onchange_process_id(self):
         for record in self:
             record.retention_table_id = record.process_id.retention_table_id
+
+    @api.multi
+    def write(self, vals):
+        if 'responsible_id' in vals and vals['responsible_id'] and len(vals) == 1:
+            # Maybe the action came from the kanban
+            DocumentMove = self.env['archives.document.move']
+            DocumentMoveType = self.env['archives.document.move.type']
+
+            if not DocumentMoveType.search([]).exists():
+                raise Warning(_('Warning!'), _(
+                    "A document Type must exists in order to assign documents"
+                    ))
+
+            responsible_id = self.env['res.users'].browse(vals['responsible_id'])
+
+            for record in self:
+                # create a movement for the document
+                document_last_move = record.move_ids[-1:]
+
+                move_type_id = document_last_move.type or DocumentMoveType.search([], limit=1)
+
+                source_department_id = document_last_move.dest_department_id
+                if not source_department_id:
+                    source_department_id = record.process_step_id.department_id
+
+                dest_department_id = responsible_id.employee_ids[:1].department_id
+                if not dest_department_id:
+                    dest_department_id = record.process_step_id.department_id
+
+                source_user_id = document_last_move.dest_user_id
+                if not source_user_id:
+                    if record.process_step_id.department_id:
+                        source_user_id = record.process_step_id.department_id.manager_id
+                    else:
+                        source_user_id = self.env.user
+
+                document_curr_move = DocumentMove.create({
+                                        'document_id': record.id,
+                                        'document_step_id': record.step_ids[-1:].id,
+                                        'type': move_type_id.id,
+                                        'date_start': fields.Datetime.now(),
+                                        'source_department_id': source_department_id and source_department_id.id or False,
+                                        'dest_department_id': dest_department_id and dest_department_id.id or False,
+                                        'source_user_id': source_user_id and source_user_id.id or False,
+                                        'dest_user_id': responsible_id.id,
+                                        })
+                # update the date_end of the previos las movement
+                document_last_move.write({'date_end': document_curr_move.date_start})
+
+            return True
+
+        return super(archives_document, self).write(vals)
+
+    @api.multi
+    def action_delegate(self):
+        action = self.env.ref('archives.document_delegate_action').read()[0]
+
+        if self._context.get('arch_behavior', 'delegate') == 'escalate':
+            action['name'] = action['name'].replace('Delegate', 'Escalate')
+
+        return action
+
 
 
 class archives_document_version(models.Model):

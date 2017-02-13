@@ -6,8 +6,10 @@
             <field name="name">archives.document.delegate.form</field>
             <field name="model">archives.document.delegate</field>
             <field name="arch" type="xml">
-                <form string="Document Delegate/ Escale">
+                <form string="Delegate Document">
                     <group>
+                        <field name="document_id" />
+                        <field name="move_type_id" />
                         <field name="user_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"
                             context="{'arch_process_policy': context.get('arch_process_policy'), 'arch_document_id': context.get('arch_document_id'), 'arch_behavior': context.get('arch_behavior'), 'show_employee_job': True}"/>
                     </group>
@@ -24,7 +26,7 @@
         </record>
 
         <record id="document_delegate_action" model="ir.actions.act_window">
-            <field name="name">Delegate/Escale Document</field>
+            <field name="name">Delegate Document</field>
             <field name="res_model">archives.document.delegate</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

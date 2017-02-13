@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="archives_document_delegate_view_form" model="ir.ui.view">
+            <field name="name">archives.document.delegate.form</field>
+            <field name="model">archives.document.delegate</field>
+            <field name="arch" type="xml">
+                <form string="Document Delegate/ Escale">
+                    <group>
+                        <field name="user_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                    </group>
+                    <fotter>
+                        <button string="Delegate"
+                            name="delegate"
+                            type="object" class="oe_highlight"
+                            />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </fotter>
+               </form>
+            </field>
+        </record>
+
+        <record id="document_delegate_action" model="ir.actions.act_window">
+            <field name="name">Delegate/Escale Document</field>
+            <field name="res_model">archives.document.delegate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="archives_document_delegate_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

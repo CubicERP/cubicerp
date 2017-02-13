@@ -16,10 +16,10 @@
 #    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+import random
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
-
+from openerp import api, fields, models, _
+# from openerp.exceptions import
 
 class archives_medium_type(models.Model):
     _name = "archives.medium.type"
@@ -86,17 +86,11 @@ class archives_process(models.Model):
             record.step_count = len(record.step_ids)
 
     @api.multi
+    @api.depends('step_ids.document_ids')
     def _compute_document_count(self):
-        lis_doc=[]
         for record in self:
-            for step in record.step_ids:
-                val_obj = self.env['archives.document.step'].search([('step_id', '=', step.id)])
-                for aux in val_obj:
-                    if aux.document_id.id:
-                        if aux.document_id.id not in lis_doc:
-                            lis_doc.append(aux.document_id.id)
-            record.document_count = len(lis_doc)
-            lis_doc =[]
+            record.document_count = len(record.mapped('step_ids.document_ids'))
+
 
 class archives_process_step(models.Model):
     _name = "archives.process.step"
@@ -115,6 +109,142 @@ class archives_process_step(models.Model):
                            help='This stage is folded in the kanban view when'
                                 'there are no records in that stage to display.')
 
+    @api.one
+    @api.depends('process_id.load_balance', 'job_ids')
+    def _compute_candidate(self):
+        candidate_2skip = self.env['hr.employee']
+
+        for job in self.job_ids:
+            candidate = self.find_candidate(job)
+
+            if candidate not in candidate_2skip and self.check_availability(candidate):
+                return candidate.user_id
+
+            candidate_2skip |= candidate
+
+    @api.one
+    @api.returns('hr.employee', lambda r: r.id)
+    def find_candidate(self, job=None):
+        candidate = self.env['hr.employee']
+        query = ''
+        job = job or self.job_ids[:1] or False
+
+        if not job or not job.employee_ids:
+            return candidate
+
+        # find a random candidate in the job
+        if self.process_id.load_balance == 'random':
+            candidate = random.choice(job.employee_ids)
+
+        # find the (LRU) Least Recently Used candidate in the job
+        if self.process_id.load_balance == 'robin':
+            query = '''
+            SELECT DISTINCT
+                   e.id AS employee_id, e.name_related, u.id AS dest_user_id,
+                   CAST(9999999999 - EXTRACT(
+                                        DAY FROM CURRENT_DATE
+                                               - COALESCE(m.date_start, '1900-01-01 00:00:00')
+                                        ) AS BIGINT) AS key
+              FROM archives_process_step_job AS p INNER JOIN hr_job AS j
+                ON p.job_id = j.id INNER JOIN hr_employee AS e
+                ON j.id = e.job_id INNER JOIN resource_resource AS r
+                ON e.resource_id = r.id INNER JOIN res_users AS u
+                ON r.user_id = u.id LEFT JOIN archives_document_move AS m
+                ON u.id = m.dest_user_id
+             WHERE p.step_id = 1 AND j.id = 3
+             ORDER BY CAST(9999999999 - EXTRACT(
+                                        DAY FROM CURRENT_DATE
+                                               - COALESCE(m.date_start, '1900-01-01 00:00:00')
+                                        ) AS BIGINT) ASC
+             LIMIT 1;
+            '''
+
+        # fiend the Less Loaded candidate in the job
+        if self.process_id.load_balance == 'alive':
+            query = '''
+            SELECT e.id AS employee_id, e.name_related, u.id AS dest_user_id,
+                   COUNT(d.responsible_id) AS key
+              FROM archives_process_step_job AS p INNER JOIN hr_job AS j
+                ON p.job_id = j.id INNER JOIN hr_employee AS e
+                ON j.id = e.job_id INNER JOIN resource_resource AS r
+                ON e.resource_id = r.id INNER JOIN res_users AS u
+                ON r.user_id = u.id LEFT JOIN archives_document AS d
+                ON u.id = d.responsible_id
+             WHERE p.step_id = 1 AND j.id = 3
+             GROUP BY e.id, e.name_related, u.id
+             ORDER BY COUNT(d.responsible_id) ASC
+             LIMIT 1;
+            '''
+
+        if not candidate and query:
+            self.env.cr.execute(query, (self.id, job.id))
+            data = self.env.cr.dictfetchnone()
+            try:
+                candidate = candidate.browse(data['employee_id'])
+            except:
+                pass
+
+        return candidate
+
+    @api.model
+    def sort_candidates(self, candidates, step_id):
+        if not candidates:
+            return candidates
+
+        # random sort of the given candidates
+        if step_id.process_id.load_balance == 'random':
+            random.shuffle(candidates)
+
+        # (LRU) Least Recently Used sort of the given candidates
+        if step_id.process_id.load_balance == 'robin':
+            query = '''
+            SELECT DISTINCT
+                   e.id AS employee_id, e.name_related, u.id AS dest_user_id,
+                   CAST(9999999999 - EXTRACT(
+                                        DAY FROM CURRENT_DATE
+                                               - COALESCE(m.date_start, '1900-01-01 00:00:00')
+                                        ) AS BIGINT) AS key
+              FROM archives_process_step_job AS p INNER JOIN hr_job AS j
+                ON p.job_id = j.id INNER JOIN hr_employee AS e
+                ON j.id = e.job_id INNER JOIN resource_resource AS r
+                ON e.resource_id = r.id INNER JOIN res_users AS u
+                ON r.user_id = u.id LEFT JOIN archives_document_move AS m
+                ON u.id = m.dest_user_id
+             WHERE p.step_id = %s AND e.id in %s
+             ORDER BY CAST(9999999999 - EXTRACT(
+                                        DAY FROM CURRENT_DATE
+                                               - COALESCE(m.date_start, '1900-01-01 00:00:00')
+                                        ) AS BIGINT) ASC;
+            '''
+
+        # Less Loaded sort of the given candidate
+        if step_id.process_id.load_balance == 'alive':
+            query = '''
+            SELECT e.id AS employee_id, e.name_related, u.id AS dest_user_id,
+                   COUNT(d.responsible_id) AS key
+              FROM archives_process_step_job AS p INNER JOIN hr_job AS j
+                ON p.job_id = j.id INNER JOIN hr_employee AS e
+                ON j.id = e.job_id INNER JOIN resource_resource AS r
+                ON e.resource_id = r.id INNER JOIN res_users AS u
+                ON r.user_id = u.id LEFT JOIN archives_document AS d
+                ON u.id = d.responsible_id
+             WHERE p.step_id %s AND e.id in %s
+             GROUP BY e.id, e.name_related, u.id
+             ORDER BY COUNT(d.responsible_id) ASC;
+            '''
+
+        if query:
+            self.env.cr.execute(query, (step_id.id, tuple(candidates.ids),))
+            data = {item.pop('employee_id'): item for item in self.env.cr.dictfetchall()}
+
+            candidates = candidates.sorted(key=lambda r: data.get(r.id, {'key': 0})['key'])
+
+        return candidates
+
+    @api.model
+    def check_availability(self, candidate):
+        return True
+
 
 class archives_transition(models.Model):
     _name = "archives.transition"
@@ -130,14 +260,15 @@ class archives_transition(models.Model):
 
     # TODO: Add boolean parameter to merge wizard's params of other transition
 
+
 class archives_process_step_job(models.Model):
     _name = "archives.process.step.job"
+
+    _order = "sequence"
 
     step_id = fields.Many2one("archives.process.step", 'Process Step')
     job_id = fields.Many2one('hr.job', 'Job')
     sequence = fields.Integer("Priorty", default=5)
-
-    _order = "sequence"
 
 
 class archives_document_step(models.Model):
@@ -212,18 +343,68 @@ class archives_document(models.Model):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     @api.model
-    def _get_attach_model(self):
+    def _compute_attach_model_selection(self):
         return []
     
+    @api.model
+    def _default_process_id(self):
+        """ Gives default process by checking if present in the context """
+        return self._resolve_process_id_from_context() or False
+
+    @api.model
+    def _resolve_process_id_from_context(self):
+        """ Returns ID of process based on the value of 'default_process_id'
+            context key, or None if it cannot be resolved to a single
+            process.
+        """
+        if type(self._context.get('default_process_id')) in (int, long):
+            return self._context['default_process_id']
+
+        if isinstance(self._context.get('default_process_id'), basestring):
+            try:
+                return self.env['archives.process'].name_search(
+                                        name=self._context['default_process_id']
+                                        ).ensure_one().id
+            except:
+                pass
+
+        return None
+
+    @api.model
+    def _read_group_stage_ids(self, ids, domain, read_group_order=None, access_rights_uid=None):
+        access_rights_uid = access_rights_uid or self.sudo()._uid
+        ProcessStep = self.env['archives.process.step']
+
+        search_domain = []
+        process_id = self._resolve_process_id_from_context()
+        if process_id:
+            search_domain += ['|', ('process_id', '=', process_id)]
+        search_domain += [('id', 'in', ids)]
+
+        stage_ids = ProcessStep._search(search_domain, access_rights_uid=access_rights_uid)
+        stages = ProcessStep.sudo(access_rights_uid).browse(stage_ids)
+        result = stages.name_get()
+        # restore order of the search
+        result.sort(lambda x, y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
+
+        fold = {}
+        for stage in stages:
+            fold[stage.id] = stage.fold or False
+        return result, fold
+
     name = fields.Char('Name', size=32, required=True, readonly=True, states={'pending': [('readonly', False)]})
     parent_id = fields.Many2one('archives.document', string="Parent Document",
                                 readonly=True, states={'pending': [('readonly', False)]})
     subject = fields.Text('Subject', readonly=True, states={'pending': [('readonly', False)]})
     retention_table_id = fields.Many2one('archives.retention.table', string='Retention Table', required=True,
                                          readonly=True, states={'pending': [('readonly', False)]})
-    responsible_id = fields.Many2one('res.users', string="Responsible User", readonly=True) #Function from document.move
+    responsible_id = fields.Many2one('res.users', string="Responsible User", readonly=True,
+                                     default=lambda self: self.env.user,
+                                     compute="_compute_responsible_id",
+                                     store=True) #Function from document.move
     process_step_id = fields.Many2one('archives.process.step', string='Last Process Step',
-                                      readonly=True, states={'pending': [('readonly', False)]})
+                                      readonly=True, states={'pending': [('readonly', False)]},
+                                      domain="[('process_id', '=', process_id)]")
     collection_id = fields.Many2one('archives.collection', string='Collection',
                                     readonly=True, states={'pending': [('readonly', False)]})
     date_start = fields.Datetime('Date Start', readonly=True, states={'pending': [('readonly', False)]})
@@ -244,14 +425,28 @@ class archives_document(models.Model):
                                  readonly=True, states={'pending': [('readonly', False)]})
     version_ids = fields.One2many('archives.document.version', 'document_id', string="Versions",
                                  readonly=True, states={'pending': [('readonly', False)]})
-    attach_model = fields.Reference(_get_attach_model, string="Attach Models")
+    attach_model = fields.Reference(_compute_attach_model_selection, string="Attach Models")
     company_id = fields.Many2one('res.company', string="Company", required=True, 
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True, states={'pending': [('readonly', False)]})
     color = fields.Integer('Color')
     active = fields.Boolean('Active', default=True)
 
-    process_id = fields.Many2one('archives.process', string="Process", required=True) #, compute="_compute_process_id"
+    process_id = fields.Many2one('archives.process', string="Process", required=True,
+                                 # related='process_step_id.process_id',
+                                 default=_default_process_id,
+                                 domain="[('step_ids', '!=', False)]",
+                                 help='Actual Document Process') #, compute="_compute_process_id"
+
+    _group_by_full = {
+        'process_step_id': _read_group_stage_ids
+        }
+
+    @api.multi
+    @api.depends('move_ids.dest_user_id')
+    def _compute_responsible_id(self):
+        for record in self:
+            record.responsible_id = record.move_ids[-1:].dest_user_id
 
     # @api.multi
     # @api.depends('step_ids.step_id')
@@ -260,46 +455,12 @@ class archives_document(models.Model):
     #     for record in self:
     #         record.process_id = record.step_ids[:1].document_id
 
-    def _resolve_process_id_from_context(self, cr, uid, context=None):
-        """ Returns ID of project based on the value of 'default_project_id'
-            context key, or None if it cannot be resolved to a single
-            project.
-        """
-        if context is None:
-            context = {}
-        if type(context.get('default_process_id')) in (int, long):
-            return context['default_process_id']
-        if isinstance(context.get('default_process_id'), basestring):
-            process_name = context['default_process_id']
-            process_ids = self.pool.get('archives.process').name_search(cr, uid, name=process_name, context=context)
-            if len(process_ids) == 1:
-                return process_ids[0][0]
-        return None
+    @api.multi
+    @api.onchange('process_id')
+    def _onchange_process_id(self):
+        for record in self:
+            record.retention_table_id = record.process_id.retention_table_id
 
-    def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
-        access_rights_uid = access_rights_uid or uid
-        stage_obj = self.pool.get('archives.process.step')
-
-        search_domain = []
-        process_id = self._resolve_process_id_from_context(cr, uid, context=context)
-        if process_id:
-            search_domain += ['|', ('process_id', '=', process_id)]
-        search_domain += [('id', 'in', ids)]
-
-        stage_ids = stage_obj._search(cr, uid, search_domain, access_rights_uid=access_rights_uid, context=context)
-        result = stage_obj.name_get(cr, access_rights_uid, stage_ids, context=context)
-        # restore order of the search
-        result.sort(lambda x, y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
-
-        fold = {}
-        for stage in stage_obj.browse(cr, access_rights_uid, stage_ids, context=context):
-            fold[stage.id] = stage.fold or False
-        return result, fold
-
-    _group_by_full = {
-        'process_step_id': _read_group_stage_ids
-    }
-    
 
 class archives_document_version(models.Model):
     _name = "archives.document.version"
@@ -318,6 +479,8 @@ class archives_document_move_type(models.Model):
 class archives_document_move(models.Model):
     _name = "archives.document.move"
     
+    _order = 'date_start asc'
+
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
     # in what step was the document when it moved
     document_step_id = fields.Many2one('archives.document.step', string="Document Steps",

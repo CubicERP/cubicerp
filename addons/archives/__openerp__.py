@@ -45,6 +45,7 @@ Dashboard / Reports for archives will include:
         "stock",
         ],
     "data":[
+        "wizard/document_delegate_view.xml",
         "archives_view.xml",
 	    ],
     "demo_xml": [],

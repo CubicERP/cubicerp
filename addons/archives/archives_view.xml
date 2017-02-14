@@ -592,6 +592,50 @@
 		    <field name="view_mode">tree,form</field>
 	    </record>
 	    <menuitem name='Medium' id='medium_menu' action="medium_action" sequence='90' parent='archives_config_menu'/>
+
+
+
+        <record id="view_transition_tree" model="ir.ui.view">
+            <field name="name">archives.transition.tree</field>
+            <field name="model">archives.transition</field>
+            <field name="arch" type="xml">
+                <tree string="Transition List">
+                    <field name="sequence"/>
+                    <field name="src_step_id"/>
+                    <field name="dst_step_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_transition_form" model="ir.ui.view">
+            <field name="name">archives.transition.form</field>
+            <field name="model">archives.transition</field>
+            <field name="arch" type="xml">
+                <form string="Transition Table">
+                    <sheet>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="src_step_id"/>
+                            <field name="dst_step_id"/>
+
+                            <field name="condition"/>
+                            <field name="params_action_id"/>
+                            <field name="group_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+	    </record>
+
+        <record model="ir.actions.act_window" id="transition_action">
+		    <field name="name">Transition Table</field>
+		    <field name="res_model">archives.transition</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+
+        <menuitem name='Transition' id='transition_menu' action="transition_action" parent='archives_config_menu'/>
 	    
 	</data>
 </openerp>

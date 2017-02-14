@@ -118,7 +118,7 @@ class DocumentDelegate(models.TransientModel):
 
         for record in self:
             # create a movement for the document
-            document_last_move = record.document_id.move_ids[-1:]
+            document_last_move = record.document_id.move_ids[:1]
 
             source_department_id = document_last_move.dest_department_id
             if not source_department_id:
@@ -137,7 +137,7 @@ class DocumentDelegate(models.TransientModel):
 
             document_curr_move = DocumentMove.create({
                                     'document_id': record.document_id.id,
-                                    'document_step_id': record.document_id.step_ids[-1:].id,
+                                    'document_step_id': record.document_id.step_ids[:1].id,
                                     'type': record.move_type_id.id,
                                     'date_start': fields.Datetime.now(),
                                     'source_department_id': source_department_id and source_department_id.id or False,

@@ -491,6 +491,10 @@ class archives_document(models.Model):
 
     @api.model
     def create(self, vals):
+
+        if len(vals.get('move_ids')) == 0:
+            raise Warning(_('Warning!'), _(
+                'The document must have at least one movement'))
         res = super(archives_document, self).create(vals)
         if len(vals.get('step_ids')) != 0:
             # list_step = sorted(vals.get('step_ids'),key='date_start')

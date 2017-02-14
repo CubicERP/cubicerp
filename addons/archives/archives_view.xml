@@ -97,9 +97,15 @@
                                     context="{'arch_behavior': 'delegate'}"
                                     >
                                 </button>
-                                 <button class="oe_inline oe_stat_button" string="Previous Step" icon="fa-angle-double-left">
+                                 <button class="oe_inline oe_stat_button" name="action_prev_step"
+                                    string="Previous Step" icon="fa-angle-double-left"
+                                    context="{'arch_tx_act_send': True}"
+                                    >
                                 </button>
-                                <button  class="oe_inline oe_stat_button" string="Next Step"  icon="fa-angle-double-right">
+                                <button  class="oe_inline oe_stat_button" name="action_next_step"
+                                    string="Next Step"  icon="fa-angle-double-right" type="object"
+                                    context="{'arch_tx_act_send': True}"
+                                    >
                                 </button>
                             </div>
                         </div>

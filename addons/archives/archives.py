@@ -20,7 +20,8 @@ import random
 
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
-# from openerp.exceptions import
+from openerp.exceptions import Warning, except_orm
+
 
 class archives_medium_type(models.Model):
     _name = "archives.medium.type"
@@ -111,12 +112,12 @@ class archives_process_step(models.Model):
                            help='This stage is folded in the kanban view when'
                                 'there are no records in that stage to display.')
 
-    @api.one
+
     @api.depends('process_id.load_balance', 'job_ids')
     def _compute_candidate(self):
         candidate_2skip = self.env['hr.employee']
 
-        for job in self.job_ids:
+        for job in self.mapped('job_ids.job_id'):
             candidate = self.find_candidate(job)
 
             if candidate not in candidate_2skip and self.check_availability(candidate):
@@ -180,7 +181,7 @@ class archives_process_step(models.Model):
 
         if not candidate and query:
             self.env.cr.execute(query, (self.id, job.id))
-            data = self.env.cr.dictfetchnone()
+            data = self.env.cr.dictfetchone()
             try:
                 candidate = candidate.browse(data['employee_id'])
             except:
@@ -249,6 +250,129 @@ class archives_process_step(models.Model):
     def check_availability(self, candidate):
         return True
 
+    @api.model
+    def allowed_navigation(self, document_id, src_step_id, dst_step_id):
+        if isinstance(document_id, (int, long)):
+            document_id = self.env['archives.document'].browse(document_id)
+
+        if isinstance(src_step_id, (int, long)):
+            src_step_id = self.env['archives.process.step'].browse(src_step_id)
+
+        if isinstance(dst_step_id, (int, long)):
+            dst_step_id = self.env['archives.process.step'].browse(dst_step_id)
+
+        if ((not isinstance(document_id, models.BaseModel) or document_id._name != 'archives.document') or
+                (not isinstance(src_step_id, models.BaseModel) or src_step_id._name != 'archives.process.step') or
+                (not isinstance(dst_step_id, models.BaseModel) or dst_step_id._name != 'archives.process.step')):
+            raise except_orm(_('Error!'), _(
+                'Invalid parameters supplier'
+                ))
+
+        StepsTransition = self.env['archives.transition']
+
+        transition_ids = StepsTransition.search([
+                                    ('src_step_id', '=', src_step_id.id),
+                                    ('dst_step_id', '=', dst_step_id.id)
+                                    ])
+        if transition_ids.exists():
+            # check to see the presents of transition wizard configuration
+            wizard_transition_ids = transition_ids.filtered(lambda tx: tx.params_action_id)
+            # only generate & return a action windows if a needed respond not was provided
+            # and found one or more transition with wizard configuration parameters
+            if wizard_transition_ids and not self._context.get('arch_wizard_result'):
+                # an invoker must be prepared to receive and respond to an action
+                if not self._context.get('arch_tx_act_send'):
+                    raise Warning(_('Warning!'), _(
+                        "We are sorry but it is not possible to make the transition from step %s to step %s "
+                        "automatically because there are requirements that need to be checked; If you still "
+                        "want to perform this operation, please do so through the next step option in the "
+                        "upper right corner of the document form"
+                        ) % (src_step_id.display_name, dst_step_id.display_name,))
+
+                # TODO recovery each transition parameters for create one wizard
+                parameters = {}
+                for transition in wizard_transition_ids:
+                    parameters.setdefault(transition.parameter, []).extend(
+                        [parameter_value for parameter_value in transition.parameter_values] or []
+                        )
+
+                # launch the wizard
+                action = self.env.ref('archives.document_delegate_action').read()[0]
+                # action = self.env.ref('archives.execute_').read()[0]
+                action['context'] = {
+                    'src_step_id': src_step_id.id,
+                    'dst_step_id': dst_step_id.id,
+                    'document_id': document_id.id,
+                    'wzd_params': parameters,
+                    }
+                return action
+
+            # TODO transition condition evaluation
+            class BrowsableObject(object):
+                def __init__(self, env, employee_id, dict):
+                    self.env
+                    self.cr = env.cr
+                    self.uid = env.uid
+                    self.employee_id = employee_id
+                    self.dict = dict
+
+                def __getattr__(self, attr):
+                    return attr in self.dict and self.dict.__getitem__(attr) or 0.0
+
+            arch_wizard_result = self._context.get('arch_wizard_result')
+            baselocaldict = {'document': document_id}
+            for key, value in arch_wizard_result.items():
+                baselocaldict[key] = value
+            localdict = dict(baselocaldict, employee=self.env.user.employee_ids[:1])
+            for transition in transition_ids:
+                if transition.satisfy_condition(localdict):
+                    break
+            else:
+                raise Warning(_('Warning!'), _(
+                    "We are sorry but it is not possible to carry out the transition from step %s to step %s "
+                    "due to the fact that the necessary requirements are not met"
+                    ) % (src_step_id.display_name, dst_step_id.display_name,))
+
+            return True
+
+        else:  # there are not explicit transition between src_step_id and dst_step_id
+            if src_step_id.process_id != dst_step_id.process_id or src_step_id.sequence > dst_step_id.sequence or src_step_id == dst_step_id:
+                raise Warning(_('Warning!'), _(
+                    "You have chosen to move a document between two disconnected steps.\n\n"
+                    "Either he is moving a document between steps of different processes "
+                    "without there being a formal transition that reflects it, or trying to move "
+                    "the document between steps where the initial step has a sequence greater than"
+                    "the final step"
+                    ))
+
+            return True
+
+    @api.model
+    @api.returns('self', lambda value: value.id)
+    def next(self, src_step_id):
+        if isinstance(src_step_id, (int, long)):
+            src_step_id = self.env['archives.process.step'].browse(src_step_id)
+
+        if not isinstance(src_step_id, models.BaseModel) or src_step_id._name != 'archives.process.step':
+            raise except_orm(_('Error!'), _(
+                'Invalid parameters supplier'
+                ))
+
+        StepsTransition = self.env['archives.transition']
+
+        transition_ids = StepsTransition.search([
+                    ('src_step_id', '=', src_step_id.id),
+                    ])
+
+        if transition_ids.exists():
+            return transition_ids[:1].dst_step_id
+        else:
+            return src_step_id.search([
+                    ('process_id', '=', src_step_id.process_id.id),
+                    ('sequence', '>=', src_step_id.sequence),
+                    ('id', '!=', src_step_id.id),
+                    ], limit=1, order='sequence asc')
+
     @api.cr
     def _register_hook(self, cr):
         """ Register discovered exporters addons dynamically to configuration settings model's fields
@@ -297,14 +421,45 @@ class archives_transition(models.Model):
 
     _order = "sequence"
 
+    @api.model
+    def _default_condition(self):
+        return '''
+        # Available variables:
+        #----------------------
+        # document: object containing the payslips
+        # employee: hr.employee object
+        # transition: archives.transition object (this transition)
+        # parameters: any prameter defined by the wizard transition
+
+        # Note: returned value have to be set in the variable 'result'
+
+        result = True'''
+
     sequence = fields.Integer("Sequence", default=5)
     src_step_id = fields.Many2one('archives.process.step', string="Source Step")
     dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
-    condition = fields.Text("Python Condition")
+    condition = fields.Text("Python Condition", default=_default_condition)
     params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window")
     group_id = fields.Many2one('res.groups', string="Group Restriction")
 
     # TODO: Add boolean parameter to merge wizard's params of other transition
+
+    @api.one
+    def satisfy_condition(self, localdict):
+        """
+        @param transition_id: id of archives.transition to be tested
+        @return: returns True if the given transition the condition for the given ct. Return False otherwise.
+        """
+        localdict['transition'] = self
+
+        try:
+            eval(self.condition, localdict, mode='exec', nocopy=True)
+            return 'result' in localdict and localdict['result'] or False
+        except Exception, e:
+            raise except_orm(_('Error!'), _(
+                'Wrong python condition defined for transition %s (%s).'
+                ) % (self.name, self.sequence) + "\n\n" + str(e)
+                )
 
 
 class archives_process_step_job(models.Model):
@@ -523,7 +678,7 @@ class archives_document(models.Model):
 
             for record in self:
                 # create a movement for the document
-                document_last_move = record.move_ids[-1:]
+                document_last_move = record.move_ids[:1]
 
                 move_type_id = document_last_move.type or DocumentMoveType.search([], limit=1)
 
@@ -544,7 +699,7 @@ class archives_document(models.Model):
 
                 document_curr_move = DocumentMove.create({
                                         'document_id': record.id,
-                                        'document_step_id': record.step_ids[-1:].id,
+                                        'document_step_id': record.step_ids[:1].id,
                                         'type': move_type_id.id,
                                         'date_start': fields.Datetime.now(),
                                         'source_department_id': source_department_id and source_department_id.id or False,
@@ -557,6 +712,18 @@ class archives_document(models.Model):
 
             return True
 
+        if 'process_step_id' in vals and vals['process_step_id'] and len(vals) == 1:
+            for record in self:
+                return self._action_next_step(
+                                    record,
+                                    record.step_ids[-1:].step_id,
+                                    vals['process_step_id']
+                                    )
+            # action = self.env.ref('archives.document_delegate_action')
+            # raise RedirectWarning(_('Warning!'), action.id, _(
+            #     'Yo must not belive dat'
+            #     ))
+
         return super(archives_document, self).write(vals)
 
     @api.multi
@@ -568,6 +735,58 @@ class archives_document(models.Model):
 
         return action
 
+    @api.multi
+    def action_next_step(self):
+        record = self.ensure_one()
+        src_step_id = record.process_step_id
+        dst_step_id = src_step_id.next(src_step_id)
+
+        return self._action_next_step(record, src_step_id, dst_step_id)
+
+    def _action_next_step(self, document_id, src_step_id, dst_step_id):
+        if self._context.get('arch_skip_validation', False):
+            return
+
+        if isinstance(document_id, (int, long)):
+            document_id = self.env['archives.document'].browse(document_id)
+
+        if isinstance(src_step_id, (int, long)):
+            src_step_id = self.env['archives.process.step'].browse(src_step_id)
+
+        if isinstance(dst_step_id, (int, long)):
+            dst_step_id = self.env['archives.process.step'].browse(dst_step_id)
+
+        if ((not isinstance(document_id, models.BaseModel) or document_id._name != 'archives.document') or
+                (not isinstance(src_step_id, models.BaseModel) or src_step_id._name != 'archives.process.step') or
+                (not isinstance(dst_step_id, models.BaseModel) or dst_step_id._name != 'archives.process.step')):
+            raise except_orm(_('Error!'), _(
+                'Invalid parameters supplier'
+                ))
+
+        navigation_alloweb = src_step_id.allowed_navigation(document_id, src_step_id, dst_step_id)
+
+        if navigation_alloweb and type(navigation_alloweb) == bool:
+            DocumentStep = self.env['archives.document.step']
+
+            # create a movement for the document
+            document_last_step = document_id.step_ids[-1:]
+
+            document_curr_step = DocumentStep.create({
+                                    'step_id': dst_step_id.id or False,
+                                    'department_id': dst_step_id.department_id and dst_step_id.department_id.id or False,
+                                    'document_id':  document_id.id,
+                                    'date_start': fields.Datetime.now(),
+                                    # 'date_compute': ,
+                                    # 'date_end': ,
+                                    'state': 'wait',
+                                    })
+            # update the date_end of the previos las movement
+            document_last_step.write({'date_end': document_curr_step.date_start})
+            # update the process step ie
+            document_id._write({'process_step_id': dst_step_id.id})
+            document_id.responsible_id = dst_step_id._compute_candidate()
+
+        return navigation_alloweb
 
 
 class archives_document_version(models.Model):
@@ -587,7 +806,7 @@ class archives_document_move_type(models.Model):
 class archives_document_move(models.Model):
     _name = "archives.document.move"
     
-    _order = 'date_start asc'
+    _order = 'date_start desc'
 
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
     # in what step was the document when it moved

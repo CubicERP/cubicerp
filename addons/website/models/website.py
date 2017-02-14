@@ -168,7 +168,8 @@ class website(osv.osv):
         'menu_id': fields.function(_get_menu, relation='website.menu', type='many2one', string='Main Menu',
             store= {
                 'website.menu': (_get_menu_website, ['sequence','parent_id','website_id'], 10)
-            })
+            }),
+        'default_homepage_menu_id': fields.many2one('website.menu', string='Default Home Page')
     }
 
     _defaults = {

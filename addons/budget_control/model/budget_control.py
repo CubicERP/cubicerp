@@ -235,8 +235,9 @@ class BudgetMoveLine(models.Model):
     #                 'partner_id': partner_id})
     #     return res
 
-    def default_get(self, cr, uid, fields, context=None):
-        data = self._default_get(cr, uid, fields, context=context)
+    @api.model
+    def default_get(self, fields):
+        data = self._default_get(fields)
         for f in data.keys():
             if f not in fields:
                 del data[f]

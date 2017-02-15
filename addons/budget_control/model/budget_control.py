@@ -180,20 +180,20 @@ class BudgetMove(models.Model):
                                                                analytic_id=k[1]):
                         self.env['budget.move.line'].create(line_dict)
 
-        # @api.one
-        # @api.onchange('line_ids')
-        # def onchange_line_ids(self):
-        #     name = ''
-        #     last_move_line = period_id = None
-        #     if self.line_ids:# si hay lineas presupuestarias
-        #         last_move_line = self.line_ids.sorted(key=lambda bml: (bml.id, bml.create_date), reverse=True)[0]# me quedo con la ultima
-        #         name = last_move_line.name#nombre de la linea a crear lo tomo de la ultima
-        #     else:# si no hay lineas presupuestarias
-        #         if self.ref:
-        #             name = self.ref
-        #         if self.period_id:
-        #             period_id = self.period_id.id
-        #     self.line_ids.with_context(name=name, period_id=self.period_id.id).default_get(['name'])
+                        # @api.one
+                        # @api.onchange('line_ids')
+                        # def onchange_line_ids(self):
+                        #     name = ''
+                        #     last_move_line = period_id = None
+                        #     if self.line_ids:# si hay lineas presupuestarias
+                        #         last_move_line = self.line_ids.sorted(key=lambda bml: (bml.id, bml.create_date), reverse=True)[0]# me quedo con la ultima
+                        #         name = last_move_line.name#nombre de la linea a crear lo tomo de la ultima
+                        #     else:# si no hay lineas presupuestarias
+                        #         if self.ref:
+                        #             name = self.ref
+                        #         if self.period_id:
+                        #             period_id = self.period_id.id
+                        #     self.line_ids.with_context(name=name, period_id=self.period_id.id).default_get(['name'])
 
 
 class BudgetMoveLine(models.Model):
@@ -242,38 +242,33 @@ class BudgetMoveLine(models.Model):
                 del data[f]
         return data
 
-    def _default_get(self, cr, uid, fields, context=None):
-        # default_get should only do the following:
-        #   -propose the next amount in debit/credit in order to balance the move
-        #   -propose the next account from the journal (default debit/credit account) accordingly
-        context = dict(context or {})
-        move_obj = self.pool.get('budget.move')
-        partner_obj = self.pool.get('res.partner')
-        period_obj = self.pool.get('budget.period')
+    @api.model
+    def _default_get(self, fields):
+        move_obj, partner_obj, period_obj = self.env['budget.move'], self.env['res.partner'], self.env['budget.period']
+        cr, uid, ctx = self._cr, self._uid, self._context.copy() or {}
 
-        if not context.get('line_ids', False):
-            context['line_ids'] = context.get('search_default_line_ids', False)
+        if not ctx.get('line_ids', False):
+            ctx.update({'line_ids': ctx.get('search_default_line_ids', False)})
 
-        data = super(BudgetMoveLine, self).default_get(cr, uid, fields, context=context)
+        data = super(BudgetMoveLine, self).default_get(fields)
 
-        if context.get('line_ids'):
-            for move_line_dict in move_obj.resolve_2many_commands(cr, uid, 'line_ids', context.get('line_ids'),
-                                                                     context=context):
-                data['name'] = data.get('name') or move_line_dict.get('name')
-                data['partner_id'] = data.get('partner_id') or move_line_dict.get('partner_id')
-                data['struct_id'] = data.get('struct_id') or move_line_dict.get('struct_id')
-                data['analytic_id'] = data.get('analytic_id') or move_line_dict.get('analytic_id')
-                data['available'] = data.get('available') or move_line_dict.get('available')
-        elif context.get('period_id'):
+        if ctx.get('line_ids'):
+            for move_line_dict in move_obj.resolve_2many_commands('line_ids', ctx.get('line_ids'), context=ctx):
+                data.update({'name': data.get('name') or move_line_dict.get('name'),
+                             'partner_id': data.get('partner_id') or move_line_dict.get('partner_id'),
+                             'struct_id': data.get('struct_id') or move_line_dict.get('struct_id'),
+                             'analytic_id': data.get('analytic_id') or move_line_dict.get('analytic_id'),
+                             'available': data.get('available') or move_line_dict.get('available'), })
+        elif ctx.get('period_id'):
             move_id = False
             cr.execute('''SELECT move_id, struct_id, date FROM budget_move_line
                 WHERE period_id = %s AND struct_id = %s AND create_uid = %s AND state = %s
-                ORDER BY id DESC limit 1''', (context['period_id'], context['struct_id'], uid, 'draft'))
+                ORDER BY id DESC limit 1''', (ctx['period_id'], ctx['struct_id'], uid, 'draft'))
             res = cr.fetchone()
             move_id = res and res[0] or False
-            data['date'] = res and res[1] or period_obj.browse(cr, uid, context['period_id'],
-                                                               context=context).date_start
-            data['move_id'] = move_id
+            data.update({'date': res and res[1] or period_obj.browse(cr, uid, ctx['period_id'],
+                                                                     context=ctx).date_start,
+                         'move_id': move_id})
         return data
 
     @api.model

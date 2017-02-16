@@ -131,7 +131,7 @@ class archives_process_step(models.Model):
             department = self.department_id
             while department:
                 candidate = department.manager_id
-                if candidate not in candidate_2skip and self.check_availability(candidate):
+                if candidate and candidate not in candidate_2skip and self.check_availability(candidate):
                     break
                 candidate_2skip |= candidate
                 department = department.parent_id
@@ -458,7 +458,7 @@ class archives_transition(models.Model):
 
     # TODO: Add boolean parameter to merge wizard's params of other transition
 
-    _default = {
+    _defaults = {
         'condition': '''
 # Available variables:
 #----------------------

@@ -81,6 +81,16 @@
                                 </div>
                             </div>
                         </group>
+                        <group string="Home Page">
+                            <label for="default_homepage_menu_id"/>
+                            <div>
+                                <div>
+                                    <div class="oe_inline">
+                                        <field name="default_homepage_menu_id" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </group>
                         <group string="Menu">
                             <button type="action"
                                 name="%(website.action_website_menu)d"

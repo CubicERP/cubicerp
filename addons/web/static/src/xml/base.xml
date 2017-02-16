@@ -516,6 +516,13 @@
                     </div>
                     <div class="switcher_and_pager_container">
                         <div class="oe_view_manager_pager"/>
+                        <ul class="oe_button_group list-inline view_extra_buttons">
+                            <li class="oe_e">
+                                <a href="#" title="Refresh" id="btnRefresh">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </a>
+                            </li>
+                        </ul>
                         <ul class="oe_view_manager_switch oe_button_group list-inline">
                             <t t-if="widget.views_src.length > 1" t-foreach="widget.views_src" t-as="view">
                                 <li class="oe_e">

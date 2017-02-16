@@ -492,14 +492,17 @@ View Manager Header: Search Form
 /***********************************************************************************************************************
 Page Header Section: Views Selector
 ***********************************************************************************************************************/
-.oe_view_manager .oe_view_manager_switch {
+.oe_view_manager .oe_view_manager_switch,
+.oe_view_manager .view_extra_buttons {
     display: flex !important;
     border: 1px solid rgb(221, 221, 221) !important;
     background: #f0f0fa;
 }
 
 .oe_view_manager .oe_view_manager_switch li,
-.oe_view_manager .oe_view_manager_switch li a {
+.oe_view_manager .oe_view_manager_switch li a,
+.oe_view_manager .view_extra_buttons li,
+.oe_view_manager .view_extra_buttons li a {
     transition: all 1s linear;
     background: transparent !important;
     box-shadow: initial !important;
@@ -508,6 +511,7 @@ Page Header Section: Views Selector
     width: 28px !important;
     height: 28px !important;
     color: #6D6D6D !important;
+    text-align: center;
 }
 
 .oe_view_manager .oe_view_manager_switch li.active {
@@ -518,6 +522,26 @@ Page Header Section: Views Selector
 .oe_view_manager .oe_view_manager_switch li.active a {
     text-shadow: none !important;
     color: white !important;
+}
+
+.oe_view_manager .view_extra_buttons {
+    margin-bottom: 0px;
+    margin-left: 20px;
+}
+
+.oe_view_manager .view_extra_buttons li {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.oe_view_manager .view_extra_buttons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.oe_view_manager .view_extra_buttons .oe_e {
+    font-size: 13px;
 }
 
 @media (max-width: 800px) {

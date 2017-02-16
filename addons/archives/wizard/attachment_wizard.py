@@ -63,6 +63,7 @@ class AttachmentWizard(models.TransientModel):
             'datas': self.data,
             'url': self.url,
             'user_id': self.user_id.id,
+            'description': self.description,
         }
         attch = self.env['ir.attachment'].create(attch_vals)
 

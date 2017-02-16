@@ -8,7 +8,6 @@
             <field name="arch" type="xml">
                 <form string="Attachment">
                     <group>
-                        <!--<field name="user_id"/>-->
                             <field name="name"/>
                             <field name="type_data" />
                             <field name="url" attrs="{'invisible':[('type_data','=','binary')],'required':[('type_data','=','url')]}" />
@@ -27,7 +26,6 @@
         </record>
 
 
-        <!--document_delegate-->
         <record id="attachment_wizard_action" model="ir.actions.act_window">
             <field name="name">Attachment</field>
             <field name="res_model">attachment.wizard</field>

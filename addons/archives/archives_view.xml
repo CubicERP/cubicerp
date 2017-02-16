@@ -110,6 +110,10 @@
                                 </button>
                             </div>
                         </div>
+                        <div>
+                            <button class="oe_right oe_button_box" string="Attachment" type="object" name="action_attachment_wizard"
+                            context="{'partner_id': partner_id}"/>
+                        </div>
                         <group>
                             <group>
                                 <field name="retention_table_id"/>

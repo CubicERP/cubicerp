@@ -21,6 +21,7 @@ import random
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
 from openerp.exceptions import Warning, except_orm
+import datetime
 
 
 class archives_medium_type(models.Model):
@@ -543,6 +544,13 @@ class archives_document(models.Model):
     _name = "archives.document"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    @api.multi
+    def action_attachment_wizard(self):
+
+        action = self.env.ref('archives.attachment_wizard_action').read()[0]
+
+        return action
+
     @api.model
     def _compute_attach_model_selection(self):
         return []
@@ -824,8 +832,9 @@ class archives_document_version(models.Model):
     
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
     name = fields.Char('Name', required=True)
-    date = fields.Date('Date', required=True)
+    date = fields.Datetime('Date', required=True, default=lambda self: datetime.datetime.now())
     attachment_ids = fields.One2many('ir.attachment', 'archive_version_id', string="Attachments")
+    version_number = fields.Integer('Version Number')
 
 
 class archives_document_move_type(models.Model):

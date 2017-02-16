@@ -1744,6 +1744,11 @@
                     self.toggle_leftbar();
                 }
             });
+
+            $(document).mousemove(function( event ) {
+                if(event.pageX <= 8)
+                    self.toggle_leftbar(true);
+            });
         }
     });
 

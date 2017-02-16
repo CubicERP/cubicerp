@@ -8,13 +8,9 @@
             <field name="arch" type="xml">
                 <form string="Attachment">
                     <group>
-                            <field name="name"/>
-                            <field name="type_data" />
-                            <field name="url" attrs="{'invisible':[('type_data','=','binary')],'required':[('type_data','=','url')]}" />
-                            <field name="data" attrs="{'invisible':[('type_data','=','url')],'required':[('type_data','=','binary')]}" />
                             <field name="version_new" />
                             <field name="version_id" options="{'no_create': True}" readonly="1" />
-                            <field name="description"/>
+                            <field name="attachment_id" />
                     </group>
                     <fotter>
                         <button string="Save" name="save_version" type="object" class="oe_highlight"/>

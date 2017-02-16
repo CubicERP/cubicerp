@@ -14,6 +14,7 @@
                     <field name="date_start"/>
                     <field name="partner_id"/>
                     <field name="responsible_id"/>
+                    <field name="state" />
 					<templates>
 						<t t-name="kanban-box">
 							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
@@ -38,7 +39,33 @@
 									Start date: <field name="date_start"/><br />
                                     Client: <field name="partner_id"/><br />
 									Responsible: <field name="responsible_id"/>
+                                    <div class="oe_kanban_footer_left">
+                                        <div name="navigations" attrs="{'invisible':[('state','=', 'cancel')]}" >
+                                            <!-- document navigation across structure -->
+                                             <!--<button class="oe_inline oe_stat_button" name="action_delegate"-->
+                                                <!--icon="fa-angle-double-up" type="object"-->
+                                                <!--context="{'arch_behavior': 'escalate'}"-->
+                                                <!--&gt;-->
+                                            <!--</button>-->
+                                            <!--<button  class="oe_inline oe_stat_button" name="action_delegate"-->
+                                                <!--icon="fa-angle-double-down" type="object"-->
+                                                <!--context="{'arch_behavior': 'delegate'}"-->
+                                                <!--&gt;-->
+                                            <!--</button>-->
+                                             <!--<button class="oe_inline oe_stat_button" name="action_prev_step"-->
+                                                <!--icon="fa-angle-double-left" type="object"-->
+                                                <!--context="{'arch_tx_act_send': True}"-->
+                                                <!--&gt;-->
+                                            <!--</button>-->
+                                            <!--<button  class="oe_inline oe_stat_button" name="action_next_step"-->
+                                                <!--icon="fa-angle-double-right" type="object"-->
+                                                <!--context="{'arch_tx_act_send': True}"-->
+                                                <!--&gt;-->
+                                            <!--</button>-->
+                                        </div>
+                                    </div>
 								</div>
+                                <div class="oe_clear"></div>
 							</div>
 						</t>
 					</templates>
@@ -88,6 +115,11 @@
                         <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
                             <div name="navigations" attrs="{'invisible':[('state','=', 'cancel')]}" >
                                 <!-- document navigation across structure -->
+                                 <button class="oe_inline oe_stat_button" name="action_prev_step"
+                                    string="Previous Step" icon="fa-angle-double-left" type="object"
+                                    context="{'arch_tx_act_send': True}"
+                                    >
+                                </button>
                                  <button class="oe_inline oe_stat_button" name="action_delegate"
                                     string="Escalate" icon="fa-angle-double-up" type="object"
                                     context="{'arch_behavior': 'escalate'}"
@@ -96,11 +128,6 @@
                                 <button  class="oe_inline oe_stat_button" name="action_delegate"
                                     string="Delegate"  icon="fa-angle-double-down" type="object"
                                     context="{'arch_behavior': 'delegate'}"
-                                    >
-                                </button>
-                                 <button class="oe_inline oe_stat_button" name="action_prev_step"
-                                    string="Previous Step" icon="fa-angle-double-left"
-                                    context="{'arch_tx_act_send': True}"
                                     >
                                 </button>
                                 <button  class="oe_inline oe_stat_button" name="action_next_step"
@@ -206,12 +233,17 @@
             <field name="model">archives.document</field>
             <field name="arch" type="xml">
                 <search string="Archives">
-                    <field name="name" string="Transfer" filter_domain="[('name','ilike',self)]"/>
+                    <field name="name" string="Documento" filter_domain="[('name','ilike',self)]"/>
                     <field name="process_id" filter_domain="[('process_id','child_of',self)]"/>
+                    <separator/>
+                    <filter name="my_documents" string="My assignments"
+                            domain="[('responsible_id','=', uid)]"
+                            help="Documents that are assigned to me"/>
+                  <separator/>
                     <filter name="pending" string="Pending" domain="[('state','=','pending')]"/>
                     <filter name="done" string="Done" domain="[('state','=','done')]"/>
                     <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]"/>
-                    <separator/>
+                  <separator/>
                     <group expand="0" string="Group By...">
                         <filter string="Process" name="process" context="{'group_by':'process_id'}"/>
                     	<filter string="Retention Table" icon="terp-folder-orange" domain="[]" context="{'group_by':'retention_table_id'}"/>
@@ -229,6 +261,11 @@
 		    <field name="res_model">archives.document</field>
 		    <field name="view_type">form</field>
 		    <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{
+                'search_default_my_documents': 1,
+                'search_default_pending': 1,
+                }
+            </field>
 	    </record>
 
 	    <record id="archives_process_2document_action" model="ir.actions.act_window" >

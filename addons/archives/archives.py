@@ -23,6 +23,8 @@ from openerp import SUPERUSER_ID
 from openerp.exceptions import Warning, except_orm
 import datetime
 
+from openerp.tools.safe_eval import safe_eval as eval
+
 
 class archives_medium_type(models.Model):
     _name = "archives.medium.type"
@@ -113,18 +115,32 @@ class archives_process_step(models.Model):
                            help='This stage is folded in the kanban view when'
                                 'there are no records in that stage to display.')
 
-
+    @api.one
     @api.depends('process_id.load_balance', 'job_ids')
     def _compute_candidate(self):
         candidate_2skip = self.env['hr.employee']
+        candidate = self.env['hr.employee']
 
         for job in self.mapped('job_ids.job_id'):
             candidate = self.find_candidate(job)
+            if candidate:
+                if candidate not in candidate_2skip and self.check_availability(candidate):
+                    break
+                candidate_2skip |= candidate
+        else:
+            department = self.department_id
+            while department:
+                candidate = department.manager_id
+                if candidate not in candidate_2skip and self.check_availability(candidate):
+                    break
+                candidate_2skip |= candidate
+                department = department.parent_id
+            else:
+                raise Warning(_('Warining!'), _(
+                    "An attendance is necessary to determine the employee who must continue the work"
+                    ))
 
-            if candidate not in candidate_2skip and self.check_availability(candidate):
-                return candidate.user_id
-
-            candidate_2skip |= candidate
+        return candidate.user_id
 
     @api.one
     @api.returns('hr.employee', lambda r: r.id)
@@ -320,7 +336,7 @@ class archives_process_step(models.Model):
                 def __getattr__(self, attr):
                     return attr in self.dict and self.dict.__getitem__(attr) or 0.0
 
-            arch_wizard_result = self._context.get('arch_wizard_result')
+            arch_wizard_result = self._context.get('arch_wizard_result', {})
             baselocaldict = {'document': document_id}
             for key, value in arch_wizard_result.items():
                 baselocaldict[key] = value
@@ -333,6 +349,17 @@ class archives_process_step(models.Model):
                     "We are sorry but it is not possible to carry out the transition from step %s to step %s "
                     "due to the fact that the necessary requirements are not met"
                     ) % (src_step_id.display_name, dst_step_id.display_name,))
+
+            return True
+
+        elif not src_step_id and dst_step_id: # perhaps we are in the case of the first step
+            if not document_id.process_id.step_ids.search([
+                            ('process_id', '=', document_id.process_id.id),
+                            ('id', '=', dst_step_id.id)
+                            ], order='sequence asc').exists():
+                raise Warning(_('Warning!'), _(
+                    "The process %s still has no defined steps or the selected step did not belong to it"
+                    ) % document_id.proces_id.display_name)
 
             return True
 
@@ -422,28 +449,28 @@ class archives_transition(models.Model):
 
     _order = "sequence"
 
-    @api.model
-    def _default_condition(self):
-        return '''
-        # Available variables:
-        #----------------------
-        # document: object containing the payslips
-        # employee: hr.employee object
-        # transition: archives.transition object (this transition)
-        # parameters: any prameter defined by the wizard transition
-
-        # Note: returned value have to be set in the variable 'result'
-
-        result = True'''
-
     sequence = fields.Integer("Sequence", default=5)
     src_step_id = fields.Many2one('archives.process.step', string="Source Step")
     dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
-    condition = fields.Text("Python Condition", default=_default_condition)
+    condition = fields.Text("Python Condition")
     params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window")
     group_id = fields.Many2one('res.groups', string="Group Restriction")
 
     # TODO: Add boolean parameter to merge wizard's params of other transition
+
+    _default = {
+        'condition': '''
+# Available variables:
+#----------------------
+# document: object containing the document
+# employee: hr.employee object
+# transition: archives.transition object (this transition)
+# <parameter x>: a parameter passed to the transition
+
+# Note: returned value have to be set in the variable 'result'
+
+result = True'''
+        }
 
     @api.one
     def satisfy_condition(self, localdict):
@@ -459,7 +486,7 @@ class archives_transition(models.Model):
         except Exception, e:
             raise except_orm(_('Error!'), _(
                 'Wrong python condition defined for transition %s (%s).'
-                ) % (self.name, self.sequence) + "\n\n" + str(e)
+                ) % (self.display_name, self.sequence) + "\n\n" + str(e)
                 )
 
 
@@ -490,6 +517,8 @@ class archives_document_step(models.Model):
                               ('cancel', 'Cancel')], 'State', readonly=True, default="wait")
     # document's movement fields
     move_ids = fields.One2many('archives.document.move', 'document_step_id', "Document's movement")
+    prev_ds_id = fields.Many2one('archives.document.step', 'Previous Document step', readonly=True,
+                                 help='Previos document step for internal use when do step back operation')
 
 
 class archives_collection_location(models.Model):
@@ -651,41 +680,12 @@ class archives_document(models.Model):
         'process_step_id': _read_group_stage_ids
         }
 
-    @api.model
-    def create(self, vals):
-
-        if len(vals.get('move_ids')) == 0:
-            raise Warning(_('Warning!'), _(
-                'The document must have at least one movement'))
-        res = super(archives_document, self).create(vals)
-        if len(vals.get('step_ids')) != 0:
-            # list_step = sorted(vals.get('step_ids'),key='date_start')
-            list_step = self.env['archives.document.step'].browse(vals.get('step_ids'))
-            vals.update({'process_step_id': list_step[0].step_id})
-        else:
-
-            process = self.env['archives.process'].browse(vals.get('process_id'))
-            if len(process.step_ids) ==0:
-                raise Warning(_('Warning!'), _(
-                    'You must define steps in the document or at least in the process related to it'))
-            vals_document_step = {}
-            vals_document_step['step_id'] = process.step_ids[0].id
-            vals_document_step['department_id'] = process.step_ids[0].department_id.id
-
-            document_step = self.env['archives.document.step'].create(vals_document_step)
-            res.step_ids += document_step
-            lis_doc = process.step_ids[0].document_ids
-            lis_doc += res
-            process.step_ids[0].document_ids = lis_doc
-            vals.update({'process_step_id': process.step_ids[0].id})
-
-        return res
-
     @api.multi
     @api.depends('move_ids.dest_user_id')
     def _compute_responsible_id(self):
         for record in self:
-            record.responsible_id = record.move_ids[-1:].dest_user_id
+            # we get the firstone because the list ir ordered desc
+            record.responsible_id = record.move_ids[:1].dest_user_id
 
     # @api.multi
     # @api.depends('step_ids.step_id')
@@ -700,10 +700,94 @@ class archives_document(models.Model):
         for record in self:
             record.retention_table_id = record.process_id.retention_table_id
 
+    @api.model
+    def create(self, vals):
+        document = super(archives_document, self).create(vals)
+
+        # create the first movement for the document wwith the first step
+        if not document.step_ids:
+            first_step_id = document.process_id.step_ids.search([
+                                    ('process_id', '=', document.process_id.id),
+                                    ], limit=1, order='sequence asc')
+
+            if not first_step_id:
+                raise Warning(_('Warning!'), _(
+                    'You must define steps in the process %s before relate a document to it'
+                    ) % document.process_id.display_name)
+
+            document.step_ids.create({
+                'step_id': first_step_id.id or False,
+                'department_id': first_step_id.department_id and first_step_id.department_id.id or False,
+                'document_id': document.id,
+                'date_start': fields.Datetime.now(),
+                # 'date_compute': ,
+                # 'date_end': ,
+                'state': 'wait',
+                })
+
+        # sync the document with the last process step; document's steps are descending ordered
+        document._write({'process_step_id': document.step_ids[:1].step_id.id})
+
+        # sync the document with the current user as responsible
+        if not document.move_ids:
+            document.write({'responsible_id': self.env.user.id})
+
+        return document
+
+        # if len(vals.get('move_ids')) == 0:
+        #     raise Warning(_('Warning!'), _(
+        #         'The document must have at least one movement'))
+        # res = super(archives_document, self).create(vals)
+        # if len(vals.get('step_ids')) != 0:
+        #     # list_step = sorted(vals.get('step_ids'),key='date_start')
+        #     list_step = self.env['archives.document.step'].browse(vals.get('step_ids'))
+        #     vals.update({'process_step_id': list_step[0].step_id})
+        # else:
+        #     process = self.env['archives.process'].browse(vals.get('process_id'))
+        #     if len(process.step_ids) ==0:
+        #         raise Warning(_('Warning!'), _(
+        #             'You must define steps in the document or at least in the process related to it'))
+        #     vals_document_step = {}
+        #     vals_document_step['step_id'] = process.step_ids[0].id
+        #     vals_document_step['department_id'] = process.step_ids[0].department_id.id
+        #
+        #     document_step = self.env['archives.document.step'].create(vals_document_step)
+        #     res.step_ids += document_step
+        #     lis_doc = process.step_ids[0].document_ids
+        #     lis_doc += res
+        #     process.step_ids[0].document_ids = lis_doc
+        #     vals.update({'process_step_id': process.step_ids[0].id})
+        #
+        # return res
+
     @api.multi
     def write(self, vals):
+        # Maybe these actions came from the kanban when the group by option is active
+        if 'process_id' in vals and vals['process_id'] and len(vals) == 1:
+            for record in self:
+                process_from_id = record.process_id
+                process_to_id = self.env['archives.process'].browse(vals['process_id'])
+                # guess for a foward or backward process movement
+                order_filter = 'sequence %s' % ('asc' if process_from_id.parent_left < process_to_id.parent_left else 'desc')
+                dst_step_id = process_to_id.step_ids.search([
+                                    ('process_id', '=', process_to_id.id),
+                                    ], limit=1, order=order_filter)
+
+                return self._action_next_step(
+                                    record,
+                                    record.step_ids[:1].step_id, # steps are descending ordered
+                                    dst_step_id
+                                    )
+
+        if 'process_step_id' in vals and vals['process_step_id'] and len(vals) == 1:
+            for record in self:
+                return self._action_next_step(
+                                    record,
+                                    record.step_ids[:1].step_id, # steps are descending ordered
+                                    vals['process_step_id']
+                                    )
+
         if 'responsible_id' in vals and vals['responsible_id'] and len(vals) == 1:
-            # Maybe the action came from the kanban
             DocumentMove = self.env['archives.document.move']
             DocumentMoveType = self.env['archives.document.move.type']
 
@@ -717,7 +801,6 @@ class archives_document(models.Model):
             for record in self:
                 # create a movement for the document
                 document_last_move = record.move_ids[:1]
-
                 move_type_id = document_last_move.type or DocumentMoveType.search([], limit=1)
 
                 source_department_id = document_last_move.dest_department_id
@@ -730,8 +813,8 @@ class archives_document(models.Model):
 
                 source_user_id = document_last_move.dest_user_id
                 if not source_user_id:
-                    if record.process_step_id.department_id:
-                        source_user_id = record.process_step_id.department_id.manager_id
+                    if record.process_step_id.department_id and record.process_step_id.department_id.manager_id.user_id:
+                        source_user_id = record.process_step_id.department_id.manager_id.user_id
                     else:
                         source_user_id = self.env.user
 
@@ -745,22 +828,10 @@ class archives_document(models.Model):
                                         'source_user_id': source_user_id and source_user_id.id or False,
                                         'dest_user_id': responsible_id.id,
                                         })
-                # update the date_end of the previos las movement
+                # update the date_end of the previous las movement
                 document_last_move.write({'date_end': document_curr_move.date_start})
 
             return True
-
-        if 'process_step_id' in vals and vals['process_step_id'] and len(vals) == 1:
-            for record in self:
-                return self._action_next_step(
-                                    record,
-                                    record.step_ids[-1:].step_id,
-                                    vals['process_step_id']
-                                    )
-            # action = self.env.ref('archives.document_delegate_action')
-            # raise RedirectWarning(_('Warning!'), action.id, _(
-            #     'Yo must not belive dat'
-            #     ))
 
         return super(archives_document, self).write(vals)
 
@@ -774,12 +845,42 @@ class archives_document(models.Model):
         return action
 
     @api.multi
+    def action_prev_step(self):
+        for record in self:
+            # documents with lest than two movement steps can't do step back operations
+            if len(record.step_ids) < 2:
+                raise Warning(_('Warning!'), _(
+                    "The document don't have more operation step for step back"
+                    ))
+
+            # the movement are descending ordered
+            document_prev_step = record.step_ids[:1].prev_ds_id
+            if document_prev_step:
+                document_curr_step = document_prev_step.copy({
+                                        'date_start': fields.Datetime.now(),
+                                        # 'date_compute': ,
+                                        # 'date_end': ,
+                                        'state': 'wait',
+                                        # avoid copy of employee document assignation later we take the last one ref
+                                        'move_ids': False,
+                                        })
+                # sync document with the previous step
+                record._write({
+                    'process_step_id': document_curr_step.step_id.id,
+                    'process_id': document_curr_step.step_id.process_id.id
+                    })
+                # invoike write to register document responsible history properly
+                record.write({'responsible_id': document_prev_step.move_ids[:1].dest_user_id.id})
+
+
+    @api.multi
     def action_next_step(self):
         record = self.ensure_one()
         src_step_id = record.process_step_id
         dst_step_id = src_step_id.next(src_step_id)
 
         return self._action_next_step(record, src_step_id, dst_step_id)
+
 
     def _action_next_step(self, document_id, src_step_id, dst_step_id):
         if self._context.get('arch_skip_validation', False):
@@ -807,7 +908,7 @@ class archives_document(models.Model):
             DocumentStep = self.env['archives.document.step']
 
             # create a movement for the document
-            document_last_step = document_id.step_ids[-1:]
+            document_last_step = document_id.step_ids[:1] # document's steps are descending ordered
 
             document_curr_step = DocumentStep.create({
                                     'step_id': dst_step_id.id or False,
@@ -817,12 +918,16 @@ class archives_document(models.Model):
                                     # 'date_compute': ,
                                     # 'date_end': ,
                                     'state': 'wait',
+                                    'prev_ds_id': document_last_step.id,
                                     })
             # update the date_end of the previos las movement
             document_last_step.write({'date_end': document_curr_step.date_start})
             # update the process step ie
-            document_id._write({'process_step_id': dst_step_id.id})
-            document_id.responsible_id = dst_step_id._compute_candidate()
+            document_id._write({
+                'process_step_id': dst_step_id.id,
+                'process_id': dst_step_id.process_id.id
+                })
+            document_id.responsible_id = dst_step_id._compute_candidate()[0]
 
         return navigation_alloweb
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="attachment_wizard_view" model="ir.ui.view">
+            <field name="name">attachment.wizard.form</field>
+            <field name="model">attachment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Attachment">
+                    <group>
+                            <field name="name"/>
+                            <field name="type_data" />
+                            <field name="url" attrs="{'invisible':[('type_data','=','binary')],'required':[('type_data','=','url')]}" />
+                            <field name="data" attrs="{'invisible':[('type_data','=','url')],'required':[('type_data','=','binary')]}" />
+                            <field name="version_new" />
+                            <field name="version_id" options="{'no_create': True}" readonly="1" />
+                            <field name="description"/>
+                    </group>
+                    <fotter>
+                        <button string="Save" name="save_version" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </fotter>
+               </form>
+            </field>
+        </record>
+
+
+        <record id="attachment_wizard_action" model="ir.actions.act_window">
+            <field name="name">Attachment</field>
+            <field name="res_model">attachment.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="attachment_wizard_view"/>
+            <field name="context">{
+                'arch_document_id': active_id,
+                'arch_partner_id': context.get('partner_id'),
+                }
+            </field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

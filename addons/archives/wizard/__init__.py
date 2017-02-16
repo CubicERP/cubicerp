@@ -18,3 +18,4 @@
 ##############################################################################
 
 import document_delegate
+import attachment_wizard

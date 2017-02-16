@@ -641,7 +641,7 @@ instance.web.ViewManager =  instance.web.Widget.extend({
         this.$el.find('.view_extra_buttons #btnRefresh').click(function() {
             var controller = self.views[self.active_view].controller;
             controller.reload();
-        });
+        }).tooltip();
 
         return this.switch_mode(default_view, null, this.flags[default_view] && this.flags[default_view].options);
     },

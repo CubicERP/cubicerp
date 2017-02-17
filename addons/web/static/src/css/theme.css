@@ -1042,7 +1042,8 @@ Kanban View
     background: url('/web/static/src/img/form_sheetbg.png') !important;
 }
 
-.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_column, .openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_group_header {
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_column,
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_group_header {
     background: #EAEAEA;
 }
 
@@ -1071,6 +1072,15 @@ Kanban View
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card,
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card:hover {
     border: 0px !important;
+}
+
+.openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_vignette {
+    display: flex;
+}
+.openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_details {
+    flex-grow: 1;
+    width: auto;
+    padding-left: 8px;
 }
 
 /***********************************************************************************************************************

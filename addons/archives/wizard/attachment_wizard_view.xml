@@ -11,6 +11,8 @@
                             <field name="version_new" />
                             <field name="version_id" options="{'no_create': True}" readonly="1" />
                             <field name="attachment_id" />
+                            <separator string="Attachmets Last Version" attrs="{'invisible':[('version_new','=',False)]}"/>
+                            <field name="attachment_last_version_ids" nolabel="1" attrs="{'invisible':[('version_new','=',False)]}"/>
                     </group>
                     <fotter>
                         <button string="Save" name="save_version" type="object" class="oe_highlight"/>

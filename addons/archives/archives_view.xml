@@ -197,7 +197,17 @@
                                 			</group>
                                 		</group>
                                 		<separator string="Attachment"/>
-                                		<field name="attachment_ids"/>
+                                        <field name="attachment_ids">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="parent_id"/>
+                                                <field name="user_id"/>
+                                                <field name="partner_id"/>
+                                                <field name="type"/>
+                                                <field name="url" widget="url"/>
+                                                <field name="datas" filename="datas_fname"/>
+                                            </tree>
+                                        </field>
                                 	</form>
                                 	
                                 </field>
@@ -683,6 +693,32 @@
 	    </record>
 
         <menuitem name='Transition' id='transition_menu' action="transition_action" parent='archives_config_menu'/>
+
+
+        <record id="view_attachment2_tree" model="ir.ui.view">
+            <field name="name">archives.attachment.tree</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <tree string="Attachment List" create="false" delete="false">
+                     <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="type"/>
+                    <field name="url" widget="url"/>
+                    <field name="datas" filename="datas_fname"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="attachment2_action">
+		    <field name="name">Attachment Table</field>
+		    <field name="res_model">ir.attachment</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree</field>
+            <field name="domain">[('archive_version_id','!=', False)]</field>
+            <field name="view_id" ref="view_attachment2_tree"/>
+	    </record>
+
+         <menuitem name='Attachments' id='attachment_menu' parent='archives_menu' action="attachment2_action" sequence='40'/>
 	    
 	</data>
 </openerp>

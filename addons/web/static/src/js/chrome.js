@@ -1408,6 +1408,7 @@
             this.action_mutex = new $.Mutex();
             this.set('title_part', {"zopenerp": "CubicERP"});
 
+            this.leftbar_open = false;
             this.apply_effect_to_leftbar();
         },
 
@@ -1717,6 +1718,7 @@
                     transition: 'all 1s linear',
                     transform: 'rotate(180deg)'
                 });
+                self.leftbar_open = true;
             } else {
                 $('.oe_leftbar').animate({left: -$('.oe_leftbar_content').width() + 'px'}, {duration: 1000});
                 instance.web.unblockUI();
@@ -1724,6 +1726,7 @@
                     transition: 'all 1s linear',
                     transform: 'rotate(0deg)'
                 });
+                self.leftbar_open = false;
             }
 
         },
@@ -1746,7 +1749,7 @@
             });
 
             $(document).mousemove(function( event ) {
-                if(event.pageX <= 8)
+                if(event.pageX <= 8 && !self.leftbar_open)
                     self.toggle_leftbar(true);
             });
         }

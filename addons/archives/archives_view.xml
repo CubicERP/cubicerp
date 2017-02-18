@@ -268,6 +268,56 @@
             </field>
 	    </record>
 
+
+        <!--<record id="archives_process_2document_done_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Done Documents</field>-->
+            <!--<field name="res_model">archives.document</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">kanban,tree,form</field>-->
+            <!--<field name="domain"></field>-->
+            <!--<field name="context">{-->
+                <!--'search_default_process_id': [active_id],-->
+                <!--'default_process_id': active_id,-->
+                <!--'search_default_done': 1,-->
+                <!--'group_by': ['date_start'],-->
+                <!--}-->
+            <!--</field>-->
+            <!--<field name="search_view_id" ref="view_document_filter"/>-->
+        <!--</record>-->
+
+        <!--<record id="archives_process_2document_pending_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Pending Documents</field>-->
+            <!--<field name="res_model">archives.document</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">kanban,tree,form</field>-->
+            <!--<field name="domain"></field>-->
+            <!--<field name="context">{-->
+                <!--'search_default_process_id': [active_id],-->
+                <!--'default_process_id': active_id,-->
+                <!--'search_default_pending': 1,-->
+                <!--}-->
+            <!--</field>-->
+            <!--<field name="search_view_id" ref="view_document_filter"/>-->
+        <!--</record>-->
+
+        <!--<record id="archives_process_2document_cancel_action" model="ir.actions.act_window">-->
+            <!--<field name="name">Canceled Documents</field>-->
+            <!--<field name="res_model">archives.document</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">kanban,tree,form</field>-->
+            <!--<field name="domain"></field>-->
+            <!--<field name="context">{-->
+                <!--'search_default_process_id': [active_id],-->
+                <!--'default_process_id': active_id,-->
+                <!--'search_default_cancel': 1,-->
+                <!--}-->
+            <!--</field>-->
+            <!--<field name="search_view_id" ref="view_document_filter"/>-->
+        <!--</record>-->
+
 	    <record id="archives_process_2document_action" model="ir.actions.act_window" >
 		    <field name="name">Documents</field>
 		    <field name="res_model">archives.document</field>
@@ -414,6 +464,24 @@
                                         <small><i class="fa fa-envelope-o"></i> <field name="parent_id"/></small>
                                     </div>
 
+                                    <!--<div class="oe_items_list oe_kanban_ellipsis">-->
+                                        <!--<div>-->
+                                            <!--<a name="%(archives_process_2document_pending_action)d" type="action">-->
+                                                <!--<field name="count_document_pending"/> Pending-->
+                                            <!--</a>-->
+                                            <!--<a name="%(archives_process_2document_done_action)d" type="action" class="oe_sparkline_bar_link">-->
+                                                <!--<field name="last_done_documents" widget="sparkline_bar" options="{'type': 'tristate', 'colorMap': {'0': 'orange', '-1': 'red', '1': 'green'}}">Last 10 Done Documents</field>-->
+                                            <!--</a>-->
+                                        <!--</div>-->
+                                        <!--<div t-if="record.count_document_cancel.raw_value &gt; 0">-->
+                                            <!--<a name="%(archives_process_2document_cancel_action)d" type="action">-->
+                                                <!--<field name="count_document_cancel"/> Canceled-->
+                                            <!--</a>-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<a name="%(archives_process_2document_action)d" type="action">All Documents</a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
 
                                     <div class="text-center oe_kanban_alias" t-if="record.retention_table_id.value">
                                         <small><i class="fa fa-envelope-o"></i> <field name="retention_table_id"/></small>

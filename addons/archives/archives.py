@@ -556,6 +556,7 @@ class archives_collection(models.Model):
                                             help="Restrict the moves to selected locations for this collection. Leave blank to allow all locations")
     active = fields.Boolean('Active')
 
+
     
 class archives_collection_move(models.Model):
     _name = "archives.collection.move"

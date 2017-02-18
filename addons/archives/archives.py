@@ -733,6 +733,8 @@ class archives_document(models.Model):
         if not document.move_ids:
             document.write({'responsible_id': self.env.user.id})
 
+        document.responsible_id.message_post(body='A document called '+document.name+' for which you are responsible has been created')
+        document.responsible_id.message_post(body='The document is in step '+document.process_step_id.name+' of process '+document.process_id.name)
         return document
 
         # if len(vals.get('move_ids')) == 0:
@@ -928,7 +930,11 @@ class archives_document(models.Model):
                 'process_step_id': dst_step_id.id,
                 'process_id': dst_step_id.process_id.id
                 })
-            document_id.responsible_id = dst_step_id._compute_candidate()[0]
+            reponsible = dst_step_id._compute_candidate()[0]
+            reponsible.message_post(
+                body='It is assigned the document '+document_id.name+' found in '+document_curr_step.name+', belonging to Process '+document_curr_step.process_id.name,
+                partner_ids=[document_curr_step.department_id.manager_id.user_id.id])
+            document_id.responsible_id = reponsible
 
         return navigation_alloweb
 

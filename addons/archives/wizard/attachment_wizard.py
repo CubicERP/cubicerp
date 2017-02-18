@@ -26,49 +26,39 @@ class AttachmentWizard(models.TransientModel):
     _name = "attachment.wizard"
 
     @api.model
-    def _compute_version_id_domain(self):
+    def _compute_domain_version_id(self):
         return [('document_id', '=', self._context.get('arch_document_id'))]
 
-    document_id = fields.Many2one('archives.document','Document',default=lambda self: self._context.get('active_id'))
+    def _compute_domain_attachment_id(self):
+        return [('id', '=', 0)]
 
-    user_id = fields.Many2one('res.users','Owner', default=lambda self: self._uid)
+    def _domain_attachment_last_version_ids(self):
+        version_last = self.env['archives.document.version'].search([('document_id', '=', self._context.get('arch_document_id'))],
+                                                     limit=1, order='date desc')
+        return [('archive_version_id', '=', version_last.id)]
 
-    name = fields.Char('Attachment Name', required=True)
+    def _default_version_last(self):
+        return self.env['archives.document.version'].search([('document_id','=',self._context.get('arch_document_id'))], limit=1, order='date desc')
 
-    type_data = fields.Selection([('url', 'URL'), ('binary', 'Binary'), ],'Type', help="Binary File or URL", required=True, default='binary')
 
-    url = fields.Char('Url', size=1024)
-
-    data = fields.Binary(string='File Content')
-
-    version_id = fields.Many2one('archives.document.version','Document Version', domain=_compute_version_id_domain, default=lambda self: self.env['archives.document.version'].search([('document_id','=',self._context.get('arch_document_id'))], limit=1, order='date desc'))
-
-    description = fields.Text('Description')
+    attachment_id = fields.Many2one('ir.attachment', 'Attachment', domain=_compute_domain_attachment_id)
 
     version_new = fields.Boolean('New version ?', default=False)
 
-    version_number = fields.Integer('Version Number')
+    version_id = fields.Many2one('archives.document.version','Document Version', domain=_compute_domain_version_id, default=lambda self: self.env['archives.document.version'].search([('document_id','=',self._context.get('arch_document_id'))], limit=1, order='date desc'))
 
-    @api.model
-    def _default_version_last(self):
-        return self.env['archives.document.version'].search([('document_id','=',self._context.get('arch_document_id'))], limit=1, order='date desc')
+    attachment_last_version_ids = fields.Many2many(
+        'ir.attachment', 'attachment_last_version_rel', domain=_domain_attachment_last_version_ids,
+        string='Attachments Last Version')
+
+
 
 
     @api.multi
     def save_version(self):
 
-        attch_vals = {
-            'name': self.name,
-            'type': self.type_data,
-            'datas': self.data,
-            'url': self.url,
-            'user_id': self.user_id.id,
-            'description': self.description,
-        }
-        attch = self.env['ir.attachment'].create(attch_vals)
-
         if not self.version_new and self.version_id.id:
-            self.version_id.attachment_ids += attch
+            self.version_id.attachment_ids += self.attachment_id
         else:
             number = 1
             if self.version_id.id:
@@ -79,13 +69,14 @@ class AttachmentWizard(models.TransientModel):
                 'version_number': number,
                 'name': 'Version_'+str(number),
                 'date': datetime.datetime.now(),
-                'document_id': self.document_id.id,
+                'document_id': self._context.get('arch_document_id')
             }
 
             vers= self.env['archives.document.version'].create(version_vals)
-            vers.attachment_ids += attch
-            self.document_id.version_ids += vers
-
+            vers.attachment_ids += self.attachment_id
+            vers.attachment_ids += self.attachment_last_version_ids
+            doc = self.env['archives.document'].browse(self._context.get('arch_document_id'))
+            doc.version_ids += vers
 
 
 

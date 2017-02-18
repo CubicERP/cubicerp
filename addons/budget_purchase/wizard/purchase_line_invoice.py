@@ -30,37 +30,13 @@ class PurchaseLineInvoice(osv.osv_memory):
     _description = 'Purchase Order Line Make Invoice'
 
     def _make_invoice_by_partner(self, cr, uid, partner, orders, lines_ids, context=None):
+        invoice_id = super(PurchaseLineInvoice, self)._make_invoice_by_partner(cr=cr, uid=uid, partner=partner,
+                                                                               orders=orders,
+                                                                               lines_ids=lines_ids, context=context)
         struct = orders[0].struct_id
         if struct:
-            purchase_obj = self.pool.get('purchase.order')
-            account_jrnl_obj = self.pool.get('account.journal')
-            invoice_obj = self.pool.get('account.invoice')
-            name = orders and orders[0].name or ''
-            journal_id = account_jrnl_obj \
-                .search(cr, uid, [('type', '=', 'purchase')], context=None)
-            journal_id = journal_id and journal_id[0] or False
-            a = partner.property_account_payable.id
-            inv = {
-                'name': name,
-                'origin': name,
-                'type': 'in_invoice',
-                'journal_id': journal_id,
-                'reference': partner.ref,
-                'account_id': a,
-                'budget_struct_id': struct.id,
-                'partner_id': partner.id,
-                'invoice_line': [(6, 0, lines_ids)],
-                'currency_id': orders[0].currency_id.id,
-                'comment': " \n".join([order.notes for order in orders if order.notes]),
-                'payment_term': orders[0].payment_term_id.id,
-                'fiscal_position': partner.property_account_position.id
-            }
-            inv_id = invoice_obj.create(cr, uid, inv, context=context)
-            purchase_obj.write(cr, uid, [order.id for order in orders], {'invoice_ids': [(4, inv_id)]}, context=context)
-            return inv_id
-        else:
-            return super(PurchaseLineInvoice, self)._make_invoice_by_partner(cr=cr, uid=uid, partner=partner, orders=orders,
-                                                                        lines_ids=lines_ids, context=context)
+            self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'budget_struct_id': struct.id}, context=context)
+        return invoice_id
 
     def makeInvoices(self, cr, uid, ids, context=None):
 

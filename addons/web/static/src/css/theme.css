@@ -492,14 +492,17 @@ View Manager Header: Search Form
 /***********************************************************************************************************************
 Page Header Section: Views Selector
 ***********************************************************************************************************************/
-.oe_view_manager .oe_view_manager_switch {
+.oe_view_manager .oe_view_manager_switch,
+.oe_view_manager .view_extra_buttons {
     display: flex !important;
     border: 1px solid rgb(221, 221, 221) !important;
     background: #f0f0fa;
 }
 
 .oe_view_manager .oe_view_manager_switch li,
-.oe_view_manager .oe_view_manager_switch li a {
+.oe_view_manager .oe_view_manager_switch li a,
+.oe_view_manager .view_extra_buttons li,
+.oe_view_manager .view_extra_buttons li a {
     transition: all 1s linear;
     background: transparent !important;
     box-shadow: initial !important;
@@ -508,6 +511,7 @@ Page Header Section: Views Selector
     width: 28px !important;
     height: 28px !important;
     color: #6D6D6D !important;
+    text-align: center;
 }
 
 .oe_view_manager .oe_view_manager_switch li.active {
@@ -518,6 +522,26 @@ Page Header Section: Views Selector
 .oe_view_manager .oe_view_manager_switch li.active a {
     text-shadow: none !important;
     color: white !important;
+}
+
+.oe_view_manager .view_extra_buttons {
+    margin-bottom: 0px;
+    margin-left: 20px;
+}
+
+.oe_view_manager .view_extra_buttons li {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.oe_view_manager .view_extra_buttons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.oe_view_manager .view_extra_buttons .oe_e {
+    font-size: 13px;
 }
 
 @media (max-width: 800px) {
@@ -1018,7 +1042,8 @@ Kanban View
     background: url('/web/static/src/img/form_sheetbg.png') !important;
 }
 
-.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_column, .openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_group_header {
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_column,
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_group_header {
     background: #EAEAEA;
 }
 
@@ -1030,6 +1055,11 @@ Kanban View
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+}
+
+.openerp .oe_kanban_view .oe_kanban_card,
+.openerp .oe_kanban_view .oe_kanban_quick_create {
+    width: 100%;
 }
 
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record,
@@ -1047,6 +1077,34 @@ Kanban View
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card,
 .openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_column .oe_kanban_record .oe_kanban_card:hover {
     border: 0px !important;
+}
+
+.openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_vignette,
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_vignette {
+    display: flex;
+}
+
+.openerp .oe_kanban_view.oe_kanban_ungrouped .oe_kanban_details,
+.openerp .oe_kanban_view.oe_kanban_grouped .oe_kanban_details {
+    flex-grow: 1;
+    width: auto;
+    padding-left: 8px;
+}
+
+.openerp .oe_kanban_view .oe_tags {
+    min-height: 0px;
+}
+
+/***********************************************************************************************************************
+Dashboard View
+***********************************************************************************************************************/
+.openerp .oe_kanban_view .oe_kanban_stock_picking_type .oe_picking_type_gauge {
+
+}
+
+.openerp .oe_kanban_view .oe_kanban_stock_picking_type .oe_picking_type_gauge .oe_gauge {
+    width: 48% !important;
+    margin-right: 0px !important;
 }
 
 /***********************************************************************************************************************

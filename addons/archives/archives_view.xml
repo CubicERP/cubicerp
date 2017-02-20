@@ -15,11 +15,15 @@
                     <field name="partner_id"/>
                     <field name="responsible_id"/>
                     <field name="state" />
+                    <field name="collection_id" />
+                    <field name="index" />
+                    <field name="folio_start" />
+                    <field name="folio_end" />
 					<templates>
 						<t t-name="kanban-box">
 							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
-												oe_kanban_global_click_edit oe_semantic_html_override
-												oe_kanban_card #{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}">
+											   oe_kanban_global_click_edit oe_semantic_html_override
+											   oe_kanban_card #{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}">
 								<div class="oe_dropdown_kanban">
 									<!-- dropdown menu -->
 									<div class="oe_dropdown_toggle">
@@ -38,30 +42,32 @@
                                     Process: <field name="process_id" /><br />
 									Start date: <field name="date_start"/><br />
                                     Client: <field name="partner_id"/><br />
-									Responsible: <field name="responsible_id"/>
+									Responsible: <field name="responsible_id"/><br />
+
+                                    <t t-if="record.collection_id != False" >
+                                    Collection: <field name="collection_id" /><br />
+                                    Index: <field name="index" />
+                                    Folios: <span><field name="folio_start" /></span> - <span><field name="folio_end" /></span>
+                                    </t>
+
                                     <div class="oe_kanban_footer_left">
                                         <div name="navigations" attrs="{'invisible':[('state','=', 'cancel')]}" >
                                             <!-- document navigation across structure -->
-                                             <!--<button class="oe_inline oe_stat_button" name="action_delegate"-->
-                                                <!--icon="fa-angle-double-up" type="object"-->
-                                                <!--context="{'arch_behavior': 'escalate'}"-->
-                                                <!--&gt;-->
-                                            <!--</button>-->
-                                            <!--<button  class="oe_inline oe_stat_button" name="action_delegate"-->
-                                                <!--icon="fa-angle-double-down" type="object"-->
-                                                <!--context="{'arch_behavior': 'delegate'}"-->
-                                                <!--&gt;-->
-                                            <!--</button>-->
-                                             <!--<button class="oe_inline oe_stat_button" name="action_prev_step"-->
-                                                <!--icon="fa-angle-double-left" type="object"-->
-                                                <!--context="{'arch_tx_act_send': True}"-->
-                                                <!--&gt;-->
-                                            <!--</button>-->
-                                            <!--<button  class="oe_inline oe_stat_button" name="action_next_step"-->
-                                                <!--icon="fa-angle-double-right" type="object"-->
-                                                <!--context="{'arch_tx_act_send': True}"-->
-                                                <!--&gt;-->
-                                            <!--</button>-->
+                                             <button class="fa fa-angle-double-left oe_inline" name="action_prev_step"
+                                                type="object" context="{'arch_tx_act_send': True}"
+                                                />
+                                             <button class="fa fa-angle-double-up oe_inline" name="action_delegate"
+                                                type="object" context="{'arch_behavior': 'escalate'}"
+                                                />
+                                            <button class="fa fa-angle-double-down oe_inline" name="action_delegate"
+                                                type="object" context="{'arch_behavior': 'delegate'}"
+                                                />
+                                            <button class="fa fa-angle-double-right oe_inline" name="action_next_step"
+                                                type="object" context="{'arch_tx_act_send': True}"
+                                                />
+                                            <button class="fa fa-paperclip oe_right" type="object"
+                                                name="action_attachment_wizard"
+                                                />
                                         </div>
                                     </div>
 								</div>
@@ -139,7 +145,8 @@
                         </div>
                         <div>
                             <button class="oe_right oe_button_box" string="Attachment" type="object" name="action_attachment_wizard"
-                            context="{'partner_id': partner_id}"/>
+                                context="{'partner_id': partner_id}"
+                                />
                         </div>
                         <group>
                             <group>
@@ -206,8 +213,12 @@
 	                            <group col="4">
 	                                <group name="one">
                                         <field name="collection_id"/>
+	                                	<field name="sheets"/>
+                                        <field name="index" attrs="{'invisible': [('collection_id', '=', False)]}" />
+                                        <field name="folio_start" attrs="{'invisible': [('collection_id', '=', False)]}" />
+                                        <field name="folio_end" attrs="{'invisible': [('collection_id', '=', False)]}" />
 	                                	<field name="partner_id"/>
-	                                	<field name="folios"/>
+
 	                                	<field name="adjunct"/>
 	                                </group>
 	                                <group name="two">
@@ -333,6 +344,43 @@
 	    <menuitem name='Documents' id='document_menu' parent='archives_menu' action="document_action" sequence='20'/>
 
 
+        <record id="sub_process_action" model="ir.actions.act_window">
+		    <field name="name">Process</field>
+		    <field name="res_model">archives.process</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{
+                'search_default_parent_id': [active_id],
+                'default_parent_id': active_id,
+                }
+            </field>
+	    </record>
+
+		<record id="archives_process_view_search" model="ir.ui.view">
+            <field name="name">archives.process.filter</field>
+            <field name="model">archives.process</field>
+            <field name="arch" type="xml">
+                <search string="Process">
+                    <field name="name" string="Process" filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="parent_id" string="Parent Process" filter_domain="[('parent_id', 'child_of', self)]"/>
+                    <separator/>
+                    <filter name="main_process" string="Main process"
+                            domain="[('parent_id','=', False)]"
+                            help="Main Process"/>
+                    <separator/>
+                    <filter name="runing" string="Runing" domain="[('state','=','run')]"/>
+                    <filter name="canceled" string="Canceled" domain="[('state','=','cancel')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Main Process" name="process" context="{'group_by':'parent_id'}"/>
+                    	<filter string="Retention Table" icon="terp-folder-orange" domain="[]" context="{'group_by':'retention_table_id'}"/>
+                        <filter string="Load Balancing" icon="terp-folder-orange" domain="[]" context="{'group_by':'load_balance'}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
         <record id="view_process_tree" model="ir.ui.view">
             <field name="name">archives.process.tree</field>
             <field name="model">archives.process</field>
@@ -446,6 +494,7 @@
                     <field name="step_ids"/>
                     <field name="step_count"/>
                     <field name="document_count"/>
+                    <field name="child_count"/>
                     <field name="color" />
                     <templates>
                         <t t-name="kanban-box">
@@ -459,43 +508,33 @@
                                     </ul>
                                 </div>
                                 <div class="oe_kanban_content">
-                                    <h4 class="text-center"><strong><field name="name"/></strong></h4>
+                                    <h4 class="text-left"><strong><field name="name"/></strong></h4>
                                     <div class="text-center oe_kanban_alias" t-if="record.parent_id.value">
-                                        <small><i class="fa fa-envelope-o"></i> <field name="parent_id"/></small>
+                                        <small><i class="fa fa-gear"></i> <field name="parent_id"/></small>
                                     </div>
 
-                                    <!--<div class="oe_items_list oe_kanban_ellipsis">-->
-                                        <!--<div>-->
-                                            <!--<a name="%(archives_process_2document_pending_action)d" type="action">-->
-                                                <!--<field name="count_document_pending"/> Pending-->
-                                            <!--</a>-->
-                                            <!--<a name="%(archives_process_2document_done_action)d" type="action" class="oe_sparkline_bar_link">-->
-                                                <!--<field name="last_done_documents" widget="sparkline_bar" options="{'type': 'tristate', 'colorMap': {'0': 'orange', '-1': 'red', '1': 'green'}}">Last 10 Done Documents</field>-->
-                                            <!--</a>-->
-                                        <!--</div>-->
-                                        <!--<div t-if="record.count_document_cancel.raw_value &gt; 0">-->
-                                            <!--<a name="%(archives_process_2document_cancel_action)d" type="action">-->
-                                                <!--<field name="count_document_cancel"/> Canceled-->
-                                            <!--</a>-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<a name="%(archives_process_2document_action)d" type="action">All Documents</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                    <div class="text-center oe_kanban_alias" t-if="record.retention_table_id.value">
-                                        <small><i class="fa fa-envelope-o"></i> <field name="retention_table_id"/></small>
+                                    <div class="text-left oe_kanban_alias" t-if="record.retention_table_id.value">
+                                        <small><i class="fa fa-chain"></i> <field name="retention_table_id"/></small>
                                     </div>
 
+                                    <div class="text-left oe_kanban_alias" t-if="record.step_count > 0" >
+                                        <small><i class="fa fa-list-ol"></i> <field name="step_count"/></small>
+                                    </div>
 
-                                    <div class="oe_kanban_bottom_right">
-                                        Steps: <field name="step_count" style="margin-right: 10px" />
-                                        <br/>
-
-                                        <a name="%(archives_process_2document_action)d" type="action" style="margin-right: 10px">
-                                           Documents: <t t-raw="record.document_count.raw_value"/>
+                                    <div class="oe_kanban_process_list">
+                                        <a name="%(archives_process_2document_action)d" type="action" style="margin-right: 10px" class="fa fa-files-o">
+                                            <t t-raw="record.document_count.raw_value"/> Documents
                                         </a>
                                     </div>
+
+                                    <div class="oe_kanban_process_list">
+                                        <a name="%(sub_process_action)d" type="action" style="margin-right: 10px" class="fa fa-gears">
+                                            <t t-raw="record.child_count.raw_value"/> Sub-Process
+                                        </a>
+                                    </div>
+
+
+
 
                                     <!--<div class="oe_kanban_footer_left">
                                         <span >
@@ -515,9 +554,31 @@
 		    <field name="res_model">archives.process</field>
 		    <field name="view_type">form</field>
 		    <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{
+                'search_default_main_process': 1,
+                }
+            </field>
 	    </record>
 
 	    <menuitem name='Process' id='process_menu' action="process_action" sequence='10' parent='archives_menu'/>
+
+        <!-- Opening document when double clicking on process -->
+        <record id="process_dblclick_action" model="ir.actions.act_window">
+            <field name="res_model">archives.document</field>
+            <field name="name">Process's Documents</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('process_id', 'child_of', [active_id])]</field>
+            <field name="context">{'process_id':active_id}</field>
+        </record>
+
+        <record id="ir_process_document_open" model="ir.values">
+            <field eval="'tree_but_open'" name="key2"/>
+            <field eval="'archives.process'" name="model"/>
+            <field name="name">View process's documents</field>
+            <field eval="'ir.actions.act_window,'+str(process_dblclick_action)" name="value"/>
+        </record>
+
 
         <record id="view_collection_tree" model="ir.ui.view">
             <field name="name">archives.collection.tree</field>
@@ -529,6 +590,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="view_collection_form" model="ir.ui.view">
             <field name="name">archives.collection.form</field>
             <field name="model">archives.collection</field>

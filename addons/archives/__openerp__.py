@@ -44,11 +44,12 @@ Dashboard / Reports for archives will include:
         "mail",
         "stock",
         ],
-    "data":[
+    "data": [
         "wizard/document_delegate_view.xml",
-        "archives_view.xml",
         "wizard/attachment_wizard_view.xml",
-	    ],
+        "archives_view.xml",
+        'archives.xml',
+        ],
     "demo_xml": [],
     "active": False,
     "installable": True,

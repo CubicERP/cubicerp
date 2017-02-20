@@ -1,11 +1,14 @@
 .oe_employee_vignette {
   padding: 8px 8px;
-  min-height: 100px;
+  min-height: 0px !important;
+  display: flex;
+  width: 100%;
 }
 
 .oe_employee_image, .oe_employee_details {
   display: inline-block;
   vertical-align: top;
+  padding-left: 8px;
 }
 
 .oe_employee_image {
@@ -38,11 +41,12 @@
 }
 
 .oe_employee_details {
-  width: 210px;
   font-size: 13px;
   padding: 2px 5px;
   color: #4c4c4c;
-  min-height: 120px;
+  flex-grow: 1;
+  width: auto;
+  padding-left: 8px;
 }
 
 .oe_employee_details h4 {

@@ -748,7 +748,8 @@ div.carousel .item.text_only .container > .carousel-image {
     height: auto !important;
     background-color: #FFFFFF !important;
     display: block !important;
-    box-shadow: 0px 0px 8px rgb(102, 102, 102) !important;
+    box-shadow: 0px 6px 8px rgba(102, 102, 102, 0.4) !important;
+    padding-bottom: 15px;
 }
 
 #wrapwrap footer {
@@ -779,10 +780,20 @@ div.carousel .item.text_only .container > .carousel-image {
     max-width: 70em;
     margin: 0 auto;
     padding: 0 1.875em;
+    display: flex;
 }
 
 .cbp-hrmenu > ul > li {
     display: inline-block;
+}
+
+.cbp-hrmenu > ul > li.active {
+    background: #ab1919;
+    color:white;
+}
+
+.cbp-hrmenu > ul > li.active > a {
+    color:white !important;
 }
 
 .cbp-hrmenu > ul > li > a {
@@ -799,14 +810,14 @@ div.carousel .item.text_only .container > .carousel-image {
 .cbp-hrmenu > ul > li.cbp-hropen a,
 .cbp-hrmenu > ul > li.cbp-hropen > a:hover {
     color: #fff;
-    background: #47a3da;
+    background: #ab1919;
 }
 
 /* sub-menu */
 .cbp-hrmenu .cbp-hrsub {
     display: none;
     position: absolute;
-    background: #47a3da;
+    background: #ab1919;
     width: 100%;
     left: 0;
 }
@@ -837,11 +848,13 @@ div.carousel .item.text_only .container > .carousel-image {
 }
 
 .cbp-hrsub h4 {
-    color: #afdefa;
-    padding: 2em 0 0.6em;
+    padding: 2em 0 1.4em;
     margin: 0;
     font-size: 160%;
     font-weight: 300;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
 }
 
 /* Examples for media queries */

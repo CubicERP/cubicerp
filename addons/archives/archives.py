@@ -795,7 +795,7 @@ class archives_document(models.Model):
 
             if not DocumentMoveType.search([]).exists():
                 raise Warning(_('Warning!'), _(
-                    "A document Type must exists in order to assign documents"
+                    "Create a document Type must exists in order to assign documents"
                     ))
 
             responsible_id = self.env['res.users'].browse(vals['responsible_id'])

@@ -1748,9 +1748,15 @@
                 }
             });
 
-            $(document).mousemove(function( event ) {
-                if(event.pageX <= 8 && !self.leftbar_open)
-                    self.toggle_leftbar(true);
+            current_mouse_x = 1000;
+            $(document).mousemove(function (event) {
+                current_mouse_x = event.pageX;
+                if (current_mouse_x <= 1 && !self.leftbar_open) {
+                    setTimeout(function () {
+                        if (current_mouse_x <= 1 && !self.leftbar_open)
+                            self.toggle_leftbar(true);
+                    }, 1000);
+                }
             });
         }
     });

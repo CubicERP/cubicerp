@@ -89,6 +89,18 @@
 			</field>
 		</record>
 
+        <!--<record model='ir.ui.view' id='invoice_supplier_tree_view_inherit_budget'>-->
+			<!--<field name='name'>invoice.supplier.tree.view.inherit.budget</field>-->
+			<!--<field name='model'>account.invoice</field>-->
+			<!--<field name='inherit_id' ref='account.invoice_supplier_form'/>-->
+			<!--<field name='arch' type='xml'>-->
+                <!--<xpath expr="//field[@name='move_id']" position="before">-->
+                    <!--<field name="budget_struct_id"/>-->
+                    <!--<field name="budget_analytic_id"/>-->
+                <!--</xpath>-->
+			<!--</field>-->
+		<!--</record>-->
+
         <record model='ir.ui.view' id='view_vendor_payment_form'>
 			<field name='name'>account.voucher.payment.form.inherit.budget</field>
 			<field name='model'>account.voucher</field>

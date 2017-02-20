@@ -60,6 +60,8 @@ Three reports are available:
         'wizard/account_budget_report_view.xml',
         'wizard/budget_budget_summary_report_view.xml',
         'wizard/budget_budget_report_view.xml',
+        'wizard/struct_chart_view.xml',
+        'wizard/assign_budget_period.xml',
 
         'report/analytic_account_budget_report.xml',
         'report/budget_report.xml',

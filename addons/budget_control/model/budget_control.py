@@ -110,10 +110,12 @@ class BudgetMove(models.Model):
     def _create_move_values(self, line=None, purchase=None, sale=None):
         res = {
             'ref': line and line.move_id.ref or (purchase and purchase.name or ''),
-            'date': line and line.move_id.date or (purchase and purchase.date_order or False),
             'move_line_id': line and line.id or False,
             'purchase_id': purchase and purchase.id or False,
         }
+        date = line and line.move_id.date or (purchase and purchase.date_order or False)
+        if date:
+            res['date'] = date
         if line and line.move_id.period_id.budget_period_id:
             res['period_id'] = line.move_id.period_id.budget_period_id.id
         if not res.get('period_id',False) and purchase and purchase.date_order:

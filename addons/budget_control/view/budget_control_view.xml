@@ -71,6 +71,9 @@
                                     <group name="one">
                                         <field name="move_line_id"/>
                                     </group>
+                                    <group name="two">
+                                        <field name="purchase_id"/>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>

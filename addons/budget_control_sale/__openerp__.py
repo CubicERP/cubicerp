@@ -19,5 +19,29 @@
 #
 ##############################################################################
 
-import model
-import wizard
+{
+    'name': "Budget Control with Sale Management",
+
+    'summary': """
+        Integration module of budget control with the flow of sales""",
+
+    'description': """
+        Integration module of budget control with the flow of sales
+    """,
+
+    'author': "Cubic ERP",
+    'website': "http://www.cubicerp.com",
+
+    'category': 'Accounting & Finance',
+    'version': '1.0',
+
+    'depends': ['budget_control',
+                'budget_sale'],
+    'data': [
+        'view/sale_view.xml',
+        'view/budget_control_view.xml',
+    ],
+    'demo': [
+        'demo.xml',
+    ],
+}

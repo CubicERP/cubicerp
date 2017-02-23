@@ -21,6 +21,8 @@
     <script type="text/javascript" src="/website/static/src/js/website.snippets.animation.js"></script>
     <script type="text/javascript" src="/web/static/lib/bootstrap/js/bootstrap.js"></script>
 
+    <script type="text/javascript" src="/website/static/src/js/modernizr.custom.js"></script>
+    <script type="text/javascript" src="/website/static/src/js/cbpHorizontalMenu.min.js"></script>
 </template>
 
 <template id="assets_backend" name="website assets for backend" inherit_id="web.assets_backend">
@@ -32,25 +34,64 @@
 </template>
 
 <template id="website.submenu" name="Submenu">
-    <li t-if="not submenu.child_id" t-att-class="
-        'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None
-        ">
-        <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+    <li t-if="not submenu.child_id" t-att-class="'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None">
+        <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true"
+           t-att-target="'_blank' if submenu.new_window else None">
             <span t-field="submenu.name"/>
         </a>
     </li>
-    <li t-if="submenu.child_id" t-attf-class="dropdown #{
+    <li t-if="submenu.child_id" t-attf-class="#{
         (submenu.url and submenu.url != '/' and any([request.httprequest.path == child.url.replace('/page/website.', '/page/') for child in submenu.child_id if child.url]) or
          (submenu.url and request.httprequest.path == submenu.url.replace('/page/website.', '/page/'))) and 'active'
         }">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <a href="#">
             <span t-field="submenu.name"/> <span class="caret" t-ignore="true"></span>
         </a>
-        <ul class="dropdown-menu" role="menu">
+        <ul>
             <t t-foreach="submenu.child_id" t-as="submenu">
                 <t t-call="website.submenu"/>
             </t>
         </ul>
+    </li>
+</template>
+
+<template id="website.menu" name="Menu">
+    <li t-if="not menu.child_id" t-att-class="'active' if menu.url and menu.url != '/' and request.httprequest.path == menu.url.replace('/page/website.', '/page/') else None">
+        <a clickable="1" t-att-href="(website.menu_id.child_id[0] == menu) and '/' or menu.url" t-ignore="true"
+           t-att-target="'_blank' if menu.new_window else None">
+            <span t-field="menu.name"/>
+        </a>
+    </li>
+    <li t-if="menu.child_id" t-attf-class="#{
+        (menu.url and menu.url != '/' and any([request.httprequest.path == child.url.replace('/page/website.', '/page/') for child in menu.child_id if child.url]) or
+         (menu.url and request.httprequest.path == menu.url.replace('/page/website.', '/page/'))) and 'active'}">
+        <a href="#">
+            <span t-field="menu.name"/> <span class="caret" t-ignore="true"></span>
+        </a>
+        <div class="cbp-hrsub">
+            <div class="cbp-hrsub-inner">
+                <t t-foreach="menu.child_id" t-as="item">
+                    <div>
+                        <t t-if="item.child_id">
+                            <h4><span t-field="item.name"/></h4>
+                            <ul>
+                                <t t-foreach="item.child_id" t-as="submenu">
+                                    <t t-call="website.submenu"/>
+                                </t>
+                            </ul>
+                        </t>
+                        <t t-if="not item.child_id">
+                            <h4><span style="visibility: hidden;">Empty Title</span></h4>
+                            <ul>
+                                <t t-call="website.submenu">
+                                    <t t-set="submenu" t-value="item"/>
+                                </t>
+                            </ul>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
     </li>
 </template>
 
@@ -108,10 +149,10 @@
                                 </button>
                                 <a class="navbar-brand" href="/" t-field="res_company.name"/>
                             </div>
-                            <div class="collapse navbar-collapse navbar-top-collapse">
-                                <ul class="nav navbar-nav navbar-right" id="top_menu">
-                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                                        <t t-call="website.submenu"/>
+                            <div class="collapse navbar-collapse navbar-top-collapse cbp-hrmenu" id="cbp-hrmenu">
+                                <ul id="top_menu">
+                                    <t t-foreach="website.menu_id.child_id" t-as="menu">
+                                        <t t-call="website.menu"/>
                                     </t>
                                     <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
                                     <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
@@ -151,6 +192,11 @@
 
                 ga('create', _.str.trim('<t t-esc="website.google_analytics_key"/>'), 'auto');
                 ga('send','pageview');
+            </script>
+            <script>
+                $(function() {
+                    cbpHorizontalMenu.init();
+                });
             </script>
         </body>
     </html>
@@ -238,7 +284,7 @@
     <xpath expr="//ul[@id='top_menu']" position="inside">
         <li class="divider" groups="base.group_public"/>
         <li groups="base.group_public">
-            <a t-attf-href="/web/login">
+            <a clickable="1" t-attf-href="/web/login">
                 <b>Sign in</b>
             </a>
         </li>

@@ -32,19 +32,29 @@ class Website(openerp.addons.web.controllers.main.Home):
     #------------------------------------------------------
     @http.route('/', type='http', auth="public", website=True)
     def index(self, **kw):
-        page = 'homepage'
+        menu = None
+        # ----------------------------------------
+        website_registry = request.registry['website']
+        website_ids = website_registry.search(request.cr, request.uid, [])
+        if website_ids:
+            website = website_registry.browse(request.cr, request.uid, website_ids[0], context=request.context)
+            if website and website.default_homepage_menu_id:
+                menu = website.default_homepage_menu_id
+        # ----------------------------------------
         try:
             main_menu = request.registry['ir.model.data'].get_object(request.cr, request.uid, 'website', 'main_menu')
         except Exception:
             pass
         else:
-            first_menu = main_menu.child_id and main_menu.child_id[0]
-            if first_menu:
-                if first_menu.url and (not (first_menu.url.startswith(('/page/', '/?', '/#')) or (first_menu.url == '/'))):
-                    return request.redirect(first_menu.url)
-                if first_menu.url and first_menu.url.startswith('/page/'):
-                    return request.registry['ir.http'].reroute(first_menu.url)
-        return self.page(page)
+            menu = main_menu.child_id and main_menu.child_id[0]
+        # ----------------------------------------
+        if menu:
+            if menu.url and (not (menu.url.startswith(('/page/', '/?', '/#')) or (menu.url == '/'))):
+                return request.redirect(menu.url)
+            if menu.url and menu.url.startswith('/page/'):
+                return request.registry['ir.http'].reroute(menu.url)
+        # ----------------------------------------
+        return self.page('homepage')
 
     @http.route(website=True, auth="public")
     def web_login(self, *args, **kw):

@@ -638,9 +638,12 @@ instance.web.ViewManager =  instance.web.Widget.extend({
         // If no default view defined, switch to the first one in sequence
         var default_view = this.flags.default_view || this.views_src[0].view_type;
 
+        this.$el.find('.view_extra_buttons #btnRefresh').click(function() {
+            var controller = self.views[self.active_view].controller;
+            controller.reload();
+        }).tooltip();
+
         return this.switch_mode(default_view, null, this.flags[default_view] && this.flags[default_view].options);
-
-
     },
     switch_mode: function(view_type, no_store, view_options) {
         var self = this;
@@ -1197,6 +1200,7 @@ instance.web.Sidebar = instance.web.Widget.extend({
             }
             event.preventDefault();
         });
+
     },
     redraw: function() {
         var self = this;

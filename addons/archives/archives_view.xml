@@ -53,18 +53,18 @@
                                     <div class="oe_kanban_footer_left">
                                         <div name="navigations" attrs="{'invisible':[('state','=', 'cancel')]}" >
                                             <!-- document navigation across structure -->
-                                             <button class="fa fa-angle-double-left oe_inline" name="action_prev_step"
-                                                type="object" context="{'arch_tx_act_send': True}"
-                                                />
-                                             <button class="fa fa-angle-double-up oe_inline" name="action_delegate"
-                                                type="object" context="{'arch_behavior': 'escalate'}"
-                                                />
-                                            <button class="fa fa-angle-double-down oe_inline" name="action_delegate"
-                                                type="object" context="{'arch_behavior': 'delegate'}"
-                                                />
-                                            <button class="fa fa-angle-double-right oe_inline" name="action_next_step"
-                                                type="object" context="{'arch_tx_act_send': True}"
-                                                />
+                                             <!--<button class="fa fa-angle-double-left oe_inline" name="action_prev_step"-->
+                                                <!--type="object" context="{'arch_tx_act_send': True}"-->
+                                                <!--/>-->
+                                             <!--<button class="fa fa-angle-double-up oe_inline" name="action_delegate"-->
+                                                <!--type="object" context="{'arch_behavior': 'escalate'}"-->
+                                                <!--/>-->
+                                            <!--<button class="fa fa-angle-double-down oe_inline" name="action_delegate"-->
+                                                <!--type="object" context="{'arch_behavior': 'delegate'}"-->
+                                                <!--/>-->
+                                            <!--<button class="fa fa-angle-double-right oe_inline" name="action_next_step"-->
+                                                <!--type="object" context="{'arch_tx_act_send': True}"-->
+                                                <!--/>-->
                                             <button class="fa fa-paperclip oe_right" type="object"
                                                 name="action_attachment_wizard"
                                                 />
@@ -144,7 +144,8 @@
                             </div>
                         </div>
                         <div>
-                            <button class="oe_right oe_button_box" string="Attachment" type="object" name="action_attachment_wizard"
+                            <button class="oe_inline oe_stat_button oe_right" string="Attachment"
+                                icon="fa-paperclip oe_right" type="object" name="action_attachment_wizard"
                                 context="{'partner_id': partner_id}"
                                 />
                         </div>
@@ -216,7 +217,7 @@
                                             </tree>
                                         </field>
                                 	</form>
-                                	
+
                                 </field>
                             </page>
 	                        <page string="Other Info">
@@ -344,6 +345,7 @@
 		    <field name="res_model">archives.document</field>
 		    <field name="view_type">form</field>
 		    <field name="view_mode">kanban,tree,form</field>
+            <field name="auto_refresh" eval="1" />
             <field name="context">{
                 'search_default_process_id': [active_id],
                 'default_process_id': active_id,
@@ -685,12 +687,18 @@
                             </h1>
                         </div>
                         <group>
-                            <group>
-                                <field name="code"/>
-                                <field name="type"/>
-                                <field name="parent_id"/>
-                                <field name="active"/>
-                            </group>
+                            <field name="code"/>
+                            <field name="type"/>
+                            <field name="parent_id"/>
+                            <field name="active"/>
+                        </group>
+                        <notebook>
+                            <page string="Attachment Template">
+
+                            </page>
+                            <page string="Departement">
+
+                            </page>
                             <group>
                                 <field name="retention_time_handling"/>
                                 <field name="retention_time_archive"/>
@@ -700,7 +708,7 @@
                                 <field name="final_disposition_medium"/>
                                 <field name="final_medium_type_id" attrs="{'invisible':[('final_disposition_medium','=',False)]}"/>
                             </group>
-                        </group>
+                        </notebook>
                         <separator string="Departments"/>
                         <field name="department_ids">
                             <tree editable="top">
@@ -808,6 +816,7 @@
 
                             <field name="condition"/>
                             <field name="params_action_id"/>
+                            <field name="parameter" />
                             <field name="group_id"/>
                         </group>
                     </sheet>

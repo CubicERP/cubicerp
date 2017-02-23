@@ -47,6 +47,8 @@ Dashboard / Reports for archives will include:
     "data": [
         "wizard/document_delegate_view.xml",
         "wizard/attachment_wizard_view.xml",
+        "wizard/transition_response_view.xml",
+        "transition_response_template.xml",
         "archives_view.xml",
         'archives.xml',
         ],

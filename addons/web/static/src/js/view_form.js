@@ -2124,6 +2124,48 @@ instance.web.form.AbstractField = instance.web.form.FormWidget.extend(instance.w
         this.field_manager.off("change:display_invalid_fields", this, this._check_css_flags);
         this.field_manager.on("change:display_invalid_fields", this, this._check_css_flags);
         this._check_css_flags();
+        //quick translate field label
+        if (instance.session.debug && this.$label[0]) {
+            var $img = $('<i class="glyphicon glyphicon-flag" style="margin-left:6px;"></i>')
+                    .click(this.quick_translate.bind(this));
+            $(this.$label[0]).append($img);
+        }
+    },
+    quick_translate: function() {
+        var self = this;
+        value = window.prompt('Enter new value');
+        if(value) {
+            console.log(this, self.view.session.user_context.lang)
+            domain = [
+                ['name', '=', this.view.dataset.model],
+                ['type', '=', 'view'],
+                ['source', '=', this.field.string],
+            ]
+            model = new instance.web.Model("ir.translation");
+            model.query(["name"]).filter(domain).first()
+            .done(function(result) {
+                if(result) {
+                    model.call('write', [result['id'], {
+                        'name': self.view.dataset.model,
+                        'type': 'view',
+                        'value': value,
+                        'state': 'translated',
+                        'comments': 'Quick translation using label field button'
+                    }]);
+                } else {
+                    model.create({
+                        'lang': self.view.session.user_context.lang,
+                        'name': self.view.dataset.model,
+                        'type': 'view',
+                        'source': self.field.string,
+                        'value': value,
+                        'state': 'translated',
+                        'comments': 'Quick translation using label field button'
+                    });
+                }
+                self.view.reload();
+            });
+        }
     },
     start: function() {
         var tmp = this._super();

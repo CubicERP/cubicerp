@@ -319,9 +319,8 @@ class BudgetMoveLine(models.Model):
             for move_line_dict in move_obj.resolve_2many_commands('line_ids', ctx.get('line_ids'), context=ctx):
                 data.update({'name': data.get('name') or move_line_dict.get('name'),
                              'partner_id': data.get('partner_id') or move_line_dict.get('partner_id'),
-                             'struct_id': data.get('struct_id') or move_line_dict.get('struct_id'),
                              'analytic_id': data.get('analytic_id') or move_line_dict.get('analytic_id'),
-                             'available': data.get('available') or move_line_dict.get('available'), })
+                             'available': data.get('available') or move_line_dict.get('available') * (-1), })
         elif ctx.get('period_id'):
             move_id = False
             cr.execute('''SELECT move_id, struct_id, date FROM budget_move_line

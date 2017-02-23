@@ -1,1 +1,1 @@
-from . import purchase_requisition
+import purchase_requisition

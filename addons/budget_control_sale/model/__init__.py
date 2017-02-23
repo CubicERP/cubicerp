@@ -19,5 +19,5 @@
 #
 ##############################################################################
 
-import model
-import wizard
+import sale
+import budget_control

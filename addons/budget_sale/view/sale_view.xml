@@ -5,8 +5,8 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <field name="date_order" position="after">
-                    <field name="struct_id" attrs="{'readonly': [('state', 'in', ['done'])]}"/>
+                <field name="project_id" position="before">
+                    <field name="struct_id" domain="[('type','!=','view')]"/>
                 </field>
             </field>
         </record>

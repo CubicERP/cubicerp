@@ -25,7 +25,7 @@ from openerp import models, api, fields, _
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    struct_id = fields.Many2one('budget.struct', string="Budget Struct")
+    struct_id = fields.Many2one('budget.struct', string="Budget Struct", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
 
     def _prepare_invoice(self, cr, uid, order, lines, context=None):
         inv_val = super(SaleOrder, self)._prepare_invoice(cr=cr, uid=uid, order=order, lines=lines, context=context)

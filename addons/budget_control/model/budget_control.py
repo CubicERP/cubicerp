@@ -110,10 +110,12 @@ class BudgetMove(models.Model):
     def _create_move_values(self, line=None, purchase=None, sale=None):
         res = {
             'ref': line and line.move_id.ref or (purchase and purchase.name or ''),
-            'date': line and line.move_id.date or (purchase and purchase.date_order or False),
             'move_line_id': line and line.id or False,
             'purchase_id': purchase and purchase.id or False,
         }
+        date = line and line.move_id.date or (purchase and purchase.date_order or False)
+        if date:
+            res['date'] = date
         if line and line.move_id.period_id.budget_period_id:
             res['period_id'] = line.move_id.period_id.budget_period_id.id
         if not res.get('period_id',False) and purchase and purchase.date_order:
@@ -238,8 +240,9 @@ class BudgetMoveLine(models.Model):
 
     name = fields.Char("Name", required=True)
     move_id = fields.Many2one("budget.move", string="Move", required=True, ondelete="cascade")
-    period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True,
-                                store=True)
+    period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True,store=True)
+    ref = fields.Char(string="Ref", related="move_id.ref", readonly=True, store=True)
+    date = fields.Date(string="Date", related="move_id.date", readonly=True, store=True)
     company_id = fields.Many2one("res.company", related="move_id.company_id", string='Company', store=True,
                                  readonly=True)
     struct_id = fields.Many2one('budget.struct', string="Struct", required=True,

@@ -19,5 +19,25 @@
 #
 ##############################################################################
 
-import model
-import wizard
+from openerp import models, api, fields, _
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    budget_move_ids = fields.One2many('budget.move', 'sale_id', string='Budget Transactions', readonly=True)
+
+    @api.multi
+    def action_wait(self):
+        for sale in self:
+            if sale.struct_id:
+                tran = self.env['budget.move'].create_from_so(sale)
+                tran.action_done()
+        return super(SaleOrder,self).action_wait()
+
+    @api.multi
+    def action_cancel(self):
+        for sale in self:
+            sale.budget_move_ids.unlink()
+        return super(SaleOrder,self).action_cancel()
+

@@ -168,7 +168,8 @@ class website(osv.osv):
         'menu_id': fields.function(_get_menu, relation='website.menu', type='many2one', string='Main Menu',
             store= {
                 'website.menu': (_get_menu_website, ['sequence','parent_id','website_id'], 10)
-            })
+            }),
+        'default_homepage_menu_id': fields.many2one('website.menu', string='Default Home Page')
     }
 
     _defaults = {
@@ -680,7 +681,7 @@ class website_menu(osv.osv):
             self.unlink(cr, uid, to_delete, context=context)
         for menu in data['data']:
             mid = menu['id']
-            if isinstance(mid, str):
+            if isinstance(mid, (str, unicode)):
                 new_id = self.create(cr, uid, {'name': menu['name']}, context=context)
                 replace_id(mid, new_id)
         for menu in data['data']:

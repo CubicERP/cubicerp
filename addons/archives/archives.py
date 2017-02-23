@@ -18,6 +18,8 @@
 ##############################################################################
 import random
 
+from docutils.nodes import field
+
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
 from openerp.exceptions import Warning, except_orm
@@ -41,7 +43,7 @@ class archives_table_department(models.Model):
 class archives_retention_table(models.Model):
     _name = "archives.retention.table"
     _description = "Archives Retention Table"
-    
+
     name = fields.Char('Name', size=1024, required=True)
     code = fields.Char('Code', size=32, required=False)
     type =  fields.Selection([('view','View'),
@@ -60,12 +62,14 @@ class archives_retention_table(models.Model):
                                      help="Leave blank to permit all departments")
     active = fields.Boolean('Active', default=True)
 
+    attachment_required_ids = fields.One2many('ir.attachment', 'retention_id', 'Attachment Required')
+
 
 class archives_process(models.Model):
     _name = "archives.process"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _parent_store = True
-    
+
     name = fields.Char('Code', size=32, required=True)
     parent_id = fields.Many2one('archives.process', 'Parent Process')
     child_ids = fields.One2many('archives.process', 'parent_id', 'Chield Process')
@@ -100,7 +104,7 @@ class archives_process(models.Model):
 
 class archives_process_step(models.Model):
     _name = "archives.process.step"
-    
+
     sequence = fields.Integer('Sequence', required=True)
     name = fields.Char('Name', required=True)
     process_id = fields.Many2one('archives.process','Process', required=True, ondelete="cascade")
@@ -523,7 +527,7 @@ class archives_document_step(models.Model):
 
 class archives_collection_location(models.Model):
     _name = "archives.collection.location"
-    
+
     name = fields.Char('Name', required=True)
     type = fields.Selection([('view','View'),
                               ('temporal','Temporal'),
@@ -540,7 +544,7 @@ class archives_collection_location(models.Model):
 class archives_collection(models.Model):
     _name = "archives.collection"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
-    
+
     name = fields.Char('Code', required=True)
     parent_id = fields.Many2one('archives.collection', string="Copy Of")
     description = fields.Text('Description')
@@ -556,10 +560,10 @@ class archives_collection(models.Model):
                                             help="Restrict the moves to selected locations for this collection. Leave blank to allow all locations")
     active = fields.Boolean('Active')
 
-    
+
 class archives_collection_move(models.Model):
     _name = "archives.collection.move"
-    
+
     name = fields.Char('Name')
     date = fields.Datetime('Date', required=True)
     collection_id = fields.Many2one('archives.collection', string="Collection")
@@ -583,7 +587,7 @@ class archives_document(models.Model):
     @api.model
     def _compute_attach_model_selection(self):
         return []
-    
+
     @api.model
     def _default_process_id(self):
         """ Gives default process by checking if present in the context """
@@ -664,7 +668,7 @@ class archives_document(models.Model):
     version_ids = fields.One2many('archives.document.version', 'document_id', string="Versions",
                                  readonly=True, states={'pending': [('readonly', False)]})
     attach_model = fields.Reference(_compute_attach_model_selection, string="Attach Models")
-    company_id = fields.Many2one('res.company', string="Company", required=True, 
+    company_id = fields.Many2one('res.company', string="Company", required=True,
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True, states={'pending': [('readonly', False)]})
     color = fields.Integer('Color')
@@ -675,6 +679,8 @@ class archives_document(models.Model):
                                  default=_default_process_id,
                                  domain="[('step_ids', '!=', False)]",
                                  help='Actual Document Process') #, compute="_compute_process_id"
+
+    attachment_required_ids = fields.One2many('ir.attachment', 'document_id', string="Attachments required")
 
     _group_by_full = {
         'process_step_id': _read_group_stage_ids
@@ -694,15 +700,25 @@ class archives_document(models.Model):
     #     for record in self:
     #         record.process_id = record.step_ids[:1].document_id
 
-    @api.multi
+    @api.one
     @api.onchange('process_id')
     def _onchange_process_id(self):
-        for record in self:
-            record.retention_table_id = record.process_id.retention_table_id
+        self.retention_table_id = self.process_id.retention_table_id
+        self.attachment_required_ids = self.process_id.retention_table_id.attachment_required_ids
+
+        # for attac in self.attachment_required_ids:
+        #     attac.datas =''
+        #     attac.datas_fname = ''
+
+
 
     @api.model
     def create(self, vals):
         document = super(archives_document, self).create(vals)
+
+        # for attac in document.attachment_required_ids:
+        #     attac.datas = ''
+        #     attac.datas_fname = ''
 
         # create the first movement for the document wwith the first step
         if not document.step_ids:
@@ -940,12 +956,22 @@ class archives_document(models.Model):
 
 class archives_document_version(models.Model):
     _name = "archives.document.version"
-    
+
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
     name = fields.Char('Name', required=True)
     date = fields.Datetime('Date', required=True, default=lambda self: datetime.datetime.now())
     attachment_ids = fields.One2many('ir.attachment', 'archive_version_id', string="Attachments")
     version_number = fields.Integer('Version Number')
+    state = fields.Selection([('enabled', 'Enabled'),
+                              ('disabled', 'Disabled'),
+                              ('canceled', 'Canceled')], 'State',default='enabled')
+
+    @api.model
+    def create(self, vals):
+
+        version = super(archives_document_version, self).create(vals)
+        return version
+
 
 
 class archives_document_move_type(models.Model):
@@ -955,7 +981,7 @@ class archives_document_move_type(models.Model):
 
 class archives_document_move(models.Model):
     _name = "archives.document.move"
-    
+
     _order = 'date_start desc'
 
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
@@ -972,3 +998,21 @@ class archives_document_move(models.Model):
     state = fields.Selection([('pending','Pending'),
                               ('acept','Acept'),
                               ('reject','Reject')], 'State', readonly=False, default="pending")
+
+class archives_document_attachment(models.Model):
+    # _name = 'archives.document.attachment'
+    _inherit = 'ir.attachment'
+
+    attachment_template_id = fields.Many2one('ir.attachment', string="Template")
+    required = fields.Boolean('Required')
+
+    document_id = fields.Many2one('archives.document', string="Document")
+
+    retention_id = fields.Many2one('archives.retention.table', string="Retention")
+
+    @api.model
+    def create(self, vals):
+        attachment = super(archives_document_attachment, self).create(vals)
+        if vals.get('retention_id'):
+            attachment.required = True
+        return attachment

@@ -33,6 +33,12 @@
                         <field name="provision"/>
                         <field name="paid"/>
                     </group>
+                    <group string="Verify Amount Overload">
+                        <field name="verify_available"/>
+                        <field name="verify_committed"/>
+                        <field name="verify_provision"/>
+                        <field name="verify_paid"/>
+                    </group>
                 </xpath>
             </field>
         </record>

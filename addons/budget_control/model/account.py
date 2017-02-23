@@ -25,7 +25,8 @@ from openerp import models, fields, api, _
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    budget_move_posted = fields.Boolean('Automatic Budget Transactions Posted', help="Mark this option to posted automatically the budget transactions")
+    budget_move_posted = fields.Boolean('Automatic Budget Transactions Posted', default=True,
+                                        help="Mark this option to posted automatically the budget transactions")
 
 
 class AccountMove(models.Model):

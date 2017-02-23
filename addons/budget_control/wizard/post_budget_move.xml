@@ -6,16 +6,14 @@
             <field name="model">post.budget.move</field>
             <field name="arch" type="xml">
                 <form string="Post Budget Move">
-                    <group>
+                    <!--group>
                         <group>
                             <field name="budget_move_ids" options="{'no_create':True}">
                                 <tree>
                                     <field name="name" string="Name"/>
-                                    <!--<field name="ref"/>-->
                                     <field name="period_id"/>
                                     <field name="date"/>
                                     <field name="company_id"/>
-                                    <!--<field name="account_move_id"/>-->
                                     <field name="state"/>
                                     <field name="available"/>
                                     <field name="committed"/>
@@ -25,7 +23,7 @@
                                 </tree>
                             </field>
                         </group>
-                    </group>
+                    </group-->
                     <footer>
                         <button string="Post" name="multi_post_budget_move" type="object"
                                 class="oe_highlight"/>

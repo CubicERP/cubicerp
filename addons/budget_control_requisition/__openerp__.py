@@ -29,8 +29,8 @@
         Integration module of budget accounting with the Budgets Control Requisition
     """,
 
-    'author': "OpenERP SA",
-    'website': "https://www.odoo.com/page/accounting",
+    'author': "Cubic ERP",
+    'website': "https://www.cubicerp.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml

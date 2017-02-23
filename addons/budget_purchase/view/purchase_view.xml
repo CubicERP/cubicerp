@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <field name="partner_ref" position="before">
-                <field name="struct_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'approved', 'done'])]}"/>
+                <field name="struct_id" domain="[('type','!=','view')]"/>
             </field>
         </field>
     </record>

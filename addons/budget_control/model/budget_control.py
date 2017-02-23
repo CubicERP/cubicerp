@@ -70,6 +70,7 @@ class BudgetMove(models.Model):
                                       readonly=True, store=True)
     account_journal_id = fields.Many2one('account.journal', string="Account Journal", readonly=True, store=True,
                                          related="move_line_id.move_id.journal_id")
+    purchase_id = fields.Many2one('purchase.order', string="Purchase Order", states={'draft': [('readonly', False)]}, readonly=True)
     state = fields.Selection([('draft', 'Draft'),
                               ('done', 'Done')], string="State", readonly=True, default='draft')
     company_id = fields.Many2one('res.company', 'Company', required=True, readonly=True,
@@ -106,54 +107,89 @@ class BudgetMove(models.Model):
                     line.name, line.struct_id.get_name()))
         self.state = 'done'
 
-    def _create_move_values(self, line):
+    def _create_move_values(self, line=None, purchase=None, sale=None):
         res = {
-            'ref': line.move_id.ref,
-            'date': line.move_id.date,
-            'move_line_id': line.id,
+            'ref': line and line.move_id.ref or (purchase and purchase.name or ''),
+            'date': line and line.move_id.date or (purchase and purchase.date_order or False),
+            'move_line_id': line and line.id or False,
+            'purchase_id': purchase and purchase.id or False,
         }
-        if line.move_id.period_id.budget_period_id:
+        if line and line.move_id.period_id.budget_period_id:
             res['period_id'] = line.move_id.period_id.budget_period_id.id
+        if not res.get('period_id',False) and purchase and purchase.date_order:
+            periods = self.env['budget.period'].find(dt=purchase.date_order)
+            res['period_id'] = periods and periods[0].id or False
         return res
 
-    def _create_lines_values(self, move, line, amount=None, struct_id=None, analytic_id=None):
+    def _create_lines_values(self, move, line=None, purchase=None, sale=None, amount=None, struct_id=None, analytic_id=None):
+        res = []
         if amount is None:
-            amount = line.debit - line.credit
+            amount = line and (line.debit - line.credit) or (purchase and purchase.amount_total or (sale and sale.amount_total or 0.0))
         if struct_id is None:
-            struct_id = line.budget_struct_id.id
+            struct_id = line and line.budget_struct_id.id or (purchase and purchase.struct_id.id or (sale and sale.struct_id.id or False))
         if analytic_id is None:
-            analytic_id = line.analytic_account_id.id
-        l1 = {
-            'move_id': move.id,
-            'name': line.name,
-            'struct_id': struct_id,
-        }
-        l2 = {
-            'move_id': move.id,
-            'name': line.name,
-            'struct_id': struct_id,
-        }
-        if analytic_id:
-            l1['analytic_id'] = analytic_id
-            l2['analytic_id'] = analytic_id
-        if line.partner_id:
-            l1['partner_id'] = line.partner_id.id
-            l2['partner_id'] = line.partner_id.id
-        if line.move_id.journal_id.type in ('cash', 'bank'):
-            l1['paid'] = amount * -1.0
-            l2['provision'] = amount
-        elif line.move_id.journal_id.type in ('sale', 'sale_refund', 'purchase', 'purchase_refund'):
-            l1['provision'] = amount
-            l2['committed'] = amount * -1.0
+            analytic_ids = line and [{'analytic_id':line.analytic_account_id.id}] or (sale and sale.project_id and [{'analytic_id':sale.project_id.id}] or [])
+            if not analytic_ids and purchase:
+                total = 0.0
+                for po_line in purchase.order_line:
+                    if po_line.account_analytic_id.id not in [a['analytic_id'] for a in analytic_ids]:
+                        analytic_ids += [{'analytic_id': po_line.account_analytic_id.id,
+                                          'rate': po_line.price_subtotal}]
+                        total += po_line.price_subtotal
+                for a in analytic_ids:
+                    a['rate'] = total and (a.get('rate',0.0)/total) or 1.0
         else:
-            raise exceptions.ValidationError(_("The journal kind %s is not supported to make automatic budget "
-                                               "transactions. Make a manually budget transaction for the line %s!") %
-                                             (line.move_id.journal_id.type, line.name))
-        return [l1, l2]
+            analytic_ids = [{'analytic_id':analytic_id}]
+        for _analytic_id in analytic_ids or [{}]:
+            rate = _analytic_id.get('rate',1.0)
+            l1 = {
+                'move_id': move.id,
+                'name': line and line.name or (purchase and purchase.name or (sale and sale.name or move.ref or move.name)),
+                'struct_id': struct_id,
+            }
+            l2 = {
+                'move_id': move.id,
+                'name': line and line.name or (purchase and purchase.name or (sale and sale.name or move.ref or move.name)),
+                'struct_id': struct_id,
+            }
+            if _analytic_id.has_key('analytic_id'):
+                l1['analytic_id'] = _analytic_id['analytic_id']
+                l2['analytic_id'] = _analytic_id['analytic_id']
+            if line and line.partner_id:
+                l1['partner_id'] = line.partner_id.id
+                l2['partner_id'] = line.partner_id.id
+            elif purchase:
+                l2['partner_id'] = purchase.partner_id.id
+            elif sale:
+                l2['partner_id'] = sale.partner_id.id
+            if line and line.move_id.journal_id.type in ('cash', 'bank'):
+                l1['provision'] = amount * rate
+                l2['paid'] = amount * -1.0 * rate
+            elif line and line.move_id.journal_id.type in ('sale', 'sale_refund', 'purchase', 'purchase_refund'):
+                l1['committed'] = amount * -1.0 * rate
+                l2['provision'] = amount * rate
+            elif purchase:
+                l1['available'] = amount * rate
+                l2['committed'] = amount * -1.0 * rate
+            elif sale:
+                l1['available'] = amount * -1.0 * rate
+                l2['committed'] = amount * rate
+            else:
+                raise exceptions.ValidationError(_("The journal kind %s is not supported to make automatic budget "
+                                                   "transactions. Make a manually budget transaction for the line %s!") %
+                                                 (line.move_id.journal_id.type, line.name))
+            res += [l1, l2]
+        return res
 
     def create_from_account(self, line):
         move = self.create(self._create_move_values(line))
         for line_dict in self._create_lines_values(move, line):
+            self.env['budget.move.line'].create(line_dict)
+        return move
+
+    def create_from_po(self, purchase):
+        move = self.create(self._create_move_values(purchase=purchase))
+        for line_dict in self._create_lines_values(move, purchase=purchase):
             self.env['budget.move.line'].create(line_dict)
         return move
 

@@ -6,7 +6,12 @@ from openerp import models, fields, api, _
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    struct_id = fields.Many2one('budget.struct', 'Budget Struct')
+    struct_id = fields.Many2one('budget.struct', 'Budget Struct', states={
+        'confirmed': [('readonly', True)],
+        'approved': [('readonly', True)],
+        'done': [('readonly', True)],
+        'cancel': [('readonly', True)]
+    })
 
     def _prepare_invoice(self, cr, uid, order, line_ids, context=None):
         """

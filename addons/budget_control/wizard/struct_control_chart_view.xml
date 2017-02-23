@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!--<record id="budget_struct_control_chart_form_view" model="ir.ui.view">-->
-            <!--<field name="name">budget.struct.chart.form.view</field>-->
-            <!--<field name="model">budget.struct.control.chart</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<form string="Struct Charts">-->
-                    <!--<group>-->
-                        <!--<group>-->
-                            <!--<field name="struct_id"/>-->
-                            <!--<field name="analytic_id"/>-->
-                        <!--</group>-->
-                        <!--<group>-->
-                            <!--<field name="period_id"/>-->
-                            <!--<field name="company_id"/>-->
-                        <!--</group>-->
-                    <!--</group>-->
-                    <!--<footer>-->
-                        <!--<button string="Open Charts" name="struct_chart_open_window" type="object"-->
-                                <!--class="oe_highlight"/>-->
-                        <!--or-->
-                        <!--<button string="Cancel" class="oe_link" special="cancel"/>-->
-                    <!--</footer>-->
-                <!--</form>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="budget_struct_chart_form_view_inherited_budget_control" model="ir.ui.view">
+            <field name="name">budget.struct.chart.form.view.inherited.budget.control</field>
+            <field name="model">budget.struct.chart</field>
+            <field name='inherit_id' ref='budget.budget_struct_chart_form_view'/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Struct Charts']/group/group[@name='budget_temp_grp']" position="inside">
+                    <field name="state"></field>
+                </xpath>
+            </field>
+        </record>
 
         <record id="view_budget_struct_control_hierarchy2" model="ir.ui.view">
             <field name="name">view.budget.struct.control.hierarchy</field>
@@ -51,12 +37,12 @@
         </record>
 
         <!--<record id="budget_struct_control_chart_action" model="ir.actions.act_window">-->
-            <!--<field name="name">Struct Control</field>-->
-            <!--<field name="res_model">budget.struct.control.chart</field>-->
-            <!--<field name="view_type">form</field>-->
-            <!--<field name="view_mode">tree,form</field>-->
-            <!--<field name="view_id" ref="budget_struct_control_chart_form_view"/>-->
-            <!--<field name="target">new</field>-->
+        <!--<field name="name">Struct Control</field>-->
+        <!--<field name="res_model">budget.struct.control.chart</field>-->
+        <!--<field name="view_type">form</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="view_id" ref="budget_struct_control_chart_form_view"/>-->
+        <!--<field name="target">new</field>-->
         <!--</record>-->
 
         <record id="budget_struct_control_hierarchy_tree_action2" model="ir.actions.act_window">

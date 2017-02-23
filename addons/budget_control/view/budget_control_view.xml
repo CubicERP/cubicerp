@@ -170,11 +170,26 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="budget_move_lines_graph_view">
+            <field name="name">budget.move.lines.graph.view</field>
+            <field name="model">budget.move.line</field>
+            <field name="arch" type="xml">
+                <graph string="Budget Move Lines" type="bar">
+                    <field name="period_id" type="col"/>
+                    <field name="struct_id" type="row"/>
+                    <field name="available" type="measure"/>
+                    <field name="committed" type="measure"/>
+                    <field name="provision" type="measure"/>
+                    <field name="paid" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
        <record id="budget_move_lines_tree_view_action" model="ir.actions.act_window">
                <field name="name">Budget Transaction Line</field>
                <field name="res_model">budget.move.line</field>
                <field name="view_type">form</field>
-               <field name="view_mode">tree,form</field>
+               <field name="view_mode">tree,form,graph</field>
                <field name="context">{}</field>
        </record>
 

@@ -99,12 +99,35 @@ class BudgetMove(models.Model):
     def action_draft(self):
         self.state = 'draft'
 
+    def verify(self, line, field, amount):
+        self._cr.execute("select sum("+field+") from budget_move_line as bml join budget_move as bm on (bml.move_id=bm.id)"
+                         " where bm.company_id = %s"
+                         "   and bm.period_id = %s"
+                         "   and bml.struct_id = %s"
+                         "   and bm.state = 'done' " +
+                         (line.analytic_id and " and bml.analytic_id = %s"%line.analytic_id.id or " ") +
+                         (line.partner_id and " and bml.partner_id = %s" % line.partner_id.id or " "),
+                         (line.company_id.id,line.period_id.id,line.struct_id.id))
+        result = self._cr.fetchone()
+        if result and result[0] + amount > 0:
+            raise exceptions.ValidationError(
+                _("The Budget Transaction %s doesn't support overload amount in %s, the line %s with amount(%s) must be less than %s") % (self.name, field, line.name, amount, result[0]*-1.0))
+        return True
+
     @api.one
     def action_done(self):
         for line in self.line_ids:
             if line.state <> 'valid':
                 raise exceptions.ValidationError(_("The lines must be in valid state. The line %s (%s) is invalid") % (
                     line.name, line.struct_id.get_name()))
+            if line.available and line.struct_id.verify_available:
+                self.verify(line, 'available', line.available)
+            if line.committed and line.struct_id.verify_committed:
+                self.verify(line, 'committed', line.committed)
+            if line.provision and line.struct_id.verify_provision:
+                self.verify(line, 'provision', line.provision)
+            if line.paid and line.struct_id.verify_paid:
+                self.verify(line, 'paid', line.paid)
         self.state = 'done'
 
     def _create_move_values(self, line=None, purchase=None, sale=None):

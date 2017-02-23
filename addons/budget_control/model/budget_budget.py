@@ -28,8 +28,9 @@ class BudgetStruct(models.Model):
     @api.multi
     def _compute(self):
         company_id = self._context.get('company_id', self.env['res.company'].company_default_get('budget.budget').id)
-        period_id = self.env['budget.period'].find()
+        period_id = self._context.get('date',False) and self.env['budget.period'].find(dt=self._context['date']) or self.env['budget.period'].find()
         period_id = self._context.get('budget_period_id', period_id and period_id[0].id or 0)
+        analytic_id = self._context.get('analytic_id', False)
         state = self._context.get('state', 'done')
         for struct in self:
             struct_ids = [struct.id] + [c.id for c in struct.full_child_ids]
@@ -38,6 +39,7 @@ class BudgetStruct(models.Model):
                 "  FROM budget_move_line as bml join budget_move as bm on (bml.move_id=bm.id) "
                 "WHERE bml.struct_id in %s AND bm.company_id = %s "
                 "   AND bm.period_id = %s " +
+                (analytic_id and "   AND bml.analytic_id = %s"%analytic_id or " ") +
                 (state=='all' and " " or "   AND bm.state = 'done'"),
                 (tuple(struct_ids), company_id, period_id))
             result = self._cr.fetchone()
@@ -69,3 +71,11 @@ class BudgetStruct(models.Model):
     committed = fields.Float("Committed", compute=_compute)
     provision = fields.Float("Provision", compute=_compute)
     paid = fields.Float("Paid", compute=_compute)
+    verify_available = fields.Boolean("Verify Available",
+                                      help="Restrict the overload of avaliable amounts. Use this option only for expense structs")
+    verify_committed = fields.Boolean("Verify Committed",
+                                      help="Restrict the overload of committed amounts. Use this option only for expense structs")
+    verify_provision = fields.Boolean("Verify Provision",
+                                      help="Restrict the overload of provisioned amounts. Use this option only for expense structs")
+    verify_paid = fields.Boolean("Verify Paid",
+                                      help="Restrict the overload of paid out amounts. Use this option only for expense structs")

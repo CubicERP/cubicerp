@@ -4,8 +4,6 @@
 
         <menuitem name="Budgets" id="menu_action_account_budget_post_tree"
                   parent="account.menu_finance_generic_reporting" sequence="6"/>
-        <!--<menuitem id="next_id_31" name="Budgets" parent="account.menu_finance" sequence="6"/>-->
-        <!--<menuitem id="next_id_pos" name="Budgets" parent="account.menu_finance_configuration" sequence="50"/>-->
         <!--
     Budgets
     -->
@@ -36,7 +34,6 @@
                         <label for="code" class="oe_edit_only" string="Struct Code and Name"/>
                         <h1>
                             <field name="code" class="oe_inline" placeholder="Struct Code" style="width: 4em"/>
-                            -
                             <field name="name" class="oe_inline" placeholder="Struct Name"/>
                         </h1>
                         <group>

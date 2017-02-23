@@ -30,7 +30,12 @@ class StructChart(models.Model):
     _description = "Struct Chart"
 
     struct_parent_id = fields.Many2one('budget.struct', string='Budget Struct')
-    company_id = fields.Many2one('res.company', string='Company')
+
+    @api.model
+    def _default_company_id(self):
+        return self.env['res.users'].browse(self._uid).company_id
+
+    company_id = fields.Many2one('res.company', string='Company', default=_default_company_id)
     budget_period_id = fields.Many2one('budget.period', string='Budget Period')
     analytic_acc_id = fields.Many2one('account.analytic.account', string='Analytic Account')
 

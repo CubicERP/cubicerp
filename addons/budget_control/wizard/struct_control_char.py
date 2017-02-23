@@ -78,6 +78,11 @@ class StructChart(models.Model):
     """
     _inherit = "budget.struct.chart"
 
+    state = fields.Selection(
+        [
+            ('all', 'All Entries'), ('done', 'All Posted Entries')
+        ], 'Target Moves', required=True, default="done")
+
     @api.model
     def _get_tree_but_open_action(self):
         if self._context.get('src_wizard_act'):
@@ -91,7 +96,6 @@ class StructChart(models.Model):
             return self.env.ref('budget_control.budget_struct_control_hierarchy_tree_action2')
 
         return super(StructChart, self)._get_hierarchy_action()
-
 
     @api.multi
     def struct_chart_open_window(self):
@@ -110,9 +114,10 @@ class StructChart(models.Model):
             'show_amounts': True,
             'action_id': action_id.id,
             'company_id': self.company_id.id or None,
+            'state': self.state or None,
             'period_id': self.budget_period_id.id or None,
             'analytic_id': self.analytic_acc_id.id or None,
-            })
+        })
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

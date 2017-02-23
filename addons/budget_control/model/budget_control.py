@@ -240,8 +240,9 @@ class BudgetMoveLine(models.Model):
 
     name = fields.Char("Name", required=True)
     move_id = fields.Many2one("budget.move", string="Move", required=True, ondelete="cascade")
-    period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True,
-                                store=True)
+    period_id = fields.Many2one('budget.period', string="Period", related="move_id.period_id", readonly=True,store=True)
+    ref = fields.Char(string="Ref", related="move_id.ref", readonly=True, store=True)
+    date = fields.Date(string="Date", related="move_id.date", readonly=True, store=True)
     company_id = fields.Many2one("res.company", related="move_id.company_id", string='Company', store=True,
                                  readonly=True)
     struct_id = fields.Many2one('budget.struct', string="Struct", required=True,

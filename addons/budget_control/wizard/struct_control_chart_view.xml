@@ -57,9 +57,8 @@
             <field name="key2" eval="'tree_but_open'"/>
             <field name="model" eval="'budget.struct'"/>
             <field name="name">Open Tree Budget Move Lines</field>
+            <field name="value" eval="'ir.actions.act_window,%d'%budget_move_lines_tree_view_action"/>
             <field name="context">{'search_default_struct_id': [active_id]}</field>
-            <field name="value"
-                   eval="'ir.actions.act_window,%d'%budget_move_lines_tree_view_action"/>
         </record>
 
         <!--  -->
@@ -72,6 +71,15 @@
             <field name="context">{'src_wizard_act': True}</field>
             <field name="target">new</field>
         </record>
+
+        <act_window
+            id="action_budget_move_line_from_budget_struct"
+            name="Budget Move Line"
+            res_model="budget.move.line"
+            src_model="budget.struct"
+            view_mode="tree,form"
+            key2="client_action_multi"
+            view_id="budget_move_lines_tree_view"/>
 
         <menuitem name="Struct Control" parent="budget.menu_budget_chart" id="struct_control_char_menu"
                   action="budget_control.budget_struct_chart_action2"

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,19 @@
 #
 ##############################################################################
 
-import budget_control
-import budget_budget
-import account
-import purchase
+from openerp import models, api, fields, _
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    struct_id = fields.Many2one('budget.struct', string="Budget Struct", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+
+    def _prepare_invoice(self, cr, uid, order, lines, context=None):
+        inv_val = super(SaleOrder, self)._prepare_invoice(cr=cr, uid=uid, order=order, lines=lines, context=context)
+        if order.struct_id:
+            inv_val['budget_struct_id'] = order.struct_id.id
+        return inv_val
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

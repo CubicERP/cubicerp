@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,8 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import budget_control
-import budget_budget
-import account
-import purchase
+from . import model
+from . import wizard

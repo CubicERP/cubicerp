@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,25 @@
 #
 ##############################################################################
 
-import budget_control
-import budget_budget
-import account
-import purchase
+from openerp import models, fields, api, _
+
+
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+
+    budget_move_ids = fields.One2many('budget.move', 'purchase_id', string='Budget Transactions', readonly=True)
+
+    @api.multi
+    def wkf_approve_order(self):
+        for purchase in self:
+            if purchase.struct_id:
+                tran = self.env['budget.move'].create_from_po(purchase)
+                tran.action_done()
+        return super(PurchaseOrder,self).wkf_approve_order()
+
+    @api.multi
+    def wkf_action_cancel(self):
+        for purchase in self:
+            purchase.budget_move_ids.unlink()
+        return super(PurchaseOrder,self).wkf_action_cancel()
+

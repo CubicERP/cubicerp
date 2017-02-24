@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,29 @@
 #
 ##############################################################################
 
-import budget_control
-import budget_budget
-import account
-import purchase
+{
+    'name': "Budget Control with Sale Management",
+
+    'summary': """
+        Integration module of budget control with the flow of sales""",
+
+    'description': """
+        Integration module of budget control with the flow of sales
+    """,
+
+    'author': "Cubic ERP",
+    'website': "http://www.cubicerp.com",
+
+    'category': 'Accounting & Finance',
+    'version': '1.0',
+
+    'depends': ['budget_control',
+                'budget_sale'],
+    'data': [
+        'view/sale_view.xml',
+        'view/budget_control_view.xml',
+    ],
+    'demo': [
+        'demo.xml',
+    ],
+}

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,11 +18,21 @@
 #
 ##############################################################################
 
-import budget_budget_report
-import budget_budget_analytic
-import budget_budget_summary_report
-import account_budget_report
-from . import struct_char, assign_budget_period
+from openerp import models, fields, api, _
 
+
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+
+    def _prepare_advance_invoice_vals(self, cr, uid, ids, context=None):
+        sale_obj, sale = self.pool.get('sale.order'), None
+        res = super(SaleAdvancePaymentInv, self)._prepare_advance_invoice_vals(cr=cr, uid=uid, ids=ids, context=context)
+        sale_id, inv_val = res[0]
+        if sale_id:
+            sale = sale_obj.browse(cr, uid, [sale_id], context=context)
+        if sale.struct_id and inv_val and 'budget_struct_id' not in inv_val.keys():
+            inv_val['budget_struct_id'] = sale.struct_id.id
+        return res
+
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

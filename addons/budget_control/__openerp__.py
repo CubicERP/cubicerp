@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Cubic ERP, Enterprise Management Software
-#    Copyright (C) 2017 Cubic ERP - Teradata SAC (<http://cubicerp.com>).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -47,13 +47,16 @@ Dashboard / Reports for archives will include:
         "account",
         "budget",
         "purchase",
-        "purchase_requisition",
+        "budget_purchase",
         ],
     "data":[
         "view/budget_control_view.xml",
         "view/budget_budget_view.xml",
         "view/account_view.xml",
-        "data/budget_data.xml",
+        "view/purchase_view.xml",
+        # "data/budget_data.xml",
+        "wizard/struct_control_chart_view.xml",
+        "wizard/post_budget_move.xml",
 	    ],
     "demo_xml": [],
     "active": False,

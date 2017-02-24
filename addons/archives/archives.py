@@ -18,6 +18,8 @@
 ##############################################################################
 import random
 
+from docutils.nodes import field
+
 from openerp import api, fields, models, _
 from openerp import SUPERUSER_ID
 from openerp.exceptions import Warning, except_orm
@@ -41,7 +43,7 @@ class archives_table_department(models.Model):
 class archives_retention_table(models.Model):
     _name = "archives.retention.table"
     _description = "Archives Retention Table"
-    
+
     name = fields.Char('Name', size=1024, required=True)
     code = fields.Char('Code', size=32, required=False)
     type =  fields.Selection([('view','View'),
@@ -60,14 +62,14 @@ class archives_retention_table(models.Model):
                                      help="Leave blank to permit all departments")
     active = fields.Boolean('Active', default=True)
 
-    attachment_tmpl_ids = fields.One2many('ir.attachment', 'archive_version_id', 'Attachment Template')
+    attachment_required_ids = fields.One2many('ir.attachment', 'retention_id', 'Attachment Required')
 
 
 class archives_process(models.Model):
     _name = "archives.process"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _parent_store = True
-    
+
     name = fields.Char('Code', size=32, required=True)
     parent_id = fields.Many2one('archives.process', 'Parent Process')
     child_ids = fields.One2many('archives.process', 'parent_id', 'Chield Process')
@@ -84,7 +86,6 @@ class archives_process(models.Model):
 
     step_count = fields.Integer('Step Count', compute='_compute_step_count')
     document_count = fields.Integer('Document', compute='_compute_document_count')
-    child_count = fields.Integer('Sub-Process', compute="_compute_child_count")
 
     color = fields.Integer('Color')
 
@@ -100,16 +101,10 @@ class archives_process(models.Model):
         for record in self:
             record.document_count = len((record | record.child_ids).mapped('step_ids.document_ids'))
 
-    @api.multi
-    @api.depends('child_ids')
-    def _compute_child_count(self):
-        for record in self:
-            record.child_count = record.search_count([('parent_id', 'child_of', record.ids)])
-
 
 class archives_process_step(models.Model):
     _name = "archives.process.step"
-    
+
     sequence = fields.Integer('Sequence', required=True)
     name = fields.Char('Name', required=True)
     process_id = fields.Many2one('archives.process','Process', required=True, ondelete="cascade")
@@ -140,7 +135,7 @@ class archives_process_step(models.Model):
             department = self.department_id
             while department:
                 candidate = department.manager_id
-                if candidate and candidate not in candidate_2skip and self.check_availability(candidate):
+                if candidate not in candidate_2skip and self.check_availability(candidate):
                     break
                 candidate_2skip |= candidate
                 department = department.parent_id
@@ -277,7 +272,7 @@ class archives_process_step(models.Model):
         return True
 
     @api.model
-    def allowed_navigation(self, document_id, src_step_id, dst_step_id, **kwargs):
+    def allowed_navigation(self, document_id, src_step_id, dst_step_id):
         if isinstance(document_id, (int, long)):
             document_id = self.env['archives.document'].browse(document_id)
 
@@ -303,9 +298,9 @@ class archives_process_step(models.Model):
         if transition_ids.exists():
             # check to see the presents of transition wizard configuration
             wizard_transition_ids = transition_ids.filtered(lambda tx: tx.params_action_id)
-            # only generate & return a action windows if a needed response not was provided
+            # only generate & return a action windows if a needed respond not was provided
             # and found one or more transition with wizard configuration parameters
-            if wizard_transition_ids and not kwargs:
+            if wizard_transition_ids and not self._context.get('arch_wizard_result'):
                 # an invoker must be prepared to receive and respond to an action
                 if not self._context.get('arch_tx_act_send'):
                     raise Warning(_('Warning!'), _(
@@ -316,13 +311,14 @@ class archives_process_step(models.Model):
                         ) % (src_step_id.display_name, dst_step_id.display_name,))
 
                 # TODO recovery each transition parameters for create one wizard
-                parameters = []
+                parameters = {}
                 for transition in wizard_transition_ids:
-                    parameters.extend(transition.parameter and eval(transition.parameter) or [])
+                    parameters.setdefault(transition.parameter, []).extend(
+                        [parameter_value for parameter_value in transition.parameter_values] or []
+                        )
 
                 # launch the wizard
-                action = wizard_transition_ids[0].params_action_id.read()[0]
-                # action = self.env.ref('archives.document_delegate_action').read()[0]
+                action = self.env.ref('archives.document_delegate_action').read()[0]
                 # action = self.env.ref('archives.execute_').read()[0]
                 action['context'] = {
                     'src_step_id': src_step_id.id,
@@ -348,9 +344,9 @@ class archives_process_step(models.Model):
             baselocaldict = {'document': document_id}
             for key, value in arch_wizard_result.items():
                 baselocaldict[key] = value
-            localdict = dict(baselocaldict, employee=self.env.user.employee_ids[:1], **kwargs)
+            localdict = dict(baselocaldict, employee=self.env.user.employee_ids[:1])
             for transition in transition_ids:
-                if transition.satisfy_condition(localdict)[0]:
+                if transition.satisfy_condition(localdict):
                     break
             else:
                 raise Warning(_('Warning!'), _(
@@ -457,21 +453,16 @@ class archives_transition(models.Model):
 
     _order = "sequence"
 
-    def _default_params_action_id(self):
-        return self.env.ref('archives.transition_response', raise_if_not_found=False) or False
-
     sequence = fields.Integer("Sequence", default=5)
     src_step_id = fields.Many2one('archives.process.step', string="Source Step")
     dst_step_id = fields.Many2one('archives.process.step', string="Destinity Step")
     condition = fields.Text("Python Condition")
-    params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window",
-                                       default=_default_params_action_id)
-    parameter = fields.Text('Params')
+    params_action_id = fields.Many2one('ir.actions.act_window', string="Params Window")
     group_id = fields.Many2one('res.groups', string="Group Restriction")
 
     # TODO: Add boolean parameter to merge wizard's params of other transition
 
-    _defaults = {
+    _default = {
         'condition': '''
 # Available variables:
 #----------------------
@@ -536,7 +527,7 @@ class archives_document_step(models.Model):
 
 class archives_collection_location(models.Model):
     _name = "archives.collection.location"
-    
+
     name = fields.Char('Name', required=True)
     type = fields.Selection([('view','View'),
                               ('temporal','Temporal'),
@@ -553,7 +544,7 @@ class archives_collection_location(models.Model):
 class archives_collection(models.Model):
     _name = "archives.collection"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
-    
+
     name = fields.Char('Code', required=True)
     parent_id = fields.Many2one('archives.collection', string="Copy Of")
     description = fields.Text('Description')
@@ -570,10 +561,9 @@ class archives_collection(models.Model):
     active = fields.Boolean('Active')
 
 
-    
 class archives_collection_move(models.Model):
     _name = "archives.collection.move"
-    
+
     name = fields.Char('Name')
     date = fields.Datetime('Date', required=True)
     collection_id = fields.Many2one('archives.collection', string="Collection")
@@ -587,10 +577,17 @@ class archives_document(models.Model):
     _name = "archives.document"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    @api.multi
+    def action_attachment_wizard(self):
+
+        action = self.env.ref('archives.attachment_wizard_action').read()[0]
+
+        return action
+
     @api.model
     def _compute_attach_model_selection(self):
         return []
-    
+
     @api.model
     def _default_process_id(self):
         """ Gives default process by checking if present in the context """
@@ -650,14 +647,8 @@ class archives_document(models.Model):
     process_step_id = fields.Many2one('archives.process.step', string='Last Process Step',
                                       readonly=True, states={'pending': [('readonly', False)]},
                                       domain="[('process_id', '=', process_id)]")
-    # collection related fields
     collection_id = fields.Many2one('archives.collection', string='Collection',
                                     readonly=True, states={'pending': [('readonly', False)]})
-    index = fields.Integer('Index', readonly=True, help='Index inside of collection')
-    sheets = fields.Integer('Sheets', readonly=True, states={'pending': [('readonly', False)]})
-    folio_start = fields.Integer('Start Folio', readonly=True)
-    folio_end = fields.Integer('End Folio', read=True)
-
     date_start = fields.Datetime('Date Start', readonly=True, states={'pending': [('readonly', False)]})
     date_compute = fields.Datetime('Date Compute', readonly=True)
     date_end = fields.Datetime('Date End', readonly=True)
@@ -665,6 +656,7 @@ class archives_document(models.Model):
     state = fields.Selection([('pending','Pending'),
                               ('done','Done'),
                               ('cancel','Cancel')], 'State', readonly=True, default="pending")
+    folios = fields.Integer('Folios', readonly=True, states={'pending': [('readonly', False)]})
     adjunct = fields.Integer('Adjunct', readonly=True, states={'pending': [('readonly', False)]},
                              help="Zero disable this option")
     propagate = fields.Boolean('Parent Propagate',
@@ -676,7 +668,7 @@ class archives_document(models.Model):
     version_ids = fields.One2many('archives.document.version', 'document_id', string="Versions",
                                  readonly=True, states={'pending': [('readonly', False)]})
     attach_model = fields.Reference(_compute_attach_model_selection, string="Attach Models")
-    company_id = fields.Many2one('res.company', string="Company", required=True, 
+    company_id = fields.Many2one('res.company', string="Company", required=True,
                                  default=lambda self: self.env.user.company_id.id,
                                  readonly=True, states={'pending': [('readonly', False)]})
     color = fields.Integer('Color')
@@ -687,6 +679,8 @@ class archives_document(models.Model):
                                  default=_default_process_id,
                                  domain="[('step_ids', '!=', False)]",
                                  help='Actual Document Process') #, compute="_compute_process_id"
+
+    attachment_required_ids = fields.One2many('ir.attachment', 'document_id', string="Attachments required")
 
     _group_by_full = {
         'process_step_id': _read_group_stage_ids
@@ -706,15 +700,25 @@ class archives_document(models.Model):
     #     for record in self:
     #         record.process_id = record.step_ids[:1].document_id
 
-    @api.multi
+    @api.one
     @api.onchange('process_id')
     def _onchange_process_id(self):
-        for record in self:
-            record.retention_table_id = record.process_id.retention_table_id
+        self.retention_table_id = self.process_id.retention_table_id
+        self.attachment_required_ids = self.process_id.retention_table_id.attachment_required_ids
+
+        # for attac in self.attachment_required_ids:
+        #     attac.datas =''
+        #     attac.datas_fname = ''
+
+
 
     @api.model
     def create(self, vals):
         document = super(archives_document, self).create(vals)
+
+        # for attac in document.attachment_required_ids:
+        #     attac.datas = ''
+        #     attac.datas_fname = ''
 
         # create the first movement for the document wwith the first step
         if not document.step_ids:
@@ -744,15 +748,35 @@ class archives_document(models.Model):
         if not document.move_ids:
             document.write({'responsible_id': self.env.user.id})
 
-        # send notification to the step department manager
-        document.process_step_id.department_id.manager_id.user_id.message_post(
-                    body='The document %s was created for your department in the step %s of the process %s' % (
-                    document.display_name,
-                    document.process_step_id.display_name,
-                    document.process_id.display_name
-                    ))
-
+        document.responsible_id.message_post(body='A document called '+document.name+' for which you are responsible has been created')
+        document.responsible_id.message_post(body='The document is in step '+document.process_step_id.name+' of process '+document.process_id.name)
         return document
+
+        # if len(vals.get('move_ids')) == 0:
+        #     raise Warning(_('Warning!'), _(
+        #         'The document must have at least one movement'))
+        # res = super(archives_document, self).create(vals)
+        # if len(vals.get('step_ids')) != 0:
+        #     # list_step = sorted(vals.get('step_ids'),key='date_start')
+        #     list_step = self.env['archives.document.step'].browse(vals.get('step_ids'))
+        #     vals.update({'process_step_id': list_step[0].step_id})
+        # else:
+        #     process = self.env['archives.process'].browse(vals.get('process_id'))
+        #     if len(process.step_ids) ==0:
+        #         raise Warning(_('Warning!'), _(
+        #             'You must define steps in the document or at least in the process related to it'))
+        #     vals_document_step = {}
+        #     vals_document_step['step_id'] = process.step_ids[0].id
+        #     vals_document_step['department_id'] = process.step_ids[0].department_id.id
+        #
+        #     document_step = self.env['archives.document.step'].create(vals_document_step)
+        #     res.step_ids += document_step
+        #     lis_doc = process.step_ids[0].document_ids
+        #     lis_doc += res
+        #     process.step_ids[0].document_ids = lis_doc
+        #     vals.update({'process_step_id': process.step_ids[0].id})
+        #
+        # return res
 
     @api.multi
     def write(self, vals):
@@ -767,7 +791,7 @@ class archives_document(models.Model):
                                     ('process_id', '=', process_to_id.id),
                                     ], limit=1, order=order_filter)
 
-                return self.with_context(arch_tx_act_send=True)._action_next_step(
+                return self._action_next_step(
                                     record,
                                     record.step_ids[:1].step_id, # steps are descending ordered
                                     dst_step_id
@@ -775,7 +799,7 @@ class archives_document(models.Model):
 
         if 'process_step_id' in vals and vals['process_step_id'] and len(vals) == 1:
             for record in self:
-                return self.with_context(arch_tx_act_send=True)._action_next_step(
+                return self._action_next_step(
                                     record,
                                     record.step_ids[:1].step_id, # steps are descending ordered
                                     vals['process_step_id']
@@ -825,11 +849,6 @@ class archives_document(models.Model):
                 # update the date_end of the previous las movement
                 document_last_move.write({'date_end': document_curr_move.date_start})
 
-                # notify to responsible of its assignation
-                responsible_id.message_post(
-                    body='A document called %s for which you are responsible has been created' % record.display_name
-                    )
-
             return True
 
         return super(archives_document, self).write(vals)
@@ -878,10 +897,10 @@ class archives_document(models.Model):
         src_step_id = record.process_step_id
         dst_step_id = src_step_id.next(src_step_id)
 
-        return self.with_context(arch_tx_act_send=True)._action_next_step(record, src_step_id, dst_step_id)
+        return self._action_next_step(record, src_step_id, dst_step_id)
 
-    @api.model
-    def _action_next_step(self, document_id, src_step_id, dst_step_id, **kwargs):
+
+    def _action_next_step(self, document_id, src_step_id, dst_step_id):
         if self._context.get('arch_skip_validation', False):
             return
 
@@ -901,9 +920,7 @@ class archives_document(models.Model):
                 'Invalid parameters supplier'
                 ))
 
-        navigation_alloweb = src_step_id.with_context(
-                                            self._context
-                                            ).allowed_navigation(document_id, src_step_id, dst_step_id, **kwargs)
+        navigation_alloweb = src_step_id.allowed_navigation(document_id, src_step_id, dst_step_id)
 
         if navigation_alloweb and type(navigation_alloweb) == bool:
             DocumentStep = self.env['archives.document.step']
@@ -929,32 +946,34 @@ class archives_document(models.Model):
                 'process_id': dst_step_id.process_id.id
                 })
             reponsible = dst_step_id._compute_candidate()[0]
-
-            # subscribe manager to document as follower
-            # document_id.message_subscribe()
-
-            # reponsible.message_post(
-            #     body='It is assigned the document '+document_id.name+' found in '+document_curr_step.name+', belonging to Process '+document_curr_step.process_id.name,
-            #     partner_ids=[document_curr_step.department_id.manager_id.user_id.id])
+            reponsible.message_post(
+                body='It is assigned the document '+document_id.name+' found in '+document_curr_step.name+', belonging to Process '+document_curr_step.process_id.name,
+                partner_ids=[document_curr_step.department_id.manager_id.user_id.id])
             document_id.responsible_id = reponsible
 
         return navigation_alloweb
 
-    @api.multi
-    def action_attachment_wizard(self):
-        return self.env.ref('archives.attachment_wizard_action').read()[0]
-
 
 class archives_document_version(models.Model):
     _name = "archives.document.version"
-    
+
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
     name = fields.Char('Name', required=True)
     date = fields.Datetime('Date', required=True, default=lambda self: datetime.datetime.now())
     attachment_ids = fields.One2many('ir.attachment', 'archive_version_id', string="Attachments")
     version_number = fields.Integer('Version Number')
+    state = fields.Selection([('enabled', 'Enabled'),
+                              ('disabled', 'Disabled'),
+                              ('canceled', 'Canceled')], 'State',default='enabled')
 
-# TODO: remove this model and code associated to it
+    @api.model
+    def create(self, vals):
+
+        version = super(archives_document_version, self).create(vals)
+        return version
+
+
+
 class archives_document_move_type(models.Model):
     _name = "archives.document.move.type"
     name = fields.Char('Name', required=True)
@@ -962,7 +981,7 @@ class archives_document_move_type(models.Model):
 
 class archives_document_move(models.Model):
     _name = "archives.document.move"
-    
+
     _order = 'date_start desc'
 
     document_id = fields.Many2one('archives.document', string="Docuement", required=True)
@@ -979,3 +998,21 @@ class archives_document_move(models.Model):
     state = fields.Selection([('pending','Pending'),
                               ('acept','Acept'),
                               ('reject','Reject')], 'State', readonly=False, default="pending")
+
+class archives_document_attachment(models.Model):
+    # _name = 'archives.document.attachment'
+    _inherit = 'ir.attachment'
+
+    attachment_template_id = fields.Many2one('ir.attachment', string="Template")
+    required = fields.Boolean('Required')
+
+    document_id = fields.Many2one('archives.document', string="Document")
+
+    retention_id = fields.Many2one('archives.retention.table', string="Retention")
+
+    @api.model
+    def create(self, vals):
+        attachment = super(archives_document_attachment, self).create(vals)
+        if vals.get('retention_id'):
+            attachment.required = True
+        return attachment

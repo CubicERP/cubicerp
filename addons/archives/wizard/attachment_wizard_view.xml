@@ -8,11 +8,39 @@
             <field name="arch" type="xml">
                 <form string="Attachment">
                     <group>
-                            <field name="version_new" />
-                            <field name="version_id" options="{'no_create': True}" readonly="1" />
-                            <field name="attachment_id" />
-                            <separator string="Attachmets Last Version" attrs="{'invisible':[('version_new','=',False)]}"/>
-                            <field name="attachment_last_version_ids" nolabel="1" attrs="{'invisible':[('version_new','=',False)]}"/>
+                            <!--<field name="version_new" />-->
+                            <field name="version_id"  />
+                            <!--<field name="attachment_id" />-->
+                            <separator string="Attachmets previous versions" />
+                            <field name="attachment_version_ids" nolabel="1" options="{'no_create': True}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="archive_version_id"/>
+                                    <field name="attachment_template_id" />
+                                    <field name="datas" filename="datas_fname"/>
+                                </tree>
+                            </field>
+
+                            <separator string="News attachmets" />
+                            <field name="attachment_new_ids" nolabel="1" >
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="attachment_template_id"/>
+                                    <field name="datas" filename="datas_fname"/>
+                                </tree>
+                                <form>
+                                    <field name="name"/>
+                                    <field name="attachment_template_id"/>
+                                    <field name="datas" />
+                                    <field name="description" />
+                                </form>
+                            </field>
+                           <!-- <field name="attachment_new_ids" nolabel="1" >
+                                <field name="name"/>
+                                <field name="attachment_template_id"/>
+                                <field name="datas"/>
+                            </field>-->
+
                     </group>
                     <fotter>
                         <button string="Save" name="save_version" type="object" class="oe_highlight"/>
@@ -36,6 +64,20 @@
                 }
             </field>
             <field name="target">new</field>
+        </record>
+
+
+        <record id="view_attachment_new_tree" model="ir.ui.view">
+            <field name="name">archives.attachment.tree</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <tree string="Attachment List">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="type"/>
+                    <field name="datas" filename="datas_fname"/>
+                </tree>
+            </field>
         </record>
 
     </data>

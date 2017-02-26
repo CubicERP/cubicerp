@@ -45,7 +45,7 @@ from openerp.modules.module import initialize_sys_path, \
     load_openerp_module, init_module_models, adapt_version
 from module import runs_post_install
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.loading')
 _test_logger = logging.getLogger('openerp.tests')
 
 

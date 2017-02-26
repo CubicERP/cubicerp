@@ -44,7 +44,7 @@ import osutil
 import openerp
 from openerp import SUPERUSER_ID
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.tools.translate')
 
 # used to notify web client that these translations should be loaded in the UI
 WEB_TRANSLATION_COMMENT = "openerp-web"

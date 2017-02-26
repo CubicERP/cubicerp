@@ -47,7 +47,7 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 #--------------------------------------------------------------------------
 # Helpers
 #--------------------------------------------------------------------------
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.report.models.report')
 
 def _get_wkhtmltopdf_bin():
     wkhtmltopdf_bin = find_in_path('wkhtmltopdf')

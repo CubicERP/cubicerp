@@ -14,7 +14,7 @@ from contextlib import contextmanager
 
 import security
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.service.model')
 
 PG_CONCURRENCY_ERRORS_TO_RETRY = (errorcodes.LOCK_NOT_AVAILABLE, errorcodes.SERIALIZATION_FAILURE, errorcodes.DEADLOCK_DETECTED)
 MAX_TRIES_ON_CONCURRENCY_FAILURE = 5

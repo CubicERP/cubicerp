@@ -30,12 +30,12 @@ conf['addons_path'] = './addons,../branch,../trunk,../../github/vertical-medical
 
 # Optional database config if not using local socket
 #conf['db_name'] = 'mycompany'
-conf['db_host'] = 'data.cubicerp.com'
-conf['db_user'] = 'v8'
+conf['db_host'] = 'localhost'
+conf['db_user'] = 'cubicerp'
 conf['db_port'] = 5432
-conf['db_password'] = 't3r4d4t4'
+#conf['db_password'] = ''
 conf['dbfilter']="^%d.*"
-conf['admin_passwd']="t3r4d4ta1234"
+conf['admin_passwd']="admin"
 
 #----------------------------------------------------------
 # Generic WSGI handlers application
@@ -48,7 +48,7 @@ openerp.service.server.load_server_wide_modules()
 # Gunicorn
 #----------------------------------------------------------
 # Standard OpenERP XML-RPC port is 8069
-bind = '0.0.0.0:8878'
+bind = '0.0.0.0:8078'
 pidfile = '.gunicorn.pid'
 workers = 9
 timeout = 600

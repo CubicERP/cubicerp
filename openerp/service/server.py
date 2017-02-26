@@ -40,7 +40,7 @@ from openerp.release import nt_service_name
 import openerp.tools.config as config
 from openerp.tools import stripped_sys_argv, dumpstacks, log_ormcache_stats
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.service.server')
 
 SLEEP_INTERVAL = 60     # 1 min
 

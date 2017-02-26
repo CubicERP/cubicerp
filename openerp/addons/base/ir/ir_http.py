@@ -21,7 +21,7 @@ from openerp import http
 from openerp.http import request
 from openerp.osv import osv, orm
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.base.ir.ir_http')
 
 UID_PLACEHOLDER = object()
 

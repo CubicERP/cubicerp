@@ -26,7 +26,7 @@ import openerp.modules
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.base.ir.ir_translation')
 
 TRANSLATION_TYPE = [
     ('field', 'Field'),
@@ -123,7 +123,7 @@ class ir_translation_import_cursor(object):
         find_expr = """
                 irt.lang = ti.lang
             AND irt.type = ti.type
-            AND irt.module = ti.module
+            -- AND irt.module = ti.module
             AND irt.name = ti.name
             AND (   -- 8.0 only where unicity is assured on translations of 'model'
                     (ti.type = 'model' AND ti.res_id = irt.res_id)
@@ -141,12 +141,12 @@ class ir_translation_import_cursor(object):
                     src = ti.src,
                     state = 'translated'
                 FROM %s AS ti
-                WHERE %s AND ti.value IS NOT NULL AND ti.value != ''
+                WHERE %s AND ti.value IS NOT NULL AND ti.value != '' AND irt.custom = false
                 """ % (self._parent_table, self._table_name, find_expr))
 
         # Step 3: insert new translations
         cr.execute("""INSERT INTO %s(name, lang, res_id, src, type, value, module, state, comments)
-            SELECT name, lang, res_id, src, type, value, module, state, comments
+            SELECT DISTINCT name, lang, res_id, src, type, value, module, state, comments
               FROM %s AS ti
               WHERE NOT EXISTS(SELECT 1 FROM ONLY %s AS irt WHERE %s);
               """ % (self._parent_table, self._table_name, self._parent_table, find_expr))
@@ -220,6 +220,7 @@ class ir_translation(osv.osv):
         'source': fields.function(_get_src, fnct_inv=_set_src, type='text', string='Source'),
         'value': fields.text('Translation Value'),
         'module': fields.char('Module', help="Module this term belongs to", select=True),
+        'custom': fields.boolean('Custom Transation', help="This translation don't will be overridden"),
 
         'state': fields.selection(
             [('to_translate','To Translate'),
@@ -235,6 +236,7 @@ class ir_translation(osv.osv):
 
     _defaults = {
         'state': 'to_translate',
+        'custom': False,
     }
 
     _sql_constraints = [ ('lang_fkey_res_lang', 'FOREIGN KEY(lang) REFERENCES res_lang(code)',
@@ -419,7 +421,7 @@ class ir_translation(osv.osv):
         domain = ['&', ('res_id', '=', id), ('name', '=like', model + ',%')]
         langs_ids = self.pool.get('res.lang').search(cr, uid, [('code', '!=', 'en_US')], context=context)
         if not langs_ids:
-            raise osv.except_osv(_('Error'), _("Translation features are unavailable until you install an extra OpenERP translation."))
+            raise osv.except_osv(_('Error'), _("Translation features are unavailable until you install an extra CubicERP translation."))
         langs = [lg.code for lg in self.pool.get('res.lang').browse(cr, uid, langs_ids, context=context)]
         main_lang = 'en_US'
         translatable_fields = []
@@ -478,37 +480,17 @@ class ir_translation(osv.osv):
             for lang in langs:
                 context = dict(context_template)
                 lang_code = tools.get_iso_codes(lang)
-                base_lang_code = None
-                if '_' in lang_code:
-                    base_lang_code = lang_code.split('_')[0]
-
-                # Step 1: for sub-languages, load base language first (e.g. es_CL.po is loaded over es.po)
-                if base_lang_code:
-                    base_trans_file = openerp.modules.get_module_resource(module_name, 'i18n', base_lang_code + '.po')
+                # For sub-languages, load base language first (e.g. es_CL.po is loaded over es.po)
+                _base_lang_code = ''
+                for base_lang_code in lang_code.split('_'):
+                    _base_lang_code += '%s%s'%(_base_lang_code and '_' or '',base_lang_code)
+                    base_trans_file = openerp.modules.get_module_resource(module_name, 'i18n', _base_lang_code + '.po')
                     if base_trans_file:
-                        _logger.info('module %s: loading base translation file %s for language %s', module_name, base_lang_code, lang)
+                        _logger.info('module %s: loading base translation file %s for language %s', module_name, _base_lang_code, lang)
                         tools.trans_load(cr, base_trans_file, lang, verbose=False, module_name=module_name, context=context)
-                        context['overwrite'] = True # make sure the requested translation will override the base terms later
-
-                    # i18n_extra folder is for additional translations handle manually (eg: for l10n_be)
-                    base_trans_extra_file = openerp.modules.get_module_resource(module_name, 'i18n_extra', base_lang_code + '.po')
-                    if base_trans_extra_file:
-                        _logger.info('module %s: loading extra base translation file %s for language %s', module_name, base_lang_code, lang)
-                        tools.trans_load(cr, base_trans_extra_file, lang, verbose=False, module_name=module_name, context=context)
-                        context['overwrite'] = True # make sure the requested translation will override the base terms later
-
-                # Step 2: then load the main translation file, possibly overriding the terms coming from the base language
-                trans_file = openerp.modules.get_module_resource(module_name, 'i18n', lang_code + '.po')
-                if trans_file:
-                    _logger.info('module %s: loading translation file (%s) for language %s', module_name, lang_code, lang)
-                    tools.trans_load(cr, trans_file, lang, verbose=False, module_name=module_name, context=context)
-                elif lang_code != 'en_US':
-                    _logger.warning('module %s: no translation for language %s', module_name, lang_code)
-
-                trans_extra_file = openerp.modules.get_module_resource(module_name, 'i18n_extra', lang_code + '.po')
-                if trans_extra_file:
-                    _logger.info('module %s: loading extra translation file (%s) for language %s', module_name, lang_code, lang)
-                    tools.trans_load(cr, trans_extra_file, lang, verbose=False, module_name=module_name, context=context)
+                        context['overwrite'] = True  # make sure the requested translation will override the base terms later
+                    elif lang_code != 'en_US':
+                        _logger.warning('module %s: no translation for language %s', module_name, _base_lang_code)
         return True
 
 

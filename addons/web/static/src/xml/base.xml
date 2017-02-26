@@ -1046,12 +1046,6 @@
             </ul>
         </li>
     </ul>
-    <t t-if="debug">
-        <div class="oe_tooltip_string">
-            Note
-        </div>
-        <p>Translate button only show while you're in develop mode</p>
-    </t>
 </t>
 <t t-name="FieldChar">
     <span t-att-class="'oe_form_field '+widget.widget_class" t-att-style="widget.node.attrs.style">

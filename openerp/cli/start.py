@@ -12,7 +12,7 @@ from openerp.service.db import _create_empty_database, DatabaseExists
 
 
 class Start(Command):
-    """Quick start the Odoo server for your project"""
+    """Quick start the CubicERP server for your project"""
 
     def get_module_list(self, path):
         mods = glob.glob(os.path.join(path, '*/%s' % MANIFEST))

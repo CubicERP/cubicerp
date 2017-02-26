@@ -1,15 +1,14 @@
 Metadata-Version: 1.1
-Name: OpenERP
+Name: CubicERP
 Version: 6.0.0
-Author: OpenERP S.A.
+Author: OpenERP & Cubic ERP
 Author-email: fp at openerp com
-Maintainer: OpenERP S.A.
+Maintainer: OpenERP & Cubic ERP
 Maintainer-email: fp at openerp com
-Home-page: http://www.openerp.com
-Download-url: http://www.openerp.com/downloads.html
-Summary: OpenERP is an Enterprise Resource Management written entirely in python.
-License: GPL-3
-Description: OpenERP is a complete ERP and CRM. The main features are accounting (analytic
+Home-page: http://www.cubicerp.com
+Summary: CubicERP is an Enterprise and Goverment Resource Management written entirely in python.
+License: AGPL-3
+Description: CubicERP is a complete ERP and GRP. The main features are accounting (analytic
         and financial), stock management, sales and purchases management, tasks
         automation, marketing campaigns, help desk, POS, etc. Technical features include
         a distributed server, flexible workflows, an object database, a dynamic GUI,

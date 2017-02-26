@@ -13,7 +13,7 @@ from openerp.modules.module import (get_module_root, MANIFEST, load_information_
 
 
 class Scaffold(Command):
-    """ Generates an Odoo module skeleton. """
+    """ Generates an CubicERP module skeleton. """
 
     def run(self, cmdargs):
         # TODO: bash completion file

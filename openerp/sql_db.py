@@ -39,7 +39,7 @@ from psycopg2.pool import PoolError
 
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.sql_db')
 
 types_mapping = {
     'date': (1082,),

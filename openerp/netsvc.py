@@ -215,22 +215,22 @@ def init_logger():
         _logger.debug('logger level set: "%s"', logconfig_item)
 
 DEFAULT_LOG_CONFIGURATION = [
-    'openerp.workflow.workitem:WARNING',
-    'openerp.http.rpc.request:INFO',
-    'openerp.http.rpc.response:INFO',
-    'openerp.addons.web.http:INFO',
-    'openerp.sql_db:INFO',
+    'cubicerp.workflow.workitem:WARNING',
+    'cubicerp.http.rpc.request:INFO',
+    'cubicerp.http.rpc.response:INFO',
+    'cubicerp.addons.web.http:INFO',
+    'cubicerp.sql_db:INFO',
     ':INFO',
 ]
 PSEUDOCONFIG_MAPPER = {
-    'debug_rpc_answer': ['openerp:DEBUG','openerp.http.rpc.request:DEBUG', 'openerp.http.rpc.response:DEBUG'],
-    'debug_rpc': ['openerp:DEBUG','openerp.http.rpc.request:DEBUG'],
-    'debug': ['openerp:DEBUG'],
-    'debug_sql': ['openerp.sql_db:DEBUG'],
+    'debug_rpc_answer': ['cubicerp:DEBUG','cubicerp.http.rpc.request:DEBUG', 'cubicerp.http.rpc.response:DEBUG'],
+    'debug_rpc': ['cubicerp:DEBUG','cubicerp.http.rpc.request:DEBUG'],
+    'debug': ['cubicerp:DEBUG'],
+    'debug_sql': ['cubicerp.sql_db:DEBUG'],
     'info': [],
-    'warn': ['openerp:WARNING', 'werkzeug:WARNING'],
-    'error': ['openerp:ERROR', 'werkzeug:ERROR'],
-    'critical': ['openerp:CRITICAL', 'werkzeug:CRITICAL'],
+    'warn': ['cubicerp:WARNING', 'werkzeug:WARNING'],
+    'error': ['cubicerp:ERROR', 'werkzeug:ERROR'],
+    'critical': ['cubicerp:CRITICAL', 'werkzeug:CRITICAL'],
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

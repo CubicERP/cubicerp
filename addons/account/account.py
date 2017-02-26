@@ -1833,12 +1833,30 @@ class account_tax_code(osv.osv):
         return self._sum(cr, uid, ids, name, args, context,
                 where=' AND line.period_id=%s AND move.state IN %s', where_params=(period_id, move_state))
 
+    def _get_full_name(self, cr, uid, ids, name=None, args=None, context=None):
+        if context == None:
+            context = {}
+        res = {}
+        for elmt in self.browse(cr, uid, ids, context=context):
+            res[elmt.id] = self._get_one_full_name(elmt)
+        return res
+
+    def _get_one_full_name(self, elmt, level=6):
+        if level <= 0:
+            return '...'
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id, level - 1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
+
     _name = 'account.tax.code'
     _description = 'Tax Code'
     _rec_name = 'code'
     _order = 'sequence, code'
     _columns = {
         'name': fields.char('Tax Case Name', required=True, translate=True),
+        'complete_name': fields.function(_get_full_name, type='char', string='Full Name'),
         'code': fields.char('Case Code', size=64),
         'info': fields.text('Description'),
         'sum': fields.function(_sum_year, string="Year Sum"),

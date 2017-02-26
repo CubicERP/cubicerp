@@ -17,12 +17,16 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp import api, fields, models, _
 
-class ir_attachment(osv.osv):
-    _name = 'ir.attachment'
+
+class ir_attachment(models.Model):
     _inherit = 'ir.attachment'
 
-    _columns = {
-            'archive_version_id': fields.many2one('archives.document.version','Archives Version',help="Archives Document Version Asociated"),
-        }
+    archive_version_id = fields.Many2one('archives.document.version', 'Archives Version',
+                                         help="Archives Document Version Asociated")
+    parent_id = fields.Many2one('ir.attachment', 'Attachment Template',
+                                help="Template required for this attachment")
+    isrequired = fields.Boolean('Template Required', help="Especifiy when the specifiyed document is requiered",
+                                default=False)
+

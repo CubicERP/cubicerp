@@ -874,7 +874,7 @@
             <field name="arch" type="xml">
                 <tree string="Account Tax Code" toolbar="1">
                     <field name="sequence" widget="handle"/>
-                    <field name="name"/>
+                    <field name="complete_name"/>
                     <field name="code"/>
                     <field name="sum_period"/>
                     <field name="sum"/>

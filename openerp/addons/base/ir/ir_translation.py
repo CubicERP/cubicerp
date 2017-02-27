@@ -190,7 +190,7 @@ class ir_translation(osv.osv):
                     # Pass context without lang, need to read real stored field, not translation
                     context_no_lang = dict(context, lang=None)
                     result = model.read(cr, uid, [record.res_id], [field], context=context_no_lang)
-                    res[record.id] = result[0][field] if result else False
+                    res[record.id] = result[0].get(field,False) if result else False
         return res
 
     def _set_src(self, cr, uid, id, name, value, args, context=None):

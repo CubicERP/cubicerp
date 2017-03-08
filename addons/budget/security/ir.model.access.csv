@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_budget_budget,budget.budget,model_budget_budget,account.group_account_manager,1,0,0,0
-access_budget_position,budget.position,model_budget_position,account.group_account_manager,1,0,0,0
-access_budget_position_accountant,budget.position accountant,model_budget_position,account.group_account_user,1,1,1,1
-access_budget_budget_accountant,budget.budget accountant,model_budget_budget,account.group_account_user,1,1,1,1
-access_budget_budget_lines_accountant,budget.budget.lines accountant,model_budget_budget_lines,account.group_account_user,1,1,1,1
-access_budget,budget.budget.lines manager,model_budget_budget_lines,base.group_user,1,1,1,0

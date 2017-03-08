@@ -1,0 +1,103 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* l10n_syscohada
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-30 17:06+0000\n"
+"PO-Revision-Date: 2016-11-30 12:07-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_stocks
+msgid "Actif circulant"
+msgstr "Activo circulante"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_asset
+msgid "Asset"
+msgstr "Activo"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_cash
+msgid "Cash"
+msgstr "Efectivo"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_cloture
+msgid "Cloture"
+msgstr "Cierre"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_special
+msgid "Comptes spéciaux"
+msgstr "Cuentas Especiales"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_dettes
+msgid "Dettes long terme"
+msgstr "Deudas a largo plazo"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_commitment
+msgid "Engagements"
+msgstr "Compromisos"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_equity
+msgid "Equity"
+msgstr "Equidad"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_expense
+msgid "Expense"
+msgstr "Gasto"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_immobilisations
+msgid "Immobilisations"
+msgstr "Inmobilizaciones"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_income
+msgid "Income"
+msgstr "Ingreso"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_payable
+msgid "Payable"
+msgstr "A pagar"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_provision
+msgid "Provisions"
+msgstr "Provisiones"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_receivable
+msgid "Receivable"
+msgstr "A cobrar"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_stock
+msgid "Stocks"
+msgstr "Stocks"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_tax
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: l10n_syscohada
+#: model:account.account.type,name:l10n_syscohada.account_type_view
+msgid "View"
+msgstr "Vista"

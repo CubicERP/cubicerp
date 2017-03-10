@@ -228,12 +228,15 @@
             <tree colors="blue:type in ('url',)" string="Attachments">
                 <field name="name"/>
                 <field name="parent_id" />
-                <field name="user_id"/>
-                <field name="company_id"/>
-                <field name="create_date" groups="base.group_no_one"/>
+                <field name="datas" filename="datas_fname"/>
+                <field name="datas_fname" invisible="1"/>
+                <field name="url" widget="url"/>
                 <field name="write_date" groups="base.group_no_one"/>
-                <field name="partner_id"/>
-                <field name="type"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="type" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="create_date" groups="base.group_no_one" invisible="1"/>
             </tree>
         </field>
     </record>

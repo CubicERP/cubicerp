@@ -3,14 +3,15 @@ backup/
 log/
 junk/
 data/
-.oer.pid
-.openerp_serverrc
+.cbc.pid
+.cubicerp_serverrc
 .DS_Store
 .idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.orig
 
 # C extensions
 *.so

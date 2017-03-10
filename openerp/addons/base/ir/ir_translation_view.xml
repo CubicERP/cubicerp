@@ -12,10 +12,18 @@
                     <filter name="openerp-web"
                         string="Web-only translations"
                         domain="[('comments', 'like', 'openerp-web')]"/>
-                    <field name="name" operator="="/>
-                    <field name="lang"/>
+                    <filter name="custom" string="Custom" domain="[('custom','=',True)]"/>
                     <field name="src"/>
                     <field name="value"/>
+                    <field name="name"/>
+                    <field name="lang"/>
+                    <field name="res_id"/>
+                    <group string="Group by" expand="0">
+                        <filter name="group_state" string="State" context="{'group_by':'state'}"/>
+                        <filter name="group_lang" string="Language" context="{'group_by':'lang'}"/>
+                        <filter name="group_type" string="Type" context="{'group_by':'type'}"/>
+                        <filter name="group_module" string="Module" context="{'group_by':'module'}"/>
+                    </group>
                 </search>
             </field>
         </record>
@@ -25,13 +33,14 @@
             <field name="arch" type="xml">
                 <form string="Translations">
                    <header>
-                        <field name="state" widget="statusbar" nolabel="1"/>
+                        <field name="state" widget="statusbar" clickable="True"/>
                    </header>
                    <sheet>
                     <group>
                         <group>
                             <field name="name"/>
                             <field name="lang"/>
+                            <field name="custom"/>
                         </group>
                         <group>
                             <field name="module" groups="base.group_no_one"/>
@@ -39,14 +48,14 @@
                             <field name="res_id"/>
                         </group>
                         <group string="Source Term">
-                           <field name="source" nolabel="1" height="400"/>
+                           <field name="source" nolabel="1"/>
                         </group>
                         <group string="Translation">
-                           <field name="value" nolabel="1" height="400"/>
+                           <field name="value" nolabel="1"/>
                         </group>
-                        <group string="Comments">
-                           <field name="comments" nolabel="1" height="100"/>
-                        </group>
+                    </group>
+                    <group string="Comments">
+                       <field name="comments" nolabel="1"/>
                     </group>
                    </sheet>
                 </form>
@@ -55,12 +64,15 @@
         <record id="view_translation_tree" model="ir.ui.view">
             <field name="model">ir.translation</field>
             <field name="arch" type="xml">
-                <tree string="Translations" editable="top">
+                <tree string="Translations" editable="top" colors="blue:state=='to_translate';gray:state=='translated'">
                     <field name="source"/>
                     <field name="value"/>
                     <field name="name"/>
-                    <field name="lang"/>
+                    <field name="res_id"/>
                     <field name="type"/>
+                    <field name="lang"/>
+                    <field name="custom"/>
+                    <field name="state" invisible="1"/>
                 </tree>
             </field>
         </record>

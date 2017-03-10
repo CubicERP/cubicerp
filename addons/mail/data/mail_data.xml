@@ -13,7 +13,7 @@
             <field eval="'()'" name="args"/>
         </record>
 
-        <record id="ir_cron_module_update_notification" model="ir.cron">
+        <!--record id="ir_cron_module_update_notification" model="ir.cron">
             <field name="name">Update Notification</field>
             <field eval="True" name="active" />
             <field name="user_id" ref="base.user_root" />
@@ -26,7 +26,7 @@
             <field eval="'update_notification'" name="function" />
             <field eval="'(None,)'" name="args" />
             <field name="priority">1000</field>
-        </record>
+        </record-->
 
         <record id="ir_cron_mail_garbage_collect_attachments" model="ir.cron">
             <field name="name">Garbage Collect Mail Attachments</field>

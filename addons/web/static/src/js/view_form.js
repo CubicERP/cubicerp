@@ -2125,45 +2125,41 @@ instance.web.form.AbstractField = instance.web.form.FormWidget.extend(instance.w
         this.field_manager.on("change:display_invalid_fields", this, this._check_css_flags);
         this._check_css_flags();
         //quick translate field label
-        if (instance.session.debug && this.$label[0]) {
-            var $img = $('<i class="glyphicon glyphicon-flag" style="margin-left:6px;"></i>')
+        if (instance.session.debug && this.$label[0] && this.$label[0].children.length == 0) {
+            var $img = $('<i class="glyphicon glyphicon-edit" style="font-size:xx-small"></i>')
                     .click(this.quick_translate.bind(this));
             $(this.$label[0]).append($img);
         }
     },
     quick_translate: function() {
         var self = this;
-        value = window.prompt('Enter new value');
+        value = window.prompt('Enter the new translated label, then reload the page with F5 key or <shift> + F5.', this.field.string);
         if(value) {
-            console.log(this, self.view.session.user_context.lang)
             domain = [
-                ['name', '=', this.view.dataset.model],
-                ['type', '=', 'view'],
-                ['source', '=', this.field.string],
+                ['name', '=', this.view.dataset.model+','+this.name],
+                ['type', '=', 'field'],
+                ['res_id', '=', 0],
+                ['lang', '=', self.view.session.user_context.lang],
             ]
             model = new instance.web.Model("ir.translation");
             model.query(["name"]).filter(domain).first()
             .done(function(result) {
                 if(result) {
                     model.call('write', [result['id'], {
-                        'name': self.view.dataset.model,
-                        'type': 'view',
                         'value': value,
                         'state': 'translated',
-                        'comments': 'Quick translation using label field button'
                     }]);
                 } else {
-                    model.create({
+                    model.call('create', [{
                         'lang': self.view.session.user_context.lang,
-                        'name': self.view.dataset.model,
-                        'type': 'view',
-                        'source': self.field.string,
+                        'name': self.view.dataset.model+','+self.name,
+                        'type': 'field',
                         'value': value,
+                        'custom': true,
                         'state': 'translated',
-                        'comments': 'Quick translation using label field button'
-                    });
+                        'res_id': 0,
+                    }]);
                 }
-                self.view.reload();
             });
         }
     },

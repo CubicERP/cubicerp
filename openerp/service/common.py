@@ -8,7 +8,7 @@ from openerp.tools.translate import _
 
 import security
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.service.common')
 
 RPC_VERSION_1 = {
         'server_version': openerp.release.version,

@@ -73,8 +73,8 @@ def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
         path = os.getenv('XDG_DATA_HOME', os.path.expanduser("~/.local/share"))
         if appname:
             path = os.path.join(path, appname)
-    if appname and version:
-        path = os.path.join(path, version)
+    # if appname and version:
+    #     path = os.path.join(path, ver)
     return path
 
 
@@ -125,8 +125,8 @@ def site_data_dir(appname=None, appauthor=None, version=None, multipath=False):
                         os.pathsep.join(['/usr/local/share', '/usr/share']))
         pathlist = [ os.path.expanduser(x.rstrip(os.sep)) for x in path.split(os.pathsep) ]
         if appname:
-            if version:
-                appname = os.path.join(appname, version)
+            # if version:
+            #     appname = os.path.join(appname, version)
             pathlist = [ os.sep.join([x, appname]) for x in pathlist ]
 
         if multipath:
@@ -174,8 +174,8 @@ def user_config_dir(appname=None, appauthor=None, version=None, roaming=False):
         path = os.getenv('XDG_CONFIG_HOME', os.path.expanduser("~/.config"))
         if appname:
             path = os.path.join(path, appname)
-    if appname and version:
-        path = os.path.join(path, version)
+    # if appname and version:
+    #     path = os.path.join(path, version)
     return path
 
 
@@ -218,8 +218,8 @@ def site_config_dir(appname=None, appauthor=None, version=None, multipath=False)
         path = os.getenv('XDG_CONFIG_DIRS', '/etc/xdg')
         pathlist = [ os.path.expanduser(x.rstrip(os.sep)) for x in path.split(os.pathsep) ]
         if appname:
-            if version:
-                appname = os.path.join(appname, version)
+            # if version:
+            #     appname = os.path.join(appname, version)
             pathlist = [ os.sep.join([x, appname]) for x in pathlist ]
 
         if multipath:
@@ -323,8 +323,8 @@ def user_log_dir(appname=None, appauthor=None, version=None, opinion=True):
         path = user_cache_dir(appname, appauthor, version); version=False
         if opinion:
             path = os.path.join(path, "log")
-    if appname and version:
-        path = os.path.join(path, version)
+    # if appname and version:
+    #     path = os.path.join(path, version)
     return path
 
 

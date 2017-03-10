@@ -36,7 +36,7 @@ from yaml_import import convert_yaml_import
 
 import assertion_report
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.tools.convert')
 
 try:
     import pytz

@@ -1174,6 +1174,24 @@ class account_voucher(osv.osv):
         voucher = self.browse(cr, uid, voucher_id, context=context)
         return currency_obj.compute(cr, uid, voucher.currency_id.id, voucher.company_id.currency_id.id, amount, context=context)
 
+    def _get_move_line_vals(self, cr, uid, line, name, move_id, company_currency, amount_currency=0.0, context=None):
+        voucher = line.voucher_id
+        return {
+                'journal_id': voucher.journal_id.id,
+                'period_id': voucher.period_id.id,
+                'name': name,
+                'account_id': line.account_id.id,
+                'move_id': move_id,
+                'partner_id': voucher.partner_id.parent_id and voucher.partner_id.parent_id.id or voucher.partner_id.id,
+                'currency_id': line.move_line_id and (company_currency <> line.move_line_id.currency_id.id and line.move_line_id.currency_id.id) or False,
+                'amount_currency' : amount_currency,
+                'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
+                'quantity': 1,
+                'credit': 0.0,
+                'debit': 0.0,
+                'date': voucher.date,
+            }
+
     def voucher_move_line_create(self, cr, uid, voucher_id, line_total, move_id, company_currency, current_currency, context=None):
         '''
         Create one account move line, on the given account move, per voucher line where amount is not 0.0.
@@ -1222,20 +1240,7 @@ class account_voucher(osv.osv):
                 currency_rate_difference = sign * (line.move_line_id.amount_residual - amount)
             else:
                 currency_rate_difference = 0.0
-            move_line = {
-                'journal_id': voucher.journal_id.id,
-                'period_id': voucher.period_id.id,
-                'name': line.name or '/',
-                'account_id': line.account_id.id,
-                'move_id': move_id,
-                'partner_id': voucher.partner_id.parent_id and voucher.partner_id.parent_id.id or voucher.partner_id.id,
-                'currency_id': line.move_line_id and (company_currency <> line.move_line_id.currency_id.id and line.move_line_id.currency_id.id) or False,
-                'analytic_account_id': line.account_analytic_id and line.account_analytic_id.id or False,
-                'quantity': 1,
-                'credit': 0.0,
-                'debit': 0.0,
-                'date': voucher.date
-            }
+            move_line = self._get_move_line_vals(cr, uid, line, line.name or line.voucher_id.number or '/', move_id, company_currency, context=context)
             if amount < 0:
                 amount = -amount
                 if line.type == 'dr':
@@ -1286,20 +1291,9 @@ class account_voucher(osv.osv):
 
             if line.move_line_id and line.move_line_id.currency_id and not currency_obj.is_zero(cr, uid, line.move_line_id.currency_id, foreign_currency_diff):
                 # Change difference entry in voucher currency
-                move_line_foreign_currency = {
-                    'journal_id': line.voucher_id.journal_id.id,
-                    'period_id': line.voucher_id.period_id.id,
-                    'name': _('change')+': '+(line.name or '/'),
-                    'account_id': line.account_id.id,
-                    'move_id': move_id,
-                    'partner_id': line.voucher_id.partner_id.id,
-                    'currency_id': line.move_line_id.currency_id.id,
-                    'amount_currency': (-1 if line.type == 'cr' else 1) * foreign_currency_diff,
-                    'quantity': 1,
-                    'credit': 0.0,
-                    'debit': 0.0,
-                    'date': line.voucher_id.date,
-                }
+                move_line_foreign_currency = self._get_move_line_vals(cr, uid, line, _('change')+': '+(line.name or line.voucher_id.number or '/'),
+                                                                      move_id, company_currency, (-1 if line.type == 'cr' else 1) * foreign_currency_diff,
+                                                                      context=context)
                 new_id = move_line_obj.create(cr, uid, move_line_foreign_currency, context=context)
                 rec_ids.append(new_id)
             if line.move_line_id.id:
@@ -1422,8 +1416,6 @@ class account_voucher(osv.osv):
                 'state': 'posted',
                 'number': name,
             })
-            if voucher.journal_id.entry_posted:
-                move_pool.post(cr, uid, [move_id], context={})
             # We automatically reconcile the account move lines.
             reconcile = False
             for rec_ids in rec_list_ids:

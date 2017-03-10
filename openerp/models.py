@@ -71,8 +71,8 @@ from .tools.misc import CountingStream, DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_
 from .tools.safe_eval import safe_eval as eval
 from .tools.translate import _
 
-_logger = logging.getLogger(__name__)
-_schema = logging.getLogger(__name__ + '.schema')
+_logger = logging.getLogger('cubicerp.models')
+_schema = logging.getLogger('cubicerp.models' + '.schema')
 
 regex_order = re.compile('^(\s*([a-z0-9:_]+|"[a-z0-9:_]+")(\s+(desc|asc))?\s*(,|$))+(?<!,)$', re.I)
 regex_object_name = re.compile(r'^[a-z0-9_.]+$')

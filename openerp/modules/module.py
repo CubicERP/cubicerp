@@ -44,7 +44,7 @@ from openerp.tools.safe_eval import safe_eval as eval
 MANIFEST = '__openerp__.py'
 README = ['README.rst', 'README.md', 'README.txt']
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.module')
 
 # addons path as a list
 ad_paths = []

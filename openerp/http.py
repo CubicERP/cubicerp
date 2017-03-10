@@ -49,9 +49,9 @@ from openerp.service import security, model as service_model
 from openerp.tools.func import lazy_property
 from openerp.tools import ustr
 
-_logger = logging.getLogger(__name__)
-rpc_request = logging.getLogger(__name__ + '.rpc.request')
-rpc_response = logging.getLogger(__name__ + '.rpc.response')
+_logger = logging.getLogger('cubicerp.http')
+rpc_request = logging.getLogger('cubicerp.http' + '.rpc.request')
+rpc_response = logging.getLogger('cubicerp.http' + '.rpc.response')
 
 # 1 week cache for statics as advised by Google Page Speed
 STATIC_CACHE = 60 * 60 * 24 * 7
@@ -164,7 +164,7 @@ def redirect_with_hash(url, code=303):
     return "<html><head><script>window.location = '%s' + location.hash;</script></head></html>" % url
 
 class WebRequest(object):
-    """ Parent class for all Odoo Web request types, mostly deals with
+    """ Parent class for all CubicERP Web request types, mostly deals with
     initialization and setup of the request object (the dispatching itself has
     to be handled by the subclasses)
 
@@ -547,15 +547,15 @@ class JsonRequest(WebRequest):
                 _logger.exception("Exception during JSON request handling.")
             error = {
                     'code': 200,
-                    'message': "Odoo Server Error",
+                    'message': "CubicERP Server Error",
                     'data': serialize_exception(exception)
             }
             if isinstance(exception, AuthenticationError):
                 error['code'] = 100
-                error['message'] = "Odoo Session Invalid"
+                error['message'] = "CubicERP Session Invalid"
             if isinstance(exception, SessionExpiredException):
                 error['code'] = 100
-                error['message'] = "Odoo Session Expired"
+                error['message'] = "CubicERP Session Expired"
             return self._json_response(error=error)
 
     def dispatch(self):
@@ -1577,7 +1577,7 @@ def send_file(filepath_or_fp, mimetype=None, as_attachment=False, filename=None,
         rv.expires = int(time.time() + cache_timeout)
 
     if add_etags and filename and mtime:
-        rv.set_etag('odoo-%s-%s-%s' % (
+        rv.set_etag('cubic-%s-%s-%s' % (
             mtime,
             size,
             adler32(

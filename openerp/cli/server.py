@@ -47,7 +47,7 @@ __author__ = openerp.release.author
 __version__ = openerp.release.version
 
 # Also use the `openerp` logger for the main script.
-_logger = logging.getLogger('openerp')
+_logger = logging.getLogger('cubicerp')
 
 def check_root_user():
     """ Exit if the process's user is 'root' (on POSIX system)."""
@@ -73,7 +73,7 @@ def report_configuration():
     This function assumes the configuration has been initialized.
     """
     config = openerp.tools.config
-    _logger.info("OpenERP version %s", __version__)
+    _logger.info("CubicERP version %s", __version__)
     for name, value in [('addons paths', openerp.modules.module.ad_paths),
                         ('database hostname', config['db_host'] or 'localhost'),
                         ('database port', config['db_port'] or '5432'),

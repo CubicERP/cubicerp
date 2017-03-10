@@ -30,13 +30,13 @@ RELEASE_LEVELS_DISPLAY = {ALPHA: ALPHA,
 # properly comparable using normal operarors, for example:
 #  (6,1,0,'beta',0) < (6,1,0,'candidate',1) < (6,1,0,'candidate',2)
 #  (6,1,0,'candidate',2) < (6,1,0,'final',0) < (6,1,2,'final',0)
-version_info = (8, 0, 0, FINAL, 0)
+version_info = (9, 0, 0, FINAL, 0)
 version = '.'.join(map(str, version_info[:2])) + RELEASE_LEVELS_DISPLAY[version_info[3]] + str(version_info[4] or '')
 series = serie = major_version = '.'.join(map(str, version_info[:2]))
 
 product_name = 'CubicERP'
 description = 'Server'
-long_desc = '''Complete ERP and CRM. The main features are accounting (analytic
+long_desc = '''Complete ERP and GRP. The main features are accounting (analytic
 and financial), stock management, sales and purchases management, tasks
 automation, marketing campaigns, help desk, POS, etc. Technical features include
 a distributed server, flexible workflows, an object database, a dynamic GUI,
@@ -47,7 +47,7 @@ License :: OSI Approved :: GNU Affero General Public License v3
 Programming Language :: Python
 """
 url = 'https://www.cubicerp.com'
-author = 'OpenERP S.A. & Cubic ERP'
+author = 'CubicERP & OpenERP S.A.'
 author_email = 'info@cubicerp.com'
 license = 'AGPL-3'
 

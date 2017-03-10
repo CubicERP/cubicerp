@@ -99,14 +99,13 @@ class configmanager(object):
         self.options = {
             'admin_passwd': 'admin',
             'csv_internal_sep': ',',
-            'publisher_warranty_url': 'http://services.openerp.com/publisher-warranty/',
             'reportgz': False,
             'root_path': None,
         }
 
         # Not exposed in the configuration file.
         self.blacklist_for_save = set([
-            'publisher_warranty_url', 'load_language', 'root_path',
+            'force_update', 'load_language', 'root_path',
             'init', 'save', 'config', 'update', 'stop_after_init'
         ])
 
@@ -129,10 +128,12 @@ class configmanager(object):
         group = optparse.OptionGroup(parser, "Common options")
         group.add_option("-c", "--config", dest="config", help="specify alternate config file")
         group.add_option("-s", "--save", action="store_true", dest="save", default=False,
-                          help="save configuration to ~/.openerp_serverrc")
+                          help="save configuration to ~/.cubicerp_serverrc")
         group.add_option("-i", "--init", dest="init", help="install one or more modules (comma-separated list, use \"all\" for all modules), requires -d")
         group.add_option("-u", "--update", dest="update",
                           help="update one or more modules (comma-separated list, use \"all\" for all modules). Requires -d.")
+        group.add_option("-F", "--force", dest="force_update",  my_default='', action='store_true',
+                         help="force the update for all module data files. Requires -d and -u.")
         group.add_option("--without-demo", dest="without_demo",
                           help="disable loading demo data for modules to be installed (comma-separated, use \"all\" for all modules). Requires -d and -i. Default is %default",
                           my_default=False)
@@ -394,9 +395,9 @@ class configmanager(object):
         # else he won't be able to save the configurations, or even to start the server...
         # TODO use appdirs
         if os.name == 'nt':
-            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'openerp-server.conf')
+            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'cubicerp-server.conf')
         else:
-            rcfilepath = os.path.expanduser('~/.openerp_serverrc')
+            rcfilepath = os.path.expanduser('~/.cubicerp_serverrc')
 
         self.rcfile = os.path.abspath(
             self.config_file or opt.config or os.environ.get('OPENERP_SERVER') or rcfilepath)
@@ -442,7 +443,7 @@ class configmanager(object):
             'list_db', 'xmlrpcs', 'proxy_mode',
             'test_file', 'test_enable', 'test_commit', 'test_report_directory',
             'osv_memory_count_limit', 'osv_memory_age_limit', 'max_cron_threads', 'unaccent',
-            'data_dir',
+            'data_dir', 'force_update',
         ]
 
         posix_keys = [

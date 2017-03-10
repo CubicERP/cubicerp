@@ -13,7 +13,7 @@ from openerp.osv import osv, fields
 from openerp.http import request
 from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.bus.bus')
 
 TIMEOUT = 50
 

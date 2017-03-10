@@ -501,4 +501,33 @@ class ir_values(osv.osv):
                 return self.get_actions(cr, uid, action_slot=key2, model=model, res_id=res_id, context=context)
         return self._map_legacy_model_list(models, do_get, merge_results=True)
 
+
+from openerp import api, models, fields, _
+
+
+class IrValues(models.Model):
+    _inherit = 'ir.values'
+
+    @api.model
+    def get_actions(self, action_slot, model, res_id=False):
+        """ let to filter some action according to context parameters action_id or action_ids;
+            in case of dont find a matched action all retreived action are returned """
+        res = super(IrValues, self).get_actions(action_slot=action_slot, model=model, res_id=res_id)
+
+        action_ids = self._context.get('action_ids', [])
+        action_id = self._context.get('action_id')
+        # if not parameters return basic result
+        if not action_id and not action_ids:
+            return res
+
+        if not action_ids and action_id:
+            action_ids = [action_id]
+
+        val = filter(lambda t: t[2]['id'] in action_ids, res)
+        # return filtered result if founded
+        if val:
+            return val
+        # return basic result if not founded filtered action
+        return res
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

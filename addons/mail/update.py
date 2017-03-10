@@ -58,57 +58,57 @@ class publisher_warranty_contract(AbstractModel):
             msg.update(self.pool.get("res.company").read(cr, uid, [company_id], ["name", "email", "phone"])[0])
         return msg
 
-    def _get_sys_logs(self, cr, uid):
-        """
-        Utility method to send a publisher warranty get logs messages.
-        """
-        msg = self._get_message(cr, uid)
-        arguments = {'arg0': msg, "action": "update"}
-        arguments_raw = werkzeug.urls.url_encode(arguments)
+    # def _get_sys_logs(self, cr, uid):
+    #     """
+    #     Utility method to send a publisher warranty get logs messages.
+    #     """
+    #     msg = self._get_message(cr, uid)
+    #     arguments = {'arg0': msg, "action": "update"}
+    #     arguments_raw = werkzeug.urls.url_encode(arguments)
+    #
+    #     url = config.get("publisher_warranty_url")
+    #
+    #     uo = urllib2.urlopen(url, arguments_raw, timeout=30)
+    #     try:
+    #         submit_result = uo.read()
+    #         return literal_eval(submit_result)
+    #     finally:
+    #         uo.close()
 
-        url = config.get("publisher_warranty_url")
-
-        uo = urllib2.urlopen(url, arguments_raw, timeout=30)
-        try:
-            submit_result = uo.read()
-            return literal_eval(submit_result)
-        finally:
-            uo.close()
-
-    def update_notification(self, cr, uid, ids, cron_mode=True, context=None):
-        """
-        Send a message to OpenERP's publisher warranty server to check the
-        validity of the contracts, get notifications, etc...
-
-        @param cron_mode: If true, catch all exceptions (appropriate for usage in a cron).
-        @type cron_mode: boolean
-        """
-        try:
-            try:
-                result = self._get_sys_logs(cr, uid)
-            except Exception:
-                if cron_mode:   # we don't want to see any stack trace in cron
-                    return False
-                _logger.debug("Exception while sending a get logs messages", exc_info=1)
-                raise osv.except_osv(_("Error"), _("Error during communication with the publisher warranty server."))
-            # old behavior based on res.log; now on mail.message, that is not necessarily installed
-            IMD = self.pool['ir.model.data']
-            user = self.pool['res.users'].browse(cr, SUPERUSER_ID, SUPERUSER_ID)
-            poster = IMD.xmlid_to_object(cr, SUPERUSER_ID, 'mail.group_all_employees', context=context)
-            if not (poster and poster.exists()):
-                if not user.exists():
-                    return True
-                poster = user
-            for message in result["messages"]:
-                try:
-                    poster.message_post(body=message, subtype='mt_comment', partner_ids=[user.partner_id.id])
-                except Exception:
-                    _logger.warning('Cannot send ping message', exc_info=True)
-        except Exception:
-            if cron_mode:
-                return False    # we don't want to see any stack trace in cron
-            else:
-                raise
-        return True
+    # def update_notification(self, cr, uid, ids, cron_mode=True, context=None):
+    #     """
+    #     Send a message to OpenERP's publisher warranty server to check the
+    #     validity of the contracts, get notifications, etc...
+    #
+    #     @param cron_mode: If true, catch all exceptions (appropriate for usage in a cron).
+    #     @type cron_mode: boolean
+    #     """
+    #     try:
+    #         try:
+    #             result = self._get_sys_logs(cr, uid)
+    #         except Exception:
+    #             if cron_mode:   # we don't want to see any stack trace in cron
+    #                 return False
+    #             _logger.debug("Exception while sending a get logs messages", exc_info=1)
+    #             raise osv.except_osv(_("Error"), _("Error during communication with the publisher warranty server."))
+    #         # old behavior based on res.log; now on mail.message, that is not necessarily installed
+    #         IMD = self.pool['ir.model.data']
+    #         user = self.pool['res.users'].browse(cr, SUPERUSER_ID, SUPERUSER_ID)
+    #         poster = IMD.xmlid_to_object(cr, SUPERUSER_ID, 'mail.group_all_employees', context=context)
+    #         if not (poster and poster.exists()):
+    #             if not user.exists():
+    #                 return True
+    #             poster = user
+    #         for message in result["messages"]:
+    #             try:
+    #                 poster.message_post(body=message, subtype='mt_comment', partner_ids=[user.partner_id.id])
+    #             except Exception:
+    #                 _logger.warning('Cannot send ping message', exc_info=True)
+    #     except Exception:
+    #         if cron_mode:
+    #             return False    # we don't want to see any stack trace in cron
+    #         else:
+    #             raise
+    #     return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

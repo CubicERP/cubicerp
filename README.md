@@ -1,4 +1,9 @@
 Cubic ERP
----------
+==========
 
-Cubic ERP is a suite of web based open source business and government apps.
+Cubic ERP is a suite of open source apps for business and government processes, available on mobile & web devices,
+based on AGPL versions of OpenERP and Odoo.
+
+Main Features
+-------------
+- 

@@ -788,7 +788,7 @@ div.carousel .item.text_only .container > .carousel-image {
 }
 
 .cbp-hrmenu > ul > li.active {
-    background: #ab1919;
+    background: #333333;
     color:white;
 }
 
@@ -797,7 +797,6 @@ div.carousel .item.text_only .container > .carousel-image {
 }
 
 .cbp-hrmenu > ul > li > a {
-    font-weight: 700;
     padding: 1em 2em;
     color: #999;
     display: inline-block;
@@ -810,14 +809,14 @@ div.carousel .item.text_only .container > .carousel-image {
 .cbp-hrmenu > ul > li.cbp-hropen a,
 .cbp-hrmenu > ul > li.cbp-hropen > a:hover {
     color: #fff;
-    background: #ab1919;
+    background: #333333;
 }
 
 /* sub-menu */
 .cbp-hrmenu .cbp-hrsub {
     display: none;
     position: absolute;
-    background: #ab1919;
+    background: #333333;
     width: 100%;
     left: 0;
 }
@@ -831,6 +830,9 @@ div.carousel .item.text_only .container > .carousel-image {
     width: 33%;
     float: left;
     padding: 0 2em 0;
+}
+.dropdown-menu {
+    background-color: #333333;
 }
 
 .cbp-hrmenu .cbp-hrsub-inner:before,
@@ -850,7 +852,7 @@ div.carousel .item.text_only .container > .carousel-image {
 .cbp-hrsub h4 {
     padding: 2em 0 1.4em;
     margin: 0;
-    font-size: 160%;
+    font-size: 120%;
     font-weight: 300;
     text-align: center;
     color: white;

@@ -638,9 +638,6 @@ class website_menu(osv.osv):
         'parent_right': fields.integer('Parent Right', select=True),
         'active': fields.boolean('Active'),
     }
-    _defaults = {
-        'active' : True,
-    }
 
     def __defaults_sequence(self, cr, uid, context):
         menu = self.search_read(cr, uid, [(1,"=",1)], ["sequence"], limit=1, order="sequence DESC", context=context)
@@ -650,6 +647,7 @@ class website_menu(osv.osv):
         'url': '',
         'sequence': __defaults_sequence,
         'new_window': False,
+        'active': True,
     }
     _parent_store = True
     _parent_order = 'sequence'

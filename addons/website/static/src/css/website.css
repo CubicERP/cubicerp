@@ -788,12 +788,13 @@ div.carousel .item.text_only .container > .carousel-image {
 }
 
 .cbp-hrmenu > ul > li.active {
-    background: #333333;
+    /*background: #ab1919;*/
     color:white;
 }
 
 .cbp-hrmenu > ul > li.active > a {
-    color:white !important;
+    /*color:white !important;*/
+    color:gray !important;
 }
 
 .cbp-hrmenu > ul > li > a {
@@ -831,9 +832,6 @@ div.carousel .item.text_only .container > .carousel-image {
     float: left;
     padding: 0 2em 0;
 }
-.dropdown-menu {
-    background-color: #333333;
-}
 
 .cbp-hrmenu .cbp-hrsub-inner:before,
 .cbp-hrmenu .cbp-hrsub-inner:after {
@@ -852,11 +850,11 @@ div.carousel .item.text_only .container > .carousel-image {
 .cbp-hrsub h4 {
     padding: 2em 0 1.4em;
     margin: 0;
-    font-size: 120%;
+    font-size: 130%;
     font-weight: 300;
     text-align: center;
     color: white;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 /* Examples for media queries */

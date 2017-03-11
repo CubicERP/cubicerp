@@ -40,13 +40,14 @@ class Website(openerp.addons.web.controllers.main.Home):
             website = website_registry.browse(request.cr, request.uid, website_ids[0], context=request.context)
             if website and website.default_homepage_menu_id:
                 menu = website.default_homepage_menu_id
-        # ----------------------------------------
-        try:
-            main_menu = request.registry['ir.model.data'].get_object(request.cr, request.uid, 'website', 'main_menu')
-        except Exception:
-            pass
-        else:
-            menu = main_menu.child_id and main_menu.child_id[0]
+        if not menu:
+            # ----------------------------------------
+            try:
+                main_menu = request.registry['ir.model.data'].get_object(request.cr, request.uid, 'website', 'main_menu')
+            except Exception:
+                pass
+            else:
+                menu = main_menu.child_id and main_menu.child_id[0]
         # ----------------------------------------
         if menu:
             if menu.url and (not (menu.url.startswith(('/page/', '/?', '/#')) or (menu.url == '/'))):

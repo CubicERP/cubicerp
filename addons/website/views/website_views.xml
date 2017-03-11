@@ -74,12 +74,6 @@
             </field>
         </record>
 
-        <record id="action_website_menu" model="ir.actions.act_window">
-            <field name="name">Website Menu</field>
-            <field name="res_model">website.menu</field>
-            <field name="view_mode">list</field>
-        </record>
-
         <record id="menu_search" model="ir.ui.view">
             <field name="name">website.menu.search</field>
             <field name="model">website.menu</field>
@@ -89,11 +83,19 @@
                     <field name="url"/>
                     <field name="parent_id"/>
                     <filter name="active_filter" string="Invisible" domain="[('active','=',False)]"/>
+                    <filter name="parent_filter" string="Menus" domain="[('parent_id','!=',False)]"/>
                     <group expand="0" string="Group By">
-                        <filter name="parent_group" string="Parent" context="{'gropu_by':'parent_id'}"/>
+                        <filter name="parent_group" string="Parent" context="{'group_by':'parent_id'}"/>
                     </group>
                 </search>
             </field>
+        </record>
+
+        <record id="action_website_menu" model="ir.actions.act_window">
+            <field name="name">Website Menu</field>
+            <field name="res_model">website.menu</field>
+            <field name="view_mode">list</field>
+            <field name="context">{'search_default_parent_filter':1}</field>
         </record>
 
         <record id="menu_tree" model="ir.ui.view">

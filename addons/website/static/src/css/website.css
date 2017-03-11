@@ -788,12 +788,10 @@ div.carousel .item.text_only .container > .carousel-image {
 }
 
 .cbp-hrmenu > ul > li.active {
-    /*background: #ab1919;*/
     color:white;
 }
 
 .cbp-hrmenu > ul > li.active > a {
-    /*color:white !important;*/
     color:gray !important;
 }
 
@@ -854,7 +852,6 @@ div.carousel .item.text_only .container > .carousel-image {
     font-weight: 300;
     text-align: center;
     color: white;
-    /*text-transform: uppercase;*/
 }
 
 /* Examples for media queries */

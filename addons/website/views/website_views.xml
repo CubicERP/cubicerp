@@ -80,6 +80,22 @@
             <field name="view_mode">list</field>
         </record>
 
+        <record id="menu_search" model="ir.ui.view">
+            <field name="name">website.menu.search</field>
+            <field name="model">website.menu</field>
+            <field name="arch" type="xml">
+                <search string="Website menu">
+                    <field name="name"/>
+                    <field name="url"/>
+                    <field name="parent_id"/>
+                    <filter name="active_filter" string="Invisible" domain="[('active','=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="parent_group" string="Parent" context="{'gropu_by':'parent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="menu_tree" model="ir.ui.view">
             <field name="name">website.menu.tree</field>
             <field name="model">website.menu</field>
@@ -91,6 +107,7 @@
                     <field name="new_window"/>
                     <field name="parent_id"/>
                     <field name="sequence"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>

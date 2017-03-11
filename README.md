@@ -6,4 +6,4 @@ based on AGPL versions of OpenERP and Odoo.
 
 Main Features
 -------------
-- 
+-

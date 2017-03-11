@@ -636,6 +636,10 @@ class website_menu(osv.osv):
         'child_id': fields.one2many('website.menu', 'parent_id', string='Child Menus'),
         'parent_left': fields.integer('Parent Left', select=True),
         'parent_right': fields.integer('Parent Right', select=True),
+        'active': fields.boolean('Active'),
+    }
+    _defaults = {
+        'active' : True,
     }
 
     def __defaults_sequence(self, cr, uid, context):

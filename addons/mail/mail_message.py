@@ -64,7 +64,7 @@ class mail_message(osv.Model):
     _description = 'Message'
     _inherit = ['ir.needaction_mixin']
     _order = 'id desc'
-    _rec_name = 'record_name'
+    # _rec_name = 'record_name'
 
     _message_read_limit = 30
     _message_read_fields = ['id', 'parent_id', 'model', 'res_id', 'body', 'subject', 'date', 'to_read', 'email_from',
@@ -93,6 +93,16 @@ class mail_message(osv.Model):
             res[notif.message_id.id] = True
         return res
 
+    def _get_name(self, cr, uid, ids, name, arg, context=None):
+        """ Compute the name of message to show in the list of messages. """
+        res = {}
+        for message in self.browse(cr, uid, ids, context=context):
+            if message.subject:
+                res[message.id] = "%s%s"%(message.subject[:32], len(message.subject)>32 and ' ...' or '')
+            else:
+                res[message.id] = "%s%s"%(message.body[:32], len(message.body)>32 and ' ...' or '')
+        return res
+
     def _search_to_read(self, cr, uid, obj, name, domain, context=None):
         """ Search for messages to read by the current user. Condition is
             inversed because we search unread message on a is_read column. """
@@ -117,6 +127,7 @@ class mail_message(osv.Model):
         return ['&', ('notification_ids.partner_id.user_ids', 'in', [uid]), ('notification_ids.starred', '=', domain[0][2])]
 
     _columns = {
+        'name': fields.function(_get_name, type='char', string="Message"),
         'type': fields.selection([
                         ('email', 'Email'),
                         ('comment', 'Comment'),
@@ -164,7 +175,9 @@ class mail_message(osv.Model):
         'vote_user_ids': fields.many2many('res.users', 'mail_vote',
             'message_id', 'user_id', string='Votes',
             help='Users that voted for this message'),
-        'mail_server_id': fields.many2one('ir.mail_server', 'Outgoing mail server', readonly=1),
+        'mail_server_id': fields.many2one('ir.mail_server', 'Outgoing mail server', readonly=True),
+        'smtp_server': fields.char('Outgoing mail server', readonly=True),
+        'smtp_result': fields.text('SMTP Result', readonly=True),
     }
 
     def _needaction_domain_get(self, cr, uid, context=None):

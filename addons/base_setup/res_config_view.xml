@@ -160,10 +160,10 @@
                         <field name="module_crm" invisible="1"/>
                         <separator string="Emails Integration" attrs="{'invisible': [('module_crm','=',False)]}"/>
                         <p name="config_email_integration" attrs="{'invisible': [('module_crm','=',False)]}">
-                            Odoo allows to automatically create leads (or others documents)
-                            from incoming emails. You can automatically synchronize emails with Odoo
+                            CubicERP allows to automatically create leads (or others documents)
+                            from incoming emails. You can automatically synchronize emails with CubicERP
                             using regular POP/IMAP accounts, using a direct email integration script for your
-                            email server, or by manually pushing emails to Odoo using specific
+                            email server, or by manually pushing emails to CubicERP using specific
                             plugins for your preferred email application.
                         </p>
                     </div>

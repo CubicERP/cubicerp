@@ -371,14 +371,14 @@ class ir_mail_server(osv.osv):
         joining the parameters "mail.catchall.alias" and
         "mail.catchall.domain".
 
-        If "mail.catchall.alias" is not set it defaults to "postmaster-odoo".
+        If "mail.catchall.alias" is not set it defaults to "postmaster-cubicerp".
 
         If "mail.catchall.domain" is not set, return None.
 
         '''
         get_param = self.pool['ir.config_parameter'].get_param
         postmaster = get_param(cr, SUPERUSER_ID, 'mail.bounce.alias',
-                               default='postmaster-odoo',
+                               default='postmaster-cubicerp',
                                context=context,)
         domain = get_param(cr, SUPERUSER_ID, 'mail.catchall.domain', context=context)
         if postmaster and domain:
@@ -412,6 +412,8 @@ class ir_mail_server(osv.osv):
         :return: the Message-ID of the message that was just sent, if successfully sent, otherwise raises
                  MailDeliveryException and logs root cause.
         """
+        if context is None:
+            context = {}
         # Use the default bounce address **only if** no Return-Path was
         # provided by caller.  Caller may be using Variable Envelope Return
         # Path (VERP) to detect no-longer valid email addresses.
@@ -463,6 +465,7 @@ class ir_mail_server(osv.osv):
             smtp_port = mail_server.smtp_port
             smtp_encryption = mail_server.smtp_encryption
             smtp_debug = smtp_debug or mail_server.smtp_debug
+            context['smtp_mail_server_jd'] = mail_server.id
         else:
             # we were passed an explicit smtp_server or nothing at all
             smtp_server = smtp_server or tools.config.get('smtp_server')
@@ -471,6 +474,7 @@ class ir_mail_server(osv.osv):
             smtp_password = smtp_password or tools.config.get('smtp_password')
             if smtp_encryption is None and tools.config.get('smtp_ssl'):
                 smtp_encryption = 'starttls' # STARTTLS is the new meaning of the smtp_ssl flag as of v7.0
+            context['smtp_smtp_server'] = smtp_server
 
         if not smtp_server:
             raise osv.except_osv(
@@ -499,6 +503,7 @@ class ir_mail_server(osv.osv):
             msg = _("Mail delivery failed via SMTP server '%s'.\n%s: %s") % (tools.ustr(smtp_server),
                                                                              e.__class__.__name__,
                                                                              tools.ustr(e))
+            context['smtp_error'] = msg
             _logger.error(msg)
             raise MailDeliveryException(_("Mail Delivery Failed"), msg)
         return message_id

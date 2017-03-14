@@ -4,6 +4,10 @@ import werkzeug.exceptions
 import werkzeug.urls
 import werkzeug.wrappers
 import simplejson
+import logging
+import json
+from PIL import Image
+import cStringIO
 
 from openerp import tools
 from openerp import SUPERUSER_ID
@@ -14,7 +18,7 @@ from openerp.addons.website.controllers.main import Website as controllers
 from openerp.addons.website.models.website import slug
 
 controllers = controllers()
-
+logger = logging.getLogger(__name__)
 
 class WebsiteForum(http.Controller):
     _post_per_page = 10
@@ -99,6 +103,39 @@ class WebsiteForum(http.Controller):
     def notification_read(self, **kwargs):
         request.registry['mail.message'].set_message_read(request.cr, request.uid, [int(kwargs.get('notification_id'))], read=True, context=request.context)
         return True
+
+    @http.route('/forum/attach', type='http', auth='user', methods=['POST'], website=True)
+    def attach(self, upload=None, ckCsrfToken=''):
+        Attachments = request.registry['ir.attachment']
+        res = {
+            "uploaded": 1,
+            "fileName": upload.filename,
+        }
+        try:
+            image_data = upload.read()
+            image = Image.open(cStringIO.StringIO(image_data))
+            w, h = image.size
+            if w*h > 42e6: # Nokia Lumia 1020 photo resolution
+                raise ValueError("Image size excessive, uploaded images must be smaller than 42 million pixel")
+
+            if image.format in ('PNG', 'JPEG'):
+                image_data = tools.image_save_for_web(image)
+
+            attachment_id = Attachments.create(request.cr, request.uid, {
+                'name': upload.filename,
+                'datas': image_data.encode('base64'),
+                'datas_fname': upload.filename,
+                'res_model': 'ir.ui.view',
+            }, request.context)
+
+            res['url'] = Attachments.read(request.cr, request.uid, [attachment_id], ['website_url'],
+                                          context=request.context)[0]['website_url']
+        except Exception, e:
+            logger.exception("Failed to upload image to attachment")
+            res['error'] = {'message': unicode(e)}
+
+        return json.dumps(res)
+
 
     @http.route(['/forum/<model("forum.forum"):forum>',
                  '/forum/<model("forum.forum"):forum>/page/<int:page>',

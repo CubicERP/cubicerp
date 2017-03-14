@@ -210,7 +210,7 @@
             });
         }
         //END-TODO Remove in master
-
+/*
         if ($('textarea.load_editor').length) {
             var editor = CKEDITOR.instances['content'];
             editor.on('instanceReady', CKEDITORLoadComplete);
@@ -221,10 +221,10 @@
             $('.cke_button__link').attr('onclick','website_forum_IsKarmaValid(33,30)');
             $('.cke_button__unlink').attr('onclick','website_forum_IsKarmaValid(37,30)');
             $('.cke_button__image').attr('onclick','website_forum_IsKarmaValid(41,30)');
-        }
+        }*/
     });
 
-   function website_forum_IsKarmaValid(eventNumber, minKarma){
+   /*function website_forum_IsKarmaValid(eventNumber, minKarma){
         "use strict";
         if(parseInt($("#karma").val()) >= minKarma){
             CKEDITOR.tools.callFunction(eventNumber, this);
@@ -232,4 +232,4 @@
         } else {
             alert("Sorry you need more than " + minKarma + " Karma.");
         }
-    }
+    }*/

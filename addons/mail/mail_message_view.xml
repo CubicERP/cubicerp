@@ -38,6 +38,8 @@
                                 <field name="partner_ids" widget="many2many_tags"/>
                                 <field name="notified_partner_ids" widget="many2many_tags"/>
                             </group>
+                        </group>
+                        <group>
                             <field name="subject"/>
                         </group>
                         <notebook>

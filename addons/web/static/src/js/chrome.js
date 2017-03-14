@@ -1116,7 +1116,7 @@
             this.update_promise = this.update_promise.then(fct, fct);
         },
         on_menu_help: function () {
-            window.open('http://help.odoo.com', '_blank');
+            window.open('https://cubicerp.com/forum/1', '_blank');
         },
         on_menu_logout: function () {
             this.trigger('user_logout');
@@ -1132,7 +1132,7 @@
         },
         on_menu_account: function () {
             var self = this;
-            if (!this.getParent().has_uncommitted_changes()) {
+            /*if (!this.getParent().has_uncommitted_changes()) {
                 var P = new instance.web.Model('ir.config_parameter');
                 P.call('get_param', ['database.uuid']).then(function (dbuuid) {
                     var state = {
@@ -1150,7 +1150,8 @@
                     ev.preventDefault();
                     instance.web.redirect('https://accounts.odoo.com/account');
                 });
-            }
+            }*/
+            window.open('https://cubicerp.com/web/login', '_blank');
         },
         on_menu_about: function () {
             var self = this;

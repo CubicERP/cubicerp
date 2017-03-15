@@ -1116,7 +1116,7 @@
             this.update_promise = this.update_promise.then(fct, fct);
         },
         on_menu_help: function () {
-            window.open('https://cubicerp.com/forum/1', '_blank');
+            window.open('https://cubicerp.com/help', '_blank');
         },
         on_menu_logout: function () {
             this.trigger('user_logout');

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <openerp>
-  <data>
+  <data noupdate="1">
 	<record model="account.tax.code.template" id="vat_code_tax">
 		<field name="name">Bolivia Impuestos</field>
 	</record>

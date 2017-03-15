@@ -15,6 +15,6 @@ Release Notes
 Useful Links
 ------------
 * Demo online: https://demo.cubicerp.com (us: demo, pw: demo)
-* Help to Users: https://cubicerp.com/forum/1
-* New Features & Bugs: https://github.com/CubicERP/cubicerp/issues
-* Comunity Forum: https://cubicerp.com/forum/2
+* Help to Users: https://cubicerp.com/help
+* New Features & Bugs: https://cubicerp.com/issues
+* Community Forum: https://cubicerp.com/community

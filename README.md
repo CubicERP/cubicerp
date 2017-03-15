@@ -7,3 +7,13 @@ based on AGPL versions of OpenERP and Odoo.
 The "Private Branch of Cubic ERP" is a suite of advanced open source applications licensed under AGPL v3 license. That Private Branch is permanently upgraded and has fully technical support. To access to the Private Branch you must acquire the support service or hire consulting hours.
 
 Cubic ERP S.A.C is the company that lead this project, our experience in ERPs started in 2009, having served multinational corporations, large companies and small businesses throughout Latin America, providing training services, consulting and software development. Contact us at http://cubicerp.com.
+
+Release Notes
+-------------
+* CubicERP v9.0: http://cubicerp.com/v9
+
+Useful Links
+------------
+* Help to Users: https://cubicerp.com/forum/1
+* New Features & Report Bugs: https://github.com/CubicERP/cubicerp/issues
+* Comunity Forum: https://cubicerp.com/forum/2

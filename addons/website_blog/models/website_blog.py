@@ -58,7 +58,7 @@ class BlogTag(osv.Model):
     _columns = {
         'name': fields.char('Name', required=True),
         'post_ids': fields.many2many(
-            'blog.post', string='Posts',
+            'blog.post', 'blog_post_blog_tag_rel', 'blog_tag_id', 'blog_post_id', string='Posts',
         ),
     }
 
@@ -86,7 +86,7 @@ class BlogPost(osv.Model):
             required=True, ondelete='cascade',
         ),
         'tag_ids': fields.many2many(
-            'blog.tag', string='Tags',
+            'blog.tag', 'blog_post_blog_tag_rel', 'blog_post_id', 'blog_tag_id', string='Tags',
         ),
         'content': fields.html('Content', translate=True, sanitize=False),
         # website control
@@ -263,8 +263,8 @@ class BlogPostHistory(osv.Model):
         'post_id': fields.many2one('blog.post', 'Blog Post'),
         'summary': fields.char('Summary', select=True),
         'content': fields.text("Content"),
-        'create_date': fields.datetime("Date"),
-        'create_uid': fields.many2one('res.users', "Modified By"),
+        'create_date': fields.datetime("Date", readonly=True),
+        'create_uid': fields.many2one('res.users', "Modified By", readonly=True),
     }
 
     def getDiff(self, cr, uid, v1, v2, context=None):

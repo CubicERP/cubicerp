@@ -28,7 +28,6 @@
                         <!-- visible wizard -->
                         <field name="email_from"
                             attrs="{'invisible':[('composition_mode', '!=', 'mass_mail')]}"/>
-                        <field name="subject" placeholder="Subject..." required="True"/>
                         <!-- recipients -->
                         <label for="partner_ids" string="Recipients"  attrs="{'invisible': [('is_log', '=', True)]}" groups="base.group_user"/>
                         <div groups="base.group_user" attrs="{'invisible': [('is_log', '=', True)]}">
@@ -50,6 +49,7 @@
                         <field name="reply_to" placeholder="Email address to redirect replies..."
                             attrs="{'invisible':['|', ('no_auto_thread', '=', False), ('composition_mode', '!=', 'mass_mail')],
                                     'required':[('no_auto_thread', '=', True), ('composition_mode', '=', 'mass_mail')]}"/>
+                        <field name="subject" placeholder="Subject..." required="True"/>
                     </group>
                     <field name="body"/>
                     <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>

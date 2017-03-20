@@ -594,6 +594,16 @@ class MassMailing(osv.Model):
             res_ids = self.get_recipients(cr, uid, mailing, context=context)
             if not res_ids:
                 raise Warning('Please select recipients.')
+            _res_ids = []
+            email_tos = set([s.email_to for s in mailing.statistics_ids if s.model == mailing.mailing_model])
+            for o in self.pool.get(mailing.mailing_model).browse(cr, uid, list(set(res_ids) - set([s.res_id for s in mailing.statistics_ids if s.model == mailing.mailing_model])), context=context):
+                if o.email not in email_tos:
+                    _res_ids += [o.id]
+                    email_tos |= set([o.email])
+            if _res_ids:
+                res_ids = _res_ids
+            else:
+                return True
             comp_ctx = dict(context, active_ids=res_ids)
             composer_values = {
                 'author_id': author_id,

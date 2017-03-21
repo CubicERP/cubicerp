@@ -4,6 +4,7 @@ from datetime import datetime
 from dateutil import relativedelta
 import json
 import random
+import logging
 
 from openerp import tools
 from openerp.exceptions import Warning
@@ -12,6 +13,7 @@ from openerp.tools.translate import _
 from openerp.tools import ustr
 from openerp.osv import osv, fields
 
+_logger = logging.getLogger(__name__)
 
 class MassMailingCategory(osv.Model):
     """Model of categories of mass mailing, i.e. marketing, newsletter, ... """
@@ -386,6 +388,8 @@ class MassMailing(osv.Model):
             'AB Testing percentage',
             help='Percentage of the contacts that will be mailed. Recipients will be taken randomly.'
         ),
+        'email_check_mx': fields.boolean('Email Check MX', help="Verify email address domain asking directly to the dns server"),
+        'email_verify': fields.boolean('Email Verify', help="Verify email address asking directly to the mail server"),
         # statistics data
         'statistics_ids': fields.one2many(
             'mail.mail.statistics', 'mass_mailing_id',
@@ -462,6 +466,8 @@ class MassMailing(osv.Model):
         'mailing_model': 'mail.mass_mailing.contact',
         'contact_ab_pc': 100,
         'mailing_domain': [],
+        'email_check_mx': False,
+        'email_verify': False,
     }
 
     #------------------------------------------------------
@@ -568,7 +574,6 @@ class MassMailing(osv.Model):
     def get_recipients(self, cr, uid, mailing, context=None):
         if mailing.mailing_domain:
             domain = eval(mailing.mailing_domain)
-            domain += [('email', '!=', False)]
             res_ids = self.pool[mailing.mailing_model].search(cr, uid, domain, context=context)
         else:
             res_ids = []
@@ -598,9 +603,15 @@ class MassMailing(osv.Model):
             _res_ids = []
             email_tos = set([s.email_to for s in mailing.statistics_ids if s.model == mailing.mailing_model])
             for o in self.pool.get(mailing.mailing_model).browse(cr, uid, list(set(res_ids) - set([s.res_id for s in mailing.statistics_ids if s.model == mailing.mailing_model])), context=context):
-                if o.email not in email_tos:
-                    _res_ids += [o.id]
-                    email_tos |= set([o.email])
+                if o.email and o.email not in email_tos:
+                    valid = False
+                    try:
+                        valid = tools.validate_email(o.email, mailing.email_check_mx, mailing.email_verify)
+                    except Exception, e:
+                        _logger.warning("Validate email <%s> check_mx:%s verify:%s, error: %s", o.email, mailing.email_check_mx, mailing.email_verify, e.message)
+                    if valid:
+                        _res_ids += [o.id]
+                        email_tos |= set([o.email])
             if _res_ids:
                 res_ids = _res_ids
             else:

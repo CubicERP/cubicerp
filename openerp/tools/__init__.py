@@ -37,6 +37,7 @@ from float_utils import *
 from mail import *
 from func import *
 from debugger import *
+from validate_email import *
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

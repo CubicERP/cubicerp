@@ -393,6 +393,10 @@
                                             <field name="contact_ab_pc" class="oe_inline"/> %
                                         </div>
                                     </group>
+                                    <group string="Advanced">
+                                        <field name="email_check_mx"/>
+                                        <field name="email_verify"/>
+                                    </group>
                                 </group>
                             </page>
                         </notebook>

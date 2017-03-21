@@ -568,6 +568,7 @@ class MassMailing(osv.Model):
     def get_recipients(self, cr, uid, mailing, context=None):
         if mailing.mailing_domain:
             domain = eval(mailing.mailing_domain)
+            domain += [('email', '!=', False)]
             res_ids = self.pool[mailing.mailing_model].search(cr, uid, domain, context=context)
         else:
             res_ids = []

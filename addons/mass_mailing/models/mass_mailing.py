@@ -601,7 +601,7 @@ class MassMailing(osv.Model):
             if not res_ids:
                 raise Warning('Please select recipients.')
             _res_ids = []
-            email_tos = set([s.email_to for s in mailing.statistics_ids if s.model == mailing.mailing_model])
+            email_tos = set([s.email_to for s in mailing.statistics_ids])
             for o in self.pool.get(mailing.mailing_model).browse(cr, uid, list(set(res_ids) - set([s.res_id for s in mailing.statistics_ids if s.model == mailing.mailing_model])), context=context):
                 if o.email and o.email not in email_tos:
                     valid = False

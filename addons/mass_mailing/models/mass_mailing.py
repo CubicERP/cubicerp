@@ -617,6 +617,8 @@ class MassMailing(osv.Model):
             else:
                 return True
             comp_ctx = dict(context, active_ids=res_ids)
+            if mailing.mailing_model == 'crm.lead':
+                comp_ctx['find_partner_recipient_email'] = False
             composer_values = {
                 'author_id': author_id,
                 'attachment_ids': [(4, attachment.id) for attachment in mailing.attachment_ids],
@@ -627,7 +629,7 @@ class MassMailing(osv.Model):
                 'record_name': False,
                 'composition_mode': 'mass_mail',
                 'mass_mailing_id': mailing.id,
-                'mailing_list_ids': [(4, l.id) for l in mailing.contact_list_ids],
+                'mailing_list_ids': mailing.mailing_model=='mail.mass_mailing.contact' and [(4, l.id) for l in mailing.contact_list_ids] or [],
                 'no_auto_thread': mailing.reply_to_mode != 'thread',
             }
             if mailing.reply_to_mode == 'email':

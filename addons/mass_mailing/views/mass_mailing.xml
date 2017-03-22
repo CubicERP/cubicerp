@@ -194,6 +194,9 @@
             <field name="model">mail.mass_mailing.list</field>
             <field name="arch" type="xml">
                 <form string="Contact List">
+                    <header>
+                        <button name="recipient_clean" string="Clean Recipients" type="object"/>
+                    </header>
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons">
                             <button name="%(mass_mailing.action_view_mass_mailing_contacts_from_list)d"

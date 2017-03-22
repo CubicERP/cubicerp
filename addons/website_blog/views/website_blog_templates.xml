@@ -172,7 +172,8 @@
         </p>
     </xpath>
 </template-->
-
+</data>
+<data noupdate="1">
 <!-- Blog Post Complete -->
 <template id="blog_post_complete" name="Blog Post">
   <t t-call="website_blog.index">
@@ -263,7 +264,8 @@
 
   </t>
 </template>
-
+</data>
+<data>
 <!-- Options: Blog Post: breadcrumb -->
 <template id="blog_breadcrumb" name="Breadcrumb"
         inherit_id="website_blog.blog_post_complete" active="False" customize_show="True">

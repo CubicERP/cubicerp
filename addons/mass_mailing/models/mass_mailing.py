@@ -12,6 +12,7 @@ from openerp.tools.safe_eval import safe_eval as eval
 from openerp.tools.translate import _
 from openerp.tools import ustr
 from openerp.osv import osv, fields
+from openerp import SUPERUSER_ID
 
 _logger = logging.getLogger(__name__)
 
@@ -41,11 +42,30 @@ class MassMailingList(osv.Model):
 
     _columns = {
         'name': fields.char('Mailing List', required=True),
+        'contact_ids': fields.one2many('mail.mass_mailing.contact', 'list_id', string="Mailing Contacts"),
         'contact_nbr': fields.function(
             _get_contact_nbr, type='integer',
             string='Number of Contacts',
         ),
     }
+
+    def recipient_clean(self, cr, uid, ids, context=None):
+        contact_obj = self.pool.get('mail.mass_mailing.contact')
+        sql = "select email " \
+              "  from mail_mass_mailing_contact " \
+              " where list_id=%s " \
+              " group by email " \
+              "having count(*)>1"
+        for list in self.browse(cr, uid, ids, context=context):
+            cr.execute(sql,(list.id,))
+            email_dup = [m[0] for m in cr.fetchall()]
+            for email in email_dup:
+                contact_ids = contact_obj.search(cr, uid, [('email','ilike',email),
+                                                           ('list_id','=',list.id)], context=context)[1:]
+                contact_obj.unlink(cr, SUPERUSER_ID, contact_ids, context=context)
+            for contact in list.contact_ids:
+                if not tools.validate_email(contact.email):
+                    contact.unlink()
 
 
 class MassMailingContact(osv.Model):

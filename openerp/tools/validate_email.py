@@ -91,6 +91,7 @@ ADDR_SPEC = LOCAL_PART + r'@' + DOMAIN               # see 3.4.1
 
 # A valid address will match exactly the 3.4.1 addr-spec.
 VALID_ADDRESS_REGEXP = '^' + ADDR_SPEC + '$'
+VALID_ADDRESS_REGEXP2 = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 MX_DNS_CACHE = {}
 MX_CHECK_CACHE = {}
@@ -124,7 +125,7 @@ def validate_email(email, check_mx=False, verify=False, debug=False, smtp_timeou
         logger = None
 
     try:
-        assert re.match(VALID_ADDRESS_REGEXP, email) is not None
+        assert re.match(VALID_ADDRESS_REGEXP2, email) is not None
         check_mx |= verify
         if check_mx:
             if not DNS:

@@ -824,7 +824,7 @@
 
             var lazyreflow = _.debounce(this.reflow.bind(this), 200);
             instance.web.bus.on('resize', this, function () {
-                if (parseInt(self.$el.parent().css('width')) <= 768) {
+                if (parseInt(self.$el.parent().css('width')) < 720) {
                     lazyreflow('all_outside');
                 } else {
                     lazyreflow();
@@ -1706,6 +1706,10 @@
             var self = this;
             force_open = (force_open == undefined) ? false : force_open;
 
+            if (parseInt($('#navbar-content').css('height')) > 64){
+                $('.navbar-toggle').trigger('click');
+            }
+
             if ($('.oe_leftbar').offset().left == 0 && force_open)
                 return;
 
@@ -1744,7 +1748,7 @@
             });
 
             $(document).keydown(function (key) {
-                if (key.key == 'Escape' && $(this).find('.modal').length == 0) {
+                if (key.key == 'Control' && $(this).find('.modal').length == 0) {
                     self.toggle_leftbar();
                 }
             });

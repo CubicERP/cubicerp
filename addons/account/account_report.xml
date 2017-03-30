@@ -183,17 +183,6 @@
             menu="False"
         />
 
-        <report 
-            id="action_report_general_ledger" 
-            model="account.report.general.ledger" 
-            string="General Ledger"
-            report_type="qweb-pdf"
-            name="account.report_generalledger" 
-            file="account.report_generalledger"
-            menu="False"
-            auto="False"
-        />
-
         <!-- Menu items -->
         <menuitem
             id="menu_tax_report"
@@ -202,5 +191,19 @@
             parent="account.menu_finance_generic_reporting"
             sequence="3"
         />
+
     </data>
+    <data noupdate="1">
+        <report
+            id="action_report_general_ledger"
+            model="account.report.general.ledger"
+            string="General Ledger"
+            report_type="qweb-pdf"
+            name="account.report_generalledger"
+            file="account.report_generalledger"
+            menu="False"
+            auto="False"
+        />
+    </data>
+
 </openerp>

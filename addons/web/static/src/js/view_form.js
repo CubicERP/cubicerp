@@ -1466,8 +1466,9 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
             }
 
             if (!$row || row_breacker == container_cols) {
-                $row = $('<div/>').attr({"class": "oe_form_group_row"}).appendTo($container);
+                $row = $('<div/>').attr({"class": "oe_form_group_row"}).appendTo($container.filter(".oe_form_group"));
                 row_breacker = 0; // reset counter
+                col_breacker = 0; // reset counter
             }
 
             $col = $('<div/>').attr({
@@ -1475,6 +1476,7 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
                 "colspan": child_colspan
             });
 
+            col_breacker = col_breacker + child_colspan;
             row_breacker++;
 
             if (tagName == 'group') {
@@ -1485,10 +1487,10 @@ instance.web.form.FormRenderingEngine = instance.web.form.FormRenderingEngineInt
             if ($child.attr('for'))
                 $col.addClass('oe_form_group_cell_label');
 
-            //$col.css({'width': (section_width * child_colspan) + "%"});
+            /*$col.css({'width': (container_section_width * child_colspan) + "%"});*/
 
-            //if($child.attr('colspan') == KEY_FIX_WIDTH_TO_PARENT)
-            //    $col.css({'width': "100%"});
+            if(col_breacker >= container_cols || $child.attr('colspan') == KEY_FIX_WIDTH_TO_PARENT)
+                row_breacker = container_cols
 
             // invisibility transfer
             var field_modifiers = JSON.parse($child.attr('modifiers') || '{}');

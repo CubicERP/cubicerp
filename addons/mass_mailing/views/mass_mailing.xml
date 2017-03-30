@@ -29,12 +29,18 @@
                     <field name="email_to"/>
                     <field name="message_id"/>
                     <field name="mass_mailing_id"/>
+                    <filter string="Not Send" name="filter_not_send" domain="[('sent', '=', False),('exception','=',False)]"/>
                     <filter string="Received" name="filter_received" domain="[('sent', '!=', False), ('bounced', '=', False)]"/>
                     <filter string="Opened" name="filter_opened" domain="[('opened', '!=', False)]"/>
                     <filter string="Replied" name="filter_replied" domain="[('replied', '!=', False)]"/>
+                    <filter string="Exception" name="filter_exception" domain="[('exception', '!=', False)]"/>
                     <group expand="0" string="Group By">
+                        <filter string="Send Date" name="group_send_date" context="{'group_by': 'sent:day'}"/>
                         <filter string="Open Date" name="group_open_date" context="{'group_by': 'opened:day'}"/>
                         <filter string="Reply Date" name="group_reply_date" context="{'group_by': 'replied:day'}"/>
+                        <filter string="Model" name="group_model" context="{'group_by': 'model'}"/>
+                        <filter string="Mailing" name="group_mailing_id" context="{'group_by': 'mass_mailing_id'}"/>
+                        <filter string="Campaign" name="group_campaign_id" context="{'group_by': 'mass_mailing_campaign_id'}"/>
                     </group>
                 </search>
             </field>

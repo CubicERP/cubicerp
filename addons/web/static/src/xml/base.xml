@@ -518,7 +518,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
             <div class="row">
                 <div class="col-xs-12 buttons_container">
                     <div class="oe_view_manager_buttons"/>
-                    <div style="display: flex;">
+                    <div >
                         <div class="oe_view_manager_sidebar"/>
                         <select t-if="widget.session.debug" class="oe_debug_view"/>
                     </div>

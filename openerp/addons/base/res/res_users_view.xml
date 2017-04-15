@@ -199,6 +199,9 @@
                             </page>
                             <page string="Preferences">
                                 <group>
+                                    <group string="Recover Password" name="recover">
+                                        <field name="email_recover"/>
+                                    </group>
                                     <group string="Localization" name="preferences">
                                         <field name="lang"/>
                                         <field name="tz"/>

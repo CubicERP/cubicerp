@@ -437,6 +437,13 @@
             $.validator.addMethod('matches', function (s, _, re) {
                 return new RegExp(re).test(s);
             }, _t("Invalid database name"));
+            $.validator.addMethod('password_strength', function (s, _, length) {
+                if ( length <= 0 ) {
+                    return true;
+                }
+                re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{"+length+",})";
+                return new RegExp(re).test(s);
+            }, _t("Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars"));
         },
         start: function () {
             var self = this;
@@ -449,10 +456,35 @@
                     ev.preventDefault();
                     self.db_list = null;
                 });
+            var fetch_db_template = this.rpc("/web/database/get_list_template", {}).then(
+                function (result) {
+                    self.db_list_template = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.db_list_template = null;
+                });
+            var fetch_db_all = this.rpc("/web/database/get_list_all", {}).then(
+                function (result) {
+                    self.db_list_all = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.db_list_all = null;
+                });
+            var fetch_langs = this.rpc("/web/session/get_lang_list", {}).then(
+                function (result) {
+                    self.lang_list = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.lang_list = null;
+                });
+            /*
             var fetch_langs = this.rpc("/web/session/get_lang_list", {}).done(function (result) {
                 self.lang_list = result;
-            });
-            return $.when(fetch_db, fetch_langs).always(self.do_render);
+            });*/
+            return $.when(fetch_db, fetch_db_template, fetch_db_all, fetch_langs).always(self.do_render);
         },
         do_render: function () {
             var self = this;
@@ -480,7 +512,6 @@
             self.$el.find("form[name=change_pwd_form]").validate({
                 messages: {
                     old_pwd: _t("Please enter your previous password"),
-                    new_pwd: _t("Please enter your new password"),
                     confirm_pwd: {
                         required: _t("Please confirm your new password"),
                         equalTo: _t("The confirmation does not match the password")
@@ -1748,7 +1779,7 @@
             });
 
             $(document).keydown(function (key) {
-                if (key.key == 'Control' && $(this).find('.modal').length == 0) {
+                if ((key.key == 'M' || key.key == 'm') && key.shiftKey == false && key.altKey == false && key.ctrlKey == true && $(this).find('.modal').length == 0) {
                     self.toggle_leftbar();
                 }
             });

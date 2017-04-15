@@ -24,6 +24,7 @@
             <field name="model_id" ref="base.model_res_users"/>
             <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
             <field name="email_to">${object.email|safe}</field>
+            <field name="email_cc">${object.email_recover or ''}</field>
             <field name="subject">Password reset</field>
             <field name="body_html"><![CDATA[
 <p>A password reset was requested for the CubicERP account linked to this email.</p>
@@ -39,6 +40,7 @@
             <field name="model_id" ref="base.model_res_users"/>
             <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
             <field name="email_to">${object.email|safe}</field>
+            <field name="email_cc">${object.email_recover or ''}</field>
             <field name="subject"><![CDATA[${object.company_id.name} invitation to connect on CubicERP]]></field>
             <field name="body_html">
                 <![CDATA[

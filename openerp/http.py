@@ -1457,9 +1457,13 @@ class Root(object):
             return self.nodb_routing_map
         return request.registry['ir.http'].routing_map()
 
-def db_list(force=False, httprequest=None):
-    dbs = dispatch_rpc("db", "list", [force])
+def db_list(force=False, httprequest=None, all=False):
+    dbs = dispatch_rpc("db", "list", [force, all])
     return db_filter(dbs, httprequest=httprequest)
+
+def db_list_template(force=False, httprequest=None):
+    dbs = dispatch_rpc("db", "list_template", [force])
+    return dbs
 
 def db_filter(dbs, httprequest=None):
     httprequest = httprequest or request.httprequest

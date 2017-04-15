@@ -245,6 +245,7 @@ class res_users(osv.Model):
 
         assert values.get('login'), "Signup: no login given for new user"
         assert values.get('partner_id') or values.get('name'), "Signup: no name or partner given for new user"
+        self._check_password(cr, uid, values.get('password'), context=context)
 
         # create a copy of the template user (attached to a specific partner_id if given)
         values['active'] = True

@@ -29,7 +29,7 @@ class DatabaseExists(Warning):
     pass
 
 # This should be moved to openerp.modules.db, along side initialize().
-def _initialize_db(id, db_name, demo, lang, user_password):
+def _initialize_db(id, db_name, demo, lang, user_password, user):
     try:
         db = openerp.sql_db.db_connect(db_name)
         with closing(db.cursor()) as cr:
@@ -48,13 +48,34 @@ def _initialize_db(id, db_name, demo, lang, user_password):
                 modobj.update_translations(cr, SUPERUSER_ID, mids, lang)
 
             # update admin's password and lang
-            values = {'password': user_password, 'lang': lang}
+            values = {'login': user, 'password': user_password, 'lang': lang}
             registry['res.users'].write(cr, SUPERUSER_ID, [SUPERUSER_ID], values)
 
             cr.execute('SELECT login, password FROM res_users ORDER BY login')
             cr.commit()
     except Exception, e:
         _logger.exception('CREATE DATABASE failed:')
+
+def _initialize_db_template(id, db_name, lang, user_password, user, template):
+    try:
+        db = openerp.sql_db.db_connect(db_name)
+        # registry = openerp.modules.registry.Registry(db_name)
+        with closing(db.cursor()) as cr:
+            # if lang:
+            #     modobj = registry['ir.module.module']
+            #     mids = modobj.search(cr, SUPERUSER_ID, [('state', '=', 'installed')])
+            #     modobj.update_translations(cr, SUPERUSER_ID, mids, lang)
+
+            cr.execute('update res_users set login=%s, password=%s where id=%s',(user,user_password,SUPERUSER_ID))
+            cr.commit()
+
+        from_fs = openerp.tools.config.filestore(template)
+        to_fs = openerp.tools.config.filestore(db_name)
+        if os.path.exists(from_fs) and not os.path.exists(to_fs):
+            shutil.copytree(from_fs, to_fs)
+
+    except Exception, e:
+        _logger.exception('CREATE DATABASE %s (%s) failed:'%(db_name,template))
 
 def dispatch(method, params):
     if method in ['create', 'get_progress', 'drop', 'dump', 'restore', 'rename',
@@ -63,7 +84,7 @@ def dispatch(method, params):
         passwd = params[0]
         params = params[1:]
         security.check_super(passwd)
-    elif method in ['db_exist', 'list', 'list_lang', 'server_version']:
+    elif method in ['db_exist', 'list', 'list_template', 'list_lang', 'server_version']:
         # params = params
         # No security check for these methods
         pass
@@ -72,23 +93,29 @@ def dispatch(method, params):
     fn = globals()['exp_' + method]
     return fn(*params)
 
-def _create_empty_database(name):
+def _create_empty_database(name, template=False):
     db = openerp.sql_db.db_connect('postgres')
     with closing(db.cursor()) as cr:
-        chosen_template = openerp.tools.config['db_template']
+        chosen_template = template or openerp.tools.config['db_template']
         cr.execute("SELECT datname FROM pg_database WHERE datname = %s",
                    (name,))
         if cr.fetchall():
             raise DatabaseExists("database %r already exists!" % (name,))
         else:
+            _drop_conn(cr, chosen_template)
+            # cr.execute("select pg_terminate_backend(pid) from pg_stat_activity where datname='%s'" % (chosen_template,))
             cr.autocommit(True)     # avoid transaction block
             cr.execute("""CREATE DATABASE "%s" ENCODING 'unicode' TEMPLATE "%s" """ % (name, chosen_template))
 
-def exp_create_database(db_name, demo, lang, user_password='admin'):
+def exp_create_database(db_name, demo, lang, user_password, user, template):
     """ Similar to exp_create but blocking."""
-    _logger.info('Create database `%s`.', db_name)
-    _create_empty_database(db_name)
-    _initialize_db(id, db_name, demo, lang, user_password)
+    _logger.info('Create database `%s` using template %s.', db_name, template)
+    _create_empty_database(db_name, template)
+    templates_list = ['template0', 'template1', 'postgres', openerp.tools.config['db_template']]
+    if not template or template in templates_list:
+        _initialize_db(id, db_name, demo, lang, user_password, user)
+    else:
+        _initialize_db_template(id, db_name, lang, user_password, user, template)
     return True
 
 def exp_duplicate_database(db_original_name, db_name):
@@ -124,7 +151,7 @@ def _drop_conn(cr, db_name):
 
 
 def exp_drop(db_name):
-    if db_name not in exp_list(True):
+    if db_name not in exp_list(True, True):
         return False
     openerp.modules.registry.RegistryManager.delete(db_name)
     openerp.sql_db.close_db(db_name)
@@ -304,7 +331,7 @@ def exp_db_exist(db_name):
     ## Not True: in fact, check if connection to database is possible. The database may exists
     return bool(openerp.sql_db.db_connect(db_name))
 
-def exp_list(document=False):
+def exp_list(document=False, all=False):
     if not openerp.tools.config['list_db'] and not document:
         raise openerp.exceptions.AccessDenied()
     chosen_template = openerp.tools.config['db_template']
@@ -321,9 +348,37 @@ def exp_list(document=False):
                 res = cr.fetchone()
                 db_user = res and str(res[0])
             if db_user:
-                cr.execute("select datname from pg_database where datdba=(select usesysid from pg_user where usename=%s) and datname not in %s order by datname", (db_user, templates_list))
+                cr.execute("select datname from pg_database where datdba=(select usesysid from pg_user where usename=%s) and datname not in %s " + ('' if all else "and datname not ilike 'template%%'") + " order by datname",
+                           (db_user, templates_list))
             else:
-                cr.execute("select datname from pg_database where datname not in %s order by datname", (templates_list,))
+                cr.execute("select datname from pg_database where datname not in %s " + ('' if all else "and datname not ilike 'template%%'") + " order by datname",
+                           (templates_list,))
+            res = [openerp.tools.ustr(name) for (name,) in cr.fetchall()]
+        except Exception:
+            res = []
+    res.sort()
+    return res
+
+def exp_list_template(document=False):
+    # if not openerp.tools.config['list_db'] and not document:
+    #     raise openerp.exceptions.AccessDenied()
+    # chosen_template = openerp.tools.config['db_template']
+    # templates_list = tuple(set(['template0', 'template1', 'postgres', chosen_template]))
+    db = openerp.sql_db.db_connect('postgres')
+    with closing(db.cursor()) as cr:
+        try:
+            db_user = openerp.tools.config["db_user"]
+            if not db_user and os.name == 'posix':
+                import pwd
+                db_user = pwd.getpwuid(os.getuid())[0]
+            if not db_user:
+                cr.execute("select usename from pg_user where usesysid=(select datdba from pg_database where datname=%s)", (openerp.tools.config["db_name"],))
+                res = cr.fetchone()
+                db_user = res and str(res[0])
+            if db_user:
+                cr.execute("select datname from pg_database where datdba=(select usesysid from pg_user where usename=%s) and datname ilike 'template%%' order by datname", (db_user,))
+            else:
+                cr.execute("select datname from pg_database where datname ilike 'template%%' order by datname")
             res = [openerp.tools.ustr(name) for (name,) in cr.fetchall()]
         except Exception:
             res = []

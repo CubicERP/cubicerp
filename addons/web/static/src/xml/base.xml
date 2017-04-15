@@ -91,14 +91,14 @@
                     you will be able to install your first application.
                 </p>
                 <p class="oe_grey" style="margin: 10px">
-                    By default, the master password is 'admin'. This password
+                    By default, the master password is 'admin' and must be change early. This password
                     is required to create, delete, dump or restore databases.
                 </p>
                 <table class="db_option_table" style="margin: 10px">
                     <tr>
                         <td><label for="super_admin_pwd">Master password:</label></td>
                         <td>
-                            <input type="password" name="super_admin_pwd" class="required" value="admin"/>
+                            <input type="password" name="super_admin_pwd" class="required"/>
                         </td>
                     </tr>
                     <tr>
@@ -117,6 +117,19 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><label for="template_db">Template Database:</label></td>
+                        <td class="oe_form_field oe_form_field_selection">
+                            <select t-if="widget.db_list_template" name="template_db" autofocus="autofocus">
+                                <option value="">Default Template</option>
+                                <t t-foreach="widget.db_list_template" t-as="db">
+                                    <option t-att-value="db">
+                                        <t t-esc="db" />
+                                    </option>
+                                </t>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><label for="db_lang">Default language:</label></td>
                         <td class="oe_form_field oe_form_field_selection">
                             <select name="db_lang" t-if="widget.lang_list" class="oe_inline">
@@ -128,9 +141,14 @@
                             </select>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td><label for="create_admin_pwd">Choose a admin user:</label></td>
+                        <td><input type="text" name="create_admin" class="required" /></td>
+                    </tr>
                     <tr>
                         <td><label for="create_admin_pwd">Choose a password:</label></td>
-                        <td><input type="password" name="create_admin_pwd" class="required" /></td>
+                        <td><input type="password" name="create_admin_pwd" class="required" password_strength="7"/></td>
                     </tr>
                     <tr>
                         <td><label for="create_confirm_pwd">Confirm password:</label></td>
@@ -156,11 +174,20 @@
                 <table align="center" class="db_option_table">
                     <tr>
                         <td><label for="super_admin_pwd">Master password:</label></td>
-                        <td><input type="password" name="super_admin_pwd" class="required" value="admin" /></td>
+                        <td><input type="password" name="super_admin_pwd" class="required" /></td>
                     </tr>
                     <tr>
                         <td><label for="db_original_name">Original database name:</label></td>
-                        <td><input type="text" name="db_original_name" class="required" matches="^[a-zA-Z][a-zA-Z0-9_-]+$" autofocus="true"/></td>
+                        <td class="oe_form_field oe_form_field_selection">
+                            <select t-if="widget.db_list_all" name="db_original_name" autofocus="autofocus">
+                                <t t-foreach="widget.db_list_all" t-as="db">
+                                    <option t-att-value="db">
+                                        <t t-esc="db" />
+                                    </option>
+                                </t>
+                            </select>
+                            <input t-if="!widget.db_list_all" name="db_original_name" class="required" matches="^[a-zA-Z][a-zA-Z0-9_-]+$" type="text" autofocus="autofocus"/>
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="db_name">New database name:</label></td>
@@ -183,14 +210,14 @@
                     <tr>
                         <td><label for="drop_db">Database:</label></td>
                         <td class="oe_form_field oe_form_field_selection">
-                            <select t-if="widget.db_list" name="drop_db" autofocus="autofocus">
-                                <t t-foreach="widget.db_list" t-as="db">
+                            <select t-if="widget.db_list_all" name="drop_db" autofocus="autofocus">
+                                <t t-foreach="widget.db_list_all" t-as="db">
                                     <option t-att-value="db">
                                         <t t-esc="db" />
                                     </option>
                                 </t>
                             </select>
-                            <input t-if="!widget.db_list" name="drop_db" class="required" type="text" autofocus="autofocus"/>
+                            <input t-if="!widget.db_list_all" name="drop_db" class="required" type="text" autofocus="autofocus"/>
                         </td>
                     </tr>
                     <tr>
@@ -291,7 +318,7 @@
                     </tr>
                     <tr>
                         <td><label for="new_pwd">New master password:</label></td>
-                        <td><input type="password" name="new_pwd" class="required" minlength="1"/></td>
+                        <td><input type="password" name="new_pwd" class="required" minlength="1" password_strength="8"/></td>
                     </tr>
                     <tr>
                         <td><label for="confirm_pwd">Confirm new master password:</label></td>
@@ -315,7 +342,7 @@
         <li><a href="#db_drop">Drop</a></li>
         <li><a href="#db_backup">Backup</a></li>
         <li><a href="#db_restore">Restore</a></li>
-        <li><a href="#db_change_password">Password</a></li>
+        <li><a href="#db_change_password">Master Password</a></li>
     </ul>
 </t>
 

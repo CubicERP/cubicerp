@@ -39,12 +39,14 @@
                     <group groups="stock_account.group_inventory_valuation" attrs="{'invisible': [('type','=','service')]}">
                         <separator string="Inventory Valuation" attrs="{'invisible':[('type', 'in', ('service', 'consu'))]}" colspan="4"/>
                         <group colspan="2" col="2">
-                            <field name="valuation" attrs="{'invisible':[('type', 'in', ('service', 'consu'))]}"/>
+                            <field name="valuation" attrs="{'invisible':[('type', '=', 'service')]}"/>
                         </group>
                         <group colspan="2" col="2">
                             <field name="property_stock_account_input" attrs="{'invisible':[('valuation', '!=', 'real_time')]}"
                                 domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
                             <field name="property_stock_account_output" attrs="{'invisible':[('valuation', '!=', 'real_time')]}"
+                                domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                            <field name="property_stock_valuation_account_id" attrs="{'invisible':[('valuation', '!=', 'real_time')]}"
                                 domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
                         </group>
                     </group>

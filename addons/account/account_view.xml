@@ -1254,13 +1254,15 @@
                     <field name="move_id" string="Number (Move)"/>
                     <field name="account_id"/>
                     <field name="partner_id"/>
+                    <field name="product_id"/>
                     <field name="journal_id" context="{'journal_name':self}" widget="selection"/> <!-- it's important to keep widget='selection' in this filter viewbecause without that the value passed in the context is not the ID but the textual value (name) of the selected journal -->
                     <field name="period_id" context="{'period_id':self}" widget="selection"/> <!-- it's important to keep the widget='selection' in this field, for the same reason as explained above -->
                     <group expand="0" string="Group By">
-                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
-                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
-                        <filter string="Account"  icon="terp-folder-green" context="{'group_by':'account_id'}"/>
-                        <filter string="Period" icon="terp-go-month" domain="[]" context="{'group_by':'period_id'}"/>
+                        <filter string="Partner" name="partner_group" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Product" name="product_group" icon="terp-product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Journal" name="journal_group" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Account" name="account_group" icon="terp-folder-green" context="{'group_by':'account_id'}"/>
+                        <filter string="Period" name="period_group" icon="terp-go-month" domain="[]" context="{'group_by':'period_id'}"/>
                     </group>
                 </search>
             </field>

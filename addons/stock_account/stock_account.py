@@ -20,10 +20,12 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from openerp.tools import float_compare, float_round
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, float_compare, float_round
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import logging
+import time
+
 _logger = logging.getLogger(__name__)
 
 
@@ -239,7 +241,7 @@ class stock_quant(osv.osv):
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
-                    'date': move.date,
+                    'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                     'partner_id': partner_id,
                     'debit': valuation_amount > 0 and valuation_amount or 0,
                     'credit': valuation_amount < 0 and -valuation_amount or 0,
@@ -251,7 +253,7 @@ class stock_quant(osv.osv):
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
-                    'date': move.date,
+                    'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                     'partner_id': partner_id,
                     'credit': valuation_amount > 0 and valuation_amount or 0,
                     'debit': valuation_amount < 0 and -valuation_amount or 0,
@@ -281,8 +283,8 @@ class stock_quant(osv.osv):
         if not res:
             res = self.pool.get('account.move').create(cr, uid, {'journal_id': journal_id,
                                                                  'period_id': period_id,
-                                                                 'date': fields.date.context_today(self, cr, uid, context=context),
-                                                                 'ref': move.picking_id.name}, context=context)
+                                                                 'date': context.get('force_move_date',fields.date.context_today(self, cr, uid, context=context)),
+                                                                 'ref': move.picking_id.name or move.inventory_id.name}, context=context)
         return res
     
     #def _reconcile_single_negative_quant(self, cr, uid, to_solve_quant, quant, quant_neg, qty, context=None):
@@ -327,7 +329,8 @@ class stock_move(osv.osv):
         tmpl_dict = {}
         for move in self.browse(cr, uid, ids, context=context):
             #adapt standard price on incomming moves if the product cost_method is 'average'
-            if (move.location_id.usage == 'supplier') and (move.product_id.cost_method == 'average'):
+            if move.price_unit and move.location_id.usage in ('supplier','inventory','production') and \
+                            move.location_dest_id.usage in ('internal') and move.product_id.cost_method == 'average':
                 product = move.product_id
                 prod_tmpl_id = move.product_id.product_tmpl_id.id
                 qty_available = move.product_id.product_tmpl_id.qty_available
@@ -336,7 +339,7 @@ class stock_move(osv.osv):
                 else:
                     tmpl_dict[prod_tmpl_id] = 0
                     product_avail = qty_available
-                if product_avail <= 0:
+                if product_avail == 0:
                     new_std_price = move.price_unit
                 else:
                     # Get the standard price
@@ -345,7 +348,7 @@ class stock_move(osv.osv):
                 tmpl_dict[prod_tmpl_id] += move.product_qty
                 # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
                 ctx = dict(context or {}, force_company=move.company_id.id)
-                product_obj.write(cr, SUPERUSER_ID, [product.id], {'standard_price': new_std_price}, context=ctx)
+                product_obj.write(cr, SUPERUSER_ID, [product.id], {'standard_price': abs(new_std_price)}, context=ctx)
 
     def product_price_update_after_done(self, cr, uid, ids, context=None):
         '''

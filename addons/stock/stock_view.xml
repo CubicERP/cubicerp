@@ -105,12 +105,14 @@
                             <field name="filter" string="Inventory of" widget='radio' attrs="{'readonly': [('state', '!=', 'draft')]}" on_change="onchange_filter(filter)"/>
                         </group>
                         <group>
-                            <field name="date"/>
+                            <field name="date" attrs="{'readonly':['|',('state','!=','draft'),('real_time','=',True)]}"/>
                             <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                             <field name="product_id" domain="[('type','=','product')]" attrs="{'invisible': [('filter', 'not in', ('product', 'product_owner'))], 'required': [('filter', 'in', ('product', 'product_owner'))]}"/>
+                            <field name="category_id" attrs="{'invisible': [('filter', '!=', 'category')], 'required': [('filter', '=', 'category')]}"/>
                             <field name="lot_id" attrs="{'invisible': [('filter', '!=', 'lot')], 'required': [('filter', '=', 'lot')]}" groups="stock.group_production_lot" />
                             <field name="partner_id" context="{'default_is_company':1}" attrs="{'invisible': [('filter', 'not in', ('owner', 'product_owner'))], 'required': [('filter', 'in', ('owner', 'product_owner'))]}" groups="stock.group_tracking_owner"/>
                             <field name="package_id" attrs="{'invisible': [('filter', '!=', 'pack')], 'required': [('filter', '=', 'pack')]}" groups="stock.group_tracking_lot"/>
+                            <field name="real_time"/>
                         </group>
                     </group>
                     <notebook attrs="{'invisible':[('state','=','draft')]}">
@@ -118,12 +120,12 @@
                             <button name="reset_real_qty" states="confirm" string="⇒ Set quantities to 0" type="object" class="oe_link oe_right" groups="stock.group_stock_user"/>
                             <field name="line_ids" string="Inventory Details" context="{'default_location_id': location_id,  'default_product_id': product_id, 'default_prod_lot_id': lot_id, 'default_package_id': package_id, 'default_partner_id': partner_id}">
                                 <tree string="Inventory Details" editable="bottom" colors="blue: product_qty != theoretical_qty; red: theoretical_qty &lt; 0">
-                                    <field name="product_id"  domain="[('type','=','product')]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
-                                    <field name="product_uom_id" groups="product.group_uom" string="UoM" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
-                                    <field name="location_id" domain="[('id', 'child_of', parent.location_id)]" groups="stock.group_locations" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)"/>
-                                    <field name="prod_lot_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"  groups="stock.group_production_lot"/>
-                                    <field name="package_id" domain="['|', ('location_id','=', False), ('location_id', '=', location_id)]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" groups="stock.group_tracking_lot"/>
-                                    <field name="partner_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id)" groups="stock.group_tracking_owner"/>
+                                    <field name="product_id"  domain="[('type','!=','service')]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)"/>
+                                    <field name="product_uom_id" groups="product.group_uom" string="UoM" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)"/>
+                                    <field name="location_id" domain="[('id', 'child_of', parent.location_id)]" groups="stock.group_locations" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)"/>
+                                    <field name="prod_lot_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"  groups="stock.group_production_lot"/>
+                                    <field name="package_id" domain="['|', ('location_id','=', False), ('location_id', '=', location_id)]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)" groups="stock.group_tracking_lot"/>
+                                    <field name="partner_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)" groups="stock.group_tracking_owner"/>
                                     <field name="theoretical_qty" readonly="1"/>
                                     <field name="product_qty" string="Real Quantity"/>
                                     <field name="state" invisible="True"/>

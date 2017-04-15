@@ -52,6 +52,11 @@ class product_template(osv.osv):
             string='Stock Output Account', 
             help="When doing real-time inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account, unless "
                  "there is a specific valuation account set on the destination location. When not set on the product, the one from the product category is used."),
+        'property_stock_valuation_account_id': fields.property(
+            type='many2one',
+            relation='account.account',
+            string="Stock Valuation Account",
+            help="When real-time inventory valuation is enabled on a product, this account will hold the current value of the products.", ),
     }
 
     _defaults = {
@@ -82,7 +87,10 @@ class product_template(osv.osv):
             stock_output_acc = product_obj.categ_id.property_stock_account_output_categ and product_obj.categ_id.property_stock_account_output_categ.id or False
 
         journal_id = product_obj.categ_id.property_stock_journal and product_obj.categ_id.property_stock_journal.id or False
-        account_valuation = product_obj.categ_id.property_stock_valuation_account_id and product_obj.categ_id.property_stock_valuation_account_id.id or False
+
+        account_valuation = product_obj.property_stock_valuation_account_id and product_obj.property_stock_valuation_account_id.id or False
+        if not account_valuation:
+            account_valuation = product_obj.categ_id.property_stock_valuation_account_id and product_obj.categ_id.property_stock_valuation_account_id.id or False
 
         if not all([stock_input_acc, stock_output_acc, account_valuation, journal_id]):
             raise osv.except_osv(_('Error!'), _('''One of the following information is missing on the product or product category and prevents the accounting valuation entries to be created:
@@ -99,6 +107,18 @@ class product_template(osv.osv):
             'property_stock_valuation_account_id': account_valuation
         }
 
+    def get_valuation_account(self, cr, uid, ids, context=None):
+        res = {}
+        for product in self.browse(cr, uid, ids, context=context):
+            account_valuation = product.property_stock_valuation_account_id and product.property_stock_valuation_account_id.id or False
+            if not account_valuation:
+                account_valuation = product.categ_id.property_stock_valuation_account_id and product.categ_id.property_stock_valuation_account_id.id or False
+            if account_valuation:
+                res[account_valuation] = res.get(account_valuation,[]) + [product.id]
+        return res
+
+    def _get_diff_standard_price(self, cr, uid, product, new_price, context=None):
+        return product.standard_price - new_price
 
     def do_change_standard_price(self, cr, uid, ids, new_price, context=None):
         """ Changes the Standard Price of Product and creates an account move accordingly."""
@@ -116,9 +136,9 @@ class product_template(osv.osv):
                 c.update({'location': location.id, 'compute_child': False})
                 product = self.browse(cr, uid, rec_id, context=c)
 
-                diff = product.standard_price - new_price
+                diff = self._get_diff_standard_price(cr, uid, product, new_price, context=context)
                 if not diff:
-                    raise osv.except_osv(_('Error!'), _("No difference between standard price and new price!"))
+                    continue
                 for prod_variant in product.product_variant_ids:
                     qty = prod_variant.qty_available
                     if qty:
@@ -126,6 +146,7 @@ class product_template(osv.osv):
                         move_vals = {
                             'journal_id': datas['stock_journal'],
                             'company_id': location.company_id.id,
+                            'ref': _('Standard Price changed'),
                         }
                         move_id = move_obj.create(cr, uid, move_vals, context=context)
 
@@ -144,18 +165,20 @@ class product_template(osv.osv):
                             credit_account_id = counterpart_account
 
                         move_line_obj.create(cr, uid, {
-                                        'name': _('Standard Price changed'),
+                                        'name': _('Standard Price changed from %s to %s')%(product.standard_price,new_price),
                                         'account_id': debit_account_id,
                                         'debit': amount_diff,
                                         'credit': 0,
                                         'move_id': move_id,
+                                        'product_id': prod_variant.id,
                                         }, context=context)
                         move_line_obj.create(cr, uid, {
-                                        'name': _('Standard Price changed'),
+                                        'name': _('Standard Price changed from %s to %s')%(product.standard_price,new_price),
                                         'account_id': credit_account_id,
                                         'debit': 0,
                                         'credit': amount_diff,
-                                        'move_id': move_id
+                                        'move_id': move_id,
+                                        'product_id': prod_variant.id,
                                         }, context=context)
             self.write(cr, uid, rec_id, {'standard_price': new_price})
         return True

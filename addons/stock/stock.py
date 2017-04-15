@@ -2513,7 +2513,7 @@ class stock_move(osv.osv):
         # Check the packages have been placed in the correct locations
         self._check_package_from_moves(cr, uid, ids, context=context)
         #set the move as done
-        self.write(cr, uid, ids, {'state': 'done', 'date': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)}, context=context)
+        self.write(cr, uid, ids, {'state': 'done', 'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATETIME_FORMAT))}, context=context)
         self.pool.get('procurement.order').check(cr, uid, list(procurement_ids), context=context)
         #assign destination moves
         if move_dest_ids:
@@ -2524,7 +2524,7 @@ class stock_move(osv.osv):
             if picking.state == 'done' and not picking.date_done:
                 done_picking.append(picking.id)
         if done_picking:
-            picking_obj.write(cr, uid, done_picking, {'date_done': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)}, context=context)
+            picking_obj.write(cr, uid, done_picking, {'date_done': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATETIME_FORMAT))}, context=context)
         return True
 
     def unlink(self, cr, uid, ids, context=None):
@@ -2692,7 +2692,10 @@ class stock_inventory(osv.osv):
            :rtype: list of tuple
         """
         #default available choices
-        res_filter = [('none', _('All products')), ('partial', _('Manual Selection of Products')), ('product', _('One product only'))]
+        res_filter = [('none', _('All products')),
+                      ('partial', _('Manual Selection of Products')),
+                      ('product', _('One product only')),
+                      ('category', _('One category only'))]
         settings_obj = self.pool.get('stock.config.settings')
         config_ids = settings_obj.search(cr, uid, [], limit=1, order='id DESC', context=context)
         #If we don't have updated config until now, all fields are by default false and so should be not dipslayed
@@ -2724,7 +2727,7 @@ class stock_inventory(osv.osv):
 
     _columns = {
         'name': fields.char('Inventory Reference', required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Inventory Name."),
-        'date': fields.datetime('Inventory Date', required=True, readonly=True, help="The date that will be used for the stock level check of the products and the validation of the stock move related to this inventory."),
+        'date': fields.datetime('Inventory Date', required=True, help="The date that will be used for the stock level check of the products and the validation of the stock move related to this inventory."),
         'line_ids': fields.one2many('stock.inventory.line', 'inventory_id', 'Inventories', readonly=False, states={'done': [('readonly', True)]}, help="Inventory Lines.", copy=True),
         'move_ids': fields.one2many('stock.move', 'inventory_id', 'Created Moves', help="Inventory Moves.", states={'done': [('readonly', True)]}),
         'state': fields.selection(INVENTORY_STATE_SELECTION, 'Status', readonly=True, select=True, copy=False),
@@ -2734,6 +2737,8 @@ class stock_inventory(osv.osv):
         'package_id': fields.many2one('stock.quant.package', 'Inventoried Pack', readonly=True, states={'draft': [('readonly', False)]}, help="Specify Pack to focus your inventory on a particular Pack."),
         'partner_id': fields.many2one('res.partner', 'Inventoried Owner', readonly=True, states={'draft': [('readonly', False)]}, help="Specify Owner to focus your inventory on a particular Owner."),
         'lot_id': fields.many2one('stock.production.lot', 'Inventoried Lot/Serial Number', readonly=True, states={'draft': [('readonly', False)]}, help="Specify Lot/Serial Number to focus your inventory on a particular Lot/Serial Number.", copy=False),
+        'category_id': fields.many2one('product.category', string="Category", readonly=True, states={'draft': [('readonly', False)]}, help="Specify Category of products to focus your inventory on a particular Category."),
+        'real_time': fields.boolean('Real Time'),
         'move_ids_exist': fields.function(_get_move_ids_exist, type='boolean', string=' Stock Move Exists?', help='technical field for attrs in view'),
         'filter': fields.selection(_get_available_filters, 'Inventory of', required=True,
                                    help="If you do an entire inventory, you can choose 'All Products' and it will prefill the inventory with the current stock.  If you only do some products  "\
@@ -2755,6 +2760,7 @@ class stock_inventory(osv.osv):
         'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'stock.inventory', context=c),
         'location_id': _default_stock_location,
         'filter': 'none',
+        'real_time': True,
     }
 
     def reset_real_qty(self, cr, uid, ids, context=None):
@@ -2780,7 +2786,10 @@ class stock_inventory(osv.osv):
         #The inventory is posted as a single step which means quants cannot be moved from an internal location to another using an inventory
         #as they will be moved to inventory loss, and other quants will be created to the encoded quant location. This is a normal behavior
         #as quants cannot be reuse from inventory location (users can still manually move the products before/after the inventory if they want).
+        if context is None: context = {}
         move_obj = self.pool.get('stock.move')
+        if not inv.real_time:
+            context['force_move_date'] = inv.date
         move_obj.action_done(cr, uid, [x.id for x in inv.move_ids if x.state != 'done'], context=context)
 
     def action_check(self, cr, uid, ids, context=None):
@@ -2820,10 +2829,13 @@ class stock_inventory(osv.osv):
                 vals = self._get_inventory_lines(cr, uid, inventory, context=context)
                 for product_line in vals:
                     inventory_line_obj.create(cr, uid, product_line, context=context)
-        return self.write(cr, uid, ids, {'state': 'confirm', 'date': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)})
+            if inventory.real_time:
+                inventory.write({'date': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)})
+        return self.write(cr, uid, ids, {'state': 'confirm'})
 
     def _get_inventory_lines(self, cr, uid, inventory, context=None):
         location_obj = self.pool.get('stock.location')
+        category_obj = self.pool.get('product.category')
         product_obj = self.pool.get('product.product')
         location_ids = location_obj.search(cr, uid, [('id', 'child_of', [inventory.location_id.id])], context=context)
         domain = ' location_id in %s'
@@ -2837,15 +2849,32 @@ class stock_inventory(osv.osv):
         if inventory.product_id:
             domain += ' and product_id = %s'
             args += (inventory.product_id.id,)
+        if inventory.category_id:
+            category_ids = category_obj.search(cr, uid, [('id','child_of',[inventory.category_id.id])], context=context)
+            product_ids = product_obj.search(cr, uid, [('categ_id','in',category_ids)], context=context)
+            domain += ' and product_id in %s'
+            args += (tuple(product_ids),)
         if inventory.package_id:
             domain += ' and package_id = %s'
             args += (inventory.package_id.id,)
 
-        cr.execute('''
-           SELECT product_id, sum(qty) as product_qty, location_id, lot_id as prod_lot_id, package_id, owner_id as partner_id
-           FROM stock_quant WHERE''' + domain + '''
-           GROUP BY product_id, location_id, lot_id, package_id, partner_id
-        ''', args)
+        if inventory.real_time:
+            cr.execute('''
+               SELECT product_id, sum(qty) as product_qty, location_id, lot_id as prod_lot_id, package_id, owner_id as partner_id
+               FROM stock_quant WHERE''' + domain + '''
+               GROUP BY product_id, location_id, lot_id, package_id, partner_id
+            ''', args)
+        else:
+            cr.execute("""
+                SELECT product_id, sum(product_qty) as product_qty, location_id, prod_lot_id, package_id, partner_id
+                FROM (select product_id, product_qty  as product_qty, location_dest_id as location_id, restrict_lot_id as prod_lot_id, product_packaging as package_id, 0 as partner_id
+                        from stock_move where state='done' and date <= '""" + inventory.date + """'
+                      UNION ALL
+                      select product_id, product_qty * -1 as product_qty, location_id, restrict_lot_id as prod_lot_id, product_packaging as package_id, 0 as partner_id
+                        from stock_move where state='done' and date <= '""" + inventory.date + """'
+                     ) as foo WHERE """ + domain + """
+                GROUP BY product_id, location_id, prod_lot_id, package_id, partner_id
+             """, args)
         vals = []
         for product_line in cr.dictfetchall():
             #replace the None the dictionary by False, because falsy values are tested later on
@@ -2910,11 +2939,14 @@ class stock_inventory_line(osv.osv):
         quant_obj = self.pool["stock.quant"]
         uom_obj = self.pool["product.uom"]
         for line in self.browse(cr, uid, ids, context=context):
-            quant_ids = self._get_quants(cr, uid, line, context=context)
-            quants = quant_obj.browse(cr, uid, quant_ids, context=context)
-            tot_qty = sum([x.qty for x in quants])
-            if line.product_uom_id and line.product_id.uom_id.id != line.product_uom_id.id:
-                tot_qty = uom_obj._compute_qty_obj(cr, uid, line.product_id.uom_id, tot_qty, line.product_uom_id, context=context)
+            if line.inventory_id.real_time:
+                quant_ids = self._get_quants(cr, uid, line, context=context)
+                quants = quant_obj.browse(cr, uid, quant_ids, context=context)
+                tot_qty = sum([x.qty for x in quants])
+                if line.product_uom_id and line.product_id.uom_id.id != line.product_uom_id.id:
+                    tot_qty = uom_obj._compute_qty_obj(cr, uid, line.product_id.uom_id, tot_qty, line.product_uom_id, context=context)
+            else:
+                tot_qty = self._get_quantity_from_move(cr, uid, location_id=line.location_id.id, product_id=line.product_id.id, uom_id=line.product_uom_id.id, package_id=line.package_id.id, prod_lot_id=line.prod_lot_id.id, date=line.inventory_id.date, context=context)
             res[line.id] = tot_qty
         return res
 
@@ -2970,7 +3002,7 @@ class stock_inventory_line(osv.osv):
         quants = quant_obj.search(cr, uid, dom, context=context)
         return quants
 
-    def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False, prod_lot_id=False, partner_id=False, company_id=False, context=None):
+    def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False, prod_lot_id=False, partner_id=False, real_time=True, date=False, company_id=False, context=None):
         quant_obj = self.pool["stock.quant"]
         uom_obj = self.pool["product.uom"]
         res = {'value': {}}
@@ -2987,23 +3019,51 @@ class stock_inventory_line(osv.osv):
             product = self.pool.get('product.product').browse(cr, uid, product_id, context=context)
             if not company_id:
                 company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
-            dom = [('company_id', '=', company_id), ('location_id', '=', location_id), ('lot_id', '=', prod_lot_id),
-                        ('product_id','=', product_id), ('owner_id', '=', partner_id), ('package_id', '=', package_id)]
-            quants = quant_obj.search(cr, uid, dom, context=context)
-            th_qty = sum([x.qty for x in quant_obj.browse(cr, uid, quants, context=context)])
-            if product_id and uom_id and product.uom_id.id != uom_id:
-                th_qty = uom_obj._compute_qty(cr, uid, product.uom_id.id, th_qty, uom_id)
-            res['value']['theoretical_qty'] = th_qty
-            res['value']['product_qty'] = th_qty
+            if real_time:
+                dom = [('company_id', '=', company_id), ('location_id', '=', location_id), ('lot_id', '=', prod_lot_id),
+                            ('product_id','=', product_id), ('owner_id', '=', partner_id), ('package_id', '=', package_id)]
+                quants = quant_obj.search(cr, uid, dom, context=context)
+                th_qty = sum([x.qty for x in quant_obj.browse(cr, uid, quants, context=context)])
+                if product_id and uom_id and product.uom_id.id != uom_id:
+                    th_qty = uom_obj._compute_qty(cr, uid, product.uom_id.id, th_qty, uom_id)
+                res['value']['theoretical_qty'] = th_qty
+                res['value']['product_qty'] = th_qty
+            elif date:
+                res['value']['theoretical_qty'] = res['value']['product_qty'] = self._get_quantity_from_move(cr, uid, location_id=location_id, product_id=product_id, uom_id=uom_id, package_id=package_id, prod_lot_id=prod_lot_id, date=date, context=context)
         return res
 
-    def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):
-        stock_move_obj = self.pool.get('stock.move')
-        quant_obj = self.pool.get('stock.quant')
-        diff = inventory_line.theoretical_qty - inventory_line.product_qty
-        if not diff:
-            return
-        #each theorical_lines where difference between theoretical and checked quantities is not 0 is a line for which we need to create a stock move
+    def _get_quantity_from_move(self, cr, uid, location_id=False, product_id=False, uom_id=False, package_id=False, prod_lot_id=False, date=False, context=None):
+        uom_obj = self.pool["product.uom"]
+        qty = 0.0
+        if product_id and location_id and date:
+            product = self.pool.get('product.product').browse(cr, uid, product_id, context=context)
+            domain = ' location_id = %s'
+            args = (location_id,)
+            if prod_lot_id:
+                domain += ' and prod_lot_id = %s'
+                args += (prod_lot_id,)
+            if package_id:
+                domain += ' and package_id = %s'
+                args += (package_id,)
+            cr.execute("""
+                    SELECT sum(product_qty)
+                    FROM (select product_id, product_qty  as product_qty, location_dest_id as location_id, restrict_lot_id as prod_lot_id, product_packaging as package_id
+                            from stock_move where state='done' and product_id = """ + str(
+                product_id) + """ and date <= '""" + date + """'
+                          UNION ALL
+                          select product_id, product_qty * -1 as product_qty, location_id, restrict_lot_id as prod_lot_id, product_packaging as package_id
+                            from stock_move where state='done' and product_id = """ + str(
+                product_id) + """ and date <= '""" + date + """'
+                         ) as foo
+                    WHERE """ + domain, args)
+            result = cr.fetchone()
+            if result:
+                qty = result[0]
+                if product_id and uom_id and product.uom_id.id != uom_id:
+                    qty = uom_obj._compute_qty(cr, uid, product.uom_id.id, qty, uom_id)
+        return qty
+
+    def _get_move_from_inventory_line(self, cr, uid, inventory_line, diff, context=None):
         vals = {
             'name': _('INV:') + (inventory_line.inventory_id.name or ''),
             'product_id': inventory_line.product_id.id,
@@ -3026,6 +3086,16 @@ class stock_inventory_line(osv.osv):
             vals['location_id'] = inventory_line.location_id.id
             vals['location_dest_id'] = inventory_location_id
             vals['product_uom_qty'] = diff
+        return vals
+
+    def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):
+        stock_move_obj = self.pool.get('stock.move')
+        quant_obj = self.pool.get('stock.quant')
+        diff = inventory_line.theoretical_qty - inventory_line.product_qty
+        if not diff:
+            return
+        #each theorical_lines where difference between theoretical and checked quantities is not 0 is a line for which we need to create a stock move
+        vals = self._get_move_from_inventory_line(cr, uid, inventory_line, diff, context=context)
         move_id = stock_move_obj.create(cr, uid, vals, context=context)
         move = stock_move_obj.browse(cr, uid, move_id, context=context)
         if diff > 0:

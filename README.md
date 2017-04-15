@@ -17,4 +17,5 @@ Useful Links
 * Demo online: https://demo.cubicerp.com (us: demo, pw: demo)
 * Help to Users: https://cubicerp.com/help
 * New Features & Bugs: https://cubicerp.com/issues
+* Roadmap: http://cubicerp.com/roadmap
 * Community Forum: https://cubicerp.com/community

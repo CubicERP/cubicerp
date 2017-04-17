@@ -25,6 +25,7 @@ from openerp.osv import fields,osv
 class ir_exports(osv.osv):
     _name = "ir.exports"
     _order = 'name'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Export Name'),
         'resource': fields.char('Resource', select=True),
@@ -36,6 +37,7 @@ class ir_exports(osv.osv):
 class ir_exports_line(osv.osv):
     _name = 'ir.exports.line'
     _order = 'id'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Field Name'),
         'export_id': fields.many2one('ir.exports', 'Export', select=True, ondelete='cascade'),

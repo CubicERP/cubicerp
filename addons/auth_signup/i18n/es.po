@@ -180,12 +180,17 @@ msgstr "Dirección de correo electrónico inválido, verificar!"
 
 #. module: auth_signup
 #: code:addons/auth_signup/controllers/main.py:70
-#: code:addons/auth_signup/controllers/main.py:100
 #: code:addons/cubicerp/addons/auth_signup/controllers/main.py:70
+#, python-format
+msgid "Invalid password, wrong minimum length 5, use at least char uppercase, char lowercase and digits"
+msgstr "Contraseña inválida, longitud mínima 5, debe usar letras mayúsculas, letras minúsculas y dígitos"
+
+#. module: auth_signup
+#: code:addons/auth_signup/controllers/main.py:100
 #: code:addons/cubicerp/addons/auth_signup/controllers/main.py:100
 #, python-format
 msgid "Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars"
-msgstr "Contraseña inválida, longitud mínima incorrecta, debe usar letras mayúsculas, letras minúsculas, dígitos y caracteres especiales"
+msgstr "Contraseña inválida, longitud mínima inválida, debe usar letras mayúsculas, letras minúsculas, dígitos y caracteres especiales"
 
 #. module: auth_signup
 #: code:addons/auth_signup/controllers/main.py:128

@@ -125,6 +125,7 @@ class ir_model(osv.osv):
             help="This field specifies whether the model is transient or not (i.e. if records are automatically deleted from the database or not)"),
         'modules': fields.function(_in_modules, type='char', string='In Modules', help='List of modules in which the object is defined or inherited'),
         'view_ids': fields.function(_view_ids, type='one2many', obj='ir.ui.view', string='Views'),
+        'logging_id': fields.one2many('ir.logging', 'model_id', 'Logging', readonly=True, copy=False),
     }
 
     _defaults = {

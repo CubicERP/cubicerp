@@ -27,6 +27,12 @@ Running the server
     comma-separated list of modules to update before running the server
     (requires :option:`-d`).
 
+    .. warning:: Only update the changed files, to force all files use -F or --force
+
+    .. option:: -F, --force
+
+        force to update of all module files, not only the changed files. Requires -d and -u.
+
 .. option:: --addons-path <directories>
 
     comma-separated list of directories in which modules are stored. These

@@ -2668,7 +2668,7 @@ class BaseModel(object):
                                         self._table, k)
                                 except Exception:
                                     msg = "WARNING: unable to set column %s of table %s not null !\n"\
-                                        "Try to re-run: openerp-server --update=module\n"\
+                                        "Try to re-run: cubicerp-server --update=module --force\n"\
                                         "If it doesn't work, update records and execute manually:\n"\
                                         "ALTER TABLE %s ALTER COLUMN %s SET NOT NULL"
                                     _logger.warning(msg, k, self._table, self._table, k, exc_info=True)
@@ -6105,6 +6105,22 @@ class Model(BaseModel):
     _auto = True
     _register = False # not visible in ORM registry, meant to be python-inherited only
     _transient = False # True in a TransientModel
+    _log_unlink = True
+
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if self._log_unlink and ids:
+            logging_group_id = context.get('logging_group_id', False)
+            if not logging_group_id:
+                logging_group_id = self.pool['ir.logging.group'].create(cr, uid, {
+                                                          'name':'Unlink %s %s'%(self._name, str(ids)),
+                                                          'dbname': cr.dbname,
+                                                      }, context=ctx)
+            ctx['logging_group_id'] = logging_group_id
+            self.pool['ir.logging'].log_unlink(cr, uid, self, ids, context=ctx)
+        return super(Model, self).unlink(cr, uid, ids, context=ctx)
 
 class TransientModel(BaseModel):
     """Model super-class for transient records, meant to be temporarily

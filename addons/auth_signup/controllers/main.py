@@ -67,9 +67,8 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
                     _logger.error(e.message)
                     qcontext['error'] = _("Could not create a new account.")
             except openerp.exceptions.ValidationError:
-                qcontext['error'] = _(
-                    "Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars")
-                _logger.exception('error when resetting password: Invalid password!')
+                qcontext['error'] = _("Invalid password, wrong minimum length 5, use at least char uppercase, char lowercase and digits")
+                _logger.exception('error when singup user: Invalid password!')
             except Exception, e:
                 qcontext['error'] = _(e.message)
 
@@ -96,7 +95,7 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
-            except openerp.exceptions.ValidationError:
+            except openerp.exceptions.ValidationError as e:
                 qcontext['error'] = _("Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars")
                 _logger.exception('error when resetting password: Invalid password!')
             except Exception, e:

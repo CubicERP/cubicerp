@@ -246,9 +246,19 @@ class res_users(osv.osv):
     def _check_company(self, cr, uid, ids, context=None):
         return all(((this.company_id in this.company_ids) or not this.company_ids) for this in self.browse(cr, uid, ids, context))
 
-    def _check_password(self, cr, uid, password, context=None):
-        if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})', password):
-            raise openerp.exceptions.ValidationError(_('Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars'))
+    def _check_password(self, cr, uid, password, _id=False, context=None):
+        if context is None:
+            context = {}
+        password_strength = context.get('password_strength', 8)
+        if password_strength > 0 and password_strength <= 5:
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{'+str(password_strength)+',})', password):
+                raise openerp.exceptions.ValidationError(_(
+                    'Invalid password, wrong minimum length %s, use at least char uppercase, char lowercase and digit')%password_strength)
+        elif password_strength > 5:
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{'+str(password_strength)+',})',
+                            password):
+                raise openerp.exceptions.ValidationError(_(
+                    'Invalid password, wrong minimum length %s, use at least char uppercase, char lowercase, digit and special chars')%password_strength)
         return True
 
     _constraints = [
@@ -372,7 +382,8 @@ class res_users(osv.osv):
                         del values['company_id']
                 uid = 1 # safe fields only, so we write as super-user to bypass access rights
         if 'password' in values:
-            self._check_password(cr, uid, values.get('password'), context=context)
+            for _id in ids:
+                self._check_password(cr, uid, values.get('password'), _id=_id, context=context)
         res = super(res_users, self).write(cr, uid, ids, values, context=context)
         if 'company_id' in values:
             for user in self.browse(cr, uid, ids, context=context):
@@ -556,7 +567,7 @@ class res_users(osv.osv):
         :raise: except_osv when new password is not set or empty
         """
         self.check(cr.dbname, uid, old_passwd)
-        self._check_password(cr, uid, new_passwd, context=context)
+        self._check_password(cr, uid, new_passwd, _id=uid, context=context)
         if new_passwd:
             return self.write(cr, SUPERUSER_ID, uid, {'password': new_passwd})
         raise osv.except_osv(_('Warning!'), _("Setting empty passwords is not allowed for security reasons!"))

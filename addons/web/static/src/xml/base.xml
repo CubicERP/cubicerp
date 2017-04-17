@@ -148,7 +148,7 @@
                     </tr>
                     <tr>
                         <td><label for="create_admin_pwd">Choose a password:</label></td>
-                        <td><input type="password" name="create_admin_pwd" class="required" password_strength="7"/></td>
+                        <td><input type="password" name="create_admin_pwd" class="required" password_strength="8"/></td>
                     </tr>
                     <tr>
                         <td><label for="create_confirm_pwd">Confirm password:</label></td>

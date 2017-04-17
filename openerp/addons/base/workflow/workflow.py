@@ -151,6 +151,7 @@ class wkf_instance(osv.osv):
     _name = "workflow.instance"
     _rec_name = 'res_type'
     _log_access = False
+    _log_unlink = False
     _columns = {
         'uid': fields.integer('User'),      # FIXME no constraint??
         'wkf_id': fields.many2one('workflow', 'Workflow', ondelete='cascade', select=True),
@@ -175,6 +176,7 @@ class wkf_workitem(osv.osv):
     _table = "wkf_workitem"
     _name = "workflow.workitem"
     _log_access = False
+    _log_unlink = False
     _rec_name = 'state'
     _columns = {
         'act_id': fields.many2one('workflow.activity', 'Activity', required=True, ondelete="cascade", select=True),
@@ -189,6 +191,7 @@ class wkf_triggers(osv.osv):
     _table = "wkf_triggers"
     _name = "workflow.triggers"
     _log_access = False
+    _log_unlink = False
     _columns = {
         'res_id': fields.integer('Resource ID', size=128),
         'model': fields.char('Object'),

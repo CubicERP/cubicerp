@@ -48,6 +48,13 @@ class res_users(osv.osv):
             }, help="External user with limited access, created only for the purpose of sharing data."),
      }
 
+    def _check_password(self, cr, uid, password, _id=False, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if not ctx.has_key('password_strength') and _id:
+            ctx['password_strength'] = self.browse(cr, uid, _id, context=context).share and 5 or 8
+        return super(res_users, self)._check_password(cr, uid, password, _id=_id, context=ctx)
 
 class res_groups(osv.osv):
     _name = "res.groups"

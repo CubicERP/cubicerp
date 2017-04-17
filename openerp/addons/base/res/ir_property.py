@@ -45,6 +45,7 @@ TYPE2FIELD = {
 
 class ir_property(osv.osv):
     _name = 'ir.property'
+    _log_unlink = False
 
     _columns = {
         'name': fields.char('Name', select=1),

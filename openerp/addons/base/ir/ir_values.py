@@ -99,6 +99,7 @@ class ir_values(osv.osv):
        or directly returned by explicit calls to :meth:`~.get_actions`.
     """
     _name = 'ir.values'
+    _log_unlink = False
 
     def _value_unpickle(self, cursor, user, ids, name, arg, context=None):
         res = {}

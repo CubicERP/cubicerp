@@ -166,6 +166,7 @@ class ir_translation_import_cursor(object):
 class ir_translation(osv.osv):
     _name = "ir.translation"
     _log_access = False
+    _log_unlink = False
 
     def _get_language(self, cr, uid, context):
         lang_model = self.pool.get('res.lang')

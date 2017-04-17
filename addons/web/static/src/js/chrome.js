@@ -443,7 +443,7 @@
                 }
                 re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{"+length+",})";
                 return new RegExp(re).test(s);
-            }, _t("Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars"));
+            }, _t("Invalid password, wrong minimum length 8, use at least char uppercase, char lowercase, digit and special chars"));
         },
         start: function () {
             var self = this;

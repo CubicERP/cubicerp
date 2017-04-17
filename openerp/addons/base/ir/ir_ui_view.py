@@ -73,6 +73,7 @@ def keep_query(*keep_params, **additional_params):
 
 class view_custom(osv.osv):
     _name = 'ir.ui.view.custom'
+    _log_unlink = False
     _order = 'create_date desc'  # search(limit=1) should return the last customization
     _columns = {
         'ref_id': fields.many2one('ir.ui.view', 'Original View', select=True, required=True, ondelete='cascade'),
@@ -111,6 +112,7 @@ xpath_utils['hasclass'] = _hasclass
 
 class view(osv.osv):
     _name = 'ir.ui.view'
+    _log_unlink = False
 
     def _get_model_data(self, cr, uid, ids, fname, args, context=None):
         result = dict.fromkeys(ids, False)

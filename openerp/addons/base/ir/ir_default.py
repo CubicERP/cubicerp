@@ -23,6 +23,7 @@ from openerp.osv import fields, osv
 
 class ir_default(osv.osv):
     _name = 'ir.default'
+    _log_unlink = False
     _columns = {
         'field_tbl': fields.char('Object'),
         'field_name': fields.char('Object Field'),

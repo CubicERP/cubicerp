@@ -26,6 +26,7 @@ from openerp.tools.translate import _
 class ir_filters(osv.osv):
     _name = 'ir.filters'
     _description = 'Filters'
+    _log_unlink = False
 
     def _list_all_models(self, cr, uid, context=None):
         cr.execute("SELECT model, name FROM ir_model ORDER BY name")

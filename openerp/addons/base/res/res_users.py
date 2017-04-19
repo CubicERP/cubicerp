@@ -147,7 +147,7 @@ class res_groups(osv.osv):
         """
         if not context:
             context = {}
-        group_ids = self.search(cr, uid, [('property','=',True),('users','in',[uid])], context=context)
+        group_ids = self.search(cr, SUPERUSER_ID, [('property','=',True),('users','in',[uid])], context=context)
         if group_ids:
             return group_ids[0]
         return False

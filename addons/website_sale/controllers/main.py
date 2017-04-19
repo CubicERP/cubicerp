@@ -318,7 +318,7 @@ class website_sale(http.Controller):
         request.website.sale_get_order(code=promo, context=context)
         return request.redirect("/shop/cart")
 
-    @http.route(['/shop/cart'], type='http', auth="user", website=True)
+    @http.route(['/shop/cart'], type='http', auth="public", website=True)
     def cart(self, **post):
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
         order = request.website.sale_get_order()

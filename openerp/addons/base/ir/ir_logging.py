@@ -79,7 +79,7 @@ class ir_logging(models.Model):
             for col in cols:
                 msg[col] = str(getattr(l,col))
             line['message'] = str(msg)
-            self..sudo().create(line)
+            self.sudo().create(line)
         return True
 
 

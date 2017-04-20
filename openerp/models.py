@@ -6114,12 +6114,12 @@ class Model(BaseModel):
         if self._log_unlink and ids:
             logging_group_id = context.get('logging_group_id', False)
             if not logging_group_id:
-                logging_group_id = self.pool['ir.logging.group'].create(cr, uid, {
+                logging_group_id = self.pool['ir.logging.group'].create(cr, SUPERUSER_ID, {
                                                           'name':'Unlink %s %s'%(self._name, str(ids)),
                                                           'dbname': cr.dbname,
                                                       }, context=ctx)
             ctx['logging_group_id'] = logging_group_id
-            self.pool['ir.logging'].log_unlink(cr, uid, self, ids, context=ctx)
+            self.pool['ir.logging'].log_unlink(cr, SUPERUSER_ID, self, ids, context=ctx)
         return super(Model, self).unlink(cr, uid, ids, context=ctx)
 
 class TransientModel(BaseModel):

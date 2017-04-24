@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data noupdate="0">
+    <data>
 
         <!-- account.tax.template -->
         <record id="attn_VAT-OUT-21-S" model="account.tax.template">

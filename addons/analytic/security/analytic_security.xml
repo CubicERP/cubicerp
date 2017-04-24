@@ -17,7 +17,7 @@
     </record>
 
 </data>
-<data noupdate="0">
+<data>
 
     <record id="group_analytic_accounting" model="res.groups">
         <field name="name">Analytic Accounting</field>

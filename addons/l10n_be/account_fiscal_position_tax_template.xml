@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data noupdate="0">
+    <data>
 
         <!-- account.fiscal.position.tax.template -->
         <record id="afpttn_intracom_1" model="account.fiscal.position.tax.template">

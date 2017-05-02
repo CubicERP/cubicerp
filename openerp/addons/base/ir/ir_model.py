@@ -73,6 +73,7 @@ class ir_model(osv.osv):
     _name = 'ir.model'
     _description = "Models"
     _order = 'model'
+    _log_unlink = False
 
     def _is_osv_memory(self, cr, uid, ids, field_name, arg, context=None):
         models = self.browse(cr, uid, ids, context=context)
@@ -289,6 +290,7 @@ class ir_model_fields(osv.osv):
         'selectable': 1,
     }
     _order = "name"
+    _log_unlink = False
 
     def _check_selection(self, cr, uid, selection, context=None):
         try:
@@ -508,6 +510,7 @@ class ir_model_constraint(Model):
     models.
     """
     _name = 'ir.model.constraint'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Constraint', required=True, select=1,
             help="PostgreSQL constraint or foreign key name."),
@@ -580,6 +583,7 @@ class ir_model_relation(Model):
     relations.
     """
     _name = 'ir.model.relation'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Relation Name', required=True, select=1,
             help="PostgreSQL table name implementing a many2many relation."),
@@ -629,6 +633,7 @@ class ir_model_relation(Model):
 
 class ir_model_access(osv.osv):
     _name = 'ir.model.access'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Name', required=True, select=True),
         'active': fields.boolean('Active', help='If you uncheck the active field, it will disable the ACL without deleting it (if you delete a native ACL, it will be re-created when you reload the module.'),
@@ -823,6 +828,7 @@ class ir_model_data(osv.osv):
     """
     _name = 'ir.model.data'
     _order = 'module,model,name'
+    _log_unlink = False
 
     def name_get(self, cr, uid, ids, context=None):
         bymodel = defaultdict(dict)

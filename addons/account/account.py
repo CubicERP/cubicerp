@@ -1398,9 +1398,9 @@ class account_move(osv.osv):
             top_sum = 0.0
             for a in top_balance:
                 top_sum += top_balance[a]
-            if top_sum:
+            if top_sum > 0.01:
                 raise osv.except_osv(_('Error!'),
-                                     _('You cannot validate this journal entry because account "%s" does not belong to chart of accounts "%s".') % (account.name, top_common.name))
+                                     _('You cannot validate this journal entry because account "%s" does not belong to the same chart of accounts.') % (account.name,))
         return self.post(cursor, user, ids, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <openerp>
-  <data noupdate="1">
+  <data>
 
     <!-- Account Types -->
     <record id="account_account_type_view" model="account.account.type"><field name="close_method">none</field><field name="code">view</field><field name="name">Vista</field><field name="report_type">none</field></record>
@@ -1824,7 +1824,7 @@
 	  <field name="property_account_receivable" ref="1211"/>
 	  <field name="property_account_payable" ref="4211"/>
 	  <field name="property_account_expense_categ" ref="8251"/>
-	  <field name="property_account_income_categ" ref="7111"/>
+	  <field name="property_account_income_categ" ref="7011"/>
 	  <field name="currency_id" ref="base.BOB"/>
 	</record>	
 

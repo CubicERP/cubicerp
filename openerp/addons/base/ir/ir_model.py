@@ -326,7 +326,10 @@ class ir_model_fields(osv.osv):
         for field in self.browse(cr, uid, ids, context):
             if field.name in MAGIC_COLUMNS:
                 continue
-            model = self.pool[field.model]
+            try:
+                model = self.pool[field.model]
+            except:
+                continue
             cr.execute('select relkind from pg_class where relname=%s', (model._table,))
             result = cr.fetchone()
             cr.execute("SELECT column_name FROM information_schema.columns WHERE table_name ='%s' and column_name='%s'" %(model._table, field.name))
@@ -1170,7 +1173,10 @@ class ir_model_data(osv.osv):
                         _logger.info('Deleting orphan external_ids %s', external_ids)
                         self.unlink(cr, uid, external_ids)
                         continue
-                    if field.name in openerp.models.LOG_ACCESS_COLUMNS and self.pool[field.model]._log_access:
+                    try:
+                        if field.name in openerp.models.LOG_ACCESS_COLUMNS and self.pool[field.model]._log_access:
+                            continue
+                    except:
                         continue
                     if field.name == 'id':
                         continue

@@ -353,7 +353,8 @@ class stock_move(osv.osv):
             context = {}
         product_obj = self.pool.get('product.product')
         tmpl_dict = {}
-        for move in self.browse(cr, uid, ids, context=context):
+        ctx = context.copy()
+        for move in self.browse(cr, uid, ids, context=ctx):
             #adapt standard price on incomming moves if the product cost_method is 'average'
             operation = context.get('force_operation_update',False)
             if not operation:
@@ -373,7 +374,7 @@ class stock_move(osv.osv):
                     product_avail = qty_available
                 if product_avail == 0:
                     new_std_price = move.price_unit
-                    context['stock_qty_old'] = product_avail
+                    ctx['stock_qty_old'] = product_avail
                 else:
                     # Get the standard price
                     amount_unit = product.standard_price
@@ -385,7 +386,7 @@ class stock_move(osv.osv):
                         new_std_price = amount_unit
                 tmpl_dict[prod_tmpl_id] += (move.product_qty * (operation == 'in' and 1.0 or -1.0))
                 # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
-                ctx = dict(context or {}, force_company=move.company_id.id)
+                ctx['force_company'] = move.company_id.id
                 product_obj.write(cr, SUPERUSER_ID, [product.id], {'standard_price': abs(new_std_price)}, context=ctx)
 
     def product_price_update_after_done(self, cr, uid, ids, context=None):

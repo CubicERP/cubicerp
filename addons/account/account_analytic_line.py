@@ -150,6 +150,14 @@ class account_analytic_line(osv.osv):
         return False
 
 
+class account_analytic_account(osv.osv):
+    _inherit = 'account.analytic.account'
+
+    _columns = {
+        'move_line_ids': fields.one2many('account.move.line', 'analytic_account_id', 'Account Move Line', readonly=True),
+    }
+
+
 class res_partner(osv.osv):
     """ Inherits partner and adds contract information in the partner form """
     _inherit = 'res.partner'

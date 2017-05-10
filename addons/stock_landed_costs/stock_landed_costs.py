@@ -69,7 +69,7 @@ class stock_landed_cost(osv.osv):
         for picking in picking_obj.browse(cr, uid, picking_ids):
             for move in picking.move_lines:
                 #it doesn't make sense to make a landed cost for a product that isn't set as being valuated in real time at real cost
-                if move.product_id.valuation != 'real_time' or move.product_id.cost_method != 'real':
+                if move.state in ('cancel','draft') or move.product_id.valuation != 'real_time' or move.product_id.cost_method != 'real':
                     continue
                 total_cost = 0.0
                 weight = move.product_id and move.product_id.weight * move.product_qty

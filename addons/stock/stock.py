@@ -2983,7 +2983,7 @@ class stock_inventory_line(osv.osv):
         'product_qty': fields.float('Checked Quantity', digits_compute=dp.get_precision('Product Unit of Measure')),
         'company_id': fields.related('inventory_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, select=True, readonly=True),
         'prod_lot_id': fields.many2one('stock.production.lot', 'Serial Number', domain="[('product_id','=',product_id)]"),
-        'state': fields.related('inventory_id', 'state', type='char', string='Status', readonly=True),
+        'state': fields.related('inventory_id', 'state', type='char', string='Status', readonly=True, store=True),
         'theoretical_qty': fields.function(_get_theoretical_qty, type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
                                            store={'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['location_id', 'product_id', 'package_id', 'product_uom_id', 'company_id', 'prod_lot_id', 'partner_id'], 20),},
                                            readonly=True, string="Theoretical Quantity"),

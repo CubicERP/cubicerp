@@ -134,7 +134,7 @@ class stock_landed_cost(osv.osv):
             'name': line.name,
             'move_id': move_id,
             'product_id': line.product_id.id,
-            'quantity': line.quantity,
+            'quantity': 0.0, #line.quantity,
         }
         debit_line = dict(base_line, account_id=debit_account_id)
         credit_line = dict(base_line, account_id=credit_account_id)

@@ -61,6 +61,7 @@ class product_template(osv.osv):
 
     _defaults = {
         'valuation': 'manual_periodic',
+        'cost_method': 'standard',
     }
 
     def onchange_type(self, cr, uid, ids, type):

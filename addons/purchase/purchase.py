@@ -47,7 +47,7 @@ class purchase_order(osv.osv):
             val = val1 = 0.0
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
-                val1 += line.price_subtotal
+                val1 += line_obj._amount_line(cr, uid, line.id, 'price_subtotal', None, context=context)[line.id]
                 line_price = line_obj._calc_line_base_price(cr, uid, line,
                                                             context=context)
                 line_qty = line_obj._calc_line_quantity(cr, uid, line,

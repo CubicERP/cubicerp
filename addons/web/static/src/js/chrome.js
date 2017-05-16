@@ -1778,11 +1778,11 @@
                 self.toggle_leftbar()
             });
 
-            $(document).keydown(function (key) {
+            /*$(document).keydown(function (key) {
                 if ((key.key == 'M' || key.key == 'm') && key.shiftKey == false && key.altKey == false && key.ctrlKey == true && $(this).find('.modal').length == 0) {
                     self.toggle_leftbar();
                 }
-            });
+            });*/
 
             current_mouse_x = 1000;
             $(document).mousemove(function (event) {

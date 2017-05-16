@@ -815,7 +815,7 @@
               </p>
             </field>
         </record>
-        <menuitem action="action_account_type_form" sequence="20" id="menu_action_account_type_form" parent="account_account_menu" groups="base.group_no_one"/>
+        <menuitem action="action_account_type_form" sequence="20" id="menu_action_account_type_form" parent="account_account_menu"/>
 
         <!-- Entries -->
         <record id="view_account_move_tree" model="ir.ui.view">

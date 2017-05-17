@@ -918,13 +918,13 @@ Form View: Widgets
     display: block;
 }
 
-.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header .switcher_and_pager_container {
+/*.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header .switcher_and_pager_container {
     display: none !important;
 }
 
 .oe_form_field_one2many > [data-view-type~=list] > .container-fluid {
     display: none;
-}
+}*/
 
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required select:not([disabled]):not([readonly]),

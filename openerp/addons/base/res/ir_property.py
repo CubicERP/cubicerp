@@ -242,14 +242,6 @@ class ir_property(osv.osv):
             ('group_id', '=', group_id),
             ('res_id', 'in', refs.keys()),
         ])
-        if not props:
-            props = self.search([
-                ('fields_id', '=', field_id),
-                ('company_id', '=', company_id),
-                ('group_id', '=', False),
-                ('res_id', 'in', refs.keys()),
-            ])
-
         # modify existing properties
         for prop in props:
             id = refs.pop(prop.res_id)

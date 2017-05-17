@@ -830,6 +830,7 @@ result = rules.NET > categories.NET * 0.10''',
         'amount_percentage': 0.0,
         'quantity': '1.0',
      }
+    _order = "sequence"
 
     @api.cr_uid_ids_context
     def _recursive_search_of_rules(self, cr, uid, rule_ids, context=None):

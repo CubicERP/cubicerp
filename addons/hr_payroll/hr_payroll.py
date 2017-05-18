@@ -219,6 +219,9 @@ class hr_payslip_run(osv.osv):
         'date_start': fields.date('Date From', required=True, readonly=True, states={'draft': [('readonly', False)]}),
         'date_end': fields.date('Date To', required=True, readonly=True, states={'draft': [('readonly', False)]}),
         'credit_note': fields.boolean('Credit Note', readonly=True, states={'draft': [('readonly', False)]}, help="If its checked, indicates that all payslips generated from here are refund payslips."),
+        'struct_id': fields.many2one('hr.payroll.structure', 'Structure', readonly=True,
+                                     states={'draft': [('readonly', False)]},
+                                     help='Defines the rules that have to be applied to the payslips. If you let empty this field the rules applied will be all the rules set on the structure of all contracts of the employee valid for the chosen period'),
     }
     _defaults = {
         'state': 'draft',

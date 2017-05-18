@@ -154,12 +154,13 @@ class hr_holidays(osv.osv):
 
     def _check_date(self, cr, uid, ids, context=None):
         for holiday in self.browse(cr, uid, ids, context=context):
+            if holiday.holiday_status_id.overload:
+                continue
             domain = [
                 ('date_from', '<=', holiday.date_to),
                 ('date_to', '>=', holiday.date_from),
                 ('employee_id', '=', holiday.employee_id.id),
                 ('id', '!=', holiday.id),
-                ('holiday_status_id.overload', '=', False),
                 ('state', 'not in', ['cancel', 'refuse']),
             ]
             nholidays = self.search_count(cr, uid, domain, context=context)

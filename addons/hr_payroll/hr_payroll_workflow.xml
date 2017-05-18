@@ -35,7 +35,6 @@
             <field name="name">done</field>
             <field name="action">process_sheet()</field>
             <field name="kind">function</field>
-            <field name="flow_stop">True</field>
         </record>
 
         <record id="t1" model="workflow.transition">
@@ -58,6 +57,12 @@
         
          <record id="t4" model="workflow.transition">
             <field name="act_from" ref="act_verify"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">cancel_sheet</field>
+        </record>
+
+        <record id="t6" model="workflow.transition">
+            <field name="act_from" ref="act_done"/>
             <field name="act_to" ref="act_cancel"/>
             <field name="signal">cancel_sheet</field>
         </record>

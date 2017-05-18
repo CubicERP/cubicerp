@@ -77,31 +77,79 @@ class hr_payslip(osv.osv):
         move_pool.unlink(cr, uid, move_ids, context=context)
         return super(hr_payslip, self).cancel_sheet(cr, uid, ids, context=context)
 
+    def _get_move_sheet(self, cr, uid, period_id, slip, context=None):
+        return {
+                'narration': _('Payslip of %s') % (slip.employee_id.name),
+                'date': slip.date_to,
+                'ref': slip.number,
+                'journal_id': slip.journal_id.id,
+                'period_id': period_id,
+            }
+
+    def _get_debit_line_sheet(self, cr, uid, period_id, slip, line, credit_partner_id, amt, context=None):
+        analytic_id = line.salary_rule_id.analytic_account_id and line.salary_rule_id.analytic_account_id.id or False
+        if not analytic_id:
+            analytic_id = line.contract_id.analytic_account_id and line.contract_id.analytic_account_id.id or False
+        return {
+            'name': line.name,
+            'date': slip.date_to,
+            'partner_id': credit_partner_id if line.register_employee_id.debit_partner_apply in ('partner','employee') else ((line.salary_rule_id.account_debit.type in ('receivable', 'payable')) and credit_partner_id or False),
+            'account_id': line.salary_rule_id.account_debit.id,
+            'journal_id': slip.journal_id.id,
+            'period_id': period_id,
+            'debit': amt > 0.0 and amt or 0.0,
+            'credit': amt < 0.0 and -amt or 0.0,
+            'analytic_account_id': analytic_id,
+            'tax_code_id': line.salary_rule_id.account_tax_id and line.salary_rule_id.account_tax_id.id or False,
+            'tax_amount': line.salary_rule_id.account_tax_id and amt or 0.0,
+        }
+
+    def _get_credit_line_sheet(self, cr, uid, period_id, slip, line, debit_partner_id, amt, context=None):
+        analytic_id = line.salary_rule_id.analytic_account_id and line.salary_rule_id.analytic_account_id.id or False
+        if not analytic_id:
+            analytic_id = line.contract_id.analytic_account_id and line.contract_id.analytic_account_id.id or False
+        return {
+            'name': line.name,
+            'date': slip.date_to,
+            'partner_id': debit_partner_id if line.register_employee_id.credit_partner_apply in ('partner','employee') else ((line.salary_rule_id.account_credit.type in ('receivable', 'payable')) and debit_partner_id or False),
+            'account_id': line.salary_rule_id.account_credit.id,
+            'journal_id': slip.journal_id.id,
+            'period_id': period_id,
+            'debit': amt < 0.0 and -amt or 0.0,
+            'credit': amt > 0.0 and amt or 0.0,
+            'analytic_account_id': analytic_id,
+            'tax_code_id': line.salary_rule_id.account_tax_id and line.salary_rule_id.account_tax_id.id or False,
+            'tax_amount': line.salary_rule_id.account_tax_id and amt or 0.0,
+        }
+
+    def _get_adjust_move_sheet(self, cr, uid, period_id, slip, acc_id, debit, credit, context=None):
+        return {
+            'name': _('Adjustment Entry'),
+            'date': slip.date_to,
+            'partner_id': False,
+            'account_id': acc_id,
+            'journal_id': slip.journal_id.id,
+            'period_id': period_id,
+            'debit': debit,
+            'credit': credit,
+        }
+
     def process_sheet(self, cr, uid, ids, context=None):
         move_pool = self.pool.get('account.move')
         period_pool = self.pool.get('account.period')
         precision = self.pool.get('decimal.precision').precision_get(cr, uid, 'Payroll')
         timenow = time.strftime('%Y-%m-%d')
-
         for slip in self.browse(cr, uid, ids, context=context):
             line_ids = []
             debit_sum = 0.0
             credit_sum = 0.0
+            default_partner_id = slip.employee_id.address_home_id.id
             if not slip.period_id:
                 search_periods = period_pool.find(cr, uid, slip.date_to, context=context)
                 period_id = search_periods[0]
             else:
                 period_id = slip.period_id.id
-
-            default_partner_id = slip.employee_id.address_home_id.id
-            name = _('Payslip of %s') % (slip.employee_id.name)
-            move = {
-                'narration': name,
-                'date': timenow,
-                'ref': slip.number,
-                'journal_id': slip.journal_id.id,
-                'period_id': period_id,
-            }
+            move = self._get_move_sheet(cr, uid, period_id, slip, context=context)
             for line in slip.details_by_salary_rule_category:
                 amt = slip.credit_note and -line.total or line.total
                 if float_is_zero(amt, precision_digits=precision):
@@ -124,38 +172,12 @@ class hr_payslip(osv.osv):
                 credit_account_id = line.salary_rule_id.account_credit.id
 
                 if debit_account_id:
-
-                    debit_line = (0, 0, {
-                    'name': line.name,
-                    'date': timenow,
-                    'partner_id': credit_partner_id if line.register_employee_id.debit_partner_apply in ('partner','employee') else ((line.salary_rule_id.account_debit.type in ('receivable', 'payable')) and credit_partner_id or False),
-                    'account_id': debit_account_id,
-                    'journal_id': slip.journal_id.id,
-                    'period_id': period_id,
-                    'debit': amt > 0.0 and amt or 0.0,
-                    'credit': amt < 0.0 and -amt or 0.0,
-                    'analytic_account_id': line.salary_rule_id.analytic_account_id and line.salary_rule_id.analytic_account_id.id or False,
-                    'tax_code_id': line.salary_rule_id.account_tax_id and line.salary_rule_id.account_tax_id.id or False,
-                    'tax_amount': line.salary_rule_id.account_tax_id and amt or 0.0,
-                })
+                    debit_line = (0, 0, self._get_debit_line_sheet(cr, uid, period_id, slip, line, credit_partner_id, amt, context=context))
                     line_ids.append(debit_line)
                     debit_sum += debit_line[2]['debit'] - debit_line[2]['credit']
 
                 if credit_account_id:
-
-                    credit_line = (0, 0, {
-                    'name': line.name,
-                    'date': timenow,
-                    'partner_id': debit_partner_id if line.register_employee_id.credit_partner_apply in ('partner','employee') else ((line.salary_rule_id.account_credit.type in ('receivable', 'payable')) and debit_partner_id or False),
-                    'account_id': credit_account_id,
-                    'journal_id': slip.journal_id.id,
-                    'period_id': period_id,
-                    'debit': amt < 0.0 and -amt or 0.0,
-                    'credit': amt > 0.0 and amt or 0.0,
-                    'analytic_account_id': line.salary_rule_id.analytic_account_id and line.salary_rule_id.analytic_account_id.id or False,
-                    'tax_code_id': line.salary_rule_id.account_tax_id and line.salary_rule_id.account_tax_id.id or False,
-                    'tax_amount': line.salary_rule_id.account_tax_id and amt or 0.0,
-                })
+                    credit_line = (0, 0, self._get_credit_line_sheet(cr, uid, period_id, slip, line, debit_partner_id, amt, context=context))
                     line_ids.append(credit_line)
                     credit_sum += credit_line[2]['credit'] - credit_line[2]['debit']
 
@@ -163,32 +185,14 @@ class hr_payslip(osv.osv):
                 acc_id = slip.journal_id.default_credit_account_id.id
                 if not acc_id:
                     raise osv.except_osv(_('Configuration Error!'),_('The Expense Journal "%s" has not properly configured the Credit Account!')%(slip.journal_id.name))
-                adjust_credit = (0, 0, {
-                    'name': _('Adjustment Entry'),
-                    'date': timenow,
-                    'partner_id': False,
-                    'account_id': acc_id,
-                    'journal_id': slip.journal_id.id,
-                    'period_id': period_id,
-                    'debit': 0.0,
-                    'credit': debit_sum - credit_sum,
-                })
+                adjust_credit = (0, 0, self._get_adjust_move_sheet(cr, uid, period_id, slip, acc_id, 0.0, debit_sum - credit_sum, context=context))
                 line_ids.append(adjust_credit)
 
             elif float_compare(debit_sum, credit_sum, precision_digits=precision) == -1:
                 acc_id = slip.journal_id.default_debit_account_id.id
                 if not acc_id:
                     raise osv.except_osv(_('Configuration Error!'),_('The Expense Journal "%s" has not properly configured the Debit Account!')%(slip.journal_id.name))
-                adjust_debit = (0, 0, {
-                    'name': _('Adjustment Entry'),
-                    'date': timenow,
-                    'partner_id': False,
-                    'account_id': acc_id,
-                    'journal_id': slip.journal_id.id,
-                    'period_id': period_id,
-                    'debit': credit_sum - debit_sum,
-                    'credit': 0.0,
-                })
+                adjust_debit = (0, 0, self._get_adjust_move_sheet(cr, uid, period_id, slip, acc_id, credit_sum - debit_sum, 0.0, context=context))
                 line_ids.append(adjust_debit)
 
             move.update({'line_id': line_ids})

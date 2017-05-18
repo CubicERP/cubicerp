@@ -312,7 +312,7 @@ class hr_payslip(osv.osv):
         return self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
 
     def process_sheet(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'paid': True, 'state': 'done'}, context=context)
+        return self.write(cr, uid, ids, {'state': 'done'}, context=context)
 
     def hr_verify_sheet(self, cr, uid, ids, context=None):
         self.compute_sheet(cr, uid, ids, context)
@@ -435,6 +435,7 @@ class hr_payslip(osv.osv):
                         continue
                     leave_type = holiday.holiday_status_id
                     holiday_seconds = float((datetime.strptime(holiday.date_to, '%Y-%m-%d %H:%M:%S') - datetime.strptime(holiday.date_from, '%Y-%m-%d %H:%M:%S')).seconds)
+                    holiday_seconds += (datetime.strptime(holiday.date_to, '%Y-%m-%d %H:%M:%S') - datetime.strptime(holiday.date_from, '%Y-%m-%d %H:%M:%S')).days * 24 * 60 * 60
                     #if he was on leave, fill the leaves dict
                     if leave_type.name in leaves:
                         leaves[leave_type.name]['number_of_days'] += holiday.number_of_days_temp
@@ -566,7 +567,11 @@ class hr_payslip(osv.osv):
 
         baselocaldict = {'categories': categories_obj, 'rules': rules_obj, 'payslip': payslip_obj, 'worked_days': worked_days_obj, 'inputs': input_obj}
         #get the ids of the structures on the contracts and their parent id as well
-        structure_ids = self.pool.get('hr.contract').get_all_structures(cr, uid, contract_ids, context=context)
+        if payslip.struct_id:
+            structure_ids = list(set(
+                self.pool.get('hr.payroll.structure')._get_parent_structure(cr, uid, [payslip.struct_id.id], context=context)))
+        else:
+            structure_ids = self.pool.get('hr.contract').get_all_structures(cr, uid, contract_ids, context=context)
         #get the rules of the structure and thier children
         rule_ids = self.pool.get('hr.payroll.structure').get_all_rules(cr, uid, structure_ids, context=context)
         #run the rules by sequence
@@ -665,29 +670,18 @@ class hr_payslip(osv.osv):
                     'company_id': employee_id.company_id.id
         })
 
-        if not context.get('contract', False):
-            #fill with the first contract of the employee
-            contract_ids = self.get_contract(cr, uid, employee_id, date_from, date_to, context=context)
-        else:
-            if contract_id:
-                #set the list of contract for which the input have to be filled
-                contract_ids = [contract_id]
-            else:
-                #if we don't give the contract, then the input to fill should be for all current contracts of the employee
-                contract_ids = self.get_contract(cr, uid, employee_id, date_from, date_to, context=context)
-
-        if not contract_ids:
-            return res
-        contract_record = contract_obj.browse(cr, uid, contract_ids[0], context=context)
-        res['value'].update({
-                    'contract_id': contract_record and contract_record.id or False
-        })
-        struct_record = contract_record and contract_record.struct_id or False
-        if not struct_record:
-            return res
-        res['value'].update({
+        if context.get('contract', False):
+            contract_record = contract_obj.browse(cr, uid, contract_id, context=context)
+            res['value'].update({
+                'contract_id': contract_record and contract_record.id or False
+            })
+            struct_record = contract_record and contract_record.struct_id or False
+            if struct_record:
+                res['value'].update({
                     'struct_id': struct_record.id,
-        })
+                })
+        contract_ids = contract_id and [contract_id] or self.get_contract(cr, uid, employee_id, date_from, date_to, context=context)
+
         #computation of the salary input
         worked_days_line_ids = self.get_worked_day_lines(cr, uid, contract_ids, date_from, date_to, context=context)
         input_line_ids = self.get_inputs(cr, uid, contract_ids, date_from, date_to, context=context)
@@ -704,7 +698,7 @@ class hr_payslip(osv.osv):
                  'name': '',
                  }
               }
-        context = dict(context or {}, contract=True)
+        context = dict(context or {}, contract=contract_id)
         if not contract_id:
             res['value'].update({'struct_id': False})
         return self.onchange_employee_id(cr, uid, ids, date_from=date_from, date_to=date_to, employee_id=employee_id, contract_id=contract_id, context=context)

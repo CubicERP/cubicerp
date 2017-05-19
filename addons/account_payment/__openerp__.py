@@ -22,7 +22,7 @@
 {
     'name': 'Suppliers Payment Management',
     'version': '1.1',
-    'author': 'OpenERP SA',
+    'author': 'OpenERP SA & Cubic ERP SAC',
     'category': 'Accounting & Finance',
     'description': """
 Module to manage the payment of your supplier invoices.

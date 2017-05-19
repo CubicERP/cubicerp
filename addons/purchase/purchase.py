@@ -664,10 +664,13 @@ class purchase_order(osv.osv):
                                       attached to the invoice
            :return: dict of value to create() the invoice
         """
-        journal_ids = self.pool['account.journal'].search(
-                            cr, uid, [('type', '=', 'purchase'),
-                                      ('company_id', '=', order.company_id.id)],
-                            limit=1)
+        if order.picking_type_id and order.picking_type_id.invoice_journal_id:
+            journal_ids = [order.picking_type_id.invoice_journal_id.id]
+        else:
+            journal_ids = self.pool['account.journal'].search(
+                                cr, uid, [('type', '=', 'purchase'),
+                                          ('company_id', '=', order.company_id.id)],
+                                limit=1)
         if not journal_ids:
             raise osv.except_osv(
                 _('Error!'),

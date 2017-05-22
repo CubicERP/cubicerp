@@ -192,6 +192,13 @@ class stock_move(osv.osv):
 # Picking
 #----------------------------------------------------------
 
+class stock_picking_type(osv.osv):
+    _inherit = 'stock.picking.type'
+
+    _columns = {
+        'invoice_journal_id': fields.many2one('account.journal', string="Invoice Journal"),
+    }
+
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
     def __get_invoice_state(self, cr, uid, ids, name, arg, context=None):

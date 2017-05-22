@@ -375,6 +375,7 @@
                               <group name="selection" string="Validation">
                                   <field name="double_validation"/>
                                   <field name="limit"/>
+                                  <field name="overload"/>
                               </group>
                               <group name="second" string="Misc">
                                   <field name="color_name"/>

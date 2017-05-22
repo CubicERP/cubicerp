@@ -39,7 +39,7 @@ class payment_order_create(osv.osv_memory):
     _name = 'payment.order.create'
     _description = 'payment.order.create'
     _columns = {
-        'duedate': fields.date('Due Date', required=True),
+        'duedate': fields.date('Due Date'),
         'entries': fields.many2many('account.move.line', 'line_pay_rel', 'pay_id', 'line_id', 'Entries')
     }
     _defaults = {
@@ -104,8 +104,9 @@ class payment_order_create(osv.osv_memory):
 #        payment = self.pool.get('payment.order').browse(cr, uid, context['active_id'], context=context)
 
         # Search for move line to pay:
-        domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('credit', '>', 0), ('account_id.reconcile', '=', True)]
-        domain = domain + ['|', ('date_maturity', '<=', search_due_date), ('date_maturity', '=', False)]
+        domain = [('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('account_id.reconcile', '=', True)]
+        if search_due_date:
+            domain = domain + ['|', ('date_maturity', '<=', search_due_date), ('date_maturity', '=', False)]
         line_ids = line_obj.search(cr, uid, domain, context=context)
         context = dict(context, line_ids=line_ids)
         model_data_ids = mod_obj.search(cr, uid,[('model', '=', 'ir.ui.view'), ('name', '=', 'view_create_payment_order_lines')], context=context)

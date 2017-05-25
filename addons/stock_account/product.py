@@ -173,7 +173,7 @@ class product_product(osv.osv):
         product = prod_variant.product_tmpl_id
         move_id = False
         datas = self.pool.get('product.template').get_product_accounts(cr, uid, product.id, context=context)
-        if qty or context.get('quantity'):
+        if qty or context.has_key('quantity'):
             # Accounting Entries
             move_vals = {
                 'journal_id': datas['stock_journal'],

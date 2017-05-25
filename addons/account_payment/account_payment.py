@@ -100,6 +100,7 @@ class payment_order(osv.osv):
             ('draft', 'Draft'),
             ('cancel', 'Cancelled'),
             ('open', 'Confirmed'),
+            ('approve', 'Approved'),
             ('done', 'Done')], 'Status', select=True, copy=False,
             help='When an order is placed the status is \'Draft\'.\n Once the bank is confirmed the status is set to \'Confirmed\'.\n Then the order is paid the status is \'Done\'.'),
         'line_ids': fields.one2many('payment.line', 'order_id', 'Payment lines', states={'done': [('readonly', True)]}),
@@ -138,6 +139,9 @@ class payment_order(osv.osv):
         return True
 
     def action_open(self, cr, uid, ids, context=None):
+        return True
+
+    def action_approve(self, cr, uid, ids, context=None):
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):

@@ -90,8 +90,8 @@
                 <header>
                     <button name="prepare_inventory" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
                     <button name="action_done" states="confirm" string="Validate Inventory" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
-                    <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object"/>
-                    <button name="action_cancel_inventory" states="confirm" string="Cancel Inventory" type="object"/>
+                    <button name="action_cancel_inventory" states="confirm" string="Set to Draft" type="object"/>
+                    <button name="action_cancel_inventory" states="done" string="Cancel Inventory" type="object"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
                 <sheet>
@@ -138,7 +138,7 @@
                             <li>If a product is not at the right place, set the checked quantity to 0 and create a new line with correct location.</li>
                             </ul>
                         </page>
-                        <page string="Inventory Adjustments" attrs="{'invisible': [('state', '!=', 'done')]}">
+                        <page string="Inventory Adjustments" attrs="{'invisible': [('state', 'not in', ['cancel','done'])]}">
                             <field name="move_ids">
                                 <tree colors="grey:scrapped == True" string="Stock Moves">
                                     <field name="product_id"/>

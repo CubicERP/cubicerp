@@ -124,14 +124,12 @@ class product_template(osv.osv):
     def do_change_standard_price(self, cr, uid, ids, new_price, context=None):
         """ Changes the Standard Price of Product and creates an account move accordingly."""
         location_obj = self.pool.get('stock.location')
-        move_obj = self.pool.get('account.move')
-        move_line_obj = self.pool.get('account.move.line')
+        product_obj = self.pool.get('product.product')
         if context is None:
             context = {}
         user_company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
         loc_ids = location_obj.search(cr, uid, [('usage', '=', 'internal'), ('company_id', '=', user_company_id)])
         for rec_id in ids:
-            datas = self.get_product_accounts(cr, uid, rec_id, context=context)
             for location in location_obj.browse(cr, uid, loc_ids, context=context):
                 c = context.copy()
                 c.update({'location': location.id, 'compute_child': False})
@@ -142,45 +140,8 @@ class product_template(osv.osv):
                     continue
                 for prod_variant in product.product_variant_ids:
                     qty = prod_variant.qty_available
-                    if qty:
-                        # Accounting Entries
-                        move_vals = {
-                            'journal_id': datas['stock_journal'],
-                            'company_id': location.company_id.id,
-                            'ref': _('Standard Price changed'),
-                        }
-                        move_id = move_obj.create(cr, uid, move_vals, context=context)
+                    product_obj.change_quantity_price(cr, uid, prod_variant, new_price, qty, diff, location.company_id.id, context=context)
 
-                        counterpart_account = product.property_account_expense and product.property_account_expense.id or False
-                        if not counterpart_account:
-                            counterpart_account = product.categ_id.property_account_expense_categ and product.categ_id.property_account_expense_categ.id or False
-                        if not counterpart_account:
-                            raise osv.except_osv(_('Error!'), _('No expense account defined on the product %s or on its category') % (product.name))
-                        if diff * qty > 0:
-                            amount_diff = qty * diff
-                            debit_account_id = counterpart_account
-                            credit_account_id = datas['property_stock_valuation_account_id']
-                        else:
-                            amount_diff = qty * -diff
-                            debit_account_id = datas['property_stock_valuation_account_id']
-                            credit_account_id = counterpart_account
-
-                        move_line_obj.create(cr, uid, {
-                                        'name': _('Standard Price changed from %s to %s')%(product.standard_price,new_price),
-                                        'account_id': debit_account_id,
-                                        'debit': amount_diff,
-                                        'credit': 0,
-                                        'move_id': move_id,
-                                        'product_id': prod_variant.id,
-                                        }, context=context)
-                        move_line_obj.create(cr, uid, {
-                                        'name': _('Standard Price changed from %s to %s')%(product.standard_price,new_price),
-                                        'account_id': credit_account_id,
-                                        'debit': 0,
-                                        'credit': amount_diff,
-                                        'move_id': move_id,
-                                        'product_id': prod_variant.id,
-                                        }, context=context)
             self.write(cr, uid, rec_id, {'standard_price': new_price})
         return True
 
@@ -193,6 +154,62 @@ class product_product(osv.osv):
         if type in ('consu', 'service'):
             res = {'value': {'valuation': 'manual_periodic'}}
         return res
+
+    def _get_change_standard_price_vals(self, cr, uid, prod_variant, move_id, account_id, debit, credit, new_price, context=None):
+        return {
+                'name': _('Standard Price changed from %s to %s')%(prod_variant.standard_price,new_price),
+                'account_id': account_id,
+                'debit': debit,
+                'credit': credit,
+                'move_id': move_id,
+                'product_id': prod_variant.id,
+                }
+
+    def change_quantity_price(self, cr, uid, prod_variant, new_price, qty, diff, company_id, context=None):
+        move_obj = self.pool.get('account.move')
+        move_line_obj = self.pool.get('account.move.line')
+        if context is None:
+            context = {}
+        product = prod_variant.product_tmpl_id
+        move_id = False
+        datas = self.pool.get('product.template').get_product_accounts(cr, uid, product.id, context=context)
+        if qty or context.get('quantity'):
+            # Accounting Entries
+            move_vals = {
+                'journal_id': datas['stock_journal'],
+                'company_id': company_id,
+                'ref': _('Standard Price changed'),
+            }
+            move_id = move_obj.create(cr, uid, move_vals, context=context)
+
+            counterpart_account = product.property_account_expense and product.property_account_expense.id or False
+            if not counterpart_account:
+                counterpart_account = product.categ_id.property_account_expense_categ and product.categ_id.property_account_expense_categ.id or False
+            if not counterpart_account:
+                raise osv.except_osv(_('Error!'),
+                                     _('No expense account defined on the product %s or on its category') % (
+                                     product.name))
+            if diff * qty > 0:
+                amount_diff = qty * diff
+                debit_account_id = counterpart_account
+                credit_account_id = datas['property_stock_valuation_account_id']
+            else:
+                amount_diff = qty * -diff
+                debit_account_id = datas['property_stock_valuation_account_id']
+                credit_account_id = counterpart_account
+            c = context.copy()
+            c['accounting_type'] = 'debit'
+            move_line_obj.create(cr, uid,
+                                 self._get_change_standard_price_vals(cr, uid, prod_variant, move_id, debit_account_id,
+                                                                      amount_diff, 0, new_price, context=c)
+                                 , context=context)
+            c['accounting_type'] = 'credit'
+            move_line_obj.create(cr, uid,
+                                 self._get_change_standard_price_vals(cr, uid, prod_variant, move_id, credit_account_id,
+                                                                      0, amount_diff, new_price, context=c)
+                                 , context=context)
+
+        return move_id
 
 
 class product_category(osv.osv):

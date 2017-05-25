@@ -2762,7 +2762,7 @@ class stock_inventory(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Inventoried Owner', readonly=True, states={'draft': [('readonly', False)]}, help="Specify Owner to focus your inventory on a particular Owner."),
         'lot_id': fields.many2one('stock.production.lot', 'Inventoried Lot/Serial Number', readonly=True, states={'draft': [('readonly', False)]}, help="Specify Lot/Serial Number to focus your inventory on a particular Lot/Serial Number.", copy=False),
         'category_id': fields.many2one('product.category', string="Category", readonly=True, states={'draft': [('readonly', False)]}, help="Specify Category of products to focus your inventory on a particular Category."),
-        'real_time': fields.boolean('Real Time'),
+        'real_time': fields.boolean('Real Time', readonly=True, states={'draft': [('readonly', False)]}),
         'move_ids_exist': fields.function(_get_move_ids_exist, type='boolean', string=' Stock Move Exists?', help='technical field for attrs in view'),
         'filter': fields.selection(_get_available_filters, 'Inventory of', required=True,
                                    help="If you do an entire inventory, you can choose 'All Products' and it will prefill the inventory with the current stock.  If you only do some products  "\
@@ -2841,7 +2841,15 @@ class stock_inventory(osv.osv):
         return True
 
     def action_cancel_inventory(self, cr, uid, ids, context=None):
-        self.action_cancel_draft(cr, uid, ids, context=context)
+        draft_ids = []
+        for inv in self.browse(cr, uid, ids, context=context):
+            if inv.state <> 'done':
+                draft_ids += [inv.id]
+                continue
+            self.pool.get('stock.move').action_cancel(cr, uid, [x.id for x in inv.move_ids], context=context)
+            self.write(cr, uid, [inv.id], {'state': 'cancel'}, context=context)
+        if draft_ids:
+            self.action_cancel_draft(cr, uid, draft_ids, context=context)
 
     def prepare_inventory(self, cr, uid, ids, context=None):
         inventory_line_obj = self.pool.get('stock.inventory.line')
@@ -2983,7 +2991,9 @@ class stock_inventory_line(osv.osv):
         'product_qty': fields.float('Checked Quantity', digits_compute=dp.get_precision('Product Unit of Measure')),
         'company_id': fields.related('inventory_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, select=True, readonly=True),
         'prod_lot_id': fields.many2one('stock.production.lot', 'Serial Number', domain="[('product_id','=',product_id)]"),
-        'state': fields.related('inventory_id', 'state', type='char', string='Status', readonly=True, store=True),
+        'state': fields.related('inventory_id', 'state', type='char', string='Status', readonly=True, store={
+            'stock.inventory': (lambda s,cr,u,i,c={}:s.pool['stock.inventory.line'].search(cr,u,[('inventory_id','in',i)],context=c),['state'],20)
+        }),
         'theoretical_qty': fields.function(_get_theoretical_qty, type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
                                            store={'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['location_id', 'product_id', 'package_id', 'product_uom_id', 'company_id', 'prod_lot_id', 'partner_id'], 20),},
                                            readonly=True, string="Theoretical Quantity"),

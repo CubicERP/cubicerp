@@ -32,7 +32,9 @@ _logger = logging.getLogger(__name__)
 class stock_inventory(osv.osv):
     _inherit = "stock.inventory"
     _columns = {
-        'period_id': fields.many2one('account.period', 'Force Valuation Period', help="Choose the accounting period where you want to value the stock moves created by the inventory instead of the default one (chosen by the inventory end date)"),
+        'period_id': fields.many2one('account.period', 'Force Valuation Period', readonly=True, states={'draft': [('readonly', False)],
+                                                                                                        'confirm': [('readonly', False)]},
+                                     help="Choose the accounting period where you want to value the stock moves created by the inventory instead of the default one (chosen by the inventory end date)"),
     }
 
     def post_inventory(self, cr, uid, inv, context=None):

@@ -926,6 +926,10 @@ Form View: Widgets
     display: none;
 }*/
 
+.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header .switcher_and_pager_container > .view_extra_buttons {
+    display: none !important;
+}
+
 .openerp .oe_form .oe_form_required input:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required select:not([disabled]):not([readonly]),
 .openerp .oe_form .oe_form_required textarea:not([disabled]):not([readonly]) {

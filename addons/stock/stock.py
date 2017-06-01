@@ -2800,18 +2800,13 @@ class stock_inventory(osv.osv):
         """ Finish the inventory
         @return: True
         """
-        if context is None:
-            context = {}
         for inv in self.browse(cr, uid, ids, context=context):
             for inventory_line in inv.line_ids:
                 if inventory_line.product_qty < 0 and inventory_line.product_qty != inventory_line.theoretical_qty:
                     raise osv.except_osv(_('Warning'), _('You cannot set a negative product quantity in an inventory line:\n\t%s - qty: %s' % (inventory_line.product_id.name, inventory_line.product_qty)))
-            ctx = context.copy()
-            if not inv.real_time:
-                ctx['date'] = inv.date
-            self.action_check(cr, uid, [inv.id], context=ctx)
+            self.action_check(cr, uid, [inv.id], context=context)
             self.write(cr, uid, [inv.id], {'state': 'done'}, context=context)
-            self.post_inventory(cr, uid, inv, context=ctx)
+            self.post_inventory(cr, uid, inv, context=context)
         return True
 
     def post_inventory(self, cr, uid, inv, context=None):

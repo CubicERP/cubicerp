@@ -156,7 +156,9 @@ class product_product(osv.osv):
         return res
 
     def _get_change_standard_price_vals(self, cr, uid, prod_variant, move_id, account_id, debit, credit, new_price, context=None):
-        return {
+        if context is None:
+            context = {}
+        vals = {
                 'name': _('Standard Price changed from %s to %s')%(prod_variant.standard_price,new_price),
                 'account_id': account_id,
                 'debit': debit,
@@ -164,6 +166,9 @@ class product_product(osv.osv):
                 'move_id': move_id,
                 'product_id': prod_variant.id,
                 }
+        if context.has_key('date'):
+            vals['date'] = context['date']
+        return vals
 
     def change_quantity_price(self, cr, uid, prod_variant, new_price, qty, diff, company_id, context=None):
         move_obj = self.pool.get('account.move')

@@ -178,8 +178,12 @@ class product_product(osv.osv):
             move_vals = {
                 'journal_id': datas['stock_journal'],
                 'company_id': company_id,
-                'ref': _('Standard Price changed'),
+                'ref': context.get('ref',False) or _('Standard Price changed'),
             }
+            if context.has_key('date'):
+                move_vals['date'] = context['date']
+            if context.has_key('period_id'):
+                move_vals['period_id'] = context['period_id']
             move_id = move_obj.create(cr, uid, move_vals, context=context)
 
             counterpart_account = product.property_account_expense and product.property_account_expense.id or False

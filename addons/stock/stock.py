@@ -1646,7 +1646,7 @@ class stock_move(osv.osv):
         res = []
         for line in self.browse(cr, uid, ids, context=context):
             name = line.location_id.name + ' > ' + line.location_dest_id.name
-            name = "%s/%s: %s%s"%(line.picking_id.name, line.product_id.code or (len(line.product_id.name)<=10 and line.product_id.name or "%s..%s"%(line.product_id.name[:4],line.product_id.name[-4:])), name, line.picking_id.origin and " (%s)"%line.picking_id.origin or "")
+            name = "%s%s: %s%s"%(line.picking_id and "%s/"%line.picking_id.name or '', line.product_id.code or (len(line.product_id.name)<=10 and line.product_id.name or "%s..%s"%(line.product_id.name[:4],line.product_id.name[-4:])), name, line.picking_id.origin and " (%s)"%line.picking_id.origin or "")
             res.append((line.id, name))
         return res
 
@@ -2829,6 +2829,7 @@ class stock_inventory(osv.osv):
             for line in inventory.line_ids:
                 #compare the checked quantities on inventory lines to the theorical one
                 stock_move = inventory_line_obj._resolve_inventory_line(cr, uid, line, context=context)
+                inventory_line_obj.write(cr, uid, [line.id], {'stock_move_id': stock_move}, context=None)
 
     def action_cancel_draft(self, cr, uid, ids, context=None):
         """ Cancels the stock move and change inventory state to draft.
@@ -2983,33 +2984,35 @@ class stock_inventory_line(osv.osv):
         return res
 
     _columns = {
-        'inventory_id': fields.many2one('stock.inventory', 'Inventory', ondelete='cascade', select=True),
-        'location_id': fields.many2one('stock.location', 'Location', required=True, select=True),
-        'product_id': fields.many2one('product.product', 'Product', required=True, select=True),
-        'package_id': fields.many2one('stock.quant.package', 'Pack', select=True),
-        'product_uom_id': fields.many2one('product.uom', 'Product Unit of Measure', required=True),
-        'product_qty': fields.float('Checked Quantity', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'inventory_id': fields.many2one('stock.inventory', 'Inventory', ondelete='cascade', select=True,
+                                         states={'done': [('readonly', True)]}),
+        'location_id': fields.many2one('stock.location', 'Location', required=True, select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+        'product_id': fields.many2one('product.product', 'Product', required=True, select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+        'package_id': fields.many2one('stock.quant.package', 'Pack', select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+        'product_uom_id': fields.many2one('product.uom', 'Product Unit of Measure', required=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+        'product_qty': fields.float('Checked Quantity', digits_compute=dp.get_precision('Product Unit of Measure'), states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
         'company_id': fields.related('inventory_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, select=True, readonly=True),
-        'prod_lot_id': fields.many2one('stock.production.lot', 'Serial Number', domain="[('product_id','=',product_id)]"),
+        'prod_lot_id': fields.many2one('stock.production.lot', 'Serial Number', domain="[('product_id','=',product_id)]", states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
         'state': fields.related('inventory_id', 'state', type='char', string='Status', readonly=True, store={
             'stock.inventory': (lambda s,cr,u,i,c={}:s.pool['stock.inventory.line'].search(cr,u,[('inventory_id','in',i)],context=c),['state'],20)
         }),
         'theoretical_qty': fields.function(_get_theoretical_qty, type='float', digits_compute=dp.get_precision('Product Unit of Measure'),
                                            store={'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['location_id', 'product_id', 'package_id', 'product_uom_id', 'company_id', 'prod_lot_id', 'partner_id'], 20),},
                                            readonly=True, string="Theoretical Quantity"),
-        'partner_id': fields.many2one('res.partner', 'Owner'),
-        'product_name': fields.related('product_id', 'name', type='char', string='Product Name', store={
+        'partner_id': fields.many2one('res.partner', 'Owner', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]}),
+        'product_name': fields.related('product_id', 'name', type='char', readonly=True, string='Product Name', store={
                                                                                             'product.product': (_get_product_name_change, ['name', 'default_code'], 20),
                                                                                             'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['product_id'], 20),}),
-        'product_code': fields.related('product_id', 'default_code', type='char', string='Product Code', store={
+        'product_code': fields.related('product_id', 'default_code', type='char', readonly=True, string='Product Code', store={
                                                                                             'product.product': (_get_product_name_change, ['name', 'default_code'], 20),
                                                                                             'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['product_id'], 20),}),
-        'location_name': fields.related('location_id', 'complete_name', type='char', string='Location Name', store={
+        'location_name': fields.related('location_id', 'complete_name', type='char', readonly=True, string='Location Name', store={
                                                                                             'stock.location': (_get_location_change, ['name', 'location_id', 'active'], 20),
                                                                                             'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['location_id'], 20),}),
-        'prodlot_name': fields.related('prod_lot_id', 'name', type='char', string='Serial Number Name', store={
+        'prodlot_name': fields.related('prod_lot_id', 'name', type='char', readonly=True, string='Serial Number Name', store={
                                                                                             'stock.production.lot': (_get_prodlot_change, ['name'], 20),
                                                                                             'stock.inventory.line': (lambda self, cr, uid, ids, c={}: ids, ['prod_lot_id'], 20),}),
+        'stock_move_id': fields.many2one('stock.move', "Stock Move", readonly=True),
     }
 
     _defaults = {

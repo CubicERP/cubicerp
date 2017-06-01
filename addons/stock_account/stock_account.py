@@ -244,10 +244,14 @@ class stock_quant(osv.osv):
         #the company currency... so we need to use round() before creating the accounting entries.
         valuation_amount = currency_obj.round(cr, uid, move.company_id.currency_id, valuation_amount * qty)
         partner_id = (move.picking_id.partner_id and self.pool.get('res.partner')._find_accounting_partner(move.picking_id.partner_id).id) or False
+        sign = 1.0
+        if not valuation_amount:
+            if move.location_id.usage=='internal' and move.location_id.usage!='internal':
+                sign = -1.0
         debit_line_vals = {
                     'name': move.name,
                     'product_id': move.product_id.id,
-                    'quantity': qty,
+                    'quantity': qty * sign,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
                     'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
@@ -259,7 +263,7 @@ class stock_quant(osv.osv):
         credit_line_vals = {
                     'name': move.name,
                     'product_id': move.product_id.id,
-                    'quantity': qty,
+                    'quantity': qty * sign * (valuation_amount and 1.0 or -1.0),
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
                     'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),

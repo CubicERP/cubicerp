@@ -2379,11 +2379,14 @@ class stock_move(osv.osv):
                                                       restrict_lot_id=move.restrict_lot_id.id,
                                                       restrict_partner_id=move.restrict_partner_id.id, context=ctx)
         if move.location_id.usage in ('supplier','inventory','production') and move.location_dest_id.usage in ('internal'):
+            _quants = []
             for quant, qty in quants:
                 if quant:
                     quant_obj.write(cr, uid, [quant.id], {'qty': quant.qty - qty}, context=ctx)
                 else:
                     qty = qty * -1.0
+                _quants += [(quant, qty)]
+            quants = _quants
         quant_obj.quants_move(cr, uid, quants, move, move.location_id, location_from=move.location_dest_id,
                               lot_id=move.restrict_lot_id.id, owner_id=move.restrict_partner_id.id, context=ctx)
 

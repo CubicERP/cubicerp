@@ -43,6 +43,8 @@ class stock_inventory(osv.osv):
         ctx = context.copy()
         if inv.period_id:
             ctx['force_period'] = inv.period_id.id
+        if not inv.real_time:
+            ctx['force_move_date'] = inv.date
         return super(stock_inventory, self).post_inventory(cr, uid, inv, context=ctx)
 
 

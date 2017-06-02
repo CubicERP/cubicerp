@@ -127,7 +127,7 @@
                                     <field name="package_id" domain="['|', ('location_id','=', False), ('location_id', '=', location_id)]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)" groups="stock.group_tracking_lot"/>
                                     <field name="partner_id" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)" groups="stock.group_tracking_owner"/>
                                     <field name="theoretical_qty" readonly="1"/>
-                                    <field name="product_qty" string="Real Quantity"/>
+                                    <field name="product_qty" string="Real Quantity" sum="Total Quantity"/>
                                     <field name="state" invisible="True"/>
                                 </tree>
                             </field>

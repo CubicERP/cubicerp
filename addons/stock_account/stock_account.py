@@ -279,9 +279,9 @@ class stock_quant(osv.osv):
         quant_cost_qty = {}
         for quant in quants:
             if move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
-                cost = move.price_unit
+                cost = abs(move.price_unit)
             else:
-                cost = quant.cost
+                cost = abs(quant.cost)
             if quant_cost_qty.get(cost):
                 quant_cost_qty[cost] += quant.qty
             else:

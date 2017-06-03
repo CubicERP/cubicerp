@@ -1257,6 +1257,7 @@
                     <field name="product_id"/>
                     <field name="journal_id" context="{'journal_name':self}" widget="selection"/> <!-- it's important to keep widget='selection' in this filter viewbecause without that the value passed in the context is not the ID but the textual value (name) of the selected journal -->
                     <field name="period_id" context="{'period_id':self}" widget="selection"/> <!-- it's important to keep the widget='selection' in this field, for the same reason as explained above -->
+                    <filter string="This F.Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%Y-12-31')),('date','&gt;=',time.strftime('%Y-01-01'))]" help="Journal Entries with period in current year"/>
                     <group expand="0" string="Group By">
                         <filter string="Partner" name="partner_group" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
                         <filter string="Product" name="product_group" icon="terp-product" domain="[]" context="{'group_by':'product_id'}"/>

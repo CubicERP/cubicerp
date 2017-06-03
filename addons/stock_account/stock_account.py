@@ -235,11 +235,11 @@ class stock_quant(osv.osv):
                 if move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal':
                     valuation_amount = cost
                 elif move.location_id.usage == 'internal' and move.location_dest_id.usage in ('supplier','production','inventory'):
-                    valuation_amount = move.price_unit or move.product_id.standard_price
+                    valuation_amount = abs(move.price_unit or move.product_id.standard_price)
                 else:
-                    valuation_amount = move.product_id.standard_price
+                    valuation_amount = abs(move.product_id.standard_price)
             else:
-                valuation_amount = cost if move.product_id.cost_method == 'real' else move.product_id.standard_price
+                valuation_amount = cost if move.product_id.cost_method == 'real' else abs(move.product_id.standard_price)
         #the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
         #the company currency... so we need to use round() before creating the accounting entries.
         valuation_amount = currency_obj.round(cr, uid, move.company_id.currency_id, valuation_amount * qty)

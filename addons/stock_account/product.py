@@ -193,15 +193,17 @@ class product_product(osv.osv):
                 raise osv.except_osv(_('Error!'),
                                      _('No expense account defined on the product %s or on its category') % (
                                      product.name))
+            c = context.copy()
             if diff * qty > 0:
                 amount_diff = qty * diff
                 debit_account_id = counterpart_account
                 credit_account_id = datas['property_stock_valuation_account_id']
+                c['accouting_type_sign'] = -1.0
             else:
-                amount_diff = qty * -diff
+                amount_diff = (qty * diff) * -1
                 debit_account_id = datas['property_stock_valuation_account_id']
                 credit_account_id = counterpart_account
-            c = context.copy()
+                c['accouting_type_sign'] = 1.0
             c['accounting_type'] = 'debit'
             move_line_obj.create(cr, uid,
                                  self._get_change_standard_price_vals(cr, uid, prod_variant, move_id, debit_account_id,

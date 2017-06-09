@@ -368,6 +368,25 @@
                 </tree>
             </field>
         </record>
+        <record id="view_payment_line_search" model="ir.ui.view">
+            <field name="name">payment.line.search</field>
+            <field name="model">payment.line</field>
+            <field name="arch" type="xml">
+                <search string="Payment Line">
+                    <field name="name" string="Payment Line"
+                        filter_domain="['|', ('name','ilike',self), ('communication','ilike',self)]"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="bank_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <filter string="My Payments" domain="[('user_id','=',uid)]" name="my_payment_filter"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Payment Mode" domain="[]" context="{'group_by':'mode'}"/>
+                        <filter string="Responsible" domain="[]" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
         <record id="view_payment_line_graph" model="ir.ui.view">
             <field name="name">Payment Lines Graph</field>
             <field name="model">payment.line</field>
@@ -390,6 +409,7 @@
             <field name="res_model">payment.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'search_default_my_payment_filter':1}</field>
         </record>
 
         <menuitem action="action_payment_line_tree" id="menu_action_payment_line" parent="menu_main_payment" sequence="90"/>

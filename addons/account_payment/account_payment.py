@@ -388,8 +388,7 @@ class payment_line(osv.osv):
         'amount': fields.function(_amount, string='Amount in Company Currency',
             type='float',
             help='Payment amount in the company currency'),
-        'ml_date_created': fields.function(_get_ml_created_date, string="Effective Date",
-            type='date', help="Invoice Effective Date"),
+        'ml_date_created': fields.function(_get_ml_created_date, string="Effective Date", type='date', help="Invoice Effective Date"),
         'ml_maturity_date': fields.function(_get_ml_maturity_date, type='date', string='Due Date'),
         'ml_inv_ref': fields.function(_get_ml_inv_ref, type='many2one', relation='account.invoice', string='Invoice Ref.'),
         'info_owner': fields.function(_info_owner, string="Owner Account", type="text", help='Address of the Main Partner'),
@@ -400,6 +399,8 @@ class payment_line(osv.osv):
         'bank_statement_line_id': fields.many2one('account.bank.statement.line', 'Bank statement line'),
         'company_id': fields.related('order_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
         'mode': fields.related('order_id', 'mode', type='many2one', relation='payment.mode', string='Payment Mode', store=True, readonly=True),
+        'order_state': fields.related('order_id', 'state', type='char', string='Order State', store=True, readonly=True),
+        'user_id': fields.related('order_id', 'user_id', type='many2one', relation='res.users', string='Responsible', store=True, readonly=True),
     }
     _defaults = {
         'name': lambda obj, cursor, user, context: obj.pool.get('ir.sequence'

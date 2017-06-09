@@ -187,8 +187,8 @@ class payment_order(osv.osv):
                 line_id = line_obj.create(cr, uid, {'move_id': move_id,
                                           'partner_id': key[0],
                                           'account_id': key[1],
-                                          'name': order.reference,
-                                          'ref': order.name,
+                                          'name': order.name,
+                                          'ref': order.reference,
                                           'date': order.date_scheduled,
                                           'journal_id': order.mode.journal.id,
                                           'period_id': period_id,
@@ -199,8 +199,8 @@ class payment_order(osv.osv):
             line_obj.create(cr, uid, {'move_id': move_id,
                                       'account_id': order.mode.account_id.id,
                                       'partner_id': False,
-                                      'name': order.reference,
-                                      'ref': order.name,
+                                      'name': order.name,
+                                      'ref': order.reference,
                                       'date': order.date_scheduled,
                                       'journal_id': order.mode.journal.id,
                                       'period_id': period_id,
@@ -399,6 +399,7 @@ class payment_line(osv.osv):
         'state': fields.selection([('normal','Free'), ('structured','Structured')], 'Communication Type', required=True),
         'bank_statement_line_id': fields.many2one('account.bank.statement.line', 'Bank statement line'),
         'company_id': fields.related('order_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
+        'mode': fields.related('order_id', 'mode', type='many2one', relation='payment.mode', string='Payment Mode', store=True, readonly=True),
     }
     _defaults = {
         'name': lambda obj, cursor, user, context: obj.pool.get('ir.sequence'

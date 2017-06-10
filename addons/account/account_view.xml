@@ -2544,15 +2544,19 @@
                         <field name="style_overwrite"/>
                         <field name="complete_name"/>
                     </group>
-                    <notebook attrs="{'invisible': [('type','not in',['accounts','account_type', 'account_report'])]}">
-                        <page string="Report">
+                    <notebook>
+                        <page string="Report" attrs="{'invisible': [('type','not in',['accounts','account_type', 'account_report'])]}">
                             <group>
                                 <field name="display_detail" attrs="{'invisible': [('type','not in',['accounts','account_type'])]}"/>
                             </group>
                             <field name="account_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>
                             <field name="account_type_ids" attrs="{'invisible': [('type', '!=', 'account_type')]}"/>
                             <field name="account_report_ids" attrs="{'invisible': [('type', '!=', 'account_report')]}"/>
+                            <separator string="Analytic Accounts" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
                             <field name="analytic_ids" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
+                        </page>
+                        <page string="Children">
+                            <field name="children_ids"/>
                         </page>
                     </notebook>
                 </form>

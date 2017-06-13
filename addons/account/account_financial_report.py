@@ -102,21 +102,24 @@ class account_financial_report(osv.osv):
             if report.id in res:
                 continue
             res[report.id] = dict((fn, 0.0) for fn in field_names)
+            ctx = context.copy()
+            if report.analytic_ids and (report.type == 'accounts' or report.type == 'account_type'):
+                ctx['analytic_account_id'] = [a.id for a in report.analytic_ids]
             if report.type == 'accounts':
                 # it's the sum of the linked accounts
-                for a in report.account_ids:
+                for a in account_obj.browse(cr, uid, [a.id for a in report.account_ids], context=ctx):
                     for field in field_names:
                         res[report.id][field] += getattr(a, field) * report.sign
             elif report.type == 'account_type':
                 # it's the sum the leaf accounts with such an account type
                 report_types = [x.id for x in report.account_type_ids]
                 account_ids = account_obj.search(cr, uid, [('user_type','in', report_types), ('type','!=','view')], context=context)
-                for a in account_obj.browse(cr, uid, account_ids, context=context):
+                for a in account_obj.browse(cr, uid, account_ids, context=ctx):
                     for field in field_names:
                         res[report.id][field] += getattr(a, field) #* report.sign
-            elif report.type == 'account_report' and report.account_report_id:
+            elif report.type == 'account_report' and report.account_report_ids:
                 # it's the amount of the linked report
-                res2 = self._get_balance(cr, uid, [report.account_report_id.id], field_names, False, context=context)
+                res2 = self._get_balance(cr, uid, [r.id for r in report.account_report_ids], field_names, False, context=context)
                 for key, value in res2.items():
                     for field in field_names:
                         res[report.id][field] += value[field]
@@ -163,7 +166,8 @@ class account_financial_report(osv.osv):
             ('account_report','Report Value'),
             ],'Type'),
         'account_ids': fields.many2many('account.account', 'account_account_financial_report', 'report_line_id', 'account_id', 'Accounts'),
-        'account_report_id':  fields.many2one('account.financial.report', 'Report Value'),
+        'account_report_ids':  fields.many2many('account.financial.report', 'account_finan_report_account_report', 'report_id', 'parent_id','Report Values'),
+        'analytic_ids':  fields.many2many('account.analytic.account', 'account_finan_report_account_analytic', 'report_id', 'analytic_id','Analytic Accounts'),
         'account_type_ids': fields.many2many('account.account.type', 'account_account_financial_report_type', 'report_id', 'account_type_id', 'Account Types'),
         'sign': fields.selection([(-1, 'Reverse balance sign'), (1, 'Preserve balance sign')], 'Sign on Reports', required=True, help='For accounts that are typically more debited than credited and that you would like to print as negative amounts in your reports, you should reverse the sign of the balance; e.g.: Expense account. The same applies for accounts that are typically more credited than debited and that you would like to print as positive amounts in your reports; e.g.: Income account.'),
         'display_detail': fields.selection([

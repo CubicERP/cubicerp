@@ -56,6 +56,7 @@ write({'state':'approve'})</field>
             <field name="signal">approve</field>
         </record>
         <record id="trans_approve_done" model="workflow.transition">
+            <field name="group_id" ref="group_account_payment_done"/>
             <field name="act_from" ref="act_approve"/>
             <field name="act_to" ref="act_done"/>
             <field name="signal">done</field>

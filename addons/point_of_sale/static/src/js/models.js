@@ -869,7 +869,7 @@ function openerp_pos_models(instance, module){ //module is instance.point_of_sal
             _(taxes).each(function(tax) {
                 if (tax.price_include) {
                     if (tax.type === "percent") {
-                        tmp =  round_pr(base - round_pr(base / (1 + tax.amount),currency_rounding),currency_rounding/0.00001);
+                        tmp =  round_pr(base - round_pr(base / (1 + tax.amount),currency_rounding*0.00001),currency_rounding);
                         data = {amount:tmp, price_include:true, id: tax.id};
                         res.push(data);
                     } else if (tax.type === "fixed") {

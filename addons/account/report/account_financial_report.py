@@ -73,6 +73,7 @@ class report_account_common(report_sxw.rml_parse, common_report_header):
         currency_obj = self.pool.get('res.currency')
         used_context = data['form']['used_context'].copy()
         comparison_context = data['form']['comparison_context'].copy()
+        comparison_context['debit_credit'] = used_context['debit_credit'] = data['form'].get('debit_credit')
         ids2 = self.pool.get('account.financial.report')._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=used_context)
         for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, ids2, context=used_context):
             multiplan = eval(report.multiplan)

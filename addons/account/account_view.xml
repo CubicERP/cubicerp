@@ -2542,12 +2542,13 @@
                         <field name="type"/>
                         <field name="sign"/>
                         <field name="style_overwrite"/>
+                        <field name="aggregate"/>
                         <field name="complete_name"/>
                     </group>
                     <notebook>
-                        <page string="Report" attrs="{'invisible': [('type','not in',['accounts','account_type', 'account_report'])]}">
+                        <page string="Report" attrs="{'invisible': [('type','=','sum')]}">
                             <group>
-                                <field name="display_detail" attrs="{'invisible': [('type','not in',['accounts','account_type'])]}"/>
+                                <field name="display_detail" attrs="{'invisible': [('type','in',['sum','account_report'])]}"/>
                             </group>
                             <field name="account_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>
                             <field name="account_type_ids" attrs="{'invisible': [('type', '!=', 'account_type')]}"/>
@@ -2571,6 +2572,7 @@
                     <field name="complete_name"/>
                     <field name="parent_id" invisible="1"/>
                     <field name="type"/>
+                    <field name="aggregate"/>
                 </tree>
             </field>
         </record>
@@ -2584,6 +2586,7 @@
                     <group expand="0" string="Group By">
                         <filter string="Parent Report" icon="terp-folder-orange" domain="" context="{'group_by':'parent_id'}"/>
                         <filter string="Report Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Agregate Function"  domain="[]" context="{'group_by':'aggregate'}"/>
                     </group>
                 </search>
             </field>
@@ -2607,6 +2610,7 @@
                 <tree string="Account Reports Hierarchy">
                     <field name="name"/>
                     <field name="type"/>
+                    <field name="aggregate"/>
                     <field name="parent_id" invisible="1"/>
                 </tree>
             </field>

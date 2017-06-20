@@ -345,13 +345,19 @@ class payment_line(osv.osv):
                 date = time.strftime('%Y-%m-%d')
         return date
 
-    def _get_ml_inv_ref(self, cr, uid, ids, *a):
+    def _get_reference(self, cr, uid, line, context=None):
+        res = False
+        if line.move_line_id:
+            if line.move_line_id.invoice:
+                res = line.move_line_id.invoice.supplier_invoice_number or line.move_line_id.invoice.reference
+            else:
+                res = line.move_line_id.ref or line.move_line_id.name
+        return res
+
+    def _get_ml_inv_ref(self, cr, uid, ids, args, fields, context=None):
         res = {}
-        for id in self.browse(cr, uid, ids):
-            res[id.id] = False
-            if id.move_line_id:
-                if id.move_line_id.invoice:
-                    res[id.id] = id.move_line_id.invoice.id
+        for line in self.browse(cr, uid, ids):
+            res[line.id] = self._get_reference(cr, uid, line, context=context)
         return res
 
     def _get_ml_maturity_date(self, cr, uid, ids, *a):
@@ -390,7 +396,7 @@ class payment_line(osv.osv):
             help='Payment amount in the company currency'),
         'ml_date_created': fields.function(_get_ml_created_date, string="Effective Date", type='date', help="Invoice Effective Date"),
         'ml_maturity_date': fields.function(_get_ml_maturity_date, type='date', string='Due Date'),
-        'ml_inv_ref': fields.function(_get_ml_inv_ref, type='many2one', relation='account.invoice', string='Invoice Ref.'),
+        'ml_inv_ref': fields.function(_get_ml_inv_ref, type='char', string='Invoice Ref.'),
         'info_owner': fields.function(_info_owner, string="Owner Account", type="text", help='Address of the Main Partner'),
         'info_partner': fields.function(_info_partner, string="Destination Account", type="text", help='Address of the Ordering Customer.'),
         'date': fields.date('Payment Date', help="If no payment date is specified, the bank will treat this payment line directly"),

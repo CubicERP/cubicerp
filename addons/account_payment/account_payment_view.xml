@@ -75,7 +75,7 @@
                     <button name="cancel" states="draft,open,approve" string="Cancel Payments"/>
                     <button name="cancel" states="done" string="Cancel Payments"
                             groups="account_payment.group_manager_payment"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,approve,done"/>
                 </header>
                 <sheet string="Payment order">
                     <div class="oe_title">
@@ -104,6 +104,7 @@
                                             <group>
                                                 <group>
                                                     <field name="name"/>
+                                                    <field name="ml_inv_ref"/>
                                                 </group>
                                                 <group>
                                                     <field name="move_line_id"
@@ -149,13 +150,13 @@
                                                 <group string="Entry Information">
                                                     <field name="create_date" readonly="1"/>
                                                     <field name="ml_maturity_date"/>
-                                                    <field name="ml_inv_ref"/>
                                                 </group>
                                             </group>
                                         </page>
                                     </notebook>
                                 </form>
                                 <tree string="Payment Line">
+                                    <field name="name"/>
                                     <field name="ml_inv_ref" />
                                     <field name="partner_id"/>
                                     <field name="communication"/>
@@ -164,7 +165,6 @@
                                     <field name="date"/>
                                     <field name="amount_currency" string="Amount"/>
                                     <field name="currency"/>
-                                    <field name="name"/>
                                     <field name="amount" sum="Total in Company Currency" invisible="1"/>
                                 </tree>
                             </field>

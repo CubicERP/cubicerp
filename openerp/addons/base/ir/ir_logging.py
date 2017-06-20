@@ -72,12 +72,17 @@ class ir_logging(models.Model):
                 cols += [c]
         for l in self.env[model._name].browse(ids):
             line = vals.copy()
-            names = l.name_get()
-            line['name'] = names and names[0][1] or '*%s'%l.id
+            try:
+                names = l.name_get()
+                line['name'] = names and names[0][1] or '*%s'%l.id
+            except:
+                line['name'] = '*%s'%l.id
+                names = False
             line['res_id'] = l.id
             msg = {}
-            for col in cols:
-                msg[col] = str(getattr(l,col))
+            if names:
+                for col in cols:
+                    msg[col] = str(getattr(l,col))
             line['message'] = str(msg)
             self.sudo().create(line)
         return True

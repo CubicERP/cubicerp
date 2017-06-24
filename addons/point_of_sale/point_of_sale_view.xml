@@ -24,7 +24,7 @@
                     <sheet>
                     <group col="4" colspan="4">
                         <field name="name" attrs="{'readonly':True}"/>
-                        <field name="date_order"/>
+                        <field name="date_order" attrs="{'readonly':True}"/>
                         <field name="session_id" required="1"/>
                         <field name="partner_id" on_change="onchange_partner_id(partner_id, context)" domain="[('customer', '=', True)]" context="{'search_default_customer':1}"/>
                     </group>

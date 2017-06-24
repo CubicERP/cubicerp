@@ -850,7 +850,7 @@ class pos_order(osv.osv):
     _columns = {
         'name': fields.char('Order Ref', required=True, states={'draft': [('readonly', False)]}, readonly=True, copy=False),
         'company_id':fields.many2one('res.company', 'Company', required=True, readonly=True),
-        'date_order': fields.datetime('Order Date', readonly=True, select=True),
+        'date_order': fields.datetime('Order Date', states={'draft': [('readonly', False)]}, readonly=True, select=True),
         'user_id': fields.many2one('res.users', 'Salesman', states={'draft': [('readonly', False)]}, readonly=True,
                                    help="Person who uses the the cash register. It can be a reliever, a student or an interim employee."),
         'amount_tax': fields.function(_amount_all, string='Taxes', digits_compute=dp.get_precision('Account'), multi='all'),

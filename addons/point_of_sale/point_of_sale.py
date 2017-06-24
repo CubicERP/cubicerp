@@ -529,7 +529,7 @@ class pos_session(osv.osv):
         
         for session in self.browse(cr, uid, ids, context=context):
             for order in session.order_ids:
-                if order.state == 'done':
+                if order.state in ('done', 'cancel'):
                     continue
                 if order.state not in ('paid', 'invoiced'):
                     raise osv.except_osv(
@@ -728,7 +728,7 @@ class pos_order(osv.osv):
 
         if session.sequence_number <= order['sequence_number']:
             session.write({'sequence_number': order['sequence_number'] + 1})
-            session.refresh()
+            #session.refresh()
 
         if not float_is_zero(order['amount_return'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')):
             cash_journal = session.cash_journal_id.id

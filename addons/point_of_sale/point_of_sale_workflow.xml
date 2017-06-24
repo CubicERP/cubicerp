@@ -68,6 +68,12 @@
       <field name="signal">invoice</field>
     </record>
 
+    <record model="workflow.transition" id="trans_invoice_done">
+        <field name="act_from" ref="act_invoiced"/>
+        <field name="act_to" ref="act_done"/>
+        <field name="signal">done</field>
+    </record>
+
     <record model="workflow.transition" id="trans_draft_cancel">
       <field name="act_from" ref="act_draft"/>
       <field name="act_to" ref="act_cancel"/>

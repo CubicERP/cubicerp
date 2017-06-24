@@ -15,10 +15,10 @@
                 <form string="Point of Sale Orders">
                     <header>
                         <button name="%(action_pos_payment)d" string="Payment" class="oe_highlight" type="action" states="draft" context="{'pos_session_id' : session_id}"/>
-                        <button name="action_invoice" string="Invoice" type="object" states="paid" attrs="{'readonly': [('partner_id','=',False)]}"/>
-                        <button name="refund" string="Return Products" type="object" 
-                            attrs="{'invisible':[('state','=','draft')]}"/>
+                        <button name="action_invoice" string="Invoice" type="object" states="paid" attrs="{'invisible': [('partner_id','=',False)]}"/>
+                        <button name="refund" string="Return Products" type="object" states="done,paid,invoiced"/>
                         <button name="%(action_report_pos_receipt)d" string="Reprint" type="action" states="paid,done,invoiced"/>
+                        <button name="cancel" string="Cancel" states="draft,paid,invoiced"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,paid,done" statusbar_colors='{"cancel":"red"}'/>
                     </header>
                     <sheet>

@@ -1002,13 +1002,30 @@ class pos_order(osv.osv):
         """ Changes order state to cancel
         @return: True
         """
-        stock_picking_obj = self.pool.get('stock.picking')
         for order in self.browse(cr, uid, ids, context=context):
-            stock_picking_obj.action_cancel(cr, uid, [order.picking_id.id])
-            if stock_picking_obj.browse(cr, uid, order.picking_id.id, context=context).state <> 'cancel':
-                raise osv.except_osv(_('Error!'), _('Unable to cancel the picking.'))
-        self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
-        return True
+            if order.state == 'done':
+                raise osv.except_osv(_('Error!'), _('Unable to cancel the order %s.')%order.name)
+            if order.picking_id:
+                self.pool.get('stock.picking').action_cancel(cr, uid, [order.picking_id.id], context=context)
+            if order.invoice_id:
+                order.invoice_id.signal_workflow('invoice_cancel')
+                if order.invoice_id.state <> 'cancel':
+                    raise osv.except_osv(_('Error!'), _('Unable to cancel the invoice %s.') % order.invoice_id.name)
+            if order.statement_ids:
+                timestamp = datetime.strptime(date, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+                ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
+                date = ts.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
+                order.write({'note': "%s"
+                                     "Payment Details Cancelled: %s\n"
+                                     "Cancelled by %s on %s"%(order.note and "%s\n"%order.note or '',
+                                                            [{'Journal':l.statement_id.journal_id.name,
+                                                        'Statement': l.statement_id.name,
+                                                        'Amount': l.amount} for l in order.statement_ids],
+                                self.pool['res.users'].browse(cr, uid, uid, context=context).name, date)})
+                self.pool.get('account.bank.statement.line').unlink(cr,uid, [l.id for l in order.statement_ids], context=context)
+            if order.account_move:
+                self.pool.get('account.move').unlink(cr, uid, [order.account_move.id], context=context)
+        return self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
 
     def add_payment(self, cr, uid, order_id, data, context=None):
         """Create a new payment for the order"""
@@ -1479,8 +1496,7 @@ class pos_order(osv.osv):
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
-        return True
+        return self.cancel_order(cr, uid, ids, context=context)
 
     def action_done(self, cr, uid, ids, context=None):
         self.create_account_move(cr, uid, ids, context=context)

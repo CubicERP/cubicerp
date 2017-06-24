@@ -884,7 +884,7 @@ class pos_order(osv.osv):
         'picking_type_id': fields.related('session_id', 'config_id', 'picking_type_id', string="Picking Type", type='many2one', relation='stock.picking.type'),
         'location_id': fields.related('session_id', 'config_id', 'stock_location_id', states={'draft': [('readonly', False)]}, readonly=True,
                                       string="Location", type='many2one', store=True, relation='stock.location'),
-        'note': fields.text('Internal Notes'),
+        'note': fields.text('Internal Notes', states={'done': [('readonly', False)], 'cancel': [('readonly', False)]}),
         'nb_print': fields.integer('Number of Print', readonly=True, copy=False),
         'pos_reference': fields.char('Receipt Ref', readonly=True, copy=False),
         'sale_journal': fields.related('session_id', 'journal_id', relation='account.journal', type='many2one', string='Sale Journal', store=True, readonly=True),
@@ -1012,9 +1012,9 @@ class pos_order(osv.osv):
                 if order.invoice_id.state <> 'cancel':
                     raise osv.except_osv(_('Error!'), _('Unable to cancel the invoice %s.') % order.invoice_id.name)
             if order.statement_ids:
-                timestamp = datetime.strptime(date, tools.DEFAULT_SERVER_DATETIME_FORMAT)
+                timestamp = datetime.strptime(time.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT), tools.DEFAULT_SERVER_DATETIME_FORMAT)
                 ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
-                date = ts.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
+                date = ts.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
                 order.write({'note': "%s"
                                      "Payment Details Cancelled: %s\n"
                                      "Cancelled by %s on %s"%(order.note and "%s\n"%order.note or '',

@@ -93,6 +93,8 @@ class pos_config(osv.osv):
         'barcode_price':    fields.char('Price Barcodes',   size=64, help='The pattern that identifies a product with a barcode encoded price'),
         'barcode_weight':   fields.char('Weight Barcodes',  size=64, help='The pattern that identifies a product with a barcode encoded weight'),
         'barcode_discount': fields.char('Discount Barcodes',  size=64, help='The pattern that identifies a product with a barcode encoded discount'),
+        'fix_product_unlink': fields.boolean('Fix Product Unlink'),
+        'fix_product_id': fields.many2one('product.product', string='Product', help='Default product to fix the unlink products'),
     }
 
     def _check_cash_control(self, cr, uid, ids, context=None):
@@ -258,7 +260,13 @@ class pos_session(osv.osv):
                     result[record.id]['cash_control'] = True
                     result[record.id]['cash_journal_id'] = st.journal_id.id
                     result[record.id]['cash_register_id'] = st.id
-
+                    break
+            if not result[record.id]['cash_register_id']:
+                for st in record.statement_ids:
+                    if st.journal_id.type == 'cash':
+                        result[record.id]['cash_journal_id'] = st.journal_id.id
+                        result[record.id]['cash_register_id'] = st.id
+                        break
         return result
 
     _columns = {
@@ -554,7 +562,7 @@ class pos_session(osv.osv):
                 k = ()
                 if order.state == 'paid' and order.account_move:
                     for line in order.account_move.line_id:
-                        if line.account_id.type == 'receivable':
+                        if line.account_id.type == 'receivable' and line.partner_id.id == order.partner_id.id:
                             k = (line.account_id.id,order.partner_id.id,line.id)
                             break
                 elif order.state == 'invoiced' and order.invoice_id and order.invoice_id.state == 'open' and order.invoice_id.move_id:
@@ -672,6 +680,37 @@ class pos_order(osv.osv):
 
             return new_session_id
 
+    def _fix_product_unlink(self, cr, uid, session, order, context=None):
+        logging_obj = self.pool.get('ir.logging')
+        product_obj = self.pool.get('product.template')
+        lines = []
+        for l in order['lines']:
+            line = l[2]
+            product_id = line['product_id']
+            product_ids = self.pool['product.product'].search(cr, SUPERUSER_ID, [('id','=',product_id)], context=context)
+            if product_ids:
+                lines += [(l[0], l[1], line)]
+                continue
+            logging_ids = logging_obj.search(cr, SUPERUSER_ID, [('res_model','=','product.product'),
+                                                     ('res_id','=',product_id),
+                                                     ('message','<>',False)],context=context)
+            product_id = False
+            for logging in logging_obj.browse(cr, SUPERUSER_ID, logging_ids, context=context):
+                try:
+                    product_tmpl_id = int(eval(logging.message).get('product_tmpl_id').split('(')[1].split(',')[0])
+                    for product in product_obj.browse(cr, SUPERUSER_ID, product_tmpl_id, context=context).product_variant_ids:
+                        product_id = product.id
+                        break
+                except:
+                    pass
+                if product_id:
+                    line['product_id'] = product_id
+                    break
+            if not product_id and session.config_id.fix_product_id:
+                line['product_id'] = session.config_id.fix_product_id.id
+            lines += [(l[0],l[1],line)]
+        order['lines'] = lines
+
     def _process_order(self, cr, uid, order, context=None):
         session = self.pool.get('pos.session').browse(cr, uid, order['pos_session_id'], context=context)
 
@@ -679,7 +718,8 @@ class pos_order(osv.osv):
             session_id = self._get_valid_session(cr, uid, order, context=context)
             session = self.pool.get('pos.session').browse(cr, uid, session_id, context=context)
             order['pos_session_id'] = session_id
-
+        if session.config_id.fix_product_unlink:
+            self._fix_product_unlink(cr, uid, session, order, context=context)
         order_id = self.create(cr, uid, self._order_fields(cr, uid, order, context=context),context)
         journal_ids = set()
         for payments in order['statement_ids']:
@@ -1187,6 +1227,9 @@ class pos_order(osv.osv):
         period_id = self.pool['account.period'].find(cr, uid, dt=date_tz_user, context=local_context)
         return self.pool['account.move'].create(cr, uid, {'ref': ref, 'journal_id': journal_id, 'period_id': period_id[0]}, context=context)
 
+    def _get_order_line_taxes(self, cr, uid, line, context=None):
+        return line.product_id.taxes_id
+
     def _create_account_move_line(self, cr, uid, ids, session=None, move_id=None, context=None):
         # Tricky, via the workflow, we only have one id in the ids variable
         """Create a account move line of order grouped by products or not."""
@@ -1300,7 +1343,7 @@ class pos_order(osv.osv):
             for line in order.lines:
                 tax_amount = 0
                 taxes = []
-                for t in line.tax_ids:
+                for t in self._get_order_line_taxes(cr, uid, line, context=context):
                     if t.company_id.id == current_company.id:
                         taxes.append(t)
                 computed_taxes = account_tax_obj.compute_all(cr, uid, taxes, line.price_unit * (100.0-line.discount) / 100.0, line.qty)['taxes']

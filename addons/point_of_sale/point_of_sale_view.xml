@@ -749,6 +749,10 @@
                                 <field name="barcode_price" />
                             </group>
                         </group>
+                        <group string="Fix Product Unlink" >
+                            <field name="fix_product_unlink"/>
+                            <field name="fix_product_id" attrs="{'invisible':[('fix_product_unlink','=',False)]}"/>
+                        </group>
                     </sheet>
 
                 </form>

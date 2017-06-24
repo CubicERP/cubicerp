@@ -10,6 +10,7 @@
                     <group>
                         <field name="name" class="oe_inline"/>
                         <field name="amount"  class="oe_inline"/>
+                        <field name="partner_id"  class="oe_inline"/>
                     </group>
                     <footer>
                         <button name="run" string="Put Money In" type="object" class="oe_highlight"/>
@@ -38,6 +39,7 @@
                     <group>
                         <field name="name" class="oe_inline"/>
                         <field name="amount" class="oe_inline"/>
+                        <field name="partner_id"  class="oe_inline"/>
                     </group>
 
                     <footer>

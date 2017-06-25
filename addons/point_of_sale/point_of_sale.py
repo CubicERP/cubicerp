@@ -442,6 +442,8 @@ class pos_session(osv.osv):
                 'user_id' : uid,
                 'company_id' : pos_config.company_id.id
             }
+            if journal.type == 'cash' and not journal.cash_control:
+                bank_values['balance_start'] = self.pool.get('account.bank.statement')._compute_balance_end_real(cr, uid, journal.id, context=context)
             statement_id = self.pool.get('account.bank.statement').create(cr, uid, bank_values, context=context)
             bank_statement_ids.append(statement_id)
 
@@ -522,6 +524,8 @@ class pos_session(osv.osv):
                 if (st.journal_id.type not in ['bank', 'cash']):
                     raise osv.except_osv(_('Error!'), 
                         _("The type of the journal for your payment method should be bank or cash "))
+                if st.journal_id.type == 'cash' and not st.cash_control:
+                    st._update_balances()
                 getattr(st, 'button_confirm_%s' % st.journal_id.type)(context=context)
                 
         self._confirm_orders(cr, uid, ids, context=context)
@@ -628,7 +632,7 @@ class pos_order(osv.osv):
 
     def _amount_line_tax(self, cr, uid, line, context=None):
         account_tax_obj = self.pool['account.tax']
-        taxes_ids = [tax for tax in line.product_id.taxes_id if tax.company_id.id == line.order_id.company_id.id]
+        taxes_ids = [tax for tax in self._get_order_line_taxes(cr, uid, line, context=context) if tax.company_id.id == line.order_id.company_id.id]
         price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
         taxes = account_tax_obj.compute_all(cr, uid, taxes_ids, price, line.qty, product=line.product_id, partner=line.order_id.partner_id or False)['taxes']
         val = 0.0
@@ -728,7 +732,6 @@ class pos_order(osv.osv):
 
         if session.sequence_number <= order['sequence_number']:
             session.write({'sequence_number': order['sequence_number'] + 1})
-            #session.refresh()
 
         if not float_is_zero(order['amount_return'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')):
             cash_journal = session.cash_journal_id.id
@@ -1197,7 +1200,7 @@ class pos_order(osv.osv):
                 inv_line['price_unit'] = line.price_unit
                 inv_line['discount'] = line.discount
                 inv_line['name'] = inv_name
-                inv_line['invoice_line_tax_id'] = [(6, 0, inv_line['invoice_line_tax_id'])]
+                inv_line['invoice_line_tax_id'] = [(6, 0, [t.id for t in self._get_order_line_taxes(cr, uid, line, context=context)])]
                 inv_line_ref.create(cr, uid, inv_line, context=context)
             inv_ref.button_reset_taxes(cr, uid, [inv_id], context=context)
             self.signal_workflow(cr, uid, [order.id], 'invoice')
@@ -1251,7 +1254,6 @@ class pos_order(osv.osv):
         # Tricky, via the workflow, we only have one id in the ids variable
         """Create a account move line of order grouped by products or not."""
         account_move_obj = self.pool.get('account.move')
-        account_period_obj = self.pool.get('account.period')
         account_tax_obj = self.pool.get('account.tax')
         property_obj = self.pool.get('ir.property')
         cur_obj = self.pool.get('res.currency')
@@ -1528,7 +1530,7 @@ class pos_order_line(osv.osv):
         account_tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
         for line in self.browse(cr, uid, ids, context=context):
-            taxes_ids = [ tax for tax in line.product_id.taxes_id if tax.company_id.id == line.order_id.company_id.id ]
+            taxes_ids = [ tax for tax in self.pool['pos.order']._get_order_line_taxes(cr, uid, line, context=context) if tax.company_id.id == line.order_id.company_id.id ]
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             taxes = account_tax_obj.compute_all(cr, uid, taxes_ids, price, line.qty, product=line.product_id, partner=line.order_id.partner_id or False)
 

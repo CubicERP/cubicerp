@@ -159,7 +159,7 @@ class wkf_instance(osv.osv):
         'res_type': fields.char('Resource Object'),
         'state': fields.char('Status'),
         'transition_ids': fields.many2many('workflow.transition', 'wkf_witm_trans', 'inst_id', 'trans_id'),
-        'item_ids': fields.one2many('workflow.workitem','inst_id', string="Items")
+        'item_ids': fields.one2many('workflow.workitem','inst_id', string="Items"),
     }
     def _auto_init(self, cr, context=None):
         res = super(wkf_instance, self)._auto_init(cr, context)

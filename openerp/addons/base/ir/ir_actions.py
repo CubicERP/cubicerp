@@ -857,7 +857,7 @@ class ir_actions_server(osv.osv):
             if not isinstance(record, openerp.models.BaseModel):
                 record = action.env[action.wkf_model_id.model].browse(record)
 
-        record.signal_workflow(action.wkf_transition_id.signal)
+        record.signal_workflow(action.wkf_transition_id.signal, context=context)
 
     def run_action_multi(self, cr, uid, action, eval_context=None, context=None):
         res = False

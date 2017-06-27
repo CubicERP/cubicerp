@@ -51,9 +51,10 @@ class Environment(dict):
         self.id = record.id
         self.ids = [record.id]
         self.obj = openerp.registry(self.cr.dbname)[self.model]
+        self.context = session.context
 
     def __getitem__(self, key):
-        records = self.obj.browse(self.cr, self.uid, self.ids)
+        records = self.obj.browse(self.cr, self.uid, self.ids, context=self.context)
         if hasattr(records, key):
             return getattr(records, key)
         else:

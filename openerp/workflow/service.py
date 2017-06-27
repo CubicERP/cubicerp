@@ -33,8 +33,8 @@ class WorkflowService(object):
         cls.CACHE[dbname] = {}
 
     @classmethod
-    def new(cls, cr, uid, model_name, record_id):
-        return cls(Session(cr, uid), Record(model_name, record_id))
+    def new(cls, cr, uid, model_name, record_id, context=None):
+        return cls(Session(cr, uid, context=context), Record(model_name, record_id))
 
     def __init__(self, session, record):
         assert isinstance(session, Session)
@@ -44,6 +44,7 @@ class WorkflowService(object):
         self.record = record
 
         self.cr = self.session.cr
+        self.context = self.session.context
 
     def write(self):
         self.cr.execute('select id from wkf_instance where res_id=%s and res_type=%s and state=%s',
@@ -59,7 +60,7 @@ class WorkflowService(object):
             self.cr.execute('select %s,res_type,res_id from wkf_instance where id=%s', (self.session.uid, instance_id,))
             current_uid, current_model_name, current_record_id = self.cr.fetchone()
 
-            current_session = Session(self.session.cr, current_uid)
+            current_session = Session(self.session.cr, current_uid, context=self.session.context)
             current_record = Record(current_model_name, current_record_id)
 
             WorkflowInstance(current_session, current_record, {'id': instance_id}).update()

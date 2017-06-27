@@ -3543,7 +3543,7 @@ class BaseModel(object):
         """Create a workflow instance for each given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_create(uid, self._name, res_id, cr)
+            workflow.trg_create(uid, self._name, res_id, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return True
 
@@ -3551,7 +3551,7 @@ class BaseModel(object):
         """Delete the workflow instances bound to the given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_delete(uid, self._name, res_id, cr)
+            workflow.trg_delete(uid, self._name, res_id, cr, context=context)
         self.invalidate_cache(cr, uid, context=context)
         return True
 
@@ -3559,7 +3559,7 @@ class BaseModel(object):
         """Reevaluate the workflow instances of the given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_write(uid, self._name, res_id, cr)
+            workflow.trg_write(uid, self._name, res_id, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return True
 
@@ -3568,7 +3568,7 @@ class BaseModel(object):
         from openerp import workflow
         result = {}
         for res_id in ids:
-            result[res_id] = workflow.trg_validate(uid, self._name, res_id, signal, cr)
+            result[res_id] = workflow.trg_validate(uid, self._name, res_id, signal, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return result
 
@@ -3578,7 +3578,7 @@ class BaseModel(object):
         """
         from openerp import workflow
         for old_id, new_id in old_new_ids:
-            workflow.trg_redirect(uid, self._name, old_id, new_id, cr)
+            workflow.trg_redirect(uid, self._name, old_id, new_id, cr, context=context)
         self.invalidate_cache(cr, uid, context=context)
         return True
 

@@ -1115,7 +1115,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             Use the registry and cursor in :data:`request` instead.
         """
         self.assert_valid()
-        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id)
+        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id, context=self.context)
         return r
 
     def model(self, model):

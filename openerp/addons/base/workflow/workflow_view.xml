@@ -267,6 +267,10 @@
               <field name="res_type"/>
               <field name="state"/>
           </group>
+             <separator string="Items"/>
+             <field name="item_ids"/>
+             <separator string="Transitions"/>
+             <field name="transition_ids"/>
          </sheet> 
         </form>
       </field>

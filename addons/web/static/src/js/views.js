@@ -1041,6 +1041,15 @@ instance.web.ViewManagerAction = instance.web.ViewManager.extend({
                         }, $root).open();
                 });
                 break;
+            case 'edit_instance':
+                return this.do_action({
+                    res_model : 'workflow.instance',
+                    domain : [['res_type', '=', this.dataset.model],['res_id', 'in', current_view.get_selected_ids()]],
+                    views: [[false, 'list'], [false, 'form']],
+                    type : 'ir.actions.act_window',
+                    view_type : 'list',
+                    view_mode : 'list'
+                });
             case 'edit_workflow':
                 return this.do_action({
                     res_model : 'workflow',

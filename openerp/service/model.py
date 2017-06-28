@@ -179,7 +179,8 @@ def execute(db, uid, obj, method, *args, **kw):
 
 def exec_workflow_cr(cr, uid, obj, signal, *args, **kw):
     res_id = args[0]
-    return execute_cr(cr, uid, obj, 'signal_workflow', [res_id], signal, context=kw.get('context',None))[res_id]
+    context = args[1]
+    return execute_cr(cr, uid, obj, 'signal_workflow', [res_id], signal, context=context)[res_id]
 
 
 @check

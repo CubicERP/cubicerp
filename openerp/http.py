@@ -126,7 +126,8 @@ def dispatch_rpc(service_name, method, params):
                 openerp.netsvc.log(rpc_request, logging.DEBUG, logline, replace_request_password(params), depth=1)
 
         return result
-    except NO_POSTMORTEM:
+    except NO_POSTMORTEM, e:
+        _logger.error(openerp.tools.exception_to_unicode(e))
         raise
     except openerp.exceptions.DeferredException, e:
         _logger.exception(openerp.tools.exception_to_unicode(e))
@@ -1115,7 +1116,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             Use the registry and cursor in :data:`request` instead.
         """
         self.assert_valid()
-        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id, context=self.context)
+        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id, self.context)
         return r
 
     def model(self, model):

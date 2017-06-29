@@ -35,6 +35,17 @@
                         class="oe_highlight"
                     />
 
+                    <div class="oe_right oe_button_box">
+                        <button class="oe_stat_button" name="%(action_pos_box_in)d"
+                            type="action" attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" icon="fa-level-down">
+                            <div>Put<br/>Money In</div>
+                        </button>
+                        <button class="oe_stat_button" name="%(action_pos_box_out)d"
+                            type="action" attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" icon="fa-level-up">
+                            <div>Take<br/>Money Out</div>
+                        </button>
+                    </div>
+
                     <div attrs="{'invisible' : ['|', ('pos_state', '!=', False),('pos_config_id','=',False)]}" class="oe_view_nocontent">
                         <p class="oe_view_nocontent_create">
                           Click to start a session.

@@ -2361,6 +2361,8 @@
                     <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirm"/>
                 </header>
                 <sheet string="Statement">
+                    <div class="oe_right oe_button_box" name="button_box">
+                    </div>
                     <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
                     <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
                     <group>

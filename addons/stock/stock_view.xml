@@ -90,8 +90,7 @@
                 <header>
                     <button name="prepare_inventory" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
                     <button name="action_done" states="confirm" string="Validate Inventory" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
-                    <button name="action_cancel_inventory" states="confirm" string="Set to Draft" type="object"/>
-                    <button name="action_cancel_inventory" states="done" string="Cancel Inventory" type="object"/>
+                    <button name="action_cancel_inventory" states="confirm,done" string="Cancel Inventory" type="object"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
                 <sheet>
@@ -117,7 +116,6 @@
                     </group>
                     <notebook attrs="{'invisible':[('state','=','draft')]}">
                         <page string="Inventory Details" >
-                            <button name="reset_real_qty" states="confirm" string="⇒ Set quantities to 0" type="object" class="oe_link oe_right" groups="stock.group_stock_user"/>
                             <field name="line_ids" string="Inventory Details" context="{'default_location_id': location_id,  'default_product_id': product_id, 'default_prod_lot_id': lot_id, 'default_package_id': package_id, 'default_partner_id': partner_id}">
                                 <tree string="Inventory Details" editable="bottom" colors="blue: product_qty != theoretical_qty; red: theoretical_qty &lt; 0">
                                     <field name="product_id"  domain="[('type','!=','service')]" on_change="onchange_createline(location_id, product_id, product_uom_id, package_id, prod_lot_id, partner_id, parent.real_time, parent.date)"/>
@@ -160,8 +158,21 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Others">
+                            <group name="group_others" >
+                                <group string="Dangerous Operations">
+                                    <button name="reset_real_qty" states="confirm" string="⇒ Set quantities to 0"
+                                            type="object" groups="stock.group_stock_user"
+                                            confirm="This action will erase the current quantities, are you sure?"/>
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
                 </form>
             </field>
         </record>
@@ -218,6 +229,7 @@
                             <page string="Products">
                                 <field name="quant_ids">
                                     <tree string="Stock Moves">
+                                        <field name="in_date"/>
                                         <field name="name"/>
                                         <field name="product_id"/>
                                         <field name="qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>

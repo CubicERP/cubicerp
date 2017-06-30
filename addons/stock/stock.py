@@ -2702,6 +2702,15 @@ class stock_move(osv.osv):
 class stock_inventory(osv.osv):
     _name = "stock.inventory"
     _description = "Inventory"
+    _inherit = ['mail.thread']
+    _track = {
+        'state': {
+            'stock.mt_inventory_confirm': lambda self, cr, uid, obj, ctx=None: obj.state == 'confirm',
+            'stock.mt_inventory_done': lambda self, cr, uid, obj, ctx=None: obj.state  == 'done',
+            'stock.mt_inventory_cancel': lambda self, cr, uid, obj, ctx=None: obj.state == 'cancel',
+        },
+    }
+    _order = "date desc, id desc"
 
     def _get_move_ids_exist(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -2748,7 +2757,8 @@ class stock_inventory(osv.osv):
     INVENTORY_STATE_SELECTION = [
         ('draft', 'Draft'),
         ('cancel', 'Cancelled'),
-        ('confirm', 'In Progress'),
+        ('progress', 'In Progress'),
+        ('confirm', 'Confirmed'),
         ('done', 'Validated'),
     ]
 
@@ -2845,15 +2855,11 @@ class stock_inventory(osv.osv):
         return True
 
     def action_cancel_inventory(self, cr, uid, ids, context=None):
-        draft_ids = []
         for inv in self.browse(cr, uid, ids, context=context):
-            if inv.state <> 'done':
-                draft_ids += [inv.id]
+            if inv.state == 'cancel':
                 continue
             self.pool.get('stock.move').action_cancel(cr, uid, [x.id for x in inv.move_ids], context=context)
             self.write(cr, uid, [inv.id], {'state': 'cancel'}, context=context)
-        if draft_ids:
-            self.action_cancel_draft(cr, uid, draft_ids, context=context)
 
     def prepare_inventory(self, cr, uid, ids, context=None):
         inventory_line_obj = self.pool.get('stock.inventory.line')

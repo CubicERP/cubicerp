@@ -21,14 +21,14 @@
                     />
                     <button name="open_existing_session_cb" type="object" string="Open Session" 
                         attrs="{'invisible' : [('pos_state', 'not in', ('opening_control',))]}" 
-                        class="oe_highlight"
+                        class="oe_highlight" groups="point_of_sale.group_pos_manager"
                     />
                     <button name="open_existing_session_cb_close" type="object" string="Close Session" 
-                        attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" 
+                        attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" groups="point_of_sale.group_pos_manager"
                     />
                     <button name="open_existing_session_cb" type="object" string="Close Session" 
                         attrs="{'invisible' : [('pos_state', 'not in', ('closing_control',))]}" 
-                        class="oe_highlight"
+                        class="oe_highlight" groups="point_of_sale.group_pos_manager"
                     />
                     <button name="open_session_cb" type="object" string="New Session" 
                         attrs="{'invisible' : ['|', ('pos_state', '!=', False),('pos_config_id','=',False)]}"

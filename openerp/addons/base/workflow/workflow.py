@@ -190,6 +190,7 @@ class wkf_instance(osv.osv):
                 self.pool['workflow.workitem'].write(cr, uid, [instance.item_ids[0].id], {'state': 'complete'}, context=context)
                 from openerp import workflow
                 workflow.trg_write(uid, instance.res_type, instance.res_id, cr, context=context)
+        return True
 
 
 class wkf_workitem(osv.osv):

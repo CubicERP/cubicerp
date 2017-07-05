@@ -609,10 +609,6 @@ class pos_session(osv.osv):
         return True
 
     def open_frontend_cb(self, cr, uid, ids, context=None):
-        if not context:
-            context = {}
-        else:
-            context = context.copy()
         if not ids:
             return {}
         for session in self.browse(cr, uid, ids, context=context):
@@ -620,7 +616,6 @@ class pos_session(osv.osv):
                 raise osv.except_osv(
                         _('Error!'),
                         _("You cannot use the session of another users. This session is owned by %s. Please first close this one to use this point of sale." % session.user_id.name))
-        #context.update({'active_id': ids[0]})
         return {
             'type' : 'ir.actions.act_url',
             'target': 'self',

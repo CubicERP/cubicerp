@@ -89,9 +89,13 @@ class product_template(osv.osv):
 
         journal_id = product_obj.categ_id.property_stock_journal and product_obj.categ_id.property_stock_journal.id or False
 
-        account_valuation = product_obj.property_stock_valuation_account_id and product_obj.property_stock_valuation_account_id.id or False
+        account_valuation = False
+        if context.get('location_id',False):
+            account_valuation = self.pool['stock.location'].browse(cr, uid, context['location_id'], context=context).valuation_account_id.id
         if not account_valuation:
-            account_valuation = product_obj.categ_id.property_stock_valuation_account_id and product_obj.categ_id.property_stock_valuation_account_id.id or False
+            account_valuation = product_obj.property_stock_valuation_account_id and product_obj.property_stock_valuation_account_id.id or False
+            if not account_valuation:
+                account_valuation = product_obj.categ_id.property_stock_valuation_account_id and product_obj.categ_id.property_stock_valuation_account_id.id or False
 
         if not all([stock_input_acc, stock_output_acc, account_valuation, journal_id]):
             raise osv.except_osv(_('Error!'), _('''One of the following information is missing on the product or product category and prevents the accounting valuation entries to be created:
@@ -138,9 +142,10 @@ class product_template(osv.osv):
                 diff = self._get_diff_standard_price(cr, uid, product, new_price, context=context)
                 if not diff:
                     continue
+                c['location_id'] = location.id
                 for prod_variant in product.product_variant_ids:
                     qty = prod_variant.qty_available
-                    product_obj.change_quantity_price(cr, uid, prod_variant, new_price, qty, diff, location.company_id.id, context=context)
+                    product_obj.change_quantity_price(cr, uid, prod_variant, new_price, qty, diff, location.company_id.id, context=c)
 
             self.write(cr, uid, rec_id, {'standard_price': new_price})
         return True

@@ -33,8 +33,12 @@ class stock_inventory(osv.osv):
     _inherit = "stock.inventory"
     _columns = {
         'period_id': fields.many2one('account.period', 'Force Valuation Period', readonly=True, states={'draft': [('readonly', False)],
+                                                                                                        'progress': [('readonly', False)],
                                                                                                         'confirm': [('readonly', False)]},
                                      help="Choose the accounting period where you want to value the stock moves created by the inventory instead of the default one (chosen by the inventory end date)"),
+        'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', readonly=True, states={'draft': [('readonly', False)],
+                                                                                                        'progress': [('readonly', False)],
+                                                                                                        'confirm': [('readonly', False)]})
     }
 
     def post_inventory(self, cr, uid, inv, context=None):
@@ -64,6 +68,10 @@ class stock_location(osv.osv):
                                                         "this account will be used to hold the value of products being moved out of this location "
                                                         "and into an internal location, instead of the generic Stock Output Account set on the product. "
                                                         "This has no effect for internal locations."),
+        'valuation_account_id': fields.many2one('account.account', 'Stock Valuation Account (Internal)', domain=[('type', '=', 'other')],
+                                                   help="Used for real-time inventory valuation,"
+                                                        "this account will be used to hold the value of products being moved from/to this location, "
+                                                        "instead of the generic Valuation Account set on the product."),
     }
 
 #----------------------------------------------------------
@@ -204,8 +212,15 @@ class stock_quant(osv.osv):
         :returns: journal_id, source account, destination account, valuation account
         :raise: osv.except_osv() is any mandatory account or journal is not defined.
         """
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if move.location_id.usage == 'internal' and move.location_dest_id.usage <> 'internal':
+            ctx['location_id'] = move.location_id.id
+        elif move.location_id.usage <> 'internal' and move.location_dest_id.usage == 'internal':
+            ctx['location_id'] = move.location_dest_id.id
         product_obj = self.pool.get('product.template')
-        accounts = product_obj.get_product_accounts(cr, uid, move.product_id.product_tmpl_id.id, context)
+        accounts = product_obj.get_product_accounts(cr, uid, move.product_id.product_tmpl_id.id, ctx)
         if move.location_id.valuation_out_account_id:
             acc_src = move.location_id.valuation_out_account_id.id
         else:

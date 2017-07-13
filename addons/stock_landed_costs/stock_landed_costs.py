@@ -110,11 +110,18 @@ class stock_landed_cost(osv.osv):
     }
 
     def _create_accounting_entries(self, cr, uid, line, move_id, qty_out, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if line.move_id.location_id.usage == 'internal' and line.move_id.location_dest_id.usage <> 'internal':
+            ctx['location_id'] = line.move_id.location_id.id
+        elif line.move_id.location_id.usage <> 'internal' and line.move_id.location_dest_id.usage == 'internal':
+            ctx['location_id'] = line.move_id.location_dest_id.id
         product_obj = self.pool.get('product.template')
         cost_product = line.cost_line_id and line.cost_line_id.product_id
         if not cost_product:
             return False
-        accounts = product_obj.get_product_accounts(cr, uid, line.product_id.product_tmpl_id.id, context=context)
+        accounts = product_obj.get_product_accounts(cr, uid, line.product_id.product_tmpl_id.id, context=ctx)
         debit_account_id = accounts['property_stock_valuation_account_id']
         already_out_account_id = accounts['stock_account_output']
         credit_account_id = line.cost_line_id.account_id.id or cost_product.property_account_expense.id or cost_product.categ_id.property_account_expense_categ.id

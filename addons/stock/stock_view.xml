@@ -89,8 +89,11 @@
                 <form string="Inventory Adjustment">
                 <header>
                     <button name="prepare_inventory" states="draft" string="Start Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+                    <button name="action_confirm" states="progress" string="Confirm Inventory" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
                     <button name="action_done" states="confirm" string="Validate Inventory" type="object" class="oe_highlight" groups="stock.group_stock_manager"/>
-                    <button name="action_cancel_inventory" states="confirm,done" string="Cancel Inventory" type="object"/>
+                    <button name="action_cancel_inventory" states="progress" string="Cancel Inventory" type="object" groups="stock.group_stock_user"/>
+                    <button name="action_progress" states="confirm" string="Reject Inventory" type="object" groups="stock.group_stock_manager"/>
+                    <button name="action_cancel_inventory" states="confirm,done" string="Cancel Inventory" type="object" groups="stock.group_stock_manager"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
                 <sheet>
@@ -160,8 +163,8 @@
                         </page>
                         <page string="Others">
                             <group name="group_others" >
-                                <group string="Dangerous Operations">
-                                    <button name="reset_real_qty" states="confirm" string="⇒ Set quantities to 0"
+                                <group string="Dangerous Operations" attrs="{'invisible':[('state','not in',['confirm','progress'])]}">
+                                    <button name="reset_real_qty" states="progress" string="⇒ Set quantities to 0"
                                             type="object" groups="stock.group_stock_user"
                                             confirm="This action will erase the current quantities, are you sure?"/>
                                 </group>
@@ -359,6 +362,7 @@
                             <field name="partner_id"/>
                             <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                             <field name="scrap_location"/>
+                            <field name="allow_negative" attrs="{'invisible':[('usage','!=','internal')]}"/>
                             <field name="active"/>
                         </group>
                         <group string="Localization" name="localization">

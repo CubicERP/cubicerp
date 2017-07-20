@@ -408,7 +408,7 @@ class stock_quant(osv.osv):
         self._check_location(cr, uid, location_to, context=context)
         for quant, qty in quants:
             if not quant:
-                if location_from.usage == 'internal' and not location_from.allow_negative:
+                if location_from and location_from.usage == 'internal' and not location_from.allow_negative:
                     raise osv.except_osv(_('Warning!'), _('Nothing allow negative moves for location %s.')%location_from.name_get()[0][1])
                 #If quant is None, we will create a quant to move (and potentially a negative counterpart too)
                 quant = self._quant_create(cr, uid, qty, move, lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id, dest_package_id=dest_package_id, force_location_from=location_from, force_location_to=location_to, context=context)

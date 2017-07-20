@@ -1183,7 +1183,7 @@ class pos_order(osv.osv):
             inv_ids.append(inv_id)
             for line in order.lines:
                 inv_line = self._get_invoice_line_create(cr, uid, inv_id, line, context=context)
-                inv_name = product_obj.name_get(cr, uid, [line.product_id.id], context=context)[0][1]
+                inv_name = inv_line.get('name', False) or product_obj.name_get(cr, uid, [line.product_id.id], context=context)[0][1]
                 inv_line.update(inv_line_ref.product_id_change(cr, uid, [],
                                                                line.product_id.id,
                                                                line.product_id.uom_id.id,

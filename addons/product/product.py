@@ -793,7 +793,6 @@ class product_template(osv.osv):
         return super(product_template, self).copy(cr, uid, id, default=default, context=context)
 
     _defaults = {
-        'company_id': lambda s,cr,uid,c: s.pool.get('res.company')._company_default_get(cr, uid, 'product.template', context=c),
         'list_price': 1,
         'standard_price': 0.0,
         'sale_ok': 1,        

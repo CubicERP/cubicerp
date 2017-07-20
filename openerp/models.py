@@ -3393,17 +3393,21 @@ class BaseModel(object):
                         ', '.join(map(repr, extras._ids)),
                     ))
             # store an access error exception in existing records
-            exc = AccessError(
-                _('The requested operation cannot be completed due to security restrictions. Please contact your system administrator.\n\n(Document type: %s, Operation: %s)') % \
-                (self._name, 'read')
-            )
             forbidden = missing.exists()
-            forbidden._cache.update(FailedValue(exc))
+            if forbidden:
+                exc = AccessError(
+                    _('The requested operation cannot be completed due to security restrictions. Please contact your system administrator.\n\n(Document type: %s, Operation: %s, IDs: %s)') % \
+                    (self._name, 'read', ', '.join(map(repr, forbidden._ids)))
+                )
+                forbidden._cache.update(FailedValue(exc))
             # store a missing error exception in non-existing records
-            exc = MissingError(
-                _('One of the documents you are trying to access has been deleted, please try again after refreshing.')
-            )
-            (missing - forbidden)._cache.update(FailedValue(exc))
+            missing = missing - forbidden
+            if missing:
+                exc = MissingError(
+                    _('One of the documents you are trying to access has been deleted, please try again after refreshing.\n\n(Document type: %s, IDs: %s)') % \
+                    (self._name, ', '.join(map(repr, missing._ids)))
+                )
+                missing._cache.update(FailedValue(exc))
 
     @api.multi
     def get_metadata(self):

@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='group_others']" position="inside">
                     <group string="Accounting">
-                        <field name="period_id"/>
+                        <field name="period_id" domain="[('company_id','=',company_id)]"/>
                     </group>
                 </xpath>
             </field>
@@ -20,9 +20,10 @@
             <field name="inherit_id" ref="stock.view_location_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='localization']" position="after">
-                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('inventory','production'))]}">
-                        <field name="valuation_in_account_id"/>
-                        <field name="valuation_out_account_id"/>
+                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('inventory','production','internal'))]}">
+                        <field name="valuation_in_account_id" attrs="{'invisible':[('usage','not in',('inventory','production'))]}"/>
+                        <field name="valuation_out_account_id" attrs="{'invisible':[('usage','not in',('inventory','production'))]}"/>
+                        <field name="valuation_account_id" attrs="{'invisible':[('usage','!=','internal')]}"/>
                     </group>
                 </xpath>
             </field>

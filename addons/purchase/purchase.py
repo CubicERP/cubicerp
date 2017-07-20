@@ -938,7 +938,8 @@ class purchase_order(osv.osv):
                 'picking_type_id': order.picking_type_id.id,
                 'partner_id': order.partner_id.id,
                 'date': order.date_order,
-                'origin': order.name
+                'origin': order.name,
+                'company_id': order.company_id.id,
             }
             picking_id = self.pool.get('stock.picking').create(cr, uid, picking_vals, context=context)
             self._create_stock_moves(cr, uid, order, order.order_line, picking_id, context=context)

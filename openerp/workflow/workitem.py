@@ -213,6 +213,7 @@ class WorkflowItem(object):
 
     def _state_set(self, activity, state):
         self.session.cr.execute('update wkf_workitem set state=%s where id=%s', (state, self.workitem['id']))
+        self.session.cr.execute('update wkf_instance set item_state=%s where id=%s', (state, self.workitem['inst_id']))
         self.workitem['state'] = state
         logger.info('Changed state of work item %s to "%s" in activity %s instance %s',
                     self.workitem['id'], state, activity['id'], self.workitem['inst_id'],

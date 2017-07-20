@@ -942,6 +942,8 @@ class pos_order(osv.osv):
         for order in self.browse(cr, uid, ids, context=context):
             if all(t == 'service' for t in order.lines.mapped('product_id.type')):
                 continue
+            if order.picking_id and order.picking_id.state <> 'cancel':
+                order.picking_id.action_cancel()
             addr = order.partner_id and partner_obj.address_get(cr, uid, [order.partner_id.id], ['delivery']) or {}
             picking_type = order.picking_type_id
             picking_id = False
@@ -1014,8 +1016,9 @@ class pos_order(osv.osv):
                 ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
                 date = ts.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
                 order.write({'note': "%s"
+                                     "POS Order: %s\n"
                                      "Payment Details Cancelled: %s\n"
-                                     "Cancelled by %s on %s"%(order.note and "%s\n"%order.note or '',
+                                     "Cancelled by %s on %s"%(order.note and "%s\n"%order.note or '', order.name,
                                                             [{'Journal':l.statement_id.journal_id.name,
                                                         'Statement': l.statement_id.name,
                                                         'Amount': l.amount} for l in order.statement_ids],
@@ -1488,9 +1491,8 @@ class pos_order(osv.osv):
 
     def action_paid(self, cr, uid, ids, context=None):
         self.number(cr, uid, ids, context=context)
-        self.write(cr, uid, ids, {'state': 'paid'}, context=context)
         self.create_picking(cr, uid, ids, context=context)
-        return True
+        return self.write(cr, uid, ids, {'state': 'paid'}, context=context)
 
     def action_cancel(self, cr, uid, ids, context=None):
         return self.cancel_order(cr, uid, ids, context=context)

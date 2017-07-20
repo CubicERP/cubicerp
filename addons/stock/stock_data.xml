@@ -91,6 +91,12 @@ watch your stock valuation, and track production lots (based on serial numbers).
         </record>
 
         <!-- Sale-related subtypes for messaging / Chatter -->
+        <record id="mt_inventory_progress" model="mail.message.subtype">
+            <field name="name">Inventory in Progress</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="default" eval="False"/>
+            <field name="description">Inventory change state to in Progress</field>
+        </record>
         <record id="mt_inventory_confirm" model="mail.message.subtype">
             <field name="name">Inventory Confirmed</field>
             <field name="res_model">stock.inventory</field>

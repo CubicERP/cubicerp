@@ -2311,6 +2311,7 @@ class account_tax(osv.osv):
             if r['todo']:
                 total += r['amount']
         for r in res:
+            r['price_unit_w_tax'] = r['price_unit']
             r['price_unit'] -= total
             r['todo'] = 0
         return res

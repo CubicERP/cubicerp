@@ -63,7 +63,12 @@ class account_invoice(models.Model):
     @api.one
     @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
     def _compute_amount(self):
-        self.amount_untaxed = self.tax_line and sum(line.base for line in self.tax_line) or sum(line.price_subtotal for line in self.invoice_line)
+        untax = sum(line.price_subtotal for line in self.invoice_line)
+        if self.tax_line:
+            untax2 = sum(line.base for line in self.tax_line)
+            if abs(untax - untax2) < 0.05:
+                untax = untax2
+        self.amount_untaxed = untax
         self.amount_tax = sum(line.amount for line in self.tax_line)
         self.amount_total = self.amount_untaxed + self.amount_tax
 

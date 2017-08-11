@@ -1082,6 +1082,8 @@ class product_product(osv.osv):
             ids = [ids]
         if not len(ids):
             return []
+        if context.has_key('display_product.product'):
+            return self.name_get_from_context(cr, user, ids, context=context)
 
         def _name_get(d):
             name = d.get('name','')

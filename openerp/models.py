@@ -1656,6 +1656,15 @@ class BaseModel(object):
             record.display_name = names.get(record.id, False)
 
     @api.multi
+    def name_get_from_context(self):
+        result = []
+        expr = self._context.get("display_%s"%self._name, False)
+        if expr:
+            for o in self:
+                result.append((o.id,eval(expr, {'o':o, 'context': self._context})))
+        return result
+
+    @api.multi
     def name_get(self):
         """ name_get() -> [(id, name), ...]
 

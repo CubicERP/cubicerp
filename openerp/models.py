@@ -1674,7 +1674,9 @@ class BaseModel(object):
         :return: list of pairs ``(id, text_repr)`` for each records
         :rtype: list(tuple)
         """
-        result = []
+        result = self.name_get_from_context()
+        if result:
+            return result
         name = self._rec_name
         if name in self._fields:
             convert = self._fields[name].convert_to_display_name

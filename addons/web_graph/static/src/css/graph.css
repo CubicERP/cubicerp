@@ -33,19 +33,23 @@
   margin-top: 10px;
 }
 
-.graph_measure_selection .oe_selected {
+.graph_measure_selection .oe_selected,
+.graph_display_as_selection .oe_selected {
   padding-left: 0;
 }
 
-.graph_measure_selection .oe_selected:before {
+.graph_measure_selection a:not(.oe_selected),
+.graph_display_as_selection a:not(.oe_selected) {
+  padding-left: 26px;
+}
+
+.graph_measure_selection .oe_selected:before,
+.graph_display_as_selection .oe_selected:before {
   content: "\f00c";
   width: 20px;
   display: inline-block;
   font-family: FontAwesome;
-}
-
-.graph_measure_selection li {
-  margin-left: 5px;
+    margin-left: 6px;
 }
 
 .graph_main_content th {

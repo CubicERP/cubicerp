@@ -2105,7 +2105,7 @@ class BaseModel(object):
             if getattr(self._fields[f].base_field.column, '_classic_write', False)
         ]
 
-        field_formatter = lambda f: (self._fields[f].group_operator or 'sum', self._inherits_join_calc(self._table, f, query), f)
+        field_formatter = lambda f: (self._fields[f].group_operator or context.get('aggregation','sum'), self._inherits_join_calc(self._table, f, query), f)
         select_terms = ["%s(%s) AS %s" % field_formatter(f) for f in aggregated_fields]
 
         for gb in annotated_groupbys:

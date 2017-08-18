@@ -225,7 +225,7 @@ Main Navbar
     color: white !important;
     padding-left: 18px !important;
     height: 34px;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .leftbar_opener:hover {
@@ -908,7 +908,16 @@ Form View: Widgets
     display: block !important;
 }
 
-.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header {
+.openerp .oe_form .oe_form_field_one2many .oe_view_title {
+    display: none;
+}
+
+.openerp .oe_form .oe_form_field_one2many .buttons_container {
+    padding: 0px 0px;
+}
+
+.openerp .oe_form .oe_form_field_one2many .view_extra_buttons,
+.openerp .oe_form .oe_form_field_one2many .oe_view_manager_switch  {
     display: none !important;
 }
 

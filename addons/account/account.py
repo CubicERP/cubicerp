@@ -780,10 +780,11 @@ class account_journal(osv.osv):
         'with_last_closing_balance': fields.boolean('Opening With Last Closing Balance', help="For cash or bank journal, this option should be unchecked when the starting balance should always set to 0 for new documents."),
         'name': fields.char('Journal Name', required=True),
         'code': fields.char('Code', size=16, required=True, help="The code will be displayed on reports."),
-        'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Checks'), ('general', 'General'), ('situation', 'Opening/Closing Situation')], 'Type', size=32, required=True,
+        'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Checks'), ('provision', 'Provision'), ('general', 'General'), ('situation', 'Opening/Closing Situation')], 'Type', size=32, required=True,
                                  help="Select 'Sale' for customer invoices journals."\
                                  " Select 'Purchase' for supplier invoices journals."\
                                  " Select 'Cash' or 'Bank' for journals that are used in customer or supplier payments."\
+                                 " Select 'Provision' for provision future operations journals."\
                                  " Select 'General' for miscellaneous operations journals."\
                                  " Select 'Opening/Closing Situation' for entries generated for new fiscal years."),
         'type_control_ids': fields.many2many('account.account.type', 'account_journal_type_rel', 'journal_id','type_id', 'Type Controls', domain=[('code','<>','view'), ('code', '<>', 'closed')]),
@@ -1366,7 +1367,7 @@ class account_move(osv.osv):
                 new_name = False
                 journal = move.journal_id
 
-                if invoice and invoice.internal_number:
+                if invoice and journal.type != 'provision' and invoice.internal_number:
                     new_name = invoice.internal_number
                 else:
                     if journal.sequence_id:

@@ -980,18 +980,8 @@
             if (!$item.length) {
                 $item = this.$secondary_menus.find('a[data-menu=' + id + ']');
             }
+
             var action_id = $item.data('action-id');
-            // If first level menu doesnt have action trigger first leaf
-            if (!action_id) {
-                if (this.$el.has($item).length) {
-                    var $sub_menu = this.$secondary_menus.find('.oe_secondary_menu[data-menu-parent=' + id + ']');
-                    var $items = $sub_menu.find('a[data-action-id]').filter('[data-action-id!=""]');
-                    if ($items.length) {
-                        action_id = $items.data('action-id');
-                        id = $items.data('menu');
-                    }
-                }
-            }
             if (action_id) {
                 this.trigger('menu_click', {
                     action_id: action_id,
@@ -1002,6 +992,7 @@
             } else {
                 console.log('Menu no action found web test 04 will fail');
             }
+
             this.open_menu(id);
         },
         do_reload_needaction: function () {

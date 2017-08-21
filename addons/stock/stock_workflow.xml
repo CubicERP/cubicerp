@@ -41,7 +41,7 @@
             <field name="wkf_id" ref="wkf_stock_inventory"/>
             <field name="flow_stop">True</field>
             <field name="name">cancel</field>
-            <field name="action">write({'state':'cancel'})</field>
+            <field name="action">action_cancel()</field>
             <field name="kind">function</field>
         </record>
 

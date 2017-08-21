@@ -801,6 +801,7 @@
                     this.do_load_needaction(all_menu_ids);
                 }
             });
+            self.any_action_fired = false;
         },
         start: function () {
             this._super.apply(this, arguments);
@@ -971,6 +972,8 @@
          * @param {Boolean} [needaction=false] whether the triggered action should execute in a `needs action` context
          */
         menu_click: function (id, needaction) {
+            var self = this;
+
             if (!id) {
                 return;
             }
@@ -982,6 +985,19 @@
             }
 
             var action_id = $item.data('action-id');
+            // If first level menu doesnt have action trigger first leaf
+            if (!action_id && !self.any_action_fired) {
+                self.any_action_fired = true;
+                if (this.$el.has($item).length) {
+                    var $sub_menu = this.$secondary_menus.find('.oe_secondary_menu[data-menu-parent=' + id + ']');
+                    var $items = $sub_menu.find('a[data-action-id]').filter('[data-action-id!=""]');
+                    if ($items.length) {
+                        action_id = $items.data('action-id');
+                        id = $items.data('menu');
+                    }
+                }
+            }
+
             if (action_id) {
                 this.trigger('menu_click', {
                     action_id: action_id,
@@ -990,7 +1006,6 @@
                     previous_menu_id: this.current_menu // Here we don't know if action will fail (in which case we have to revert menu)
                 }, $item);
             } else {
-                console.log('Menu no action found web test 04 will fail');
             }
 
             this.open_menu(id);

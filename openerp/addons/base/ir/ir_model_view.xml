@@ -104,6 +104,9 @@
                         <page string="Views">
                             <field name="view_ids"/>
                         </page>
+                        <page string="Logging">
+                            <field name="logging_id"/>
+                        </page>
                     </notebook>
                   </sheet>
                 </form>

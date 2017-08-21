@@ -692,6 +692,20 @@ class Database(http.Controller):
                 return [monodb]
             raise
 
+    @http.route('/web/database/get_list_template', type='json', auth="none")
+    def get_list_template(self):
+        try:
+            return http.db_list_template()
+        except openerp.exceptions.AccessDenied:
+            raise
+
+    @http.route('/web/database/get_list_all', type='json', auth="none")
+    def get_list_all(self):
+        try:
+            return http.db_list(all=True)
+        except openerp.exceptions.AccessDenied:
+            raise
+
     @http.route('/web/database/create', type='json', auth="none")
     def create(self, fields):
         params = dict(map(operator.itemgetter('name', 'value'), fields))
@@ -700,9 +714,11 @@ class Database(http.Controller):
             params['db_name'],
             bool(params.get('demo_data')),
             params['db_lang'],
-            params['create_admin_pwd'])
+            params['create_admin_pwd'],
+            params['create_admin'],
+            params.get('template_db',''))
         if db_created:
-            request.session.authenticate(params['db_name'], 'admin', params['create_admin_pwd'])
+            request.session.authenticate(params['db_name'], params['create_admin'], params['create_admin_pwd'])
         return db_created
 
     @http.route('/web/database/duplicate', type='json', auth="none")
@@ -806,11 +822,16 @@ class Session(http.Controller):
         if new_password != confirm_password:
             return {'error': _('The new password and its confirmation must be identical.'),'title': _('Change Password')}
         try:
-            if request.session.model('res.users').change_password(
-                old_password, new_password):
+            if request.session.model('res.users').change_password(old_password, new_password):
                 return {'new_password':new_password}
-        except Exception:
-            return {'error': _('The old password you provided is incorrect, your password was not changed.'), 'title': _('Change Password')}
+        except openerp.exceptions.AccessDenied:
+            return {'error': _('The old password you provided is incorrect, your password was not changed.'),
+                    'title': _('Change Password')}
+        except openerp.exceptions.ValidationError:
+            return {'error': _('Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars'),
+                    'title': _('Change Password')}
+        except Exception as e:
+            return {'error': _('Other unknow error was ocurred, please, try again !'), 'title': _('Change Password')}
         return {'error': _('Error, password not changed !'), 'title': _('Change Password')}
 
     @http.route('/web/session/get_lang_list', type='json', auth="none")

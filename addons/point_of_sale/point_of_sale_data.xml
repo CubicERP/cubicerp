@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <openerp>
-    <data noupdate="0">
+    <data>
         <record id="seq_picking_type_posout" model="ir.sequence">
             <field name="name">Picking POS</field>
             <field name="prefix">POS</field>

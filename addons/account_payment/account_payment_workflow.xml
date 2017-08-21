@@ -21,17 +21,23 @@
 write({'state':'open'})</field>
             <field name="kind">function</field>
         </record>
+        <record id="act_approve" model="workflow.activity">
+            <field name="name">approve</field>
+            <field name="wkf_id" ref="wkf_payment_order"/>
+            <field name="action">action_approve()
+write({'state':'approve'})</field>
+            <field name="kind">function</field>
+        </record>
         <record id="act_done" model="workflow.activity">
             <field name="name">done</field>
             <field name="wkf_id" ref="wkf_payment_order"/>
-            <field name="action">write({'state':'done'})</field>
+            <field name="action">set_done()</field>
             <field name="kind">function</field>
-            <field name="flow_stop">True</field>
         </record>
         <record id="act_cancel" model="workflow.activity">
             <field name="name">cancel</field>
             <field name="wkf_id" ref="wkf_payment_order"/>
-            <field name="action">write({'state':'cancel'})</field>
+            <field name="action">action_cancel()</field>
             <field name="kind">function</field>
             <field name="flow_stop">True</field>
         </record>
@@ -43,8 +49,15 @@ write({'state':'open'})</field>
             <field name="signal">open</field>
         </record>
 
-        <record id="trans_open_done" model="workflow.transition">
+        <record id="trans_open_approve" model="workflow.transition">
+            <field name="group_id" ref="group_account_payment_approve"/>
             <field name="act_from" ref="act_open"/>
+            <field name="act_to" ref="act_approve"/>
+            <field name="signal">approve</field>
+        </record>
+        <record id="trans_approve_done" model="workflow.transition">
+            <field name="group_id" ref="group_account_payment_done"/>
+            <field name="act_from" ref="act_approve"/>
             <field name="act_to" ref="act_done"/>
             <field name="signal">done</field>
         </record>
@@ -55,6 +68,16 @@ write({'state':'open'})</field>
         </record>
         <record id="trans_open_cancel" model="workflow.transition">
             <field name="act_from" ref="act_open"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="trans_approve_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_approve"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="trans_done_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_done"/>
             <field name="act_to" ref="act_cancel"/>
             <field name="signal">cancel</field>
         </record>

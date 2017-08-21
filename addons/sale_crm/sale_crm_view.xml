@@ -2,6 +2,14 @@
 <openerp>
     <data>
 
+        <record model="ir.actions.act_window" id="crm_sale_orders">
+            <field name="name">Sale Orders</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+        </record>
+
+
         <record model="ir.ui.view" id="crm_case_form_view_oppor">
             <field name="name">CRM - Opportunities - Quote Inherit</field>
             <field name="model">crm.lead</field>
@@ -11,6 +19,13 @@
                     <xpath expr="//field[@name='stage_id']" position="before">
                         <button attrs="{'invisible': [('probability', '&lt;', 100)]}" string="Create Quotation" name="%(action_crm_make_sale)d" type="action"/>
                         <button attrs="{'invisible': [('probability', '=', 100)]}" string="Convert to Quotation" name="%(action_crm_make_sale)d" type="action" class="oe_highlight"/>
+                    </xpath>
+                    <xpath expr="//div[@name='buttons_box']" position="inside">
+                        <button class="oe_inline oe_stat_button" type="action"
+                                name="%(sale_crm.crm_sale_orders)d" icon="fa-file"
+                                context="{'default_opportunity_id': active_id, 'search_default_opportunity_id': active_id, 'default_partner_id': partner_id, 'default_duration': 1.0}">
+                                <div>Sale Orders</div>
+                            </button>
                     </xpath>
                 </data>
             </field>
@@ -30,12 +45,24 @@
                     <field name="categ_ids" widget="many2many_tags"/>
                 </field>
                 <field name="origin" position="after">
+                    <field name="opportunity_id" />
                     <field name="campaign_id" />
                     <field name="medium_id" />
                     <field name="source_id" />
                 </field>
-
             </field>
         </record>
+
+        <record model="ir.ui.view" id="view_sales_order_filter">
+            <field name="name">sale.order.list.select.inherit.sale.crm</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="opportunity_id"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

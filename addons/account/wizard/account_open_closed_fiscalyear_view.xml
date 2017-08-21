@@ -12,6 +12,7 @@ This wizard will remove the end of year journal entries of selected fiscal year.
                     </p>
                     <group>
                         <field name="fyear_id" domain="[('state','=','draft'), ('end_journal_period_id', '!=', False)]"/>
+                        <field name="journal_id"/>
                     </group>
                     <footer>
                         <button string="Cancel Closing Entries" name="remove_entries" type="object" class="oe_highlight"/>

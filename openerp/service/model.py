@@ -177,14 +177,15 @@ def execute(db, uid, obj, method, *args, **kw):
             _logger.warning('The method %s of the object %s can not return `None` !', method, obj)
         return res
 
-def exec_workflow_cr(cr, uid, obj, signal, *args):
+def exec_workflow_cr(cr, uid, obj, signal, *args, **kw):
     res_id = args[0]
-    return execute_cr(cr, uid, obj, 'signal_workflow', [res_id], signal)[res_id]
+    context = kw.get('context', len(args) > 1 and args[1] or {})
+    return execute_cr(cr, uid, obj, 'signal_workflow', [res_id], signal, context=context)[res_id]
 
 
 @check
-def exec_workflow(db, uid, obj, signal, *args):
+def exec_workflow(db, uid, obj, signal, *args, **kw):
     with openerp.registry(db).cursor() as cr:
-        return exec_workflow_cr(cr, uid, obj, signal, *args)
+        return exec_workflow_cr(cr, uid, obj, signal, *args, **kw)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

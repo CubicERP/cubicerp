@@ -30,6 +30,7 @@ import os
 import sys
 import threading
 import time
+import hashlib
 
 import openerp
 import openerp.modules.db
@@ -41,6 +42,7 @@ import openerp.tools as tools
 from openerp import SUPERUSER_ID
 
 from openerp.tools.translate import _
+from openerp.tools import misc
 from openerp.modules.module import initialize_sys_path, \
     load_openerp_module, init_module_models, adapt_version
 from module import runs_post_install
@@ -107,18 +109,54 @@ def load_module_graph(cr, graph, status=None, perform_checks=True, skip_modules=
         init mode.
 
         """
+
+        module_files = []
+        module_modified = True
+        if mode=='update' and kind == 'data':
+            cr.execute("select id from ir_module_module where name=%s", (module_name,))
+            module_id = cr.fetchone()[0]
+            for filename in _get_files_of_kind(kind):
+                cr.execute("select id,checksum from ir_module_module_file"
+                           " where module_id=%s and filename=%s", (module_id, filename))
+                checksum = cr.fetchone()
+                module_file_id = checksum and checksum[0] or False
+                checksum = checksum and checksum[1] or ''
+                sha256 = hashlib.sha256()
+                sha256.update(misc.file_open(os.path.join(module_name, filename)).read())
+                module_files += [{'checksum': checksum,
+                                  'checksum_new': sha256.hexdigest(),
+                                  'module_file_id': module_file_id,
+                                  'module_id': module_id,
+                                  'filename': filename}]
+            if len(module_files) == len([1 for f in module_files if f['checksum'] == f['checksum_new']]):
+                module_modified = bool(tools.config.options.get('force_update', False))
+
         try:
             if kind in ('demo', 'test'):
                 threading.currentThread().testing = True
             for filename in _get_files_of_kind(kind):
-                _logger.info("loading %s/%s", module_name, filename)
+                _logger.info("%s %s/%s", module_modified and 'loading' or 'no changes', module_name, filename)
                 noupdate = False
                 if kind in ('demo', 'demo_xml') or (filename.endswith('.csv') and kind in ('init', 'init_xml')):
                     noupdate = True
-                tools.convert_file(cr, module_name, filename, idref, mode, noupdate, kind, report)
+                if module_modified:
+                    tools.convert_file(cr, module_name, filename, idref, mode, noupdate, kind, report)
         finally:
             if kind in ('demo', 'test'):
                 threading.currentThread().testing = False
+
+        if module_modified and mode=='update' and kind == 'data':
+            for module_file in [f for f in module_files if f['checksum'] != f['checksum_new']]:
+                if module_file['module_file_id']:
+                    cr.execute("update ir_module_module_file set checksum=%s, write_date=now() where id=%s",
+                               (module_file['checksum_new'],module_file['module_file_id']))
+                else:
+                    cr.execute(
+                        "insert into ir_module_module_file(filename,module_id,checksum,create_date,create_uid,write_date,write_uid)"
+                        " values(%s,%s,%s,now(),1,now(),1)", (module_file['filename'],
+                                                              module_file['module_id'],
+                                                              module_file['checksum_new']))
+        return module_modified
 
     processed_modules = []
     loaded_modules = []
@@ -173,7 +211,7 @@ def load_module_graph(cr, graph, status=None, perform_checks=True, skip_modules=
             if package.state=='to upgrade':
                 # upgrading the module information
                 modobj.write(cr, SUPERUSER_ID, [module_id], modobj.get_values_from_terp(package.data))
-            _load_data(cr, module_name, idref, mode, kind='data')
+            module_processed = _load_data(cr, module_name, idref, mode, kind='data')
             has_demo = hasattr(package, 'demo') or (package.dbdemo and package.state != 'installed')
             if has_demo:
                 _load_data(cr, module_name, idref, mode, kind='demo')
@@ -203,7 +241,8 @@ def load_module_graph(cr, graph, status=None, perform_checks=True, skip_modules=
                         del(ir_http._routing_map)
                     report.record_result(openerp.modules.module.run_unit_tests(module_name, cr.dbname))
 
-            processed_modules.append(package.name)
+            if module_processed:
+                processed_modules.append(package.name)
 
             ver = adapt_version(package.data['version'])
             # Set new modules and dependencies

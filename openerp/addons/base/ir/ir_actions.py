@@ -48,6 +48,7 @@ class actions(osv.osv):
     _name = 'ir.actions.actions'
     _table = 'ir_actions'
     _order = 'name'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Name', required=True),
         'type': fields.char('Action Type', required=True),
@@ -362,6 +363,7 @@ class ir_actions_act_window_view(osv.osv):
     _table = 'ir_act_window_view'
     _rec_name = 'view_id'
     _order = 'sequence'
+    _log_unlink = False
     _columns = {
         'sequence': fields.integer('Sequence'),
         'view_id': fields.many2one('ir.ui.view', 'View'),
@@ -855,7 +857,7 @@ class ir_actions_server(osv.osv):
             if not isinstance(record, openerp.models.BaseModel):
                 record = action.env[action.wkf_model_id.model].browse(record)
 
-        record.signal_workflow(action.wkf_transition_id.signal)
+        record.signal_workflow(action.wkf_transition_id.signal, context=context)
 
     def run_action_multi(self, cr, uid, action, eval_context=None, context=None):
         res = False
@@ -1028,6 +1030,7 @@ class ir_server_object_lines(osv.osv):
     _name = 'ir.server.object.lines'
     _description = 'Server Action value mapping'
     _sequence = 'ir_actions_id_seq'
+    _log_unlink = False
 
     _columns = {
         'server_id': fields.many2one('ir.actions.server', 'Related Server Action', ondelete='cascade'),
@@ -1071,6 +1074,7 @@ class ir_actions_todo(osv.osv):
     """
     _name = 'ir.actions.todo'
     _description = "Configuration Wizards"
+    _log_unlink = False
     _columns={
         'action_id': fields.many2one(
             'ir.actions.actions', 'Action', select=True, required=True),

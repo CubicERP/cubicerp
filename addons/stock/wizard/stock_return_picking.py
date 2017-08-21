@@ -127,6 +127,7 @@ class stock_return_picking(osv.osv_memory):
             'picking_type_id': pick_type_id,
             'state': 'draft',
             'origin': pick.name,
+            'date': fields.datetime.now(),
         }, context=context)
 
         for data_get in data_obj.browse(cr, uid, data['product_return_moves'], context=context):
@@ -156,6 +157,7 @@ class stock_return_picking(osv.osv_memory):
                     'procure_method': 'make_to_stock',
                     'restrict_lot_id': data_get.lot_id.id,
                     'move_dest_id': move_dest_id,
+                    'date_expected': fields.datetime.now(),
                 })
 
         if not returned_lines:

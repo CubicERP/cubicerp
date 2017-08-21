@@ -68,7 +68,6 @@ class workflow(osv.osv):
         openerp.workflow.clear_cache(cr, user)
         return super(workflow, self).create(cr, user, vals, context=context)
 
-workflow()
 
 class wkf_activity(osv.osv):
     _name = "workflow.activity"
@@ -102,7 +101,6 @@ class wkf_activity(osv.osv):
                                  _('Please make sure no workitems refer to an activity before deleting it!'))
         super(wkf_activity, self).unlink(cr, uid, ids, context=context)
 
-wkf_activity()
 
 class wkf_transition(osv.osv):
     _table = "wkf_transition"
@@ -144,13 +142,22 @@ class wkf_transition(osv.osv):
         return super(wkf_transition, self).name_search(cr, user, name, args=args, operator=operator, context=context, limit=limit)
 
 
-wkf_transition()
-
 class wkf_instance(osv.osv):
     _table = "wkf_instance"
     _name = "workflow.instance"
     _rec_name = 'res_type'
     _log_access = False
+    _log_unlink = False
+
+    def _item_state(self, cr, uid, ids, name, arg, context=None):
+        result = {}
+        for instance in self.browse(cr, uid, ids, context=context):
+            if len(set([i.state for i in instance.item_ids])) == 1:
+                result[instance.id] = instance.item_ids[0].state
+            else:
+                result[instance.id] = False
+        return result
+
     _columns = {
         'uid': fields.integer('User'),      # FIXME no constraint??
         'wkf_id': fields.many2one('workflow', 'Workflow', ondelete='cascade', select=True),
@@ -158,7 +165,13 @@ class wkf_instance(osv.osv):
         'res_type': fields.char('Resource Object'),
         'state': fields.char('Status'),
         'transition_ids': fields.many2many('workflow.transition', 'wkf_witm_trans', 'inst_id', 'trans_id'),
+        'item_ids': fields.one2many('workflow.workitem','inst_id', string="Items"),
+        'trigger_ids': fields.one2many('workflow.triggers', 'instance_id', string="Triggers"),
+        'item_state': fields.function(_item_state, string="Item State", type='char',
+                                      store={'workflow.workitem':(lambda s,cr,u,i,c=None: [wi.inst_id.id for wi in s.pool['workflow.workitem'].browse(cr,u,i,context=c)],
+                                                                  ['inst_id','state'], 10)}),
     }
+
     def _auto_init(self, cr, context=None):
         res = super(wkf_instance, self)._auto_init(cr, context)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'wkf_instance_res_type_res_id_state_index\'')
@@ -169,12 +182,22 @@ class wkf_instance(osv.osv):
             cr.execute('CREATE INDEX wkf_instance_res_id_wkf_id_index ON wkf_instance (res_id, wkf_id)')
         return res
 
-wkf_instance()
+    def action_reset(self, cr, uid, ids, context=None):
+        for instance in self.browse(cr, uid, ids, context=context):
+            if instance.state == 'active' and len(instance.item_ids) == 1 \
+                    and instance.item_ids[0].state == 'running' and not instance.trigger_ids:
+                self.pool['workflow.transition'].unlink(cr, uid, [t.id for t in instance.transition_ids], context=context)
+                self.pool['workflow.workitem'].write(cr, uid, [instance.item_ids[0].id], {'state': 'complete'}, context=context)
+                from openerp import workflow
+                workflow.trg_write(uid, instance.res_type, instance.res_id, cr, context=context)
+        return True
+
 
 class wkf_workitem(osv.osv):
     _table = "wkf_workitem"
     _name = "workflow.workitem"
     _log_access = False
+    _log_unlink = False
     _rec_name = 'state'
     _columns = {
         'act_id': fields.many2one('workflow.activity', 'Activity', required=True, ondelete="cascade", select=True),
@@ -182,13 +205,15 @@ class wkf_workitem(osv.osv):
         'subflow_id': fields.many2one('workflow.instance', 'Subflow', ondelete="set null", select=True),
         'inst_id': fields.many2one('workflow.instance', 'Instance', required=True, ondelete="cascade", select=True),
         'state': fields.char('Status', select=True),
+        'trigger_ids': fields.one2many('workflow.triggers', 'workitem_id', string="Triggers"),
     }
-wkf_workitem()
+
 
 class wkf_triggers(osv.osv):
     _table = "wkf_triggers"
     _name = "workflow.triggers"
     _log_access = False
+    _log_unlink = False
     _columns = {
         'res_id': fields.integer('Resource ID', size=128),
         'model': fields.char('Object'),
@@ -201,8 +226,3 @@ class wkf_triggers(osv.osv):
         if not cr.fetchone():
             cr.execute('CREATE INDEX wkf_triggers_res_id_model_index ON wkf_triggers (res_id, model)')
         return res
-wkf_triggers()
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

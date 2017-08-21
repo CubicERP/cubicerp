@@ -21,6 +21,7 @@
 ##############################################################################
 import itertools
 import logging
+import re
 from functools import partial
 from itertools import repeat
 
@@ -146,7 +147,7 @@ class res_groups(osv.osv):
         """
         if not context:
             context = {}
-        group_ids = self.search(cr, uid, [('property','=',True),('users','in',[uid])], context=context)
+        group_ids = self.search(cr, SUPERUSER_ID, [('property','=',True),('users','in',[uid])], context=context)
         if group_ids:
             return group_ids[0]
         return False
@@ -198,6 +199,8 @@ class res_users(osv.osv):
             help="Specify a value only when creating a user or if you're "\
                  "changing the user's password, otherwise leave empty. After "\
                  "a change of password, the user has to login again."),
+        'email_recover': fields.char('Alternate Email', size=128, required=False,
+                             help="Used to recover password"),
         'signature': fields.html('Signature'),
         'active': fields.boolean('Active'),
         'action_id': fields.many2one('ir.actions.actions', 'Home Action', help="If specified, this action will be opened at log on for this user, in addition to the standard menu."),
@@ -242,6 +245,21 @@ class res_users(osv.osv):
 
     def _check_company(self, cr, uid, ids, context=None):
         return all(((this.company_id in this.company_ids) or not this.company_ids) for this in self.browse(cr, uid, ids, context))
+
+    def _check_password(self, cr, uid, password, _id=False, context=None):
+        if context is None:
+            context = {}
+        password_strength = context.get('password_strength', 8)
+        if password_strength > 0 and password_strength <= 5:
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{'+str(password_strength)+',})', password):
+                raise openerp.exceptions.ValidationError(_(
+                    'Invalid password, wrong minimum length %s, use at least char uppercase, char lowercase and digit')%password_strength)
+        elif password_strength > 5:
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{'+str(password_strength)+',})',
+                            password):
+                raise openerp.exceptions.ValidationError(_(
+                    'Invalid password, wrong minimum length %s, use at least char uppercase, char lowercase, digit and special chars')%password_strength)
+        return True
 
     _constraints = [
         (_check_company, 'The chosen company is not in the allowed companies for this user', ['company_id', 'company_ids']),
@@ -297,9 +315,9 @@ class res_users(osv.osv):
     }
 
     # User can write on a few of his own fields (but not his groups for example)
-    SELF_WRITEABLE_FIELDS = ['signature', 'action_id', 'company_id', 'email', 'name', 'image', 'image_medium', 'image_small', 'lang', 'tz']
+    SELF_WRITEABLE_FIELDS = ['signature', 'action_id', 'company_id', 'email', 'email_recover', 'name', 'image', 'image_medium', 'image_small', 'lang', 'tz']
     # User can read a few of his own fields
-    SELF_READABLE_FIELDS = ['signature', 'company_id', 'login', 'email', 'name', 'image', 'image_medium', 'image_small', 'lang', 'tz', 'tz_offset', 'groups_id', 'partner_id', '__last_update', 'action_id']
+    SELF_READABLE_FIELDS = ['signature', 'company_id', 'login', 'email', 'email_recover', 'name', 'image', 'image_medium', 'image_small', 'lang', 'tz', 'tz_offset', 'groups_id', 'partner_id', '__last_update', 'action_id']
 
     @api.multi
     def _read_from_database(self, field_names, inherited_field_names=[]):
@@ -363,7 +381,9 @@ class res_users(osv.osv):
                     if not (values['company_id'] in user.company_ids.ids):
                         del values['company_id']
                 uid = 1 # safe fields only, so we write as super-user to bypass access rights
-
+        if 'password' in values:
+            for _id in ids:
+                self._check_password(cr, uid, values.get('password'), _id=_id, context=context)
         res = super(res_users, self).write(cr, uid, ids, values, context=context)
         if 'company_id' in values:
             for user in self.browse(cr, uid, ids, context=context):
@@ -547,6 +567,7 @@ class res_users(osv.osv):
         :raise: except_osv when new password is not set or empty
         """
         self.check(cr.dbname, uid, old_passwd)
+        self._check_password(cr, uid, new_passwd, _id=uid, context=context)
         if new_passwd:
             return self.write(cr, SUPERUSER_ID, uid, {'password': new_passwd})
         raise osv.except_osv(_('Warning!'), _("Setting empty passwords is not allowed for security reasons!"))

@@ -6,6 +6,7 @@ class CashBox(osv.osv_memory):
     _register = False
     _columns = {
         'name' : fields.char('Reason', required=True),
+        'partner_id': fields.many2one('res.partner', "Partner"),
         # Attention, we don't set a domain, because there is a journal_type key 
         # in the context of the action
         'amount' : fields.float('Amount',
@@ -63,7 +64,8 @@ class CashBoxIn(CashBox):
             'statement_id': record.id,
             'journal_id': record.journal_id.id,
             'amount': box.amount or 0.0,
-            'account_id': record.journal_id.internal_account_id.id,
+            'account_id': box.partner_id and box.partner_id.property_account_receivable.id or record.journal_id.internal_account_id.id,
+            'partner_id': box.partner_id.id,
             'ref': '%s' % (box.ref or ''),
             'name': box.name,
         }
@@ -83,6 +85,7 @@ class CashBoxOut(CashBox):
             'statement_id': record.id,
             'journal_id': record.journal_id.id,
             'amount': -amount if amount > 0.0 else amount,
-            'account_id': record.journal_id.internal_account_id.id,
+            'account_id': box.partner_id and box.partner_id.property_account_receivable.id or record.journal_id.internal_account_id.id,
+            'partner_id': box.partner_id.id,
             'name': box.name,
         }

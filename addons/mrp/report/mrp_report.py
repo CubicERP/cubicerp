@@ -27,6 +27,7 @@ class report_workcenter_load(osv.osv):
     _description="Work Center Load"
     _auto = False
     _log_access = False
+    _log_unlink = False
     _columns = {
         'name': fields.char('Week', required=True),
         'workcenter_id': fields.many2one('mrp.workcenter', 'Work Center', required=True),
@@ -59,6 +60,7 @@ class report_mrp_inout(osv.osv):
     _description="Stock value variation"
     _auto = False
     _log_access = False
+    _log_unlink = False
     _rec_name = 'date'
     _columns = {
         'date': fields.char('Week', required=True),

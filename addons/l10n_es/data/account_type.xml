@@ -16,7 +16,7 @@
     
     <!-- Tipos de cuenta nuevos -->
     
-    <data noupdate="0">
+    <data>
         <record id="account_type_capital" model="account.account.type">
             <field name="name">Capital</field>
             <field name="code">capital</field>

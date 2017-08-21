@@ -636,6 +636,7 @@ class website_menu(osv.osv):
         'child_id': fields.one2many('website.menu', 'parent_id', string='Child Menus'),
         'parent_left': fields.integer('Parent Left', select=True),
         'parent_right': fields.integer('Parent Right', select=True),
+        'active': fields.boolean('Active'),
     }
 
     def __defaults_sequence(self, cr, uid, context):
@@ -646,6 +647,7 @@ class website_menu(osv.osv):
         'url': '',
         'sequence': __defaults_sequence,
         'new_window': False,
+        'active': True,
     }
     _parent_store = True
     _parent_order = 'sequence'

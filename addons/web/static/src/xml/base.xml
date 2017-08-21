@@ -91,14 +91,14 @@
                     you will be able to install your first application.
                 </p>
                 <p class="oe_grey" style="margin: 10px">
-                    By default, the master password is 'admin'. This password
+                    By default, the master password is 'admin' and must be change early. This password
                     is required to create, delete, dump or restore databases.
                 </p>
                 <table class="db_option_table" style="margin: 10px">
                     <tr>
                         <td><label for="super_admin_pwd">Master password:</label></td>
                         <td>
-                            <input type="password" name="super_admin_pwd" class="required" value="admin"/>
+                            <input type="password" name="super_admin_pwd" class="required"/>
                         </td>
                     </tr>
                     <tr>
@@ -117,6 +117,19 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><label for="template_db">Template Database:</label></td>
+                        <td class="oe_form_field oe_form_field_selection">
+                            <select t-if="widget.db_list_template" name="template_db" autofocus="autofocus">
+                                <option value="">Default Template</option>
+                                <t t-foreach="widget.db_list_template" t-as="db">
+                                    <option t-att-value="db">
+                                        <t t-esc="db" />
+                                    </option>
+                                </t>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><label for="db_lang">Default language:</label></td>
                         <td class="oe_form_field oe_form_field_selection">
                             <select name="db_lang" t-if="widget.lang_list" class="oe_inline">
@@ -128,9 +141,14 @@
                             </select>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td><label for="create_admin_pwd">Choose a admin user:</label></td>
+                        <td><input type="text" name="create_admin" class="required" /></td>
+                    </tr>
                     <tr>
                         <td><label for="create_admin_pwd">Choose a password:</label></td>
-                        <td><input type="password" name="create_admin_pwd" class="required" /></td>
+                        <td><input type="password" name="create_admin_pwd" class="required" password_strength="8"/></td>
                     </tr>
                     <tr>
                         <td><label for="create_confirm_pwd">Confirm password:</label></td>
@@ -156,11 +174,20 @@
                 <table align="center" class="db_option_table">
                     <tr>
                         <td><label for="super_admin_pwd">Master password:</label></td>
-                        <td><input type="password" name="super_admin_pwd" class="required" value="admin" /></td>
+                        <td><input type="password" name="super_admin_pwd" class="required" /></td>
                     </tr>
                     <tr>
                         <td><label for="db_original_name">Original database name:</label></td>
-                        <td><input type="text" name="db_original_name" class="required" matches="^[a-zA-Z][a-zA-Z0-9_-]+$" autofocus="true"/></td>
+                        <td class="oe_form_field oe_form_field_selection">
+                            <select t-if="widget.db_list_all" name="db_original_name" autofocus="autofocus">
+                                <t t-foreach="widget.db_list_all" t-as="db">
+                                    <option t-att-value="db">
+                                        <t t-esc="db" />
+                                    </option>
+                                </t>
+                            </select>
+                            <input t-if="!widget.db_list_all" name="db_original_name" class="required" matches="^[a-zA-Z][a-zA-Z0-9_-]+$" type="text" autofocus="autofocus"/>
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="db_name">New database name:</label></td>
@@ -183,14 +210,14 @@
                     <tr>
                         <td><label for="drop_db">Database:</label></td>
                         <td class="oe_form_field oe_form_field_selection">
-                            <select t-if="widget.db_list" name="drop_db" autofocus="autofocus">
-                                <t t-foreach="widget.db_list" t-as="db">
+                            <select t-if="widget.db_list_all" name="drop_db" autofocus="autofocus">
+                                <t t-foreach="widget.db_list_all" t-as="db">
                                     <option t-att-value="db">
                                         <t t-esc="db" />
                                     </option>
                                 </t>
                             </select>
-                            <input t-if="!widget.db_list" name="drop_db" class="required" type="text" autofocus="autofocus"/>
+                            <input t-if="!widget.db_list_all" name="drop_db" class="required" type="text" autofocus="autofocus"/>
                         </td>
                     </tr>
                     <tr>
@@ -291,7 +318,7 @@
                     </tr>
                     <tr>
                         <td><label for="new_pwd">New master password:</label></td>
-                        <td><input type="password" name="new_pwd" class="required" minlength="1"/></td>
+                        <td><input type="password" name="new_pwd" class="required" minlength="1" password_strength="8"/></td>
                     </tr>
                     <tr>
                         <td><label for="confirm_pwd">Confirm new master password:</label></td>
@@ -315,7 +342,7 @@
         <li><a href="#db_drop">Drop</a></li>
         <li><a href="#db_backup">Backup</a></li>
         <li><a href="#db_restore">Restore</a></li>
-        <li><a href="#db_change_password">Password</a></li>
+        <li><a href="#db_change_password">Master Password</a></li>
     </ul>
 </t>
 
@@ -365,9 +392,9 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="#" data-menu="settings">Preferences</a></li>
-            <!--li><a href="#" data-menu="account">My account</a></li-->
+            <li><a href="#" data-menu="account">My CubicERP</a></li>
             <li><a href="#" data-menu="about">About Us</a></li>
-            <li><a href="https://www.cubicerp.com/forum/ayuda-1" data-menu="help">Help</a></li>
+            <li><a href="#" data-menu="help">Help</a></li>
             <li><a href="#" class="oe_activate_debug_mode">Developer Mode</a></li>
             <li><a href="#" class="oe_desactivate_debug_mode hidden">Normal Mode</a></li>
             <li><a href="#" data-menu="logout">Log out</a></li>
@@ -410,31 +437,39 @@
                         <div class="user-body" style="border-top: 1px solid rgb(162,70,137);">
                             <div class="tab-content">
                                 <div id="settings" class="tab-pane active">
-                                    <p>Licenced under the terms of <a target="_blank" href="http://www.gnu.org/licenses/agpl.html" style="text-decoration: underline;">GNU Affero General Public License</a></p>
-                                    <p>
-                                        Cubic ERP, Enterprise and Government Management Software
-                                        Copyright (C) 2017 Cubic ERP S.A.C. (http://cubicerp.com).
+                                    <p><b>Cubic ERP</b> is a suite of open source apps for business and government processes, available on mobile and web devices.</p>
+                                    <p>Licenced under the terms of <a target="_blank" href="http://www.gnu.org/licenses/agpl.html" style="text-decoration: underline;">GNU Affero General Public License</a> and compatible licenses.</p>
+                                    <pre>
+Cubic ERP, Enterprise and Government Management Software
+Copyright (C) 2017 Cubic ERP S.A.C. (http://cubicerp.com).
 
-                                        This program is free software: you can redistribute it and/or modify
-                                        it under the terms of the GNU Affero General Public License as
-                                        published by the Free Software Foundation, either version 3 of the
-                                        License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
 
-                                        This program is distributed in the hope that it will be useful,
-                                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                                        GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-                                        You should have received a copy of the GNU Affero General Public License
-                                        along with this program.  If not, see http://www.gnu.org/licenses/.
-                                    </p>
-                                    <p>For more information visit <a target="_blank" href="https://cubicerp.com" style="text-decoration: underline;">CubicERP.com</a></p>
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see http://www.gnu.org/licenses/.
+                                    </pre>
+                                    <p>The "Private Branch of Cubic ERP" is a suite of advanced open source applications licensed under AGPL v3 license. That Private Branch is permanently upgraded and has fully technical support. To access to the Private Branch you must acquire the support service or hire consulting hours.</p>
+                                    <p>For more information please contact us at <a target="_blank" href="https://www.cubicerp.com/page/website.contactus" style="text-decoration: underline;">CubicERP.com</a></p>
                                 </div>
                                 <div id="email" class="tab-pane">
                                     <p><h4>Cubic ERP S.A.C.</h4></p>
-                                    <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our website</a>
-                                    <a class='btn btn-link' href='https://www.cubicerp.com/page/website.contactus'>Our Forum</a>
+                                    <p>Our experience deploy ERPs began in 2009, having served multinational corporations, large companies and small businesses throughout Latin America, providing training services, consulting and software development.</p>
+                                    <a class='btn btn-link' href='https://cubicerp.com'>Our Website</a>
+                                    <a class='btn btn-link' href='https://cubicerp.com/event'>Our Events</a>
+                                    <a class='btn btn-link' href='https://cubicerp.com/help'>Our Help Forum</a>
+                                    <a class='btn btn-link' href='https://cubicerp.com/community'>Our Community</a>
+                                    <a class='btn btn-link' href='https://cubicerp.com/contactus'>Contact Us</a>
                                     <p><h4>Follow Us...</h4></p>
+                                    <a href="https://www.cubicerp.com/video"><i class="fa fa-youtube-play fa-3x social-fb"></i></a>
+                                    <a href="https://github.com/cubicerp"><i class="fa fa-github fa-3x social-fb"></i></a>
                                     <a href="https://www.facebook.com/cubic.erp"><i class="fa fa-facebook-square fa-3x social-fb"></i></a>
                                     <a href="https://twitter.com/CubicERP"><i class="fa fa-twitter-square fa-3x social-tw"></i></a>
                                 </div>
@@ -443,11 +478,11 @@
                                     <div class="container-fluid">
                                         <div class="row" style="font-size: 10px;text-align: left;">
                                             <div class="col-xs-4">- Yury Oscar Tello</div>
-                                            <div class="col-xs-4">- Alexander Cuellar Morales</div>
-                                            <div class="col-xs-4">- Anniel Rodriguez Izquierdo</div>
-                                            <div class="col-xs-4">- Pedro Antonio Valdez Guibert</div>
-                                            <div class="col-xs-4">- Pedro Pablo Infante Toirac</div>
-                                            <div class="col-xs-4">- Jesus Enrique Font Peña</div>
+                                            <div class="col-xs-4">- Alexander Cuellar</div>
+                                            <div class="col-xs-4">- Anniel Rodriguez</div>
+                                            <div class="col-xs-4">- Pedro Valdez</div>
+                                            <div class="col-xs-4">- Pedro Infante</div>
+                                            <div class="col-xs-4">- Jesus Font</div>
                                             <div class="col-xs-12" id="loading_modules_authors">
                                                 <span class="badge">loading modules authors...</span>
                                             </div>
@@ -510,7 +545,7 @@
             <div class="row">
                 <div class="col-xs-12 buttons_container">
                     <div class="oe_view_manager_buttons"/>
-                    <div style="display: flex;">
+                    <div >
                         <div class="oe_view_manager_sidebar"/>
                         <select t-if="widget.session.debug" class="oe_debug_view"/>
                     </div>
@@ -575,6 +610,7 @@
         <option t-if="view_manager.action" value="edit" t-att-data-model="view_manager.action.type" t-att-data-id="view_manager.action.id">Edit Action</option>
         <option value="edit_workflow">Edit Workflow</option>
         <option value="print_workflow">Print Workflow</option>
+        <option value="edit_instance">Workflow Instance</option>
     </t>
 </t>
 <t t-name="ViewManagerDebugViewLog">

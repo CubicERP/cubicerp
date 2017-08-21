@@ -3,10 +3,11 @@ backup/
 log/
 junk/
 data/
-.oer.pid
-.openerp_serverrc
+.cbc.pid
+.cubicerp_serverrc
 .DS_Store
 .idea
+.gunicorn.pid
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -24,7 +25,7 @@ build/
 develop-eggs/
 dist/
 eggs/
-lib/
+#lib/
 lib64/
 parts/
 sdist/

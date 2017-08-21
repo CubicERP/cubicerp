@@ -103,7 +103,7 @@
                             <field name="partner_id" on_change="onchange_partner_id(partner_id, context)" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1, 'default_is_company':1}" options='{"always_reload": True}'/>
                             <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}"/>
                             <field name="partner_shipping_id" on_change="onchange_delivery_id(company_id, partner_id, partner_shipping_id, fiscal_position)" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}"/>
-                            <field name="project_id" context="{'partner_id':partner_invoice_id, 'manager_id': user_id, 'default_pricelist_id':pricelist_id, 'default_name':name, 'default_type': 'contract'}" groups="sale.group_analytic_accounting" domain="[('type','in',['view','normal','contract'])]"/>
+                            <field name="project_id" context="{'partner_id':partner_invoice_id, 'manager_id': user_id, 'default_pricelist_id':pricelist_id, 'default_name':name, 'default_type': 'contract'}" groups="sale.group_analytic_accounting" domain="[('type','in',['normal','contract'])]"/>
                         </group>
                         <group>
                             <field name="date_order"/>
@@ -287,7 +287,7 @@
                     Click to create a quotation that can be converted into a sales
                     order.
                 </p><p>
-                    Odoo will help you efficiently handle the complete sales flow:
+                    CubicERP will help you efficiently handle the complete sales flow:
                     quotation, sales order, delivery, invoicing and payment.
                 </p>
             </field>
@@ -331,7 +331,7 @@
               <p class="oe_view_nocontent_create">
                 Click to create a quotation, the first step of a new sale.
               </p><p>
-                Odoo will help you handle efficiently the complete sale flow:
+                CubicERP will help you handle efficiently the complete sale flow:
                 from the quotation to the sales order, the
                 delivery, the invoicing and the payment collection.
               </p><p>
@@ -606,7 +606,7 @@
                 Click to create a quotation that can be converted into a sales
                 order.
               </p><p>
-                Odoo will help you efficiently handle the complete sales flow:
+                CubicERP will help you efficiently handle the complete sales flow:
                 quotation, sales order, delivery, invoicing and payment.
               </p>
             </field>
@@ -631,7 +631,7 @@
               <p class="oe_view_nocontent_create">
                 Click to create a quotation, the first step of a new sale.
               </p><p>
-                Odoo will help you handle efficiently the complete sale flow:
+                CubicERP will help you handle efficiently the complete sale flow:
                 from the quotation to the sales order, the
                 delivery, the invoicing and the payment collection.
               </p><p>

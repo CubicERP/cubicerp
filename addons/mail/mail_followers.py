@@ -38,6 +38,7 @@ class mail_followers(osv.Model):
     _name = 'mail.followers'
     _rec_name = 'partner_id'
     _log_access = False
+    _log_unlink = False
     _description = 'Document Followers'
     _columns = {
         'res_model': fields.char('Related Document Model',
@@ -78,6 +79,7 @@ class mail_notification(osv.Model):
     _name = 'mail.notification'
     _rec_name = 'partner_id'
     _log_access = False
+    _log_unlink = False
     _description = 'Notifications'
 
     _columns = {

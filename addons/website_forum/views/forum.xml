@@ -22,11 +22,20 @@
             <field name="arch" type="xml">
                 <form string="Forum">
                     <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="description"/>
-                        </group>
+                        <div class="oe_title">
+                            <label for="name" attrs="{'invisible':[('name','=','/')]}" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons">
+                                 <button class="oe_inline oe_stat_button" name="view_posts" string="Posts"
+                                         icon="fa-pencil-square-o"  type="object" />
+                        </div>
                         <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
                             <page string='Karma Gains'>
                                 <group>
                                     <field name="karma_gen_question_new"/>
@@ -52,6 +61,7 @@
                                         <field name="karma_unlink_all"/>
                                     </group>
                                     <group>
+                                        <field name="karma_answer"/>
                                         <field name="karma_answer_accept_own"/>
                                         <field name="karma_answer_accept_all"/>
                                         <field name="karma_comment_own"/>
@@ -62,6 +72,35 @@
                                         <field name="karma_comment_unlink_all"/>
                                     </group>
                                 </group>
+                            </page>
+                            <page string="FAQ">
+                                <field name="faq"/>
+                            </page>
+                            <page string="Tags">
+                                <field name="tag_ids">
+                                    <tree string="Tags">
+                                        <field name="name"/>
+                                        <field name="posts_count"/>
+                                    </tree>
+                                    <form string="Tag">
+                                        <sheet>
+                                            <label for="name" class="oe_edit_only"/>
+                                            <h1>
+                                                <field name="name" placeholder="Name"/>
+                                            </h1>
+                                            <group>
+                                                <group>
+                                                    <field name="create_uid"/>
+                                                </group>
+                                                <group>
+                                                    <field name="posts_count"/>
+                                                </group>
+                                            </group>
+                                            <separator string="Posts"/>
+                                            <field name="post_ids"/>
+                                        </sheet>
+                                    </form>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -89,7 +128,13 @@
             <field name="arch" type="xml">
                 <tree string="Forum Posts">
                     <field name="name"/>
+                    <field name="parent_id"/>
                     <field name="forum_id"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <field name="closed_uid"/>
+                    <field name="closed_date"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -99,34 +144,117 @@
             <field name="model">forum.post</field>
             <field name="arch" type="xml">
                 <form string="Forum Post">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
-                        <label for="name" class="oe_edit_only"/>
-                        <h1>
-                            <field name="name" placeholder="Name"/>
-                        </h1>
+                        <div class="oe_title">
+                            <label for="name" attrs="{'invisible':[('name','=','/')]}" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
                                 <field name="forum_id"/>
+                            </group>
+                            <group>
                                 <field name="parent_id"/>
-                            </group><group>
-                                <field name="tag_ids" widget="many2many_tags"/>
-                                <field name="state"/>
-                                <field name="closed_reason_id"/>
-                                <field name="closed_uid"/>
-                                <field name="closed_date"/>
-                            </group><group>
-                                <field name="create_uid"/>
-                                <field name="create_date"/>
-                                <field name="write_uid"/>
-                                <field name="write_date"/>
-                            </group><group>
-                                <field name="is_correct"/>
-                                <field name="views"/>
-                                <field name="vote_count"/>
-                                <field name="favourite_count"/>
-                                <field name="child_count"/>
                             </group>
                         </group>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
+                        <notebook>
+                            <page string="Content">
+                                <field name="content"/>
+                            </page>
+                            <page string="Answers">
+                                <field name="child_ids">
+                                    <tree string="Answers">
+                                        <field name="create_uid"/>
+                                        <field name="create_date"/>
+                                        <field name="closed_uid"/>
+                                        <field name="closed_date"/>
+                                        <field name="is_correct"/>
+                                        <field name="state"/>
+                                    </tree>
+                                    <form>
+                                        <header>
+                                            <field name="state" widget="statusbar"/>
+                                        </header>
+                                        <sheet>
+                                            <div class="oe_title">
+                                                <h1>
+                                                    <label for="parent_name" class="oe_inline"/>
+                                                    <field name="parent_name" class="oe_inline"/>
+                                                </h1>
+                                            </div>
+                                            <field name="content"/>
+                                            <notebook>
+                                                <page string="Votes">
+                                                    <field name="vote_ids"/>
+                                                </page>
+                                                <page string="Messages">
+                                                    <field name="website_message_ids"/>
+                                                </page>
+                                                <page string="Advanced">
+                                                    <group>
+                                                        <group>
+                                                            <field name="create_uid"/>
+                                                            <field name="create_date"/>
+                                                            <field name="write_uid"/>
+                                                            <field name="write_date"/>
+                                                            <field name="active"/>
+                                                        </group>
+                                                        <group>
+                                                            <field name="is_correct"/>
+                                                            <field name="closed_reason_id"/>
+                                                            <field name="closed_uid"/>
+                                                            <field name="closed_date"/>
+                                                        </group><group>
+                                                            <field name="views"/>
+                                                            <field name="vote_count"/>
+                                                            <field name="favourite_count"/>
+                                                            <field name="child_count"/>
+                                                        </group>
+                                                    </group>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Others">
+                                <separator string="Messages"/>
+                                <field name="website_message_ids"/>
+                                <separator string="Favourite"/>
+                                <field name="favourite_ids"/>
+                                <separator string="Votes"/>
+                                <field name="vote_ids"/>
+                            </page>
+                            <page string="Advanced">
+                                <group>
+                                    <group>
+                                        <field name="create_uid"/>
+                                        <field name="create_date"/>
+                                        <field name="write_uid"/>
+                                        <field name="write_date"/>
+                                        <field name="active"/>
+                                    </group>
+                                    <group>
+                                        <field name="closed_reason_id"/>
+                                        <field name="closed_uid"/>
+                                        <field name="closed_date"/>
+                                    </group><group>
+                                        <field name="views"/>
+                                        <field name="vote_count"/>
+                                        <field name="favourite_count"/>
+                                        <field name="child_count"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -144,11 +272,28 @@
                     <field name="name" string="Content" filter_domain="['|', ('name', 'ilike', self), ('content', 'ilike', self)]"/>
                     <field name="create_uid"/>
                     <field name="forum_id"/>
+                    <filter name="my_post_filter" string="My Posts" domain="[('create_uid','=',uid)]"/>
+                    <filter name="question_filter" string="Questions" domain="[('parent_id','=',False)]"/>
+                    <filter name="answer_filter" string="Answers" domain="[('parent_id','!=',False)]"/>
+                    <filter name="correct_answer_filter" string="Correct Answer" domain="[('is_correct','=',True)]"/>
                     <group expand="0" string="Group By">
+                        <filter string="Question" domain="[]" context="{'group_by': 'parent_id'}"/>
                         <filter string="Forum" domain="[]" context="{'group_by': 'forum_id'}"/>
                         <filter string="Author" domain="[]" context="{'group_by': 'create_uid'}"/>
+                        <filter string="State" domain="[]" context="{'group_by': 'state'}"/>
                     </group>
                 </search>
+            </field>
+        </record>
+
+        <record id="view_forum_post_graph" model="ir.ui.view">
+            <field name="name">forum.post.graph</field>
+            <field name="model">forum.post</field>
+            <field name="arch" type="xml">
+                <graph string="Forum Posts Votes" type="pie">
+                    <field name="create_uid" type="row"/>
+                    <field name="vote_count" type="measure"/>
+                </graph>
             </field>
         </record>
 
@@ -156,12 +301,34 @@
             <field name="name">Forum Posts</field>
             <field name="res_model">forum.post</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_forum_post_list"/>
-            <field name="search_view_id" ref="view_forum_post_search"/>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'search_default_my_post_filter':1}</field>
         </record>
 
         <menuitem id="menu_forum_posts" parent="menu_website_forum" name="Posts" action="action_forum_post" sequence="20"/>
+
+        <!-- REASON VIEW -->
+
+        <record id="view_forum_post_reason_list" model="ir.ui.view">
+            <field name="name">forum.post.reason.list</field>
+            <field name="model">forum.post.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Reasons" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_forum_post_reason" model="ir.actions.act_window">
+            <field name="name">Forum Posts Reason</field>
+            <field name="res_model">forum.post.reason</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_forum_post_reason" parent="menu_website_forum" name="Reasons"
+                  action="action_forum_post_reason" sequence="40"/>
+
+
 
     </data>
 </openerp>

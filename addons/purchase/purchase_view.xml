@@ -108,7 +108,7 @@
             Click to create a draft invoice.
           </p><p>
             Use this menu to control the invoices to be received from your
-            supplier. Odoo generates draft invoices from your purchase
+            supplier. CubicERP generates draft invoices from your purchase
             orders or receipts, according to your settings.
           </p><p>
             Once you receive a supplier invoice, you can match it with the
@@ -244,7 +244,7 @@
                                     <field name="date_planned"/>
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                                     <field name="account_analytic_id" groups="purchase.group_analytic_accounting" domain="[('type','not in',('view','template'))]"/>
-                                    <field name="product_qty" on_change="onchange_product_id(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
+                                    <field name="product_qty" on_change="onchange_product_id(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position,date_planned,name,price_unit,parent.state,context)"/>
                                     <field name="product_uom" groups="product.group_uom" on_change="onchange_product_uom(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
                                     <field name="price_unit"/>
                                     <field name="taxes_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','!=','sale')]"/>
@@ -258,7 +258,7 @@
                                 <div class="oe_subtotal_footer_separator oe_inline">
                                     <label for="amount_total"/>
                                     <button name="button_dummy"
-                                        states="draft" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                                        states="draft,sent,confirmed" string="(update)" type="object" class="oe_edit_only oe_link"/>
                                 </div>
                                 <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             </group>
@@ -387,7 +387,7 @@
                 quotation is converted into a purchase order.
               </p><p>
                 Most propositions of purchase orders are created automatically
-                by Odoo based on inventory needs.
+                by CubicERP based on inventory needs.
               </p>
             </field>
         </record>
@@ -424,6 +424,7 @@
                     <sheet>
                         <group>
                             <group>
+                                <field name="order_id" readonly="True" invisible="not context.get('show_purchase_order',False)"/>
                                 <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,0,False,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,False,False,'draft',context)"/>
                                 <label for="product_qty"/>
                                 <div>
@@ -469,6 +470,17 @@
                     <field name="state" invisible="1"/>
                     <field name="invoiced" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="purchase_order_line_graph" model="ir.ui.view">
+            <field name="name">purchase.order.line.graph</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <graph string="Purchase Order Lines" type="line">
+                    <field name="order_id"/>
+                    <field name="price_unit" operator="avg"/>
+                </graph>
             </field>
         </record>
         
@@ -611,9 +623,10 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_purchase_line_product_tree">
-            <field name="context">{}</field><!-- force empty -->
+            <field name="context">{'show_purchase_order':True}</field><!-- force empty -->
             <field name="name">Purchases</field>
             <field name="res_model">purchase.order.line</field>
+            <field name="view_mode">tree,form,graph</field>
             <field name="view_id" ref="purchase_order_line_tree"/>
         </record>
 

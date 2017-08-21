@@ -1388,17 +1388,19 @@ class account_move(osv.osv):
     def button_validate(self, cursor, user, ids, context=None):
         for move in self.browse(cursor, user, ids, context=context):
             # check that all accounts have the same topmost ancestor
-            top_common = None
+            top_balance = {}
             for line in move.line_id:
                 account = line.account_id
                 top_account = account
                 while top_account.parent_id:
                     top_account = top_account.parent_id
-                if not top_common:
-                    top_common = top_account
-                elif top_account.id != top_common.id:
-                    raise osv.except_osv(_('Error!'),
-                                         _('You cannot validate this journal entry because account "%s" does not belong to chart of accounts "%s".') % (account.name, top_common.name))
+                top_balance[top_account.id] = top_balance.get(top_account.id,0.0) + (line.debit - line.credit)
+            top_sum = 0.0
+            for a in top_balance:
+                top_sum += top_balance[a]
+            if top_sum >= 0.01:
+                raise osv.except_osv(_('Error!'),
+                                     _('You cannot validate this journal entry because account "%s" does not belong to the same chart of accounts.') % (account.name,))
         return self.post(cursor, user, ids, context=context)
 
     def button_cancel(self, cr, uid, ids, context=None):
@@ -2309,6 +2311,7 @@ class account_tax(osv.osv):
             if r['todo']:
                 total += r['amount']
         for r in res:
+            r['price_unit_w_tax'] = r['price_unit']
             r['price_unit'] -= total
             r['todo'] = 0
         return res

@@ -9,7 +9,10 @@
             <field name="arch" type="xml">
                 <tree string="Messages">
                     <field name="date"/>
-                    <field name="subject"/>
+                    <field name="email_from"/>
+                    <field name="partner_ids" widget="many2many_tags"/>
+                    <field name="notified_partner_ids" widget="many2many_tags"/>
+                    <field name="name"/>
                     <field name="author_id"/>
                     <field name="model"/>
                     <field name="res_id"/>
@@ -27,23 +30,46 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="subject"/>
-                                <field name="author_id"/>
                                 <field name="email_from"/>
-                                <field name="reply_to"/>
                                 <field name="date"/>
-                                <field name="type"/>
+                                <field name="reply_to"/>
                             </group>
                             <group>
-                                <field name="model"/>
-                                <field name="res_id"/>
-                                <field name="parent_id"/>
                                 <field name="partner_ids" widget="many2many_tags"/>
                                 <field name="notified_partner_ids" widget="many2many_tags"/>
-                                <field name="subtype_id"/>
                             </group>
                         </group>
-                        <field name="body"/>
+                        <group>
+                            <field name="subject"/>
+                        </group>
+                        <notebook>
+                            <page string="Message">
+                                <field name="body"/>
+                            </page>
+                            <page string="SMTP" attrs="{'invisible':[('smtp_result','=',False)]}">
+                                <group>
+                                    <field name="mail_server_id" attrs="{'invisible':[('mail_server_id','=',False)]}"/>
+                                    <field name="smtp_server" attrs="{'invisible':[('smtp_server','=',False)]}"/>
+                                </group>
+                                <separator string="Result"/>
+                                <field name="smtp_result"/>
+                            </page>
+                            <page string="Advanced">
+                                <group>
+                                    <group>
+                                        <field name="author_id"/>
+                                        <field name="type"/>
+                                        <field name="subtype_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="model"/>
+                                        <field name="res_id"/>
+                                        <field name="parent_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
                     </sheet>
                 </form>
             </field>
@@ -72,14 +98,16 @@
                             name="attachments"
                             domain="[('attachment_ids', '!=', False)]"/>
                     <group expand="0" string="Group By">
-                        <filter string="Type" name="thread" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Author" name="author_grou" domain="[]" context="{'group_by':'author_id'}"/>
+                        <filter string="Mail Server Out" name="mail_server_group" domain="[]" context="{'group_by':'mail_server_id'}"/>
+                        <filter string="Type" name="thread_group" domain="[]" context="{'group_by':'type'}"/>
                     </group>
                 </search>
             </field>
         </record>
 
         <record id="action_view_mail_message" model="ir.actions.act_window">
-            <field name="name">Messages</field>
+            <field name="name">All Messages</field>
             <field name="res_model">mail.message</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

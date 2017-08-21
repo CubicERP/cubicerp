@@ -1794,7 +1794,7 @@ msgstr "Subtotal de apertura"
 #: view:website:point_of_sale.report_detailsofsales
 #, python-format
 msgid "Order"
-msgstr "Pedido"
+msgstr "Lista de Pedidos"
 
 #. module: point_of_sale
 #. openerp-web

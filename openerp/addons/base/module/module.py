@@ -284,6 +284,7 @@ class module(osv.osv):
         'url': fields.char('URL', readonly=True),
         'sequence': fields.integer('Sequence'),
         'dependencies_id': fields.one2many('ir.module.module.dependency', 'module_id', 'Dependencies', readonly=True),
+        'file_ids': fields.one2many('ir.module.module.file', 'module_id', 'Files', readonly=True),
         'auto_install': fields.boolean('Automatic Installation',
                                        help='An auto-installable module is automatically installed by the '
                                             'system when all its dependencies are satisfied. '
@@ -821,5 +822,21 @@ class module_dependency(osv.Model):
     def _compute_state(self):
         self.state = self.depend_id.state or 'unknown'
 
+
+class module_file(osv.Model):
+    _name = "ir.module.module.file"
+    _description = "Module files"
+
+    # the file name
+    filename = fields2.Char('File Name', index=True)
+    # the module
+    module_id = fields2.Many2one('ir.module.module', 'Module', ondelete='cascade')
+    # the last checksum
+    checksum = fields2.Char('Checksum', size=64)
+
+
+    _sql_constraints = [
+        ('module_filename_uniq', 'UNIQUE (module_id,filename)', "The module and the filename must be unique!"),
+    ]
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

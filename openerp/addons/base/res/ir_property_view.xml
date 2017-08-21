@@ -39,6 +39,7 @@
 	                    <field name="value_datetime"  attrs="{'invisible' : [('type', 'not in', ('date', 'datetime'))]}"/>
 	                    <field name="value_text"  attrs="{'invisible' : [('type', 'not in', ('selection','char', 'text'))]}"/>
 	                    <field name="value_reference"  attrs="{'invisible' : [('type', '!=', 'many2one')]}"/>
+	                    <field name="value_list"  attrs="{'invisible' : [('type', '!=', 'many2many')]}"/>
 	                    <field name="value_binary"  attrs="{'invisible' : [('type', '!=', 'binary')]}"/>
                     </group>
                   </sheet>

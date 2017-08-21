@@ -36,6 +36,7 @@ MENU_ITEM_SEPARATOR = "/"
 
 class ir_ui_menu(osv.osv):
     _name = 'ir.ui.menu'
+    _log_unlink = False
 
     def __init__(self, *args, **kwargs):
         cls = type(self)

@@ -23,6 +23,16 @@ class PosBox(CashBox):
                                      _("There is no cash register for this PoS Session"))
 
             return self._run(cr, uid, ids, bank_statements, context=context)
+        elif active_model == 'pos.session.opening':
+            records = self.pool[active_model].browse(cr, uid, active_ids, context=context)
+            records = records.pos_session_id
+            bank_statements = [record.cash_register_id for record in records if record.cash_register_id]
+
+            if not bank_statements:
+                raise osv.except_osv(_('Error!'),
+                                     _("There is no cash register for this PoS Session"))
+
+            return self._run(cr, uid, ids, bank_statements, context=context)
         else:
             return super(PosBox, self).run(cr, uid, ids, context=context)
 
@@ -42,6 +52,10 @@ class PosBoxIn(PosBox):
         if active_model == 'pos.session':
             session = self.pool[active_model].browse(cr, uid, active_ids, context=context)[0]
             values['ref'] = session.name
+        elif active_model == 'pos.session.opening':
+            records = self.pool[active_model].browse(cr, uid, active_ids, context=context)
+            session = records.pos_session_id
+            values['ref'] = session.name
 
         return values
 
@@ -57,6 +71,10 @@ class PosBoxOut(PosBox):
 
         if active_model == 'pos.session':
             session = self.pool[active_model].browse(cr, uid, active_ids, context=context)[0]
+            values['ref'] = session.name
+        elif active_model == 'pos.session.opening':
+            records = self.pool[active_model].browse(cr, uid, active_ids, context=context)
+            session = records.pos_session_id
             values['ref'] = session.name
 
         return values

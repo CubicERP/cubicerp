@@ -1103,8 +1103,8 @@ msgstr "Id del mensaje"
 #: model:ir.ui.menu,name:mail.menu_mail_message field:mail.group,message_ids:0
 #: view:mail.message:mail.view_message_tree field:mail.thread,message_ids:0
 #: field:res.partner,message_ids:0
-msgid "Messages"
-msgstr "Mensajes"
+msgid "All Messages"
+msgstr "Todos los Mensajes"
 
 #. module: mail
 #: view:mail.message:mail.view_message_search

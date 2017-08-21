@@ -31,6 +31,16 @@ div#blog_angle_down a:hover {
   text-decoration: none;
 }
 
+.blog_title {
+  background-color: rgba(0, 0, 0, 0.78);
+}
+.blog_title h1 {
+  -webkit-text-fill-color: ghostwhite;
+}
+.blog_title h2 {
+  -webkit-text-fill-color: white;
+}
+
 .cover {
   -webkit-background-size: cover;
   -moz-background-size: cover;

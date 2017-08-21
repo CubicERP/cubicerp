@@ -20,17 +20,25 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from openerp.tools import float_compare, float_round
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, float_compare, float_round
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import logging
+import time
+
 _logger = logging.getLogger(__name__)
 
 
 class stock_inventory(osv.osv):
     _inherit = "stock.inventory"
     _columns = {
-        'period_id': fields.many2one('account.period', 'Force Valuation Period', help="Choose the accounting period where you want to value the stock moves created by the inventory instead of the default one (chosen by the inventory end date)"),
+        'period_id': fields.many2one('account.period', 'Force Valuation Period', readonly=True, states={'draft': [('readonly', False)],
+                                                                                                        'progress': [('readonly', False)],
+                                                                                                        'confirm': [('readonly', False)]},
+                                     help="Choose the accounting period where you want to value the stock moves created by the inventory instead of the default one (chosen by the inventory end date)"),
+        'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', readonly=True, states={'draft': [('readonly', False)],
+                                                                                                        'progress': [('readonly', False)],
+                                                                                                        'confirm': [('readonly', False)]})
     }
 
     def post_inventory(self, cr, uid, inv, context=None):
@@ -60,6 +68,10 @@ class stock_location(osv.osv):
                                                         "this account will be used to hold the value of products being moved out of this location "
                                                         "and into an internal location, instead of the generic Stock Output Account set on the product. "
                                                         "This has no effect for internal locations."),
+        'valuation_account_id': fields.many2one('account.account', 'Stock Valuation Account (Internal)', domain=[('type', '=', 'other')],
+                                                   help="Used for real-time inventory valuation,"
+                                                        "this account will be used to hold the value of products being moved from/to this location, "
+                                                        "instead of the generic Valuation Account set on the product."),
     }
 
 #----------------------------------------------------------
@@ -153,9 +165,11 @@ class stock_quant(osv.osv):
                 self._create_account_move_line(cr, uid, quants, move, acc_valuation, acc_dest, journal_id, context=ctx)
 
     def _quant_create(self, cr, uid, qty, move, lot_id=False, owner_id=False, src_package_id=False, dest_package_id=False, force_location_from=False, force_location_to=False, context=None):
+        if context is None:
+            context = {}
         quant_obj = self.pool.get('stock.quant')
         quant = super(stock_quant, self)._quant_create(cr, uid, qty, move, lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id, dest_package_id=dest_package_id, force_location_from=force_location_from, force_location_to=force_location_to, context=context)
-        if move.product_id.valuation == 'real_time':
+        if move.product_id.valuation == 'real_time' and context.get("real_time_valuation", True):
             self._account_entry_move(cr, uid, [quant], move, context)
 
             # If the precision required for the variable quant cost is larger than the accounting
@@ -198,8 +212,15 @@ class stock_quant(osv.osv):
         :returns: journal_id, source account, destination account, valuation account
         :raise: osv.except_osv() is any mandatory account or journal is not defined.
         """
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if move.location_id.usage == 'internal' and move.location_dest_id.usage <> 'internal':
+            ctx['location_id'] = move.location_id.id
+        elif move.location_id.usage <> 'internal' and move.location_dest_id.usage == 'internal':
+            ctx['location_id'] = move.location_dest_id.id
         product_obj = self.pool.get('product.template')
-        accounts = product_obj.get_product_accounts(cr, uid, move.product_id.product_tmpl_id.id, context)
+        accounts = product_obj.get_product_accounts(cr, uid, move.product_id.product_tmpl_id.id, ctx)
         if move.location_id.valuation_out_account_id:
             acc_src = move.location_id.valuation_out_account_id.id
         else:
@@ -226,20 +247,29 @@ class stock_quant(osv.osv):
             valuation_amount = context.get('force_valuation_amount')
         else:
             if move.product_id.cost_method == 'average':
-                valuation_amount = cost if move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal' else move.product_id.standard_price
+                if move.location_id.usage != 'internal' and move.location_dest_id.usage == 'internal':
+                    valuation_amount = cost
+                elif move.location_id.usage == 'internal' and move.location_dest_id.usage in ('supplier','production','inventory'):
+                    valuation_amount = abs(move.price_unit or move.product_id.standard_price)
+                else:
+                    valuation_amount = abs(move.product_id.standard_price)
             else:
-                valuation_amount = cost if move.product_id.cost_method == 'real' else move.product_id.standard_price
+                valuation_amount = cost if move.product_id.cost_method == 'real' else abs(move.product_id.standard_price)
         #the standard_price of the product may be in another decimal precision, or not compatible with the coinage of
         #the company currency... so we need to use round() before creating the accounting entries.
         valuation_amount = currency_obj.round(cr, uid, move.company_id.currency_id, valuation_amount * qty)
         partner_id = (move.picking_id.partner_id and self.pool.get('res.partner')._find_accounting_partner(move.picking_id.partner_id).id) or False
+        sign = 1.0
+        if not valuation_amount:
+            if move.location_id.usage=='internal' and move.location_id.usage!='internal':
+                sign = -1.0
         debit_line_vals = {
                     'name': move.name,
                     'product_id': move.product_id.id,
-                    'quantity': qty,
+                    'quantity': qty * sign,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
-                    'date': move.date,
+                    'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                     'partner_id': partner_id,
                     'debit': valuation_amount > 0 and valuation_amount or 0,
                     'credit': valuation_amount < 0 and -valuation_amount or 0,
@@ -248,10 +278,10 @@ class stock_quant(osv.osv):
         credit_line_vals = {
                     'name': move.name,
                     'product_id': move.product_id.id,
-                    'quantity': qty,
+                    'quantity': qty * sign * (valuation_amount and 1.0 or -1.0),
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id and move.picking_id.name or False,
-                    'date': move.date,
+                    'date': context.get('force_move_date',time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
                     'partner_id': partner_id,
                     'credit': valuation_amount > 0 and valuation_amount or 0,
                     'debit': valuation_amount < 0 and -valuation_amount or 0,
@@ -263,10 +293,14 @@ class stock_quant(osv.osv):
         #group quants by cost
         quant_cost_qty = {}
         for quant in quants:
-            if quant_cost_qty.get(quant.cost):
-                quant_cost_qty[quant.cost] += quant.qty
+            if move.location_id.usage == 'customer' and move.location_dest_id.usage == 'internal':
+                cost = abs(move.price_unit)
             else:
-                quant_cost_qty[quant.cost] = quant.qty
+                cost = abs(quant.cost)
+            if quant_cost_qty.get(cost):
+                quant_cost_qty[cost] += quant.qty
+            else:
+                quant_cost_qty[cost] = quant.qty
         move_obj = self.pool.get('account.move')
         for cost, qty in quant_cost_qty.items():
             move_lines = self._prepare_account_move_line(cr, uid, move, qty, cost, credit_account_id, debit_account_id, context=context)
@@ -281,8 +315,8 @@ class stock_quant(osv.osv):
         if not res:
             res = self.pool.get('account.move').create(cr, uid, {'journal_id': journal_id,
                                                                  'period_id': period_id,
-                                                                 'date': fields.date.context_today(self, cr, uid, context=context),
-                                                                 'ref': move.picking_id.name}, context=context)
+                                                                 'date': context.get('force_move_date',fields.date.context_today(self, cr, uid, context=context)),
+                                                                 'ref': move.picking_id.name or move.inventory_id.name}, context=context)
         return res
     
     #def _reconcile_single_negative_quant(self, cr, uid, to_solve_quant, quant, quant_neg, qty, context=None):
@@ -306,6 +340,19 @@ class stock_move(osv.osv):
         self.product_price_update_after_done(cr, uid, ids, context=context)
         return res
 
+    def action_done_cancel(self, cr, uid, move, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        ctx['force_operation_update'] = False
+        if move.location_id.usage not in ('internal', 'procurement', 'transit') and move.location_dest_id.usage in ('internal'):
+            ctx['force_operation_update'] = 'out'
+        if move.location_dest_id.usage not in ('internal', 'procurement', 'transit') and move.location_id.usage in ('internal'):
+            ctx['force_operation_update'] = 'in'
+        self.product_price_update_before_done(cr, uid, [move.id], context=ctx)
+        super(stock_move, self).action_done_cancel(cr, uid, move, context=context)
+
+
     def _store_average_cost_price(self, cr, uid, move, context=None):
         ''' move is a browe record '''
         product_obj = self.pool.get('product.product')
@@ -323,11 +370,21 @@ class stock_move(osv.osv):
         self.write(cr, uid, [move.id], {'price_unit': average_valuation_price}, context=context)
 
     def product_price_update_before_done(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         product_obj = self.pool.get('product.product')
         tmpl_dict = {}
-        for move in self.browse(cr, uid, ids, context=context):
+        ctx = context.copy()
+        for move in self.browse(cr, uid, ids, context=ctx):
             #adapt standard price on incomming moves if the product cost_method is 'average'
-            if (move.location_id.usage == 'supplier') and (move.product_id.cost_method == 'average'):
+            operation = context.get('force_operation_update',False)
+            if not operation:
+                if move.location_id.usage in ('supplier', 'customer', 'inventory', 'production') and move.location_dest_id.usage == 'internal':
+                    operation = 'in'
+                elif move.location_id.usage == 'internal' and move.location_dest_id.usage in ('supplier', 'inventory', 'production'):
+                    operation = 'out'
+
+            if move.price_unit and operation and move.product_id.cost_method == 'average':
                 product = move.product_id
                 prod_tmpl_id = move.product_id.product_tmpl_id.id
                 qty_available = move.product_id.product_tmpl_id.qty_available
@@ -336,16 +393,22 @@ class stock_move(osv.osv):
                 else:
                     tmpl_dict[prod_tmpl_id] = 0
                     product_avail = qty_available
-                if product_avail <= 0:
+                if product_avail == 0:
                     new_std_price = move.price_unit
+                    ctx['stock_qty_old'] = product_avail
                 else:
                     # Get the standard price
                     amount_unit = product.standard_price
-                    new_std_price = ((amount_unit * product_avail) + (move.price_unit * move.product_qty)) / (product_avail + move.product_qty)
-                tmpl_dict[prod_tmpl_id] += move.product_qty
+                    if operation == 'in' and (product_avail + move.product_qty) <> 0:
+                        new_std_price = ((amount_unit * product_avail) + (move.price_unit * move.product_qty)) / (product_avail + move.product_qty)
+                    elif operation == 'out' and (product_avail - move.product_qty) <> 0:
+                        new_std_price = ((amount_unit * product_avail) - (move.price_unit * move.product_qty)) / (product_avail - move.product_qty)
+                    else:
+                        new_std_price = amount_unit
+                tmpl_dict[prod_tmpl_id] += (move.product_qty * (operation == 'in' and 1.0 or -1.0))
                 # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
-                ctx = dict(context or {}, force_company=move.company_id.id)
-                product_obj.write(cr, SUPERUSER_ID, [product.id], {'standard_price': new_std_price}, context=ctx)
+                ctx['force_company'] = move.company_id.id
+                product_obj.write(cr, SUPERUSER_ID, [product.id], {'standard_price': abs(new_std_price)}, context=ctx)
 
     def product_price_update_after_done(self, cr, uid, ids, context=None):
         '''

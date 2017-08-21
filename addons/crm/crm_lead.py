@@ -277,6 +277,7 @@ class crm_lead(format_address, osv.osv):
                             domain="[('section_id','=',section_id)]"),
         'planned_cost': fields.float('Planned Costs'),
         'meeting_count': fields.function(_meeting_count, string='# Meetings', type='integer'),
+        'email': fields.related('email_from', type='char', string="Email"),
     }
 
     _defaults = {

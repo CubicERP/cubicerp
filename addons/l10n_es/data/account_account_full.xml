@@ -31,7 +31,7 @@
 
     -->
 
-    <data noupdate="0">
+    <data>
 
         <record id="pgc_full_100" model="account.account.template">
             <field name="code">100</field>

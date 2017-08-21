@@ -81,7 +81,7 @@ class account_invoice_report(osv.osv):
         'price_average': fields.float('Average Price', readonly=True, group_operator="avg"),
         'user_currency_price_average': fields.function(_compute_amounts_in_user_currency, string="Average Price", type='float', digits_compute=dp.get_precision('Account'), multi="_compute_amounts"),
         'currency_rate': fields.float('Currency Rate', readonly=True),
-        'nbr': fields.integer('# of Invoices', readonly=True),  # TDE FIXME master: rename into nbr_lines
+        'nbr': fields.integer('# of Lines', readonly=True),  # TDE FIXME master: rename into nbr_lines
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -103,6 +103,7 @@ class account_invoice_report(osv.osv):
         'residual': fields.float('Total Residual', readonly=True),
         'user_currency_residual': fields.function(_compute_amounts_in_user_currency, string="Total Residual", type='float', digits_compute=dp.get_precision('Account'), multi="_compute_amounts"),
         'country_id': fields.many2one('res.country', 'Country of the Partner Company'),
+        'invoice_id': fields.many2one('account.invoice', 'Invoice'),
     }
     _order = 'date desc'
 
@@ -130,8 +131,21 @@ class account_invoice_report(osv.osv):
                 sub.payment_term, sub.period_id, sub.uom_name, sub.currency_id, sub.user_currency_id, sub.journal_id,
                 sub.fiscal_position, sub.user_id, sub.company_id, sub.nbr, sub.type, sub.state,
                 sub.categ_id, sub.date_due, sub.account_id, sub.account_line_id, sub.partner_bank_id,
-                sub.product_qty, sub.price_total / cr.rate * cru.rate as price_total, sub.price_average / cr.rate * cru.rate as price_average,
-                cr.rate as currency_rate, sub.residual / cr.rate * cru.rate as residual, sub.commercial_partner_id as commercial_partner_id
+                sub.product_qty,
+                case when sub.currency_id = sub.user_currency_id
+                     then sub.price_total
+                     else sub.price_total / air.rate * air.rate_company
+                end as price_total,
+                case when sub.currency_id = sub.user_currency_id
+                     then sub.price_average
+                     else sub.price_average / air.rate * air.rate_company
+                end as price_average,
+                air.rate as currency_rate,
+                case when sub.currency_id = sub.user_currency_id
+                     then sub.residual
+                     else sub.residual / air.rate * air.rate_company
+                end as residual,
+                sub.commercial_partner_id as commercial_partner_id, sub.invoice_id
         """
         return select_str
 
@@ -175,7 +189,7 @@ class account_invoice_report(osv.osv):
                     END / (SELECT count(*) FROM account_invoice_line l where invoice_id = ai.id) *
                     count(*) AS residual,
                     ai.commercial_partner_id as commercial_partner_id,
-                    partner.country_id
+                    partner.country_id, ai.id as invoice_id
         """
         return select_str
 
@@ -198,7 +212,7 @@ class account_invoice_report(osv.osv):
                     ai.partner_id, ai.payment_term, ai.period_id, u2.name, u2.id, ai.currency_id, aic.currency_id, ai.journal_id,
                     ai.fiscal_position, ai.user_id, ai.company_id, ai.type, ai.state, pt.categ_id,
                     ai.date_due, ai.account_id, ail.account_id, ai.partner_bank_id, ai.residual,
-                    ai.amount_total, ai.commercial_partner_id, partner.country_id
+                    ai.amount_total, ai.commercial_partner_id, partner.country_id, ai.id
         """
         return group_by_str
 
@@ -206,29 +220,20 @@ class account_invoice_report(osv.osv):
         # self._table = account_invoice_report
         tools.drop_view_if_exists(cr, self._table)
         cr.execute("""CREATE or REPLACE VIEW %s as (
+            WITH account_invoice_rates (invoice_id, rate, rate_company)
+              AS (select ai.id, (SELECT rate FROM res_currency_rate cr2
+                                              WHERE (cr2.currency_id = ai.currency_id) AND ((ai.date_invoice IS NOT NULL AND cr2.name <= ai.date_invoice) OR (ai.date_invoice IS NULL AND cr2.name <= NOW()))
+                                              ORDER BY name DESC LIMIT 1) as rate,
+                                (SELECT id FROM res_currency_rate cr3
+                                              WHERE (cr3.currency_id = rc.currency_id) AND ((ai.date_invoice IS NOT NULL AND cr3.name <= ai.date_invoice) OR (ai.date_invoice IS NULL AND cr3.name <= NOW()))
+                                              ORDER BY name DESC LIMIT 1) as rate_company
+                    from account_invoice ai
+                         inner join res_company rc on (ai.company_id=rc.id))
             %s
             FROM (
                 %s %s %s
             ) AS sub
-            JOIN res_currency_rate cr ON (cr.currency_id = sub.currency_id)
-            JOIN res_currency_rate cru ON (cru.currency_id = sub.currency_id)
-            WHERE
-                cr.id IN (SELECT id
-                          FROM res_currency_rate cr2
-                          WHERE (cr2.currency_id = sub.currency_id)
-                              AND ((sub.date IS NOT NULL AND cr2.name <= sub.date)
-                                    OR (sub.date IS NULL AND cr2.name <= NOW()))
-                          ORDER BY name DESC LIMIT 1)
-                and
-                cru.id IN (SELECT id
-                          FROM res_currency_rate cr3
-                          WHERE (cr3.currency_id = sub.user_currency_id)
-                              AND ((sub.date IS NOT NULL AND cr3.name <= sub.date)
-                                    OR (sub.date IS NULL AND cr3.name <= NOW()))
-                          ORDER BY name DESC LIMIT 1)
+            INNER JOIN account_invoice_rates air ON (air.invoice_id = sub.invoice_id)
         )""" % (
                     self._table,
                     self._select(), self._sub_select(), self._from(), self._group_by()))
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

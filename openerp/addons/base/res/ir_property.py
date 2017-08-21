@@ -41,10 +41,12 @@ TYPE2FIELD = {
     'date': 'value_datetime',
     'datetime': 'value_datetime',
     'selection': 'value_text',
+    'many2many': 'value_list',
 }
 
 class ir_property(osv.osv):
     _name = 'ir.property'
+    _log_unlink = False
 
     _columns = {
         'name': fields.char('Name', select=1),
@@ -59,6 +61,7 @@ class ir_property(osv.osv):
         'value_text' : fields.text('Value'), # will contain (char, text)
         'value_binary' : fields.binary('Value'),
         'value_reference': fields.char('Value'),
+        'value_list': fields.text('Value'),
         'value_datetime' : fields.datetime('Value'),
 
         'type' : fields.selection([('char', 'Char'),
@@ -68,6 +71,7 @@ class ir_property(osv.osv):
                                    ('text', 'Text'),
                                    ('binary', 'Binary'),
                                    ('many2one', 'Many2One'),
+                                   ('many2many', 'Many2Many'),
                                    ('date', 'Date'),
                                    ('datetime', 'DateTime'),
                                    ('selection', 'Selection'),
@@ -112,6 +116,20 @@ class ir_property(osv.osv):
                     field_id = self.pool.get('ir.model.fields').browse(cr, uid, field_id)
 
                 value = '%s,%d' % (field_id.relation, value)
+        elif field == 'value_list':
+            if isinstance(value, list):
+                field_id = values.get('fields_id')
+                if not field_id:
+                    if not prop:
+                        raise ValueError()
+                    field_id = prop.fields_id
+                else:
+                    field_id = self.pool.get('ir.model.fields').browse(cr, uid, field_id)
+                v = []
+                for val in value:
+                    if val[0] == 6:
+                        v.extend(val[2])
+                value = '%s:%s' % (field_id.relation, v)
 
         values[field] = value
         return values
@@ -139,6 +157,12 @@ class ir_property(osv.osv):
             model, resource_id = record.value_reference.split(',')
             value = self.pool[model].browse(cr, uid, int(resource_id), context=context)
             return value.exists()
+        elif record.type == 'many2many':
+            if not record.value_list:
+                return []
+            model, resource_ids = record.value_list.split(':')
+            resource_ids = eval(resource_ids)
+            return resource_ids
         elif record.type == 'datetime':
             return record.value_datetime
         elif record.type == 'date':
@@ -239,9 +263,8 @@ class ir_property(osv.osv):
             ('fields_id', '=', field_id),
             ('company_id', '=', company_id),
             ('group_id', '=', group_id),
-            ('res_id', 'in', list(refs)),
+            ('res_id', 'in', refs.keys()),
         ])
-
         # modify existing properties
         for prop in props:
             id = refs.pop(prop.res_id)

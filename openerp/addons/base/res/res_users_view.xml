@@ -199,6 +199,9 @@
                             </page>
                             <page string="Preferences">
                                 <group>
+                                    <group string="Recover Password" name="recover">
+                                        <field name="email_recover"/>
+                                    </group>
                                     <group string="Localization" name="preferences">
                                         <field name="lang"/>
                                         <field name="tz"/>
@@ -239,6 +242,8 @@
                 </search>
             </field>
         </record>
+    </data>
+    <data noupdate="1">
         <record id="user_groups_view" model="ir.ui.view">
             <field name="name">res.users.groups</field>
             <field name="model">res.users</field>
@@ -248,6 +253,8 @@
                 <field name="groups_id" position="after"/>
             </field>
         </record>
+    </data>
+    <data>
         <record id="action_res_users" model="ir.actions.act_window">
             <field name="name">Users</field>
             <field name="type">ir.actions.act_window</field>

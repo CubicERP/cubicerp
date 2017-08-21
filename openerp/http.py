@@ -126,7 +126,8 @@ def dispatch_rpc(service_name, method, params):
                 openerp.netsvc.log(rpc_request, logging.DEBUG, logline, replace_request_password(params), depth=1)
 
         return result
-    except NO_POSTMORTEM:
+    except NO_POSTMORTEM, e:
+        _logger.error(openerp.tools.exception_to_unicode(e))
         raise
     except openerp.exceptions.DeferredException, e:
         _logger.exception(openerp.tools.exception_to_unicode(e))
@@ -1115,7 +1116,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             Use the registry and cursor in :data:`request` instead.
         """
         self.assert_valid()
-        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id)
+        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id, self.context)
         return r
 
     def model(self, model):
@@ -1457,9 +1458,13 @@ class Root(object):
             return self.nodb_routing_map
         return request.registry['ir.http'].routing_map()
 
-def db_list(force=False, httprequest=None):
-    dbs = dispatch_rpc("db", "list", [force])
+def db_list(force=False, httprequest=None, all=False):
+    dbs = dispatch_rpc("db", "list", [force, all])
     return db_filter(dbs, httprequest=httprequest)
+
+def db_list_template(force=False, httprequest=None):
+    dbs = dispatch_rpc("db", "list_template", [force])
+    return dbs
 
 def db_filter(dbs, httprequest=None):
     httprequest = httprequest or request.httprequest

@@ -84,10 +84,12 @@ class hr_holidays_status(osv.osv):
         'remaining_leaves': fields.function(_user_left_days, string='Remaining Leaves', help='Maximum Leaves Allowed - Leaves Already Taken', multi='user_left_days'),
         'virtual_remaining_leaves': fields.function(_user_left_days, string='Virtual Remaining Leaves', help='Maximum Leaves Allowed - Leaves Already Taken - Leaves Waiting Approval', multi='user_left_days'),
         'double_validation': fields.boolean('Apply Double Validation', help="When selected, the Allocation/Leave Requests for this type require a second validation to be approved."),
+        'overload': fields.boolean('Allow Overload'),
     }
     _defaults = {
         'color_name': 'red',
         'active': True,
+        'overload': False,
     }
 
     def name_get(self, cr, uid, ids, context=None):
@@ -152,6 +154,8 @@ class hr_holidays(osv.osv):
 
     def _check_date(self, cr, uid, ids, context=None):
         for holiday in self.browse(cr, uid, ids, context=context):
+            if holiday.holiday_status_id.overload:
+                continue
             domain = [
                 ('date_from', '<=', holiday.date_to),
                 ('date_to', '>=', holiday.date_from),

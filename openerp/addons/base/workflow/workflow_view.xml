@@ -261,12 +261,25 @@
       <field name="arch" type="xml">
         <form string="Workflow Instances">
          <sheet>
+             <div class="oe_right oe_button_box" name="buttons">
+                 <button type="object" class="oe_stat_button" name="action_reset"
+                         string="Workflow Reset" icon="fa-bolt"
+                         attrs="{'invisible': [('item_state','!=','running')]}" groups="base.group_user">
+                        <field string="Item State" name="item_state" widget="statinfo" invisible="1"/>
+                 </button>
+             </div>
           <group col="4">
               <field name="wkf_id"/>
               <field name="res_id"/>
               <field name="res_type"/>
               <field name="state"/>
           </group>
+             <separator string="Items"/>
+             <field name="item_ids"/>
+             <separator string="Transitions"/>
+             <field name="transition_ids"/>
+             <separator string="Triggers"/>
+             <field name="trigger_ids"/>
          </sheet> 
         </form>
       </field>
@@ -293,6 +306,12 @@
                 <field name="wkf_id"/>
                 <field name="res_id"/>
                 <field name="state"/>
+                <group expand="0" string="Group By">
+                    <filter string="Item State" domain="[]" context="{'group_by' : 'item_state'}"/>
+                    <filter string="Instance State" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Model" domain="[]" context="{'group_by': 'res_type'}"/>
+                    <filter string="Workflow" domain="[]" context="{'group_by': 'wkf_id'}"/>
+                </group>
         </search>
       </field>
     </record>
@@ -321,11 +340,13 @@
          <sheet>
           <group col="4">
               <field name="wkf_id"/>
-              <field name="act_id"/>
+              <field name="act_id" domain="[('wkf_id','=',wkf_id)]"/>
               <field name="subflow_id"/>
               <field name="inst_id"/>
               <field name="state"/>
           </group>
+             <separator string="Triggers"/>
+             <field name="trigger_ids"/>
          </sheet> 
         </form>
       </field>

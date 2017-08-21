@@ -23,6 +23,7 @@ import logging
 import time
 
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +38,9 @@ class payment_mode(osv.osv):
             domain=[('type', 'in', ('bank','cash'))], help='Bank or Cash Journal for the Payment Mode'),
         'company_id': fields.many2one('res.company', 'Company',required=True),
         'partner_id':fields.related('company_id','partner_id',type='many2one',relation='res.partner',string='Partner',store=True,),
-
+        'account_id': fields.many2one('account.account', 'Account', required=True,
+                                      domain=[('type','=','payable')], help="Account to make a group for massive payments"),
+        'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', domain=[('type', '!=', 'view')])
     }
     _defaults = {
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id
@@ -66,8 +69,8 @@ class payment_mode(osv.osv):
 class payment_order(osv.osv):
     _name = 'payment.order'
     _description = 'Payment Order'
-    _rec_name = 'reference'
-    _order = 'id desc'
+    _inherit = ['mail.thread']
+    _order = 'name desc'
 
     #dead code
     def get_wizard(self, type):
@@ -86,13 +89,18 @@ class payment_order(osv.osv):
         return res
 
     _columns = {
-        'date_scheduled': fields.date('Scheduled Date', states={'done':[('readonly', True)]}, help='Select a date if you have chosen Preferred Date to be fixed.'),
-        'reference': fields.char('Reference', required=1, states={'done': [('readonly', True)]}, copy=False),
+        'date_scheduled': fields.date('Scheduled Date', required=True, states={'done':[('readonly', True)]},
+                                      help='Select a date if you have chosen Preferred Date to be fixed.'),
+        'name': fields.char('Number', required=1, states={'done': [('readonly', True)]}, copy=False),
+        'type': fields.selection([('request','Funds Request'),
+                                  ('payment','Payment Order')], 'Type', required=True, states={'done': [('readonly', True)]}),
+        'reference': fields.char('Reference', states={'done': [('readonly', True)]}),
         'mode': fields.many2one('payment.mode', 'Payment Mode', select=True, required=1, states={'done': [('readonly', True)]}, help='Select the Payment Mode to be applied.'),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('cancel', 'Cancelled'),
             ('open', 'Confirmed'),
+            ('approve', 'Approved'),
             ('done', 'Done')], 'Status', select=True, copy=False,
             help='When an order is placed the status is \'Draft\'.\n Once the bank is confirmed the status is set to \'Confirmed\'.\n Then the order is paid the status is \'Done\'.'),
         'line_ids': fields.one2many('payment.line', 'order_id', 'Payment lines', states={'done': [('readonly', True)]}),
@@ -106,34 +114,106 @@ class payment_order(osv.osv):
         'date_created': fields.date('Creation Date', readonly=True),
         'date_done': fields.date('Execution Date', readonly=True),
         'company_id': fields.related('mode', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
+        'period_id': fields.many2one('account.period', 'Force Period', states={'done': [('readonly', True)]}),
+        'move_id': fields.many2one('account.move', 'Account Move', readonly=True),
     }
 
     _defaults = {
         'user_id': lambda self,cr,uid,context: uid,
         'state': 'draft',
         'date_prefered': 'due',
+        'date_scheduled': lambda *a: time.strftime('%Y-%m-%d'),
         'date_created': lambda *a: time.strftime('%Y-%m-%d'),
-        'reference': lambda self,cr,uid,context: self.pool.get('ir.sequence').get(cr, uid, 'payment.order'),
+        'name': '/',
+        'type': 'request',
     }
+
+    def create(self, cr, uid, vals, context=None):
+        if vals.get('name', '/') == '/':
+            vals['name'] = self.pool.get('ir.sequence').get(cr, uid, 'payment.order')
+        return super(payment_order, self).create(cr, uid, vals, context=context)
 
     def set_to_draft(self, cr, uid, ids, *args):
         self.write(cr, uid, ids, {'state': 'draft'})
         self.create_workflow(cr, uid, ids)
         return True
 
-    def action_open(self, cr, uid, ids, *args):
-        ir_seq_obj = self.pool.get('ir.sequence')
-
-        for order in self.read(cr, uid, ids, ['reference']):
-            if not order['reference']:
-                reference = ir_seq_obj.get(cr, uid, 'payment.order')
-                self.write(cr, uid, order['id'], {'reference':reference})
+    def action_open(self, cr, uid, ids, context=None):
         return True
 
-    def set_done(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'date_done': time.strftime('%Y-%m-%d')})
-        self.signal_workflow(cr, uid, ids, 'done')
+    def action_approve(self, cr, uid, ids, context=None):
         return True
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        move_pool = self.pool.get('account.move')
+        move_ids = []
+        move_to_cancel = []
+        for order in self.browse(cr, uid, ids, context=context):
+            if order.move_id:
+                move_ids.append(order.move_id.id)
+                if order.move_id.state == 'posted':
+                    move_to_cancel.append(order.move_id.id)
+        move_pool.button_cancel(cr, uid, move_to_cancel, context=context)
+        move_pool.unlink(cr, uid, move_ids, context=context)
+        return self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
+
+    def set_done(self, cr, uid, ids, context=None):
+        line_obj = self.pool.get('account.move.line')
+        move_obj = self.pool.get('account.move')
+        for order in self.browse(cr, uid, ids, context=context):
+            if order.type != 'payment':
+                continue
+            if not order.period_id:
+                period_id = self.pool.get('account.period').find(cr, uid, order.date_scheduled, context=context)[0]
+            else:
+                period_id = order.period_id.id
+            move_id = move_obj.create(cr, uid, {'journal_id': order.mode.journal.id,
+                                                                     'date': order.date_scheduled,
+                                                                     'period_id': period_id,
+                                                                     'ref': order.name}, context=context)
+            lines = {}
+            balance = {}
+            for line in order.line_ids:
+                if not line.move_line_id:
+                    raise osv.except_osv(_('Data Error!'), _(
+                        'The line "%s" has not properly filled account move line!') % (line.name))
+                key = (line.move_line_id.partner_id.id,line.move_line_id.account_id.id)
+                lines[key] = lines.get(key, []) + [line.move_line_id.id]
+                balance[key] = balance.get(key, 0.0) + line.move_line_id.debit - line.move_line_id.credit
+            reconcile = []
+            amt = 0.0
+            for key in lines:
+                amt += balance[key]
+                line_id = line_obj.create(cr, uid, {'move_id': move_id,
+                                          'partner_id': key[0],
+                                          'account_id': key[1],
+                                          'name': order.name,
+                                          'ref': order.reference,
+                                          'date': order.date_scheduled,
+                                          'journal_id': order.mode.journal.id,
+                                          'period_id': period_id,
+                                          'analytic_account_id': order.mode.analytic_id and order.mode.analytic_id.id or False,
+                                          'debit': balance[key] < 0.0 and -balance[key] or 0.0,
+                                          'credit': balance[key] > 0.0 and balance[key] or 0.0}, context=context)
+                reconcile += [lines[key] + [line_id]]
+            line_obj.create(cr, uid, {'move_id': move_id,
+                                      'account_id': order.mode.account_id.id,
+                                      'partner_id': False,
+                                      'name': order.name,
+                                      'ref': order.reference,
+                                      'date': order.date_scheduled,
+                                      'journal_id': order.mode.journal.id,
+                                      'period_id': period_id,
+                                      'analytic_account_id': order.mode.analytic_id and order.mode.analytic_id.id or False,
+                                      'debit': amt > 0.0 and amt or 0.0,
+                                      'credit': amt < 0.0 and -amt or 0.0}, context=context)
+            self.write(cr, uid, [order.id], {'move_id': move_id}, context=context)
+            if order.mode.journal.entry_posted:
+                move_obj.post(cr, uid, [move_id], context=context)
+            for rec_ids in reconcile:
+                line_obj.reconcile_partial(cr, uid, rec_ids, context=context)
+        return self.write(cr, uid, ids, {'date_done': time.strftime('%Y-%m-%d'),
+                                         'state': 'done'})
 
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
@@ -265,13 +345,19 @@ class payment_line(osv.osv):
                 date = time.strftime('%Y-%m-%d')
         return date
 
-    def _get_ml_inv_ref(self, cr, uid, ids, *a):
+    def _get_reference(self, cr, uid, line, context=None):
+        res = False
+        if line.move_line_id:
+            if line.move_line_id.invoice:
+                res = line.move_line_id.invoice.supplier_invoice_number or line.move_line_id.invoice.reference
+            else:
+                res = line.move_line_id.ref or line.move_line_id.name
+        return res
+
+    def _get_ml_inv_ref(self, cr, uid, ids, args, fields, context=None):
         res = {}
-        for id in self.browse(cr, uid, ids):
-            res[id.id] = False
-            if id.move_line_id:
-                if id.move_line_id.invoice:
-                    res[id.id] = id.move_line_id.invoice.id
+        for line in self.browse(cr, uid, ids):
+            res[line.id] = self._get_reference(cr, uid, line, context=context)
         return res
 
     def _get_ml_maturity_date(self, cr, uid, ids, *a):
@@ -304,14 +390,13 @@ class payment_line(osv.osv):
         'bank_id': fields.many2one('res.partner.bank', 'Destination Bank Account'),
         'order_id': fields.many2one('payment.order', 'Order', required=True,
             ondelete='cascade', select=True),
-        'partner_id': fields.many2one('res.partner', string="Partner", required=True, help='The Ordering Customer'),
+        'partner_id': fields.many2one('res.partner', string="Partner", help='The Ordering Customer'),
         'amount': fields.function(_amount, string='Amount in Company Currency',
             type='float',
             help='Payment amount in the company currency'),
-        'ml_date_created': fields.function(_get_ml_created_date, string="Effective Date",
-            type='date', help="Invoice Effective Date"),
+        'ml_date_created': fields.function(_get_ml_created_date, string="Effective Date", type='date', help="Invoice Effective Date"),
         'ml_maturity_date': fields.function(_get_ml_maturity_date, type='date', string='Due Date'),
-        'ml_inv_ref': fields.function(_get_ml_inv_ref, type='many2one', relation='account.invoice', string='Invoice Ref.'),
+        'ml_inv_ref': fields.function(_get_ml_inv_ref, type='char', string='Invoice Ref.'),
         'info_owner': fields.function(_info_owner, string="Owner Account", type="text", help='Address of the Main Partner'),
         'info_partner': fields.function(_info_partner, string="Destination Account", type="text", help='Address of the Ordering Customer.'),
         'date': fields.date('Payment Date', help="If no payment date is specified, the bank will treat this payment line directly"),
@@ -319,17 +404,20 @@ class payment_line(osv.osv):
         'state': fields.selection([('normal','Free'), ('structured','Structured')], 'Communication Type', required=True),
         'bank_statement_line_id': fields.many2one('account.bank.statement.line', 'Bank statement line'),
         'company_id': fields.related('order_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
+        'mode': fields.related('order_id', 'mode', type='many2one', relation='payment.mode', string='Payment Mode', store=True, readonly=True),
+        'order_state': fields.related('order_id', 'state', type='char', string='Order State', store=True, readonly=True),
+        'user_id': fields.related('order_id', 'user_id', type='many2one', relation='res.users', string='Responsible', store=True, readonly=True),
     }
     _defaults = {
         'name': lambda obj, cursor, user, context: obj.pool.get('ir.sequence'
             ).get(cursor, user, 'payment.line'),
-        'state': 'normal',
+        'state': 'structured',
         'currency': _get_currency,
         'company_currency': _get_currency,
         'date': _get_date,
     }
     _sql_constraints = [
-        ('name_uniq', 'UNIQUE(name)', 'The payment line name must be unique!'),
+        ('name_uniq', 'UNIQUE(order_id,name)', 'The payment line name must be unique!'),
     ]
 
     def onchange_move_line(self, cr, uid, ids, move_line_id, payment_type, date_prefered, date_scheduled, currency=False, company_currency=False, context=None):

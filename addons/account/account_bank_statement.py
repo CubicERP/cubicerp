@@ -408,7 +408,7 @@ class account_bank_statement(osv.osv):
         return {
             'name': _('Journal Items'),
             'view_type':'form',
-            'view_mode':'tree',
+            'view_mode':'tree,form',
             'res_model':'account.move.line',
             'view_id':False,
             'type':'ir.actions.act_window',
@@ -786,6 +786,9 @@ class account_bank_statement_line(osv.osv):
         for datum in data:
             self.process_reconciliation(cr, uid, datum[0], datum[1], context=context)
 
+    def _finalize_to_create(self, cr, uid, st_line, mv_line_dicts, to_create, context=None):
+        return to_create
+
     def process_reconciliation(self, cr, uid, id, mv_line_dicts, context=None):
         """ Creates a move line for each item of mv_line_dicts and for the statement line. Reconcile a new move line with its counterpart_move_line_id if specified. Finally, mark the statement line as reconciled by putting the newly created move id in the column journal_entry_id.
 
@@ -848,6 +851,8 @@ class account_bank_statement_line(osv.osv):
                 mv_line = aml_obj.browse(cr, uid, mv_line_dict['counterpart_move_line_id'], context=context)
                 mv_line_dict['partner_id'] = mv_line.partner_id.id or st_line.partner_id.id
                 mv_line_dict['account_id'] = mv_line.account_id.id
+                if mv_line.analytic_account_id:
+                    mv_line_dict['analytic_account_id'] = mv_line.analytic_account_id.id
             elif self.pool['account.account'].browse(cr, uid, mv_line_dict['account_id'], context=context).type in ['receivable','payable']:
                 mv_line_dict['partner_id'] = st_line.partner_id.id
             if st_line_currency.id != company_currency.id:
@@ -914,6 +919,7 @@ class account_bank_statement_line(osv.osv):
                 to_create.append(diff_aml)
         # Create move lines
         move_line_pairs_to_reconcile = []
+        to_create = self._finalize_to_create(cr, uid, st_line, mv_line_dicts, to_create, context=context)
         for mv_line_dict in to_create:
             counterpart_move_line_id = None # NB : this attribute is irrelevant for aml_obj.create() and needs to be removed from the dict
             if mv_line_dict.get('counterpart_move_line_id'):

@@ -130,12 +130,17 @@
                       <h4
                         t-field="blog_post.subtitle"
                         class="mb4 mt4"/>
+                      <span class="fa fa-tags" t-if="len(blog_post.tag_ids)"/>
+                      <t t-foreach="blog_post.tag_ids" t-as="one_tag">
+                          <a t-attf-href="#{blog_url(tag=one_tag)}" t-esc="one_tag.name"/> &amp;nbsp;
+                      </t>
                     <div name='blog_post_data' class='mb0'>
                          <span t-field="blog_post.author_id" style="display: inline-block;" t-field-options='{
                                 "widget": "contact",
                                 "fields": ["name"]
                             }'/>
                         &#5760; <span t-field="blog_post.create_date" t-field-options='{"format": "MMMM yyyy"}'/>
+
                         <span t-if="len(blog_post.message_ids) &gt; 0">
                             &#5760; <t t-esc="len(blog_post.message_ids)"/>
                             <t t-if="len(blog_post.message_ids) &lt;= 1" >comment</t>
@@ -156,7 +161,7 @@
 </template>
 
 <!-- Option: Blog Post List: show tags -->
-<template id="opt_blog_post_short_tags" name="Tags"
+<!--template id="opt_blog_post_short_tags" name="Tags"
         customize_show="True" inherit_id="website_blog.blog_post_short">
     <xpath expr="//*[@name='blog_post_data']" position="inside">
         <p class="post-meta text-muted text-center" t-if="len(blog_post.tag_ids)">
@@ -166,8 +171,9 @@
             </t>
         </p>
     </xpath>
-</template>
-
+</template-->
+</data>
+<data noupdate="1">
 <!-- Blog Post Complete -->
 <template id="blog_post_complete" name="Blog Post">
   <t t-call="website_blog.index">
@@ -258,7 +264,8 @@
 
   </t>
 </template>
-
+</data>
+<data>
 <!-- Options: Blog Post: breadcrumb -->
 <template id="blog_breadcrumb" name="Breadcrumb"
         inherit_id="website_blog.blog_post_complete" active="False" customize_show="True">

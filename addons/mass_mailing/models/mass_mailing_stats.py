@@ -41,6 +41,7 @@ class MailMailStats(osv.Model):
                  'the related mail_mail can be deleted separately from its statistics.'
                  'However the ID is needed for several action and controllers.'
         ),
+        'email_to': fields.char('To'),
         'message_id': fields.char('Message-ID'),
         'model': fields.char('Document model'),
         'res_id': fields.integer('Document ID'),
@@ -74,6 +75,12 @@ class MailMailStats(osv.Model):
             values['mail_mail_id_int'] = values['mail_mail_id']
         res = super(MailMailStats, self).create(cr, uid, values, context=context)
         return res
+
+    def unlink(self, cr, uid, ids, context=None):
+        mail_ids = [s.mail_mail_id.id for s in self.browse(cr, uid, ids, context=context) if s.mail_mail_id and len(s.mail_mail_id.statistics_ids) == 1]
+        if mail_ids:
+            self.pool.get('mail.mail').unlink(cr, uid, mail_ids, context=context)
+        return super(MailMailStats, self).unlink(cr, uid, ids, context=context)
 
     def _get_ids(self, cr, uid, ids=None, mail_mail_ids=None, mail_message_ids=None, domain=None, context=None):
         if not ids and mail_mail_ids:

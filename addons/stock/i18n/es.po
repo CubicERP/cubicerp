@@ -1064,8 +1064,8 @@ msgstr "Creación"
 #. module: stock
 #: field:stock.move,create_date:0 field:stock.picking,date:0
 #: field:stock.production.lot,create_date:0 field:stock.quant,create_date:0
-msgid "Creation Date"
-msgstr "Fecha de Creacion"
+msgid "Date"
+msgstr "Fecha"
 
 #. module: stock
 #: help:stock.picking,date:0
@@ -1308,7 +1308,7 @@ msgstr "Metodo de Envio"
 #: model:stock.picking.type,name:stock.picking_type_out
 #, python-format
 msgid "Delivery Orders"
-msgstr "Albaranes de salida"
+msgstr "Salida de Almacén"
 
 #. module: stock
 #: field:stock.warehouse,delivery_route_id:0
@@ -2272,7 +2272,7 @@ msgstr "Localización"
 #: field:stock.warehouse.orderpoint,location_id:0
 #: view:website:stock.report_inventory
 msgid "Location"
-msgstr "Lugar"
+msgstr "Ubicación"
 
 #. module: stock
 #: view:stock.config.settings:stock.view_stock_config_settings

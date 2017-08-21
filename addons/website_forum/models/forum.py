@@ -38,6 +38,8 @@ class Forum(osv.Model):
         'name': fields.char('Name', required=True, translate=True),
         'faq': fields.html('Guidelines'),
         'description': fields.html('Description', translate=True),
+        'tag_ids': fields.one2many('forum.tag', 'forum_id', string='Tags'),
+        'post_ids': fields.one2many('forum.post', 'forum_id', string='Posts'),
         # karma generation
         'karma_gen_question_new': fields.integer('Asking a question'),
         'karma_gen_question_upvote': fields.integer('Question upvoted'),
@@ -118,6 +120,26 @@ class Forum(osv.Model):
             context = {}
         create_context = dict(context, mail_create_nolog=True)
         return super(Forum, self).create(cr, uid, values, context=create_context)
+
+    def view_posts(self, cr, uid, ids, context=None):
+        '''
+        This function returns an action that display existing posts of given forum ids.
+        '''
+        if context is None:
+            context = {}
+        mod_obj = self.pool.get('ir.model.data')
+        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'website_forum', 'action_forum_post'))
+        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
+
+        post_ids = []
+        for forum in self.browse(cr, uid, ids, context=context):
+            post_ids += [post.id for post in forum.post_ids]
+
+        # override the context to get rid of the default filtering on picking type
+        action['context'] = {'search_default_question_filter':1}
+        # choose the view_mode accordingly
+        action['domain'] = "[('id','in',[" + ','.join(map(str, post_ids)) + "])]"
+        return action
 
     def _tag_to_write_vals(self, cr, uid, ids, tags='', context=None):
         User = self.pool['res.users']
@@ -292,6 +314,7 @@ class Post(osv.Model):
             }),
         # hierarchy
         'parent_id': fields.many2one('forum.post', 'Question', ondelete='cascade'),
+        'parent_name': fields.related('parent_id','name', string="Re: ", type='char'),
         'self_reply': fields.function(
             _is_self_reply, 'Reply to own question', type='boolean',
             store={
@@ -373,16 +396,17 @@ class Post(osv.Model):
         # messaging and chatter
         base_url = self.pool['ir.config_parameter'].get_param(cr, uid, 'web.base.url')
         if post.parent_id:
-            body = _(
-                '<p>A new answer for <i>%s</i> has been posted. <a href="%s/forum/%s/question/%s">Click here to access the post.</a></p>' %
-                (post.parent_id.name, base_url, slug(post.parent_id.forum_id), slug(post.parent_id))
-            )
+            body = _("""%s
+                <blockquote>%s</blockquote>
+                <p>You receive this email because you're subscribed to %s.
+                   <a href="%s/forum/%s/question/%s">Click here to access to the full post.</a></p>""")%(post.content, post.parent_id.content, post.forum_id.name, base_url, slug(post.parent_id.forum_id), slug(post.parent_id))
+
             self.message_post(cr, uid, post.parent_id.id, subject=_('Re: %s') % post.parent_id.name, body=body, subtype='website_forum.mt_answer_new', context=context)
         else:
-            body = _(
-                '<p>A new question <i>%s</i> has been asked on %s. <a href="%s/forum/%s/question/%s">Click here to access the question.</a></p>' %
-                (post.name, post.forum_id.name, base_url, slug(post.forum_id), slug(post))
-            )
+            body = _("""%s
+                <p>You receive this email because you're subscribed to %s.
+                   <a href="%s/forum/%s/question/%s">Click here to access to the full question.</a></p>""")%(post.content, post.forum_id.name, base_url, slug(post.forum_id), slug(post))
+
             self.message_post(cr, uid, post_id, subject=post.name, body=body, subtype='website_forum.mt_question_new', context=context)
             self.pool['res.users'].add_karma(cr, SUPERUSER_ID, [uid], post.forum_id.karma_gen_question_new, context=context)
         return post_id
@@ -696,7 +720,7 @@ class Tags(osv.Model):
     _columns = {
         'name': fields.char('Name', required=True),
         'forum_id': fields.many2one('forum.forum', 'Forum', required=True),
-        'post_ids': fields.many2many('forum.post', 'forum_tag_rel', 'tag_id', 'post_id', 'Posts'),
+        'post_ids': fields.many2many('forum.post', 'forum_tag_rel', 'forum_tag_id', 'forum_id', 'Posts'),
         'posts_count': fields.function(
             _get_posts_count, type='integer', string="Number of Posts",
             store={

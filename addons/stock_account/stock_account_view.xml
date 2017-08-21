@@ -6,8 +6,10 @@
             <field name="model">stock.inventory</field>
             <field name="inherit_id" ref="stock.view_inventory_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date']" position="after">
-                    <field name="period_id"/>
+                <xpath expr="//group[@name='group_others']" position="inside">
+                    <group string="Accounting">
+                        <field name="period_id" domain="[('company_id','=',company_id)]"/>
+                    </group>
                 </xpath>
             </field>
         </record>
@@ -18,10 +20,22 @@
             <field name="inherit_id" ref="stock.view_location_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='localization']" position="after">
-                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('inventory','production'))]}">
-                        <field name="valuation_in_account_id"/>
-                        <field name="valuation_out_account_id"/>
+                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('inventory','production','internal'))]}">
+                        <field name="valuation_in_account_id" attrs="{'invisible':[('usage','not in',('inventory','production'))]}"/>
+                        <field name="valuation_out_account_id" attrs="{'invisible':[('usage','not in',('inventory','production'))]}"/>
+                        <field name="valuation_account_id" attrs="{'invisible':[('usage','!=','internal')]}"/>
                     </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_type_form" model="ir.ui.view">
+            <field name="name">stock.picking.type.inherit.stock.account</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='return_picking_type_id']" position="after">
+                    <field name="invoice_journal_id" groups="account.group_account_invoice"/>
                 </xpath>
             </field>
         </record>

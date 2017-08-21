@@ -1657,6 +1657,16 @@ class BaseModel(object):
 
     @api.multi
     def name_get_from_context(self):
+        """ name_get_from_context() -> [(id, name), ...]
+
+        Returns a textual representation for the records in ``self``
+        using an eval expression charged in the context. Example:
+
+        <field name="order_line" context="{'display_product.product':'&quot;%s&quot;%(o.ean13 or o.name)'}">
+
+        :return: list of pairs ``(id, text_repr)`` for each records
+        :rtype: list(tuple)
+        """
         result = []
         expr = self._context.get("display_%s"%self._name, False)
         if expr:
@@ -1674,9 +1684,9 @@ class BaseModel(object):
         :return: list of pairs ``(id, text_repr)`` for each records
         :rtype: list(tuple)
         """
-        result = self.name_get_from_context()
-        if result:
-            return result
+        if self._context.has_key("display_%s"%self._name):
+            return self.name_get_from_context()
+        result = []
         name = self._rec_name
         if name in self._fields:
             convert = self._fields[name].convert_to_display_name
@@ -6129,12 +6139,13 @@ class Model(BaseModel):
         if self._log_unlink and ids:
             logging_group_id = context.get('logging_group_id', False)
             if not logging_group_id:
-                logging_group_id = self.pool['ir.logging.group'].create(cr, SUPERUSER_ID, {
+                logging_group_id = self.pool['ir.logging.group'].create(cr, uid, {
                                                           'name':'Unlink %s %s'%(self._name, str(ids)),
                                                           'dbname': cr.dbname,
+                                                          'user_id': uid,
                                                       }, context=ctx)
             ctx['logging_group_id'] = logging_group_id
-            self.pool['ir.logging'].log_unlink(cr, SUPERUSER_ID, self, ids, context=ctx)
+            self.pool['ir.logging'].log_unlink(cr, uid, self, ids, context=ctx)
         return super(Model, self).unlink(cr, uid, ids, context=ctx)
 
 class TransientModel(BaseModel):

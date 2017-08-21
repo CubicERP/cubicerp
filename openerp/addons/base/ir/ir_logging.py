@@ -31,6 +31,10 @@ class ir_logging(models.Model):
         ('client', 'Client'),
         ('server', 'Server'),
         ('unlink', 'Unlink'),
+        ('update', 'Update'),
+        ('insert', 'Insert'),
+        ('select', 'Select'),
+        ('auth', 'Authentication'),
     ]
 
     @api.depends('res_model')
@@ -46,7 +50,9 @@ class ir_logging(models.Model):
     name = fields .Char('Name', required=True)
     type = fields.Selection(EXCEPTIONS_TYPE, string='Type', required=True, select=True)
     dbname = fields .Char('Database Name', related="group_id.dbname", store=True)
-    level = fields .Char('Level', select=True)
+    level = fields .Selection([('info','INFO'),
+                               ('warning','WARNING'),
+                               ('error','ERROR')], string='Level', select=True)
     message = fields.Text('Message', required=True)
     path = fields .Char('Path')
     module = fields .Char('Module')
@@ -57,6 +63,42 @@ class ir_logging(models.Model):
     user_id = fields.Many2one('res.users', "User", related="group_id.user_id", store=True)
     model_id = fields.Many2one('ir.model', "Model", compute=_model_id, store=True)
     group_id = fields.Many2one('ir.logging.group', "Group")
+    remote_ip = fields.Char("Remote IP Address", size=64, select=True)
+    session_id = fields.Char("Session ID", select=True)
+
+    @api.model
+    def get_group(self, user_agent_env):
+        group_id = False
+        if user_agent_env.get('SESSION_ID', False):
+            group_id = self.sudo().env['ir.logging.group'].search(
+                [('name', '=', user_agent_env['SESSION_ID']), ('dbname', '=', self._cr.dbname)])
+        if group_id:
+            group_id = group_id[0]
+            if self._uid and not group_id.user_id:
+                group_id.user_id = self._uid
+        else:
+            vals = {'name': user_agent_env.get('SESSION_ID', "Login"),
+                    'dbname': self._cr.dbname}
+            if self._uid:
+                vals['user_id'] = self._uid
+            group_id = self.sudo().env['ir.logging.group'].create(vals)
+        return group_id
+
+
+    @api.model
+    def log_auth(self, name, user_agent_env, level='info'):
+        vals = {'group_id': self.get_group(user_agent_env).id,
+                'type': 'auth',
+                'level': level,
+                'name': name,
+                'module': "base",
+                'message': str(user_agent_env),
+                }
+        if user_agent_env.has_key('REMOTE_ADDR'):
+            vals['remote_ip'] = user_agent_env['REMOTE_ADDR']
+        if user_agent_env.has_key('SESSION_ID'):
+            vals['session_id'] = user_agent_env['SESSION_ID']
+        return self.sudo().create(vals)
 
     @api.model
     def log_unlink(self, model, ids):
@@ -66,6 +108,10 @@ class ir_logging(models.Model):
                 'module': "%s%s"%(model._original_module and "%s, "%model._original_module or "", model._module),
                 'res_model': model._name,
             }
+        if self._context.has_key('sid'):
+            vals['session_id'] = self._context['sid']
+        if self._context.has_key('rip'):
+            vals['remote_ip'] = self._context['rip']
         cols = []
         for c in model._columns:
             if model._columns[c]._type not in ('one2many','binary','related','many2many','text','html'):
@@ -93,15 +139,9 @@ class ir_logging_group(models.Model):
     _order = 'id DESC'
     _log_unlink = False
 
-    @api.depends('create_uid')
-    @api.multi
-    def _user_id(self):
-        for log in self:
-            log.user_id = self.create_uid
-
     create_date = fields.Datetime('Create Date', readonly=True)
     create_uid = fields.Integer('Uid', readonly=True)  # Integer not m2o is intentionnal
-    name = fields.Char('Name', required=True)
-    user_id = fields.Many2one('res.users', "User", compute=_user_id, store=True)
+    name = fields.Char('Name', required=True, select=True)
+    user_id = fields.Many2one('res.users', "User")
     dbname = fields.Char('Database Name', select=True)
     lines = fields.One2many('ir.logging', 'group_id', 'Lines', readonly=True, copy=False)

@@ -1,17 +1,17 @@
- /* 
- This is a hack for IE9 ...
- Attrs : width and height are not take in consideration
- */
+/*
+This is a hack for IE9 ...
+Attrs : width and height are not take in consideration
+*/
 .openerp svg:not(:root) {
-    overflow: visible;    
+    overflow: visible;
 }
 
 .graph_pivot_mode {
-    position:initial;
+    position: initial;
 }
 
 .graph_chart_mode {
-    position:relative;
+    position: relative;
 }
 
 .graph_main_content td {
@@ -26,29 +26,29 @@
 }
 
 .graph_main_content td:first-child {
-  background-color: rgb(240, 238, 238);
+    background-color: rgb(240, 238, 238);
 }
 
 .graph_main_content table {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .graph_measure_selection .oe_selected,
 .graph_display_as_selection .oe_selected {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 .graph_measure_selection a:not(.oe_selected),
 .graph_display_as_selection a:not(.oe_selected) {
-  padding-left: 26px;
+    padding-left: 26px;
 }
 
 .graph_measure_selection .oe_selected:before,
 .graph_display_as_selection .oe_selected:before {
-  content: "\f00c";
-  width: 20px;
-  display: inline-block;
-  font-family: FontAwesome;
+    content: "\f00c";
+    width: 20px;
+    display: inline-block;
+    font-family: FontAwesome;
     margin-left: 6px;
 }
 
@@ -60,44 +60,43 @@
     color: black;
 }
 
-.graph_main_content tbody td{
-  border: 1px solid #b8b8b8;
+.graph_main_content tbody td {
+    border: 1px solid #b8b8b8;
 }
 
 .graph_main_content tbody {
-  border-top: 1px solid black;
+    border-top: 1px solid black;
 }
 
 .graph_main_content thead {
-  background-color: rgb(240, 238, 238);
-  border: 1px solid #b8b8b8;
+    background-color: rgb(240, 238, 238);
+    border: 1px solid #b8b8b8;
 }
 
 .graph_main_content thead th {
-  border-left: 1px solid #b8b8b8;
+    border-left: 1px solid #b8b8b8;
 }
 
 div.graph_widget {
-  padding:10px;
+    padding: 10px;
 }
 
 .oe_dashboard div.graph_widget {
-  padding:0;
+    padding: 0;
 }
 
 td.graph_border {
-  text-align: left;
-  white-space: nowrap;
+    text-align: left;
+    white-space: nowrap;
 }
 
-.graph_main_content table:not(.heatmap) tr:hover td:not(:first-child)
-{
-  background-color: rgb(245, 245, 245);
+.graph_main_content table:not(.heatmap) tr:hover td:not(:first-child) {
+    background-color: rgb(245, 245, 245);
 }
 
 span.field-selection {
-	display: none;
-	padding: 0;
+    display: none;
+    padding: 0;
 }
 
 .web_graph_click:hover {
@@ -105,37 +104,35 @@ span.field-selection {
 }
 
 .graph_widget .dropdown-menu {
-  font-size: 13px; 
-  padding: 4px 0;
-  background: #e8e8e8 !important;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  font-color: black !important;
-  text-shadow: none;
-  background-color: #e8e8e8;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+    font-size: 13px;
+    padding: 4px 0;
+    background: #e8e8e8 !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    font-color: black !important;
+    text-shadow: none;
+    background-color: #e8e8e8;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
-
 .graph_widget .dropdown-menu li a, .graph_widget .dropdown-menu li a:hover, .graph_widget .dropdown-menu li a:focus {
-  color: black;
-  text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 th.measure_row {
-  color: black;
-  font-size: 12px;
-  padding:0px 5px 0px 5px ;
-  margin:0;
+    color: black;
+    font-size: 12px;
+    padding: 0px 5px 0px 5px;
+    margin: 0;
 }
-
 
 .graph-dropdown-submenu {
     position: relative;
 }
 
-.graph-dropdown-submenu>.dropdown-menu {
+.graph-dropdown-submenu > .dropdown-menu {
     top: 0;
     left: 100%;
     margin-top: -6px;
@@ -145,11 +142,11 @@ th.measure_row {
     border-radius: 0 6px 6px 6px;
 }
 
-.graph-dropdown-submenu:hover>.dropdown-menu {
+.graph-dropdown-submenu:hover > .dropdown-menu {
     display: block;
 }
 
-.graph-dropdown-submenu>a:after {
+.graph-dropdown-submenu > a:after {
     display: block;
     content: " ";
     float: right;
@@ -163,7 +160,14 @@ th.measure_row {
     margin-right: -10px;
 }
 
-.graph-dropdown-submenu:hover>a:after {
+.graph-dropdown-submenu:hover > a:after {
     border-left-color: #fff;
 }
 
+.graph_measure_selection .badge {
+    visibility: hidden;
+}
+
+.graph_measure_selection .oe_selected .badge {
+    visibility: visible;
+}

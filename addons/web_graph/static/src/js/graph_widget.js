@@ -318,17 +318,19 @@
             var field = event.target.getAttribute('data-choice');
             var aggregation = event.target.getAttribute('data-aggregation');
 
-            this.aggregations[field] = aggregation;
+            if (this.aggregations[field] != aggregation) {
+                this.aggregations[field] = aggregation;
 
-            var measure_item = $(event.target).parents('li').find('> a.oe_selected');
-            var label = $(measure_item).data('string');
-            $(measure_item).html("<b class='badge' data-choice='" + field + "'>" + aggregation + "</b> " + label);
+                var measure_item = $(event.target).parents('li').find('> a.oe_selected');
+                var label = $(measure_item).data('string');
+                $(measure_item).html("<b class='badge' data-choice='" + field + "'>" + aggregation + "</b> " + label);
 
-            $(event.target).parents('ul.graph_display_as_selection').find('.oe_selected').removeClass('oe_selected');
-            $(event.target).addClass('oe_selected');
+                $(event.target).parents('ul.graph_display_as_selection').find('.oe_selected').removeClass('oe_selected');
+                $(event.target).addClass('oe_selected');
 
-            this.pivot.context['aggregations'] = this.aggregations;
-            this.pivot.update_data().then(this.proxy('display_data'));
+                this.pivot.context['aggregations'] = this.aggregations;
+                this.pivot.update_data().then(this.proxy('display_data'));
+            }
         },
 
         put_measure_checkmarks: function () {

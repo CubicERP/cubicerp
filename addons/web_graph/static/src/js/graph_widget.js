@@ -25,7 +25,7 @@
             this.graph_view = options.graph_view || null;
             this.pivot_options = options;
             this.title = options.title || 'Data';
-            this.aggregation = null;
+            this.aggregations = {};
         },
 
         start: function () {
@@ -152,11 +152,36 @@
         },
 
         add_measures_to_options: function () {
+            var self = this;
+
             this.$('.graph_measure_selection').append(
                 _.map(this.measure_list, function (measure) {
-                    return $('<li>').append($('<a>').attr('data-choice', measure.field)
+                    self.aggregations[measure.field] = 'sum';
+
+                    var item = $('<li>').append($('<a>')
+                        .attr('data-choice', measure.field)
+                        .attr('data-string', measure.string)
                         .attr('href', '#')
-                        .text(measure.string));
+                        .html("<b class='badge'>" + self.aggregations[measure.field] + "</b> " + measure.string));
+
+                    $(item).append(QWeb.render('aggregation_selection', {
+                        'field': measure.field
+                    }));
+
+                    $(item).on('mouseover', function () {
+                        $('.graph_measure_selection .graph_display_as_selection').hide();
+
+                        if ($(item).find('> a.oe_selected').length) {
+                            var position = $(item).position();
+                            $(item).find('.graph_display_as_selection').css({
+                                'display': 'block',
+                                'top': position.top + 'px',
+                                'left': (position.left + $(item).width()) + 'px'
+                            });
+                        }
+                    });
+
+                    return item;
                 }));
         },
 
@@ -248,7 +273,6 @@
             return _.map(field_ids, this.proxy('create_field_value'));
         },
 
-
         get_col_groupbys: function () {
             return _.pluck(this.pivot.cols.groupby, 'field');
         },
@@ -262,13 +286,13 @@
         // ----------------------------------------------------------------------
         events: {
             'click .graph_mode_selection label': 'mode_selection',
-            'click .graph_measure_selection li': 'measure_selection',
+            'click .graph_measure_selection > li': 'measure_selection',
             'click .graph_options_selection label': 'option_selection',
             'click .graph_heatmap label': 'heatmap_mode_selection',
             'click .web_graph_click': 'header_cell_clicked',
             'click a.field-selection': 'field_selection',
 
-            'click .graph_display_as_selection li': 'display_as_selection',
+            'click .graph_display_as_selection > li': 'display_as_selection',
         },
 
         mode_selection: function (event) {
@@ -291,20 +315,25 @@
             event.preventDefault();
             event.stopPropagation();
 
-            this.aggregation = event.target.getAttribute('data-aggregation');
+            var field = event.target.getAttribute('data-choice');
+            var aggregation = event.target.getAttribute('data-aggregation');
 
-            $('.graph_display_as_selection .oe_selected').removeClass('oe_selected');
+            this.aggregations[field] = aggregation;
+
+            var measure_item = $(event.target).parents('li').find('> a.oe_selected');
+            var label = $(measure_item).data('string');
+            $(measure_item).html("<b class='badge'>" + aggregation + "</b> "+ label);
+
+            $(event.target).parents('ul.graph_display_as_selection').find('.oe_selected').removeClass('oe_selected');
             $(event.target).addClass('oe_selected');
 
-            $('.graph_display_as_label').html("Display as (<b>" + this.aggregation + "</b>) <span class='caret'></span>");
-
-            this.pivot.context['aggregation'] = this.aggregation;
+            this.pivot.context['aggregations'] = this.aggregations;
             this.pivot.update_data().then(this.proxy('display_data'));
         },
 
         put_measure_checkmarks: function () {
             var self = this,
-                measures_li = this.$('.graph_measure_selection a');
+                measures_li = this.$('.graph_measure_selection > li > a');
             measures_li.removeClass('oe_selected');
             _.each(this.measure_list, function (measure, index) {
                 if (_.findWhere(self.pivot.measures, measure)) {

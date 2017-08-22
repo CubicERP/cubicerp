@@ -61,31 +61,25 @@
                     <ul class="dropdown-menu graph_measure_selection" role="menu">
                     </ul>
                 </div>
-
-                <div class="btn-group">
-                    <label class="btn btn-default dropdown-toggle graph_display_as_label" data-toggle="dropdown">
-                        Display as (<b>sum</b>)
-                        <span class="caret"></span>
-                    </label>
-                    <ul class="dropdown-menu graph_display_as_selection" role="menu">
-                        <li>
-                            <a class="oe_selected" href="#" data-aggregation="sum">SUM</a>
-                        </li>
-                        <li>
-                            <a href="#" data-aggregation="max">MAX</a>
-                        </li>
-                        <li>
-                            <a href="#" data-aggregation="min">MIN</a>
-                        </li>
-                        <li>
-                            <a href="#" data-aggregation="avg">AVG</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
         <div class="graph_main_content"></div>
     </div>
+
+    <ul class="dropdown-menu graph_display_as_selection" role="menu" t-name="aggregation_selection">
+        <li>
+            <a class="oe_selected" href="#" t-att-data-choice="field" data-aggregation="sum">SUM</a>
+        </li>
+        <li>
+            <a href="#" t-att-data-choice="field" data-aggregation="max">MAX</a>
+        </li>
+        <li>
+            <a href="#" t-att-data-choice="field" data-aggregation="min">MIN</a>
+        </li>
+        <li>
+            <a href="#" t-att-data-choice="field" data-aggregation="avg">AVG</a>
+        </li>
+    </ul>
 
     <div t-name="field_selection" class="dropdown">
         <span class="btn btn-default field-selection dropdown-toggle" data-toggle="dropdown"></span>

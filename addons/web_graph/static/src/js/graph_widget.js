@@ -296,7 +296,7 @@
             $('.graph_display_as_selection .oe_selected').removeClass('oe_selected');
             $(event.target).addClass('oe_selected');
 
-            $('.graph_display_as_label').html("Display as (<b>" + aggregation + "</b>) <span class='caret'></span>");
+            $('.graph_display_as_label').html("Display as (<b>" + this.aggregation + "</b>) <span class='caret'></span>");
 
             this.pivot.context['aggregation'] = this.aggregation;
             this.pivot.update_data().then(this.proxy('display_data'));

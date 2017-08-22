@@ -72,6 +72,20 @@ class stock_change_product_qty(osv.osv_memory):
             res['location_id'] = location_id
         return res
 
+    def _prepare_inventory(self, cr, uid, data, context=None):
+        if data.product_id.id and data.lot_id.id:
+            filter = 'none'
+        elif data.product_id.id:
+            filter = 'product'
+        else:
+            filter = 'none'
+        return {
+                'name': _('INV: %s') % tools.ustr(data.product_id.name),
+                'filter': filter,
+                'product_id': data.product_id.id,
+                'location_id': data.location_id.id,
+                'lot_id': data.lot_id.id}
+
     def _prepare_inventory_line(self, cr, uid, inventory_id, data, context=None):
 
         product = data.product_id.with_context(location=data.location_id.id, lot_id=data.lot_id.id)
@@ -106,24 +120,8 @@ class stock_change_product_qty(osv.osv_memory):
         for data in self.browse(cr, uid, ids, context=context):
             if data.new_quantity < 0:
                 raise osv.except_osv(_('Warning!'), _('Quantity cannot be negative.'))
-            ctx = context.copy()
-            ctx['location'] = data.location_id.id
-            ctx['lot_id'] = data.lot_id.id
-            if data.product_id.id and data.lot_id.id:
-                filter = 'none'
-            elif data.product_id.id:
-                filter = 'product'
-            else:
-                filter = 'none'
-            inventory_id = inventory_obj.create(cr, uid, {
-                'name': _('INV: %s') % tools.ustr(data.product_id.name),
-                'filter': filter,
-                'product_id': data.product_id.id,
-                'location_id': data.location_id.id,
-                'lot_id': data.lot_id.id}, context=context)
-
+            inventory_id = inventory_obj.create(cr, uid, self._prepare_inventory(cr, uid, data, context=context), context=context)
             line_data = self._prepare_inventory_line(cr, uid, inventory_id, data, context=context)
-
             inventory_line_obj.create(cr, uid, line_data, context=context)
             inventory_obj.action_done(cr, uid, [inventory_id], context=context)
         return {}
@@ -135,5 +133,3 @@ class stock_change_product_qty(osv.osv_memory):
             if product_id in qty:
                 qty_wh = qty[product_id]['qty_available']
             return { 'value': { 'new_quantity': qty_wh } }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

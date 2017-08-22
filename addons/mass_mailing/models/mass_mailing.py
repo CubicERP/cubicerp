@@ -4,6 +4,7 @@ from datetime import datetime
 from dateutil import relativedelta
 import json
 import random
+import logging
 
 from openerp import tools
 from openerp.exceptions import Warning
@@ -11,7 +12,9 @@ from openerp.tools.safe_eval import safe_eval as eval
 from openerp.tools.translate import _
 from openerp.tools import ustr
 from openerp.osv import osv, fields
+from openerp import SUPERUSER_ID
 
+_logger = logging.getLogger(__name__)
 
 class MassMailingCategory(osv.Model):
     """Model of categories of mass mailing, i.e. marketing, newsletter, ... """
@@ -39,11 +42,30 @@ class MassMailingList(osv.Model):
 
     _columns = {
         'name': fields.char('Mailing List', required=True),
+        'contact_ids': fields.one2many('mail.mass_mailing.contact', 'list_id', string="Mailing Contacts"),
         'contact_nbr': fields.function(
             _get_contact_nbr, type='integer',
             string='Number of Contacts',
         ),
     }
+
+    def recipient_clean(self, cr, uid, ids, context=None):
+        contact_obj = self.pool.get('mail.mass_mailing.contact')
+        sql = "select email " \
+              "  from mail_mass_mailing_contact " \
+              " where list_id=%s " \
+              " group by email " \
+              "having count(*)>1"
+        for list in self.browse(cr, uid, ids, context=context):
+            cr.execute(sql,(list.id,))
+            email_dup = [m[0] for m in cr.fetchall()]
+            for email in email_dup:
+                contact_ids = contact_obj.search(cr, uid, [('email','ilike',email),
+                                                           ('list_id','=',list.id)], context=context)[1:]
+                contact_obj.unlink(cr, SUPERUSER_ID, contact_ids, context=context)
+            for contact in list.contact_ids:
+                if not tools.validate_email(contact.email):
+                    contact.unlink()
 
 
 class MassMailingContact(osv.Model):
@@ -386,6 +408,8 @@ class MassMailing(osv.Model):
             'AB Testing percentage',
             help='Percentage of the contacts that will be mailed. Recipients will be taken randomly.'
         ),
+        'email_check_mx': fields.boolean('Email Check MX', help="Verify email address domain asking directly to the dns server"),
+        'email_verify': fields.boolean('Email Verify', help="Verify email address asking directly to the mail server"),
         # statistics data
         'statistics_ids': fields.one2many(
             'mail.mail.statistics', 'mass_mailing_id',
@@ -462,6 +486,8 @@ class MassMailing(osv.Model):
         'mailing_model': 'mail.mass_mailing.contact',
         'contact_ab_pc': 100,
         'mailing_domain': [],
+        'email_check_mx': False,
+        'email_verify': False,
     }
 
     #------------------------------------------------------
@@ -594,7 +620,25 @@ class MassMailing(osv.Model):
             res_ids = self.get_recipients(cr, uid, mailing, context=context)
             if not res_ids:
                 raise Warning('Please select recipients.')
+            _res_ids = []
+            email_tos = set([s.email_to for s in mailing.statistics_ids])
+            for o in self.pool.get(mailing.mailing_model).browse(cr, uid, list(set(res_ids) - set([s.res_id for s in mailing.statistics_ids if s.model == mailing.mailing_model])), context=context):
+                if o.email and o.email not in email_tos:
+                    valid = False
+                    try:
+                        valid = tools.validate_email(o.email, mailing.email_check_mx, mailing.email_verify)
+                    except Exception, e:
+                        _logger.warning("Validate email <%s> check_mx:%s verify:%s, error: %s", o.email, mailing.email_check_mx, mailing.email_verify, e.message)
+                    if valid:
+                        _res_ids += [o.id]
+                        email_tos |= set([o.email])
+            if _res_ids:
+                res_ids = _res_ids
+            else:
+                return True
             comp_ctx = dict(context, active_ids=res_ids)
+            if mailing.mailing_model == 'crm.lead':
+                comp_ctx['find_partner_recipient_email'] = False
             composer_values = {
                 'author_id': author_id,
                 'attachment_ids': [(4, attachment.id) for attachment in mailing.attachment_ids],
@@ -605,7 +649,7 @@ class MassMailing(osv.Model):
                 'record_name': False,
                 'composition_mode': 'mass_mail',
                 'mass_mailing_id': mailing.id,
-                'mailing_list_ids': [(4, l.id) for l in mailing.contact_list_ids],
+                'mailing_list_ids': mailing.mailing_model=='mail.mass_mailing.contact' and [(4, l.id) for l in mailing.contact_list_ids] or [],
                 'no_auto_thread': mailing.reply_to_mode != 'thread',
             }
             if mailing.reply_to_mode == 'email':

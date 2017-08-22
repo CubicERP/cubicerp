@@ -122,8 +122,11 @@ class account_move_line(osv.osv):
         if context.get('analytic_account_id'):
             analytic_context = context.copy()
             analytic_context['analytic_child_bottom'] = True
-            child_ids = self.pool.get('account.analytic.account')._child_compute(cr, uid, [context['analytic_account_id']], False, [], context=analytic_context)[context['analytic_account_id']]
-            query_params['analytic_account_ids'] = tuple(child_ids+[context.get('analytic_account_id')])
+            child_ids = []
+            childs = self.pool.get('account.analytic.account')._child_compute(cr, uid, type(context['analytic_account_id']) is int and [context['analytic_account_id']] or context['analytic_account_id'], False, [], context=analytic_context)
+            for k in childs:
+                child_ids += childs[k]
+            query_params['analytic_account_ids'] = tuple(child_ids+(type(context['analytic_account_id']) is int and [context['analytic_account_id']] or context['analytic_account_id']))
             query += ' AND ' + obj + '.analytic_account_id IN %(analytic_account_ids)s'
 
         query += company_clause
@@ -1333,8 +1336,8 @@ class account_move_line(osv.osv):
         vals['journal_id'] = vals.get('journal_id') or context.get('journal_id')
         vals['period_id'] = vals.get('period_id') or context.get('period_id')
         vals['date'] = vals.get('date') or context.get('date')
-        if 'quantity' in vals and vals['quantity'] and (vals.get('credit',0.0) or vals.get('debit',0.0)):
-            vals['quantity'] = (-1.0 if vals.get('credit',False) else 1.0) * vals['quantity']
+        if not context.get('force_move_line_quantity', False) and 'quantity' in vals and vals['quantity'] and (vals.get('credit',0.0) or vals.get('debit',0.0)):
+            vals['quantity'] = (-1.0 if vals.get('credit',False) else 1.0) * abs(vals['quantity'])
         if not move_id:
             if journal.centralisation:
                 #Check for centralisation

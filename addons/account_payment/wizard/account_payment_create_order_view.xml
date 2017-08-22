@@ -24,9 +24,8 @@
             <field name="model">payment.order.create</field>
             <field name="arch" type="xml">
                 <form string="Search Payment lines">
-                    <group string="Entries">
-                        <field name="entries"/>
-                    </group>
+                    <separator string="Entries"/>
+                    <field name="entries"/>
                     <footer>
                         <button name="create_payment" string="_Add to payment order" type="object" class="oe_highlight"/>
                         or

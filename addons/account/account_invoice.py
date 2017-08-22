@@ -63,7 +63,12 @@ class account_invoice(models.Model):
     @api.one
     @api.depends('invoice_line.price_subtotal', 'tax_line.amount')
     def _compute_amount(self):
-        self.amount_untaxed = sum(line.price_subtotal for line in self.invoice_line)
+        untax = sum(line.price_subtotal for line in self.invoice_line)
+        if self.tax_line:
+            untax2 = sum(line.base for line in self.tax_line)
+            if abs(untax - untax2) < 0.05:
+                untax = untax2
+        self.amount_untaxed = untax
         self.amount_tax = sum(line.amount for line in self.tax_line)
         self.amount_total = self.amount_untaxed + self.amount_tax
 
@@ -192,7 +197,7 @@ class account_invoice(models.Model):
     origin = fields.Char(string='Source Document',
         help="Reference of the document that produced this invoice.",
         readonly=True, states={'draft': [('readonly', False)]})
-    supplier_invoice_number = fields.Char(string='Supplier Invoice Number',
+    supplier_invoice_number = fields.Char(string='Supplier Invoice Number', copy=False,
         help="The reference of this invoice as provided by the supplier.",
         readonly=True, states={'draft': [('readonly', False)]})
     type = fields.Selection([
@@ -1553,6 +1558,7 @@ class account_invoice_tax(models.Model):
                     'manual': False,
                     'sequence': tax['sequence'],
                     'base': currency.round(tax['price_unit'] * line['quantity']),
+                    'base_w_tax': currency.round(tax.get('price_unit_w_tax',0.0) * line['quantity']),
                 }
                 if invoice.type in ('out_invoice','in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
@@ -1582,12 +1588,13 @@ class account_invoice_tax(models.Model):
                     tax_grouped[key] = val
                 else:
                     tax_grouped[key]['base'] += val['base']
+                    tax_grouped[key]['base_w_tax'] += val['base_w_tax']
                     tax_grouped[key]['amount'] += val['amount']
                     tax_grouped[key]['base_amount'] += val['base_amount']
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
 
         for t in tax_grouped.values():
-            t['base'] = currency.round(t['base'])
+            t['base'] = currency.round(t['base_w_tax'] and (t['base_w_tax'] - t['amount']) or t['base'])
             t['amount'] = currency.round(t['amount'])
             t['base_amount'] = currency.round(t['base_amount'])
             t['tax_amount'] = currency.round(t['tax_amount'])

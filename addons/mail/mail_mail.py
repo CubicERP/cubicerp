@@ -43,7 +43,7 @@ class mail_mail(osv.Model):
     _description = 'Outgoing Mails'
     _inherits = {'mail.message': 'mail_message_id'}
     _order = 'id desc'
-    _rec_name = 'subject'
+    # _rec_name = 'subject'
 
     _columns = {
         'mail_message_id': fields.many2one('mail.message', 'Message', required=True, ondelete='cascade', auto_join=True),
@@ -140,6 +140,18 @@ class mail_mail(osv.Model):
         :param browse_record mail: the mail that was just sent
         :return: True
         """
+        vals = {}
+        if mail_sent:
+            vals['smtp_result'] = 'send'
+        elif context.get('smtp_error', False):
+            vals['smtp_result'] = context['smtp_error']
+
+        if context.get('smtp_mail_server_jd', False):
+            vals['mail_server_id'] = context['smtp_mail_server_jd']
+        if context.get('smtp_smtp_server', False):
+            vals['smtp_server'] = context['smtp_smtp_server']
+        if vals:
+            mail.write(vals)
         if mail_sent and mail.auto_delete:
             # done with SUPERUSER_ID to avoid giving large unlink access rights
             self.unlink(cr, SUPERUSER_ID, [mail.id], context=context)
@@ -233,7 +245,8 @@ class mail_mail(osv.Model):
                 email sending process has failed
             :return: True
         """
-        context = dict(context or {})
+        if context is None:
+            context = {}
         ir_mail_server = self.pool.get('ir.mail_server')
         ir_attachment = self.pool['ir.attachment']
         for mail in self.browse(cr, SUPERUSER_ID, ids, context=context):

@@ -47,7 +47,7 @@ class purchase_order(osv.osv):
             val = val1 = 0.0
             cur = order.pricelist_id.currency_id
             for line in order.order_line:
-                val1 += line.price_subtotal
+                val1 += line_obj._amount_line(cr, uid, line.id, 'price_subtotal', None, context=context)[line.id]
                 line_price = line_obj._calc_line_base_price(cr, uid, line,
                                                             context=context)
                 line_qty = line_obj._calc_line_quantity(cr, uid, line,
@@ -664,10 +664,13 @@ class purchase_order(osv.osv):
                                       attached to the invoice
            :return: dict of value to create() the invoice
         """
-        journal_ids = self.pool['account.journal'].search(
-                            cr, uid, [('type', '=', 'purchase'),
-                                      ('company_id', '=', order.company_id.id)],
-                            limit=1)
+        if order.picking_type_id and order.picking_type_id.invoice_journal_id:
+            journal_ids = [order.picking_type_id.invoice_journal_id.id]
+        else:
+            journal_ids = self.pool['account.journal'].search(
+                                cr, uid, [('type', '=', 'purchase'),
+                                          ('company_id', '=', order.company_id.id)],
+                                limit=1)
         if not journal_ids:
             raise osv.except_osv(
                 _('Error!'),
@@ -935,7 +938,8 @@ class purchase_order(osv.osv):
                 'picking_type_id': order.picking_type_id.id,
                 'partner_id': order.partner_id.id,
                 'date': order.date_order,
-                'origin': order.name
+                'origin': order.name,
+                'company_id': order.company_id.id,
             }
             picking_id = self.pool.get('stock.picking').create(cr, uid, picking_vals, context=context)
             self._create_stock_moves(cr, uid, order, order.order_line, picking_id, context=context)
@@ -1137,7 +1141,10 @@ class purchase_order_line(osv.osv):
         'product_id': fields.many2one('product.product', 'Product', domain=[('purchase_ok','=',True)], change_default=True),
         'move_ids': fields.one2many('stock.move', 'purchase_line_id', 'Reservation', readonly=True, ondelete='set null'),
         'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Product Price')),
-        'price_subtotal': fields.function(_amount_line, string='Subtotal', digits_compute= dp.get_precision('Account')),
+        'price_subtotal': fields.function(_amount_line, string='Subtotal', digits_compute= dp.get_precision('Account'),
+                                          store={
+                                              'purchase.order.line': (lambda s,cr,u,i,c: i, ['taxes_id','price_unit','product_qty'], 20),
+                                          }),
         'order_id': fields.many2one('purchase.order', 'Order Reference', select=True, required=True, ondelete='cascade'),
         'account_analytic_id':fields.many2one('account.analytic.account', 'Analytic Account',),
         'company_id': fields.related('order_id','company_id',type='many2one',relation='res.company',string='Company', store=True, readonly=True),
@@ -1152,7 +1159,10 @@ class purchase_order_line(osv.osv):
                                           readonly=True, copy=False),
         'invoiced': fields.boolean('Invoiced', readonly=True, copy=False),
         'partner_id': fields.related('order_id', 'partner_id', string='Partner', readonly=True, type="many2one", relation="res.partner", store=True),
-        'date_order': fields.related('order_id', 'date_order', string='Order Date', readonly=True, type="datetime"),
+        'date_order': fields.related('order_id', 'date_order', string='Order Date', readonly=True, type="datetime",
+                                     store={
+                                         'purchase.order': (lambda s,cr,u,i,c: s.pool.get('purchase.order.line').search(cr,u,[('order_id','in',i)],context=c),['date_order'],20),
+                                     }),
         'procurement_ids': fields.one2many('procurement.order', 'purchase_line_id', string='Associated procurements'),
     }
     _defaults = {
@@ -1671,11 +1681,15 @@ class product_product(osv.Model):
     _inherit = 'product.product'
     
     def _purchase_count(self, cr, uid, ids, field_name, arg, context=None):
-        Purchase = self.pool['purchase.order']
-        return {
-            product_id: Purchase.search_count(cr,uid, [('order_line.product_id', '=', product_id)], context=context) 
-            for product_id in ids
-        }
+        r = dict.fromkeys(ids, 0)
+        domain = [
+            ('state', 'in', ['confirmed', 'done']),
+            ('product_id', 'in', ids),
+        ]
+        for group in self.pool['purchase.report'].read_group(cr, uid, domain, ['product_id', 'quantity'],
+                                                         ['product_id'], context=context):
+            r[group['product_id'][0]] = group['quantity']
+        return r
 
     def action_view_purchases(self, cr, uid, ids, context=None):
         if isinstance(ids, (int, long)):

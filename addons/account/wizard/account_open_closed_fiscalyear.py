@@ -28,6 +28,7 @@ class account_open_closed_fiscalyear(osv.osv_memory):
     _columns = {
        'fyear_id': fields.many2one('account.fiscalyear', \
                                  'Fiscal Year', required=True, help='Select Fiscal Year which you want to remove entries for its End of year entries journal'),
+       'journal_id': fields.many2one('account.journal', string="Journal", domain=[('type','=','situation')]),
     }
 
     def remove_entries(self, cr, uid, ids, context=None):
@@ -41,7 +42,7 @@ class account_open_closed_fiscalyear(osv.osv_memory):
         if period_journal.period_id.state == 'done':
             raise osv.except_osv(_('Error!'), _("You can not cancel closing entries if the 'End of Year Entries Journal' period is closed."))
 
-        ids_move = move_obj.search(cr, uid, [('journal_id','=',period_journal.journal_id.id),('period_id','=',period_journal.period_id.id)])
+        ids_move = move_obj.search(cr, uid, [('journal_id','=',data.journal_id and data.journal_id.id or period_journal.journal_id.id),('period_id','=',period_journal.period_id.id)])
         if ids_move:
             cr.execute('delete from account_move where id IN %s', (tuple(ids_move),))
             self.invalidate_cache(cr, uid, context=context)

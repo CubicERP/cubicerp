@@ -29,6 +29,7 @@ def referencable_models(self, cr, uid, context=None):
 
 class res_request_link(osv.osv):
     _name = 'res.request.link'
+    _log_unlink = False
     _columns = {
         'name': fields.char('Name', required=True, translate=True),
         'object': fields.char('Object', required=True),

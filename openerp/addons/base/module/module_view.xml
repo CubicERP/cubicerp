@@ -122,6 +122,15 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Files" attrs="{'invisible':[('state','!=','installed')]}">
+                            <field name="file_ids">
+                                <tree string="Files">
+                                    <field name="filename"/>
+                                    <field name="checksum"/>
+                                    <field name="write_date"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page string="Installed Features" attrs="{'invisible':[('state','!=','installed')]}">
                             <group string="Created Menus"/>
                             <p class="oe_grey" attrs="{'invisible': [('menus_by_module','not in',[None,False])]}"> -This module does not create menu.</p>

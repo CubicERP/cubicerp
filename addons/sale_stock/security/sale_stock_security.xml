@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="0">    
+    <data>
         <record id="group_invoice_deli_orders" model="res.groups">
             <field name="name">Enable Invoicing Delivery orders</field>
             <field name="category_id" ref="base.module_category_hidden"/>

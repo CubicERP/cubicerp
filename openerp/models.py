@@ -1656,6 +1656,25 @@ class BaseModel(object):
             record.display_name = names.get(record.id, False)
 
     @api.multi
+    def name_get_from_context(self):
+        """ name_get_from_context() -> [(id, name), ...]
+
+        Returns a textual representation for the records in ``self``
+        using an eval expression charged in the context. Example:
+
+        <field name="order_line" context="{'display_product.product':'&quot;%s&quot;%(o.ean13 or o.name)'}">
+
+        :return: list of pairs ``(id, text_repr)`` for each records
+        :rtype: list(tuple)
+        """
+        result = []
+        expr = self._context.get("display_%s"%self._name, False)
+        if expr:
+            for o in self:
+                result.append((o.id,eval(expr, {'o':o, 'context': self._context})))
+        return result
+
+    @api.multi
     def name_get(self):
         """ name_get() -> [(id, name), ...]
 
@@ -1665,6 +1684,8 @@ class BaseModel(object):
         :return: list of pairs ``(id, text_repr)`` for each records
         :rtype: list(tuple)
         """
+        if self._context.has_key("display_%s"%self._name):
+            return self.name_get_from_context()
         result = []
         name = self._rec_name
         if name in self._fields:
@@ -2669,7 +2690,7 @@ class BaseModel(object):
                                         self._table, k)
                                 except Exception:
                                     msg = "WARNING: unable to set column %s of table %s not null !\n"\
-                                        "Try to re-run: openerp-server --update=module\n"\
+                                        "Try to re-run: cubicerp-server --update=module --force\n"\
                                         "If it doesn't work, update records and execute manually:\n"\
                                         "ALTER TABLE %s ALTER COLUMN %s SET NOT NULL"
                                     _logger.warning(msg, k, self._table, self._table, k, exc_info=True)
@@ -3394,17 +3415,21 @@ class BaseModel(object):
                         ', '.join(map(repr, extras._ids)),
                     ))
             # store an access error exception in existing records
-            exc = AccessError(
-                _('The requested operation cannot be completed due to security restrictions. Please contact your system administrator.\n\n(Document type: %s, Operation: %s)') % \
-                (self._name, 'read')
-            )
             forbidden = missing.exists()
-            forbidden._cache.update(FailedValue(exc))
+            if forbidden:
+                exc = AccessError(
+                    _('The requested operation cannot be completed due to security restrictions. Please contact your system administrator.\n\n(Document type: %s, Operation: %s, IDs: %s)') % \
+                    (self._name, 'read', ', '.join(map(repr, forbidden._ids)))
+                )
+                forbidden._cache.update(FailedValue(exc))
             # store a missing error exception in non-existing records
-            exc = MissingError(
-                _('One of the documents you are trying to access has been deleted, please try again after refreshing.')
-            )
-            (missing - forbidden)._cache.update(FailedValue(exc))
+            missing = missing - forbidden
+            if missing:
+                exc = MissingError(
+                    _('One of the documents you are trying to access has been deleted, please try again after refreshing.\n\n(Document type: %s, IDs: %s)') % \
+                    (self._name, ', '.join(map(repr, missing._ids)))
+                )
+                missing._cache.update(FailedValue(exc))
 
     @api.multi
     def get_metadata(self):
@@ -3544,7 +3569,7 @@ class BaseModel(object):
         """Create a workflow instance for each given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_create(uid, self._name, res_id, cr)
+            workflow.trg_create(uid, self._name, res_id, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return True
 
@@ -3552,7 +3577,7 @@ class BaseModel(object):
         """Delete the workflow instances bound to the given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_delete(uid, self._name, res_id, cr)
+            workflow.trg_delete(uid, self._name, res_id, cr, context=context)
         self.invalidate_cache(cr, uid, context=context)
         return True
 
@@ -3560,7 +3585,7 @@ class BaseModel(object):
         """Reevaluate the workflow instances of the given record IDs."""
         from openerp import workflow
         for res_id in ids:
-            workflow.trg_write(uid, self._name, res_id, cr)
+            workflow.trg_write(uid, self._name, res_id, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return True
 
@@ -3569,7 +3594,7 @@ class BaseModel(object):
         from openerp import workflow
         result = {}
         for res_id in ids:
-            result[res_id] = workflow.trg_validate(uid, self._name, res_id, signal, cr)
+            result[res_id] = workflow.trg_validate(uid, self._name, res_id, signal, cr, context=context)
         # self.invalidate_cache(cr, uid, context=context) ?
         return result
 
@@ -3579,7 +3604,7 @@ class BaseModel(object):
         """
         from openerp import workflow
         for old_id, new_id in old_new_ids:
-            workflow.trg_redirect(uid, self._name, old_id, new_id, cr)
+            workflow.trg_redirect(uid, self._name, old_id, new_id, cr, context=context)
         self.invalidate_cache(cr, uid, context=context)
         return True
 
@@ -6106,6 +6131,23 @@ class Model(BaseModel):
     _auto = True
     _register = False # not visible in ORM registry, meant to be python-inherited only
     _transient = False # True in a TransientModel
+    _log_unlink = True
+
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if self._log_unlink and ids:
+            logging_group_id = context.get('logging_group_id', False)
+            if not logging_group_id:
+                logging_group_id = self.pool['ir.logging.group'].create(cr, uid, {
+                                                          'name':'Unlink %s %s'%(self._name, str(ids)),
+                                                          'dbname': cr.dbname,
+                                                          'user_id': uid,
+                                                      }, context=ctx)
+            ctx['logging_group_id'] = logging_group_id
+            self.pool['ir.logging'].log_unlink(cr, uid, self, ids, context=ctx)
+        return super(Model, self).unlink(cr, uid, ids, context=ctx)
 
 class TransientModel(BaseModel):
     """Model super-class for transient records, meant to be temporarily

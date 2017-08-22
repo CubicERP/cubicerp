@@ -36,7 +36,6 @@ Generic Payroll system Integrated with Accounting.
     'depends': [
         'hr_payroll',
         'account',
-        'hr_expense'
     ],
     'data': ['hr_payroll_account_view.xml'],
     'demo': ['hr_payroll_account_demo.xml'],

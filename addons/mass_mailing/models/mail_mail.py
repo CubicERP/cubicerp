@@ -49,7 +49,8 @@ class MailMail(osv.Model):
         if values.get('statistics_ids'):
             mail = self.browse(cr, SUPERUSER_ID, mail_id, context=context)
             for stat in mail.statistics_ids:
-                self.pool['mail.mail.statistics'].write(cr, uid, [stat.id], {'message_id': mail.message_id}, context=context)
+                self.pool['mail.mail.statistics'].write(cr, uid, [stat.id], {'message_id': mail.message_id,
+                                                                             'email_to': mail.email_to or mail.recipient_ids.email}, context=context)
         return mail_id
 
     def _get_tracking_url(self, cr, uid, mail, partner=None, context=None):

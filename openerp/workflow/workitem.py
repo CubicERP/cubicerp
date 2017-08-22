@@ -30,7 +30,7 @@ from openerp.workflow.helpers import Session
 from openerp.workflow.helpers import Record
 from openerp.workflow.helpers import WorkflowActivity
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cubicerp.workflow.workitem')
 
 import openerp
 from openerp.tools.safe_eval import safe_eval as eval
@@ -51,9 +51,10 @@ class Environment(dict):
         self.id = record.id
         self.ids = [record.id]
         self.obj = openerp.registry(self.cr.dbname)[self.model]
+        self.context = session.context
 
     def __getitem__(self, key):
-        records = self.obj.browse(self.cr, self.uid, self.ids)
+        records = self.obj.browse(self.cr, self.uid, self.ids, context=self.context)
         if hasattr(records, key):
             return getattr(records, key)
         else:
@@ -87,8 +88,8 @@ class WorkflowItem(object):
         cr.execute("insert into wkf_workitem (id,act_id,inst_id,state) values (%s,%s,%s,'active')", (id_new, activity['id'], instance_id))
         cr.execute('select * from wkf_workitem where id=%s',(id_new,))
         work_item_values = cr.dictfetchone()
-        logger.info('Created workflow item in activity %s',
-                    activity['id'],
+        logger.info('Created workflow item in activity %s instance %s',
+                    activity['id'], instance_id,
                     extra={'ident': (session.uid, record.model, record.id)})
 
         workflow_item = WorkflowItem(session, record, work_item_values)
@@ -212,9 +213,10 @@ class WorkflowItem(object):
 
     def _state_set(self, activity, state):
         self.session.cr.execute('update wkf_workitem set state=%s where id=%s', (state, self.workitem['id']))
+        self.session.cr.execute('update wkf_instance set item_state=%s where id=%s', (state, self.workitem['inst_id']))
         self.workitem['state'] = state
-        logger.info('Changed state of work item %s to "%s" in activity %s',
-                    self.workitem['id'], state, activity['id'],
+        logger.info('Changed state of work item %s to "%s" in activity %s instance %s',
+                    self.workitem['id'], state, activity['id'], self.workitem['inst_id'],
                     extra={'ident': (self.session.uid, self.record.model, self.record.id)})
 
     def _split_test(self, split_mode, signal, stack):

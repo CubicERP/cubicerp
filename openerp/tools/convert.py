@@ -36,7 +36,7 @@ from yaml_import import convert_yaml_import
 
 import assertion_report
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.tools.convert')
 
 try:
     import pytz
@@ -583,6 +583,8 @@ form: module.record_id""" % (xml_id,)
             # determine the type of action
             action_type, action_id = self.model_id_get(cr, a_action)
             action_type = action_type.split('.')[-1] # keep only type part
+            if action_type == 'xml':
+                action_type = "report.%s"%action_type
 
             if not values.get('name') and action_type in ('act_window', 'wizard', 'url', 'client', 'server'):
                 a_table = 'ir_act_%s' % action_type.replace('act_', '')

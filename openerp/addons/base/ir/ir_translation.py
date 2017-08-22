@@ -166,6 +166,7 @@ class ir_translation_import_cursor(object):
 class ir_translation(osv.osv):
     _name = "ir.translation"
     _log_access = False
+    _log_unlink = False
 
     def _get_language(self, cr, uid, context):
         lang_model = self.pool.get('res.lang')
@@ -486,7 +487,7 @@ class ir_translation(osv.osv):
                     _base_lang_code += '%s%s'%(_base_lang_code and '_' or '',base_lang_code)
                     base_trans_file = openerp.modules.get_module_resource(module_name, 'i18n', _base_lang_code + '.po')
                     if base_trans_file:
-                        _logger.info('module %s: loading base translation file %s for language %s', module_name, _base_lang_code, lang)
+                        #_logger.info('module %s: loading base translation file %s for language %s', module_name, _base_lang_code, lang)
                         tools.trans_load(cr, base_trans_file, lang, verbose=False, module_name=module_name, context=context)
                         context['overwrite'] = True  # make sure the requested translation will override the base terms later
                     elif lang_code != 'en_US':

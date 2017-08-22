@@ -27,7 +27,7 @@
   <xpath expr="//header//ul[@id='top_menu']/li" position="before">
       <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
       <li t-att-class="'' if website_sale_order and website_sale_order.cart_quantity else 'hidden'">
-          <a href="/shop/cart">
+          <a clickable="1" href="/shop/cart">
               <i class="fa fa-shopping-cart"></i>
               My cart <sup t-attf-class="my_cart_quantity label label-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''"/>
           </a>

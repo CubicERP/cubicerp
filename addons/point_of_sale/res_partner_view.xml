@@ -10,8 +10,11 @@
                 <notebook position="inside">
                     <page string="Point of Sale"> 
                         <group>
-                            <field name="ean13" />
-                            <button name="%(action_edit_ean)d" type="action" string="Set a Custom EAN" />
+                            <label for="ean13"/>
+                            <div>
+                                <field name="ean13" nolabel="1"/>
+                                <button name="%(action_edit_ean)d" type="action" string="Set a Custom EAN" />
+                            </div>
                         </group>
                     </page>
                 </notebook>

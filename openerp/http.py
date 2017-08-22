@@ -126,7 +126,8 @@ def dispatch_rpc(service_name, method, params):
                 openerp.netsvc.log(rpc_request, logging.DEBUG, logline, replace_request_password(params), depth=1)
 
         return result
-    except NO_POSTMORTEM:
+    except NO_POSTMORTEM, e:
+        _logger.error(openerp.tools.exception_to_unicode(e))
         raise
     except openerp.exceptions.DeferredException, e:
         _logger.exception(openerp.tools.exception_to_unicode(e))
@@ -943,6 +944,25 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
                 return self.__setitem__(k, v)
         object.__setattr__(self, k, v)
 
+    def get_env(self):
+        wsgienv = request.httprequest.environ
+        env = dict(
+            base_location=request.httprequest.url_root.rstrip('/'),
+            HTTP_HOST=wsgienv['HTTP_HOST'],
+            REMOTE_ADDR=wsgienv['REMOTE_ADDR'],
+            REMOTE_PORT=wsgienv['REMOTE_PORT'],
+            REQUEST_METHOD=wsgienv['REQUEST_METHOD'],
+            HTTP_USER_AGENT=wsgienv['HTTP_USER_AGENT'],
+            HTTP_COOKIE=wsgienv['HTTP_COOKIE'],
+            HTTP_REFERER=wsgienv['HTTP_REFERER'],
+            SERVER_NAME=wsgienv['SERVER_NAME'],
+            SERVER_PORT=wsgienv['SERVER_PORT'],
+            SERVER_PROTOCOL=wsgienv['SERVER_PROTOCOL'],
+            SERVER_SOFTWARE=wsgienv['SERVER_SOFTWARE'],
+            SESSION_ID=self.sid
+        )
+        return env
+
     def authenticate(self, db, login=None, password=None, uid=None):
         """
         Authenticate the current user with the given db, login and
@@ -954,13 +974,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         """
 
         if uid is None:
-            wsgienv = request.httprequest.environ
-            env = dict(
-                base_location=request.httprequest.url_root.rstrip('/'),
-                HTTP_HOST=wsgienv['HTTP_HOST'],
-                REMOTE_ADDR=wsgienv['REMOTE_ADDR'],
-            )
-            uid = dispatch_rpc('common', 'authenticate', [db, login, password, env])
+            uid = dispatch_rpc('common', 'authenticate', [db, login, password, self.get_env()])
         else:
             security.check(db, uid, password)
         self.db = db
@@ -984,6 +998,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         security.check(self.db, self.uid, self.password)
 
     def logout(self, keep_db=False):
+        openerp.registry(self._db)['res.users'].logout(self.uid, self.login, self.get_env())
         for k in self.keys():
             if not (keep_db and k == 'db'):
                 del self[k]
@@ -1007,6 +1022,8 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         assert self.uid, "The user needs to be logged-in to initialize his context"
         self.context = request.registry.get('res.users').context_get(request.cr, request.uid) or {}
         self.context['uid'] = self.uid
+        self.context['sid'] = self.sid
+        self.context['rip'] = request.httprequest.headers.environ['REMOTE_ADDR']
         self._fix_lang(self.context)
         return self.context
 
@@ -1086,6 +1103,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             return
         # TODO use authenticate instead of login
         self.uid = self.proxy("common").login(self.db, self.login, self.password)
+        openerp.registry(self._db)['res.users'].log_login(self.uid, self.login, self.get_env(), name="Automatic login %s"%self.login)
         if not self.uid:
             raise AuthenticationError("Authentication failure")
 
@@ -1115,7 +1133,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             Use the registry and cursor in :data:`request` instead.
         """
         self.assert_valid()
-        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id)
+        r = self.proxy('object').exec_workflow(self.db, self.uid, self.password, model, signal, id, self.context)
         return r
 
     def model(self, model):
@@ -1457,9 +1475,13 @@ class Root(object):
             return self.nodb_routing_map
         return request.registry['ir.http'].routing_map()
 
-def db_list(force=False, httprequest=None):
-    dbs = dispatch_rpc("db", "list", [force])
+def db_list(force=False, httprequest=None, all=False):
+    dbs = dispatch_rpc("db", "list", [force, all])
     return db_filter(dbs, httprequest=httprequest)
+
+def db_list_template(force=False, httprequest=None):
+    dbs = dispatch_rpc("db", "list_template", [force])
+    return dbs
 
 def db_filter(dbs, httprequest=None):
     httprequest = httprequest or request.httprequest

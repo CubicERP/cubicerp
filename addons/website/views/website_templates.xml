@@ -235,7 +235,7 @@
 
 <template id="assets_editor" name="Editor assets">
     <script type="text/javascript">
-        var CKEDITOR_BASEPATH = '/web/static/lib/ckeditor/';
+        var CKEDITOR_BASEPATH = '/web/static/lib/_ckeditor/';
     </script>
     <link rel='stylesheet' href='/website/static/src/css/snippets.css'/>
     <link rel='stylesheet' href='/website/static/src/css/editor.css'/>
@@ -244,7 +244,7 @@
     <link rel="stylesheet" href="/website/static/lib/select2-bootstrap-css/select2-bootstrap.css"/>
 
     <script type="text/javascript" src="/web/static/lib/select2/select2.js"></script>
-    <script type="text/javascript" src="/web/static/lib/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/web/static/lib/_ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/website/static/lib/ace/ace.js"></script>
     <script type="text/javascript" src="/website/static/lib/ace/theme-monokai.js"></script>
     <script type="text/javascript" src="/website/static/lib/ace/mode-xml.js"></script>
@@ -282,8 +282,8 @@
 
 <template id="show_sign_in" customize_show="True" inherit_id="website.layout" name="Show Sign In">
     <xpath expr="//ul[@id='top_menu']" position="inside">
-        <li class="divider" groups="base.group_public"/>
-        <li groups="base.group_public">
+        <li class="divider" groups="base.group_public" style="float: right;"/>
+        <li groups="base.group_public" style="float: right;">
             <a clickable="1" t-attf-href="/web/login">
                 <b>Sign in</b>
             </a>

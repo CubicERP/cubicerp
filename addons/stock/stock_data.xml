@@ -90,6 +90,32 @@
 watch your stock valuation, and track production lots (based on serial numbers).</p>]]></field>
         </record>
 
+        <!-- Sale-related subtypes for messaging / Chatter -->
+        <record id="mt_inventory_progress" model="mail.message.subtype">
+            <field name="name">Inventory in Progress</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="default" eval="False"/>
+            <field name="description">Inventory change state to in Progress</field>
+        </record>
+        <record id="mt_inventory_confirm" model="mail.message.subtype">
+            <field name="name">Inventory Confirmed</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="default" eval="False"/>
+            <field name="description">Inventory change state to Confirm</field>
+        </record>
+        <record id="mt_inventory_done" model="mail.message.subtype">
+            <field name="name">Inventory Done</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="default" eval="False"/>
+            <field name="description">Inventory change state to Done</field>
+        </record>
+        <record id="mt_inventory_cancel" model="mail.message.subtype">
+            <field name="name">Inventory Cancel</field>
+            <field name="res_model">stock.inventory</field>
+            <field name="default" eval="False"/>
+            <field name="description">Inventory change state to Cancel</field>
+        </record>
+
 
         <!--
     Request link

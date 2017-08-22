@@ -9,7 +9,7 @@
             <field name="res_model">hr.contract</field>
             <field name="view_type">form</field>
             <field name="name">Contracts</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="context">{'search_default_employee_id': [active_id], 'default_employee_id': active_id}</field>
         </record>
         
@@ -145,11 +145,23 @@
             </field>
         </record>
 
+        <record id="hr_contract_view_calendar" model="ir.ui.view">
+            <field name="name">hr.contract.view.calendar</field>
+            <field name="model">hr.contract</field>
+            <field name="arch" type="xml">
+                <calendar string="Contracts" date_start="date_start"
+                          date_stop="date_end"
+                          color="employee_id">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
         <record id="action_hr_contract" model="ir.actions.act_window">
             <field name="name">Contracts</field>
             <field name="res_model">hr.contract</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="domain">[]</field>
             <field name="context">{'search_default_current':1}</field>
             <field name="search_view_id" ref="hr_contract_view_search"/>

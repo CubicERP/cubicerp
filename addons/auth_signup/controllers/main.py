@@ -27,6 +27,7 @@ from openerp.addons.web.controllers.main import ensure_db
 from openerp import http
 from openerp.http import request
 from openerp.tools.translate import _
+from openerp.tools.validate_email import validate_email
 
 _logger = logging.getLogger(__name__)
 
@@ -49,6 +50,12 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
+        if 'error' not in qcontext and 'login' in qcontext and 'password' in qcontext:
+            if not validate_email(qcontext.get('login')):
+                qcontext['error'] = _("Invalid email address, check please!")
+            elif qcontext.get('password') != qcontext.get('confirm_password'):
+                qcontext['error'] = "Passwords do not match; please retype them."
+
         if 'error' not in qcontext and request.httprequest.method == 'POST':
             try:
                 self.do_signup(qcontext)
@@ -59,6 +66,11 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
                 else:
                     _logger.error(e.message)
                     qcontext['error'] = _("Could not create a new account.")
+            except openerp.exceptions.ValidationError:
+                qcontext['error'] = _("Invalid password, wrong minimum length 5, use at least char uppercase, char lowercase and digits")
+                _logger.exception('error when singup user: Invalid password!')
+            except Exception, e:
+                qcontext['error'] = _(e.message)
 
         return request.render('auth_signup.signup', qcontext)
 
@@ -83,9 +95,11 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
+            except openerp.exceptions.ValidationError as e:
+                qcontext['error'] = _("Invalid password, wrong minimum length, use at least char uppercase, char lowercase, digit and special chars")
+                _logger.exception('error when resetting password: Invalid password!')
             except Exception, e:
                 qcontext['error'] = _(e.message)
-
 
         return request.render('auth_signup.reset_password', qcontext)
 
@@ -117,9 +131,12 @@ class AuthSignupHome(openerp.addons.web.controllers.main.Home):
         """ Shared helper that creates a res.partner out of a token """
         values = dict((key, qcontext.get(key)) for key in ('login', 'name', 'password'))
         assert any([k for k in values.values()]), "The form was not properly filled in."
-        assert values.get('password') == qcontext.get('confirm_password'), "Passwords do not match; please retype them."
         values['lang'] = request.lang
-        self._signup_with_values(qcontext.get('token'), values)
+        try:
+            self._signup_with_values(qcontext.get('token'), values)
+        except Exception as e:
+            request.cr.rollback()
+            raise e
         request.cr.commit()
 
     def _signup_with_values(self, token, values):

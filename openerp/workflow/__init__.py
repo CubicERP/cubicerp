@@ -27,7 +27,7 @@ from openerp.workflow.service import WorkflowService
 def clear_cache(cr, uid):
     WorkflowService.clear_cache(cr.dbname)
 
-def trg_write(uid, res_type, res_id, cr):
+def trg_write(uid, res_type, res_id, cr, context=None):
     """
     Reevaluates the specified workflow instance. Thus if any condition for
     a transition have been changed in the backend, then running ``trg_write``
@@ -37,9 +37,9 @@ def trg_write(uid, res_type, res_id, cr):
     :param res_id: the model instance id the workflow belongs to
     :param cr: a database cursor
     """
-    return WorkflowService.new(cr, uid, res_type, res_id).write()
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).write()
 
-def trg_trigger(uid, res_type, res_id, cr):
+def trg_trigger(uid, res_type, res_id, cr, context=None):
     """
     Activate a trigger.
 
@@ -50,9 +50,9 @@ def trg_trigger(uid, res_type, res_id, cr):
     :param res_id: the model instance id the workflow belongs to
     :param cr: a database cursor
     """
-    return WorkflowService.new(cr, uid, res_type, res_id).trigger()
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).trigger()
 
-def trg_delete(uid, res_type, res_id, cr):
+def trg_delete(uid, res_type, res_id, cr, context=None):
     """
     Delete a workflow instance
 
@@ -60,9 +60,9 @@ def trg_delete(uid, res_type, res_id, cr):
     :param res_id: the model instance id the workflow belongs to
     :param cr: a database cursor
     """
-    return WorkflowService.new(cr, uid, res_type, res_id).delete()
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).delete()
 
-def trg_create(uid, res_type, res_id, cr):
+def trg_create(uid, res_type, res_id, cr, context=None):
     """
     Create a new workflow instance
 
@@ -70,9 +70,9 @@ def trg_create(uid, res_type, res_id, cr):
     :param res_id: the model instance id to own the created worfklow instance
     :param cr: a database cursor
     """
-    return WorkflowService.new(cr, uid, res_type, res_id).create()
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).create()
 
-def trg_validate(uid, res_type, res_id, signal, cr):
+def trg_validate(uid, res_type, res_id, signal, cr, context=None):
     """
     Fire a signal on a given workflow instance
 
@@ -82,9 +82,9 @@ def trg_validate(uid, res_type, res_id, signal, cr):
     :param cr: a database cursor
     """
     assert isinstance(signal, basestring)
-    return WorkflowService.new(cr, uid, res_type, res_id).validate(signal)
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).validate(signal)
 
-def trg_redirect(uid, res_type, res_id, new_rid, cr):
+def trg_redirect(uid, res_type, res_id, new_rid, cr, context=None):
     """
     Re-bind a workflow instance to another instance of the same model.
 
@@ -98,6 +98,6 @@ def trg_redirect(uid, res_type, res_id, new_rid, cr):
     :param cr: a database cursor
     """
     assert isinstance(new_rid, (long, int))
-    return WorkflowService.new(cr, uid, res_type, res_id).redirect(new_rid)
+    return WorkflowService.new(cr, uid, res_type, res_id, context=context).redirect(new_rid)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -24,7 +24,7 @@
                         class="oe_highlight"
                     />
                     <button name="open_existing_session_cb_close" type="object" string="Close Session" 
-                        attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" 
+                        attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}"
                     />
                     <button name="open_existing_session_cb" type="object" string="Close Session" 
                         attrs="{'invisible' : [('pos_state', 'not in', ('closing_control',))]}" 
@@ -34,6 +34,17 @@
                         attrs="{'invisible' : ['|', ('pos_state', '!=', False),('pos_config_id','=',False)]}"
                         class="oe_highlight"
                     />
+
+                    <div class="oe_right oe_button_box">
+                        <button class="oe_stat_button" name="%(action_pos_box_in)d"
+                            type="action" attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" icon="fa-level-down">
+                            <div>Put<br/>Money In</div>
+                        </button>
+                        <button class="oe_stat_button" name="%(action_pos_box_out)d"
+                            type="action" attrs="{'invisible' : [('pos_state', 'not in', ('opened',))]}" icon="fa-level-up">
+                            <div>Take<br/>Money Out</div>
+                        </button>
+                    </div>
 
                     <div attrs="{'invisible' : ['|', ('pos_state', '!=', False),('pos_config_id','=',False)]}" class="oe_view_nocontent">
                         <p class="oe_view_nocontent_create">

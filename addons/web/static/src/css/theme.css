@@ -95,7 +95,7 @@ Odoo Generics
 }
 
 .openerp .oe_button_box {
-    width: auto !important;
+    /*width: auto !important;*/
 }
 
 .btn-xs, .btn-group-xs > .btn {
@@ -245,8 +245,8 @@ Letf Bar
 
 .oe_leftbar {
     position: fixed;
-    z-index: 99999;
-    height: calc(100% - 34px);
+    z-index: 1301;
+    height: calc(95% - 40px);
     align-items: center;
     width: auto !important;
     background: #ffffff !important;
@@ -277,7 +277,7 @@ Letf Bar
 
 @media (max-width: 480px) {
     .oe_leftbar_content {
-        width: 302px !important;
+        width: 302px;
     }
 }
 
@@ -293,13 +293,13 @@ View Manager Header
 ***********************************************************************************************************************/
 .oe_view_manager .oe_view_manager_header {
     background: white none repeat scroll 0% 0% !important;
-    border-bottom: 1px solid #c8c8d3 !important;
+    /*border-bottom: 1px solid #c8c8d3 !important;*/
     box-shadow: inherit !important;
 }
 
 .oe_view_manager .oe_view_manager_header .oe_view_title {
-    font-size: 24px !important;
-    min-height: 36px;
+    font-size: large;
+    /*min-height: 36px;*/
     margin-top: 10px;
 }
 
@@ -339,6 +339,9 @@ View Manager Header
     .oe_application .oe_view_manager .oe_view_manager_header .buttons_container .switcher_and_pager_container {
         flex-grow: 1 !important;
     }
+    .openerp .oe_application > div > .oe_view_manager > .oe_view_manager_wrapper > div > .oe_view_manager_body {
+      position: relative;
+    }
 }
 
 @media (max-width: 480px) {
@@ -347,7 +350,7 @@ View Manager Header
     }
 
     .oe_application .oe_view_manager .oe_view_manager_header .buttons_container .switcher_and_pager_container {
-        justify-content: space-between !important;
+        /*justify-content: space-between !important;*/
         margin-top: 10px !important;
     }
 
@@ -582,14 +585,20 @@ Secondary Buttons or without Focus
 .oe_form_button_cancel,
 .oe_abstractformpopup-form-close {
     border: medium none !important;
-    padding: 6px 10px !important;
+    /*padding: 6px 10px !important;*/
     border-radius: 0px !important;
     text-shadow: initial !important;
     box-shadow: none !important;
     background: transparent !important;
     color: #e26666 !important;
-    text-transform: uppercase !important;
+    /*text-transform: uppercase !important;*/
     font-weight: bold !important;
+}
+
+.oe_form_button_create,
+.oe_form_button_cancel {
+    padding: 6px 10px !important;
+    text-transform: uppercase !important;
 }
 
 .oe_form_button:hover,
@@ -692,7 +701,7 @@ Chat:
 
 @media (max-width: 480px) {
     .oe_im {
-        width: 302px !important;
+        width: 302px;
     }
 }
 
@@ -806,6 +815,7 @@ Form View
 .openerp .oe_form .oe_form_group_cell {
     display: table-cell;
     vertical-align: top;
+    min-width: 150px !important;
 }
 
 .openerp .oe_form .oe_form_group_cell_group {
@@ -813,16 +823,16 @@ Form View
 }
 
 .openerp .oe_form .oe_form_group_cell_label {
-    width: 172px !important;
+    /*width: 172px !important;
     min-width: 172px !important;
-    max-width: 172px !important;
+    max-width: 172px !important;*/
 }
 
 .openerp .oe_form .oe_form_group_cell_label label {
     line-height: 22px;
     display: block;
     font-weight: bold !important;
-    white-space: normal !important;
+    /*white-space: normal !important;*/
 }
 
 /***********************************************************************************************************************
@@ -905,19 +915,18 @@ Form View: Widgets
 }
 
 .openerp .oe_form .oe_form_field_one2many > .oe_view_manager {
-    display: block !important;
+    display: block;
 }
 
-.openerp .oe_form .oe_form_field_one2many .oe_view_title {
+/*.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header .switcher_and_pager_container {
+    display: none !important;
+}
+
+.oe_form_field_one2many > [data-view-type~=list] > .container-fluid {
     display: none;
-}
+}*/
 
-.openerp .oe_form .oe_form_field_one2many .buttons_container {
-    padding: 0px 0px;
-}
-
-.openerp .oe_form .oe_form_field_one2many .view_extra_buttons,
-.openerp .oe_form .oe_form_field_one2many .oe_view_manager_switch  {
+.openerp .oe_form .oe_form_field_one2many > .oe_view_manager > .oe_view_manager_header .switcher_and_pager_container > .view_extra_buttons {
     display: none !important;
 }
 

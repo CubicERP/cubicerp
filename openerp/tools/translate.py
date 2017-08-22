@@ -25,6 +25,7 @@ import fnmatch
 import inspect
 import locale
 import os
+import hashlib
 import openerp.sql_db as sql_db
 import re
 import logging
@@ -925,17 +926,37 @@ def trans_generate(lang, modules, cr):
     return out
 
 def trans_load(cr, filename, lang, verbose=True, module_name=None, context=None):
+    cr.execute("select id from ir_module_module where name=%s", (module_name,))
+    module_id = cr.fetchone()[0]
+    cr.execute("select id,checksum from ir_module_module_file"
+               " where module_id=%s and filename=%s", (module_id, filename))
+    checksum = cr.fetchone()
+    module_file_id = checksum and checksum[0] or False
+    checksum = checksum and checksum[1] or ''
+    sha256 = hashlib.sha256()
+    sha256.update(misc.file_open(filename).read())
+    checksum_new = sha256.hexdigest()
+    file_modified = not checksum == checksum_new
+    result = None
     try:
         fileobj = misc.file_open(filename)
-        _logger.info("loading %s", filename)
+        _logger.info("%s %s", file_modified and 'loading' or 'no changes', filename)
         fileformat = os.path.splitext(filename)[-1][1:].lower()
-        result = trans_load_data(cr, fileobj, fileformat, lang, verbose=verbose, module_name=module_name, context=context)
+        if file_modified:
+            result = trans_load_data(cr, fileobj, fileformat, lang, verbose=verbose, module_name=module_name, context=context)
         fileobj.close()
-        return result
     except IOError:
         if verbose:
             _logger.error("couldn't read translation file %s", filename)
-        return None
+    if file_modified:
+        if module_file_id:
+            cr.execute("update ir_module_module_file set checksum=%s, write_date=now() where id=%s",
+                       (checksum_new, module_file_id))
+        else:
+            cr.execute(
+                "insert into ir_module_module_file(filename,module_id,checksum,create_date,create_uid,write_date,write_uid)"
+                " values(%s,%s,%s,now(),1,now(),1)", (filename,module_id,checksum_new))
+    return result
 
 def trans_load_data(cr, fileobj, fileformat, lang, lang_name=None, verbose=True, module_name=None, context=None):
     """Populates the ir_translation table."""

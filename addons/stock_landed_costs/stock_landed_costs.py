@@ -69,7 +69,7 @@ class stock_landed_cost(osv.osv):
         for picking in picking_obj.browse(cr, uid, picking_ids):
             for move in picking.move_lines:
                 #it doesn't make sense to make a landed cost for a product that isn't set as being valuated in real time at real cost
-                if move.product_id.valuation != 'real_time' or move.product_id.cost_method != 'real':
+                if move.state in ('cancel','draft') or move.product_id.valuation != 'real_time' or move.product_id.cost_method != 'real':
                     continue
                 total_cost = 0.0
                 weight = move.product_id and move.product_id.weight * move.product_qty
@@ -110,11 +110,18 @@ class stock_landed_cost(osv.osv):
     }
 
     def _create_accounting_entries(self, cr, uid, line, move_id, qty_out, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        if line.move_id.location_id.usage == 'internal' and line.move_id.location_dest_id.usage <> 'internal':
+            ctx['location_id'] = line.move_id.location_id.id
+        elif line.move_id.location_id.usage <> 'internal' and line.move_id.location_dest_id.usage == 'internal':
+            ctx['location_id'] = line.move_id.location_dest_id.id
         product_obj = self.pool.get('product.template')
         cost_product = line.cost_line_id and line.cost_line_id.product_id
         if not cost_product:
             return False
-        accounts = product_obj.get_product_accounts(cr, uid, line.product_id.product_tmpl_id.id, context=context)
+        accounts = product_obj.get_product_accounts(cr, uid, line.product_id.product_tmpl_id.id, context=ctx)
         debit_account_id = accounts['property_stock_valuation_account_id']
         already_out_account_id = accounts['stock_account_output']
         credit_account_id = line.cost_line_id.account_id.id or cost_product.property_account_expense.id or cost_product.categ_id.property_account_expense_categ.id
@@ -134,7 +141,7 @@ class stock_landed_cost(osv.osv):
             'name': line.name,
             'move_id': move_id,
             'product_id': line.product_id.id,
-            'quantity': line.quantity,
+            'quantity': 0.0, #line.quantity,
         }
         debit_line = dict(base_line, account_id=debit_account_id)
         credit_line = dict(base_line, account_id=credit_account_id)

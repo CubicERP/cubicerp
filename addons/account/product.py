@@ -19,47 +19,26 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp import fields, models
 
-class product_category(osv.osv):
+class product_category(models.Model):
     _inherit = "product.category"
-    _columns = {
-        'property_account_income_categ': fields.property(
-            type='many2one',
-            relation='account.account',
-            string="Income Account",
-            help="This account will be used for invoices to value sales."),
-        'property_account_expense_categ': fields.property(
-            type='many2one',
-            relation='account.account',
-            string="Expense Account",
-            help="This account will be used for invoices to value expenses."),
-    }
 
-#----------------------------------------------------------
-# Products
-#----------------------------------------------------------
+    property_account_income_categ = fields.Many2one('account.account', string="Income Account", company_dependent = True,
+                                                    help="This account will be used for invoices to value sales.")
 
-class product_template(osv.osv):
+    property_account_expense_categ = fields.Many2one('account.account', string="Expense Account", company_dependent = True,
+                                                     help="This account will be used for invoices to value expenses.")
+
+
+class product_template(models.Model):
     _inherit = "product.template"
-    _columns = {
-        'taxes_id': fields.many2many('account.tax', 'product_taxes_rel',
-            'prod_id', 'tax_id', 'Customer Taxes',
-            domain=[('parent_id','=',False),('type_tax_use','in',['sale','all'])]),
-        'supplier_taxes_id': fields.many2many('account.tax',
-            'product_supplier_taxes_rel', 'prod_id', 'tax_id',
-            'Supplier Taxes', domain=[('parent_id', '=', False),('type_tax_use','in',['purchase','all'])]),
-        'property_account_income': fields.property(
-            type='many2one',
-            relation='account.account',
-            string="Income Account",
-            help="This account will be used for invoices instead of the default one to value sales for the current product."),
-        'property_account_expense': fields.property(
-            type='many2one',
-            relation='account.account',
-            string="Expense Account",
-            help="This account will be used for invoices instead of the default one to value expenses for the current product."),
-    }
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    taxes_id = fields.Many2many('account.tax', 'product_taxes_rel', 'prod_id', 'tax_id', 'Customer Taxes',
+                                company_dependent=True, domain=[('parent_id','=',False),('type_tax_use','in',['sale','all'])])
+    supplier_taxes_id = fields.Many2many('account.tax', 'product_supplier_taxes_rel', 'prod_id', 'tax_id', 'Supplier Taxes',
+                                         company_dependent=True, domain=[('parent_id', '=', False),('type_tax_use','in',['purchase','all'])])
+    property_account_income = fields.Many2one('account.account', string="Income Account", company_dependent = True,
+            help="This account will be used for invoices instead of the default one to value sales for the current product.")
+    property_account_expense = fields.Many2one('account.account', string="Expense Account", company_dependent = True,
+            help="This account will be used for invoices instead of the default one to value expenses for the current product.")

@@ -458,9 +458,9 @@ msgstr "Tipo de Botón"
 #: code:addons/web/static/src/xml/base.xml:93
 #, python-format
 msgid ""
-"By default, the master password is 'admin'. This password\n"
+"By default, the master password is 'admin' and must be change early. This password\n"
 "                    is required to create, delete, dump or restore databases."
-msgstr "Por defecto, la clave del administrador es 'admin'. Esta clave es obligatoria para crear, borrar, guardar o restaurar bases de datos."
+msgstr "Por defecto, la clave maestra es 'admin' y debe cambiarse cuanto antes. Esta clave es obligatoria para crear, borrar, guardar o restaurar bases de datos."
 
 #. module: web
 #. openerp-web
@@ -1432,6 +1432,13 @@ msgstr "Nombre de base de datos incorrecto"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/chrome.js:446
+#, python-format
+msgid "Invalid password, wrong minimum length 8, use at least char uppercase, char lowercase, digit and special chars"
+msgstr "Clave incorrecta, longitud mínima 8, usar letras mayúsculas, letras minúsculas, números y caracteres especiales"
+
+#. module: web
+#. openerp-web
 #: code:addons/web/static/src/js/views.js:983
 #: code:addons/web/static/src/xml/base.xml:535
 #, python-format
@@ -1842,8 +1849,8 @@ msgstr "Nuestro sitio web"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:318 view:website:web.login
 #, python-format
-msgid "Password"
-msgstr "Contraseña"
+msgid "Master Password"
+msgstr "Contraseña Maestra"
 
 #. module: web
 #. openerp-web

@@ -234,6 +234,8 @@ class res_users(osv.Model):
 
     def _signup_create_user(self, cr, uid, values, context=None):
         """ create a new user from the template user """
+        if context is None:
+            context = {}
         ir_config_parameter = self.pool.get('ir.config_parameter')
         template_user_id = literal_eval(ir_config_parameter.get_param(cr, uid, 'auth_signup.template_user_id', 'False'))
         assert template_user_id and self.exists(cr, uid, template_user_id, context=context), 'Signup: invalid template user'
@@ -245,6 +247,9 @@ class res_users(osv.Model):
 
         assert values.get('login'), "Signup: no login given for new user"
         assert values.get('partner_id') or values.get('name'), "Signup: no name or partner given for new user"
+        ctx = context.copy()
+        ctx['password_strength'] = 5
+        self._check_password(cr, uid, values.get('password'), context=ctx)
 
         # create a copy of the template user (attached to a specific partner_id if given)
         values['active'] = True

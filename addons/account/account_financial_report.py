@@ -19,11 +19,7 @@
 #
 ##############################################################################
 
-import time
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from operator import itemgetter
-
+import numpy
 from openerp.osv import fields, osv
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
@@ -89,6 +85,40 @@ class account_financial_report(osv.osv):
             res[k] = str(v)
         return res
 
+    def _get_values(self, cr, uid, report, field_names, context=None):
+        account_obj = self.pool.get('account.account')
+        vals = {}
+        if report.type == 'accounts':
+            # it's the sum of the linked accounts
+            for a in account_obj.browse(cr, uid, [a.id for a in report.account_ids], context=context):
+                for field in field_names:
+                    vals[field] = vals.get(field,[]) + [getattr(a, field)] # * report.sign
+        elif report.type == 'account_type':
+            # it's the sum the leaf accounts with such an account type
+            report_types = [x.id for x in report.account_type_ids]
+            account_ids = account_obj.search(cr, uid, [('user_type', 'in', report_types), ('type', '!=', 'view')],
+                                             context=context)
+            for a in account_obj.browse(cr, uid, account_ids, context=context):
+                for field in field_names:
+                    vals[field] = vals.get(field,[]) + [getattr(a, field)]  # * report.sign
+        elif report.type == 'account_report' and report.account_report_ids:
+            # it's the amount of the linked report
+            res2 = self._get_balance(cr, uid, [r.id for r in report.account_report_ids], field_names, False,
+                                     context=context)
+            for key, value in res2.items():
+                for field in field_names:
+                    vals[field] = vals.get(field,[]) + [value[field]]
+        elif report.type == 'sum':
+            # it's the sum of the children of this account.report
+            res2 = self._get_balance(cr, uid, [rec.id for rec in report.children_ids], field_names, False,
+                                     context=context)
+            for key, value in res2.items():
+                for field in field_names:
+                    vals[field] = vals.get(field,[]) + [value[field]]
+        return vals
+
+
+
     def _get_balance(self, cr, uid, ids, field_names, args, context=None):
         '''returns a dictionary with key=the ID of a record and value=the balance amount 
            computed for this record. If the record is of type :
@@ -96,36 +126,30 @@ class account_financial_report(osv.osv):
                'account_type' : it's the sum of leaf accoutns with such an account_type
                'account_report' : it's the amount of the related report
                'sum' : it's the sum of the children of this record (aka a 'view' record)'''
-        account_obj = self.pool.get('account.account')
+
         res = {}
         for report in self.browse(cr, uid, ids, context=context):
             if report.id in res:
                 continue
             res[report.id] = dict((fn, 0.0) for fn in field_names)
-            if report.type == 'accounts':
-                # it's the sum of the linked accounts
-                for a in report.account_ids:
-                    for field in field_names:
-                        res[report.id][field] += getattr(a, field) * report.sign
-            elif report.type == 'account_type':
-                # it's the sum the leaf accounts with such an account type
-                report_types = [x.id for x in report.account_type_ids]
-                account_ids = account_obj.search(cr, uid, [('user_type','in', report_types), ('type','!=','view')], context=context)
-                for a in account_obj.browse(cr, uid, account_ids, context=context):
-                    for field in field_names:
-                        res[report.id][field] += getattr(a, field) #* report.sign
-            elif report.type == 'account_report' and report.account_report_id:
-                # it's the amount of the linked report
-                res2 = self._get_balance(cr, uid, [report.account_report_id.id], field_names, False, context=context)
-                for key, value in res2.items():
-                    for field in field_names:
-                        res[report.id][field] += value[field]
-            elif report.type == 'sum':
-                # it's the sum of the children of this account.report
-                res2 = self._get_balance(cr, uid, [rec.id for rec in report.children_ids], field_names, False, context=context)
-                for key, value in res2.items():
-                    for field in field_names:
-                        res[report.id][field] += value[field]
+            ctx = context.copy()
+            if report.analytic_ids and (report.type == 'accounts' or report.type == 'account_type'):
+                ctx['analytic_account_id'] = [a.id for a in report.analytic_ids]
+            vals = self._get_values(cr, uid, report, field_names, context=ctx)
+            for field in field_names:
+                if report.aggregate == 'sum':
+                    res[report.id][field] = sum(vals.get(field,[]))
+                elif report.aggregate == 'avg':
+                    v = vals.get(field, [])
+                    res[report.id][field] = v and sum(v)/len(v) or 0.0
+                elif report.aggregate == 'max':
+                    res[report.id][field] = max(vals.get(field, []))
+                elif report.aggregate == 'min':
+                    res[report.id][field] = min(vals.get(field, []))
+                elif report.aggregate == 'std':
+                    res[report.id][field] = numpy.std(vals.get(field, []))
+                elif report.aggregate == 'var':
+                    res[report.id][field] = numpy.var(vals.get(field, []))
         return res
 
     def _get_full_name(self, cr, uid, ids, name=None, args=None, context=None):
@@ -145,6 +169,12 @@ class account_financial_report(osv.osv):
             parent_path = ''
         return parent_path + elmt.name
 
+    def _get_types(self, cr, uid, context=None):
+        return [('sum','View'),
+            ('accounts','Accounts'),
+            ('account_type','Account Type'),
+            ('account_report','Report Value')]
+
     _columns = {
         'name': fields.char('Report Name', required=True, translate=True),
         'parent_id': fields.many2one('account.financial.report', 'Parent', domain=[('type','=','sum')]),
@@ -156,16 +186,18 @@ class account_financial_report(osv.osv):
         'credit': fields.function(_get_balance, 'Credit', multi="balance"),
         'multiplan': fields.function(_get_multiplan, 'Multiplan List', type="char"),
         'level': fields.function(_get_level, string='Level', store=True, type='integer'),
-        'type': fields.selection([
-            ('sum','View'),
-            ('accounts','Accounts'),
-            ('account_type','Account Type'),
-            ('account_report','Report Value'),
-            ],'Type'),
+        'type': fields.selection(_get_types,'Type'),
         'account_ids': fields.many2many('account.account', 'account_account_financial_report', 'report_line_id', 'account_id', 'Accounts'),
-        'account_report_id':  fields.many2one('account.financial.report', 'Report Value'),
+        'account_report_ids':  fields.many2many('account.financial.report', 'account_finan_report_account_report', 'report_id', 'parent_id','Report Values'),
+        'analytic_ids':  fields.many2many('account.analytic.account', 'account_finan_report_account_analytic', 'report_id', 'analytic_id','Analytic Accounts'),
         'account_type_ids': fields.many2many('account.account.type', 'account_account_financial_report_type', 'report_id', 'account_type_id', 'Account Types'),
         'sign': fields.selection([(-1, 'Reverse balance sign'), (1, 'Preserve balance sign')], 'Sign on Reports', required=True, help='For accounts that are typically more debited than credited and that you would like to print as negative amounts in your reports, you should reverse the sign of the balance; e.g.: Expense account. The same applies for accounts that are typically more credited than debited and that you would like to print as positive amounts in your reports; e.g.: Income account.'),
+        'aggregate': fields.selection([('sum','Sum'),
+                                       ('avg','Average'),
+                                       ('max','Maximum'),
+                                       ('min','Minimum'),
+                                       ('std','Standard Deviation'),
+                                       ('var','Variance')], "Agregate Function", required=True),
         'display_detail': fields.selection([
             ('no_detail','No detail'),
             ('detail_flat','Display children flat'),
@@ -188,6 +220,7 @@ class account_financial_report(osv.osv):
         'type': 'sum',
         'display_detail': 'detail_flat',
         'sign': 1,
+        'aggregate': 'sum',
         'style_overwrite': 0,
     }
 

@@ -249,7 +249,7 @@
                 <div class="openerp openerp_webclient_container">
                     <div class="oe_webclient">
                         <div class="oe_leftbar" groups="base.group_user,base.group_portal"
-                             title="Press control key or click to open/close bar">
+                             title="CTRL + M to open or close this bar">
                             <div class="oe_leftbar_content collapsed">
                                 <t t-call="web.menu_secondary"/>
                             </div>

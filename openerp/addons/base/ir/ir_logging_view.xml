@@ -5,17 +5,39 @@
             <field name="model">ir.logging</field>
             <field name="arch" type="xml">
                 <form string="Log">
-                    <group>
-                        <field name="create_date" />
-                        <field name="dbname" />
-                        <field name="type" />
-                        <field name="name" />
-                        <field name="level" />
-                        <field name="path" />
-                        <field name="line" />
-                        <field name="func" />
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                            <label for="create_date" class="oe_edit_only"/>
+                            <h2><field name="create_date"/></h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="level"/>
+                                <field name="type"/>
+                                <field name="create_uid"/>
+                            </group>
+                            <group>
+                                <field name="dbname"/>
+                                <field name="res_model"/>
+                                <field name="res_id"/>
+                            </group>
+                            <group>
+                                <field name="path"/>
+                                <field name="line"/>
+                                <field name="func"/>
+                            </group>
+                            <group>
+                                <field name="group_id"/>
+                                <field name="user_id"/>
+                                <field name="remote_ip"/>
+                                <field name="session_id"/>
+                            </group>
+                        </group>
+                        <separator string="Message"/>
                         <field name="message" />
-                    </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -24,14 +46,13 @@
             <field name="arch" type="xml">
                 <tree string="Logs">
                     <field name="create_date" />
-                    <field name="create_uid" />
-                    <field name="dbname" />
+                    <field name="user_id" />
                     <field name="type" />
-                    <field name="name" />
                     <field name="level" />
-                    <field name="path" />
-                    <field name="line" />
-                    <field name="func" />
+                    <field name="name" />
+                    <field name="res_model" />
+                    <field name="res_id" />
+                    <field name="group_id" />
                 </tree>
             </field>
         </record>
@@ -42,14 +63,24 @@
                     <field name="dbname" />
                     <field name="type" />
                     <field name="name" />
+                    <field name="res_id" />
                     <field name="level" />
                     <field name="message" />
+                    <filter name="security_filter" string="Security" domain="[('type','=','auth')]"/>
+                    <filter name="data_change_filter" string="Data Change" domain="[('type','in',['unlink','update','insert'])]"/>
+                    <filter name="data_view_filter" string="Data View" domain="[('type','=','select')]"/>
+                    <filter name="server_filter" string="Server" domain="[('type','=','server')]"/>
+                    <filter name="client_filter" string="Client" domain="[('type','=','client')]"/>
                     <group expand="0" string="Group By">
-                        <filter string="Database" domain="[]" context="{'group_by': 'dbname'}" />
-                        <filter string="Level" domain="[]" context="{'group_by': 'level'}" />
-                        <filter string="Type" domain="[]" context="{'group_by': 'type'}" />
-                        <filter string="Month" domain="[]" context="{'group_by': 'create_date'}" />
-                        <filter string="Day" domain="[]" context="{'group_by': 'create_date:day'}" />
+                        <filter name="group_group" string="Group" domain="[]" context="{'group_by': 'group_id'}" />
+                        <filter name="remote_ip_group" string="Remote IP" domain="[]" context="{'group_by': 'remote_ip'}" />
+                        <filter name="session_group" string="Session ID" domain="[]" context="{'group_by': 'session_id'}" />
+                        <filter name="user_group" string="User" domain="[]" context="{'group_by': 'user_id'}" />
+                        <filter name="type_group" string="Type" domain="[]" context="{'group_by': 'type'}" />
+                        <filter name="level_group" string="Level" domain="[]" context="{'group_by': 'level'}" />
+                        <filter name="model_group" string="Model" domain="[]" context="{'group_by': 'res_model'}" />
+                        <filter name="month_group" string="Month" domain="[]" context="{'group_by': 'create_date'}" />
+                        <filter name="day_group" string="Day" domain="[]" context="{'group_by': 'create_date:day'}" />
                     </group>
                 </search>
             </field>
@@ -62,5 +93,32 @@
             <field name="search_view_id" ref="ir_logging_search_view" />
         </record>
         <menuitem parent="base.next_id_9" id="ir_logging_all_menu" action="ir_logging_all_act" />
+
+        <record model="ir.ui.view" id="ir_logging_group_form_view">
+            <field name="model">ir.logging.group</field>
+            <field name="arch" type="xml">
+                <form string="Log Group">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                            <label for="create_date" class="oe_edit_only"/>
+                            <h2><field name="create_date"/></h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_id" />
+                            </group>
+                            <group>
+                                <field name="dbname" />
+                            </group>
+                        </group>
+                        <separator string="Logging"/>
+                        <field name="lines" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
     </data>
 </openerp>

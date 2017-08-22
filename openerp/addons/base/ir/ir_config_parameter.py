@@ -44,6 +44,7 @@ class ir_config_parameter(osv.osv):
 
     _name = 'ir.config_parameter'
     _rec_name = 'key'
+    _log_unlink = False
 
     _columns = {
         'key': fields.char('Key', required=True, select=1),

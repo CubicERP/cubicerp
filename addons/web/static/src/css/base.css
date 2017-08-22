@@ -66,7 +66,7 @@
 }
 
 .navbar .oe_topbar_name {
-  max-width: 150px;
+  max-width: 126px;
   display: inline-block;
   height: 15px;
   text-overflow: ellipsis;
@@ -1889,6 +1889,8 @@
 }
 .openerp .oe_application .oe_form_sheetbg .oe_subtotal_footer label {
   font-weight: bold;
+  text-align: right;
+  padding: 0 !important;
 }
 .openerp .oe_application .oe_form_sheetbg table label {
   font-weight: normal;
@@ -2172,6 +2174,9 @@
 .openerp .oe_form .oe_form_field_date,
 .openerp .oe_form .oe_form_field_datetime {
   white-space: nowrap;
+}
+.openerp .oe_form .oe_form_field_monetary {
+  text-align: right;
 }
 .openerp .oe_form .oe_form_field_boolean {
   width: auto;

@@ -437,6 +437,13 @@
             $.validator.addMethod('matches', function (s, _, re) {
                 return new RegExp(re).test(s);
             }, _t("Invalid database name"));
+            $.validator.addMethod('password_strength', function (s, _, length) {
+                if ( length <= 0 ) {
+                    return true;
+                }
+                re = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{"+length+",})";
+                return new RegExp(re).test(s);
+            }, _t("Invalid password, wrong minimum length 8, use at least char uppercase, char lowercase, digit and special chars"));
         },
         start: function () {
             var self = this;
@@ -449,10 +456,35 @@
                     ev.preventDefault();
                     self.db_list = null;
                 });
+            var fetch_db_template = this.rpc("/web/database/get_list_template", {}).then(
+                function (result) {
+                    self.db_list_template = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.db_list_template = null;
+                });
+            var fetch_db_all = this.rpc("/web/database/get_list_all", {}).then(
+                function (result) {
+                    self.db_list_all = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.db_list_all = null;
+                });
+            var fetch_langs = this.rpc("/web/session/get_lang_list", {}).then(
+                function (result) {
+                    self.lang_list = result;
+                },
+                function (_, ev) {
+                    ev.preventDefault();
+                    self.lang_list = null;
+                });
+            /*
             var fetch_langs = this.rpc("/web/session/get_lang_list", {}).done(function (result) {
                 self.lang_list = result;
-            });
-            return $.when(fetch_db, fetch_langs).always(self.do_render);
+            });*/
+            return $.when(fetch_db, fetch_db_template, fetch_db_all, fetch_langs).always(self.do_render);
         },
         do_render: function () {
             var self = this;
@@ -480,7 +512,6 @@
             self.$el.find("form[name=change_pwd_form]").validate({
                 messages: {
                     old_pwd: _t("Please enter your previous password"),
-                    new_pwd: _t("Please enter your new password"),
                     confirm_pwd: {
                         required: _t("Please confirm your new password"),
                         equalTo: _t("The confirmation does not match the password")
@@ -825,7 +856,7 @@
 
             var lazyreflow = _.debounce(this.reflow.bind(this), 200);
             instance.web.bus.on('resize', this, function () {
-                if (parseInt(self.$el.parent().css('width')) <= 768) {
+                if (parseInt(self.$el.parent().css('width')) < 720) {
                     lazyreflow('all_outside');
                 } else {
                     lazyreflow();
@@ -1122,7 +1153,7 @@
             this.update_promise = this.update_promise.then(fct, fct);
         },
         on_menu_help: function () {
-            window.open('http://help.odoo.com', '_blank');
+            window.open('https://cubicerp.com/help', '_blank');
         },
         on_menu_logout: function () {
             this.trigger('user_logout');
@@ -1138,7 +1169,7 @@
         },
         on_menu_account: function () {
             var self = this;
-            if (!this.getParent().has_uncommitted_changes()) {
+            /*if (!this.getParent().has_uncommitted_changes()) {
                 var P = new instance.web.Model('ir.config_parameter');
                 P.call('get_param', ['database.uuid']).then(function (dbuuid) {
                     var state = {
@@ -1156,7 +1187,8 @@
                     ev.preventDefault();
                     instance.web.redirect('https://accounts.odoo.com/account');
                 });
-            }
+            }*/
+            window.open('https://cubicerp.com/web/login', '_blank');
         },
         on_menu_about: function () {
             var self = this;
@@ -1711,6 +1743,10 @@
             var self = this;
             force_open = (force_open == undefined) ? false : force_open;
 
+            if (parseInt($('#navbar-content').css('height')) > 64){
+                $('.navbar-toggle').trigger('click');
+            }
+
             if ($('.oe_leftbar').offset().left == 0 && force_open)
                 return;
 
@@ -1748,11 +1784,11 @@
                 self.toggle_leftbar()
             });
 
-            $(document).keydown(function (key) {
-                if (key.key == 'Escape' && $(this).find('.modal').length == 0) {
+            /*$(document).keydown(function (key) {
+                if ((key.key == 'M' || key.key == 'm') && key.shiftKey == false && key.altKey == false && key.ctrlKey == true && $(this).find('.modal').length == 0) {
                     self.toggle_leftbar();
                 }
-            });
+            });*/
 
             current_mouse_x = 1000;
             $(document).mousemove(function (event) {

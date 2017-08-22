@@ -652,7 +652,7 @@
 
 .openerp .oe_mail_wall .oe_mail{
     margin: 16px;
-    width: 600px;
+    /*width: 600px;*/
     display: inline-block;
 }
 

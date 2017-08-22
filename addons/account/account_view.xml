@@ -815,7 +815,7 @@
               </p>
             </field>
         </record>
-        <menuitem action="action_account_type_form" sequence="20" id="menu_action_account_type_form" parent="account_account_menu" groups="base.group_no_one"/>
+        <menuitem action="action_account_type_form" sequence="20" id="menu_action_account_type_form" parent="account_account_menu"/>
 
         <!-- Entries -->
         <record id="view_account_move_tree" model="ir.ui.view">
@@ -1241,7 +1241,8 @@
             <field name="model">account.move.line</field>
             <field name="arch" type="xml">
                 <search string="Search Journal Items">
-                    <field name="name" filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]" string="Move"/>
+                    <field name="name" filter_domain="['|','|', ('name','ilike',self), ('ref','ilike',self), ('move_id.name','ilike',self)]" string="Move"/>
+                    <field name="ref" filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]" string="Reference"/>
                     <field name="date"/>
                     <filter icon="terp-document-new" string="Unbalanced" domain="[('state','=','draft')]" help="Unbalanced Journal Items"/>
                     <separator/>
@@ -1254,13 +1255,16 @@
                     <field name="move_id" string="Number (Move)"/>
                     <field name="account_id"/>
                     <field name="partner_id"/>
+                    <field name="product_id"/>
                     <field name="journal_id" context="{'journal_name':self}" widget="selection"/> <!-- it's important to keep widget='selection' in this filter viewbecause without that the value passed in the context is not the ID but the textual value (name) of the selected journal -->
                     <field name="period_id" context="{'period_id':self}" widget="selection"/> <!-- it's important to keep the widget='selection' in this field, for the same reason as explained above -->
+                    <filter string="This F.Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%Y-12-31')),('date','&gt;=',time.strftime('%Y-01-01'))]" help="Journal Entries with period in current year"/>
                     <group expand="0" string="Group By">
-                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
-                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
-                        <filter string="Account"  icon="terp-folder-green" context="{'group_by':'account_id'}"/>
-                        <filter string="Period" icon="terp-go-month" domain="[]" context="{'group_by':'period_id'}"/>
+                        <filter string="Partner" name="partner_group" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Product" name="product_group" icon="terp-product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Journal" name="journal_group" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Account" name="account_group" icon="terp-folder-green" context="{'group_by':'account_id'}"/>
+                        <filter string="Period" name="period_group" icon="terp-go-month" domain="[]" context="{'group_by':'period_id'}"/>
                     </group>
                 </search>
             </field>
@@ -2358,6 +2362,8 @@
                     <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirm"/>
                 </header>
                 <sheet string="Statement">
+                    <div class="oe_right oe_button_box" name="button_box">
+                    </div>
                     <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
                     <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
                     <group>
@@ -2539,16 +2545,22 @@
                         <field name="type"/>
                         <field name="sign"/>
                         <field name="style_overwrite"/>
+                        <field name="aggregate"/>
                         <field name="complete_name"/>
                     </group>
-                    <notebook attrs="{'invisible': [('type','not in',['accounts','account_type', 'account_report'])]}">
-                        <page string="Report">
+                    <notebook>
+                        <page string="Report" attrs="{'invisible': [('type','=','sum')]}">
                             <group>
-                                <field name="display_detail" attrs="{'invisible': [('type','not in',['accounts','account_type'])]}"/>
-                                <field name="account_report_id" attrs="{'invisible': [('type', '!=', 'account_report')]}"/>
+                                <field name="display_detail" attrs="{'invisible': [('type','in',['sum','account_report'])]}"/>
                             </group>
                             <field name="account_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}"/>
                             <field name="account_type_ids" attrs="{'invisible': [('type', '!=', 'account_type')]}"/>
+                            <field name="account_report_ids" attrs="{'invisible': [('type', '!=', 'account_report')]}"/>
+                            <separator string="Analytic Accounts" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
+                            <field name="analytic_ids" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
+                        </page>
+                        <page string="Children">
+                            <field name="children_ids"/>
                         </page>
                     </notebook>
                 </form>
@@ -2563,7 +2575,7 @@
                     <field name="complete_name"/>
                     <field name="parent_id" invisible="1"/>
                     <field name="type"/>
-                    <field name="account_report_id"/>
+                    <field name="aggregate"/>
                 </tree>
             </field>
         </record>
@@ -2574,10 +2586,10 @@
                 <search string="Account Report">
                     <field name="name" string="Account Report"/>
                     <field name="type"/>
-                    <field name="account_report_id"/>
                     <group expand="0" string="Group By">
                         <filter string="Parent Report" icon="terp-folder-orange" domain="" context="{'group_by':'parent_id'}"/>
                         <filter string="Report Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Agregate Function"  domain="[]" context="{'group_by':'aggregate'}"/>
                     </group>
                 </search>
             </field>
@@ -2601,8 +2613,8 @@
                 <tree string="Account Reports Hierarchy">
                     <field name="name"/>
                     <field name="type"/>
+                    <field name="aggregate"/>
                     <field name="parent_id" invisible="1"/>
-                    <field name="account_report_id"/>
                 </tree>
             </field>
         </record>

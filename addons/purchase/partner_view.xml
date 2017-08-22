@@ -65,7 +65,7 @@
                     Supplier invoices can be pre-generated based on purchase
                     orders or receipts. This allows you to control invoices
                     you receive from your supplier according to the draft
-                    document in Odoo.
+                    document in CubicERP.
                 </p>
             </field>
         </record>

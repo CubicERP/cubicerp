@@ -52,7 +52,6 @@ professional emails and reuse templates in a few clicks.
         'views/website_mass_mailing.xml',
         'views/snippets.xml',
         'security/ir.model.access.csv',
-        'views/mass_mailing.xml',
     ],
     'qweb': [],
     'demo': [

@@ -261,8 +261,14 @@ class res_partner(osv.osv):
             account_invoice_report._apply_ir_rules(cr, uid, where_query, 'read', context=context)
             from_clause, where_clause, where_clause_params = where_query.get_sql()
 
-            query = """ WITH currency_rate (currency_id, rate, date_start, date_end) AS (
+            query = """ WITH currency_rate (currency_id, rate, date_start, rate_company, date_end) AS (
                                 SELECT r.currency_id, r.rate, r.name AS date_start,
+                                  (select rc.rate
+                                     from res_currency_rate rc
+                                    where rc.name >= r.name
+                                      and rc.currency_id = %%s
+                                    order by rc.name asc
+                                    limit 1) AS rate_company,
                                     (SELECT name FROM res_currency_rate r2
                                      WHERE r2.name > r.name AND
                                            r2.currency_id = r.currency_id
@@ -270,10 +276,10 @@ class res_partner(osv.osv):
                                      LIMIT 1) AS date_end
                                 FROM res_currency_rate r
                                 )
-                      SELECT SUM(price_total * cr.rate) as total
+                      SELECT SUM(price_total * CASE WHEN cr.rate_company is NULL or cr.rate_company = 0 THEN 1 ELSE cr.rate/cr.rate_company END) as total
                         FROM account_invoice_report account_invoice_report, currency_rate cr
                        WHERE %s
-                         AND cr.currency_id = %%s
+                         AND cr.currency_id = account_invoice_report.currency_id
                          AND (COALESCE(account_invoice_report.date, NOW()) >= cr.date_start)
                          AND (COALESCE(account_invoice_report.date, NOW()) < cr.date_end OR cr.date_end IS NULL)
                          AND account_invoice_report.type in ('out_invoice', 'out_refund')
@@ -281,7 +287,7 @@ class res_partner(osv.osv):
 
             # price_total is in the currency with rate = 1
             # total_invoice should be displayed in the current user's currency
-            cr.execute(query, where_clause_params + [user_currency_id])
+            cr.execute(query, [user_currency_id] + where_clause_params )
             result[partner_id] = cr.fetchone()[0]
 
         return result

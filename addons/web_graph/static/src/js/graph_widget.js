@@ -162,7 +162,7 @@
                         .attr('data-choice', measure.field)
                         .attr('data-string', measure.string)
                         .attr('href', '#')
-                        .html("<b class='badge'>" + self.aggregations[measure.field] + "</b> " + measure.string));
+                        .html("<b class='badge' data-choice='" + measure.field + "'>" + self.aggregations[measure.field] + "</b> " + measure.string));
 
                     $(item).append(QWeb.render('aggregation_selection', {
                         'field': measure.field
@@ -322,7 +322,7 @@
 
             var measure_item = $(event.target).parents('li').find('> a.oe_selected');
             var label = $(measure_item).data('string');
-            $(measure_item).html("<b class='badge'>" + aggregation + "</b> "+ label);
+            $(measure_item).html("<b class='badge' data-choice='" + field + "'>" + aggregation + "</b> " + label);
 
             $(event.target).parents('ul.graph_display_as_selection').find('.oe_selected').removeClass('oe_selected');
             $(event.target).addClass('oe_selected');

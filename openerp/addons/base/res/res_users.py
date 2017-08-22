@@ -540,7 +540,33 @@ class res_users(osv.osv):
                     _logger.exception("Failed to update web.base.url configuration parameter")
                 finally:
                     cr.close()
+        self.log_login(uid, login,user_agent_env)
         return uid
+
+    def log_login(self, uid, login, user_agent_env, name=False, level=False):
+        cr = self.pool.cursor()
+        if not name:
+            name = "%s %s" % (uid and "Successful login" or "Invalid login or password for", login)
+        if not level:
+            level = uid and "info" or "warning"
+        try:
+            self.pool['ir.logging'].log_auth(cr, uid, name, user_agent_env, level)
+            cr.commit()
+        except Exception:
+            _logger.exception("Failed while logging the login")
+        finally:
+            cr.close()
+
+    def logout(self, uid, login, user_agent_env):
+        cr = self.pool.cursor()
+        try:
+            self.pool['ir.logging'].log_auth(cr, uid, "Logout of %s"%login, user_agent_env)
+            cr.commit()
+        except Exception:
+            _logger.exception("Failed while logging the logout")
+        finally:
+            cr.close()
+        return True
 
     def check(self, db, uid, passwd):
         """Verifies that the given (uid, password) is authorized for the database ``db`` and

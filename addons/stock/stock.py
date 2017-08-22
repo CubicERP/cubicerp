@@ -2865,9 +2865,8 @@ class stock_inventory(osv.osv):
 
     def action_cancel_inventory(self, cr, uid, ids, context=None):
         for inv in self.browse(cr, uid, ids, context=context):
-            if inv.state == 'cancel':
-                continue
-            self.pool.get('stock.move').action_cancel(cr, uid, [x.id for x in inv.move_ids], context=context)
+            inv.line_ids.signal_workflow('cancel')
+            self.pool.get('stock.move').action_cancel(cr, uid, [x.id for x in inv.move_ids if x.state <> 'cancel'], context=context)
             self.write(cr, uid, [inv.id], {'state': 'cancel'}, context=context)
 
     def prepare_inventory(self, cr, uid, ids, context=None):
@@ -3008,8 +3007,8 @@ class stock_inventory_line(osv.osv):
         return res
 
     _columns = {
-        'inventory_id': fields.many2one('stock.inventory', 'Inventory', ondelete='cascade', select=True,
-                                         states={'done': [('readonly', True)]}),
+        'inventory_id': fields.many2one('stock.inventory', 'Inventory', ondelete='cascade', select=True, readonly=True,
+                                         states={'draft': [('readonly', False)]}),
         'location_id': fields.many2one('stock.location', 'Location', required=True, select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'confirm': [('readonly', True)]}),
         'product_id': fields.many2one('product.product', 'Product', required=True, select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'confirm': [('readonly', True)]}),
         'package_id': fields.many2one('stock.quant.package', 'Pack', select=True, states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'confirm': [('readonly', True)]}),
@@ -3050,7 +3049,8 @@ class stock_inventory_line(osv.osv):
 
     _defaults = {
         'product_qty': 0,
-        'product_uom_id': lambda self, cr, uid, ctx=None: self.pool['ir.model.data'].get_object_reference(cr, uid, 'product', 'product_uom_unit')[1]
+        'product_uom_id': lambda self, cr, uid, ctx=None: self.pool['ir.model.data'].get_object_reference(cr, uid, 'product', 'product_uom_unit')[1],
+        'state': 'draft',
     }
 
     def create(self, cr, uid, values, context=None):
@@ -3201,6 +3201,15 @@ class stock_inventory_line(osv.osv):
             return {'value': {'product_uom_id': False}}
         obj_product = self.pool.get('product.product').browse(cr, uid, product, context=context)
         return {'value': {'product_uom_id': uom or obj_product.uom_id.id}}
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        for line in self.browse(cr, uid, ids, context=context):
+            if line.state == 'cancel':
+                continue
+            if line.stock_move_id and line.stock_move_id.state <> 'cancel':
+                line.stock_move_id.action_cancel()
+            line.write({'state': 'cancel'})
+        return True
 
 
 #----------------------------------------------------------

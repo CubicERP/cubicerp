@@ -998,6 +998,8 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         security.check(self.db, self.uid, self.password)
 
     def logout(self, keep_db=False):
+        if not self._db:
+            return False
         openerp.registry(self._db)['res.users'].logout(self.uid, self.login, self.get_env())
         for k in self.keys():
             if not (keep_db and k == 'db'):

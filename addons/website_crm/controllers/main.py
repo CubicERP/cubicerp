@@ -87,7 +87,7 @@ class contactus(http.Controller):
         if kwargs.get("show_info"):
             post_description = []
             environ = request.httprequest.headers.environ
-            post_description.append("%s: %s" % ("IP", environ.get("REMOTE_ADDR")))
+            post_description.append("%s: %s" % ("IP", environ.get("HTTP_X_FORWARDED_FOR", environ.get("REMOTE_ADDR"))))
             post_description.append("%s: %s" % ("USER_AGENT", environ.get("HTTP_USER_AGENT")))
             post_description.append("%s: %s" % ("ACCEPT_LANGUAGE", environ.get("HTTP_ACCEPT_LANGUAGE")))
             post_description.append("%s: %s" % ("REFERER", environ.get("HTTP_REFERER")))

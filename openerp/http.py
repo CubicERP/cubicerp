@@ -961,6 +961,8 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             SERVER_SOFTWARE=wsgienv['SERVER_SOFTWARE'],
             SESSION_ID=self.sid
         )
+        if wsgienv.has_key('HTTP_X_FORWARDED_FOR'):
+            env['REMOTE_ADDR'] = wsgienv['HTTP_X_FORWARDED_FOR']
         return env
 
     def authenticate(self, db, login=None, password=None, uid=None):
@@ -1025,7 +1027,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         self.context = request.registry.get('res.users').context_get(request.cr, request.uid) or {}
         self.context['uid'] = self.uid
         self.context['sid'] = self.sid
-        self.context['rip'] = request.httprequest.headers.environ['REMOTE_ADDR']
+        self.context['rip'] = request.httprequest.headers.environ.get('HTTP_X_FORWARDED_FOR', request.httprequest.headers.environ['REMOTE_ADDR'])
         self._fix_lang(self.context)
         return self.context
 

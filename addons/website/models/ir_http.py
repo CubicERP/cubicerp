@@ -97,7 +97,7 @@ class ir_http(orm.AbstractModel):
                 except ImportError:
                     self.geo_ip_resolver = False
             if self.geo_ip_resolver and request.httprequest.remote_addr:
-                record = self.geo_ip_resolver.record_by_addr(request.httprequest.remote_addr) or {}
+                record = self.geo_ip_resolver.record_by_addr(request.httprequest.headers.environ.get('HTTP_X_FORWARDED_FOR', request.httprequest.remote_addr)) or {}
             request.session['geoip'] = record
 
         cook_lang = request.httprequest.cookies.get('website_lang')

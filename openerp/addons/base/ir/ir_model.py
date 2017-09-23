@@ -347,6 +347,14 @@ class ir_model_fields(osv.osv):
 
         return True
 
+    def _name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=100, name_get_uid=None):
+        if args is None:
+            args = []
+        domain = args + ['|', ('name', operator, name), ('field_description', operator, name)]
+        return self.name_get(cr, name_get_uid or uid,
+                             super(ir_model_fields, self).search(cr, uid, domain, limit=limit, context=context),
+                             context=context)
+
     def unlink(self, cr, user, ids, context=None):
         # Prevent manual deletion of module columns
         if context is None: context = {}

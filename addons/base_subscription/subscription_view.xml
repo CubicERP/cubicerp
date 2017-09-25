@@ -4,8 +4,8 @@
 
         <!-- Subscription Views -->
         <record id="view_subscription_form" model="ir.ui.view">
-            <field name="name">subscription.subscription.form</field>
-            <field name="model">subscription.subscription</field>
+            <field name="name">base.subscription.subscription.form</field>
+            <field name="model">base.subscription.subscription</field>
             <field name="arch" type="xml">
                 <form string="Subscriptions">
                 <header>
@@ -47,8 +47,8 @@
         </record>
 
         <record id="view_subscription_tree" model="ir.ui.view">
-            <field name="name">subscription.subscription.tree</field>
-            <field name="model">subscription.subscription</field>
+            <field name="name">base.subscription.subscription.tree</field>
+            <field name="model">base.subscription.subscription</field>
             <field name="arch" type="xml">
                 <tree string="Subscriptions">
                     <field name="name"/>
@@ -61,8 +61,8 @@
         </record>
 
         <record id="view_subscription_filter" model="ir.ui.view">
-            <field name="name">subscription.subscription.filter</field>
-            <field name="model">subscription.subscription</field>
+            <field name="name">base.subscription.subscription.filter</field>
+            <field name="model">base.subscription.subscription</field>
             <field name="arch" type="xml">
                 <search string="Search Subscription">
                     <field name="name" string="Subscription"/>
@@ -84,7 +84,7 @@
         <record id="action_subscription_form" model="ir.actions.act_window">
             <field name="name">Recurring Documents</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">subscription.subscription</field>
+            <field name="res_model">base.subscription.subscription</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="view_subscription_tree"/>
             <field name="context">{'search_default_User':1}</field>
@@ -93,8 +93,8 @@
         <menuitem action="action_subscription_form" id="menu_action_subscription_form" parent="base.menu_automation"/>
 
         <record id="subscription_subscription_history_tree" model="ir.ui.view">
-            <field name="name">subscription.subscription.history.tree</field>
-            <field name="model">subscription.subscription.history</field>
+            <field name="name">base.subscription.subscription.history.tree</field>
+            <field name="model">base.subscription.subscription.history</field>
             <field name="arch" type="xml">
                 <tree string="Subscription History">
                     <field name="date"/>
@@ -103,8 +103,8 @@
         </record>
 
         <record id="subscription_subscription_history_form" model="ir.ui.view">
-            <field name="name">subscription.subscription.history.form</field>
-            <field name="model">subscription.subscription.history</field>
+            <field name="name">base.subscription.subscription.history.form</field>
+            <field name="model">base.subscription.subscription.history</field>
             <field name="arch" type="xml">
                 <form string="Subscription History">
                     <group col="4">
@@ -116,8 +116,8 @@
         </record>
 
         <record id="document_form" model="ir.ui.view">
-            <field name="name">subscription.document.form</field>
-            <field name="model">subscription.document</field>
+            <field name="name">base.subscription.document.form</field>
+            <field name="model">base.subscription.document</field>
             <field name="arch" type="xml">
                 <form string="Subscription Document">
                     <group col="4">
@@ -131,8 +131,8 @@
         </record>
 
         <record id="document_tree" model="ir.ui.view">
-            <field name="name">subscription.document.tree</field>
-            <field name="model">subscription.document</field>
+            <field name="name">base.subscription.document.tree</field>
+            <field name="model">base.subscription.document</field>
             <field name="arch" type="xml">
                 <tree string="Subscription Document">
                     <field name="name"/>
@@ -143,8 +143,8 @@
         </record>
 
         <record id="view_subscription_document_filter" model="ir.ui.view">
-            <field name="name">subscription.document.filter</field>
-            <field name="model">subscription.document</field>
+            <field name="name">base.subscription.document.filter</field>
+            <field name="model">base.subscription.document</field>
             <field name="arch" type="xml">
                 <search string="Subscription Document">
                     <field name="name" string="Subscription Document"/>
@@ -154,8 +154,8 @@
         </record>
 
         <record id="document_fields_form" model="ir.ui.view">
-            <field name="name">subscription.document.fields.form</field>
-            <field name="model">subscription.document.fields</field>
+            <field name="name">base.subscription.document.fields.form</field>
+            <field name="model">base.subscription.document.fields</field>
             <field name="arch" type="xml">
                 <form string="Subscription Document Fields">
                     <group>
@@ -167,8 +167,8 @@
         </record>
 
         <record id="document_fields_tree" model="ir.ui.view">
-            <field name="name">subscription.document.fields.tree</field>
-            <field name="model">subscription.document.fields</field>
+            <field name="name">base.subscription.document.fields.tree</field>
+            <field name="model">base.subscription.document.fields</field>
             <field name="arch" type="xml">
                 <tree string="Subscription Document Fields">
                     <field name="field"/>
@@ -180,7 +180,7 @@
         <record id="action_document_form" model="ir.actions.act_window">
             <field name="name">Recurring Types</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">subscription.document</field>
+            <field name="res_model">base.subscription.document</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="document_tree"/>
             <field name="search_view_id" ref="view_subscription_document_filter"/>

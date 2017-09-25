@@ -27,26 +27,26 @@ from openerp.osv import fields,osv
 from openerp.tools.translate import _
 
 class subscription_document(osv.osv):
-    _name = "subscription.document"
+    _name = "base.subscription.document"
     _description = "Subscription Document"
     _columns = {
         'name': fields.char('Name', required=True),
         'active': fields.boolean('Active', help="If the active field is set to False, it will allow you to hide the subscription document without removing it."),
         'model': fields.many2one('ir.model', 'Object', required=True),
-        'field_ids': fields.one2many('subscription.document.fields', 'document_id', 'Fields', copy=True)
+        'field_ids': fields.one2many('base.subscription.document.fields', 'document_id', 'Fields', copy=True)
     }
     _defaults = {
         'active' : lambda *a: True,
     }
 
 class subscription_document_fields(osv.osv):
-    _name = "subscription.document.fields"
+    _name = "base.subscription.document.fields"
     _description = "Subscription Document Fields"
     _rec_name = 'field'
     _columns = {
         'field': fields.many2one('ir.model.fields', 'Field', domain="[('model_id', '=', parent.model)]", required=True),
         'value': fields.selection([('false','False'),('date','Current Date')], 'Default Value', size=40, help="Default value is considered for field when new document is generated."),
-        'document_id': fields.many2one('subscription.document', 'Subscription Document', ondelete='cascade'),
+        'document_id': fields.many2one('base.subscription.document', 'Subscription Document', ondelete='cascade'),
     }
     _defaults = {}
 
@@ -55,7 +55,7 @@ def _get_document_types(self, cr, uid, context=None):
     return cr.fetchall()
 
 class subscription_subscription(osv.osv):
-    _name = "subscription.subscription"
+    _name = "base.subscription.subscription"
     _description = "Subscription"
     _columns = {
         'name': fields.char('Name', required=True),
@@ -69,7 +69,7 @@ class subscription_subscription(osv.osv):
         'date_init': fields.datetime('First Date'),
         'state': fields.selection([('draft','Draft'),('running','Running'),('done','Done')], 'Status', copy=False),
         'doc_source': fields.reference('Source Document', required=True, selection=_get_document_types, size=128, help="User can choose the source document on which he wants to create documents"),
-        'doc_lines': fields.one2many('subscription.subscription.history', 'subscription_id', 'Documents created', readonly=True),
+        'doc_lines': fields.one2many('base.subscription.subscription.history', 'subscription_id', 'Documents created', readonly=True),
         'cron_id': fields.many2one('ir.cron', 'Cron Job', help="Scheduler which runs on subscription", states={'running':[('readonly',True)], 'done':[('readonly',True)]}),
         'note': fields.text('Notes', help="Description or Summary of Subscription"),
     }
@@ -97,7 +97,7 @@ class subscription_subscription(osv.osv):
     def set_process(self, cr, uid, ids, context=None):
         for row in self.read(cr, uid, ids, context=context):
             mapping = {'name':'name','interval_number':'interval_number','interval_type':'interval_type','exec_init':'numbercall','date_init':'nextcall'}
-            res = {'model':'subscription.subscription', 'args': repr([[row['id']]]), 'function':'model_copy', 'priority':6, 'user_id':row['user_id'] and row['user_id'][0]}
+            res = {'model':'base.subscription.subscription', 'args': repr([[row['id']]]), 'function':'model_copy', 'priority':6, 'user_id':row['user_id'] and row['user_id'][0]}
             for key,value in mapping.items():
                 res[value] = row[key]
             id = self.pool.get('ir.cron').create(cr, uid, res)
@@ -118,7 +118,7 @@ class subscription_subscription(osv.osv):
                 raise osv.except_osv(_('Wrong Source Document!'), _('Please provide another source document.\nThis one does not exist!'))
 
             default = {'state':'draft'}
-            doc_obj = self.pool.get('subscription.document')
+            doc_obj = self.pool.get('base.subscription.document')
             document_ids = doc_obj.search(cr, uid, [('model.model','=',model_name)])
             doc = doc_obj.browse(cr, uid, document_ids)[0]
             for f in doc.field_ids:
@@ -135,7 +135,7 @@ class subscription_subscription(osv.osv):
             if remaining == 1:
                 state = 'done'
             id = self.pool[model_name].copy(cr, uid, id, default, context)
-            self.pool.get('subscription.subscription.history').create(cr, uid, {'subscription_id': row['id'], 'date':time.strftime('%Y-%m-%d %H:%M:%S'), 'document_id': model_name+','+str(id)})
+            self.pool.get('base.subscription.subscription.history').create(cr, uid, {'subscription_id': row['id'], 'date':time.strftime('%Y-%m-%d %H:%M:%S'), 'document_id': model_name+','+str(id)})
             self.write(cr, uid, [row['id']], {'state':state})
         return True
 
@@ -157,12 +157,12 @@ class subscription_subscription(osv.osv):
         return True
 
 class subscription_subscription_history(osv.osv):
-    _name = "subscription.subscription.history"
+    _name = "base.subscription.subscription.history"
     _description = "Subscription history"
     _rec_name = 'date'
     _columns = {
         'date': fields.datetime('Date'),
-        'subscription_id': fields.many2one('subscription.subscription', 'Subscription', ondelete='cascade'),
+        'subscription_id': fields.many2one('base.subscription.subscription', 'Subscription', ondelete='cascade'),
         'document_id': fields.reference('Source Document', required=True, selection=_get_document_types, size=128),
     }
 

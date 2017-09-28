@@ -1760,4 +1760,12 @@ class account_invoice_line(osv.Model):
     }
 
 
+class account_analytic_line(osv.Model):
+    """ Override account_analytic_line to add the link to the purchase order line it is related to"""
+    _inherit = 'account.analytic.line'
+    _columns = {
+        'purchase_line_id': fields.many2one('purchase.order.line', 'Purchase Order Line', ondelete='set null', select=True, readonly=True),
+    }
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

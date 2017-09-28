@@ -1328,6 +1328,14 @@ class account_invoice(osv.Model):
         return super(account_invoice, self).unlink(cr, uid, ids, context=context)
 
 
+class account_analytic_line(osv.Model):
+    """ Override account_analytic_line to add the link to the sale order line it is related to"""
+    _inherit = 'account.analytic.line'
+    _columns = {
+        'sale_line_id': fields.many2one('sale.order.line', 'Sale Order Line', ondelete='set null', select=True, readonly=True),
+    }
+
+
 class procurement_order(osv.osv):
     _inherit = 'procurement.order'
     _columns = {

@@ -701,5 +701,19 @@
             <field name="context">{'search_default_month':1}</field>
             <field name="help">From this report, you can have an overview of the amount invoiced to your customer. The tool search can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
         </record>
+
+        <!-- Procurements -->
+
+        <record id="procurement_form_view" model="ir.ui.view">
+            <field name="name">procurement.order.form.inherit.sale</field>
+            <field name="model">procurement.order</field>
+            <field name="inherit_id" ref="procurement.procurement_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="sale_line_id"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>

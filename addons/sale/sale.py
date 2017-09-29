@@ -1357,6 +1357,19 @@ class procurement_order(osv.osv):
                         workflow.trg_validate(uid, 'sale.order', order_id, 'ship_except', cr)
         return res
 
+class stock_move(osv.osv):
+    _inherit = 'stock.move'
+
+    def _sale_line_id(self, cr, uid, ids, field_name, arg, context=None):
+        for move in self.browse(cr, uid, ids, context=context):
+            res[move.id] = move._sale_line_id and move._sale_line_id.id or (move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id or False)
+        return res
+
+    _columns = {
+        'sale_line_id': fields.function(_sale_line_id, string='Sale Order Line', type="many2one", relation="sale.order.line"),
+        '_sale_line_id': fields.many2one("sale.order.line", string='Internal Sale Line')
+    }
+
 class product_product(osv.Model):
     _inherit = 'product.product'
 

@@ -954,7 +954,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
             REQUEST_METHOD=wsgienv['REQUEST_METHOD'],
             HTTP_USER_AGENT=wsgienv['HTTP_USER_AGENT'],
             HTTP_COOKIE=wsgienv['HTTP_COOKIE'],
-            HTTP_REFERER=wsgienv['HTTP_REFERER'],
+            HTTP_REFERER=wsgienv.get('HTTP_REFERER'),
             SERVER_NAME=wsgienv['SERVER_NAME'],
             SERVER_PORT=wsgienv['SERVER_PORT'],
             SERVER_PROTOCOL=wsgienv['SERVER_PROTOCOL'],

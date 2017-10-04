@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem name='Payments' id='root_payment_menu' sequence="55"/>
+        <menuitem name='Configuration' id='configuration_menu' parent='root_payment_menu' sequence="80"/>
+
+        <record id="view_payment_medium_search" model="ir.ui.view">
+            <field name="name">payment.medium.search</field>
+            <field name="model">payment.medium</field>
+            <field name="arch" type="xml">
+                <search string="Payment Medium">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_payment_medium_tree" model="ir.ui.view">
+            <field name="name">payment.medium.tree</field>
+            <field name="model">payment.medium</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Medium">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_payment_medium_form" model="ir.ui.view">
+            <field name="name">payment.medium.form</field>
+            <field name="model">payment.medium</field>
+            <field name="arch" type="xml">
+                <form string="Payment Medium">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="kind_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Analytic Account">
+                            <field name="analytic_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record id="action_payment_medium_form" model="ir.actions.act_window">
+            <field name="name">Payment Medium</field>
+            <field name="res_model">payment.medium</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_payment_medium_form" id="menu_action_payment_medium_form"
+                  parent="payment.configuration_menu" groups="base.group_no_one" sequence="10"/>
+
+
+        <record id="view_payment_mode_search" model="ir.ui.view">
+            <field name="name">payment.mode.search</field>
+            <field name="model">payment.mode</field>
+            <field name="arch" type="xml">
+                <search string="Payment Mode">
+                    <field name="name" string="Payment Mode"/>
+                    <field name="journal"/>
+                    <field name="account_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal'}"/>
+                        <filter string="Account" domain="[]" context="{'group_by':'account_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_payment_mode_tree" model="ir.ui.view">
+            <field name="name">payment.mode.tree</field>
+            <field name="model">payment.mode</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Mode">
+                    <field name="name"/>
+                    <field name="journal"/>
+                    <field name="account_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_payment_mode_form" model="ir.ui.view">
+            <field name="name">payment.mode.form</field>
+            <field name="model">payment.mode</field>
+            <field name="arch" type="xml">
+                <form string="Payment Mode">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="journal"/>
+                        <field name="bank_id" domain="[('partner_id','=',partner_id)]"  />
+                        <field name="account_id"/>
+                        <field name="company_id" widget='selection' groups="base.group_multi_company"/>
+                        <field name="partner_id" invisible="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_payment_mode_form" model="ir.actions.act_window">
+            <field name="name">Payment Mode</field>
+            <field name="res_model">payment.mode</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_payment_mode_search"/>
+        </record>
+        <menuitem action="action_payment_mode_form" id="menu_action_payment_mode_form"
+                  parent="payment.configuration_menu" groups="base.group_no_one" sequence="50"/>
+
+        <record id="view_payment_kind_tree" model="ir.ui.view">
+            <field name="name">payment.kind.tree</field>
+            <field name="model">payment.kind</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Kind">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_payment_kind_form" model="ir.ui.view">
+            <field name="name">payment.kind.form</field>
+            <field name="model">payment.kind</field>
+            <field name="arch" type="xml">
+                <form string="Payment Kind">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                    <string string="Payment Mediums"/>
+                    <field name="medium_ids"/>
+                </form>
+            </field>
+        </record>
+        <record id="action_payment_kind_form" model="ir.actions.act_window">
+            <field name="name">Payment Kind</field>
+            <field name="res_model">payment.kind</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_payment_kind_form" id="menu_action_payment_kind_form"
+                  parent="payment.configuration_menu" groups="base.group_no_one" sequence="60"/>
+
+    </data>
+</openerp>

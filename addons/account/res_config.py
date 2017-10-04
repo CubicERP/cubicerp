@@ -94,11 +94,11 @@ class account_config_settings(osv.osv_memory):
                  'Once the master budgets and the budgets are defined, '
                  'the project managers can set the planned amount on each analytic account.\n'
                  '-This installs the module account_budget.'),
-        'module_account_payment': fields.boolean('Manage payment orders',
+        'module_payment_order': fields.boolean('Manage payment orders',
             help='This allows you to create and manage your payment orders, with purposes to \n'
                  '* serve as base for an easy plug-in of various automated payment mechanisms, and \n'
                  '* provide a more efficient way to manage invoice payments.\n'
-                 '-This installs the module account_payment.' ),
+                 '-This installs the module payment_order.' ),
         'module_account_voucher': fields.boolean('Manage customer payments',
             help='This includes all the basic requirements of voucher entries for bank, cash, sales, purchase, expense, contra, etc.\n'
                  '-This installs the module account_voucher.'),

@@ -34,7 +34,7 @@ This module allows you to create and manage your payment orders, with purposes t
     * provide a more efficient way to manage invoice payment.
     * manage fund request workflow
     """,
-    'depends': ['account','account_voucher'],
+    'depends': ['account','account_voucher','payment'],
     'data': [
         'security/account_payment_security.xml',
         'security/ir.model.access.csv',

@@ -27,44 +27,6 @@ from openerp.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
-class payment_mode(osv.osv):
-    _name= 'payment.mode'
-    _description= 'Payment Mode'
-    _columns = {
-        'name': fields.char('Name', required=True, help='Mode of Payment'),
-        'bank_id': fields.many2one('res.partner.bank', "Bank account",
-            required=True,help='Bank Account for the Payment Mode'),
-        'journal': fields.many2one('account.journal', 'Journal', required=True,
-            domain=[('type', 'in', ('bank','cash'))], help='Bank or Cash Journal for the Payment Mode'),
-        'company_id': fields.many2one('res.company', 'Company',required=True),
-        'partner_id':fields.related('company_id','partner_id',type='many2one',relation='res.partner',string='Partner',store=True,),
-        'account_id': fields.many2one('account.account', 'Account', required=True,
-                                      domain=[('type','=','payable')], help="Account to make a group for massive payments"),
-        'analytic_id': fields.many2one('account.analytic.account', 'Analytic Account', domain=[('type', '!=', 'view')])
-    }
-    _defaults = {
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id
-    }
-
-    def suitable_bank_types(self, cr, uid, payment_code=None, context=None):
-        """Return the codes of the bank type that are suitable
-        for the given payment type code"""
-        if not payment_code:
-            return []
-        cr.execute(""" SELECT pb.state
-            FROM res_partner_bank pb
-            JOIN payment_mode pm ON (pm.bank_id = pb.id)
-            WHERE pm.id = %s """, [payment_code])
-        return [x[0] for x in cr.fetchall()]
-
-    def onchange_company_id (self, cr, uid, ids, company_id=False, context=None):
-        result = {}
-        if company_id:
-            partner_id = self.pool.get('res.company').browse(cr, uid, company_id, context=context).partner_id.id
-            result['partner_id'] = partner_id
-        return {'value': result}
-
-
 
 class payment_order(osv.osv):
     _name = 'payment.order'

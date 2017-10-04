@@ -9,6 +9,7 @@
     'author': 'OpenERP SA',
     'depends': ['account'],
     'data': [
+        'views/payment_view.xml',
         'views/payment_acquirer.xml',
         'views/res_config_view.xml',
         'security/ir.model.access.csv',

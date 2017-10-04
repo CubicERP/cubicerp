@@ -51,7 +51,7 @@ class PaymentAcquirer(osv.Model):
     transaction, with transaction details given as a POST request.
     """
     _name = 'payment.acquirer'
-    _description = 'Payment Acquirer'
+    _description = 'Payment Acquirer with data for electronic payments'
 
     def _get_providers(self, cr, uid, context=None):
         return []
@@ -322,7 +322,7 @@ class PaymentTransaction(osv.Model):
        generally receives data posted by the acquirer after the transaction.
     """
     _name = 'payment.transaction'
-    _description = 'Payment Transaction'
+    _description = 'Electronic Payment Transaction'
     _inherit = ['mail.thread']
     _order = 'id desc'
     _rec_name = 'reference'

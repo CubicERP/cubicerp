@@ -6,8 +6,8 @@
             model="payment.order"
             string="Payment Order"
             report_type="qweb-pdf"
-            name="account_payment.report_paymentorder"
-            file="account_payment.report_paymentorder"
+            name="payment_order.report_paymentorder"
+            file="payment_order.report_paymentorder"
         />
     </data>
 </openerp>

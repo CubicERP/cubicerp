@@ -859,7 +859,8 @@ class Field(object):
             if env.in_onchange:
                 for invf in self.inverse_fields:
                     invf._update(value, record)
-                record._set_dirty(self.name)
+                if not self.compute:
+                    record._set_dirty(self.name)
 
             # determine more dependent fields, and invalidate them
             if self.relational:

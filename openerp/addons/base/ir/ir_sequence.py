@@ -259,12 +259,12 @@ class ir_sequence(openerp.osv.osv.osv):
             raise osv.except_osv(_('Warning'), _('Invalid prefix or suffix for sequence \'%s\'') % (seq.get('name')))
         return interpolated_prefix + '%%0%sd' % seq['padding'] % seq['number_next'] + interpolated_suffix
 
-    def next_by_id(self, cr, uid, sequence_id, context=None):
+    def next_by_id(self, cr, uid, ids, context=None):
         """ Draw an interpolated string using the specified sequence."""
         self.check_access_rights(cr, uid, 'read')
         company_ids = self.pool.get('res.company').search(cr, uid, [], context=context) + [False]
-        ids = self.search(cr, uid, ['&',('id','=', sequence_id),('company_id','in',company_ids)])
-        return self._next(cr, uid, ids, context)
+        sequence_ids = self.search(cr, uid, ['&',type(ids) is int and ('id','=', ids) or ('id','in', ids),('company_id','in',company_ids)])
+        return self._next(cr, uid, sequence_ids, context)
 
     def next_by_code(self, cr, uid, sequence_code, context=None):
         """ Draw an interpolated string using a sequence with the requested code.

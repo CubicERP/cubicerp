@@ -9,9 +9,9 @@
             <field name="arch" type="xml">
                 <xpath expr='//group[@name="acquirer_display"]' position='after'>
                     <group attrs="{'invisible': [('provider', '!=', 'adyen')]}">
-                        <field name="adyen_merchant_account"/>
-                        <field name="adyen_skin_code"/>
-                        <field name="adyen_skin_hmac_key"/>
+                        <field name="adyen_merchant_account" attrs="{'required': [('provider', '=', 'adyen')]}"/>
+                        <field name="adyen_skin_code" attrs="{'required': [('provider', '=', 'adyen')]}"/>
+                        <field name="adyen_skin_hmac_key" attrs="{'required': [('provider', '=', 'adyen')]}"/>
                     </group>
                 </xpath>
             </field>

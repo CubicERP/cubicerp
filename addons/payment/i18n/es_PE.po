@@ -1,76 +1,81 @@
-# Translation of Odoo Server.
+# Translation of Server.
 # This file contains the translation of the following modules:
-# * payment
-# 
-# Translators:
+# 	* payment
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 8.0\n"
+"Project-Id-Version: Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 14:08+0000\n"
-"PO-Revision-Date: 2016-06-22 23:31+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Spanish (Peru) (http://www.transifex.com/odoo/odoo-8/language/es_PE/)\n"
+"POT-Creation-Date: 2016-11-29 16:26+0000\n"
+"PO-Revision-Date: 2016-11-29 11:30-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
 "Language: es_PE\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. module: payment
 #: help:account.config.settings,module_payment_adyen:0
 msgid "-It installs the module payment_adyen."
-msgstr ""
+msgstr "- Instala el módulo payment_adyen."
+
+#. module: payment
+#: help:account.config.settings,module_payment_authorize:0
+msgid "-It installs the module payment_authorize."
+msgstr "-Instala el módulo payment_authorize."
 
 #. module: payment
 #: help:account.config.settings,module_payment_buckaroo:0
 msgid "-It installs the module payment_buckaroo."
-msgstr ""
+msgstr "- Instala el módulo payment_buckaroo."
 
 #. module: payment
 #: help:account.config.settings,module_payment_ogone:0
 msgid "-It installs the module payment_ogone."
-msgstr ""
+msgstr "- Instala el módulo payment_ogone."
 
 #. module: payment
 #: help:account.config.settings,module_payment_paypal:0
 msgid "-It installs the module payment_paypal."
-msgstr ""
+msgstr "- Instala el módulo payment_paypal."
 
 #. module: payment
 #: field:payment.transaction,acquirer_id:0
 msgid "Acquirer"
-msgstr "Adquiriente"
+msgstr "Pasarela"
 
 #. module: payment
 #: field:payment.transaction,acquirer_reference:0
 msgid "Acquirer Order Reference"
-msgstr ""
+msgstr "Referencia de la pasarela"
 
 #. module: payment
 #: field:payment.transaction,partner_address:0
 msgid "Address"
-msgstr ""
+msgstr "Dirección"
 
 #. module: payment
 #: field:payment.transaction,amount:0
 msgid "Amount"
-msgstr "Cantidad"
+msgstr "Monto"
 
 #. module: payment
 #: help:payment.transaction,amount:0
 msgid "Amount in cents"
-msgstr ""
+msgstr "Importe en céntimos"
 
 #. module: payment
 #: selection:payment.acquirer,validation:0
 msgid "Automatic"
-msgstr ""
+msgstr "Automático"
 
 #. module: payment
 #: selection:payment.transaction,state:0
 msgid "Canceled"
-msgstr ""
+msgstr "Cancelada"
 
 #. module: payment
 #: field:payment.transaction,partner_city:0
@@ -85,7 +90,7 @@ msgstr "Compañia"
 #. module: payment
 #: field:payment.acquirer,fees_active:0
 msgid "Compute fees"
-msgstr ""
+msgstr "Calcular tasas"
 
 #. module: payment
 #: field:payment.transaction,partner_country_id:0
@@ -98,8 +103,7 @@ msgid "Created by"
 msgstr "Creado por"
 
 #. module: payment
-#: field:payment.acquirer,create_date:0
-#: field:payment.transaction,create_date:0
+#: field:payment.acquirer,create_date:0 field:payment.transaction,create_date:0
 msgid "Created on"
 msgstr "Creado en"
 
@@ -117,6 +121,12 @@ msgstr "Moneda"
 #: help:payment.transaction,message_last_post:0
 msgid "Date of the last message posted on the record."
 msgstr "Fecha del ultimo mensaje actualizado en el registro"
+
+#. module: payment
+#: field:payment.acquirer,display_name:0
+#: field:payment.transaction,display_name:0
+msgid "Display Name"
+msgstr "Mostrar nombre"
 
 #. module: payment
 #: selection:payment.transaction,state:0
@@ -146,32 +156,32 @@ msgstr "Error"
 #. module: payment
 #: field:payment.transaction,fees:0
 msgid "Fees"
-msgstr ""
+msgstr "Comisiones"
 
 #. module: payment
 #: help:payment.transaction,fees:0
 msgid "Fees amount; set by the system because depends on the acquirer"
-msgstr ""
+msgstr "Importe de las comisiones; establecido por el sistema porque depende de la pasarela"
 
 #. module: payment
 #: help:payment.transaction,state_message:0
 msgid "Field used to store error and/or validation messages for information"
-msgstr ""
+msgstr "Campo usado para guardar los mensajes de error/o validación como información"
 
 #. module: payment
 #: field:payment.acquirer,fees_dom_fixed:0
 msgid "Fixed domestic fees"
-msgstr ""
+msgstr "Comisiones nacionales fijas"
 
 #. module: payment
 #: field:payment.acquirer,fees_int_fixed:0
 msgid "Fixed international fees"
-msgstr ""
+msgstr "Comisiones internacionales fijas"
 
 #. module: payment
 #: field:payment.transaction,message_follower_ids:0
 msgid "Followers"
-msgstr ""
+msgstr "Seguidores"
 
 #. module: payment
 #: selection:payment.transaction,type:0
@@ -181,7 +191,7 @@ msgstr "Formulario"
 #. module: payment
 #: field:payment.acquirer,view_template_id:0
 msgid "Form Button Template"
-msgstr ""
+msgstr "Plantilla del botón del formulario"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_search
@@ -190,10 +200,8 @@ msgstr "Agrupado por"
 
 #. module: payment
 #: help:payment.transaction,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Contiene el resumen del chatter (nº de mensajes, ...). Este resumen está directamente en formato html para ser insertado en vistas kanban."
 
 #. module: payment
 #: field:payment.acquirer,id:0 field:payment.transaction,id:0
@@ -213,12 +221,18 @@ msgstr "Es un Seguidor"
 #. module: payment
 #: field:payment.transaction,partner_lang:0
 msgid "Lang"
-msgstr ""
+msgstr "Idioma"
 
 #. module: payment
 #: field:payment.transaction,message_last_post:0
 msgid "Last Message Date"
 msgstr "Fecha del último mensaje"
+
+#. module: payment
+#: field:payment.acquirer,__last_update:0
+#: field:payment.transaction,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
 
 #. module: payment
 #: field:payment.acquirer,write_uid:0 field:payment.transaction,write_uid:0
@@ -233,32 +247,32 @@ msgstr "Ultima Actualización"
 #. module: payment
 #: help:payment.acquirer,website_published:0
 msgid "Make this payment acquirer available (Customer invoices, etc.)"
-msgstr ""
+msgstr "Hacer disponible este método de pago (facturas de cliente, etc)"
 
 #. module: payment
 #: field:account.config.settings,module_payment_adyen:0
 msgid "Manage Payments Using Adyen"
-msgstr ""
+msgstr "Gestionar pagos usando Adyen"
 
 #. module: payment
 #: field:account.config.settings,module_payment_buckaroo:0
 msgid "Manage Payments Using Buckaroo"
-msgstr ""
+msgstr "Gestionar pagos usando Buckaroo"
 
 #. module: payment
 #: field:account.config.settings,module_payment_ogone:0
 msgid "Manage Payments Using Ogone"
-msgstr ""
+msgstr "Gestionar pagos usando Ogone"
 
 #. module: payment
 #: field:account.config.settings,module_payment_paypal:0
 msgid "Manage Payments Using Paypal"
-msgstr ""
+msgstr "Gestionar pagos usando Paypal"
 
 #. module: payment
 #: selection:payment.acquirer,validation:0
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #. module: payment
 #: field:payment.acquirer,pre_msg:0 field:payment.transaction,state_message:0
@@ -268,17 +282,17 @@ msgstr "Mensaje"
 #. module: payment
 #: help:payment.acquirer,post_msg:0
 msgid "Message displayed after having done the payment process."
-msgstr ""
+msgstr "Mensaje mostrado después de haber realizado el proceso de pago."
 
 #. module: payment
 #: help:payment.acquirer,pre_msg:0
 msgid "Message displayed to explain and help the payment process."
-msgstr ""
+msgstr "Mensaje mostrado para explicar y ayudar en el proceso de pago."
 
 #. module: payment
 #: field:payment.transaction,message_ids:0
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #. module: payment
 #: help:payment.transaction,message_ids:0
@@ -293,28 +307,28 @@ msgstr "Nombre"
 #. module: payment
 #: field:payment.transaction,reference:0
 msgid "Order Reference"
-msgstr ""
+msgstr "Referencia"
 
 #. module: payment
 #: field:payment.transaction,partner_id:0
 msgid "Partner"
-msgstr "Socio"
+msgstr "Cliente"
 
 #. module: payment
 #: field:payment.transaction,partner_name:0
 msgid "Partner Name"
-msgstr ""
+msgstr "Nombre del cliente"
 
 #. module: payment
 #: field:payment.transaction,partner_reference:0
 msgid "Partner Reference"
-msgstr ""
+msgstr "Referencia del cliente"
 
 #. module: payment
-#: code:addons/payment/models/payment_acquirer.py:274
+#: code:addons/payment/models/payment_acquirer.py:275
 #, python-format
 msgid "Pay safely online"
-msgstr ""
+msgstr "Pague en línea de forma segura"
 
 #. module: payment
 #: model:ir.model,name:payment.model_payment_acquirer
@@ -327,7 +341,7 @@ msgstr "Pago del Adquiriente"
 #: model:ir.ui.menu,name:payment.payment_acquirer_menu
 #: view:payment.acquirer:payment.acquirer_list
 msgid "Payment Acquirers"
-msgstr ""
+msgstr "Métodos de pago"
 
 #. module: payment
 #: model:ir.model,name:payment.model_payment_transaction
@@ -340,7 +354,7 @@ msgstr "Transacción de Pago"
 #: view:payment.transaction:payment.transaction_form
 #: view:payment.transaction:payment.transaction_list
 msgid "Payment Transactions"
-msgstr ""
+msgstr "Transacciones de pago"
 
 #. module: payment
 #: model:ir.ui.menu,name:payment.root_payment_menu
@@ -360,48 +374,48 @@ msgstr "Telefono"
 #. module: payment
 #: field:payment.acquirer,validation:0
 msgid "Process Method"
-msgstr ""
+msgstr "Método de procesado"
 
 #. module: payment
 #: selection:payment.acquirer,environment:0
 msgid "Production"
-msgstr ""
+msgstr "Producción"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_search
 #: field:payment.acquirer,provider:0
-msgid "Provider"
-msgstr "Proveedor"
+msgid "Electronic Provider"
+msgstr "Proveedor Electrónico"
 
 #. module: payment
 #: help:payment.transaction,acquirer_reference:0
 msgid "Reference of the TX as stored in the acquirer database"
-msgstr ""
+msgstr "Referencia de la transferencia como se guardar en la base de datos de la pasarela"
 
 #. module: payment
 #: help:payment.transaction,partner_reference:0
 msgid "Reference of the customer in the acquirer database"
-msgstr ""
+msgstr "Referencia del cliente en la base de datos de la pasarela"
 
 #. module: payment
 #: constraint:payment.acquirer:0
 msgid "Required fields not filled"
-msgstr ""
+msgstr "Campos requeridos no rellenados"
 
 #. module: payment
 #: view:payment.transaction:payment.transaction_form
 msgid "Send a message to the group"
-msgstr ""
+msgstr "Enviar un mensaje al grupo"
 
 #. module: payment
 #: selection:payment.transaction,type:0
 msgid "Server To Server"
-msgstr ""
+msgstr "Servidor a servidor"
 
 #. module: payment
 #: help:payment.acquirer,validation:0
 msgid "Static payments are payments like transfer, that require manual steps."
-msgstr ""
+msgstr "Los pagos estáticos son como transferencias, que requieren pasos manuales."
 
 #. module: payment
 #: field:payment.transaction,state:0
@@ -421,19 +435,19 @@ msgstr "Prueba"
 #. module: payment
 #: field:payment.acquirer,post_msg:0
 msgid "Thanks Message"
-msgstr ""
+msgstr "Mensaje de agradecimiento"
 
 #. module: payment
-#: sql_constraint:payment.transaction:0
+#: constraint:payment.transaction:0
 msgid "The payment transaction reference must be unique!"
-msgstr ""
+msgstr "¡La referencia de la transacción de pago debe ser única!"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid ""
 "This template renders the acquirer button with all necessary values.\n"
 "                                    It is be rendered with qWeb with the following evaluation context:"
-msgstr ""
+msgstr "Esta plantilla dibuja el botón del método de pago con todos los valores necesarios. Se representará con qWeb con el siguiente contexto de evaluación:"
 
 #. module: payment
 #: field:payment.transaction,type:0
@@ -443,27 +457,27 @@ msgstr "Tipo"
 #. module: payment
 #: field:payment.transaction,message_unread:0
 msgid "Unread Messages"
-msgstr ""
+msgstr "Mensajes sin leer"
 
 #. module: payment
 #: field:payment.transaction,date_validate:0
 msgid "Validation Date"
-msgstr ""
+msgstr "Fecha de validación"
 
 #. module: payment
 #: field:payment.acquirer,fees_dom_var:0
 msgid "Variable domestic fees (in percents)"
-msgstr ""
+msgstr "Comisiones nacionales variables (en porcentaje)"
 
 #. module: payment
 #: field:payment.acquirer,fees_int_var:0
 msgid "Variable international fees (in percents)"
-msgstr ""
+msgstr "Comisiones internacionales variables (en porcentaje)"
 
 #. module: payment
 #: field:payment.acquirer,website_published:0
 msgid "Visible in Portal / Website"
-msgstr ""
+msgstr "Visible en el portal / sitio web"
 
 #. module: payment
 #: field:payment.transaction,website_message_ids:0
@@ -483,51 +497,54 @@ msgstr "Código Postal o Distrito"
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "acquirer: payment.acquirer browse record"
-msgstr ""
+msgstr "acquirer: registro del modelo payment.acquirer"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "amount: the transaction amount, a float"
-msgstr ""
+msgstr "amount: el importe de la transacción, un float"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "context: the current context dictionary"
-msgstr ""
+msgstr "context: el diccionario de contexto actual"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "currency: the transaction currency browse record"
-msgstr ""
+msgstr "currency: el registro de la moneda de la transacción"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "partner: the buyer partner browse record, not necessarily set"
-msgstr ""
+msgstr "partner: el registro del cliente que compra, no necesariamente establecido"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
-msgid ""
-"partner_values: specific values about the buyer, for example coming from a "
-"shipping form"
-msgstr ""
+msgid "partner_values: specific values about the buyer, for example coming from a shipping form"
+msgstr "partner_values: valores específicos sobre el comprador, por ejemplo, viniendo un formulario de envío"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "reference: the transaction reference number"
-msgstr ""
+msgstr "reference: el número de referencia de la transacción"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "tx_url: transaction URL to post the form"
-msgstr ""
+msgstr "tx_url: URL de la transacción para enviar el formulario"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "tx_values: transaction values"
-msgstr ""
+msgstr "tx_values: valores de la transacción"
+
+#. module: payment
+#: field:account.config.settings,module_payment_authorize:0
+msgid "unknown"
+msgstr "unknown"
 
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_form
 msgid "user: current user browse record"
-msgstr ""
+msgstr "user: registro del usuario actual"

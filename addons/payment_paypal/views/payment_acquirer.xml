@@ -11,7 +11,7 @@
                     <group attrs="{'invisible': [('provider', '!=', 'paypal')]}">
                         <group>
                             <group>
-                                <field name="paypal_email_account"/>
+                                <field name="paypal_email_account"  attrs="{'required': [('provider', '=', 'paypal')]}"/>
                                 <field name="paypal_seller_account"/>
                                 <field name="paypal_use_ipn"/>
                                 <field name="paypal_api_enabled"

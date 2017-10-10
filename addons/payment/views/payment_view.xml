@@ -34,6 +34,9 @@
                         <field name="kind_ids" widget="many2many_tags"/>
                     </group>
                     <notebook>
+                        <page string="Acquirer">
+                            <field name="acquirer_ids"/>
+                        </page>
                         <page string="Analytic Account">
                             <field name="analytic_ids"/>
                         </page>

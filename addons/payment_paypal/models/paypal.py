@@ -41,7 +41,7 @@ class AcquirerPaypal(osv.Model):
         return providers
 
     _columns = {
-        'paypal_email_account': fields.char('Paypal Email ID', required_if_provider='paypal'),
+        'paypal_email_account': fields.char('Paypal Email ID'),
         'paypal_seller_account': fields.char(
             'Paypal Merchant ID',
             help='The Merchant ID is used to ensure communications coming from Paypal are valid and secured.'),

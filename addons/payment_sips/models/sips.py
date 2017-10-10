@@ -40,9 +40,8 @@ CURRENCY_CODES = {
 class AcquirerSips(models.Model):
     _inherit = 'payment.acquirer'
     # Fields
-    sips_merchant_id = fields.Char('SIPS API User Password',
-                                   required_if_provider='sips')
-    sips_secret = fields.Char('SIPS Secret', size=64, required_if_provider='sips')
+    sips_merchant_id = fields.Char('SIPS API User Password')
+    sips_secret = fields.Char('SIPS Secret', size=64)
 
     # Methods
     def _get_sips_urls(self, environment):

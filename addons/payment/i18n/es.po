@@ -45,12 +45,12 @@ msgstr "- Instala el módulo payment_paypal."
 #. module: payment
 #: field:payment.transaction,acquirer_id:0
 msgid "Acquirer"
-msgstr "Adquiriente"
+msgstr "Pasarela"
 
 #. module: payment
 #: field:payment.transaction,acquirer_reference:0
 msgid "Acquirer Order Reference"
-msgstr "Referencia de pedido de la entidad"
+msgstr "Referencia de la pasarela"
 
 #. module: payment
 #: field:payment.transaction,partner_address:0
@@ -60,7 +60,7 @@ msgstr "Dirección"
 #. module: payment
 #: field:payment.transaction,amount:0
 msgid "Amount"
-msgstr "Cantidad"
+msgstr "Monto"
 
 #. module: payment
 #: help:payment.transaction,amount:0
@@ -161,7 +161,7 @@ msgstr "Comisiones"
 #. module: payment
 #: help:payment.transaction,fees:0
 msgid "Fees amount; set by the system because depends on the acquirer"
-msgstr "Importe de las comisiones; establecido por el sistema porque depende de la entidad"
+msgstr "Importe de las comisiones; establecido por el sistema porque depende de la pasarela"
 
 #. module: payment
 #: help:payment.transaction,state_message:0
@@ -307,12 +307,12 @@ msgstr "Nombre"
 #. module: payment
 #: field:payment.transaction,reference:0
 msgid "Order Reference"
-msgstr "Referencia del pedido"
+msgstr "Referencia"
 
 #. module: payment
 #: field:payment.transaction,partner_id:0
 msgid "Partner"
-msgstr "Partner"
+msgstr "Cliente"
 
 #. module: payment
 #: field:payment.transaction,partner_name:0
@@ -384,18 +384,18 @@ msgstr "Producción"
 #. module: payment
 #: view:payment.acquirer:payment.acquirer_search
 #: field:payment.acquirer,provider:0
-msgid "Provider"
-msgstr "Proveedor"
+msgid "Electronic Provider"
+msgstr "Proveedor Electrónico"
 
 #. module: payment
 #: help:payment.transaction,acquirer_reference:0
 msgid "Reference of the TX as stored in the acquirer database"
-msgstr "Referencia de la transferencia como se guardar en la base de datos de la entidad"
+msgstr "Referencia de la transferencia como se guardar en la base de datos de la pasarela"
 
 #. module: payment
 #: help:payment.transaction,partner_reference:0
 msgid "Reference of the customer in the acquirer database"
-msgstr "Referencia del cliente en la base de datos de la entidad"
+msgstr "Referencia del cliente en la base de datos de la pasarela"
 
 #. module: payment
 #: constraint:payment.acquirer:0

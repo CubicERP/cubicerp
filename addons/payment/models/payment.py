@@ -38,6 +38,7 @@ class payment_medium(models.Model):
     name = fields.Char("Name", required=True)
     kind_ids = fields.Many2many("payment.kind", "payment_medium_kind_rel", "medium_id", "kind_id", string="Kinds")
     analytic_ids = fields.Many2many("account.analytic.account", "payment_medium_analytic_rel", "medium_id", "analytic_id", string="Analytic Accounts")
+    acquirer_ids = fields.One2many('payment.acquirer', 'medium_id', string="Acquirers")
     active = fields.Boolean("Active", default=True)
 
 

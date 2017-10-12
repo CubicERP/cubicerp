@@ -432,12 +432,12 @@
                             <separator colspan="4" string="Accounts Allowed (empty for no control)"/>
                             <field colspan="4" name="account_control_ids" nolabel="1"/>
                         </page>
-                        <page string="Cash Registers">
+                        <page string="Cash Registers" attrs="{'invisible':[('type','not in',['cash','bank'])]}">
                             <group>
                                 <group string="Accounts">
-                                    <field name="profit_account_id" domain="[('type','!=','view')]"/>
-                                    <field name="loss_account_id" domain="[('type','!=','view')]"/>
-                                    <field name="internal_account_id" domain="[('type','!=','view')]"/>
+                                    <field name="profit_account_id" domain="[('type','!=','view')]" attrs="{'required':[('type','in',['cash','bank'])]}"/>
+                                    <field name="loss_account_id" domain="[('type','!=','view')]" attrs="{'required':[('type','in',['cash','bank'])]}"/>
+                                    <field name="internal_account_id" domain="[('type','!=','view')]" attrs="{'required':[('type','in',['cash','bank'])]}"/>
                                 </group>
                                 <group string="Miscellaneous">
                                     <field name="with_last_closing_balance" attrs="{'invisible': [('type', 'not in', ['bank', 'cash'])]}"/>
@@ -581,8 +581,10 @@
                                 attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars"/>
                         <field name="move_line_ids" invisible="1"/>
                     </div>
-                    <label for="name" class="oe_edit_only"/>
-                    <h1><field name="name"/></h1>
+                    <div class="oe_left">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
                     <group>
                         <group>
                             <field name="journal_id" domain="[('type', '=', 'bank')]" on_change="onchange_journal_id(journal_id)" attrs="{'readonly': [('move_line_ids', '!=', [])]}" widget="selection"/>
@@ -2364,8 +2366,10 @@
                 <sheet string="Statement">
                     <div class="oe_right oe_button_box" name="button_box">
                     </div>
-                    <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
-                    <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
+                    <div class="oe_left">
+                        <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
+                        <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/></h1>
+                    </div>
                     <group>
                         <group>
                             <field name="journal_id" on_change="onchange_journal_id(journal_id)" widget="selection" domain="[('type', '=', 'cash')]" />

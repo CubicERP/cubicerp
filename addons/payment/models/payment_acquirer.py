@@ -2,7 +2,7 @@
 
 import logging
 from openerp import models, fields, api, exceptions, _, SUPERUSER_ID
-from openerp.tools import float_round, float_repr
+from openerp.tools import float_round, float_repr, float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -57,6 +57,7 @@ class PaymentAcquirer(models.Model):
     name = fields.Char('Name', required=True, translate=True)
     medium_id = fields.Many2one('payment.medium' ,string= "Medium")
     provider = fields.Selection(_provider_selection, string='Electronic Provider', required=True)
+    sequence_id = fields.Many2one("ir.sequence", "Transaction Sequence")
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self:self.env.user.company_id.id)
     pre_msg = fields.Html('Message', translate=True, help='Message displayed to explain and help the payment process.')
     post_msg = fields.Html('Thanks Message', help='Message displayed after having done the payment process.')
@@ -73,6 +74,13 @@ class PaymentAcquirer(models.Model):
     fees_dom_var = fields.Float('Variable domestic fees (in percents)')
     fees_int_fixed = fields.Float('Fixed international fees')
     fees_int_var = fields.Float('Variable international fees (in percents)')
+    sequence = fields.Integer("Priority", default=5)
+
+    _order = "sequence"
+
+    @api.multi
+    def name_get(self):
+        return [(a.id, "%s [%s]" % (a.name, a.medium_id.name)) for a in self]
 
     def get_form_action_url(self, cr, uid, id, context=None):
         """ Returns the form action URL, for form-based acquirer implementations. """
@@ -93,7 +101,7 @@ class PaymentAcquirer(models.Model):
         acquirer = self.browse(cr, uid, id, context=context)
 
         if tx_id:
-            tx = self.env['payment.transaction'].browse(cr, uid, tx_id, context=context)
+            tx = self.pool['payment.transaction'].browse(cr, uid, tx_id, context=context)
             tx_data = {
              'reference': tx.reference,
              'amount': tx.amount,
@@ -116,7 +124,7 @@ class PaymentAcquirer(models.Model):
             }
         else:
             if partner_id:
-                partner = self.env['res.partner'].browse(cr, uid, partner_id, context=context)
+                partner = self.pool['res.partner'].browse(cr, uid, partner_id, context=context)
                 partner_data = {
                  'name': partner.name,
                  'lang': partner.lang,
@@ -134,9 +142,9 @@ class PaymentAcquirer(models.Model):
             partner_data.update(partner_values)
 
             if currency_id:
-                currency = self.env['res.currency'].browse(cr, uid, currency_id, context=context)
+                currency = self.pool['res.currency'].browse(cr, uid, currency_id, context=context)
             else:
-                currency = self.env['res.users'].browse(cr, uid, uid, context=context).company_id.currency_id
+                currency = self.pool['res.users'].browse(cr, uid, uid, context=context).company_id.currency_id
             tx_data = {
              'reference': reference,
              'amount': amount,
@@ -152,7 +160,7 @@ class PaymentAcquirer(models.Model):
         if not partner_data.get('address'):
             partner_data['address'] = _partner_format_address(partner_data.get('street', ''), partner_data.get('street2', ''))
         if not partner_data.get('country') and partner_data.get('country_id'):
-            partner_data['country'] = self.env['res.country'].browse(cr, uid, partner_data.get('country_id'), context=context)
+            partner_data['country'] = self.pool['res.country'].browse(cr, uid, partner_data.get('country_id'), context=context)
         partner_data.update({
          'first_name': _partner_split_name(partner_data['name'])[0],
          'last_name': _partner_split_name(partner_data['name'])[1],
@@ -228,7 +236,7 @@ class PaymentAcquirer(models.Model):
          'submit_class': context.get('submit_class', 'btn btn-link'),
          'submit_txt': context.get('submit_txt'),
          'acquirer': acquirer,
-         'user': self.env["res.users"].browse(cr, uid, uid, context=context),
+         'user': self.pool["res.users"].browse(cr, uid, uid, context=context),
          'reference': tx_values['reference'],
          'amount': tx_values['amount'],
          'currency': tx_values['currency'],
@@ -239,12 +247,12 @@ class PaymentAcquirer(models.Model):
         }
 
         # because render accepts view ids but not qweb -> need to use the xml_id
-        return self.env['ir.ui.view'].render(cr, uid, acquirer.view_template_id.xml_id, qweb_context, engine='ir.qweb', context=context)
+        return self.pool['ir.ui.view'].render(cr, uid, acquirer.view_template_id.xml_id, qweb_context, engine='ir.qweb', context=context)
 
     def _wrap_payment_block(self, cr, uid, html_block, amount, currency_id, context=None):
         payment_header = _('Pay safely online')
-        amount_str = float_repr(amount, self.env['decimal.precision'].precision_get(cr, uid, 'Account'))
-        currency = self.env['res.currency'].browse(cr, uid, currency_id, context=context)
+        amount_str = float_repr(amount, self.pool['decimal.precision'].precision_get(cr, uid, 'Account'))
+        currency = self.pool['res.currency'].browse(cr, uid, currency_id, context=context)
         currency_str = currency.symbol or currency.name
         amount = u"%s %s" % ((currency_str, amount_str) if currency.position == 'before' else (amount_str, currency_str))
         result = u"""<div class="payment_acquirers">
@@ -298,8 +306,9 @@ class PaymentTransaction(models.Model):
     _rec_name = 'reference'
 
     date_create = fields.Datetime('Date', required=True, default=fields.Datetime.now, readonly=True, states={'draft': [('readonly', False)]})
-    date_validate = fields.Datetime('Validation Date', readonly=True)
+    date_validate = fields.Datetime('Validation Date', readonly=True, states={'draft': [('readonly', False)]})
     acquirer_id = fields.Many2one('payment.acquirer', 'Acquirer', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    medium_id = fields.Many2one("payment.medium", string="Medium", related="acquirer_id.medium_id", readonly=True)
     type = fields.Selection([('server2server', 'Server To Server'),
                               ('form', 'Form'),
                               ('server2file', 'Server To/From File')], string='Type', required=True, default='form',
@@ -317,6 +326,10 @@ class PaymentTransaction(models.Model):
                           readonly=True, states={'draft': [('readonly', False)]})
     fees = fields.Float('Fees', digits=(16, 2), track_visibility='always', readonly=True, states={'draft': [('readonly', False)]},
                         help='Fees amount; set by the system because depends on the acquirer')
+    bank_statement_id = fields.Many2one("account.bank.statement", string="Bank Statement", states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'error': [('readonly', True)]})
+    reconcile = fields.Selection([('partial', 'Partial'),
+                                  ('total', 'Total')], string="Reconciliation", required=True, default='total',
+                                 states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'error': [('readonly', True)]})
     currency_id = fields.Many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft': [('readonly', False)]},
                                   default=lambda self: self.env.user.company_id.currency_id.id)
     reference = fields.Char('Order Reference', required=True, readonly=True, states={'draft': [('readonly', False)]})
@@ -325,7 +338,8 @@ class PaymentTransaction(models.Model):
     invoice_ids = fields.Many2many('account.invoice', 'payment_transaction_invoice_rel', 'transaction_id', 'invoice_id',
                                    string="Invoices", readonly=True, states={'draft': [('readonly', False)]})
     statement_ids = fields.Many2many('account.bank.statement.line', 'payment_transaction_statement_rel',
-                                     'transaction_id', 'statement_id', string="Statement Lines", readonly=True)
+                                     'transaction_id', 'statement_id', string="Statement Lines", readonly=True,
+                                     states={'draft': [('readonly', False)], 'pending': [('readonly', False)]})
     # duplicate partner / transaction data to store the values at transaction time
     partner_id = fields.Many2one('res.partner', 'Partner', track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]})
     partner_name = fields.Char('Partner Name', readonly=True, states={'draft': [('readonly', False)]})
@@ -347,32 +361,51 @@ class PaymentTransaction(models.Model):
                 raise exceptions.ValidationError('The payment transaction reference must be unique!')
         return True
 
+    @api.cr_uid_context
     def create(self, cr, uid, values, context=None):
-        Acquirer = self.env['payment.acquirer']
+        Acquirer = self.pool['payment.acquirer']
 
-        if values.get('partner_id'):  # @TDENOTE: not sure
-            values.update(self.on_change_partner_id(cr, uid, None, values.get('partner_id'), context=context)['values'])
+        if values.get('partner_id'):
+            partner = self.on_change_partner_id(cr, uid, None, values.get('partner_id'), context=context)['values']
+            for field in ['partner_name', 'partner_lang', 'partner_email', 'partner_zip', 'partner_address',
+                          'partner_city', 'partner_country_id', 'partner_phone', 'partner_reference']:
+                if not values.get(field):
+                    values[field] = partner.get(field)
 
         # call custom create method if defined (i.e. ogone_create for ogone)
-        if values.get('acquirer_id'):
-            acquirer = self.env['payment.acquirer'].browse(cr, uid, values.get('acquirer_id'), context=context)
+        acquirer = self.pool['payment.acquirer'].browse(cr, uid, values.get('acquirer_id'), context=context)
 
-            # compute fees
-            custom_method_name = '%s_compute_fees' % acquirer.provider
-            if hasattr(Acquirer, custom_method_name):
-                fees = getattr(Acquirer, custom_method_name)(
-                    cr, uid, acquirer.id, values.get('amount', 0.0), values.get('currency_id'), values.get('country_id'), context=None)
-                values['fees'] = float_round(fees, 2)
+        # compute fees
+        custom_method_name = '%s_compute_fees' % acquirer.provider
+        fees = 0.0
+        if hasattr(Acquirer, custom_method_name):
+            fees = getattr(Acquirer, custom_method_name)(
+                cr, uid, acquirer.id, values.get('amount', 0.0), values.get('currency_id'), values.get('country_id'), context=None)
+        elif acquirer.fees_active:
+            fees = self.get_default_fees(acquirer, values.get('amount', 0.0), values.get('country_id'))
+        values['fees'] = float_round(fees, 2)
 
-            # custom create
-            custom_method_name = '%s_create' % acquirer.provider
-            if hasattr(self, custom_method_name):
-                values.update(getattr(self, custom_method_name)(cr, uid, values, context=context))
+        # custom create
+        custom_method_name = '%s_create' % acquirer.provider
+        if hasattr(self, custom_method_name):
+            values.update(getattr(self, custom_method_name)(cr, uid, values, context=context))
+
+        if values.get('reference', '/') == '/' and acquirer.sequence_id:
+            values['reference'] = acquirer.sequence_id.next_by_id()
 
         return super(PaymentTransaction, self).create(cr, uid, values, context=context)
 
+    def get_default_fees(self, acquirer, amount, country_id):
+        if not acquirer.fees_active:
+            return 0.0
+        fees = acquirer.fees_dom_fixed + acquirer.fees_dom_var / 100.0 * amount
+        if country_id and country_id <> acquirer.company_id.country_id.id:
+            fees += acquirer.fees_int_fixed + acquirer.fees_int_var / 100.0 * amount
+        return fees
+
+    @api.cr_uid_ids_context
     def write(self, cr, uid, ids, values, context=None):
-        Acquirer = self.env['payment.acquirer']
+        Acquirer = self.pool['payment.acquirer']
         if ('acquirer_id' in values or 'amount' in values) and 'fees' not in values:
             # The acquirer or the amount has changed, and the fees are not explicitely forced. Fees must be recomputed.
             if isinstance(ids, (int, long)):
@@ -387,28 +420,32 @@ class PaymentTransaction(models.Model):
                     acquirer = transaction.acquirer_id
                 if acquirer:
                     custom_method_name = '%s_compute_fees' % acquirer.provider
+                    amount = (values['amount'] if 'amount' in values else transaction.amount) or 0.0
+                    currency_id = values.get('currency_id') or transaction.currency_id.id
+                    country_id = values.get('partner_country_id') or transaction.partner_country_id.id
+                    fees = 0.0
                     if hasattr(Acquirer, custom_method_name):
-                        amount = (values['amount'] if 'amount' in values else transaction.amount) or 0.0
-                        currency_id = values.get('currency_id') or transaction.currency_id.id
-                        country_id = values.get('partner_country_id') or transaction.partner_country_id.id
                         fees = getattr(Acquirer, custom_method_name)(cr, uid, acquirer.id, amount, currency_id, country_id, context=None)
-                        vals['fees'] = float_round(fees, 2)
+                    elif acquirer.fees_active:
+                        fees = self.get_default_fees(acquirer, amount, country_id)
+                    vals['fees'] = float_round(fees, 2)
                 res = super(PaymentTransaction, self).write(cr, uid, txn_id, vals, context=context)
             return res
         return super(PaymentTransaction, self).write(cr, uid, ids, values, context=context)
 
-    @api.one
+    @api.onchange('acquirer_id')
+    def on_change_acquirer_id(self):
+        if self.acquirer_id:
+            self.medium_id = self.acquirer_id.medium_id.id
+
     @api.onchange('invoice_ids')
     def on_change_invoice_ids(self):
-        amount = 0.0
-        for i in self.invoice_ids:
-            if i.residual:
-                amount +=  i.residual
-            else:
-                amount += i.amount_total
-        self.amount = amount
+        self.amount = sum([i.residual or i.amount_total for i in self.invoice_ids])
 
-    @api.one
+    @api.onchange('amount', 'acquirer_id', 'partner_country_id')
+    def on_change_amount(self):
+        self.fees = self.get_default_fees(self.acquirer_id, self.amount, self.partner_country_id.id)
+
     @api.onchange('partner_id')
     def on_change_partner_id(self):
         partner = None
@@ -426,7 +463,7 @@ class PaymentTransaction(models.Model):
     def get_next_reference(self, cr, uid, reference, context=None):
         ref_suffix = 1
         init_ref = reference
-        while self.env['payment.transaction'].search_count(cr, SUPERUSER_ID, [('reference', '=', reference)], context=context):
+        while self.pool['payment.transaction'].search_count(cr, SUPERUSER_ID, [('reference', '=', reference)], context=context):
             reference = init_ref + '-' + str(ref_suffix)
             ref_suffix += 1
         return reference
@@ -488,7 +525,7 @@ class PaymentTransaction(models.Model):
         tx_id, result = None, None
 
         if values.get('acquirer_id'):
-            acquirer = self.env['payment.acquirer'].browse(cr, uid, values.get('acquirer_id'), context=context)
+            acquirer = self.pool['payment.acquirer'].browse(cr, uid, values.get('acquirer_id'), context=context)
             custom_method_name = '_%s_s2s_send' % acquirer.provider
             if hasattr(self, custom_method_name):
                 tx_id, result = getattr(self, custom_method_name)(cr, uid, values, cc_values, context=context)
@@ -537,8 +574,75 @@ class PaymentTransaction(models.Model):
     def action_pending(self):
         return self.write({'state': 'pending'})
 
+    def _get_statement_line(self, transaction):
+        return {'statement_id': transaction.bank_statement_id.id,
+                'date': transaction.date_validate or transaction.date_create,
+                'name': transaction.reference,
+                'ref': "%s%s" % (transaction.acquirer_reference or '',
+                                 transaction.partner_reference and " - %s" % transaction.partner_reference or ''),
+                'partner_id': transaction.partner_id,
+                'amount': transaction.amount}
+
+    def _get_fees_line(self, transaction):
+        return {'statement_id': transaction.bank_statement_id.id,
+                 'date': transaction.date_validate or transaction.date_create,
+                 'name': _('Fees %s') % transaction.reference,
+                 'ref': "%s%s"%(transaction.acquirer_reference or '',
+                                transaction.partner_reference and " - %s"%transaction.partner_reference or ''),
+                 'partner_id': transaction.partner_id,
+                 'amount': transaction.fees * -1.0}
+
     @api.multi
     def action_done(self):
+        statement_obj = self.env['account.bank.statement.line']
+        for transaction in self:
+            if transaction.statement_ids:
+                continue
+            line_dicts = []
+            diff = transaction.amount
+            for invoice in transaction.invoice_ids:
+                if invoice.state not in ['draft', 'proforma', 'proforma2', 'open']:
+                    raise ValidationError("The invoice %s must be in draft, proforma or open state"%(invoice.name or invoice.id))
+                if invoice.state in ['draft','proforma','proforma2']:
+                    invoice.signal_workflow('invoice_open')
+                diff -= invoice.residual
+                if float_round(diff,2) < 0.0:
+                    if transaction.reconcile == 'total':
+                        amount = invoice.residual
+                    else:
+                        amount = invoice.residual + diff
+                else:
+                    amount = invoice.residual
+                if float_round(amount,2) > 0.0:
+                    line_dicts.append({'credit': amount,
+                                       'name': invoice.name or invoice.internal_number,
+                                       'counterpart_move_line_id': [l.id for l in invoice.move_id.line_id if l.account_id.id == invoice.account_id.id][0]})
+            if transaction.bank_statement_id:
+                lines = []
+                line = statement_obj.create(self._get_statement_line(transaction))
+                if float_round(diff, 2) > 0.0:
+                    line_dicts.append({'credit': diff,
+                                       'account_id': transaction.bank_statement_id.journal_id.profit_account_id.id,
+                                       'name': _('Adjust of %s')%transaction.reference})
+                elif float_round(diff, 2) < 0.0 and transaction.reconcile == 'total':
+                    line_dicts.append({'debit': diff * -1.0,
+                                       'account_id': transaction.bank_statement_id.journal_id.loss_account_id.id,
+                                       'name': _('Adjust of %s') % transaction.reference})
+                line.process_reconciliation(line_dicts)
+                lines.append(line)
+                if transaction.acquirer_id.fees_active:
+                    statement_dicts = []
+                    statement_dict = self._get_fees_line(transaction)
+                    if statement_dict.get('account_id'):
+                        statement_dicts = [{'debit': transaction.fees,
+                                       'account_id': statement_dict.get('account_id'),
+                                       'name': _('Fees %s') % transaction.reference}]
+                        del statement_dict['account_id']
+                    line = statement_obj.create(statement_dict)
+                    if statement_dicts:
+                        line.process_reconciliation(statement_dicts)
+                    lines.append(line)
+                transaction.statement_ids = [l.id for l in lines]
         return self.write({'state': 'done'})
 
     @api.multi
@@ -547,4 +651,7 @@ class PaymentTransaction(models.Model):
 
     @api.multi
     def action_cancel(self):
+        for transaction in self:
+            transaction.statement_ids.cancel()
+            transaction.statement_ids.unlink()
         return self.write({'state': 'cancel'})

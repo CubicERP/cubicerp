@@ -27,8 +27,10 @@
                             <page string="Details">
                                 <group name="acquirer_base">
                                     <group>
+                                        <field name="sequence"/>
                                         <field name="environment"/>
                                         <field name="validation"/>
+                                        <field name="sequence_id"/>
                                         <field name="company_id" groups="base.group_multi_company"/>
                                     </group>
                                     <group>
@@ -148,15 +150,26 @@
                         <notebook>
                             <page string="Accounting">
                                 <separator string="Invoices"/>
-                                <field name="invoice_ids" domain="[('state','in',['proforma2','proforma','open']),partner_id and ('partner_id','=',partner_id) or (1,'=',1),'&amp;',('agreement_id.start_date','&lt;=',date_create),'|',('agreement_id.end_date','>=',date_create),('agreement_id.end_date','=',False)]"/>
+                                <field name="invoice_ids" domain="[('state','in',['proforma2','proforma','open']),('currency_id','=',currency_id),partner_id and ('partner_id','=',partner_id) or (1,'=',1)]"/>
                                 <separator string="Statement Lines" attrs="{'invisible':[('state','=','draft')]}"/>
-                                <field name="statement_ids" attrs="{'invisible':[('state','=','draft')]}"/>
+                                <field name="statement_ids" attrs="{'invisible':[('state','=','draft')]}">
+                                    <tree>
+                                        <field name="statement_id"/>
+                                        <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="ref"/>
+                                        <field name="partner_id"/>
+                                        <field name="amount" sum="Amount"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Details">
                                 <group name="detail_group">
                                     <group>
                                         <field name="partner_id"/>
                                         <field name="partner_reference"/>
+                                        <field name="medium_id"/>
+                                        <field name="bank_statement_id"/>
                                         <field name="currency_id"/>
                                     </group>
                                     <group>

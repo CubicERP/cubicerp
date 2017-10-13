@@ -145,10 +145,11 @@
                             <group>
                                 <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="fees" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="partner_id"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string="Accounting">
+                            <page string="Payment">
                                 <separator string="Invoices"/>
                                 <field name="invoice_ids" domain="[('state','in',['proforma2','proforma','open']),('currency_id','=',currency_id),partner_id and ('partner_id','=',partner_id) or (1,'=',1)]"/>
                                 <separator string="Statement Lines" attrs="{'invisible':[('state','=','draft')]}"/>
@@ -166,7 +167,7 @@
                             <page string="Details">
                                 <group name="detail_group">
                                     <group>
-                                        <field name="partner_id"/>
+
                                         <field name="partner_reference"/>
                                         <field name="medium_id"/>
                                         <field name="bank_statement_id"/>
@@ -175,6 +176,7 @@
                                     <group>
                                         <field name="date_create"/>
                                         <field name="date_validate"/>
+                                        <field name="reconcile"/>
                                         <field name="state_message"/>
                                     </group>
                                     <group>

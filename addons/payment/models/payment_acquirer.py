@@ -58,7 +58,7 @@ class PaymentAcquirer(models.Model):
     medium_id = fields.Many2one('payment.medium' ,string= "Medium")
     provider = fields.Selection(_provider_selection, string='Electronic Provider', required=True)
     sequence_id = fields.Many2one("ir.sequence", "Transaction Sequence")
-    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self:self.env.user.company_id.id)
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self:self.env.user.company_id)
     pre_msg = fields.Html('Message', translate=True, help='Message displayed to explain and help the payment process.')
     post_msg = fields.Html('Thanks Message', help='Message displayed after having done the payment process.')
     validation = fields.Selection([('manual', 'Manual'),
@@ -332,7 +332,8 @@ class PaymentTransaction(models.Model):
                                  states={'done': [('readonly', True)], 'cancel': [('readonly', True)], 'error': [('readonly', True)]})
     currency_id = fields.Many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft': [('readonly', False)]},
                                   default=lambda self: self.env.user.company_id.currency_id.id)
-    reference = fields.Char('Order Reference', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    reference = fields.Char('Transaction Number', required=True, readonly=True, states={'draft': [('readonly', False)]},
+                            help="Use slash '/' to make a automatic sequence number")
     acquirer_reference = fields.Char('Acquirer Order Reference', help='Reference of the TX as stored in the acquirer database',
                                      readonly=True, states={'draft': [('readonly', False)]})
     invoice_ids = fields.Many2many('account.invoice', 'payment_transaction_invoice_rel', 'transaction_id', 'invoice_id',
@@ -452,7 +453,7 @@ class PaymentTransaction(models.Model):
         if self.partner_id:
             partner = self.partner_id
         self.partner_name = partner and partner.name or False
-        self.partner_lang = partner and partner.lang or 'en_US'
+        self.partner_lang = partner and partner.lang or False
         self.partner_email = partner and partner.email or False
         self.partner_zip = partner and partner.zip or False
         self.partner_address = _partner_format_address(partner and partner.street or '', partner and partner.street2 or '')
@@ -580,7 +581,7 @@ class PaymentTransaction(models.Model):
                 'name': transaction.reference,
                 'ref': "%s%s" % (transaction.acquirer_reference or '',
                                  transaction.partner_reference and " - %s" % transaction.partner_reference or ''),
-                'partner_id': transaction.partner_id,
+                'partner_id': transaction.partner_id.id,
                 'amount': transaction.amount}
 
     def _get_fees_line(self, transaction):

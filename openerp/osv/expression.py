@@ -1172,7 +1172,7 @@ class expression(object):
                     r = 'NULL' if right else 'NOT NULL'
                 query = '(%s."%s" IS %s)' % (table_alias, left, r)
                 params = []
-            elif isinstance(right, (list, tuple)):
+            elif isinstance(right, (list, tuple, set)):
                 params = list(right)
                 check_nulls = False
                 for i in range(len(params))[::-1]:

@@ -19,3 +19,4 @@ Useful Links
 * New Features & Bugs: https://cubicerp.com/issues
 * Roadmap: http://cubicerp.com/roadmap
 * Community Forum: https://cubicerp.com/community
+* English Mailing List: https://groups.google.com/d/forum/cubicerp (join us!)

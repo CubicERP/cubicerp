@@ -9,7 +9,7 @@
                 <t t-set="hide_mark_as_done" t-value="True"/>
                 <div class="o_planner_intro">
                     <p>
-                        This guide helps you start with Odoo Expenses.
+                        This guide helps you start with Cubic ERP Expenses.
                     </p>
                     <p>
                         Use this app to track expenses done by employees and reimbursed by the company, or paid with a company credit cards directly. If a vendor bill is sent to the company for payment, it’s better to use Vendor Bills instead of expenses in the Accounting app.
@@ -26,12 +26,12 @@
                     <p>
                         Once setup, you get an efficient expenses tracking process for all your employees.
                     </p>
-                    <p>Enjoy your Odoo experience,
+                    <p>Enjoy your Cubic ERP experience,
                     </p>
                     <div class="mt32">
                         <img class="signature mb8" src="/web_planner/static/src/img/fabien_signature.png"/>
                         <address>
-                            For the Odoo Team,<br/>
+                            For the Cubic ERP Team,<br/>
                             Fabien Pinckaers, Founder
                         </address>
                     </div>
@@ -305,7 +305,7 @@
                     <h3>We hope this feature helped you manage your expenses efficiently.</h3>
                     <h4>Don't hesitate to <a href="mailto:info@odoo.com?subject=HrExpense%20Planner" target="_blank">send us an email</a> to describe<br/> your experience or to suggest improvements!</h4>
 
-                    <p>Have a wonderful day,<br/>- The Odoo Team</p>
+                    <p>Have a wonderful day,<br/>- The Cubic ERP Team</p>
                     <img src="/web_planner/static/src/img/odoo_logo.png"/>
                 </div>
             </t>

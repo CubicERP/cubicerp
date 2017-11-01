@@ -1,12 +1,12 @@
-# #-#-#-#-#  tr.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  tr.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_eu_service
 #
 # Translators:
 # AYHAN KIZILTAN <akiziltan76@hotmail.com>, 2015
-# #-#-#-#-#  tr.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  tr.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_eu_service
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:55+0000\n"
 "PO-Revision-Date: 2015-10-12 12:56+0000\n"
@@ -24,9 +24,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  tr.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  tr.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"#-#-#-#-#  tr.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  tr.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_eu_service

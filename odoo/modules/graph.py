@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 """ Modules dependency graph. """
 
@@ -9,7 +9,7 @@ import logging
 import odoo
 import odoo.tools as tools
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.graph')
 
 class Graph(dict):
     """ Modules dependency graph.

@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr
 #
@@ -8,7 +8,7 @@
 # Rick Hunter <rick_hunter_ec@yahoo.com>, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-02-22 05:10+0000\n"
@@ -348,7 +348,7 @@ msgstr "Define el horario del recurso."
 
 #. module: hr
 #: model:hr.job,website_description:hr.job_consultant
-msgid "Deliver generic Odoo functional training sessions"
+msgid "Deliver generic CubicERP functional training sessions"
 msgstr "Envío de sesiones genéricas de capacitación funcional Odoo"
 
 #. module: hr
@@ -904,7 +904,7 @@ msgid ""
 "                related to employees by departments: expenses, timesheets,\n"
 "                leaves and holidays, recruitments, etc."
 msgstr ""
-"La estructura departamental Odoo se utiliza para gestionar todos los "
+"La estructura departamental CubicERP se utiliza para gestionar todos los "
 "documentos\n"
 "en relación con los empleados por los departamentos: gastos, hojas de "
 "registros,\n"
@@ -1322,7 +1322,7 @@ msgstr "Informará al Jefe de Servicios Profesionales"
 #: model:ir.actions.act_window,help:hr.act_employee_from_department
 #: model:ir.actions.act_window,help:hr.open_view_employee_list_my
 msgid ""
-"With just a quick glance on the Odoo employee screen, you\n"
+"With just a quick glance on the CubicERP employee screen, you\n"
 "                can easily find all the information you need for each "
 "person;\n"
 "                contact data, job position, availability, etc."

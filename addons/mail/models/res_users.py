@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 from odoo import _, api, exceptions, fields, models, modules
 from odoo.tools import pycompat
@@ -30,7 +30,7 @@ class Users(models.Model):
         'Notification Management', required=True, default='email',
         help="Policy on how to handle Chatter notifications:\n"
              "- Emails: notifications are sent to your email\n"
-             "- Odoo: notifications appear in your Odoo Inbox")
+             "- Odoo: notifications appear in  your CubicERP Inbox")
 
     def __init__(self, pool, cr):
         """ Override of __init__ to add access rights on notification_email_send

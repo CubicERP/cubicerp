@@ -253,7 +253,7 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
-                <title t-esc="title or 'Odoo'"/>
+                <title t-esc="title or 'CubicERP'"/>
                 <link type="image/x-icon" rel="shortcut icon" t-att-href="x_icon or '/web/static/src/img/favicon.ico'"/>
 
                 <script type="text/javascript">
@@ -291,7 +291,7 @@
                         <t t-if="not disable_database_manager">
                             <a class="" href="/web/database/manager">Manage Databases</a> |
                         </t>
-                        <a href="https://www.odoo.com" target="_blank">Powered by <span>Odoo</span></a>
+                        <a href="https://www.cubicerp.com" target="_blank">Powered by <span>Cubic ERP</span></a>
                     </div>
                 </div>
             </div>
@@ -371,7 +371,7 @@
             </t>
         </div>
         <div class="o_sub_menu_footer">
-            Powered by <a href="http://www.odoo.com" target="_blank"><span>Odoo</span></a>
+            Powered by <a href="http://www.cubicerp.com" target="_blank"><span>CubicERP</span></a>
         </div>
     </template>
     <template id="web.menu_secondary_submenu">
@@ -655,7 +655,7 @@
         -->
         <t t-if="not debug">
             <script>
-                // Use Odoo PDFJS Loader, to avoid dynamic assets loading
+                // Use Cubic ERP PDFJS Loader, to avoid dynamic assets loading
                 PDFJS.workerSrc = '/web/static/lib/pdfjs/worker_loader_by_odoo.js';
                 PDFJS.disableWorker = true;
             </script>

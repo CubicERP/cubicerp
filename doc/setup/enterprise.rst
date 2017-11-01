@@ -19,7 +19,7 @@ In any case the basic guidelines are:
 
 * Restart your server
 
-* Enter your Odoo Enterprise Subscription code
+* Enter  your CubicERP Enterprise Subscription code
 
 .. image:: enterprise/enterprise_code.png
   :class: img-responsive
@@ -47,8 +47,8 @@ On Linux, using an installer
 
     $ python3 /usr/bin/odoo.py -d <database_name> -i web_enterprise --stop-after-init
 
-* You should be able to connect to your Odoo Enterprise instance using your usual mean of identification.
-  You can then link your database with your Odoo Enterprise Subscription by entering the code you received
+* You should be able to connect to  your CubicERP Enterprise instance using your usual mean of identification.
+  You can then link your database with  your CubicERP Enterprise Subscription by entering the code you received
   by e-mail in the form input
 
 
@@ -92,7 +92,7 @@ On Windows
   .. image:: enterprise/windows_setup.png
    :class: img-responsive
 
-* Using a command window, update your Odoo Database using this command (from the Odoo
+* Using a command window, update  your CubicERP Database using this command (from the Odoo
   installation path, in the server subfolder)
 
   .. code-block:: console
@@ -100,6 +100,6 @@ On Windows
     $ odoo.exe -d <database_name> -i web_enterprise --stop-after-init
 
 * No need to manually launch the server, the service is running.
-  You should be able to connect to your Odoo Enterprise instance using your usual
-  mean of identification. You can then link your database with your Odoo Enterprise
+  You should be able to connect to  your CubicERP Enterprise instance using your usual
+  mean of identification. You can then link your database with  your CubicERP Enterprise
   Subscription by entering the code you received by e-mail in the form input

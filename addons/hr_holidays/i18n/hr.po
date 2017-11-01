@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_holidays
 #
@@ -9,7 +9,7 @@
 # KRISTINA PALAŠ <kristina.palas@storm.hr>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-05-06 12:36+0000\n"
@@ -900,7 +900,7 @@ msgstr "Broj odsustava"
 #. module: hr_holidays
 #: model:ir.model.fields,help:hr_holidays.field_hr_holidays_status_categ_id
 msgid ""
-"Once a leave is validated, Odoo will create a corresponding meeting of this "
+"Once a leave is validated, CubicERP will create a corresponding meeting of this "
 "type in the calendar."
 msgstr ""
 "Jednom kad je odsustvo odobreno, OpenERP će stvoriti odgovarajući sastanak "

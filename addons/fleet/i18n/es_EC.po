@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * fleet
 #
@@ -8,7 +8,7 @@
 # Rick Hunter <rick_hunter_ec@yahoo.com>, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:08+0000\n"
 "PO-Revision-Date: 2016-04-29 21:52+0000\n"
@@ -1041,12 +1041,12 @@ msgstr "Hacer del vehículo"
 #: model:ir.actions.act_window,help:fleet.fleet_vehicle_log_contract_act
 msgid ""
 "Manage all your contracts (leasing, insurances, etc.) with\n"
-"                their related services, costs. Odoo will automatically warn\n"
+"                their related services, costs. CubicERP will automatically warn\n"
 "                you when some contracts have to be renewed."
 msgstr ""
 "Gestione todos sus contratos ( arrendamiento financiero , seguros , etc.) "
 "con\n"
-"sus servicios relacionados , los costos . Odoo avisará automáticamente\n"
+"sus servicios relacionados , los costos . CubicERP avisará automáticamente\n"
 "cuando algunos contratos tiene que ser renovado."
 
 #. module: fleet
@@ -1254,11 +1254,11 @@ msgstr "Medida del odómetro del vehículo en el momento de registro"
 #. module: fleet
 #: model:ir.actions.act_window,help:fleet.fleet_vehicle_log_services_act
 msgid ""
-"Odoo helps you keeping track of all the services done\n"
+"CubicERP helps you keeping track of all the services done\n"
 "                on your vehicle. Services can be of many type: occasional\n"
 "                repair, fixed maintenance, etc."
 msgstr ""
-"Odoo le ayuda a hacer el seguimiento de todos los servicios realizados\n"
+"CubicERP le ayuda a hacer el seguimiento de todos los servicios realizados\n"
 "en su vehículo . Los servicios pueden ser de muchos tipos : de vez en "
 "cuando\n"
 "reparación, mantenimiento fijo, etc."
@@ -1266,11 +1266,11 @@ msgstr ""
 #. module: fleet
 #: model:ir.actions.act_window,help:fleet.fleet_vehicle_costs_act
 msgid ""
-"Odoo helps you managing the costs for your different\n"
+"CubicERP helps you managing the costs for your different\n"
 "                vehicles. Costs are created automatically from services,\n"
 "                contracts (fixed or recurring) and fuel logs."
 msgstr ""
-"Odoo ayuda a la gestión de los costos de su diferente\n"
+"CubicERP ayuda a la gestión de los costos de su diferente\n"
 "vehículos. Los costos se crean automáticamente de los servicios,\n"
 "contracts (fixed or recurring) and fuel logs."
 
@@ -1278,21 +1278,21 @@ msgstr ""
 #: model:ir.actions.act_window,help:fleet.action_fleet_reporting_costs
 #: model:ir.actions.act_window,help:fleet.action_fleet_reporting_costs_non_effective
 msgid ""
-"Odoo helps you managing the costs for your different vehicles\n"
+"CubicERP helps you managing the costs for your different vehicles\n"
 "          Costs are generally created from services and contract and appears "
 "here."
 msgstr ""
-"Odoo ayuda a la gestión de los costos de sus diferentes vehículos\n"
+"CubicERP ayuda a la gestión de los costos de sus diferentes vehículos\n"
 "Los costos se crean generalmente de los servicios y del contrato y aparece "
 "aquí."
 
 #. module: fleet
 #: model:ir.actions.act_window,help:fleet.fleet_vehicle_act
 msgid ""
-"Odoo will warn you when services or contract have to be\n"
+"CubicERP will warn you when services or contract have to be\n"
 "                renewed."
 msgstr ""
-"Odoo le avisará cuando los servicios o contrato tienen que ser\n"
+"CubicERP le avisará cuando los servicios o contrato tienen que ser\n"
 "renovado."
 
 #. module: fleet
@@ -1637,10 +1637,10 @@ msgstr "Términos y condiciones"
 #: model:ir.actions.act_window,help:fleet.action_fleet_reporting_costs
 #: model:ir.actions.act_window,help:fleet.action_fleet_reporting_costs_non_effective
 msgid ""
-"Thanks to the different filters, Odoo can only print the effective\n"
+"Thanks to the different filters, CubicERP can only print the effective\n"
 "          costs, sort them by type and by vehicle."
 msgstr ""
-"Gracias a los diferentes filtros , Odoo sólo puede imprimir el efectivo\n"
+"Gracias a los diferentes filtros , CubicERP sólo puede imprimir el efectivo\n"
 "costos, clasificarlos por tipos y categoría de vehículo."
 
 #. module: fleet

@@ -1,12 +1,12 @@
-# #-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mrp
 #
 # Translators:
 # Simon Hohler <simon.hohler@gmail.com>, 2016
-# #-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mrp
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-06 08:35+0000\n"
@@ -25,10 +25,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
-"#-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
@@ -766,7 +766,7 @@ msgid ""
 "For instance, in the property group \"Warranty\", you an have\n"
 "                two properties: 1 year warranty, 3 years warranty. "
 "Depending\n"
-"                on the propoerties selected in the sales order, Odoo will\n"
+"                on the propoerties selected in the sales order, CubicERP will\n"
 "                schedule a production using the matching bill of materials."
 msgstr ""
 
@@ -1237,7 +1237,7 @@ msgstr "Število možnih sočasnih operacij na tej delovni postaji."
 #. module: mrp
 #: model:ir.actions.act_window,help:mrp.mrp_bom_form_action
 msgid ""
-"Odoo uses these BoMs to automatically propose manufacturing\n"
+"CubicERP uses these BoMs to automatically propose manufacturing\n"
 "                orders according to procurement needs."
 msgstr ""
 
@@ -1829,14 +1829,14 @@ msgstr "Izbrana enota mere je različna od tiste na izdelku."
 #. module: mrp
 #: model:ir.actions.act_window,help:mrp.mrp_property_action
 msgid ""
-"The Properties in Odoo are used to select the right bill of\n"
+"The Properties in CubicERP are used to select the right bill of\n"
 "                materials for manufacturing a product when you have "
 "different\n"
 "                ways of building the same product.  You can assign several\n"
 "                properties to each bill of materials.  When a salesperson\n"
 "                creates a sales order, they can relate it to several "
 "properties\n"
-"                and Odoo will automatically select the BoM to use according\n"
+"                and CubicERP will automatically select the BoM to use according\n"
 "                the needs."
 msgstr ""
 

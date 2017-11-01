@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_recruitment
 #
@@ -7,7 +7,7 @@
 # Pavol Krnáč <pavol.krnac@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-03-25 17:38+0000\n"
@@ -1255,21 +1255,21 @@ msgstr "Počet dní na uzatvorenie projektového problému"
 #. module: hr_recruitment
 #: model:ir.actions.act_window,help:hr_recruitment.action_hr_job_applications
 msgid ""
-"Odoo helps you track applicants in the recruitment\n"
+"CubicERP helps you track applicants in the recruitment\n"
 "                process and follow up all operations: meetings, interviews, "
 "etc."
 msgstr ""
-"Odoo vám pomáha sledovať uchádzačov v náborovom\n"
+"CubicERP vám pomáha sledovať uchádzačov v náborovom\n"
 "procese a spracovať alebo sledovať všetky aktivity: stretnutia, pohovory, "
 "atď."
 
 #. module: hr_recruitment
 #: model:ir.actions.act_window,help:hr_recruitment.crm_case_categ0_act_job
 msgid ""
-"Odoo helps you track applicants in the recruitment\n"
+"CubicERP helps you track applicants in the recruitment\n"
 "            process and follow up all operations: meetings, interviews, etc."
 msgstr ""
-"Odoo vám pomáha sledovať uchádzačov v náborovom\n"
+"CubicERP vám pomáha sledovať uchádzačov v náborovom\n"
 "procese a spracovať alebo sledovať všetky aktivity: stretnutia, pohovory, "
 "atď."
 
@@ -1692,11 +1692,11 @@ msgstr "Dátum kedy bude uchádzač schopný začať pracovať."
 #. module: hr_recruitment
 #: model:ir.model.fields,help:hr_recruitment.field_hr_job_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming "
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Model (Odoo druh dokumentu), ktorému odpovedá toto alias. Každý "
+"Model (CubicERP druh dokumentu), ktorému odpovedá toto alias. Každý "
 "prichádzajúci email ktorý neodpovie na existujúci záznam spôsobí vytvorenie "
 "nového záznamu tohto modelu (napr úlohy projektu)"
 
@@ -1864,12 +1864,12 @@ msgstr "Aké je vaše pohlavie?"
 #. module: hr_recruitment
 #: model:ir.actions.act_window,help:hr_recruitment.action_hr_job_no_employee
 msgid ""
-"With just a quick glance on the Odoo employee screen, you\n"
+"With just a quick glance on the CubicERP employee screen, you\n"
 "                can easily find all the information you need for each "
 "person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Pri letmom pohľade na Odoo zamestnanckú obrazovku, vy\n"
+"Pri letmom pohľade na CubicERP zamestnanckú obrazovku, vy\n"
 "môžet ľahko nájsť všetky informácie, ktoré potrebujete pre každú osobu;\n"
 "kontaktné údaje, pracovná pozícia, dostupnosť, atď."
 

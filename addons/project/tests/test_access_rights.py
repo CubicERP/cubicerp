@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 from odoo.addons.project.tests.test_project_base import TestProjectBase
 from odoo.exceptions import AccessError

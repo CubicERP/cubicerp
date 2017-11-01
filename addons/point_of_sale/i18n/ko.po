@@ -1,11 +1,11 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * point_of_sale
 #
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-04-26 05:53+0000\n"
@@ -1457,7 +1457,7 @@ msgstr "ID"
 #. openerp-web
 #: code:addons/point_of_sale/static/src/js/popups.js:113
 #, python-format
-msgid "IMPORTANT: Bug Report From Odoo Point Of Sale"
+msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
 msgstr ""
 
 #. module: point_of_sale
@@ -1984,8 +1984,8 @@ msgstr "인쇄 번호"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.index
-msgid "Odoo POS"
-msgstr "Odoo 점포판매시스템"
+msgid "CubicERP POS"
+msgstr "CubicERP 점포판매시스템"
 
 #. module: point_of_sale
 #. openerp-web
@@ -3513,7 +3513,7 @@ msgstr ""
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_sequence_id
 msgid ""
-"This sequence is automatically created by Odoo but you can change it to "
+"This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
 "이 순서는 Odoo에 의해 자동으로 생성되나, 주문의 참조 번호를 사용자 정의로 변"
@@ -4281,10 +4281,10 @@ msgstr ""
 #~ msgstr "체크하지 않을 경우, 초청한 사용자만 가입할 수 있습니다."
 
 #~ msgid ""
-#~ "If you have setup a catch-all email domain redirected to the Odoo server, "
+#~ "If you have setup a catch-all email domain redirected to the CubicERP server, "
 #~ "enter the domain name here."
 #~ msgstr ""
-#~ "Odoo 서버로 리디렉션되는 도메인에 모든 이메일을 수집하도록 설정한 경우 여"
+#~ "CubicERP 서버로 리디렉션되는 도메인에 모든 이메일을 수집하도록 설정한 경우 여"
 #~ "기에 도메인 이름을 입력합니다."
 
 #~ msgid "Invoice Amount"
@@ -4402,7 +4402,7 @@ msgstr ""
 #~ msgstr "세션 요약 :"
 
 #~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Odoo 화면 공유 또는 첨부."
+#~ msgstr "CubicERP 화면 공유 또는 첨부."
 
 #~ msgid "Statement Details:"
 #~ msgstr "명세서 세부 사항 :"

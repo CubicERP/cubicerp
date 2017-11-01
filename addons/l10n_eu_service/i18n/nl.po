@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_eu_service
 #
@@ -8,7 +8,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:55+0000\n"
 "PO-Revision-Date: 2015-09-13 16:15+0000\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  nl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  nl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_eu_service
@@ -105,9 +105,9 @@ msgstr "Huidige EU B2C fiscale positie, indien aanwezig"
 #, fuzzy
 msgid "Display Name"
 msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  nl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Weergave naam\n"
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  nl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Naam weergeven"
 
 #. module: l10n_eu_service

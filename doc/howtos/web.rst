@@ -113,7 +113,7 @@ The files in the ``static`` folder, need to be defined within the module in orde
     One of the drawback is debugging becomes more difficult as
     individual files disappear and the code is made significantly less
     readable. It is possible to disable this process by enabling the
-    "developer mode": log into your Odoo instance (user *admin* password
+    "developer mode": log into  your CubicERP instance (user *admin* password
     *admin* by default) open the user menu (in the top-right corner of the
     Odoo screen) and select :guilabel:`About Odoo` then :guilabel:`Activate
     the developer mode`:

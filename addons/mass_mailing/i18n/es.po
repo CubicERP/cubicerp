@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mass_mailing
 # 
@@ -29,7 +29,7 @@
 # e2f_es_ t6 <e2f_es_t6@outlook.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -1260,8 +1260,8 @@ msgstr "¡HASTA LA PRÓXIMA!"
 #. module: mass_mailing
 #: model:mail.mass_mailing.list,popup_content:mass_mailing.mass_mail_list_1
 #: model:mail.mass_mailing.list,popup_content:mass_mailing.mass_mail_list_2
-msgid "Odoo Presents"
-msgstr "Odoo Presenta"
+msgid "CubicERP Presents"
+msgstr "CubicERP Presenta"
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_image_text
@@ -1691,8 +1691,8 @@ msgstr "¡Gracias por unirse!"
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
-msgid "That way, Odoo evolves much faster than any other solution."
-msgstr "Por eso, Odoo evoluciona más rápidamente que cualquier otro ERP."
+msgid "That way, CubicERP evolves much faster than any other solution."
+msgstr "Por eso, CubicERP evoluciona más rápidamente que cualquier otro ERP."
 
 #. module: mass_mailing
 #: model:ir.model.fields,help:mass_mailing.field_mail_mass_mailing_contact_opt_out
@@ -1702,20 +1702,20 @@ msgstr "El contacto ha elegido no recibir más correos de esta lista"
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
 msgid ""
-"The open source model of Odoo has allowed us to leverage thousands of developers and\n"
+"The open source model of CubicERP has allowed us to leverage thousands of developers and\n"
 "                                business experts to build hundreds of apps in just a few years."
 msgstr ""
-"El modelo de código abierto de Odoo nos ha permitido provechar a los miles de desarrolladores y\n"
+"El modelo de código abierto de CubicERP nos ha permitido provechar a los miles de desarrolladores y\n"
 "                                expertos en negocios para construir cientos de apps en unos pocos años."
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_text_image
 msgid ""
-"The open source model of Odoo has allowed us to leverage thousands of "
+"The open source model of CubicERP has allowed us to leverage thousands of "
 "developers and business experts to build hundreds of apps in just a few "
 "years."
 msgstr ""
-"El modelo de código abierto de Odoo nos ha permitido provechar a los miles "
+"El modelo de código abierto de CubicERP nos ha permitido provechar a los miles "
 "de desarrolladores y expertos en negocios para construir cientos de apps en "
 "unos pocos años"
 
@@ -1825,10 +1825,10 @@ msgstr "Fecha de Baja"
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
 msgid ""
-"Usability improvements made on Odoo will automatically apply to all\n"
+"Usability improvements made on CubicERP will automatically apply to all\n"
 "                                of our fully integrated apps."
 msgstr ""
-"Las mejoras de usabilidad desarrolladas en Odoo se aplicarán a todas\n"
+"Las mejoras de usabilidad desarrolladas en CubicERP se aplicarán a todas\n"
 "                                nuestras apps totalmente integradas."
 
 #. module: mass_mailing
@@ -1874,7 +1874,7 @@ msgid ""
 "With strong technical foundations, Odoo's framework is unique.\n"
 "                                It provides top notch usability that scales across all apps."
 msgstr ""
-"Con una sólida base técnica, el framework de Odoo es único.\n"
+"Con una sólida base técnica, el framework de CubicERP es único.\n"
 "                                Permite una magnífica usabilidad escalable a todas las aplicaciones."
 
 #. module: mass_mailing
@@ -1883,7 +1883,7 @@ msgid ""
 "With strong technical foundations, Odoo's framework is unique. It provides "
 "<strong>top notch usability that scales across all apps</strong>."
 msgstr ""
-"Con una sólida base técnica, el framework de Odoo es único. Permite  "
+"Con una sólida base técnica, el framework de CubicERP es único. Permite  "
 "<strong>una magnífica usabilidad escalable a todas las apps</strong>."
 
 #. module: mass_mailing

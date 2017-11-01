@@ -1,5 +1,5 @@
 #odoo.loggers.handlers. -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 try:
     import configparser as ConfigParser
@@ -103,7 +103,7 @@ class configmanager(object):
         group = optparse.OptionGroup(parser, "Common options")
         group.add_option("-c", "--config", dest="config", help="specify alternate config file")
         group.add_option("-s", "--save", action="store_true", dest="save", default=False,
-                          help="save configuration to ~/.odoorc (or to ~/.openerp_serverrc if it exists)")
+                          help="save configuration to ~/.cubicerp_serverrc (or to ~/.openerp_serverrc if it exists)")
         group.add_option("-i", "--init", dest="init", help="install one or more modules (comma-separated list, use \"all\" for all modules), requires -d")
         group.add_option("-u", "--update", dest="update",
                           help="update one or more modules (comma-separated list, use \"all\" for all modules). Requires -d.")
@@ -119,7 +119,7 @@ class configmanager(object):
         group.add_option("--load", dest="server_wide_modules", help="Comma-separated list of server-wide modules.", my_default='web')
 
         group.add_option("-D", "--data-dir", dest="data_dir", my_default=_get_default_datadir(),
-                         help="Directory where to store Odoo data")
+                         help="Directory where to store CubicERP data")
         parser.add_option_group(group)
 
         # HTTP
@@ -225,7 +225,7 @@ class configmanager(object):
         parser.add_option_group(group)
 
         group = optparse.OptionGroup(parser, "Internationalisation options",
-            "Use these options to translate Odoo to another language."
+            "Use these options to translate CubicERP to another language."
             "See i18n section of the user manual. Option '-d' is mandatory."
             "Option '-l' is mandatory in case of importation"
             )
@@ -369,20 +369,20 @@ class configmanager(object):
         # else he won't be able to save the configurations, or even to start the server...
         # TODO use appdirs
         if os.name == 'nt':
-            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'odoo.conf')
+            rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'cubicerp_server.conf')
         else:
-            rcfilepath = os.path.expanduser('~/.odoorc')
-            old_rcfilepath = os.path.expanduser('~/.openerp_serverrc')
+            rcfilepath = os.path.expanduser('~/.cubicerp_serverrc')
+            old_rcfilepath = os.path.expanduser('~/.odoorc')
 
             die(os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath),
-                "Found '.odoorc' and '.openerp_serverrc' in your path. Please keep only one of "\
-                "them, preferrably '.odoorc'.")
+                "Found '.odoorc' and '.cubicerp_serverrc' in your path. Please keep only one of "\
+                "them, preferrably '.cubicerp_serverrc'.")
 
             if not os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath):
                 rcfilepath = old_rcfilepath
 
         self.rcfile = os.path.abspath(
-            self.config_file or opt.config or os.environ.get('ODOO_RC') or os.environ.get('OPENERP_SERVER') or rcfilepath)
+            self.config_file or opt.config or os.environ.get('CUBICERP_SERVER') or os.environ.get('ODOO_RC') or rcfilepath)
         self.load()
 
         # Verify that we want to log or not, if not the output will go to stdout
@@ -614,7 +614,7 @@ class configmanager(object):
                 # try to make +rx placeholder dir, will need manual +w to activate it
                 os.makedirs(d, 0o500)
             except OSError:
-                logging.getLogger(__name__).debug('Failed to create addons data dir %s', d)
+                logging.getLogger('cubicerp').debug('Failed to create addons data dir %s', d)
         return d
 
     @property

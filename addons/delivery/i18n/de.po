@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * delivery
 # 
@@ -10,7 +10,7 @@
 # Stefan Hartenfels <stefan.hartenfels@camptocamp.com>, 2017
 # Wolfgang Taferner <wolfgang.transifex@service.wt-io-it.at>, 2017
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2017
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # Dejan Dinic <dejan.dinic@bluewin.ch>, 2017
 # Henry Mineehen <info@mineehen.de>, 2017
 # darenkster <inactive+darenkster@transifex.com>, 2017
@@ -26,7 +26,7 @@
 # Niki Waibel <niki.waibel@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -137,11 +137,11 @@ msgstr ""
 #, python-format
 msgid ""
 "<p class=\"oe_view_nocontent\">\n"
-"                    Buy Odoo Enterprise now to get more providers.\n"
+"                    Buy CubicERP Enterprise now to get more providers.\n"
 "                </p>"
 msgstr ""
 "<p class=\"oe_view_nocontent\">\n"
-"                    Odoo Enterprise jetzt kaufen um mehr Dienstleister frei zu schalten.\n"
+"                    CubicERP Enterprise jetzt kaufen um mehr Dienstleister frei zu schalten.\n"
 "                </p>"
 
 #. module: delivery

@@ -157,7 +157,7 @@
               <p class="oe_view_nocontent_create">
                 Click to create a new cost.
               </p><p>
-                Odoo helps you managing the costs for your different
+                Cubic ERP helps you managing the costs for your different
                 vehicles. Costs are created automatically from services,
                 contracts (fixed or recurring) and fuel logs.
               </p>
@@ -355,7 +355,7 @@
             Click to create a new contract.
           </p><p>
             Manage all your contracts (leasing, insurances, etc.) with
-            their related services, costs. Odoo will automatically warn
+            their related services, costs. Cubic ERP will automatically warn
             you when some contracts have to be renewed.
           </p><p>
             Each contract (e.g.: leasing) may include several services
@@ -621,7 +621,7 @@
           <p class="oe_view_nocontent_create">
             Click to create a new service entry.
           </p><p>
-            Odoo helps you keeping track of all the services done
+            Cubic ERP helps you keeping track of all the services done
             on your vehicle. Services can be of many type: occasional
             repair, fixed maintenance, etc.
           </p>

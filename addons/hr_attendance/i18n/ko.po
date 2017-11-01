@@ -1,11 +1,11 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_attendance
 #
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-01-25 08:56+0000\n"
@@ -379,7 +379,7 @@ msgid ""
 "device using Odoo's web service features."
 msgstr ""
 "시간 추적 기능은 로그인/로그아웃 동작을 통해서 직원의 근태 관리를 목표로합니"
-"다. Odoo 웹 서비스 기능을 이용하여 근태 장치에 이 기능을 연결할 수 있습니다. "
+"다. CubicERP 웹 서비스 기능을 이용하여 근태 장치에 이 기능을 연결할 수 있습니다. "
 
 #. module: hr_attendance
 #: model:ir.ui.view,arch_db:hr_attendance.view_hr_attendance_filter

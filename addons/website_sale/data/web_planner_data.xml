@@ -167,7 +167,7 @@
                                     <strong>For complex imports</strong> (&gt;5000 items, product variants, pictures, etc.):
                         
                                     <li>Online users: we do it for you! <a href="https://www.odoo.com/help" target="_blank"><i class="fa fa-envelope-o"/> Ask Our Experts</a></li>
-                                    <li>Community &amp; Enterprise users: <a href="https://www.odoo.com/documentation/online/api_integration.html" target="_blank">use Odoo API to import through scripts</a></li>                                    
+                                    <li>Community &amp; Enterprise users: <a href="https://www.odoo.com/documentation/online/api_integration.html" target="_blank">use Cubic ERP API to import through scripts</a></li>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@
                             </p>
                             <div class="alert alert-info info_icon" role="alert">
                                 <span class="fa fa-lightbulb-o fa-2x"></span>
-                                Everything is editable in your Odoo website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page.
+                                Everything is editable in your Cubic ERP website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page.
                             </div>                        
                         </div>
                     </div>
@@ -308,7 +308,7 @@
                             <p><strong>Cons:</strong> customers have to check out to find out the delivery price.</p>
                         </div>
                         <div class="alert alert-info info_icon" role="alert">
-                            <span class="fa fa-lightbulb-o fa-2x"></span><p>If you deal with a major shipper (UPS, FedEx, DHL, etc.), activate the related connector in Odoo to compute accurate costs and print labels.</p>
+                            <span class="fa fa-lightbulb-o fa-2x"></span><p>If you deal with a major shipper (UPS, FedEx, DHL, etc.), activate the related connector in Cubic ERP to compute accurate costs and print labels.</p>
                         </div>
                     </div>
 
@@ -327,7 +327,7 @@
                         To collect payments, you can either request your customers to process it manually (wire transfer, etc.) or redirect them to payment acquirers.<br/>
                         Using payment acquirers costs you money, so take some time to compare them.
                     </p>
-                    <h4>You can setup 3 types of <strong>payment acquirers in Odoo:</strong></h4>
+                    <h4>You can setup 3 types of <strong>payment acquirers in Cubic ERP:</strong></h4>
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <div class="panel panel-success">
@@ -459,7 +459,7 @@
                         <li>Free delivery (see Delivery Strategy section)</li>
                     </ul>
                     </p>                     
-                    <h4>To do so, take the most out of Odoo's <strong>pricing options</strong>:<br/></h4>
+                    <h4>To do so, take the most out of Cubic ERP's <strong>pricing options</strong>:<br/></h4>
 
                     <div class="row">
                         <div class="col-md-4">

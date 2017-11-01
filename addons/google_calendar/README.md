@@ -42,11 +42,11 @@ also when this event is updated for some fields as date start, ...
 Be notified
 -----------
 
-You can ask to have a alarm of type 'notification' in your Odoo.  You will have
+You can ask to have a alarm of type 'notification' in  your CubicERP.  You will have
 a notification in you Odoo which ever the page you are.
 
 Google Calendar
 ---------------
 
-With the plugin Google\_calendar, you can synchronize your Odoo calendar with Google Calendar.
+With the plugin Google\_calendar, you can synchronize  your CubicERP calendar with Google Calendar.
 

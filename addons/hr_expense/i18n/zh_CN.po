@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_expense
 # 
@@ -21,7 +21,7 @@
 # 卓忆科技 <zhanghao@jointd.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:34+0000\n"
 "PO-Revision-Date: 2017-10-10 11:34+0000\n"
@@ -577,7 +577,7 @@ msgstr "结束"
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr "好好体验Odoo吧"
 
 #. module: hr_expense
@@ -842,7 +842,7 @@ msgstr ""
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 "对于Odoo团队,<br/>\n"
@@ -901,7 +901,7 @@ msgstr "HR 部门"
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "Have a wonderful day,<br/>- The Odoo Team"
+msgid "Have a wonderful day,<br/>- The CubicERP Team"
 msgstr ""
 
 #. module: hr_expense
@@ -1566,7 +1566,7 @@ msgstr ""
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "This guide helps you start with Odoo Expenses."
+msgid "This guide helps you start with CubicERP Expenses."
 msgstr ""
 
 #. module: hr_expense

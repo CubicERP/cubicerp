@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * base_setup
 # 
@@ -21,7 +21,7 @@
 # Fabien Pinckaers <fp@openerp.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:35+0000\n"
 "PO-Revision-Date: 2017-10-10 11:35+0000\n"
@@ -170,8 +170,8 @@ msgstr "Serveur de messagerie externe"
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form
-msgid "Extract and analyze Odoo data from Google Spreadsheet"
-msgstr "Extrayez et analysez les données Odoo de Google Spreadsheet"
+msgid "Extract and analyze CubicERP data from Google Spreadsheet"
+msgstr "Extrayez et analysez les données CubicERP de Google Spreadsheet"
 
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_res_config_settings_report_footer
@@ -341,8 +341,8 @@ msgstr ""
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form
-msgid "Use external pads in Odoo Notes"
-msgstr "Utilisez les pads externes dans Odoo Notes "
+msgid "Use external pads in CubicERP Notes"
+msgstr "Utilisez les pads externes dans CubicERP Notes "
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form

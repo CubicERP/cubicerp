@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * auth_signup
 #
@@ -7,7 +7,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-05-12 12:36+0000\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  mk.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
-"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  mk.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
 #. module: auth_signup
@@ -43,7 +43,7 @@ msgid ""
 "<div style=\"padding:0px;width:600px;margin:auto;background: #FFFFFF repeat "
 "top /100%;color:#777777\">\n"
 "    <p>Dear ${object.name},</p>\n"
-"    <p>A password reset was requested for the Odoo account linked to this "
+"    <p>A password reset was requested for the CubicERP account linked to this "
 "email.</p>\n"
 "    <p>You may change your password by following this link which will remain "
 "valid during 24 hours:</p>\n"
@@ -445,7 +445,7 @@ msgstr "пр. Петко Петковски"
 
 #~ msgid ""
 #~ "\n"
-#~ "<p>A password reset was requested for the Odoo account linked to this "
+#~ "<p>A password reset was requested for the CubicERP account linked to this "
 #~ "email.</p>\n"
 #~ "\n"
 #~ "<p>You may change your password by following <a href=\"${object."
@@ -455,7 +455,7 @@ msgstr "пр. Петко Петковски"
 #~ "<p>Note: If you do not expect this, you can safely ignore this email.</p>"
 #~ msgstr ""
 #~ "\n"
-#~ "<p>Побарано е ресетирање на лозинка за Odoo налог поврзан со овој е-маил."
+#~ "<p>Побарано е ресетирање на лозинка за CubicERP налог поврзан со овој е-маил."
 #~ "</p>\n"
 #~ "\n"
 #~ "<p>Можете да ја промените вашата лозинка следејќи го <a href=\"${object."

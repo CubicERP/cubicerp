@@ -15,7 +15,7 @@
           </p><p>
             Use this menu to control the invoices to be received from your
             vendors. When registering a new bill, set the purchase order
-            and Odoo will fill the bill automatically according to ordered
+            and Cubic ERP will fill the bill automatically according to ordered
             or received quantities.
           </p>
         </field>

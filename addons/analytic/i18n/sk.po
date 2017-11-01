@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * analytic
 #
@@ -6,7 +6,7 @@
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2015-10-20 04:30+0000\n"
@@ -244,7 +244,7 @@ msgid ""
 "analyse\n"
 "                your margins easily."
 msgstr ""
-"V Odoo sú predajné objednávky a projekty  implementované použitím\n"
+"V CubicERP sú predajné objednávky a projekty  implementované použitím\n"
 "\n"
 "analytických účtov. Môžete sledovať náklady a výnosy pre jednoduchú analýzu\n"
 "\n"

@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mail
 #
@@ -6,7 +6,7 @@
 # Kostas Goutoudis <goutoudis@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-23 09:04+0000\n"
@@ -2101,11 +2101,11 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_base_config_settings_alias_domain
 msgid ""
-"If you have setup a catch-all email domain redirected to the Odoo server, "
+"If you have setup a catch-all email domain redirected to the CubicERP server, "
 "enter the domain name here."
 msgstr ""
 "Εάν έχετε ρυθμίσει στον τομέα (domain) ένα 'catch-all' email, να "
-"ανακατευθύνεται σε διακομιστή Odoo , πληκτρολογήστε το όνομα τομέα εδώ."
+"ανακατευθύνεται σε διακομιστή CubicERP , πληκτρολογήστε το όνομα τομέα εδώ."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141
@@ -3169,11 +3169,11 @@ msgstr "Πλήθος μη αναγνωσμένων μηνυμάτων"
 #: model:ir.actions.act_window,help:mail.action_contacts
 #, fuzzy
 msgid ""
-"Odoo helps you easily track all activities related to\n"
+"CubicERP helps you easily track all activities related to\n"
 "            a customer: discussions, history of business opportunities,\n"
 "            documents, etc."
 msgstr ""
-"Το Odoo σας βοηθά να παρακολουθείτε εύκολα όλες τις\n"
+"Το CubicERP σας βοηθά να παρακολουθείτε εύκολα όλες τις\n"
 "δραστηριότητες που σχετίζονται με έναν πελάτη, συζητήσεις,\n"
 "ιστορία των επιχειρηματικών ευκαιριών, έγγραφα, κλπ"
 
@@ -3181,7 +3181,7 @@ msgstr ""
 #. openerp-web
 #: code:addons/mail/static/src/xml/client_action.xml:11
 #, python-format
-msgid "Odoo needs your permission to"
+msgid "CubicERP needs your permission to"
 msgstr ""
 
 #. module: mail
@@ -4042,11 +4042,11 @@ msgstr "Η αποκοπή του κώδικα html αντικαθιστά τη �
 #: model:ir.model.fields,help:mail.field_mail_channel_alias_model_id
 #: model:ir.model.fields,help:mail.field_res_users_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming "
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Το μοντέλο (Odoo Document Kind) στο οποίο αντιστοιχεί αυτό το ψευδώνυμο. "
+"Το μοντέλο (CubicERP Document Kind) στο οποίο αντιστοιχεί αυτό το ψευδώνυμο. "
 "Κάθε εισερχόμενο email που δεν έχει απαντηθεί σε υπάρχουσα εγγραφή, θα "
 "προκαλέσει τη δημιουργία μίας νέας εγγραφής αυτού του μοντέλου (π.χ. Εργασία "
 "Έργου)"

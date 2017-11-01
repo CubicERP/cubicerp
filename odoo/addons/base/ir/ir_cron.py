@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 import logging
 import threading
 import time
@@ -158,16 +158,16 @@ class ir_cron(models.Model):
         try:
             with db.cursor() as cr:
                 # Make sure the database we poll has the same version as the code of base
-                cr.execute("SELECT 1 FROM ir_module_module WHERE name=%s AND latest_version=%s", ('base', BASE_VERSION))
-                if cr.fetchone():
-                    # Careful to compare timestamps with 'UTC' - everything is UTC as of v6.1.
-                    cr.execute("""SELECT * FROM ir_cron
-                                  WHERE numbercall != 0
-                                      AND active AND nextcall <= (now() at time zone 'UTC')
-                                  ORDER BY priority""")
-                    jobs = cr.dictfetchall()
-                else:
-                    _logger.warning('Skipping database %s as its base version is not %s.', db_name, BASE_VERSION)
+                # cr.execute("SELECT 1 FROM ir_module_module WHERE name=%s AND latest_version=%s", ('base', BASE_VERSION))
+                # if cr.fetchone():
+                # Careful to compare timestamps with 'UTC' - everything is UTC as of v6.1.
+                cr.execute("""SELECT * FROM ir_cron
+                              WHERE numbercall != 0
+                                  AND active AND nextcall <= (now() at time zone 'UTC')
+                              ORDER BY priority""")
+                jobs = cr.dictfetchall()
+                # else:
+                #     _logger.warning('Skipping database %s as its base version is not %s.', db_name, BASE_VERSION)
         except psycopg2.ProgrammingError as e:
             if e.pgcode == '42P01':
                 # Class 42 — Syntax Error or Access Rule Violation; 42P01: undefined_table

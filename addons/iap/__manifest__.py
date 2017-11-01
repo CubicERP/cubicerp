@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 
 {
@@ -19,5 +19,5 @@ This module provides standard tools (account model, context manager and helpers)
     'qweb': [
         'static/src/xml/iap_templates.xml',
     ],
-    'auto_install': True,
+    'auto_install': False,
 }

@@ -93,7 +93,7 @@ var AbstractWebClient = Widget.extend(mixins.ServiceProvider, {
         this._current_state = null;
         this.menu_dm = new concurrency.DropMisordered();
         this.action_mutex = new concurrency.Mutex();
-        this.set('title_part', {"zopenerp": "Odoo"});
+        this.set('title_part', {"zopenerp": "CubicERP"});
     },
     start: function () {
         var self = this;

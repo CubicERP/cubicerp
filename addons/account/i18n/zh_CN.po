@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 # 
@@ -50,7 +50,7 @@
 # 传红 周 <zch1354@qq.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -589,8 +589,8 @@ msgstr "<span>查看</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>-The Odoo Team</strong>"
-msgstr "<strong>-Odoo 团队</strong>"
+msgid "<strong>-The CubicERP Team</strong>"
+msgstr "<strong>-CubicERP 团队</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -874,7 +874,7 @@ msgstr "<strong>调节银行对账单</strong>"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Odoo should automatically match the bank statement with the previously recorded check transaction."
+"                                        In this case, CubicERP should automatically match the bank statement with the previously recorded check transaction."
 msgstr ""
 "<strong>与已有交易调节</strong><br/>\n"
 "                                        这种情况下, Odoo应自动匹配银行对账单和之前的交易记录."
@@ -1093,7 +1093,7 @@ msgstr "客户和供应商的付款条款列表。"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"A product in Odoo is something you sell or buy \n"
+"A product in CubicERP is something you sell or buy \n"
 "                        whether or not it is goods, consumables, or services.\n"
 "                        Choose how you want to create your products:"
 msgstr ""
@@ -1699,8 +1699,8 @@ msgstr "到期的业务伙伴余额"
 #: model:ir.ui.view,arch_db:account.account_aged_balance_view
 msgid ""
 "Aged Partner Balance is a more detailed report of your receivables by "
-"intervals. Odoo calculates a table of credit balance by start Date. So if "
-"you request an interval of 30 days Odoo generates an analysis of creditors "
+"intervals. CubicERP calculates a table of credit balance by start Date. So if "
+"you request an interval of 30 days CubicERP generates an analysis of creditors "
 "for the past month, past two months, and so on."
 msgstr ""
 "到期的业务伙伴余额是按区间对应收款进行分析的更详细的报告。Odoo由起始日期计算信用余额。所以，如果你要求以30天为间隔，Odoo将对过去一月，过去两月，等等，生成债权人分析。"
@@ -4430,7 +4430,7 @@ msgstr "结束钱箱"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr "好好体验Odoo吧"
 
 #. module: account
@@ -4769,7 +4769,7 @@ msgstr "输入一个从0-100的百分率"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 "对于Odoo团队,<br/>\n"
@@ -5775,7 +5775,7 @@ msgid ""
 "It's common practice to change your accounting software \n"
 "                            at the end of a fiscal year. This allows you to have less \n"
 "                            data to import and balances to set. If you plan to do so, \n"
-"                            we recommend you start using Odoo for invoicing and payments \n"
+"                            we recommend you start using CubicERP for invoicing and payments \n"
 "                            now, and then move all other accounting transactions at a later time."
 msgstr ""
 "最常见的实践是在会计年度结尾时变更会计软件。这让您有更少的数据导入，以及余额设置。如果你打算这么做，我们建议你现在开始使用Odoo开票和付款，然后在稍后的时间移动所有其他会计交易。"
@@ -7005,27 +7005,27 @@ msgstr "10月"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Odoo Accounting has many free extra-features:"
+msgid "CubicERP Accounting has many free extra-features:"
 msgstr "Odoo财务有很多免费的额外特性"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr "Odoo能让你直接对相应的销售或者采购发票调节结算行"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr "Odoo允许调节和销售或者采购发票相关的报表行"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
 msgid ""
-"Odoo automatically creates one journal entry per accounting\n"
+"CubicERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/mainly\n"
 "                for miscellaneous operations."
@@ -7034,21 +7034,21 @@ msgstr "Odoo会自动的根据日记账分录：发票，退款，供应商付�
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo can manage multiple companies, but we suggest to setup everything for "
+"CubicERP can manage multiple companies, but we suggest to setup everything for "
 "your first company before configuring the other ones."
 msgstr "Odoo可以管理多公司，但是我们建议在配置别的公司之前先配置第一个公司"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo has already preconfigured a few taxes according to your "
+"CubicERP has already preconfigured a few taxes according to your "
 "country.<br/>Simply review them and check if you need more."
 msgstr "Odoo已经预先设置了一些你所在国家的税，<br/>简单的查看一下是否还需要用到他们"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo should do most of the reconciliation work automatically, so you'll only"
+"CubicERP should do most of the reconciliation work automatically, so you'll only"
 " need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr "Odoo能自动的操作大部分的调节，所以’调节项目‘按钮显示在你你的客户账单表上时，你只需查看他们中的一小部分。"
@@ -8295,7 +8295,7 @@ msgstr "登记多张发票的付款"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Odoo without it by:"
+"                        but you can start using CubicERP without it by:"
 msgstr "登记未清的发票和付款是个很大的工作量, 但你可以这样使用Odoo:"
 
 #. module: account
@@ -10066,7 +10066,7 @@ msgstr "当第三方在你的数据库中不存在的时候（或者找不到）
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"This guide will help you get started with Odoo Accounting.\n"
+"This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr "这条向导将会帮你开启Odoo的会计，一旦你完成，你将会获益于："
 
@@ -10230,7 +10230,7 @@ msgstr "待支付"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"To manage the tax applied when invoicing a Company, Odoo uses the concept of"
+"To manage the tax applied when invoicing a Company, CubicERP uses the concept of"
 " Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr "当给公司开发票用到税的时候，Odoo用到了“财政状况”这个概念：能够根据客户所在国家和所在地区自动的设置正确的税金和科目"
@@ -10880,7 +10880,7 @@ msgstr "警告"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        data."
 msgstr "我们负责所有的导入流程：给你的Odoo的项目经理一份包含你所有数据的CSV文档."
@@ -10889,7 +10889,7 @@ msgstr "我们负责所有的导入流程：给你的Odoo的项目经理一份�
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        products."
 msgstr "我们负责所有的导入流程：给你的Odoo的项目经理一份包含你所有数据的CSV文档."

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import inspect
 import logging
@@ -18,7 +18,7 @@ from odoo.http import request
 from odoo.osv.expression import FALSE_DOMAIN
 from odoo.tools.translate import _
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cubicerp')
 
 
 DEFAULT_CDN_FILTERS = [

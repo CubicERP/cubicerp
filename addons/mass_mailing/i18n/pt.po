@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mass_mailing
 #
@@ -6,7 +6,7 @@
 # Manuela Silva <h_manuela_rodsilva@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:08+0000\n"
 "PO-Revision-Date: 2016-02-09 10:47+0000\n"
@@ -94,7 +94,7 @@ msgstr ""
 #: model:mail.mass_mailing.list,popup_content:mass_mailing.mass_mail_list_2
 msgid ""
 "<div class=\"modal-header text-center\">\n"
-"    <h3 class=\"modal-title mt8\">Odoo Presents</h3>\n"
+"    <h3 class=\"modal-title mt8\">CubicERP Presents</h3>\n"
 "</div>\n"
 "<div class=\"o_popup_message\">\n"
 "    <font>7</font>\n"

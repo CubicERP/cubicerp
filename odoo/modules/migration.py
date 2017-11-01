@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 """ Modules migration handling. """
 
@@ -46,7 +46,7 @@ else:
         return module
 
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.migration')
 
 class MigrationManager(object):
     """

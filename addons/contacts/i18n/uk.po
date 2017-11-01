@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * contacts
 # 
@@ -9,7 +9,7 @@
 # Martin Trigaux <mat@odoo.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -82,11 +82,11 @@ msgstr "Розташування"
 #. module: contacts
 #: model:ir.actions.act_window,help:contacts.action_contacts
 msgid ""
-"Odoo helps you easily track all activities related to\n"
+"CubicERP helps you easily track all activities related to\n"
 "            a customer: discussions, history of business opportunities,\n"
 "            documents, etc."
 msgstr ""
-"Odoo допомагає вам відслідковувати всю активність, пов’язану з учасником:\n"
+"CubicERP допомагає вам відслідковувати всю активність, пов’язану з учасником:\n"
 "Статус членства на даний момент, Обговорення, Історію членства, ділові можливісті т.д."
 
 #. module: contacts

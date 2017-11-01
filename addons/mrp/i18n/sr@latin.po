@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mrp
 #
@@ -9,7 +9,7 @@
 # Vladimir Olujić <olujic.vladimir@storm.hr>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-06 08:35+0000\n"
@@ -779,13 +779,13 @@ msgid ""
 "For instance, in the property group \"Warranty\", you an have\n"
 "                two properties: 1 year warranty, 3 years warranty. "
 "Depending\n"
-"                on the propoerties selected in the sales order, Odoo will\n"
+"                on the propoerties selected in the sales order, CubicERP will\n"
 "                schedule a production using the matching bill of materials."
 msgstr ""
 "Na primer, u grupi svojstava \"Garancija\", postoje\n"
 "                dva svojstva: 1 godina garancije, 3 godine garancije. U "
 "zavisnosti\n"
-"                od odabranih svojstava na narudžbenici, Odoo će staviti u\n"
+"                od odabranih svojstava na narudžbenici, CubicERP će staviti u\n"
 "                proizvodni raspored koristeći odgovarajuću sastavnicu."
 
 #. module: mrp
@@ -1269,10 +1269,10 @@ msgstr ""
 #. module: mrp
 #: model:ir.actions.act_window,help:mrp.mrp_bom_form_action
 msgid ""
-"Odoo uses these BoMs to automatically propose manufacturing\n"
+"CubicERP uses these BoMs to automatically propose manufacturing\n"
 "                orders according to procurement needs."
 msgstr ""
-"Odoo koristi ove sastavnice da automatski predloži naloge za\n"
+"CubicERP koristi ove sastavnice da automatski predloži naloge za\n"
 "                proizvodnju prema potrebama za nabavku."
 
 #. module: mrp
@@ -1877,23 +1877,23 @@ msgstr ""
 #. module: mrp
 #: model:ir.actions.act_window,help:mrp.mrp_property_action
 msgid ""
-"The Properties in Odoo are used to select the right bill of\n"
+"The Properties in CubicERP are used to select the right bill of\n"
 "                materials for manufacturing a product when you have "
 "different\n"
 "                ways of building the same product.  You can assign several\n"
 "                properties to each bill of materials.  When a salesperson\n"
 "                creates a sales order, they can relate it to several "
 "properties\n"
-"                and Odoo will automatically select the BoM to use according\n"
+"                and CubicERP will automatically select the BoM to use according\n"
 "                the needs."
 msgstr ""
-"Svojstva u Odoo se koriste za odabir odgovarajuće sastavnice\n"
+"Svojstva u CubicERP se koriste za odabir odgovarajuće sastavnice\n"
 "                za proizvodnju proizvoda kada postoji više načina za izradu\n"
 "                istog proizvoda.  Moguće je dodeliti više svojstava u "
 "svakoj\n"
 "                sastavnici.  Kada prodaja kreira prodajni nalog "
 "(narudžbenicu),\n"
-"                moguće ju je povezati sa više različitih svojstava i Odoo "
+"                moguće ju je povezati sa više različitih svojstava i CubicERP "
 "će\n"
 "                automatski odabrati sastavnicu koja odgovora toj narudžbini."
 

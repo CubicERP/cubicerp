@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mrp
 # 
@@ -19,7 +19,7 @@
 # Bülent Tiknas <btiknas@googlemail.com>, 2017
 # Niki Waibel <niki.waibel@gmail.com>, 2017
 # BT_astauder <andreas.stauder@brain-tec.ch>, 2017
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # Andi <flimflam@salasar.de>, 2017
 # Mathias Neef <mn@copado.de>, 2017
 # Renzo Meister <info@jamotion.ch>, 2017
@@ -32,7 +32,7 @@
 # AppleMentalist <felix.schnatbaum@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:34+0000\n"
 "PO-Revision-Date: 2017-10-10 11:34+0000\n"
@@ -1904,7 +1904,7 @@ msgstr ""
 #. module: mrp
 #: model:ir.actions.act_window,help:mrp.mrp_bom_form_action
 msgid ""
-"Odoo uses these BoMs to automatically propose manufacturing\n"
+"CubicERP uses these BoMs to automatically propose manufacturing\n"
 "                orders according to procurement needs."
 msgstr ""
 

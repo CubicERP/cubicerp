@@ -1,5 +1,5 @@
 import odoo.tests
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 @odoo.tests.common.at_install(False)
 @odoo.tests.common.post_install(True)

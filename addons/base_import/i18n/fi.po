@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * base_import
 # 
@@ -11,7 +11,7 @@
 # Miku Laitinen <miku.laitinen@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -279,11 +279,11 @@ msgstr "Tunniste (ID)"
 #, python-format
 msgid ""
 "If the file contains\n"
-"                the column names, Odoo can try auto-detecting the\n"
+"                the column names, CubicERP can try auto-detecting the\n"
 "                field corresponding to the column. This makes imports\n"
 "                simpler especially when the file has many columns."
 msgstr ""
-"Jos tiedostossa on sarakeotsikot mukana, Odoo voi yrittää automaattisesti "
+"Jos tiedostossa on sarakeotsikot mukana, CubicERP voi yrittää automaattisesti "
 "löytää saraketta vastaavan kentän. Tämä tekee tuonneista helpompia varsinkin"
 " kun tiedostossa on paljon sarakkeita."
 

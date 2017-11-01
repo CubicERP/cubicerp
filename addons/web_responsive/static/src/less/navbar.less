@@ -1,0 +1,370 @@
+/* Copyright 2016 LasLabs Inc.
+ * License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+
+header {
+    margin: 0;
+    padding: 0;
+
+    > .main-nav {
+        display: block;
+        white-space: nowrap;
+
+        .navbar-systray {
+            white-space: nowrap;
+            @media (max-width: @screen-xs-max) {
+                position: absolute;
+                top: 0;
+                right: 56px;
+            }
+            > .oe_user_menu_placeholder > li > a {
+                > .oe_topbar_avatar {
+                    border-radius: 50%;
+                    margin-top: -8px;
+                    max-height: 36px;
+                    height: 36px;
+                    width: 36px;
+                }
+                .oe_topbar_name {
+                    position: relative;
+                    top: -3px;
+                    @media (max-width: @screen-xs-max) {
+                        display: none;
+                    }
+                }
+                .caret {
+                    position: relative;
+                    top: -3.5px;
+                }
+            }
+            .o_switch_company_menu {
+                .oe_topbar_name {
+                    @media (max-width: @screen-xs-max) {
+                        display: none;
+                    }
+                }
+            }
+            > .oe_systray > li > a {
+                .fa {
+                    position: relative;
+                    top: 3px;
+                    font-size: 16px;
+                }
+                .caret {
+                    position: relative;
+                    top: 0.5px;
+                }
+            }
+        }
+
+        .navbar-right {
+            float: right;
+            > li {
+                float: left;
+            }
+            @media (max-width: @screen-xs-max) {
+                .navbar-nav .open .dropdown-menu {
+                    position: fixed;
+                    top: 46px;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    overflow: auto;
+                    float: left;
+                    background-color: @odoo-view-background-color;
+                    border: 1px solid rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+                }
+            }
+        }
+
+        .container-fluid:before, .container-fluid:after, .navbar-collapse:before, .navbar-collapse:after {
+            display: inline;
+        }
+
+        > .container-fluid {
+            margin: 0;
+            padding: 0;
+
+            @media (max-width: @screen-xs-max) {
+                > .navbar-collapse {
+                    margin: 0;
+                    padding: 0;
+                    overflow: auto;
+                    &.collapsing {
+                        overflow: hidden;
+                    }
+                }
+            }
+            > .navbar-header {
+                margin: 0;
+                padding: 0;
+                > .drawer-toggle, .navbar-toggle {
+                    margin: 0;
+                    color: white;
+                    padding: 0;
+                    border: 0px;
+                    border-radius: 0px;
+                    > i.fa, div.fa {
+                        padding: 17px 14px 16px;
+                    }
+                }
+            }
+
+            .o_sub_menu > .o_sub_menu_content > .oe_secondary_menu {
+                ul.dropdown-menu > li.dropdown-header {
+                    color: @odoo-view-background-color;
+                    text-decoration: none;
+                    background-color: @odoo-main-color-muted;
+                    font-weight: bold;
+                }
+                @media (min-width: @screen-sm-min) {
+                    height: @navbar-height;
+                }
+                margin: 0;
+                padding: 0;
+                > li {
+                    @media (min-width: @screen-sm-min) {
+                        height: @navbar-height;
+                    }
+                    margin: 0;
+                    padding: 0;
+                    &.app-name {
+                        display: block;
+                        padding: 7px 8px;
+                        > .oe_menu_text {
+                            font-size: 20px;
+                            color: white;
+                        }
+                        @media (min-width: @screen-sm-min) {
+                            padding: 8.5px 12px;
+                        }
+                    }
+                    > a {
+                        margin: 0;
+                        @media (min-width: @screen-sm-min) {
+                            height: @navbar-height;
+                            padding: 14px 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        > .navbar-right.o_menu_systray {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            > ul {
+                margin: 0;
+                padding: 0;
+                > li > a {
+                    margin: 0;
+                    padding: 13px 8px;
+                    height: @navbar-height;
+                }
+            }
+        }
+
+        .badge {
+            position: absolute;
+            top: 3px;
+            right: @navbar-padding-horizontal / 2;
+        }
+
+        ul.nav > li > a {
+            padding: @app-drawer-navbar-padding-vertical @app-drawer-padding-horizontal;
+        }
+
+        .o_planner_systray > .progress {
+            margin-top: 15px;
+        }
+    }
+}
+
+a.navbar-collapse.collapse {
+    @media (min-width: @screen-sm-min) {
+        padding-bottom: @app-drawer-navbar-padding-vertical;
+        padding-top: @app-drawer-navbar-padding-vertical;
+    }
+}
+
+.dropdown-scrollable {
+    overflow-x: hidden;
+}
+
+// Navbar =====================================================================
+
+@font-face {
+    font-family: Roboto;
+    src: url(/web_responsive/static/src/font/Roboto-Regular.ttf)
+}
+
+/* App Drawer Toggle */
+
+@app-drawer-width:          100%;
+
+.app-drawer-icon-open {
+    color: #ffffff;
+}
+
+// Add background image
+.drawer-nav{
+    background: transparent url('/web_responsive/static/src/img/background.png') no-repeat scroll center center / cover;
+    z-index: 9999 ;
+    width: 100% ;
+
+    .app-drawer-panel-title {
+        margin-left: -14px;
+    }
+
+    .panel-body {
+        padding-top: 80px;
+    }
+
+    #appDrawerAppPanelHead {
+	z-index:9999;
+    }
+}
+
+.app-drawer-nav .app-drawer-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
+.app-drawer-nav {
+    border: 0px !important;
+    border-radius: 0px !important;
+}
+
+.panel-heading {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+.oe_secondary_menu > li.app-name {
+    padding: 7px 12px !important;
+}
+.main-nav > .container-fluid .o_sub_menu > .o_sub_menu_content > .oe_secondary_menu > li.app-name > .oe_menu_text {
+    font-size: 22px !important;
+    color: white;
+    margin-right: 35px;
+}
+
+.main-nav > .container-fluid .o_sub_menu > .o_sub_menu_content > .oe_secondary_menu {
+    margin-left: -8px !important;
+}
+
+.main-nav > .container-fluid .o_sub_menu > .o_sub_menu_content > .oe_secondary_menu > li > a {
+    height: @navbar-height;
+    padding: 0px 8px !important;
+    line-height: @navbar-height !important;
+}
+
+.navbar {
+    border-radius: 0px;
+    margin-bottom: 0px !important;
+    border: 0px !important;
+}
+
+// User menubar
+
+.oe_topbar_avatar {
+    max-height: 16px !important;
+    height: 16px !important;
+    width: 16px !important;
+    margin-top: -4px !important;
+}
+
+.oe_topbar_name {
+    top: 0px !important;
+}
+
+.main-nav .navbar-systray > .oe_user_menu_placeholder > li > a .caret {
+    top: 0px !important;
+}
+
+// Center app icons
+.app-drawer-nav .panel-body {
+    margin: auto;
+    max-width: 768px;
+    padding-top: 80px !important;
+    width: 90%;
+}
+
+.app-drawer-nav .app-drawer-icon-app {
+    border-radius: 3%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.o_mail_navbar_item .o_notification_counter {
+    background: #00a09d !important;
+    color: white !important;
+    margin-top: 1em;
+    margin-right: 0;
+}
+
+// Default drawer width is 80% in web_responsive, make it 100% width
+
+.drawer--left.drawer-open .drawer-nav, .drawer--left .drawer-hamburger, .drawer--left.drawer-open .drawer-navbar .drawer-hamburger {
+    left: 0 !important;
+}
+
+.drawer-nav {
+    width: 100% !important;
+}
+
+.drawer--left .drawer-nav {
+    left: -100% !important;
+}
+
+.drawer--left.drawer-open .drawer-hamburger {
+    left: 100%;
+}
+
+.drawer--right .drawer-nav {
+    right: -100%;
+}
+
+// Remove transition
+.drawer--left .drawer-nav {
+    -webkit-transition: left .1ms cubic-bezier(0.190, 1.000, 0.220, 1.000) !important;
+    transition: left .1ms cubic-bezier(0.190, 1.000, 0.220, 1.000) !important;
+}
+
+.navbar {
+
+  &-default {
+
+    .badge {
+      background-color: #fff;
+      color: @navbar-default-bg;
+    }
+  }
+
+  &-inverse {
+
+    .badge {
+      background-color: #fff;
+      color: @navbar-inverse-bg;
+    }
+  }
+}
+
+@media (max-width: @grid-float-breakpoint-max) {
+
+  .navbar {
+
+    .dropdown-menu {
+      a {
+        color: #fff;
+        background-color: @brand-primary;
+      }
+    }
+  }
+}

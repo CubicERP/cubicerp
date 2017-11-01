@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 #
@@ -6,7 +6,7 @@
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-05-19 13:55+0000\n"
@@ -390,7 +390,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 #, fuzzy
 msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\"> Салдо во Odoo </span>"
+msgstr "<span title=\"Balance in Odoo\"> Салдо во CubicERP </span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -454,8 +454,8 @@ msgstr "<span>Приказ</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>-The Odoo Team</strong>"
-msgstr "<strong>-Odoo тимот</strong>"
+msgid "<strong>-The CubicERP Team</strong>"
+msgstr "<strong>-CubicERP тимот</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -725,12 +725,12 @@ msgstr "<strong>Порамни извод од банка</strong>"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Odoo should "
+"                                        In this case, CubicERP should "
 "automatically match the bank statement with the previously recorded check "
 "transaction."
 msgstr ""
 "<strong>Порамни со постоечка трансакција</strong><br/>\n"
-"Во овој случај, Odoo би требал автоматски да го поврзи банкарскиот извод со "
+"Во овој случај, CubicERP би требал автоматски да го поврзи банкарскиот извод со "
 "претходната постоечка трансакција."
 
 #. module: account
@@ -837,7 +837,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>There are three different levels of access rights in Odoo:</strong>"
-msgstr "<strong>Има три нивоа на различна пристапност во Odoo :</strong>"
+msgstr "<strong>Има три нивоа на различна пристапност во CubicERP :</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.report_overdue_document
@@ -948,12 +948,12 @@ msgstr "Листа на клиентски и добавувачки услов�
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"A product in Odoo is something you sell or buy \n"
+"A product in CubicERP is something you sell or buy \n"
 "                        whether or not it is goods, consumables, or "
 "services.\n"
 "                        Choose how you want to create your products:"
 msgstr ""
-"Производ во Odoo е нешто што го продавате или купувате,\n"
+"Производ во CubicERP е нешто што го продавате или купувате,\n"
 "тоа се: добра, потрошен материјал или услуги.\n"
 "Изберете како сакате да ги креирате вашите производи:"
 
@@ -1491,16 +1491,16 @@ msgstr "Старосна структура на обврски/побарува
 #, fuzzy
 msgid ""
 "Aged Partner Balance is a more detailed report of your receivables by "
-"intervals. Odoo calculates a table of credit balance by start Date. So if "
-"you request an interval of 30 days Odoo generates an analysis of creditors "
+"intervals. CubicERP calculates a table of credit balance by start Date. So if "
+"you request an interval of 30 days CubicERP generates an analysis of creditors "
 "for the past month, past two months, and so on."
 msgstr ""
 "Старосна структура на обврски/побарувања- претставува подетален извештај на "
-"примањата, дадени по интервали. Кога отварате извештај, Odoo прашува за "
+"примањата, дадени по интервали. Кога отварате извештај, CubicERP прашува за "
 "името на компанијата, почетниот датум и големината на интервалот кој што ќе "
-"се анализира (во денови). Odoo тогаш ви пресметува табела на кредитна "
+"се анализира (во денови). CubicERP тогаш ви пресметува табела на кредитна "
 "состојба со почетен датум. Така што, доколку побарате интервал од 30 дена, "
-"Odoo ќе генерира анализа на кредитирање од минатиот месец, два месеци, итн."
+"CubicERP ќе генерира анализа на кредитирање од минатиот месец, два месеци, итн."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.report_agedpartnerbalance
@@ -3956,8 +3956,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Enjoy your Odoo experience,"
-msgstr "Уживајте во вашето Odoo искуство,"
+msgid "Enjoy  your CubicERP experience,"
+msgstr "Уживајте во вашето CubicERP искуство,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -4294,10 +4294,10 @@ msgstr "За процент внесете сооднос помеѓу 0-100."
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"За Odoo тимот,<br/>\n"
+"За CubicERP тимот,<br/>\n"
 "Fabien Pinckaers, основач"
 
 #. module: account
@@ -4433,24 +4433,24 @@ msgstr ""
 #: model:ir.model.fields,help:account.field_account_config_settings_module_account_bank_statement_import_ofx
 #, fuzzy
 msgid ""
-"Get your bank statements from your bank and import them in Odoo in the .OFX "
+"Get your bank statements from your bank and import them in CubicERP in the .OFX "
 "format.\n"
 "-This installs the module account_bank_statement_import_ofx."
 msgstr ""
 "Превземете ги вашите банкарски изводи од вашата банка и импортирајте ги во "
-"Odoo во .OFX формат\n"
+"CubicERP во .OFX формат\n"
 "-Ова ви го инсталира модулот account_bank_statement_import_ofx"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_config_settings_module_account_bank_statement_import_qif
 #, fuzzy
 msgid ""
-"Get your bank statements from your bank and import them in Odoo in the .QIF "
+"Get your bank statements from your bank and import them in CubicERP in the .QIF "
 "format.\n"
 "-This installs the module account_bank_statement_import_qif."
 msgstr ""
 "Превземете ги вашите банкарски изводи од вашата банка и импортирајте ги во "
-"Odoo во .QIF формат\n"
+"CubicERP во .QIF формат\n"
 "-Ова ви го инсталира модулот account_bank_statement_import_qif"
 
 #. module: account
@@ -5284,7 +5284,7 @@ msgid ""
 "have less \n"
 "                            data to import and balances to set. If you plan "
 "to do so, \n"
-"                            we recommend you start using Odoo for invoicing "
+"                            we recommend you start using CubicERP for invoicing "
 "and payments \n"
 "                            now, and then move all other accounting "
 "transactions at a later time."
@@ -5293,7 +5293,7 @@ msgstr ""
 "на крајот на фискална година. Ова ви овозможува да имате помалку \n"
 "дата за импортирање и биланси за обработување. Доколку се одлучите да го "
 "направите тоа, \n"
-"ви предлагаме да започнете со користење на Odoo за фактурирање и плаќање "
+"ви предлагаме да започнете со користење на CubicERP за фактурирање и плаќање "
 "сега, \n"
 "а подоцна можете да ги префрлите сите други останати сметководствени "
 "трансакции."
@@ -5974,22 +5974,22 @@ msgstr "Мај"
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_inbound_payment_method_ids
 msgid ""
-"Means of payment for collecting money. Odoo modules offer various payments "
+"Means of payment for collecting money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
-"Начини на плаќање за собирање на парични средства. Odoo модулите нудат "
+"Начини на плаќање за собирање на парични средства. CubicERP модулите нудат "
 "разновидни плаќачко раководни опции, но секогаш можете да го користите "
 "'рачниот' плаќачки метод со цел да управувате со плаќања надвор од софтверот."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_outbound_payment_method_ids
 msgid ""
-"Means of payment for sending money. Odoo modules offer various payments "
+"Means of payment for sending money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
-"Начини на плаќање за собирање на парични средства. Odoo модулите нудат "
+"Начини на плаќање за собирање на парични средства. CubicERP модулите нудат "
 "разновидни плаќачко раководни опции, но секогаш можете да го користите "
 "'рачниот' плаќачки метод со цел да управувате со плаќања надвор од софтверот."
 
@@ -6362,37 +6362,37 @@ msgstr "Октомври"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Odoo Accounting has many free extra-features:"
-msgstr "Сметководството на Odoo има многу бесплатни екстра-функции:"
+msgid "CubicERP Accounting has many free extra-features:"
+msgstr "Сметководството на CubicERP има многу бесплатни екстра-функции:"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr ""
-"Odoo ви овозможува да порамнете ставка од извод директно со \n"
+"CubicERP ви овозможува да порамнете ставка од извод директно со \n"
 "соодветната излезна или влезна фактура/и.()"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr ""
-"Odoo ви овозможува да порамнете ставка од извод директно со \n"
+"CubicERP ви овозможува да порамнете ставка од извод директно со \n"
 "соодветната излезна или влезна фактура/и."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
 msgid ""
-"Odoo automatically creates one journal entry per accounting\n"
+"CubicERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/"
 "mainly\n"
 "                for miscellaneous operations."
 msgstr ""
-"Odoo автоматски креира еден внес во дневникот по сметководствен\n"
+"CubicERP автоматски креира еден внес во дневникот по сметководствен\n"
 "                документ: фактура, поврат на ф-ра, плаќања на добавувачи, "
 "изводи од банка,\n"
 "                итн. Според тоа, рачно ги бележите внесовите во дневникот "
@@ -6402,29 +6402,29 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo can manage multiple companies, but we suggest to setup everything for "
+"CubicERP can manage multiple companies, but we suggest to setup everything for "
 "your first company before configuring the other ones."
 msgstr ""
-"Odoo може да менаџира повеќе компании, но ви предлагаме најпрвин да ја "
+"CubicERP може да менаџира повеќе компании, но ви предлагаме најпрвин да ја "
 "подесите вашата прва компанија пред да ги конфигурирате другите."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo has already preconfigured a few taxes according to your country.<br/"
+"CubicERP has already preconfigured a few taxes according to your country.<br/"
 ">Simply review them and check if you need more."
 msgstr ""
-"Odoo веќе има конфигурирано неколку даноци според вашата земја. <br/> "
+"CubicERP веќе има конфигурирано неколку даноци според вашата земја. <br/> "
 "Едноставно прегледајте ги ако ви требаат други."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo should do most of the reconciliation work automatically, so you'll only "
+"CubicERP should do most of the reconciliation work automatically, so you'll only "
 "need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr ""
-"Odoo би требало да ја изработува целата работа со порамнување автоматски, "
+"CubicERP би требало да ја изработува целата работа со порамнување автоматски, "
 "така што вие ќе треба само некои од нив да ги прегледувате кога "
 "<strong>'Порамни ставки'</strong> копчето ќе ви се појави во вашата табла на "
 "добавувачки сметки."
@@ -6437,7 +6437,7 @@ msgid ""
 "                invoice by email and he can pay online and/or import it\n"
 "                in his own system."
 msgstr ""
-"Електронското фактурирање на Odoo ви овозможува да го олесните и\n"
+"Електронското фактурирање на CubicERP ви овозможува да го олесните и\n"
 "                забрзате собирањето на уплати од клиентите. Вашиот клиент "
 "добива\n"
 "                фактури по е-маил и меже да ги плати преку интернет и/или да "
@@ -7039,12 +7039,12 @@ msgid ""
 "             If you set a paypal account, the customer  will be able to pay "
 "your invoices or quotations\n"
 "             with a button \"Pay with  Paypal\" in automated emails or "
-"through the Odoo portal."
+"through the CubicERP portal."
 msgstr ""
 "Paypal налог (е-маил) за примање плаќања преку интернет (кредитна картичка, "
 "итн.) Ако подесете paypal налог, клиентот  ќе може да ги плаќа вашите "
 "фактури или понуди преку копче \"Плати со  Paypal\" во автоматизирани е-маил "
-"пораки или преку Odoo порталот."
+"пораки или преку CubicERP порталот."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_res_company_paypal_account
@@ -7692,10 +7692,10 @@ msgstr "Регистрирај плаќања на мултипни фактур
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Odoo without it by:"
+"                        but you can start using CubicERP without it by:"
 msgstr ""
 "Регистрирање на неподмирени фактури и плаќања може да биде голем подфат, \n"
-"но можете да го користите Odoo и без тоа, така што:"
+"но можете да го користите CubicERP и без тоа, така што:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -9121,10 +9121,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"This guide will help you get started with Odoo Accounting.\n"
+"This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
-"Овој прирачник ќе ви помогне во Odoo сметководството.\n"
+"Овој прирачник ќе ви помогне во CubicERP сметководството.\n"
 "Откако ќе завршите, ќе бенефитирате од:"
 
 #. module: account
@@ -9298,11 +9298,11 @@ msgstr "Да се плати"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"To manage the tax applied when invoicing a Company, Odoo uses the concept of "
+"To manage the tax applied when invoicing a Company, CubicERP uses the concept of "
 "Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr ""
-"За да се менаџира данокот аплициран при фактурирање на компанија, Odoo го "
+"За да се менаџира данокот аплициран при фактурирање на компанија, CubicERP го "
 "користи концептот на фискално позиционирање: тие служат за автоматско "
 "подесување на правилниот данок/или сметка согласно со државата на клиентот."
 
@@ -9841,7 +9841,7 @@ msgstr "Предупредување!"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"
@@ -9849,13 +9849,13 @@ msgid ""
 msgstr ""
 "Можеме да се справиме со целосниот имортирачки процес \n"
 "за вас: едноставно испратете CSV датотека \n"
-"што ја содржи цела ваша дата кон Odoo проектен менаџер."
+"што ја содржи цела ваша дата кон CubicERP проектен менаџер."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"
@@ -9863,7 +9863,7 @@ msgid ""
 msgstr ""
 "Можеме да се справиме со целосниот имортирачки процес \n"
 "за вас: едноставно испратете CSV датотека \n"
-"што ја содржи цела ваша дата кон Odoo проектен менаџер."
+"што ја содржи цела ваша дата кон CubicERP проектен менаџер."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner

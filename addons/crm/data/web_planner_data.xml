@@ -9,13 +9,13 @@
                 <t t-set="hide_mark_as_done" t-value="True"/>
                 <div class="o_planner_intro">
                   <p>
-                      We designed Odoo to help you grow your business. Odoo CRM
+                      We designed Cubic ERP to help you grow your business. Cubic ERP CRM
                       is not just a tool, we want it to have a major impact on your
                       sales performance. That's our mission, and we are serious about it.
                   </p><p>
                       Setting up your sales funnel is just the first step. To achieve a
                       significant boost, we will help you get the most out of
-                      Odoo CRM to transform how your salespeople work.
+                      Cubic ERP CRM to transform how your salespeople work.
                       That's the purpose of this guide.
                   </p><p>
                       The whole process may take a few hours. But it's worth doing
@@ -30,7 +30,7 @@
                   <div class="mt32">
                       <img class="signature mb8" src="/web_planner/static/src/img/fabien_signature.png"/>
                       <address>
-                          For the Odoo Team,<br/>
+                          For the Cubic ERP Team,<br/>
                           Fabien Pinckaers, Founder
                       </address>
                   </div>
@@ -262,7 +262,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Proposal</t>
                     <p class="text-muted">
-                        Odoo will help you create polished, professional quotations and contracts in minutes.
+                        Cubic ERP will help you create polished, professional quotations and contracts in minutes.
                         Tell us how you sell and we will tell you what
                         configuration will best fit your quotation process.
                     </p>
@@ -341,15 +341,15 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Incoming Emails</t>
                     <p class="text-muted">
-                        There are several ways for your company to generate leads with Odoo CRM.
+                        There are several ways for your company to generate leads with Cubic ERP CRM.
                         One of them is using your company's generic email address as a trigger
-                        to create a new lead in the system. In Odoo, each one of your sales channels
+                        to create a new lead in the system. In Cubic ERP, each one of your sales channels
                         is linked to its own email address from which prospects can reach them.
                         For example, if the personal email address of your Direct team is
                         direct@mycompany.example.com, every email sent when a new prospect
                         contacts you will automatically create a new opportunity into the sales channel.
 
-                        That's the easiest way to integrate Odoo with third party apps.
+                        That's the easiest way to integrate Cubic ERP with third party apps.
                     </p>
                     <h4>The point of contact <strong>for all your prospects</strong></h4>
                     <div class="row">
@@ -438,7 +438,7 @@
                                 <div class="panel-body">
                                     <p>
                                         We can handle the whole import process
-                                        for you: simply send your Odoo project
+                                        for you: simply send your Cubic ERP project
                                         manager a CSV file containing all your
                                         data.
                                     </p><p>
@@ -462,7 +462,7 @@
 
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Products</t>
-                    <p>A product in Odoo is something you sell or buy. It could
+                    <p>A product in Cubic ERP is something you sell or buy. It could
                     be a goods, consumable or services. Choose how you want to
                     create your products:
                     </p>
@@ -505,7 +505,7 @@
                                     <strong>For complex imports</strong> (&gt;5000 items, product variants, pictures, etc.):
                         
                                     <li>Online users: we do it for you! <a href="https://www.odoo.com/help" target="_blank"><i class="fa fa-envelope-o"/> Ask Our Experts</a></li>
-                                    <li>Community &amp; Enterprise users: <a href="https://www.odoo.com/documentation/9.0/api_integration.html" target="_blank">use Odoo API to import through scripts</a></li>                                    
+                                    <li>Community &amp; Enterprise users: <a href="https://www.odoo.com/documentation/9.0/api_integration.html" target="_blank">use Cubic ERP API to import through scripts</a></li>
                                 </div>
                             </div>
                         </div>
@@ -514,7 +514,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Pricing &amp; Discounts</t>
                     <p class="text-muted">
-                    In Odoo, there are 3 different ways to manage your prices.<br/>
+                    In Cubic ERP, there are 3 different ways to manage your prices.<br/>
                     </p>
                     <div class="row">
                         <div class="col-md-4">
@@ -648,10 +648,10 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Customizations</t>
                     <p class="text-muted">
-                        <strong>Every business is different.</strong> Odoo allows to
+                        <strong>Every business is different.</strong> Cubic ERP allows to
                         customize every application and it's usually a good
                         advice to customize screens to fit your sales process.
-                        <strong>Customizations are done by Odoo experts.</strong>
+                        <strong>Customizations are done by Cubic ERP experts.</strong>
 
                     </p><p class="text-muted">
                         Here are some of the <strong>customizations available</strong>:
@@ -788,7 +788,7 @@
                         <div class="col-md-10">
                             <p><strong>Trainings</strong><br/>
                                 To build a strong sales training program, you can use the following
-                                apps of Odoo:
+                                apps of Cubic ERP:
                                 <ul>
                                     <t t-if="not is_module_installed('survey')">
                                     <li>Use <a t-att-href="prepare_backend_url('base.open_module_tree', 'form', 'survey')">survey</a> to create tests and certifications.</li>
@@ -834,7 +834,7 @@
                             </ul>
                             <p><strong>Propositions:</strong></p>
                             <ul>
-                                <li>Templates of quotations (use Odoo Online Proposals for this)</li>
+                                <li>Templates of quotations (use Cubic ERP Online Proposals for this)</li>
                                 <li>Competition Matrix comparing prices</li>
                             </ul>
                             <p><strong>Negotiation:</strong></p>
@@ -854,7 +854,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Add Features</t>
                     <p class="text-muted">
-                        Odoo is the world's only software to have a full integration of Marketing Apps for your sales channel: insight sales, point of sale, ecommerce.
+                        Cubic ERP is the world's only software to have a full integration of Marketing Apps for your sales channel: insight sales, point of sale, ecommerce.
                     </p>
                     <h4>
                         <strong>To boost your leads acquisition,</strong> you should have a look at our marketing apps:
@@ -924,7 +924,7 @@
                     <h3>We hope this process helped you bring your sales vision to life.</h3>
                     <h4>Don't hesitate to <a href="mailto:info@odoo.com?subject=Sales%20Planner" target="_blank">send us an email</a> to describe<br/> your experience or to suggest improvements!</h4>
 
-                    <p>Happy Selling!<br/>- The Odoo Team</p>
+                    <p>Happy Selling!<br/>- The Cubic ERP Team</p>
                     <img src="/web_planner/static/src/img/odoo_logo.png"/>
                 </div>
             </t>

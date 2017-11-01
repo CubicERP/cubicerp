@@ -535,7 +535,7 @@ msgstr ""
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr ""
 
 #. module: hr_expense

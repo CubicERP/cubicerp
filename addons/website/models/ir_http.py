@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import logging
 import traceback
@@ -21,7 +21,7 @@ from odoo.osv.expression import FALSE_DOMAIN
 
 from odoo.addons.http_routing.models.ir_http import ModelConverter, _guess_mimetype
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cubicerp')
 
 
 def sitemap_qs2dom(qs, route, field='name'):

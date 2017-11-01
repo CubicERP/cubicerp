@@ -588,7 +588,7 @@ msgstr "Az Ön neve"
 
 #. module: portal
 #: model:mail.template,subject:portal.mail_template_data_portal_welcome
-msgid "Your Odoo account at ${user.company_id.name}"
+msgid " Your CubicERP account at ${user.company_id.name}"
 msgstr "Az Ön Odoo rendszer fiókja itt ${user.company_id.name}"
 
 #. module: portal

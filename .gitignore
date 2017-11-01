@@ -1,5 +1,6 @@
 # sphinx build directories
 _build/
+data/
 
 # dotfiles
 .*

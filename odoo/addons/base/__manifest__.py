@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 
 {
@@ -7,8 +7,8 @@
     'version': '1.3',
     'category': 'Hidden',
     'description': """
-The kernel of Odoo, needed for all installation.
-===================================================
+The kernel of CubicERP, needed for all installation.
+====================================================
 """,
     'depends': [],
     'data': [

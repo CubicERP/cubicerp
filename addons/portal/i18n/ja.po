@@ -585,7 +585,7 @@ msgstr "お名前"
 
 #. module: portal
 #: model:mail.template,subject:portal.mail_template_data_portal_welcome
-msgid "Your Odoo account at ${user.company_id.name}"
+msgid " Your CubicERP account at ${user.company_id.name}"
 msgstr "あなたのOdooアカウントは ${user.company_id.name} です"
 
 #. module: portal

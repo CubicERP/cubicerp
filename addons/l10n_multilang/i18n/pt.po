@@ -1,12 +1,12 @@
-# #-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_multilang
 #
 # Translators:
 # Manuela Silva <h_manuela_rodsilva@gmail.com>, 2015
-# #-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_multilang
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 08:20+0000\n"
 "PO-Revision-Date: 2015-10-20 14:15+0000\n"
@@ -25,9 +25,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: l10n_multilang
@@ -74,9 +74,9 @@ msgstr ""
 #, fuzzy
 msgid "Template for Fiscal Position"
 msgstr ""
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Modelo para a Posição Fiscal\n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Template para Posição Fiscal"
 
 #. module: l10n_multilang
@@ -84,9 +84,9 @@ msgstr ""
 #, fuzzy
 msgid "Templates for Account Chart"
 msgstr ""
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Modelos para o Gráfico da Conta\n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Templates para Plano de Conta"
 
 #. module: l10n_multilang
@@ -94,9 +94,9 @@ msgstr ""
 #, fuzzy
 msgid "Templates for Accounts"
 msgstr ""
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Modelos para as Contas\n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Templates para Contas"
 
 #. module: l10n_multilang
@@ -104,9 +104,9 @@ msgstr ""
 #, fuzzy
 msgid "Templates for Taxes"
 msgstr ""
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Modelos para os Impostos\n"
-"#-#-#-#-#  pt.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Templates para Impostos"
 
 #. module: l10n_multilang

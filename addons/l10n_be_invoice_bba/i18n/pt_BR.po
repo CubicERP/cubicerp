@@ -1,12 +1,12 @@
-# #-#-#-#-#  pt_BR.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  pt_BR.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_be_invoice_bba
 #
 # Translators:
 # Mateus Cerqueira Lopes <mateus1@gmail.com>, 2015
-# #-#-#-#-#  pt_BR.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  pt_BR.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * l10n_be_invoice_bba
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:56+0000\n"
 "PO-Revision-Date: 2015-09-08 05:27+0000\n"
@@ -25,9 +25,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  pt_BR.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt_BR.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"#-#-#-#-#  pt_BR.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  pt_BR.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_be_invoice_bba
@@ -134,7 +134,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Unsupported Structured Communication Type Algorithm '%s' !\n"
-"Please contact your Odoo support channel."
+"Please contact  your CubicERP support channel."
 msgstr ""
 "Suportado Structured Comunicação Tipo Algorithm '% s'! \n"
 "Entre em contato com o seu canal de suporte OpenERP."

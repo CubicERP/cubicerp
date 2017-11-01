@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import odoo
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
@@ -16,7 +16,7 @@ import time
 
 from pytz import timezone
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.base.ir.ir_actions')
 
 
 class IrActions(models.Model):
@@ -319,8 +319,8 @@ class IrActionsServer(models.Model):
     _order = 'sequence,name'
 
     DEFAULT_PYTHON_CODE = """# Available variables:
-#  - env: Odoo Environment on which the action is triggered
-#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - env: CubicERP Environment on which the action is triggered
+#  - model: CubicERP Model of the record on which the action is triggered; is a void recordset
 #  - record: record on which the action is triggered; may be be void
 #  - records: recordset of all records on which the action is triggered in multi-mode; may be void
 #  - time, datetime, dateutil, timezone: useful Python libraries

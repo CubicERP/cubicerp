@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mass_mailing
 # 
@@ -11,7 +11,7 @@
 # e2f_nl_c4 <e2f_nl_c4@hotmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -1245,8 +1245,8 @@ msgstr " VAN UW VOLGENDE ORDER!"
 #. module: mass_mailing
 #: model:mail.mass_mailing.list,popup_content:mass_mailing.mass_mail_list_1
 #: model:mail.mass_mailing.list,popup_content:mass_mailing.mass_mail_list_2
-msgid "Odoo Presents"
-msgstr "Odoo presenteert"
+msgid "CubicERP Presents"
+msgstr "CubicERP presenteert"
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_image_text
@@ -1676,8 +1676,8 @@ msgstr "Bedankt dat u bij ons aangesloten bent!"
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
-msgid "That way, Odoo evolves much faster than any other solution."
-msgstr "Daarom ontwikkeld Odoo zich veel sneller dan andere oplossingen."
+msgid "That way, CubicERP evolves much faster than any other solution."
+msgstr "Daarom ontwikkeld CubicERP zich veel sneller dan andere oplossingen."
 
 #. module: mass_mailing
 #: model:ir.model.fields,help:mass_mailing.field_mail_mass_mailing_contact_opt_out
@@ -1689,20 +1689,20 @@ msgstr ""
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
 msgid ""
-"The open source model of Odoo has allowed us to leverage thousands of developers and\n"
+"The open source model of CubicERP has allowed us to leverage thousands of developers and\n"
 "                                business experts to build hundreds of apps in just a few years."
 msgstr ""
-"Het open source model van Odoo heeft ons in staat gesteld om duizenden ontwikkelaars en \n"
+"Het open source model van CubicERP heeft ons in staat gesteld om duizenden ontwikkelaars en \n"
 "deskundigen uit het bedrijfsleven te gebruiken om honderden apps in slechts een paar jaar te bouwen."
 
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_text_image
 msgid ""
-"The open source model of Odoo has allowed us to leverage thousands of "
+"The open source model of CubicERP has allowed us to leverage thousands of "
 "developers and business experts to build hundreds of apps in just a few "
 "years."
 msgstr ""
-"Het open source model van Odoo heeft ons in staat gesteld om duizenden "
+"Het open source model van CubicERP heeft ons in staat gesteld om duizenden "
 "ontwikkelaars en deskundigen uit het bedrijfsleven te gebruiken om honderden"
 " apps in slechts een paar jaar te bouwen."
 
@@ -1813,10 +1813,10 @@ msgstr "Datum uitschrijving"
 #. module: mass_mailing
 #: model:ir.ui.view,arch_db:mass_mailing.s_mail_block_paragraph
 msgid ""
-"Usability improvements made on Odoo will automatically apply to all\n"
+"Usability improvements made on CubicERP will automatically apply to all\n"
 "                                of our fully integrated apps."
 msgstr ""
-"Gebruiksvriendelijkheid verbeteringen in Odoo zijn automatisch van toepassing op al\n"
+"Gebruiksvriendelijkheid verbeteringen in CubicERP zijn automatisch van toepassing op al\n"
 "van onze volledig geïntegreerde apps."
 
 #. module: mass_mailing

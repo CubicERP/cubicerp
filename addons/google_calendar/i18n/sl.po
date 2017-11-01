@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * google_calendar
 #
@@ -6,7 +6,7 @@
 # Dejan Sraka <dejan.sraka@picolabs.si>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-03-27 20:52+0000\n"
@@ -246,10 +246,10 @@ msgstr ""
 #: model:ir.model.fields,help:google_calendar.field_res_users_google_calendar_cal_id
 msgid ""
 "Last Calendar ID who has been synchronized. If it is changed, we remove all "
-"links between GoogleID and Odoo Google Internal ID"
+"links between GoogleID and CubicERP Google Internal ID"
 msgstr ""
 "Zadnji ID koledarja, ki se je sinhroniziral. Če se spremeni, odstranimo vse "
-"povezave med Google ID in Notranjim Odoo Google ID"
+"povezave med Google ID in Notranjim CubicERP Google ID"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_google_calendar___last_update
@@ -263,13 +263,13 @@ msgstr "Datum zadnje sinhronizacije"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_attendee_oe_synchro_date
-msgid "Odoo Synchro Date"
-msgstr "Datum Odoo sinhronizacije"
+msgid "CubicERP Synchro Date"
+msgstr "Datum CubicERP sinhronizacije"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_event_oe_update_date
-msgid "Odoo Update Date"
-msgstr "Datum Odoo posodobitve"
+msgid "CubicERP Update Date"
+msgstr "Datum CubicERP posodobitve"
 
 #. module: google_calendar
 #: model:ir.ui.view,arch_db:google_calendar.view_calendar_config_settings

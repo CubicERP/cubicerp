@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 # 
@@ -12,7 +12,7 @@
 # sharkutz <sharkutz4life@yahoo.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -539,7 +539,7 @@ msgstr "<span>Vizualizează</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>-The Odoo Team</strong>"
+msgid "<strong>-The CubicERP Team</strong>"
 msgstr "<strong>-Echipa Odoo</strong>"
 
 #. module: account
@@ -832,7 +832,7 @@ msgstr "<strong>Reconciliere extras bancă</strong>"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Odoo should automatically match the bank statement with the previously recorded check transaction."
+"                                        In this case, CubicERP should automatically match the bank statement with the previously recorded check transaction."
 msgstr ""
 
 #. module: account
@@ -1050,7 +1050,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"A product in Odoo is something you sell or buy \n"
+"A product in CubicERP is something you sell or buy \n"
 "                        whether or not it is goods, consumables, or services.\n"
 "                        Choose how you want to create your products:"
 msgstr ""
@@ -1658,13 +1658,13 @@ msgstr "Solduri restante partener"
 #: model:ir.ui.view,arch_db:account.account_aged_balance_view
 msgid ""
 "Aged Partner Balance is a more detailed report of your receivables by "
-"intervals. Odoo calculates a table of credit balance by start Date. So if "
-"you request an interval of 30 days Odoo generates an analysis of creditors "
+"intervals. CubicERP calculates a table of credit balance by start Date. So if "
+"you request an interval of 30 days CubicERP generates an analysis of creditors "
 "for the past month, past two months, and so on."
 msgstr ""
 "Balanța partenerilor  este un raport mai detaliat al creanțelor dvs. pe "
-"intervale. Odoo calculează un tabel al soldului creditelor după data de "
-"începere. Deci, dacă cereți un interval de 30 de zile, Odoo generează o "
+"intervale. CubicERP calculează un tabel al soldului creditelor după data de "
+"începere. Deci, dacă cereți un interval de 30 de zile, CubicERP generează o "
 "analiză a creditorilor pentru ultima lună, în ultimele două luni și așa mai "
 "departe."
 
@@ -4401,7 +4401,7 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr ""
 
 #. module: account
@@ -4743,7 +4743,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 
@@ -5775,7 +5775,7 @@ msgid ""
 "It's common practice to change your accounting software \n"
 "                            at the end of a fiscal year. This allows you to have less \n"
 "                            data to import and balances to set. If you plan to do so, \n"
-"                            we recommend you start using Odoo for invoicing and payments \n"
+"                            we recommend you start using CubicERP for invoicing and payments \n"
 "                            now, and then move all other accounting transactions at a later time."
 msgstr ""
 
@@ -7006,55 +7006,55 @@ msgstr "Octombrie"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Odoo Accounting has many free extra-features:"
+msgid "CubicERP Accounting has many free extra-features:"
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
 msgid ""
-"Odoo automatically creates one journal entry per accounting\n"
+"CubicERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/mainly\n"
 "                for miscellaneous operations."
 msgstr ""
-"Odoo face automat o notă contabilă pentru fiecare document: factură, storno,"
+"CubicERP face automat o notă contabilă pentru fiecare document: factură, storno,"
 " plată, extras de bancă, etc. Deci, trebuie să înregistrați manual note "
 "contabile numai / în principal pentru operațiuni diverse."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo can manage multiple companies, but we suggest to setup everything for "
+"CubicERP can manage multiple companies, but we suggest to setup everything for "
 "your first company before configuring the other ones."
 msgstr ""
-"Odoo poate gestiona mai multe companii, dar vă sugerăm să configurați totul "
+"CubicERP poate gestiona mai multe companii, dar vă sugerăm să configurați totul "
 "pentru prima dvs. de companie înainte de a configura celelalte."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo has already preconfigured a few taxes according to your "
+"CubicERP has already preconfigured a few taxes according to your "
 "country.<br/>Simply review them and check if you need more."
 msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo should do most of the reconciliation work automatically, so you'll only"
+"CubicERP should do most of the reconciliation work automatically, so you'll only"
 " need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr ""
@@ -7067,7 +7067,7 @@ msgid ""
 "                invoice by email and he can pay online and/or import it\n"
 "                in his own system."
 msgstr ""
-"Facturarea electronică din Odoo vă permite să emiteți  cu ușurință facturi "
+"Facturarea electronică din CubicERP vă permite să emiteți  cu ușurință facturi "
 "către clienți. Clientul primește factura prin e-mail și o poate plăti on-"
 "line și / sau importa în propriul său sistem. "
 
@@ -8308,7 +8308,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Odoo without it by:"
+"                        but you can start using CubicERP without it by:"
 msgstr ""
 
 #. module: account
@@ -10117,10 +10117,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"This guide will help you get started with Odoo Accounting.\n"
+"This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
-"Acest ghid va ajuta să începeți cu Odoo Accounting.\n"
+"Acest ghid va ajuta să începeți cu CubicERP Accounting.\n"
 "După ce ați terminat, veți beneficia de:"
 
 #. module: account
@@ -10298,7 +10298,7 @@ msgstr "De plătit"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"To manage the tax applied when invoicing a Company, Odoo uses the concept of"
+"To manage the tax applied when invoicing a Company, CubicERP uses the concept of"
 " Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr ""
@@ -10950,7 +10950,7 @@ msgstr "Atenționări"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        data."
 msgstr ""
@@ -10959,7 +10959,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        products."
 msgstr ""

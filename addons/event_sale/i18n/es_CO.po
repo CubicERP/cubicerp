@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event_sale
 #
@@ -6,7 +6,7 @@
 # Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2015-11-09 21:04+0000\n"
@@ -136,9 +136,9 @@ msgstr "Id editor"
 #, fuzzy
 msgid "Email"
 msgstr ""
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Correo\n"
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "E-mail"
 
 #. module: event_sale
@@ -336,9 +336,9 @@ msgstr "Fin de Ventas"
 #, fuzzy
 msgid "Sales Order"
 msgstr ""
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Orden de Venta\n"
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pedido de Venta"
 
 #. module: event_sale
@@ -346,9 +346,9 @@ msgstr ""
 #, fuzzy
 msgid "Sales Order Line"
 msgstr ""
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Línea Orden de Venta\n"
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Línea de Pedido de Venta"
 
 #. module: event_sale

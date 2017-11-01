@@ -161,7 +161,7 @@
                 materials used to make a finished product; through a manufacturing
                 order or a pack of products.
               </p><p>
-                Odoo uses these BoMs to automatically propose manufacturing
+                Cubic ERP uses these BoMs to automatically propose manufacturing
                 orders according to procurement needs.
               </p>
             </field>

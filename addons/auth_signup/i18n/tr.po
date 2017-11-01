@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * auth_signup
 # 
@@ -11,7 +11,7 @@
 # Ahmet Altinisik <aaltinisik@altinkaya.com.tr>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -38,7 +38,7 @@ msgid ""
 "</div>\n"
 "<div style=\"padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777\">\n"
 "    <p>Dear ${object.name},</p>\n"
-"    <p>A password reset was requested for the Odoo account linked to this email.</p>\n"
+"    <p>A password reset was requested for the CubicERP account linked to this email.</p>\n"
 "    <p>You may change your password by following this link which will remain valid during 24 hours:</p>\n"
 "    <div style=\"text-align: center; margin-top: 16px;\">\n"
 "        <a href=\"${object.signup_url}\" style=\"padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px\">Change password</a>\n"
@@ -65,7 +65,7 @@ msgstr ""
 "</div>\n"
 "<div style=\"padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777\">\n"
 "<p>Sayın ${object.name},</p>\n"
-"<p>Bu e-postayla bağlantılı Odoo hesabı için bir şifre sıfırlaması istendi.</p>\n"
+"<p>Bu e-postayla bağlantılı CubicERP hesabı için bir şifre sıfırlaması istendi.</p>\n"
 "<p>24 saat boyunca geçerli kalacak olan bu bağlantıyı izleyerek şifrenizi değiştirebilirsiniz:</p>\n"
 "<div style=\"text-align: center; margin-top: 16px;\">\n"
 "<a href=\"${object.signup_url}\" style=\"padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px\">Şifre değiştir</a>\n"
@@ -139,7 +139,7 @@ msgstr ""
 "<div style=\"padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777\">\n"
 "${user.signature | safe}\n"
 "<p style=\"font-size: 11px; margin-top: 10px;\">\n"
-"<strong> ${user.company_id.name} Tarafından  <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\">Odoo Kullanarak  gönderdi </a> </strong>\n"
+"<strong> ${user.company_id.name} Tarafından  <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\">CubicERP Kullanarak  gönderdi </a> </strong>\n"
 "</p>\n"
 "</div>"
 

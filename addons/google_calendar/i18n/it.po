@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * google_calendar
 #
@@ -7,7 +7,7 @@
 # Simone Bernini <simone@aperturelabs.it>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-02-26 17:03+0000\n"
@@ -268,7 +268,7 @@ msgstr ""
 #: model:ir.model.fields,help:google_calendar.field_res_users_google_calendar_cal_id
 msgid ""
 "Last Calendar ID who has been synchronized. If it is changed, we remove all "
-"links between GoogleID and Odoo Google Internal ID"
+"links between GoogleID and CubicERP Google Internal ID"
 msgstr ""
 "Ultimo ID calendario che è stato sincronizzato. Se è cambiato verranno "
 "rimossi tutti i collegamenti tra l'ID google e l'ID del calendario interno "
@@ -286,12 +286,12 @@ msgstr "Data di ultima sincronizzazione"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_attendee_oe_synchro_date
-msgid "Odoo Synchro Date"
+msgid "CubicERP Synchro Date"
 msgstr "Data sincro ODOO"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_event_oe_update_date
-msgid "Odoo Update Date"
+msgid "CubicERP Update Date"
 msgstr "ODOO data aggiornamento"
 
 #. module: google_calendar

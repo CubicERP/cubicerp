@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Parameters">
                 <p>
-                When you run the schedulers, Odoo tries to reserve the available stock to fulfill the existing pickings
+                When you run the schedulers, Cubic ERP tries to reserve the available stock to fulfill the existing pickings
                 and verify if some reordering rules should be triggered.
                 </p>
                 <footer>

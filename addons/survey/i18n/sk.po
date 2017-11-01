@@ -242,7 +242,7 @@ msgstr "Token musí byť unikátny!"
 
 #. module: survey
 #: model:survey.page,title:survey.feedback_1
-msgid "About your Odoo usage"
+msgid "About  your CubicERP usage"
 msgstr "O vašom Odoo používaní"
 
 #. module: survey

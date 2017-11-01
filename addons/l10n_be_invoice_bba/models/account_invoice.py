@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 # Copyright (c) 2011 Noviat nv/sa (www.noviat.be). All rights reserved.
 
@@ -122,7 +122,7 @@ class AccountInvoice(models.Model):
                         reference = '+++%s/%s/%s%s+++' % (bbacomm[:3], bbacomm[3:7], bbacomm[7:], mod)
                 else:
                     raise UserError(_("Unsupported Structured Communication Type Algorithm '%s' !"
-                                        "\nPlease contact your Odoo support channel.") % algorithm)
+                                        "\nPlease contact  your CubicERP support channel.") % algorithm)
         return {'value': {'reference': reference}}
 
     @api.model

@@ -42,7 +42,7 @@ from odoo.release import nt_service_name
 from odoo.tools import config
 from odoo.tools import stripped_sys_argv, dumpstacks, log_ormcache_stats
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp')
 
 try:
     import watchdog

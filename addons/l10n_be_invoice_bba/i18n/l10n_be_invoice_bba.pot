@@ -101,6 +101,6 @@ msgstr ""
 #: code:addons/l10n_be_invoice_bba/invoice.py:130
 #, python-format
 msgid "Unsupported Structured Communication Type Algorithm '%s' !\n"
-"Please contact your Odoo support channel."
+"Please contact  your CubicERP support channel."
 msgstr ""
 

@@ -2829,7 +2829,7 @@ msgstr ""
 #. openerp-web
 #: code:addons/web/static/src/js/services/crash_manager.js:58
 #, python-format
-msgid "Your Odoo session expired. Please refresh the current web page."
+msgid " Your CubicERP session expired. Please refresh the current web page."
 msgstr "Sesi Odoo Anda berakhir. Silakan refresh halaman web saat ini."
 
 #. module: web

@@ -8,7 +8,7 @@
             <field name="type">service</field>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="description_sale">Learn directly from our team and network of Odoo experts. Choose from the available training sessions for a better functional understanding of Odoo</field>
+            <field name="description_sale">Learn directly from our team and network of Cubic ERP experts. Choose from the available training sessions for a better functional understanding of Odoo</field>
         </record>
 
         <record id="product_product_quote_1" model="product.product">
@@ -24,7 +24,7 @@
             <field name="type">service</field>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="description_sale">Learn directly from our team and network of Odoo experts. Choose from the available training sessions for a better technical understanding of Odoo</field>
+            <field name="description_sale">Learn directly from our team and network of Cubic ERP experts. Choose from the available training sessions for a better technical understanding of Odoo</field>
         </record>
 
         <record id="product_product_quote_2" model="product.product">
@@ -40,7 +40,7 @@
             <field name="type">service</field>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="description_sale">Learn directly from our team and network of Odoo experts. Choose from the available training sessions for a better functional understanding of Odoo</field>
+            <field name="description_sale">Learn directly from our team and network of Cubic ERP experts. Choose from the available training sessions for a better functional understanding of Odoo</field>
         </record>
 
         <record id="product_product_quote_3" model="product.product">
@@ -58,7 +58,7 @@
                         <div class="row">
                             <div class="col-md-12 mb16 mt16">
                                 <p>
-                                    The Odoo eco system is designed to offer the best customer experience to Odoo users, from the product to implementation services. In order to guarantee that, the Odoo Partner Program ensures that official partners have the resources and knowledge required to offer Odoo implementation services. 
+                                    The Cubic ERP eco system is designed to offer the best customer experience to Cubic ERP users, from the product to implementation services. In order to guarantee that, the Cubic ERP Partner Program ensures that official partners have the resources and knowledge required to offer Cubic ERP implementation services.
                                 </p>
                             </div>
                         </div>
@@ -73,15 +73,15 @@
                             </div>
                             <div class="col-md-4">
                                 <span class="fa fa-github fa-5x"></span>
-                                <p class="text-muted">Has access to Odoo Enterprise source code on Github and latest bug fixes</p>
+                                <p class="text-muted">Has access to Cubic ERP Enterprise source code on Github and latest bug fixes</p>
                             </div>
                             <div class="col-md-4">
                                 <span class="fa fa-bug fa-5x"></span>
-                                <p class="text-muted">Has a direct relationship with Odoo SA to escalate issues</p>
+                                <p class="text-muted">Has a direct relationship with Cubic ERP SA to escalate issues</p>
                             </div>
                             <div class="col-md-4">
                                 <span class="fa fa-file-text-o fa-5x"></span>
-                                <p class="text-muted">Publishes references directly on Odoo.com</p>
+                                <p class="text-muted">Publishes references directly on CubicERP.com</p>
                             </div>
                             <div class="col-md-4">
                                 <span class="fa fa-certificate fa-5x"></span>
@@ -97,16 +97,16 @@
                 <section>
                     <div class="container mt16" style="background-color:#875A7B;color:white;padding-left:10px;">
                         <h2>Partners Commitment</h2>
-                        <h3>An Odoo official partner commits to:</h3>
+                        <h3>An Cubic ERP official partner commits to:</h3>
                         <div class="row">
                             <div class="col-md-7 mb32">
                                 <ul>
-                                    <li>Train their staff by following Odoo training sessions</li>
-                                    <li>Become a Certified Odoo Partner</li>
-                                    <li>Have dedicated resources assigned to Odoo projects</li>
-                                    <li>Be available for periodic review meeting with Odoo SA account managers</li>
-                                    <li>Be the first level of support for his Odoo customers and use Odoo SA for the second level of support (mostly for bug fixes)</li>
-                                    <li>Promote Odoo Enterprise to its customers</li>
+                                    <li>Train their staff by following Cubic ERP training sessions</li>
+                                    <li>Become a Certified Cubic ERP Partner</li>
+                                    <li>Have dedicated resources assigned to Cubic ERP projects</li>
+                                    <li>Be available for periodic review meeting with Cubic ERP SA account managers</li>
+                                    <li>Be the first level of support for his Cubic ERP customers and use Cubic ERP SA for the second level of support (mostly for bug fixes)</li>
+                                    <li>Promote Cubic ERP Enterprise to its customers</li>
                                 </ul>
                             </div>
                         </div>
@@ -119,11 +119,11 @@
                         <div class="row">
                             <div class="col-md-12 mb16 mt16">
                                 <ul style="color:#636363">
-                                    <li>The Odoo Enterprise GitHub repositories for all his developers</li>
-                                    <li>The ability to report bugs to be fixed by Odoo on behalf of his customer (Enterprise contracts only)</li>
-                                    <li>Access to an Account Manager at Odoo SA to discuss strategic, sales and service issues</li>
-                                    <li>Visibility and recognition, by being listed as an official partner on Odoo.com Partners page</li>
-                                    <li>Up to 20% commission on Odoo Enterprise sales, depending on the partnership level</li>
+                                    <li>The Cubic ERP Enterprise GitHub repositories for all his developers</li>
+                                    <li>The ability to report bugs to be fixed by Cubic ERP on behalf of his customer (Enterprise contracts only)</li>
+                                    <li>Access to an Account Manager at Cubic ERP SA to discuss strategic, sales and service issues</li>
+                                    <li>Visibility and recognition, by being listed as an official partner on CubicERP.com Partners page</li>
+                                    <li>Up to 20% commission on Cubic ERP Enterprise sales, depending on the partnership level</li>
                                     <li>Yearly upgrade training sessions when a new version is released</li>
                                     <li>Access to the Partners Portal</li>
                                     <li>Odoo sales training session</li>

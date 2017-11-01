@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * analytic
 # 
@@ -12,7 +12,7 @@
 # Melroy van den Berg <webmaster1989@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -249,7 +249,7 @@ msgid ""
 "                analytic accounts. You can track costs and revenues to analyse\n"
 "                your margins easily."
 msgstr ""
-"In Odoo worden verkopen en projecten geïmplementeerd door gebruik\n"
+"In CubicERP worden verkopen en projecten geïmplementeerd door gebruik\n"
 "te maken van kostenplaatsen. U kan kosten en opbrengsten eenvoudig\n"
 "vergelijken om uw marges te analyseren."
 

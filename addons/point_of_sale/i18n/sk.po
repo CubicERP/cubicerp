@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * point_of_sale
 #
@@ -6,7 +6,7 @@
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-03-08 06:31+0000\n"
@@ -1497,8 +1497,8 @@ msgstr "ID"
 #. openerp-web
 #: code:addons/point_of_sale/static/src/js/popups.js:113
 #, python-format
-msgid "IMPORTANT: Bug Report From Odoo Point Of Sale"
-msgstr "DÔLEŽITÉ: Výkaz porúch z Odoo miesta predaja"
+msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
+msgstr "DÔLEŽITÉ: Výkaz porúch z CubicERP miesta predaja"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config_proxy_ip
@@ -2030,8 +2030,8 @@ msgstr "Číslo tlače"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.index
-msgid "Odoo POS"
-msgstr "Odoo POS"
+msgid "CubicERP POS"
+msgstr "CubicERP POS"
 
 #. module: point_of_sale
 #. openerp-web
@@ -3608,7 +3608,7 @@ msgstr ""
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_sequence_id
 msgid ""
-"This sequence is automatically created by Odoo but you can change it to "
+"This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
 "Túto sekvenciu automaticky vytvorí Odoo, ale môžete ju zmeniť pre "
@@ -4558,7 +4558,7 @@ msgstr "boli duplikáty existujúcich objednávok"
 #~ msgstr "Ak nezaškrtnuté, iba pozvaný používatelia sa môžu prihlásiť."
 
 #~ msgid ""
-#~ "If you have setup a catch-all email domain redirected to the Odoo server, "
+#~ "If you have setup a catch-all email domain redirected to the CubicERP server, "
 #~ "enter the domain name here."
 #~ msgstr ""
 #~ "Ak máte nastavenú catch-all emailovú doménu presmerovanú na server Odoo, "
@@ -4697,7 +4697,7 @@ msgstr "boli duplikáty existujúcich objednávok"
 #~ msgstr "Zhrnutie relácie:"
 
 #~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Zdielať lebo vloźiť ktorúkoľvek Odoo obrazovku."
+#~ msgstr "Zdielať lebo vloźiť ktorúkoľvek CubicERP obrazovku."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Zdieľať partnerov pre všetky spoločnosti"

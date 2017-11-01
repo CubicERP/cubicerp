@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 import base64
 import datetime
 import json
@@ -21,7 +21,7 @@ from odoo.addons.http_routing.models.ir_http import slug, _guess_mimetype
 from odoo.addons.web.controllers.main import WebClient, Binary, Home
 from odoo.addons.portal.controllers.portal import pager as portal_pager
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cubicerp')
 
 # Completely arbitrary limits
 MAX_IMAGE_WIDTH, MAX_IMAGE_HEIGHT = IMAGE_LIMITS = (1024, 768)

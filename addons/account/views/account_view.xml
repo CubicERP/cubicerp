@@ -719,7 +719,7 @@
                 occurring over a given period of time on a bank account. You
                 should receive this periodicaly from your bank.
               </p><p>
-                Odoo allows you to reconcile a statement line directly with
+                Cubic ERP allows you to reconcile a statement line directly with
                 the related sale or puchase invoices.
               </p>
             </field>
@@ -736,7 +736,9 @@
             <field name="view_id" ref="view_bank_statement_form"/>
             <field name="act_window_id" ref="action_bank_statement_tree"/>
         </record>
-
+<menuitem id="menu_finance_bank_and_cash" name="Bank and Cash" parent="menu_finance" sequence="4"
+            groups="group_account_user,group_account_manager"/>
+<menuitem string="Bank Statements" action="action_bank_statement_tree" id="menu_bank_statement_tree" parent="menu_finance_bank_and_cash" sequence="7"/>
         <record id="view_bank_statement_line_search" model="ir.ui.view">
             <field name="name">account.bank.statement.line.search</field>
             <field name="model">account.bank.statement.line</field>
@@ -802,7 +804,7 @@
               <p>
                 A bank statement line is a financial transaction on a bank account.
               </p><p>
-                Odoo allows you to reconcile a statement line directly with
+                Cubic ERP allows you to reconcile a statement line directly with
                 the related sale or puchase invoice(s).
               </p>
             </field>
@@ -1526,7 +1528,7 @@
                 A journal entry consists of several journal items, each of
                 which is either a debit or a credit transaction.
               </p><p>
-                Odoo automatically creates one journal entry per accounting
+                Cubic ERP automatically creates one journal entry per accounting
                 document: invoice, refund, vendor payment, bank statements,
                 etc. So, you should record journal entries manually only/mainly
                 for miscellaneous operations.

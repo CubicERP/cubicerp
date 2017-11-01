@@ -4,7 +4,7 @@
         <!-- notify to admin of module installation -->
         <record id="mail_template_data_module_install_crm" model="mail.template">
             <field name="name">Email send after crm installation.</field>
-            <field name="subject">Your Odoo CRM application is running smoothly.</field>
+            <field name="subject">Your Cubic ERP CRM application is running smoothly.</field>
             <field name="email_from">help@odoo.com</field>
             <field name="email_to">${user.email|safe}</field>
             <field name="lang">${user.lang}</field>
@@ -33,7 +33,7 @@
                         <td style="padding:15px 10px;font-size:20px">
                             <p style="color:#875A7B;margin:0" >Hooray!</p><br>
                             <p dir="ltr" style="font-size:15px;margin-top:0pt;margin-bottom:0pt;">
-                                <span>Your Odoo CRM application is up and running.</span></p><br>
+                                <span>Your Cubic ERP CRM application is up and running.</span></p><br>
                             <p dir="ltr" style="margin-top:0pt;margin-bottom:8pt;">
                                 <span style="font-size:13px;font-weight:bold; ">What’s next?</span></p>
                             <ul style="margin-top:0pt;margin-bottom:0pt;font-size:13px;list-style-type:disc;">
@@ -93,7 +93,7 @@
                             <p dir="ltr" style="font-size:13px;margin-top:0pt;margin-bottom:8pt;">
                                 <span>We would be delighted to assist you along the way. Contact us through our
                                 <a href="https://www.odoo.com/help">support form</a> if you have any question.
-                                You can also discover how to get the best out of Odoo CRM with our </span>
+                                You can also discover how to get the best out of Cubic ERP CRM with our </span>
                                 <a target="_blank" href="https://www.odoo.com/documentation/user/10.0/crm.html">
                                 <span style="text-decoration:underline;">User Documentation</span></a>
                                 </span><span> or with our </span>
@@ -101,13 +101,13 @@
                                 <span style="text-decoration:underline;">API Documentation</span></a>
                             </p>
                             <br>
-                            <p dir="ltr" style="font-size:13px;margin-top:0pt;margin-bottom:8pt;"><span>Enjoy your Odoo experience,</span></p>
+                            <p dir="ltr" style="font-size:13px;margin-top:0pt;margin-bottom:8pt;"><span>Enjoy your Cubic ERP experience,</span></p>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div dir="ltr" style="font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey">
-                <span><br/>-- <br/>The Odoo Team<br/>PS: People love Odoo, check </span><a target="_blank" href="https://twitter.com/odoo/favorites"><span style="text-decoration:underline;">what they say about it.</span></a></span>
+                <span><br/>-- <br/>The Cubic ERP Team<br/>PS: People love Cubic ERP, check </span><a target="_blank" href="https://twitter.com/odoo/favorites"><span style="text-decoration:underline;">what they say about it.</span></a></span>
             </div>
         </div>]]></field>
         </record>

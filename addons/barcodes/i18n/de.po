@@ -1,9 +1,9 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * barcodes
 # 
 # Translators:
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # Martin Trigaux <mat@odoo.com>, 2017
 # Wolfgang Taferner <wolfgang.transifex@service.wt-io-it.at>, 2017
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2017
@@ -20,7 +20,7 @@
 # Andi <flimflam@salasar.de>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"

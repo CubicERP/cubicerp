@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * membership
 # 
@@ -9,7 +9,7 @@
 # Iulian Cutui <iulian.cutui@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -536,10 +536,10 @@ msgstr "Niciunul/Anulat/Vechi/In asteptare"
 #. module: membership
 #: model:ir.actions.act_window,help:membership.action_membership_members
 msgid ""
-"Odoo helps you easily track all activities related to a member: \n"
+"CubicERP helps you easily track all activities related to a member: \n"
 "                 Current Membership Status, Discussions and History of Membership, etc."
 msgstr ""
-"Odoo vă ajută să urmăriți cu ușurință toate activitățile legate de un "
+"CubicERP vă ajută să urmăriți cu ușurință toate activitățile legate de un "
 "membru: statutul de membru actual, discuții și istoria de membru, etc."
 
 #. module: membership

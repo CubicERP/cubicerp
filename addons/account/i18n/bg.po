@@ -1,5 +1,5 @@
-# #-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 #
@@ -13,8 +13,8 @@
 # preslav <hackerz99999@gmail.com>, 2016
 # Turhan Aydn <taydin@unionproject.eu>, 2016
 # Любо Енев, 2015
-# #-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 #
@@ -29,7 +29,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-19 19:13+0000\n"
@@ -40,9 +40,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account
@@ -457,7 +457,7 @@ msgstr "<span>Прегледай</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>-The Odoo Team</strong>"
+msgid "<strong>-The CubicERP Team</strong>"
 msgstr "<strong>-Екипът на Odoo</strong>"
 
 #. module: account
@@ -708,7 +708,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Odoo should "
+"                                        In this case, CubicERP should "
 "automatically match the bank statement with the previously recorded check "
 "transaction."
 msgstr ""
@@ -913,7 +913,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"A product in Odoo is something you sell or buy \n"
+"A product in CubicERP is something you sell or buy \n"
 "                        whether or not it is goods, consumables, or "
 "services.\n"
 "                        Choose how you want to create your products:"
@@ -1041,9 +1041,9 @@ msgstr "Предназначение на Сметката"
 #, fuzzy
 msgid "Account Entry"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Запис от сметка\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Запис в сметка"
 
 #. module: account
@@ -1449,8 +1449,8 @@ msgstr "Стар партньорски баланс"
 #: model:ir.ui.view,arch_db:account.account_aged_balance_view
 msgid ""
 "Aged Partner Balance is a more detailed report of your receivables by "
-"intervals. Odoo calculates a table of credit balance by start Date. So if "
-"you request an interval of 30 days Odoo generates an analysis of creditors "
+"intervals. CubicERP calculates a table of credit balance by start Date. So if "
+"you request an interval of 30 days CubicERP generates an analysis of creditors "
 "for the past month, past two months, and so on."
 msgstr ""
 
@@ -1631,9 +1631,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Amount"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Сума\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Количество"
 
 #. module: account
@@ -2017,9 +2017,9 @@ msgstr ""
 #, fuzzy
 msgid "Bank Statement"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Банков отчет\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Банково извлечение"
 
 #. module: account
@@ -2027,9 +2027,9 @@ msgstr ""
 #, fuzzy
 msgid "Bank Statement Line"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Ред на банков отчет\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Ред от банково извлечение"
 
 #. module: account
@@ -2232,9 +2232,9 @@ msgstr "Може ли да се вижда?"
 #, fuzzy
 msgid "Cancel"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отказ\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Откажи"
 
 #. module: account
@@ -2252,9 +2252,9 @@ msgstr ""
 #, fuzzy
 msgid "Cancel Invoice"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отказ на фактура\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отказ от създаване на Фактура"
 
 #. module: account
@@ -2288,9 +2288,9 @@ msgstr ""
 #, fuzzy
 msgid "Cancelled"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отменено\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отказанa"
 
 #. module: account
@@ -2636,9 +2636,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Close"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Затваряне\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Затвори"
 
 #. module: account
@@ -2706,9 +2706,9 @@ msgstr "Комуникация"
 #, fuzzy
 msgid "Companies"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Предприятия\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Компании"
 
 #. module: account
@@ -2895,9 +2895,9 @@ msgstr "Потвърдете избраните фактури"
 #, fuzzy
 msgid "Confirmed"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Потвърден\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Потвърдено"
 
 #. module: account
@@ -2913,9 +2913,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Congrats, you're all done !"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Поздравления, Вие приключихте!\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Браво, приключихте!"
 
 #. module: account
@@ -3267,9 +3267,9 @@ msgstr "Поток на клиенти"
 #, fuzzy
 msgid "Customer Invoice"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фактура за клиент\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фактура към клиент"
 
 #. module: account
@@ -3280,9 +3280,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Customer Invoices"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Клиентска фактура\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фактура към клиент"
 
 #. module: account
@@ -3718,9 +3718,9 @@ msgstr ""
 #, fuzzy
 msgid "Draft"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Проект\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Чернова "
 
 #. module: account
@@ -3734,9 +3734,9 @@ msgstr ""
 #, fuzzy
 msgid "Draft Invoice"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Чернова фактура\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 " Фактура - Чернова"
 
 #. module: account
@@ -3801,9 +3801,9 @@ msgstr ""
 #, fuzzy
 msgid "Due date"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Падежна дата\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Насрочена дата"
 
 #. module: account
@@ -3891,9 +3891,9 @@ msgstr ""
 #, fuzzy
 msgid "Ending Balance"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Краен баланс\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Крайно салдо"
 
 #. module: account
@@ -3903,7 +3903,7 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr ""
 
 #. module: account
@@ -4196,9 +4196,9 @@ msgstr ""
 #, fuzzy
 msgid "Fixed"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фиксиран\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фиксирана"
 
 #. module: account
@@ -4206,9 +4206,9 @@ msgstr ""
 #, fuzzy
 msgid "Fixed Amount"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фиксирана сметка\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фиксирана количество"
 
 #. module: account
@@ -4242,7 +4242,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 
@@ -4363,7 +4363,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,help:account.field_account_config_settings_module_account_bank_statement_import_ofx
 msgid ""
-"Get your bank statements from your bank and import them in Odoo in the .OFX "
+"Get your bank statements from your bank and import them in CubicERP in the .OFX "
 "format.\n"
 "-This installs the module account_bank_statement_import_ofx."
 msgstr ""
@@ -4371,7 +4371,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,help:account.field_account_config_settings_module_account_bank_statement_import_qif
 msgid ""
-"Get your bank statements from your bank and import them in Odoo in the .QIF "
+"Get your bank statements from your bank and import them in CubicERP in the .QIF "
 "format.\n"
 "-This installs the module account_bank_statement_import_qif."
 msgstr ""
@@ -4966,9 +4966,9 @@ msgstr "Ред от фактура"
 #, fuzzy
 msgid "Invoice Lines"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Редове на фактура\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Редове на фактурата"
 
 #. module: account
@@ -5037,9 +5037,9 @@ msgstr ""
 #, fuzzy
 msgid "Invoiced"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фактуриран\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Фактурирани"
 
 #. module: account
@@ -5155,7 +5155,7 @@ msgid ""
 "have less \n"
 "                            data to import and balances to set. If you plan "
 "to do so, \n"
-"                            we recommend you start using Odoo for invoicing "
+"                            we recommend you start using CubicERP for invoicing "
 "and payments \n"
 "                            now, and then move all other accounting "
 "transactions at a later time."
@@ -5212,9 +5212,9 @@ msgstr "Януари"
 #, fuzzy, python-format
 msgid "Journal"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Дневник\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Журнал"
 
 #. module: account
@@ -5827,7 +5827,7 @@ msgstr "Май"
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_inbound_payment_method_ids
 msgid ""
-"Means of payment for collecting money. Odoo modules offer various payments "
+"Means of payment for collecting money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
@@ -5835,7 +5835,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_outbound_payment_method_ids
 msgid ""
-"Means of payment for sending money. Odoo modules offer various payments "
+"Means of payment for sending money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
@@ -6014,9 +6014,9 @@ msgstr "Нетни Редове с данъци"
 #, fuzzy
 msgid "New"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Nieuw\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Нов"
 
 #. module: account
@@ -6117,9 +6117,9 @@ msgstr ""
 #, fuzzy
 msgid "None"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Няма\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Никой"
 
 #. module: account
@@ -6177,9 +6177,9 @@ msgstr "Ноември"
 #, fuzzy
 msgid "Number"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Число\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Брой"
 
 #. module: account
@@ -6208,9 +6208,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid "OK"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Добре\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "ОК"
 
 #. module: account
@@ -6220,27 +6220,27 @@ msgstr "Октомври"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Odoo Accounting has many free extra-features:"
+msgid "CubicERP Accounting has many free extra-features:"
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr ""
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
 msgid ""
-"Odoo automatically creates one journal entry per accounting\n"
+"CubicERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/"
 "mainly\n"
@@ -6250,21 +6250,21 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo can manage multiple companies, but we suggest to setup everything for "
+"CubicERP can manage multiple companies, but we suggest to setup everything for "
 "your first company before configuring the other ones."
 msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo has already preconfigured a few taxes according to your country.<br/"
+"CubicERP has already preconfigured a few taxes according to your country.<br/"
 ">Simply review them and check if you need more."
 msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo should do most of the reconciliation work automatically, so you'll only "
+"CubicERP should do most of the reconciliation work automatically, so you'll only "
 "need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr ""
@@ -6420,9 +6420,9 @@ msgstr ""
 #, fuzzy
 msgid "Options"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Настройки\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Опции"
 
 #. module: account
@@ -6863,7 +6863,7 @@ msgid ""
 "             If you set a paypal account, the customer  will be able to pay "
 "your invoices or quotations\n"
 "             with a button \"Pay with  Paypal\" in automated emails or "
-"through the Odoo portal."
+"through the CubicERP portal."
 msgstr ""
 
 #. module: account
@@ -7199,9 +7199,9 @@ msgstr "Свойства"
 #, fuzzy
 msgid "Purchase"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Поръчка\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Покупка"
 
 #. module: account
@@ -7403,9 +7403,9 @@ msgstr ""
 #, fuzzy
 msgid "Ref"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Отпратка\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Референт"
 
 #. module: account
@@ -7519,7 +7519,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Odoo without it by:"
+"                        but you can start using CubicERP without it by:"
 msgstr ""
 
 #. module: account
@@ -8048,9 +8048,9 @@ msgstr ""
 #, fuzzy
 msgid "Status"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Състояние\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Статус"
 
 #. module: account
@@ -8875,7 +8875,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"This guide will help you get started with Odoo Accounting.\n"
+"This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
 
@@ -9024,7 +9024,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"To manage the tax applied when invoicing a Company, Odoo uses the concept of "
+"To manage the tax applied when invoicing a Company, CubicERP uses the concept of "
 "Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr ""
@@ -9540,16 +9540,16 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Warning!"
 msgstr ""
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Предупреждение!\n"
-"#-#-#-#-#  bg.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  bg.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Внимание!"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"
@@ -9560,7 +9560,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"

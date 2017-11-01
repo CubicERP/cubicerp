@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * base_setup
 # 
@@ -9,7 +9,7 @@
 # Ramiz Deniz Öner <deniz@denizoner.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:35+0000\n"
 "PO-Revision-Date: 2017-10-10 11:35+0000\n"
@@ -159,8 +159,8 @@ msgstr "Harici Eposta Sunucuları"
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form
-msgid "Extract and analyze Odoo data from Google Spreadsheet"
-msgstr "Google Spreadsheet'den Odoo verilerini analiz et"
+msgid "Extract and analyze CubicERP data from Google Spreadsheet"
+msgstr "Google Spreadsheet'den CubicERP verilerini analiz et"
 
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_res_config_settings_report_footer
@@ -326,8 +326,8 @@ msgstr "Harici kimlik doğrulama sağlayıcıları (OAuth) kullanın"
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form
-msgid "Use external pads in Odoo Notes"
-msgstr "Odoo Notes'ta harici pad'ler kullanın"
+msgid "Use external pads in CubicERP Notes"
+msgstr "CubicERP Notes'ta harici pad'ler kullanın"
 
 #. module: base_setup
 #: model:ir.ui.view,arch_db:base_setup.res_config_settings_view_form

@@ -1,9 +1,9 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * base_automation
 # 
 # Translators:
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # darenkster <inactive+darenkster@transifex.com>, 2017
 # Renzo Meister <info@jamotion.ch>, 2017
 # Rudolf Schnapka <rs@techno-flex.de>, 2017
@@ -20,7 +20,7 @@
 # Ralf Hilgenstock <rh@dialoge.info>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"

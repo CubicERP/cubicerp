@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event
 # 
@@ -17,7 +17,7 @@
 # MIka Pakkanen <mika.pakkanen@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -1543,24 +1543,24 @@ msgstr ""
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Official Website"
+msgid "CubicERP Official Website"
 msgstr "Odoon virallinen verkkosivu"
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Web Client"
+msgid "CubicERP Web Client"
 msgstr "Odoon Web Client"
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view
 msgid ""
-"Odoo helps you schedule and efficiently organize your events:\n"
+"CubicERP helps you schedule and efficiently organize your events:\n"
 "    track registrations and participations, automate the confirmation emails,\n"
 "    sell tickets, etc."
 msgstr ""
-"Odoo auttaa aikatauluttamaan ja organisoimaan tapahtumia:\n"
+"CubicERP auttaa aikatauluttamaan ja organisoimaan tapahtumia:\n"
 "    seuraa rekisteröitymisiä ja osallistujia, automatisoi vahvistusviestit,\n"
 "    myy lippuja yms."
 

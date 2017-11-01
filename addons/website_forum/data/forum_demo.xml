@@ -39,9 +39,9 @@
             <field name="forum_id" ref="website_forum.forum_help"/>
             <field name="content"><![CDATA[<p>I use Wordpress as a CMS and eCommerce platform. The developing in Wordpress is quite easy and solid but it missing ERP feature (there is single plugin to integrate with Frontaccounting) so I wonder:
 
-Can I use Odoo as a replacement CMS of Wordpress + eCommerce plugin?
+Can I use Cubic ERP as a replacement CMS of Wordpress + eCommerce plugin?
 
-In simple words does Odoo became CMS+ERP platform?</p>]]></field>
+In simple words does Cubic ERP became CMS+ERP platform?</p>]]></field>
             <field name="post_type">question</field>
             <field name="tag_ids" eval="[(4,ref('website_forum.tags_2'))]"/>
         </record>
@@ -63,7 +63,7 @@ In simple words does Odoo became CMS+ERP platform?</p>]]></field>
             <field name="forum_id" ref="website_forum.forum_help"/>
             <field name="content"><![CDATA[
 <p>Odoo v8 (next release) provides a web module and an e-commerce module: www.odoo.com/page/website-builder
-The CMS editor in Odoo web is nice but I prefer Drupal for customization and there is a Drupal module for Odoo. I think WP is better than Odoo web too.
+The CMS editor in Cubic ERP web is nice but I prefer Drupal for customization and there is a Drupal module for Cubic ERP. I think WP is better than Cubic ERP web too.
 </p>]]></field>
             <field name="parent_id" ref="question_1"/>
             <field name="post_type">question</field>
@@ -72,7 +72,7 @@ The CMS editor in Odoo web is nice but I prefer Drupal for customization and the
         <!-- Article-->
         <record id="article_0" model="forum.post">
             <field name="content_link">https://www.odoo.com</field>
-            <field name="name">Discover Odoo, an open source ERP.</field>
+            <field name="name">Discover Cubic ERP, an open source ERP.</field>
             <field name="forum_id" ref="website_forum.forum_help"/>
             <field name="post_type">link</field>
             <field name="views">6</field>

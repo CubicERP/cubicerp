@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import odoo.modules
 import logging
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.db')
 
 def is_initialized(cr):
     """ Check if a database has been initialized for the ORM.

@@ -1,9 +1,9 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * maintenance
 # 
 # Translators:
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # Martin Trigaux <mat@odoo.com>, 2017
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2017
 # Martin K <martinkuenz@gmail.com>, 2017
@@ -27,7 +27,7 @@
 # Andi <flimflam@salasar.de>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:27+0000\n"
 "PO-Revision-Date: 2017-10-02 11:27+0000\n"
@@ -1032,11 +1032,11 @@ msgstr ""
 #. module: maintenance
 #: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming"
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
-"Das Odoo Datenmodell auf das sich der Alias bezieht. Jeglicher E-Mail "
+"Das CubicERP Datenmodell auf das sich der Alias bezieht. Jeglicher E-Mail "
 "Posteingang ohne Bezug zu einer bereits vorhandenen E-Mail  führt "
 "üblicherweise zur Erstellung eines neuen Datensatz (z.B. Projektaufgabe)."
 

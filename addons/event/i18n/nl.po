@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event
 # 
@@ -11,7 +11,7 @@
 # Melroy van den Berg <webmaster1989@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -567,7 +567,7 @@ msgid ""
 "<font style=\"color: rgb(255, 255, 255); font-size: 24px;\">to learn <i>Odoo"
 " Programming</i></font>"
 msgstr ""
-"<font style=\"color: rgb(255, 255, 255); font-size: 24px;\">Leer <i>Odoo "
+"<font style=\"color: rgb(255, 255, 255); font-size: 24px;\">Leer <i>CubicERP "
 "programmeren</i></font>"
 
 #. module: event
@@ -1719,24 +1719,24 @@ msgstr "Aantal evenementen waar de relatie aan heeft deelgenomen."
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Official Website"
-msgstr "Odoo officiële website"
+msgid "CubicERP Official Website"
+msgstr "CubicERP officiële website"
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Web Client"
-msgstr "Odoo web client"
+msgid "CubicERP Web Client"
+msgstr "CubicERP web client"
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view
 msgid ""
-"Odoo helps you schedule and efficiently organize your events:\n"
+"CubicERP helps you schedule and efficiently organize your events:\n"
 "    track registrations and participations, automate the confirmation emails,\n"
 "    sell tickets, etc."
 msgstr ""
-"Odoo helpt u met het plannen en efficiënt organiseren van evenementen:\n"
+"CubicERP helpt u met het plannen en efficiënt organiseren van evenementen:\n"
 "\n"
 "volg inschrijvingen en deelnames, automatiseer de bevestiging e-mails, verkoop tickets, etc."
 

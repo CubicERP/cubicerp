@@ -65,10 +65,10 @@
                 develops software to help develop websites.  He sold his
                 first company at 30 years old and manage to grow OpenCorp
                 from 1 to 55 employees mostly by reselling services on
-                Odoo.
+                Cubic ERP.
             </p><p>
                 Ayaan is the <b>author of several books</b>, including Amazon best seller
-                "How Odoo will change the business world!".
+                "How Cubic ERP will change the business world!".
             </p>
         </field>
     </record>
@@ -104,7 +104,7 @@
         <field name="kanban_state">blocked</field>
     </record>
     <record id="event_track2" model="event.track">
-        <field name="name">How to integrate hardware materials with the Odoo point of sale.</field>
+        <field name="name">How to integrate hardware materials with the Cubic ERP point of sale.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 8:30:00')"></field>
@@ -125,7 +125,7 @@
         <field name="stage_id" ref="event_track_stage1"/>
     </record>
     <record id="event_track4" model="event.track">
-        <field name="name">How to develop automated tests in the Odoo web client.</field>
+        <field name="name">How to develop automated tests in the Cubic ERP web client.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 9:00:00')"></field>
@@ -135,7 +135,7 @@
         <field name="stage_id" ref="event_track_stage3"/>
     </record>
     <record id="event_track5" model="event.track">
-        <field name="name">The new way to promote your modules in the Apps platform and Odoo website.</field>
+        <field name="name">The new way to promote your modules in the Apps platform and Cubic ERP website.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 6:00:00')"></field>
@@ -155,7 +155,7 @@
         <field name="stage_id" ref="event_track_stage2"/>
     </record>
     <record id="event_track7" model="event.track">
-        <field name="name">A technical explanation of Odoo as a CMS and a eCommerce platform for version 8.</field>
+        <field name="name">A technical explanation of Cubic ERP as a CMS and a eCommerce platform for version 8.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 8:30:00')"></field>
@@ -165,7 +165,7 @@
         <field name="stage_id" ref="event_track_stage3"/>
     </record>
     <record id="event_track8" model="event.track">
-        <field name="name">Discover Odoo CRM: How to optimize your sales, from leads to sales orders.</field>
+        <field name="name">Discover Cubic ERP CRM: How to optimize your sales, from leads to sales orders.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 6:00:00')"></field>
@@ -177,7 +177,7 @@
         <field name="kanban_state">blocked</field>
     </record>
     <record id="event_track9" model="event.track">
-        <field name="name">How to use Odoo for your HR process: recruitment, leaves management, appraisals, expenses, etc.</field>
+        <field name="name">How to use Cubic ERP for your HR process: recruitment, leaves management, appraisals, expenses, etc.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="user_id" ref="base.user_root"/>
@@ -199,7 +199,7 @@
         <field name="stage_id" ref="event_track_stage0"/>
     </record>
     <record id="event_track11" model="event.track">
-        <field name="name">Discover Odoo Point-of-Sale: Your shop ready to use in 30 minutes.</field>
+        <field name="name">Discover Cubic ERP Point-of-Sale: Your shop ready to use in 30 minutes.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 10:30:00')"></field>
@@ -209,7 +209,7 @@
         <field name="stage_id" ref="event_track_stage1"/>
     </record>
     <record id="event_track12" model="event.track">
-        <field name="name">Manage your events with Odoo, the new training modules.</field>
+        <field name="name">Manage your events with Cubic ERP, the new training modules.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 11:00:00')"></field>
@@ -259,7 +259,7 @@
         <field name="stage_id" ref="event_track_stage0"/>
     </record>
     <record id="event_track17" model="event.track">
-        <field name="name">The Art of Making an Odoo Demo.</field>
+        <field name="name">The Art of Making an Cubic ERP Demo.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 6:00:00')"></field>
@@ -269,7 +269,7 @@
         <field name="stage_id" ref="event_track_stage0"/>
     </record>
     <record id="event_track18" model="event.track">
-        <field name="name">How to build your marketing strategy for the purpose of generating leads with Odoo.</field>
+        <field name="name">How to build your marketing strategy for the purpose of generating leads with Cubic ERP.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 8:30:00')"></field>
@@ -280,7 +280,7 @@
         <field name="stage_id" ref="event_track_stage1"/>
     </record>
     <record id="event_track19" model="event.track">
-        <field name="name">Advanced lead management with Odoo: tips and tricks from the fields</field>
+        <field name="name">Advanced lead management with Cubic ERP: tips and tricks from the fields</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 9:00:00')"></field>
@@ -301,7 +301,7 @@
         <field name="stage_id" ref="event_track_stage1"/>
     </record>
     <record id="event_track21" model="event.track">
-        <field name="name">Recruiting high skilled talents with Odoo HR apps</field>
+        <field name="name">Recruiting high skilled talents with Cubic ERP HR apps</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 10:30:00')"></field>
@@ -321,7 +321,7 @@
         <field name="stage_id" ref="event_track_stage0"/>
     </record>
     <record id="event_track23" model="event.track">
-        <field name="name">Key Success factors selling Odoo.</field>
+        <field name="name">Key Success factors selling Cubic ERP.</field>
         <field name="website_published" eval="True"/>
         <field name="event_id" ref="event.event_0"/>
         <field name="date" eval="time.strftime(str(DateTime.today().year) + '-06-04 7:00:00')"></field>

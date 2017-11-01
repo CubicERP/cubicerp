@@ -1,12 +1,12 @@
-# #-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account_voucher
 #
 # Translators:
 # Nemanja Dragovic <nemanjadragovic94@gmail.com>, 2015
-# #-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account_voucher
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2015-09-19 08:18+0000\n"
@@ -25,10 +25,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -60,9 +60,9 @@ msgstr ""
 #, fuzzy
 msgid "Accounting Voucher"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Knjigovodstveni vaucera\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Knjigovodstvo Vaucera"
 
 #. module: account_voucher
@@ -86,9 +86,9 @@ msgstr "Da li ste sigurni da želite poništiti ovaj vaučer?"
 #, fuzzy
 msgid "Bill Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum računa\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum Racuna"
 
 #. module: account_voucher
@@ -96,9 +96,9 @@ msgstr ""
 #, fuzzy
 msgid "Bill Information"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Informacije o računu\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Informacije Racuna"
 
 #. module: account_voucher
@@ -111,9 +111,9 @@ msgstr "Oznaka računa"
 #, fuzzy
 msgid "Cancel"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Odustani\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Otkaži"
 
 #. module: account_voucher
@@ -179,9 +179,9 @@ msgstr "Valuta"
 #, fuzzy
 msgid "Customer"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Kupac\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Mušterija"
 
 #. module: account_voucher
@@ -210,9 +210,9 @@ msgstr "Ime za prikaz"
 #, fuzzy
 msgid "Draft"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Nacrt\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Priprema"
 
 #. module: account_voucher
@@ -227,9 +227,9 @@ msgstr "Vaučeri u nacrtu"
 #, fuzzy
 msgid "Due Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum dospijeća\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum dospeća"
 
 #. module: account_voucher
@@ -237,9 +237,9 @@ msgstr ""
 #, fuzzy
 msgid "Effective date for accounting entries"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Efektivni datum za računovodstvene unose\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Efektivni datum za sadrzaj racuna"
 
 #. module: account_voucher
@@ -274,9 +274,9 @@ msgstr ""
 #, fuzzy
 msgid "Internal Notes"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Interne zabilješke\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Interne Beleske"
 
 #. module: account_voucher
@@ -321,9 +321,9 @@ msgstr "Zadnja izmjena"
 #, fuzzy
 msgid "Notes"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Zabilješke\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Beleške"
 
 #. module: account_voucher
@@ -352,9 +352,9 @@ msgstr "Partner"
 #, fuzzy
 msgid "Pay Directly"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plati direktno\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Direktna Isplata"
 
 #. module: account_voucher
@@ -414,9 +414,9 @@ msgstr "Proizvod"
 #, fuzzy
 msgid "Purchase"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Nabavka\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Kupovina"
 
 #. module: account_voucher
@@ -440,9 +440,9 @@ msgstr "Vaučer nabavke"
 #, fuzzy
 msgid "Quantity"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Količina\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Kolicina"
 
 #. module: account_voucher
@@ -455,9 +455,9 @@ msgstr "Prodaja"
 #, fuzzy
 msgid "Sales Information"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Informacije o prodaji\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Informacije Prodaje"
 
 #. module: account_voucher
@@ -465,9 +465,9 @@ msgstr ""
 #, fuzzy
 msgid "Sales Receipt"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Vaučer prodaje\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Racun Prodaje"
 
 #. module: account_voucher
@@ -483,9 +483,9 @@ msgstr "Vaučeri prodaje"
 #, fuzzy
 msgid "Search Vouchers"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pretraži vaučere\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pretrazi Vaucere"
 
 #. module: account_voucher
@@ -552,9 +552,9 @@ msgstr "Partnerova oznaka ovog dokumenta."
 #, fuzzy
 msgid "To Review"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Za provjeru\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pregledati"
 
 #. module: account_voucher

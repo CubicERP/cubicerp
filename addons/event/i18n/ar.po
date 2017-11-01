@@ -1,11 +1,11 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event
 #
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-07-21 10:49+0000\n"
@@ -332,7 +332,7 @@ msgstr "الشارة اليمين الداخلية"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Banner Odoo Image"
+msgid "Banner CubicERP Image"
 msgstr "صورة شريط أودو"
 
 #. module: event
@@ -1236,20 +1236,20 @@ msgstr "عدد التسجيلات"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Official Website"
+msgid "CubicERP Official Website"
 msgstr ""
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Web Client"
+msgid "CubicERP Web Client"
 msgstr ""
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view
 msgid ""
-"Odoo helps you schedule and efficiently organize your events:\n"
+"CubicERP helps you schedule and efficiently organize your events:\n"
 "    track subscriptions and participations, automate the confirmation "
 "emails,\n"
 "    sell tickets, etc."
@@ -1777,7 +1777,7 @@ msgstr ""
 
 #. module: event
 #: model:event.event,description:event.event_0
-msgid "to learn Odoo Programming"
+msgid "to learn CubicERP Programming"
 msgstr ""
 
 #. module: event

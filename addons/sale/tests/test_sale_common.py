@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 from collections import OrderedDict
 from odoo.addons.account.tests.account_test_classes import AccountingTestCase
 

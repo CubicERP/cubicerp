@@ -2616,7 +2616,7 @@ msgstr "Мора да изберете барем еден запис."
 #. openerp-web
 #: code:addons/web/static/src/js/framework/crash_manager.js:69
 #, python-format
-msgid "Your Odoo session expired. Please refresh the current web page."
+msgid " Your CubicERP session expired. Please refresh the current web page."
 msgstr ""
 "Вашата сесија на Odoo е истечена. Ве молиме обновете ја тековната веб страна"
 

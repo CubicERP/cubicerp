@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import ast
 import functools
@@ -28,7 +28,7 @@ from odoo.tools import pycompat
 MANIFEST_NAMES = ('__manifest__.py', '__openerp__.py')
 README = ['README.rst', 'README.md', 'README.txt']
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.module')
 
 # addons path as a list
 ad_paths = []
@@ -67,7 +67,7 @@ class AddonsHook(object):
         new_mod.__loader__ = self
 
         # module top-level can only be a package
-        assert type_ == imp.PKG_DIRECTORY, "Odoo addon top-level must be a package"
+        assert type_ == imp.PKG_DIRECTORY, "CubicERP addon top-level must be a package"
         modfile = opj(path, '__init__.py')
         new_mod.__file__ = modfile
         new_mod.__path__ = [path]

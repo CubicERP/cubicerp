@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * crm
 # 
@@ -10,7 +10,7 @@
 # Kovács Tibor <kovika@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:25+0000\n"
 "PO-Revision-Date: 2017-10-02 11:25+0000\n"
@@ -47,7 +47,7 @@ msgid ""
 "                        <td style=\"padding:15px 10px;font-size:20px\">\n"
 "                            <p style=\"color:#875A7B;margin:0\" >Hooray!</p><br>\n"
 "                            <p dir=\"ltr\" style=\"font-size:15px;margin-top:0pt;margin-bottom:0pt;\">\n"
-"                                <span>Your Odoo CRM application is up and running.</span></p><br>\n"
+"                                <span> Your CubicERP CRM application is up and running.</span></p><br>\n"
 "                            <p dir=\"ltr\" style=\"margin-top:0pt;margin-bottom:8pt;\">\n"
 "                                <span style=\"font-size:13px;font-weight:bold; \">What’s next?</span></p>\n"
 "                            <ul style=\"margin-top:0pt;margin-bottom:0pt;font-size:13px;list-style-type:disc;\">\n"
@@ -107,7 +107,7 @@ msgid ""
 "                            <p dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;\">\n"
 "                                <span>We would be delighted to assist you along the way. Contact us through our\n"
 "                                <a href=\"https://www.odoo.com/help\">support form</a> if you have any question.\n"
-"                                You can also discover how to get the best out of Odoo CRM with our </span>\n"
+"                                You can also discover how to get the best out of CubicERP CRM with our </span>\n"
 "                                <a target=\"_blank\" href=\"https://www.odoo.com/documentation/user/10.0/crm.html\">\n"
 "                                <span style=\"text-decoration:underline;\">User Documentation</span></a>\n"
 "                                </span><span> or with our </span>\n"
@@ -115,13 +115,13 @@ msgid ""
 "                                <span style=\"text-decoration:underline;\">API Documentation</span></a>\n"
 "                            </p>\n"
 "                            <br>\n"
-"                            <p dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;\"><span>Enjoy your Odoo experience,</span></p>\n"
+"                            <p dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;\"><span>Enjoy  your CubicERP experience,</span></p>\n"
 "                        </td>\n"
 "                    </tr>\n"
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The Odoo Team<br/>PS: People love Odoo, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 msgstr ""
@@ -531,15 +531,15 @@ msgstr "<strong>Események</strong>"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"<strong>Every business is different.</strong> Odoo allows to\n"
+"<strong>Every business is different.</strong> CubicERP allows to\n"
 "                        customize every application and it's usually a good\n"
 "                        advice to customize screens to fit your sales process.\n"
-"                        <strong>Customizations are done by Odoo experts.</strong>"
+"                        <strong>Customizations are done by CubicERP experts.</strong>"
 msgstr ""
-"<strong>Minden üzlet más.</strong> Odoo lehetővé teszi \n"
+"<strong>Minden üzlet más.</strong> CubicERP lehetővé teszi \n"
 "                        minden alkalmazás személyre szabását és ez általában jó\n"
 "                        javaslat a képernyő személyre szabásához az értékesítési folyamataihoz.\n"
-"                        <strong>Személyre szabást az Odoo szakemberek végzik.</strong>"
+"                        <strong>Személyre szabást az CubicERP szakemberek végzik.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -735,7 +735,7 @@ msgid ""
 "                                apps of Odoo:"
 msgstr ""
 "<strong>Gyakorlás</strong><br/>\n"
-"                                Erős értékesítési gyakorló program építéséhez, használhatja a következő Odoo rendszer\n"
+"                                Erős értékesítési gyakorló program építéséhez, használhatja a következő CubicERP rendszer\n"
 "                                alkalmazásokat:"
 
 #. module: crm
@@ -785,11 +785,11 @@ msgstr "A jó folyamat minimum 5, maximum 7 szintből áll"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"A product in Odoo is something you sell or buy. It could\n"
+"A product in CubicERP is something you sell or buy. It could\n"
 "                    be a goods, consumable or services. Choose how you want to\n"
 "                    create your products:"
 msgstr ""
-"A termék az Odoo rendszerben, olyan valami, amit értékesíthet és vásárolhat. Ezek lehetnek\n"
+"A termék az CubicERP rendszerben, olyan valami, amit értékesíthet és vásárolhat. Ezek lehetnek\n"
 "                    termékek, fogyasztási cikkek, vagy szolgáltatások. Válasszon, hogyan szeretné \n"
 "                    létrehozni a termékeit:"
 
@@ -2020,7 +2020,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                          Fabien Pinckaers, Founder"
 msgstr ""
 "Az Oddo rendszer csapatának,<br/>\n"
@@ -2150,8 +2150,8 @@ msgstr "Partner kikötés vagy létrehozás a CMR varázslókban."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Happy Selling!<br/>- The Odoo Team"
-msgstr "Segíts értékesíteni!<br/>- Az Odoo rendszer csapata"
+msgid "Happy Selling!<br/>- The CubicERP Team"
+msgstr "Segíts értékesíteni!<br/>- Az CubicERP rendszer csapata"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -2293,7 +2293,7 @@ msgstr "Javítsa az értékesítőkre eső átlag bevételt"
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "In Odoo, there are 3 different ways to manage your prices.<br/>"
 msgstr ""
-"Az Odoo rendszerben, 3 különböző módja van a termék árak kezelésére.<br/>"
+"Az CubicERP rendszerben, 3 különböző módja van a termék árak kezelésére.<br/>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_lost_reason_view_search
@@ -2962,38 +2962,38 @@ msgstr ""
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Odoo Default"
-msgstr "Odoo alapértelmezett"
+msgid "CubicERP Default"
+msgstr "CubicERP alapértelmezett"
 
 #. module: crm
 #: model:ir.actions.act_window,help:crm.crm_case_form_view_salesteams_opportunity
 #: model:ir.actions.act_window,help:crm.crm_lead_opportunities
 #: model:ir.actions.act_window,help:crm.crm_lead_opportunities_tree_view
 msgid ""
-"Odoo helps you keep track of your sales pipeline to follow\n"
+"CubicERP helps you keep track of your sales pipeline to follow\n"
 "                    up potential sales and better forecast your future revenues."
 msgstr ""
-"Odoo rendszer segít az értékesítési folyamatai figyelemmel kísérésében, potenciális\n"
+"CubicERP rendszer segít az értékesítési folyamatai figyelemmel kísérésében, potenciális\n"
 "                    üzletek nyomon követésében és a jövőbeni bevételei jobb előrejelzésében."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"Odoo is the world's only software to have a full integration of Marketing "
+"CubicERP is the world's only software to have a full integration of Marketing "
 "Apps for your sales channel: insight sales, point of sale, ecommerce."
 msgstr ""
-"Odoo rendszer a világon egyedülálló szoftver, melyben teljesen integrálva "
+"CubicERP rendszer a világon egyedülálló szoftver, melyben teljesen integrálva "
 "vannak a Marketing alkalmazások az értékesítési csatornáihoz: Ellátási "
 "értékesítés, Értékesítési ponton értékesítés, e-értékesítés."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"Odoo will help you create polished, professional quotations and contracts in minutes.\n"
+"CubicERP will help you create polished, professional quotations and contracts in minutes.\n"
 "                        Tell us how you sell and we will tell you what\n"
 "                        configuration will best fit your quotation process."
 msgstr ""
-"Odoo rendszer pillanatok alatt segít létrehozni a letisztult, profi árajánlatokat és szerződéseket .\n"
+"CubicERP rendszer pillanatok alatt segít létrehozni a letisztult, profi árajánlatokat és szerződéseket .\n"
 "                        Mondja el, hogyan szeretne értékesíteni és mi megmondjuk mit\n"
 "                        állítson be, ami legjobban alkalmazható az árajánlat adás folyamatához."
 
@@ -3658,12 +3658,12 @@ msgstr "Érdeklődések/lehetőségek kiválasztása"
 msgid ""
 "Select the list of fields used to search for\n"
 "                            duplicated records. If you select several fields,\n"
-"                            Odoo will propose you to merge only those having\n"
+"                            CubicERP will propose you to merge only those having\n"
 "                            all these fields in common. (not one of the fields)."
 msgstr ""
 "Válassza ki a megkettőzött rekordok keresésére használt \n"
 "                            listázott mezőket. Ha több mezőt választott,\n"
-"                            Odoo rendszer javasolni fogja azok összefésülését, \n"
+"                            CubicERP rendszer javasolni fogja azok összefésülését, \n"
 "                            melyek mindegyikben előfordulnak. (nem csak egy mezőben)."
 
 #. module: crm
@@ -3738,12 +3738,12 @@ msgstr ""
 msgid ""
 "Setting up your sales funnel is just the first step. To achieve a\n"
 "                      significant boost, we will help you get the most out of\n"
-"                      Odoo CRM to transform how your salespeople work.\n"
+"                      CubicERP CRM to transform how your salespeople work.\n"
 "                      That's the purpose of this guide."
 msgstr ""
 "Értékesítési folyamat tölcsér beállítása csak az első lépés. Nagyobb fellendülés \n"
 "                      eléréséhez, segíteni fogunk, hogy a legtöbbet kihozza \n"
-"                      az Odoo rendszer CRM alkalmazásából az értékesítői munkáin keresztül.\n"
+"                      az CubicERP rendszer CRM alkalmazásából az értékesítői munkáin keresztül.\n"
 "                      Ez a célja ennek az útmutatónak."
 
 #. module: crm
@@ -3991,9 +3991,9 @@ msgstr "Email-ek sablonjai"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Templates of quotations (use Odoo Online Proposals for this)"
+msgid "Templates of quotations (use CubicERP Online Proposals for this)"
 msgstr ""
-"Árajánlatok sablonjai (használja az Odoo rendszer Online javaslatait ehhez)"
+"Árajánlatok sablonjai (használja az CubicERP rendszer Online javaslatait ehhez)"
 
 #. module: crm
 #. openerp-web
@@ -4024,11 +4024,11 @@ msgstr "Az első értékesítési szint általában az \"Új\" és az utolsó a 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming"
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
-"a modell (Odoo rendszer Dokumentum féle), amelyhez ez az álnév tartozik. "
+"a modell (CubicERP rendszer Dokumentum féle), amelyhez ez az álnév tartozik. "
 "Bármely bejövő email, mely nem válaszol egy meglévő feljegyzésre egy új "
 "feljegyzést fog létrehozni ehhez a modellhez (pl. egy projekt ügyet)"
 
@@ -4101,7 +4101,7 @@ msgstr "A teljes folyamat egy pár óráig tart. De ezt megéri végrehajtani."
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"There are several ways for your company to generate leads with Odoo CRM.\n"
+"There are several ways for your company to generate leads with CubicERP CRM.\n"
 "                        One of them is using your company's generic email address as a trigger\n"
 "                        to create a new lead in the system. In Odoo, each one of your sales channels\n"
 "                        is linked to its own email address from which prospects can reach them.\n"
@@ -4109,7 +4109,7 @@ msgid ""
 "                        direct@mycompany.example.com, every email sent when a new prospect\n"
 "                        contacts you will automatically create a new opportunity into the sales channel.\n"
 "\n"
-"                        That's the easiest way to integrate Odoo with third party apps."
+"                        That's the easiest way to integrate CubicERP with third party apps."
 msgstr ""
 
 #. module: crm
@@ -4458,7 +4458,7 @@ msgstr "Automatikus lépéseket lehet hozzáadni a munkafolyamatokhoz, például
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        data."
 msgstr ""
@@ -4478,11 +4478,11 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"We designed Odoo to help you grow your business. Odoo CRM\n"
+"We designed CubicERP to help you grow your business. CubicERP CRM\n"
 "                      is not just a tool, we want it to have a major impact on your\n"
 "                      sales performance. That's our mission, and we are serious about it."
 msgstr ""
-"Az Odoo rendszert az üzlete növelésének segítségére hoztuk létre. Odoo CRM\n"
+"Az CubicERP rendszert az üzlete növelésének segítségére hoztuk létre. CubicERP CRM\n"
 "                      nem csak egy eszköz, mi azt szeretnénk, hogy meghatározó befolyással bírjon az  \n"
 "                      értékesítések teljesítményében. Ez a mi küldetésünk, és mi eltökéltek vagyunk ebben."
 
@@ -4547,7 +4547,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.res_config_settings_view_form
 msgid ""
-"When populating your address book, Odoo relies on Clearbit’s API to provide "
+"When populating your address book, CubicERP relies on Clearbit’s API to provide "
 "you with a list of matching contacts or companies.When selecting one item, "
 "the partner name, logo and website get automatically set."
 msgstr ""
@@ -4720,8 +4720,8 @@ msgstr "LinkedIn vagy közösségi média oldalak"
 
 #. module: crm
 #: model:mail.template,subject:crm.mail_template_data_module_install_crm
-msgid "Your Odoo CRM application is running smoothly."
-msgstr "Az Odoo rendszer CRM alkalmazása megfelelően fut."
+msgid " Your CubicERP CRM application is running smoothly."
+msgstr "Az CubicERP rendszer CRM alkalmazása megfelelően fut."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -4878,8 +4878,8 @@ msgstr "ismeretlen"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "use Odoo API to import through scripts"
-msgstr "használja az Odoo API a szkriptenkénti importhoz"
+msgid "use CubicERP API to import through scripts"
+msgstr "használja az CubicERP API a szkriptenkénti importhoz"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner

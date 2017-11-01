@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * point_of_sale
 #
@@ -7,7 +7,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-03-27 21:01+0000\n"
@@ -18,10 +18,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
-"#-#-#-#-#  sl.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sl.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
@@ -1470,7 +1470,7 @@ msgstr "ID"
 #. openerp-web
 #: code:addons/point_of_sale/static/src/js/popups.js:113
 #, python-format
-msgid "IMPORTANT: Bug Report From Odoo Point Of Sale"
+msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
 msgstr ""
 
 #. module: point_of_sale
@@ -1997,8 +1997,8 @@ msgstr "Številka izpisa"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.index
-msgid "Odoo POS"
-msgstr "Odoo POS"
+msgid "CubicERP POS"
+msgstr "CubicERP POS"
 
 #. module: point_of_sale
 #. openerp-web
@@ -3530,7 +3530,7 @@ msgstr ""
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_sequence_id
 msgid ""
-"This sequence is automatically created by Odoo but you can change it to "
+"This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
 "Samodejno ustvarjeno zaporedje, ki pa ga lahko spreminjate za priredbo "
@@ -4314,10 +4314,10 @@ msgstr ""
 #~ msgstr "Če ni označeno, se lahko prijavijo samo povabljeni uporabniki."
 
 #~ msgid ""
-#~ "If you have setup a catch-all email domain redirected to the Odoo server, "
+#~ "If you have setup a catch-all email domain redirected to the CubicERP server, "
 #~ "enter the domain name here."
 #~ msgstr ""
-#~ "Če ste nastavili catch-all e-poštno domeno preusmerjeno na Odoo strežnik, "
+#~ "Če ste nastavili catch-all e-poštno domeno preusmerjeno na CubicERP strežnik, "
 #~ "vnesite naziv domene."
 
 #~ msgid "Implementation References"

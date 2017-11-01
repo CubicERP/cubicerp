@@ -231,7 +231,7 @@ msgstr "Токенот мора да биде уникатен"
 
 #. module: survey
 #: model:survey.page,title:survey.feedback_1
-msgid "About your Odoo usage"
+msgid "About  your CubicERP usage"
 msgstr "За вашата употреба на Odoo"
 
 #. module: survey

@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * delivery
 #
@@ -8,7 +8,7 @@
 # Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-02-18 13:58+0000\n"
@@ -97,11 +97,11 @@ msgid ""
 "This description will be copied to every Sale Order, Delivery Order and "
 "Customer Invoice/Refund"
 msgstr ""
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Una descripción del Producto que quiere comunicar a sus clientes. Esta "
 "descripción se copiará a cada Orden de Venta, Orden de Entrega y Factura/"
 "Reintegro del Cliente.\n"
-"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  es_CO.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Una descripción del producto que quieras comunicar a tus clientes. Esta "
 "descripción se copiará a cada Pedido, Orden de Despacho y Factura/Reintegro "
 "de Cliente."

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 """
 OpenERP - Server
@@ -31,7 +31,7 @@ __author__ = odoo.release.author
 __version__ = odoo.release.version
 
 # Also use the `odoo` logger for the main script.
-_logger = logging.getLogger('odoo')
+_logger = logging.getLogger('cubicerp')
 
 def check_root_user():
     """Warn if the process's user is 'root' (on POSIX system)."""
@@ -56,7 +56,7 @@ def report_configuration():
     This function assumes the configuration has been initialized.
     """
     config = odoo.tools.config
-    _logger.info("Odoo version %s", __version__)
+    _logger.info("Cubic ERP version %s", __version__)
     if os.path.isfile(config.rcfile):
         _logger.info("Using configuration file at " + config.rcfile)
     _logger.info('addons paths: %s', odoo.modules.module.ad_paths)

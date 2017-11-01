@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event
 #
@@ -7,7 +7,7 @@
 # Maurizio Schiavo <mschiavo@sogen.it>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-07-22 09:48+0000\n"
@@ -339,7 +339,7 @@ msgstr "Badge interno destra"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Banner Odoo Image"
+msgid "Banner CubicERP Image"
 msgstr "Immagine Banner Odoo"
 
 #. module: event
@@ -1254,20 +1254,20 @@ msgstr "Numero di registrazioni"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Official Website"
+msgid "CubicERP Official Website"
 msgstr "Sito Web ufficiale di Odoo"
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Web Client"
-msgstr "Odoo Web Client"
+msgid "CubicERP Web Client"
+msgstr "CubicERP Web Client"
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view
 msgid ""
-"Odoo helps you schedule and efficiently organize your events:\n"
+"CubicERP helps you schedule and efficiently organize your events:\n"
 "    track subscriptions and participations, automate the confirmation "
 "emails,\n"
 "    sell tickets, etc."
@@ -1799,7 +1799,7 @@ msgstr ""
 
 #. module: event
 #: model:event.event,description:event.event_0
-msgid "to learn Odoo Programming"
+msgid "to learn CubicERP Programming"
 msgstr ""
 
 #. module: event

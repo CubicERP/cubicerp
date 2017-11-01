@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_expense
 # 
@@ -17,7 +17,7 @@
 # Denis Baranov <baranov@itlibertas.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:34+0000\n"
 "PO-Revision-Date: 2017-10-10 11:34+0000\n"
@@ -581,7 +581,7 @@ msgstr "Конец"
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr "Наслаждайтесь  Odoo,"
 
 #. module: hr_expense
@@ -848,7 +848,7 @@ msgstr ""
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 "От лица команды Odoo<br/>\n"
@@ -909,8 +909,8 @@ msgstr "Отдел кадров"
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "Have a wonderful day,<br/>- The Odoo Team"
-msgstr "Удачного дня,<br/>-Odoo команда"
+msgid "Have a wonderful day,<br/>- The CubicERP Team"
+msgstr "Удачного дня,<br/>-CubicERP команда"
 
 #. module: hr_expense
 #: model:ir.model.fields,field_description:hr_expense.field_hr_expense_sheet_register_payment_wizard_hide_payment_method
@@ -1587,7 +1587,7 @@ msgstr "Шаги обработки расходов:"
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
-msgid "This guide helps you start with Odoo Expenses."
+msgid "This guide helps you start with CubicERP Expenses."
 msgstr ""
 
 #. module: hr_expense

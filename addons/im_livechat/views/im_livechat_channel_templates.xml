@@ -83,7 +83,7 @@
                 <body>
                      <div class="main" style="opacity: 1;">
                         <h1 class="channel_name"><t t-esc="channel.name"/></h1>
-                        <div>Website Live Chat Powered by <strong>Odoo</strong>.</div>
+                        <div>Website Live Chat Powered by <strong>CubicERP</strong>.</div>
                     </div>
                 </body>
             </html>
@@ -108,7 +108,7 @@
         <template id="external_lib" name="Livechat : External Librairies of the Livechat, required to make it work">
             <!-- Momentjs -->
             <script type="text/javascript" src="/web/static/lib/moment/moment.js"></script>
-            <!-- Odoo minimal lib -->
+            <!-- Cubic ERP minimal lib -->
             <script type="text/javascript" src="/web/static/lib/underscore/underscore.js"></script>
             <script type="text/javascript" src="/web/static/lib/underscore.string/lib/underscore.string.js"></script>
             <!-- jQuery -->
@@ -117,7 +117,7 @@
             <script type="text/javascript" src="/web/static/lib/jquery.ba-bbq/jquery.ba-bbq.js"></script>
             <!-- Qweb2 lib -->
             <script type="text/javascript" src="/web/static/lib/qweb/qweb2.js"></script>
-            <!-- Odoo JS Framework -->
+            <!-- Cubic ERP JS Framework -->
             <script type="text/javascript" src="/web/static/src/js/boot.js"></script>
             <script type="text/javascript" src="/web/static/src/js/services/config.js"></script>
             <script type="text/javascript" src="/web/static/src/js/core/abstract_service.js"></script>

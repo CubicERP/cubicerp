@@ -126,7 +126,7 @@
                                 <div class="o_setting_right_pane">
                                     <label for="module_pad"/>
                                     <div class="text-muted">
-                                        Use external pads in Odoo Notes
+                                        Use external pads in Cubic ERP Notes
                                     </div>
                                     <div class="content-group" attrs="{'invisible': [('module_pad','=',False)]}" id="msg_module_pad">
                                         <div class="text-warning mt16"><strong>Save</strong> this page and come back here to set up the feature.</div>
@@ -168,7 +168,7 @@
                                 <div class="o_setting_right_pane">
                                     <label for="module_google_spreadsheet"/>
                                     <div class="text-muted">
-                                        Extract and analyze Odoo data from Google Spreadsheet
+                                        Extract and analyze Cubic ERP data from Google Spreadsheet
                                     </div>
                                     <div class="content-group" attrs="{'invisible': [('module_google_spreadsheet','=',False)]}" id="msg_module_google_spreadsheet">
                                         <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>

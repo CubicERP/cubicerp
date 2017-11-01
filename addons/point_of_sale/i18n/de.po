@@ -1,9 +1,9 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * point_of_sale
 # 
 # Translators:
-# Gab_Odoo <gab@odoo.com>, 2017
+# Gab_CubicERP <gab@odoo.com>, 2017
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2017
 # Martin Trigaux <mat@odoo.com>, 2017
 # Ermin Trevisan <trevi@twanda.com>, 2017
@@ -33,7 +33,7 @@
 # AppleMentalist <felix.schnatbaum@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-10 11:34+0000\n"
 "PO-Revision-Date: 2017-10-10 11:34+0000\n"
@@ -1651,7 +1651,7 @@ msgstr "ID"
 #. openerp-web
 #: code:addons/point_of_sale/static/src/js/popups.js:115
 #, python-format
-msgid "IMPORTANT: Bug Report From Odoo Point Of Sale"
+msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
 msgstr ""
 
 #. module: point_of_sale
@@ -2127,7 +2127,7 @@ msgstr "Anzahl der gedruckten Bons"
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.customer_facing_display_html
 #: model:pos.config,customer_facing_display_html:point_of_sale.pos_config_main
-msgid "Odoo Logo"
+msgid "CubicERP Logo"
 msgstr ""
 
 #. module: point_of_sale
@@ -3904,17 +3904,17 @@ msgstr ""
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_sequence_line_id
 msgid ""
-"This sequence is automatically created by Odoo but you can change it to "
+"This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders lines."
 msgstr ""
 
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_sequence_id
 msgid ""
-"This sequence is automatically created by Odoo but you can change it to "
+"This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"Die Nummernfolge wird zwar durch Odoo automatisch vergeben, kann aber "
+"Die Nummernfolge wird zwar durch CubicERP automatisch vergeben, kann aber "
 "angepasst werden."
 
 #. module: point_of_sale

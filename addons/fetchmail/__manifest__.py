@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 {
     'name': 'Email Gateway',
@@ -11,7 +11,7 @@ Retrieve incoming email on POP/IMAP servers.
 ============================================
 
 Enter the parameters of your POP/IMAP account(s), and any incoming emails on
-these accounts will be automatically downloaded into your Odoo system. All
+these accounts will be automatically downloaded into  your CubicERP system. All
 POP3/IMAP-compatible servers are supported, included those that require an
 encrypted SSL/TLS connection.
 

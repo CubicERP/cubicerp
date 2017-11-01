@@ -48,7 +48,7 @@ var Dialog = Widget.extend({
         this._opened = $.Deferred();
 
         options = _.defaults(options || {}, {
-            title: _t('Odoo'), subtitle: '',
+            title: _t('CubicERP'), subtitle: '',
             size: 'large',
             dialogClass: '',
             $content: false,

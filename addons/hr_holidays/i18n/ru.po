@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_holidays
 # 
@@ -19,7 +19,7 @@
 # Viktor Pogrebniak <vp@aifil.ru>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -1022,10 +1022,10 @@ msgstr "Должностное лицо"
 #. module: hr_holidays
 #: model:ir.model.fields,help:hr_holidays.field_hr_holidays_status_categ_id
 msgid ""
-"Once a leave is validated, Odoo will create a corresponding meeting of this "
+"Once a leave is validated, CubicERP will create a corresponding meeting of this "
 "type in the calendar."
 msgstr ""
-"После проверки отгула, Odoo будет создать соответствующую встречу этого типа"
+"После проверки отгула, CubicERP будет создать соответствующую встречу этого типа"
 " в календаре."
 
 #. module: hr_holidays

@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mail
 #
@@ -8,7 +8,7 @@
 # Simone Bernini <simone@aperturelabs.it>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-23 09:04+0000\n"
@@ -2035,7 +2035,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_base_config_settings_alias_domain
 msgid ""
-"If you have setup a catch-all email domain redirected to the Odoo server, "
+"If you have setup a catch-all email domain redirected to the CubicERP server, "
 "enter the domain name here."
 msgstr ""
 "Se un dominio catch-all è stato configurato per essere reindirizzato su "
@@ -3098,19 +3098,19 @@ msgstr "Numero di messaggi non letti"
 #: model:ir.actions.act_window,help:mail.action_contacts
 #, fuzzy
 msgid ""
-"Odoo helps you easily track all activities related to\n"
+"CubicERP helps you easily track all activities related to\n"
 "            a customer: discussions, history of business opportunities,\n"
 "            documents, etc."
 msgstr ""
-"Odoo ti aiuta a tenere traccia di tutte le attività collegate\n"
+"CubicERP ti aiuta a tenere traccia di tutte le attività collegate\n"
 "a un cliente; discussioni, opportunità, documenti, ecc..."
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/xml/client_action.xml:11
 #, python-format
-msgid "Odoo needs your permission to"
-msgstr "Odoo necessita del tuo permesso per"
+msgid "CubicERP needs your permission to"
+msgstr "CubicERP necessita del tuo permesso per"
 
 #. module: mail
 #. openerp-web
@@ -3963,11 +3963,11 @@ msgstr ""
 #: model:ir.model.fields,help:mail.field_mail_channel_alias_model_id
 #: model:ir.model.fields,help:mail.field_res_users_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming "
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Il modello ( Odoo Tipi di documento ) a cui questo alias corrisponde . "
+"Il modello ( CubicERP Tipi di documento ) a cui questo alias corrisponde . "
 "Qualsiasi email in arrivo che non risponde a un record esistente causerà la "
 "creazione di un nuovo record di questo modello ( ad esempio, un'attività di "
 "progetto)"

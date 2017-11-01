@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 import base64
 import io
 import json
@@ -16,7 +16,7 @@ from odoo import http, tools
 from odoo.tools import pycompat
 from odoo.modules.module import get_resource_path, get_module_path
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('cubicerp')
 
 class Web_Editor(http.Controller):
     #------------------------------------------------------

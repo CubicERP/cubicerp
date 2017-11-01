@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 import json
 import logging
@@ -10,7 +10,7 @@ import time
 try:
     from num2words import num2words
 except ImportError:
-    logging.getLogger(__name__).warning("The num2words python library is not installed, l10n_mx_edi features won't be fully available.")
+    logging.getLogger('cubicerp').warning("The num2words python library is not installed, l10n_mx_edi features won't be fully available.")
     num2words = None
 
 from odoo import api, fields, models, tools, _
@@ -98,7 +98,7 @@ class Currency(models.Model):
                 return num2words(number, lang='en').title()
 
         if num2words is None:
-            logging.getLogger(__name__).warning("The library 'num2words' is missing, cannot render textual amounts.")
+            logging.getLogger('cubicerp').warning("The library 'num2words' is missing, cannot render textual amounts.")
             return ""
 
         fractional_value, integer_value = math.modf(amount)

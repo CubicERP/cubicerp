@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account_bank_statement_import
 #
@@ -6,7 +6,7 @@
 # Carlos Eduardo Rodriguez Rossi <crodriguez@samemotion.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-06-15 20:16+0000\n"
@@ -375,22 +375,22 @@ msgstr "Cuenta de Pérdidas"
 #. module: account_bank_statement_import
 #: model:ir.model.fields,help:account_bank_statement_import.field_account_bank_statement_import_journal_creation_inbound_payment_method_ids
 msgid ""
-"Means of payment for collecting money. Odoo modules offer various payments "
+"Means of payment for collecting money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
-"Medios de pago para colección de dinero. Los módulos de Odoo ofrecen varias "
+"Medios de pago para colección de dinero. Los módulos de CubicERP ofrecen varias "
 "facilidades de manejo de pagos, pero siempre puede usar el método de pago "
 "'Manual' a fin de administrar los pagos fuera de este software."
 
 #. module: account_bank_statement_import
 #: model:ir.model.fields,help:account_bank_statement_import.field_account_bank_statement_import_journal_creation_outbound_payment_method_ids
 msgid ""
-"Means of payment for sending money. Odoo modules offer various payments "
+"Means of payment for sending money. CubicERP modules offer various payments "
 "handling facilities, but you can always use the 'Manual' payment method in "
 "order to manage payments outside of the software."
 msgstr ""
-"Medios de pago para envío de dinero. Los módulos de Odoo ofrecen varias "
+"Medios de pago para envío de dinero. Los módulos de CubicERP ofrecen varias "
 "facilidades de manejo de pagos, pero siempre puede usar el método de pago "
 "'Manual' a fin de administrar los pagos fuera de este software."
 

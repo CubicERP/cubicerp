@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * event
 #
@@ -6,7 +6,7 @@
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-02-21 12:42+0000\n"
@@ -358,8 +358,8 @@ msgstr "Pravé vnútro odznaku"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Banner Odoo Image"
-msgstr "Obrázok Odoo banneru"
+msgid "Banner CubicERP Image"
+msgstr "Obrázok CubicERP banneru"
 
 #. module: event
 #: selection:event.mail,interval_type:0
@@ -1276,25 +1276,25 @@ msgstr "Počet registrácií"
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Official Website"
-msgstr "Odoo oficiálna webstránka"
+msgid "CubicERP Official Website"
+msgstr "CubicERP oficiálna webstránka"
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
-msgid "Odoo Web Client"
-msgstr "Odoo web klient"
+msgid "CubicERP Web Client"
+msgstr "CubicERP web klient"
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view
 msgid ""
-"Odoo helps you schedule and efficiently organize your events:\n"
+"CubicERP helps you schedule and efficiently organize your events:\n"
 "    track subscriptions and participations, automate the confirmation "
 "emails,\n"
 "    sell tickets, etc."
 msgstr ""
-"Odoo vám pomôže plánovať a efektívne organizovať vaše akcie:\n"
+"CubicERP vám pomôže plánovať a efektívne organizovať vaše akcie:\n"
 "sledovať odbery a účasti, automatizovať potvrdzovacie emaily,\n"
 "predaj lístkov, atď."
 
@@ -1839,8 +1839,8 @@ msgstr "na učenie sa <i>vývoj obchodných aplikácií</i>"
 
 #. module: event
 #: model:event.event,description:event.event_0
-msgid "to learn Odoo Programming"
-msgstr "na učenie sa Odoo programovania"
+msgid "to learn CubicERP Programming"
+msgstr "na učenie sa CubicERP programovania"
 
 #. module: event
 #: model:event.event,description:event.event_1

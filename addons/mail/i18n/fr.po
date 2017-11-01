@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mail
 # 
@@ -51,7 +51,7 @@
 # Julien Martin <204336@supinfo.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:25+0000\n"
 "PO-Revision-Date: 2017-10-02 11:25+0000\n"
@@ -2426,7 +2426,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings_alias_domain
 msgid ""
-"If you have setup a catch-all email domain redirected to the Odoo server, "
+"If you have setup a catch-all email domain redirected to the CubicERP server, "
 "enter the domain name here."
 msgstr ""
 "Si vous avez configuré un domain \"catch-all\" email redirigé vers le "
@@ -3785,27 +3785,27 @@ msgstr "Odoo"
 #: code:addons/mail/static/src/js/client_action.js:893
 #, python-format
 msgid ""
-"Odoo has now the permission to send you native notifications on this device."
+"CubicERP has now the permission to send you native notifications on this device."
 msgstr ""
-"Odoo a maintenant la permission de vous envoyer des notifications natives "
+"CubicERP a maintenant la permission de vous envoyer des notifications natives "
 "sur cet appareil."
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/xml/client_action.xml:11
 #, python-format
-msgid "Odoo needs your permission to"
-msgstr "Odoo a besoin de votre autorisation pour"
+msgid "CubicERP needs your permission to"
+msgstr "CubicERP a besoin de votre autorisation pour"
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/js/client_action.js:890
 #, python-format
 msgid ""
-"Odoo will not have the permission to send native notifications on this "
+"CubicERP will not have the permission to send native notifications on this "
 "device."
 msgstr ""
-"Odoo n'aura pas la permission d'envoyer des notifications natives sur cet "
+"CubicERP n'aura pas la permission d'envoyer des notifications natives sur cet "
 "appareil."
 
 #. module: mail
@@ -4209,7 +4209,7 @@ msgstr "Merci de patienter durant le transfert du fichier."
 msgid ""
 "Policy on how to handle Chatter notifications:\n"
 "- Emails: notifications are sent to your email\n"
-"- Odoo: notifications appear in your Odoo Inbox"
+"- Odoo: notifications appear in  your CubicERP Inbox"
 msgstr ""
 
 #. module: mail
@@ -4943,7 +4943,7 @@ msgstr "Le code HTML avec caractères d'échappement remplaçant le raccourci"
 #: model:ir.model.fields,help:mail.field_mail_channel_alias_model_id
 #: model:ir.model.fields,help:mail.field_mail_test_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming"
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""

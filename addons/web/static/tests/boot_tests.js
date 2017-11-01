@@ -5,7 +5,7 @@ odoo.__DEBUG__.didLogInfo.then(function() {
 
     var modulesInfo = odoo.__DEBUG__.js_modules;
 
-    QUnit.module('Odoo JS Modules');
+    QUnit.module('CubicERP JS Modules');
 
     QUnit.test('all modules are properly loaded', function(assert) {
         assert.expect(2);

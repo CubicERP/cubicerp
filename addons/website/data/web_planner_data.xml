@@ -19,7 +19,7 @@
                     <p class="last"><i>We wish you a fun time!</i></p>
                     <div class="mt32">
                         <address>
-                            For the Odoo Team,<br/>
+                            For the Cubic ERP Team,<br/>
                             Fabien Pinckaers, Founder
                         </address>
                     </div>
@@ -441,8 +441,8 @@
                             </div>
                             <div class="col-sm-1 col-md-2 icon"><span  data-icon="&#xe009;" /></div>
                             <div class="col-sm-11 col-md-10">
-                                <p><strong>Be announced on the Odoo Twitter account</strong><br/>
-                                We like to hear from people using Odoo to build their website. Tweet us
+                                <p><strong>Be announced on the Cubic ERP Twitter account</strong><br/>
+                                We like to hear from people using Cubic ERP to build their website. Tweet us
                                 <a href="https://twitter.com/odoo" target="_blank">@odoo</a> a reference to your new website. We will retweet it (we have 30,000 followers) and feature it in our different communications.
                                 </p>
                             </div>
@@ -698,7 +698,7 @@
                     <a href="mailto:info@odoo.com?subject=Website%20Planner%20feeedback" target="_blank">sending us an email</a> to describe
                     <br/> your experience or to suggest improvements!
                     </h4>
-                    <p>- The Odoo Team</p>
+                    <p>- The Cubic ERP Team</p>
                     <img src="/web_planner/static/src/img/odoo_logo.png"/>
                 </div>
             </t>

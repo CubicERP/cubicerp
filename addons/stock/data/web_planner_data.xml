@@ -9,7 +9,7 @@
                 <t t-set="hide_mark_as_done" t-value="True"/>
                 <div class="o_planner_intro">
                     <p>
-                        This guide helps getting started with Odoo Inventory.
+                        This guide helps getting started with Cubic ERP Inventory.
                         Once you are done, you will benefit from:
                     </p>
                     <ul>
@@ -24,7 +24,7 @@
                     <div class="mt32">
                         <img class="signature mb8" src="/web_planner/static/src/img/fabien_signature.png"/>
                         <address>
-                            For the Odoo Team,<br/>
+                            For the Cubic ERP Team,<br/>
                             Fabien Pinckaers, Founder
                         </address>
                     </div>
@@ -91,7 +91,7 @@
                                 <div class="panel-body">
                                     <p>
                                         We handle the whole import process
-                                        for you: simply send your Odoo project
+                                        for you: simply send your Cubic ERP project
                                         manager a CSV file containing all your
                                         data.
                                     </p><p>
@@ -181,10 +181,10 @@
                         </div>
                         <div id="o_concept_desc4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="o_concept4">
                           <div class="panel-body">
-                            <li>By default, Odoo measures products by 'units', which are generic and represent just about anything</li>
+                            <li>By default, Cubic ERP measures products by 'units', which are generic and represent just about anything</li>
                             <li>To use more precise units like pounds or kilograms, activate<i> Some products may be sold/purchased in different unit of measures (advanced)</i> in the <a t-att-href="prepare_backend_url('stock.action_stock_config_settings')">Inventory Settings</a></li>
                             <li>You can review and edit the predefined units via the <a t-att-href="prepare_backend_url('product.product_uom_form_action')">Units of Measures</a> configuration menu</li>
-                            <li>Of course, feel free to add your own. Please note that Odoo is able to convert units within the same category, for example, liters to gallons in the volume category</li>
+                            <li>Of course, feel free to add your own. Please note that Cubic ERP is able to convert units within the same category, for example, liters to gallons in the volume category</li>
                           </div>
                         </div>
                       </div>
@@ -218,7 +218,7 @@
                                 <div class="panel-body">
                                     <p>
                                         We handle the whole import process
-                                        for you: simply send your Odoo project
+                                        for you: simply send your Cubic ERP project
                                         manager a CSV file containing all your
                                         products.
                                     </p><p>
@@ -256,7 +256,7 @@
                     <div class="alert alert-info">
                         <strong>Import data</strong>
                         <p>It is also possible to import your initial inventory from an Excel or CSV file.
-                        If you want to do that, contact your Odoo project manager.</p>
+                        If you want to do that, contact your Cubic ERP project manager.</p>
                     </div>
                 </t>
             </t>
@@ -266,7 +266,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Sales Flow</t>
                     <p class="text-muted">
-                        Odoo inventory management is fully integrated with sales and
+                        Cubic ERP inventory management is fully integrated with sales and
                         invoicing process. Everything is automated from the initial
                         quotation to the delivery and the final invoice.
                     </p>
@@ -302,7 +302,7 @@
                                 <div class="panel-body">
                                     <div><span class="label label-default text-center odoo_purple">'Available'</span><div>is displayed on the transfer if your products supply chain is properly configured. Otherwise, <strong>Check the availability</strong> manually</div></div>
                                     <span class="fa fa-angle-down fa-2x"></span>
-                                    <div><span class="label label-default text-center odoo_purple">Process the products</span><div>either by manually updating the Done quantity on the product lines, or let Odoo do it automatically while validating</div></div>
+                                    <div><span class="label label-default text-center odoo_purple">Process the products</span><div>either by manually updating the Done quantity on the product lines, or let Cubic ERP do it automatically while validating</div></div>
                                     <span class="fa fa-angle-down fa-2x"></span>
                                     <div><span class="label label-default text-center odoo_purple">Validate the Delivery</span><div>with the <i>Validate</i> button</div></div>
                                 </div>
@@ -314,7 +314,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Purchase Flow</t>
                     <p class="text-muted">
-                        Like with the sales flow, Odoo inventory management is
+                        Like with the sales flow, Cubic ERP inventory management is
                         fully integrated with the purchase app.
                     </p>
                     <div t-if="not is_module_installed('purchase')" class="alert alert-warning">
@@ -349,7 +349,7 @@
                                 <div class="panel-body">
                                     <div><span class="label label-default text-center odoo_purple">Find Incoming Shipments</span><div>via the <a t-att-href="prepare_backend_url('stock.stock_picking_type_action')">Dashboard</a> when you receive the ordered products</div></div>
                                     <span class="fa fa-angle-down fa-2x"></span>
-                                    <div><span class="label label-default text-center odoo_purple">Process the products</span><div>either by manually updating the Done quantity on the product lines, or scan them with the Odoo Barcode app, or let Odoo do it automatically while validating</div></div>
+                                    <div><span class="label label-default text-center odoo_purple">Process the products</span><div>either by manually updating the Done quantity on the product lines, or scan them with the Cubic ERP Barcode app, or let Cubic ERP do it automatically while validating</div></div>
                                     <span class="fa fa-angle-down fa-2x"></span>
                                     <div><span class="label label-default text-center odoo_purple">Validate the Receipt Order</span><div>to mark the products as transferred to your stock location</div></div>
                                 </div>
@@ -370,8 +370,8 @@
                         space and may lose value).
                     </p>
                     <p>
-                        In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.
-                        Odoo will automatically propose a procurement to buy new products if you are
+                        In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.
+                        Cubic ERP will automatically propose a procurement to buy new products if you are
                         running out of stock.
                     </p>
                     <p>
@@ -383,7 +383,7 @@
                     <t t-set="page_title">Resolve Procurement Exceptions</t>
                     <t t-set="page_menutitle">Procurement Exceptions</t>
                     <p class="text-muted">
-                        If you configured automatic procurement, Odoo automatically generates
+                        If you configured automatic procurement, Cubic ERP automatically generates
                         Procurements Orders. You usually don't need to worry about them, but
                         sometimes the system can remain blocked without generating a
                         corresponding document, usually due to a configuration problem.
@@ -409,7 +409,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Traceability</t>
                     <p>
-                        Odoo is able to run advanced traceability by using Product Lots and Serial
+                        Cubic ERP is able to run advanced traceability by using Product Lots and Serial
                         Numbers, usually identified by bar codes stuck on the products.
                     </p>
                     <p>
@@ -437,7 +437,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Routes Management</t>
                     <p>
-                        Odoo handles <strong>advanced push/pull routes configuration</strong>, for example:
+                        Cubic ERP handles <strong>advanced push/pull routes configuration</strong>, for example:
                     </p>
                     <ul>
                         <li>Manage product manufacturing chains</li>
@@ -456,11 +456,11 @@
                 <h1 class="text-center o_planner_trophy" data-icon="&#xe006;" />
                 <div class="text-center">
                     <h1>Congratulations!</h1>
-                    <h4>We hope this guide helped you implement Odoo Inventory.</h4>
+                    <h4>We hope this guide helped you implement Cubic ERP Inventory.</h4>
                     <p>Do not hesitate to send us an email to describe your experience or to suggest improvements!</p>
                     <p>Once it's fully working, give us some feedback: we love to hear from our customer. It would be great if you could send us a photo of your warehouse to <a href="mailto:feedback@mail.odoo.com?subject=Inventory%20Planner" target="_blank">feedback@mail.odoo.com</a></p>
                     <p><strong>Enjoy your Inventory management with Odoo!</strong></p>
-                    <p>- The Odoo Team</p>
+                    <p>- The Cubic ERP Team</p>
                     <img src="/web_planner/static/src/img/odoo_logo.png"/>
                 </div>
             </t>

@@ -243,7 +243,7 @@ msgstr "Ein Token muss eindeutig sein!"
 
 #. module: survey
 #: model:survey.page,title:survey.feedback_1
-msgid "About your Odoo usage"
+msgid "About  your CubicERP usage"
 msgstr "Zu Ihrem Gebrauch von Odoo"
 
 #. module: survey

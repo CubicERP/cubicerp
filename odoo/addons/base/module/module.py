@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 import base64
 from collections import defaultdict
 from decorator import decorator
@@ -284,7 +284,7 @@ class Module(models.Model):
         ('OEEL-1', 'Odoo Enterprise Edition License v1.0'),
         ('OPL-1', 'Odoo Proprietary License v1.0'),
         ('Other proprietary', 'Other Proprietary')
-    ], string='License', default='LGPL-3', readonly=True)
+    ], string='License', default='AGPL-3', readonly=True)
     menus_by_module = fields.Text(string='Menus', compute='_get_views', store=True)
     reports_by_module = fields.Text(string='Reports', compute='_get_views', store=True)
     views_by_module = fields.Text(string='Views', compute='_get_views', store=True)

@@ -253,7 +253,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_sale.website_planner
 msgid ""
 "<span class=\"fa fa-lightbulb-o fa-2x\"/>\n"
-"                                Everything is editable in your Odoo website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page."
+"                                Everything is editable in  your CubicERP website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page."
 msgstr ""
 "<span class=\"fa fa-lightbulb-o fa-2x\"/>\n"
 "                                Tout peut être modifié sur votre site Odoo. Éditez n'importe quel titre, intitulé de bouton ou de champ. Appuyez simplement sur *Éditer* en haut à droit pour commencer la modification de la page."

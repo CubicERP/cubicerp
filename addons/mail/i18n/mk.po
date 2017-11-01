@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * mail
 #
@@ -6,7 +6,7 @@
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-07-23 09:04+0000\n"
@@ -2031,11 +2031,11 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_base_config_settings_alias_domain
 msgid ""
-"If you have setup a catch-all email domain redirected to the Odoo server, "
+"If you have setup a catch-all email domain redirected to the CubicERP server, "
 "enter the domain name here."
 msgstr ""
 "Ако сте подесиле домен што ќе ги прима сите е-маил пораки пренасочен кон "
-"Odoo серверот, внесете го тука името на доменот."
+"CubicERP серверот, внесете го тука името на доменот."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141
@@ -3089,7 +3089,7 @@ msgstr "Број на непрочитани пораки"
 #. module: mail
 #: model:ir.actions.act_window,help:mail.action_contacts
 msgid ""
-"Odoo helps you easily track all activities related to\n"
+"CubicERP helps you easily track all activities related to\n"
 "            a customer: discussions, history of business opportunities,\n"
 "            documents, etc."
 msgstr ""
@@ -3098,8 +3098,8 @@ msgstr ""
 #. openerp-web
 #: code:addons/mail/static/src/xml/client_action.xml:11
 #, python-format
-msgid "Odoo needs your permission to"
-msgstr "На Odoo му е потребна ваша дозвола за"
+msgid "CubicERP needs your permission to"
+msgstr "На CubicERP му е потребна ваша дозвола за"
 
 #. module: mail
 #. openerp-web
@@ -3940,11 +3940,11 @@ msgstr ""
 #: model:ir.model.fields,help:mail.field_mail_channel_alias_model_id
 #: model:ir.model.fields,help:mail.field_res_users_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming "
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Моделот (Тип на Odoo Документ) со кој овој алијас кореспондира. Секој "
+"Моделот (Тип на CubicERP Документ) со кој овој алијас кореспондира. Секој "
 "дојдовен е-маил што не одговара на постоечки запис ќе предизвика креирање на "
 "нов запис од овој модел (пр. Проектна Задача)"
 

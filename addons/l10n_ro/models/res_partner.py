@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 # @author -  Fekete Mihai <feketemihai@gmail.com>
 # Copyright (C) 2015 Forest and Biomass Services Romania (http://www.forbiom.eu).

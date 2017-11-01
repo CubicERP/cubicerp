@@ -92,8 +92,8 @@
 
     <record id="note_9" model="note.note">
       <field name="memo"><![CDATA[<b>Read those books</b>
-      <br/><br/>* Odoo: a modern approach to integrated business management
-      <br/>* Odoo for Retail and Industrial Management
+      <br/><br/>* Cubic ERP: a modern approach to integrated business management
+      <br/>* Cubic ERP for Retail and Industrial Management
       ]]>
       </field>
       <field name="user_id" ref="base.user_demo"/>
@@ -101,9 +101,9 @@
     </record>
 
     <record id="note_12" model="note.note">
-      <field name="memo"><![CDATA[<b>Read some documentation about Odoo before diving into the code</b>
-      <br/><br/>* Odoo: a modern approach to integrated business management
-      <br/>* Odoo for Retail and Industrial Management
+      <field name="memo"><![CDATA[<b>Read some documentation about Cubic ERP before diving into the code</b>
+      <br/><br/>* Cubic ERP: a modern approach to integrated business management
+      <br/>* Cubic ERP for Retail and Industrial Management
       ]]>
       </field>
       <field name="color">7</field>

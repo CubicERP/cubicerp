@@ -1462,7 +1462,7 @@ for editing and merging PO/POT files.
 
 .. exercise:: Translate a module
 
-   Choose a second language for your Odoo installation. Translate your
+   Choose a second language for  your CubicERP installation. Translate your
    module using the facilities provided by Odoo.
 
    .. only:: solutions

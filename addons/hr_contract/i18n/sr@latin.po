@@ -1,12 +1,12 @@
-# #-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_contract
 #
 # Translators:
 # Nemanja Dragovic <nemanjadragovic94@gmail.com>, 2015
-# #-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#
-# Translation of Odoo Server.
+# #-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * hr_contract
 #
@@ -14,7 +14,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2015-09-19 08:21+0000\n"
@@ -25,10 +25,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -37,9 +37,9 @@ msgstr ""
 #, fuzzy
 msgid "Action Rules"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pravila akcije\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Pravila Akcije"
 
 #. module: hr_contract
@@ -47,9 +47,9 @@ msgstr ""
 #, fuzzy
 msgid "Advantages"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Bonusi\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Prednosti"
 
 #. module: hr_contract
@@ -73,9 +73,9 @@ msgstr "Vozilo firme"
 #, fuzzy
 msgid "Contract Reference"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Broj ugovora\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Reference ugovora"
 
 #. module: hr_contract
@@ -95,9 +95,9 @@ msgstr "Tip ugovora"
 #, fuzzy
 msgid "Contract Types"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Tipovi ugovora\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Tip ugovora"
 
 #. module: hr_contract
@@ -140,9 +140,9 @@ msgstr "Kreirao"
 #, fuzzy
 msgid "Created on"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Kreiran dana\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Kreiran"
 
 #. module: hr_contract
@@ -162,9 +162,9 @@ msgstr "Trenutni zaposleni"
 #, fuzzy
 msgid "Department"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Sektor\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Odeljenje"
 
 #. module: hr_contract
@@ -185,9 +185,9 @@ msgstr "Trajanje"
 #, fuzzy
 msgid "Employee"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Zaposleni\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Zapošljeni"
 
 #. module: hr_contract
@@ -201,9 +201,9 @@ msgstr "Otvoreni ugovori"
 #, fuzzy
 msgid "End Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum isteka\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Završni Datum"
 
 #. module: hr_contract
@@ -268,9 +268,9 @@ msgstr "Je menadžer"
 #, fuzzy
 msgid "Job"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Radno mjesto\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Posao"
 
 #. module: hr_contract
@@ -278,9 +278,9 @@ msgstr ""
 #, fuzzy
 msgid "Job Title"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Radno mjesto\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Naziv posla"
 
 #. module: hr_contract
@@ -316,9 +316,9 @@ msgstr "Ljekarski pregled"
 #, fuzzy
 msgid "Medical Examination Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum ljekarskog pregleda\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum medicinskog pregleda"
 
 #. module: hr_contract
@@ -332,9 +332,9 @@ msgstr "Novo"
 #, fuzzy
 msgid "Notes"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Bilješke\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Beleške"
 
 #. module: hr_contract
@@ -342,9 +342,9 @@ msgstr ""
 #, fuzzy
 msgid "Number of Children"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Broj djece\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Broj dece"
 
 #. module: hr_contract
@@ -410,9 +410,9 @@ msgstr "Za obnovu"
 #, fuzzy
 msgid "Trial End Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum završetka probnog rada\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum završetka probe"
 
 #. module: hr_contract
@@ -425,9 +425,9 @@ msgstr "Trajanje probnog rada"
 #, fuzzy
 msgid "Trial Start Date"
 msgstr ""
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum početka probnog rada\n"
-"#-#-#-#-#  sr@latin.po (Odoo 9.0)  #-#-#-#-#\n"
+"#-#-#-#-#  sr@latin.po (CubicERP 9.0)  #-#-#-#-#\n"
 "Datum početka Probnog Perioda"
 
 #. module: hr_contract

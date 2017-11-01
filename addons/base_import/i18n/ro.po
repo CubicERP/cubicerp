@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * base_import
 # 
@@ -9,7 +9,7 @@
 # Cozmin Candea <office@terrabit.ro>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
@@ -277,12 +277,12 @@ msgstr "ID"
 #, python-format
 msgid ""
 "If the file contains\n"
-"                the column names, Odoo can try auto-detecting the\n"
+"                the column names, CubicERP can try auto-detecting the\n"
 "                field corresponding to the column. This makes imports\n"
 "                simpler especially when the file has many columns."
 msgstr ""
 "Daca fisierul contine\n"
-"numele coloanelor, Odoo poate incerca sa detecteze automat\n"
+"numele coloanelor, CubicERP poate incerca sa detecteze automat\n"
 "campul corespunzator coloanei. Astfel, importurile sunt\n"
 "mai usor de efectuat, mai ales atunci cand fisierul are multe coloane."
 

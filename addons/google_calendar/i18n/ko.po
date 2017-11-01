@@ -1,11 +1,11 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * google_calendar
 #
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:07+0000\n"
 "PO-Revision-Date: 2016-01-25 08:56+0000\n"
@@ -239,9 +239,9 @@ msgstr ""
 #: model:ir.model.fields,help:google_calendar.field_res_users_google_calendar_cal_id
 msgid ""
 "Last Calendar ID who has been synchronized. If it is changed, we remove all "
-"links between GoogleID and Odoo Google Internal ID"
+"links between GoogleID and CubicERP Google Internal ID"
 msgstr ""
-"동기화 된 마지막 달력 ID. 변경되는 경우, 구글 ID와 Odoo 구글 내부 ID 사이의 "
+"동기화 된 마지막 달력 ID. 변경되는 경우, 구글 ID와 CubicERP 구글 내부 ID 사이의 "
 "모든 연결을 제거합니다."
 
 #. module: google_calendar
@@ -256,13 +256,13 @@ msgstr "최근 동기 날짜"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_attendee_oe_synchro_date
-msgid "Odoo Synchro Date"
-msgstr "Odoo 동기 날짜"
+msgid "CubicERP Synchro Date"
+msgstr "CubicERP 동기 날짜"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_event_oe_update_date
-msgid "Odoo Update Date"
-msgstr "Odoo 갱신 날짜"
+msgid "CubicERP Update Date"
+msgstr "CubicERP 갱신 날짜"
 
 #. module: google_calendar
 #: model:ir.ui.view,arch_db:google_calendar.view_calendar_config_settings

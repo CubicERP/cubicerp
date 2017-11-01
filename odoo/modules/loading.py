@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 """ Modules (also called addons) management.
 
@@ -21,7 +21,7 @@ import odoo.tools as tools
 from odoo import api, SUPERUSER_ID
 from odoo.modules.module import adapt_version, initialize_sys_path, load_openerp_module
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.loading')
 _test_logger = logging.getLogger('odoo.tests')
 
 

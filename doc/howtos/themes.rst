@@ -61,7 +61,7 @@ Odoo default theme structure
   Odoo comes with a default theme structure.
   It is a very basic “theme” that provides minimal structure and layout. When you create a new theme, you are actually extending this.
   Indeed it’s always enabled in your setup and it acts exactly like the CMS’s base structure we mentioned above, except that you don’t have to create or maintain it.
-  It will upgrade automatically within your Odoo installation and, since it is included in the Website Builder module, everything is smoothly integrated by default.
+  It will upgrade automatically within  your CubicERP installation and, since it is included in the Website Builder module, everything is smoothly integrated by default.
 
   As a result, you are totally free to focus on design while this structure does the job of providing integrations and functionality.
 
@@ -269,7 +269,7 @@ The ``data`` property will contain the xml files list. Right now it’s empty, b
 Installing your theme
 ---------------------
 
-To install your theme, you just place your theme folder inside addons in your Odoo installation.
+To install your theme, you just place your theme folder inside addons in  your CubicERP installation.
 
 After that, navigate to the Settings page, look for your theme and click on the install button.
 

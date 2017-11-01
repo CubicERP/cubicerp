@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * crm
 #
@@ -6,7 +6,7 @@
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: CubicERP 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-18 14:06+0000\n"
 "PO-Revision-Date: 2016-02-21 12:42+0000\n"
@@ -52,7 +52,7 @@ msgid ""
 "p><br>\n"
 "                            <p dir=\"ltr\" style=\"font-size:15px;margin-"
 "top:0pt;margin-bottom:0pt;\">\n"
-"                                <span>Your Odoo CRM application is up and "
+"                                <span> Your CubicERP CRM application is up and "
 "running</span></p><br>\n"
 "                            <p dir=\"ltr\" style=\"margin-top:0pt;margin-"
 "bottom:8pt;\">\n"
@@ -150,7 +150,7 @@ msgid ""
 "\"text-decoration:underline;\">\n"
 "                                help@odoo.com</span></a> if you have any "
 "question. You can also discover \n"
-"                                how to get the best out of Odoo CRM with our "
+"                                how to get the best out of CubicERP CRM with our "
 "</span>\n"
 "                                <a href=\"https://www.odoo.com/documentation/"
 "user/9.0/crm.html\">\n"
@@ -164,14 +164,14 @@ msgid ""
 "                            </p>\n"
 "                            <br>\n"
 "                            <p dir=\"ltr\" style=\"font-size:13px;margin-"
-"top:0pt;margin-bottom:8pt;\"><span>Enjoy your Odoo experience,</span></p>\n"
+"top:0pt;margin-bottom:8pt;\"><span>Enjoy  your CubicERP experience,</span></p>\n"
 "                        </td>\n"
 "                    </tr>\n"
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-"
 "bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The Odoo Team<br/>PS: People love Odoo, "
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, "
 "check </span><a href=\"https://twitter.com/odoo/favorites\"><span style="
 "\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
@@ -659,17 +659,17 @@ msgstr "<strong>Udalosti</strong>"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"<strong>Every business is different.</strong> Odoo allows to\n"
+"<strong>Every business is different.</strong> CubicERP allows to\n"
 "                        customize every application and it's usually a good\n"
 "                        advice to customize screens to fit your sales "
 "process.\n"
-"                        <strong>Customizations are done by Odoo experts.</"
+"                        <strong>Customizations are done by CubicERP experts.</"
 "strong>"
 msgstr ""
-"<strong>Každý podnik je iný.</strong> Odoo umožňuje\n"
+"<strong>Každý podnik je iný.</strong> CubicERP umožňuje\n"
 "prispôsobovať kaźdú aplikáciu, a väčšinou je dobré\n"
 "odporúčanie prispôsobovať obrazovky na mieru vášmu procesu predaja.\n"
-"<strong>Prispôsobenia sú vykonávané Odoo expertami.</strong>"
+"<strong>Prispôsobenia sú vykonávané CubicERP expertami.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -938,7 +938,7 @@ msgstr "Dobrá reťazová náväznosť by mala mať 5 až 7 fáz"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"A product in Odoo is something you sell or buy. It could\n"
+"A product in CubicERP is something you sell or buy. It could\n"
 "                    be a goods, consumable or services. Choose how you want "
 "to\n"
 "                    create your products:"
@@ -2115,10 +2115,10 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                          Fabien Pinckaers, Founder"
 msgstr ""
-"Za Odoo Tím,<br/>\n"
+"Za CubicERP Tím,<br/>\n"
 "Fabien Pinckaers, zakladateľ"
 
 #. module: crm
@@ -2194,8 +2194,8 @@ msgstr "Spravujte partnerské viazania alebo generácie v CRM sprievodcoch."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Happy Selling!<br/>- The Odoo Team"
-msgstr "Úspešný predaj!!<br/>- Odoo Tím"
+msgid "Happy Selling!<br/>- The CubicERP Team"
+msgstr "Úspešný predaj!!<br/>- CubicERP Tím"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -3069,59 +3069,59 @@ msgstr ""
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Odoo Default"
-msgstr "Odoo predvolené"
+msgid "CubicERP Default"
+msgstr "CubicERP predvolené"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_sale_config_settings_module_website_sign
 #: model:ir.ui.view,arch_db:crm.view_sale_config_settings
-msgid "Odoo Sign"
-msgstr "Odoo znak"
+msgid "CubicERP Sign"
+msgstr "CubicERP znak"
 
 #. module: crm
 #: model:ir.actions.act_window,help:crm.crm_case_form_view_salesteams_opportunity
 msgid ""
-"Odoo helps you keep track of your sales pipeline to follow\n"
+"CubicERP helps you keep track of your sales pipeline to follow\n"
 "                    up potential sales and better forecast your future "
 "revenues."
 msgstr ""
-"Odoo vam pomáha sledovať reťazovú náväznosť predajov pre naviazanie\n"
+"CubicERP vam pomáha sledovať reťazovú náväznosť predajov pre naviazanie\n"
 "na potencionálne predaje a lepšie odhady vašich budúcich výnosov."
 
 #. module: crm
 #: model:ir.actions.act_window,help:crm.crm_lead_opportunities
 #: model:ir.actions.act_window,help:crm.crm_lead_opportunities_tree_view
 msgid ""
-"Odoo helps you keep track of your sales pipeline to follow\n"
+"CubicERP helps you keep track of your sales pipeline to follow\n"
 "                up potential sales and better forecast your future revenues."
 msgstr ""
-"Odoo vam pomáha sledovať reťazovú náväznosť predajov pre naviazanie\n"
+"CubicERP vam pomáha sledovať reťazovú náväznosť predajov pre naviazanie\n"
 "na potencionálne predaje a lepšie odhady vašich budúcich výnosov."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"Odoo is the world's only software to have a full integration of Marketing "
+"CubicERP is the world's only software to have a full integration of Marketing "
 "Apps for your sales channel: insight sales, point of sale, ecommerce."
 msgstr ""
-"Odoo je jediný svetový softvér s plne integrovanými marketingovými "
+"CubicERP je jediný svetový softvér s plne integrovanými marketingovými "
 "aplikáciami pre váš predajný kanál: náhľady predaja, miesta predaja, "
 "ecommerce."
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_sale_config_settings_generate_sales_team_alias
-msgid "Odoo will generate an email alias based on the sales team name"
-msgstr "Odoo vygeneruje email alias na základe názvu predajného tímu"
+msgid "CubicERP will generate an email alias based on the sales team name"
+msgstr "CubicERP vygeneruje email alias na základe názvu predajného tímu"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"Odoo will help you create polished, professional quotations and contracts in "
+"CubicERP will help you create polished, professional quotations and contracts in "
 "minutes.\n"
 "                        Tell us how you sell and we will tell you what\n"
 "                        configuration will best fit your quotation process."
 msgstr ""
-"Odoo vám pomôže vytvoriť upravené, profesionálne ponuky a zmluvy počas "
+"CubicERP vám pomôže vytvoriť upravené, profesionálne ponuky a zmluvy počas "
 "niekoľkých minút.\n"
 "Povedzte nám čo predávate a my vám povieme, aká\n"
 "konfigurácia bude najlepšie zodpovedať váśmu procesu cenových ponúk."
@@ -3757,14 +3757,14 @@ msgid ""
 "Select the list of fields used to search for\n"
 "                            duplicated records. If you select several "
 "fields,\n"
-"                            Odoo will propose you to merge only those "
+"                            CubicERP will propose you to merge only those "
 "having\n"
 "                            all these fields in common. (not one of the "
 "fields)."
 msgstr ""
 "Vyberte zoznam polí použitých na vyhľadávanie\n"
 "duplicitných záznamov. Ak vyberiete niekoľko polí,\n"
-"Odoo vám navrhne zlúčiť iba tie, ktoré majú\n"
+"CubicERP vám navrhne zlúčiť iba tie, ktoré majú\n"
 "všetkých tieto polia spoločné. (nie jedno z polí)."
 
 #. module: crm
@@ -3834,12 +3834,12 @@ msgid ""
 "Setting up your sales funnel is just the first step. To achieve a\n"
 "                      significant boost, we will help you get the most out "
 "of\n"
-"                      Odoo CRM to transform how your salespeople work.\n"
+"                      CubicERP CRM to transform how your salespeople work.\n"
 "                      That's the purpose of this guide."
 msgstr ""
 "Nastavenie predajného lieviku je len prvý krok. K dosiahnutiu\n"
 "významného oživenia, pomôžeme vám získať čo najviac z\n"
-"Odoo CRM pre transformovanie práce vašich predajcov.\n"
+"CubicERP CRM pre transformovanie práce vašich predajcov.\n"
 "To je cieľom tohto sprievodcu."
 
 #. module: crm
@@ -4079,8 +4079,8 @@ msgstr "Šablóny emailov"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "Templates of quotations (use Odoo Online Proposals for this)"
-msgstr "Šablóny cenových ponúk (na toto použite Odoo online návrhy)"
+msgid "Templates of quotations (use CubicERP Online Proposals for this)"
+msgstr "Šablóny cenových ponúk (na toto použite CubicERP online návrhy)"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_id
@@ -4110,11 +4110,11 @@ msgstr "Prvá fáza je zvyčajne \"Nové\" a posledná je \"Vyhrané\""
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_model_id
 msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"The model (CubicERP Document Kind) to which this alias corresponds. Any incoming "
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Model (Odoo druh dokumentu), ktorému odpovedá toto alias. Každý "
+"Model (CubicERP druh dokumentu), ktorému odpovedá toto alias. Každý "
 "prichádzajúci email ktorý neodpovie na existujúci záznam spôsobí vytvorenie "
 "nového záznamu tohto modelu (napr úlohy projektu)"
 
@@ -4183,7 +4183,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"There are several ways for your company to generate leads with Odoo CRM. \n"
+"There are several ways for your company to generate leads with CubicERP CRM. \n"
 "                        One of them is using your company's generic email "
 "address as a trigger \n"
 "                        to create a new lead in the system. In Odoo, each "
@@ -4197,7 +4197,7 @@ msgid ""
 "                        contacts you will automatically create a new "
 "opportunity into the sales team.\n"
 "\n"
-"                        That's the easiest way to integrate Odoo with third "
+"                        That's the easiest way to integrate CubicERP with third "
 "party apps."
 msgstr ""
 
@@ -4514,14 +4514,14 @@ msgstr "Môžme automatizovať kroky vo vašom pracovnom procese, napríklad: "
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"
 "                                        data."
 msgstr ""
 "Môžeme zvládnuť celý proces importu\n"
-"pre vás: jednoducho pošlite vášmu Odoo projektovému\n"
+"pre vás: jednoducho pošlite vášmu CubicERP projektovému\n"
 "manažérovi CSV súbor ktorý obsahuje všetky vaše\n"
 "dáta."
 
@@ -4529,14 +4529,14 @@ msgstr ""
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo "
+"                                        for you: simply send  your CubicERP "
 "project\n"
 "                                        manager a CSV file containing all "
 "your\n"
 "                                        products."
 msgstr ""
 "Môžeme zvládnuť celý proces importu\n"
-"pre vás: jednoducho pošlite vášmu Odoo projektovému\n"
+"pre vás: jednoducho pošlite vášmu CubicERP projektovému\n"
 "manažérovi CSV súbor ktorý obsahuje všetky vaše\n"
 "produkty."
 
@@ -4552,13 +4552,13 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"We designed Odoo to help you grow your business. Odoo CRM\n"
+"We designed CubicERP to help you grow your business. CubicERP CRM\n"
 "                      is not just a tool, we want it to have a major impact "
 "on your\n"
 "                      sales performance. That's our mission, and we are "
 "serious about it."
 msgstr ""
-"Navrhli sme Odoo aby vám pomohlo rozvíjať vaše podnikanie. Odoo CRM\n"
+"Navrhli sme CubicERP aby vám pomohlo rozvíjať vaše podnikanie. CubicERP CRM\n"
 "nie je len nástroj, chceme, aby malo zásadný vplyv na vaše\n"
 "predajné výsledky. To je naša úloha, a my ju berieme vážne."
 
@@ -4766,7 +4766,7 @@ msgstr "Vaše LinkedIn alebo stránky sociálnych médií"
 
 #. module: crm
 #: model:mail.template,subject:crm.mail_template_data_module_install_crm
-msgid "Your Odoo CRM application is running smoothly."
+msgid " Your CubicERP CRM application is running smoothly."
 msgstr ""
 
 #. module: crm
@@ -4991,12 +4991,12 @@ msgstr "s vašou prácou vyššie"
 #~ msgid ""
 #~ "Incoming email create leads automatically when a new prospect contacts "
 #~ "you.\n"
-#~ "                        That's the easiest way to integrate Odoo with "
+#~ "                        That's the easiest way to integrate CubicERP with "
 #~ "third party apps."
 #~ msgstr ""
 #~ "Prichádzajúce emaily vytvoria automaticky iniciatívy, keď vás kontaktuje "
 #~ "nový záujemca.\n"
-#~ "To je najjednoduch spôsob ako integrovať Odoo s aplikáciami tretích strán."
+#~ "To je najjednoduch spôsob ako integrovať CubicERP s aplikáciami tretích strán."
 
 #~ msgid "Is Follower"
 #~ msgstr "Je odberateľ"

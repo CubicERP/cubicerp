@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 
 """ Models registries.
 
@@ -20,7 +20,7 @@ from odoo.tools import (assertion_report, config, existing_tables,
                         topological_sort, OrderedSet)
 from odoo.tools.lru import LRU
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.modules.registry')
 
 
 class Registry(Mapping):

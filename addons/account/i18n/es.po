@@ -1,4 +1,4 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
 # * account
 # 
@@ -56,7 +56,7 @@
 # Lina Maria Avendaño Carvajal <lina8823@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: CubicERP Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
@@ -666,7 +666,7 @@ msgstr "<span>Ver</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>-The Odoo Team</strong>"
+msgid "<strong>-The CubicERP Team</strong>"
 msgstr "<strong>-El equipo de Odoo</strong>"
 
 #. module: account
@@ -966,10 +966,10 @@ msgstr "<strong>Conciliar la cuenta bancaria</strong>"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Odoo should automatically match the bank statement with the previously recorded check transaction."
+"                                        In this case, CubicERP should automatically match the bank statement with the previously recorded check transaction."
 msgstr ""
 "<strong>Conciliar con una transaccón existente</strong><br/>\n"
-"En este caso, Odoo debería hacer coincidir automáticamente el extracto bancario con la transacción marcada, guardada con anterioridad."
+"En este caso, CubicERP debería hacer coincidir automáticamente el extracto bancario con la transacción marcada, guardada con anterioridad."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -1202,11 +1202,11 @@ msgstr "Una lista de las condiciones de pago de sus clientes y proveedores."
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"A product in Odoo is something you sell or buy \n"
+"A product in CubicERP is something you sell or buy \n"
 "                        whether or not it is goods, consumables, or services.\n"
 "                        Choose how you want to create your products:"
 msgstr ""
-"Un producto en Odoo es algo que vendes o compras, sean cosas, consumibles o "
+"Un producto en CubicERP es algo que vendes o compras, sean cosas, consumibles o "
 "servicios. Elija cómo quiere crear sus productos:"
 
 #. module: account
@@ -1823,13 +1823,13 @@ msgstr "Saldos vencidos de empresa"
 #: model:ir.ui.view,arch_db:account.account_aged_balance_view
 msgid ""
 "Aged Partner Balance is a more detailed report of your receivables by "
-"intervals. Odoo calculates a table of credit balance by start Date. So if "
-"you request an interval of 30 days Odoo generates an analysis of creditors "
+"intervals. CubicERP calculates a table of credit balance by start Date. So if "
+"you request an interval of 30 days CubicERP generates an analysis of creditors "
 "for the past month, past two months, and so on."
 msgstr ""
 "Saldos vencidos de empresa es un informe más detallado de sus cuentas por "
-"cobrar por intervalos. Odoo calcula una tabla de saldo acreedor por fecha de"
-" inicio. Así, si usted solicita un intervalo de 30 días, Odoo genera un "
+"cobrar por intervalos. CubicERP calcula una tabla de saldo acreedor por fecha de"
+" inicio. Así, si usted solicita un intervalo de 30 días, CubicERP genera un "
 "análisis de los acreedores durante el último mes, los últimos dos meses, y "
 "así sucesivamente."
 
@@ -4600,7 +4600,7 @@ msgstr "Caja final"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Enjoy your Odoo experience,"
+msgid "Enjoy  your CubicERP experience,"
 msgstr "Disfrute de su experiencia Odoo,"
 
 #. module: account
@@ -4947,7 +4947,7 @@ msgstr "Para el porcentaje, introduzca un ratio entre 0-100."
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"For the Odoo Team,<br/>\n"
+"For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
 "De parte del equipo Odoo,<br/>\n"
@@ -5441,7 +5441,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send customer statements from Odoo, you must:"
-msgstr "Si quiere enviar extractos de clientes desde Odoo debe:"
+msgstr "Si quiere enviar extractos de clientes desde CubicERP debe:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -6021,13 +6021,13 @@ msgid ""
 "It's common practice to change your accounting software \n"
 "                            at the end of a fiscal year. This allows you to have less \n"
 "                            data to import and balances to set. If you plan to do so, \n"
-"                            we recommend you start using Odoo for invoicing and payments \n"
+"                            we recommend you start using CubicERP for invoicing and payments \n"
 "                            now, and then move all other accounting transactions at a later time."
 msgstr ""
 "Es una práctica común cambiar de programa de contabilidad\n"
 "al final del año fiscal. Esto le permite tener que importar\n"
 "menos datos y configurar menos balances. Si planea hacerlo así, \n"
-"le recomendamos empezar a utilizar Odoo para crear facturas y pagos\n"
+"le recomendamos empezar a utilizar CubicERP para crear facturas y pagos\n"
 "para, posteriormente, traspasar todos los movimientos contables."
 
 #. module: account
@@ -6590,7 +6590,7 @@ msgstr "Menos pagos"
 #: code:addons/account/static/src/xml/account_reconciliation.xml:24
 #, python-format
 msgid "Let odoo try to reconcile entries for the user"
-msgstr "Dejar que Odoo intente conciliar los asientos para el usuario"
+msgstr "Dejar que CubicERP intente conciliar los asientos para el usuario"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -7275,66 +7275,66 @@ msgstr "Octubre"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "Odoo Accounting has many free extra-features:"
+msgid "CubicERP Accounting has many free extra-features:"
 msgstr ""
-"La contabilidad en Odoo tienen muchas características extra gratuítas:"
+"La contabilidad en CubicERP tienen muchas características extra gratuítas:"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr ""
-"Odoo le permite conciliar una línea de un extracto directamente con\n"
+"CubicERP le permite conciliar una línea de un extracto directamente con\n"
 "la(s) factura(s) de venta o compra relacionadas."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid ""
-"Odoo allows you to reconcile a statement line directly with\n"
+"CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr ""
-"Odoo le permite conciliar una línea de un extracto directamente con \n"
+"CubicERP le permite conciliar una línea de un extracto directamente con \n"
 "las facturas de venta o compra relacionadas."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
 msgid ""
-"Odoo automatically creates one journal entry per accounting\n"
+"CubicERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/mainly\n"
 "                for miscellaneous operations."
 msgstr ""
-"Odoo crea automáticamente un asiento contable por cada\n"
+"CubicERP crea automáticamente un asiento contable por cada\n"
 "documento contable: facturas, devoluciones, pagos a proveedores, extractos bancarios, \n"
 "etc. Por tanto, sólo debería introducir asientos contables principalmente para otras operaciones."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo can manage multiple companies, but we suggest to setup everything for "
+"CubicERP can manage multiple companies, but we suggest to setup everything for "
 "your first company before configuring the other ones."
 msgstr ""
-"Odoo puede administrar múltiples compañías, aunque le sugerimos configurar "
+"CubicERP puede administrar múltiples compañías, aunque le sugerimos configurar "
 "completamente su primera compañía antes de continuar con el resto."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo has already preconfigured a few taxes according to your "
+"CubicERP has already preconfigured a few taxes according to your "
 "country.<br/>Simply review them and check if you need more."
 msgstr ""
-"Odoo ha preconfigurado algunas tasas de acuerdo con su país.<br/>Revíselas y"
+"CubicERP ha preconfigurado algunas tasas de acuerdo con su país.<br/>Revíselas y"
 " compruebe si necesita alguna más."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"Odoo should do most of the reconciliation work automatically, so you'll only"
+"CubicERP should do most of the reconciliation work automatically, so you'll only"
 " need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr ""
-"Odoo debería realizar automáticamente la mayoría de las conciliaciones, por "
+"CubicERP debería realizar automáticamente la mayoría de las conciliaciones, por "
 "lo que sólo tendrá que revisarlas cuando el botón <strong>'Conciliar "
 "Items'</strong> aparezca en el apartado de Facturas de proveedor."
 
@@ -7346,7 +7346,7 @@ msgid ""
 "                invoice by email and he can pay online and/or import it\n"
 "                in his own system."
 msgstr ""
-"La facturación electrónica de Odoo le permite facilitar y agilizar \n"
+"La facturación electrónica de CubicERP le permite facilitar y agilizar \n"
 "el conjunto de pagos de clientes. Su cliente recibe la \n"
 "factura por correo electrónico y puede pagar online y/o importarla\n"
 "a su propio sistema."
@@ -8602,10 +8602,10 @@ msgstr "Registrar pagos en múltiples facturas"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Odoo without it by:"
+"                        but you can start using CubicERP without it by:"
 msgstr ""
 "Registrar facturas y pagos pendientes puede suponer una enorme tarea,\n"
-"pero puede empezar a utilizar Odoo sin necesidad de ello:"
+"pero puede empezar a utilizar CubicERP sin necesidad de ello:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -10486,7 +10486,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"This guide will help you get started with Odoo Accounting.\n"
+"This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
 "Esta guía le ayudará a empezar con la contabilidad en Odoo. Una vez termine "
@@ -10682,11 +10682,11 @@ msgstr "A pagar"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"To manage the tax applied when invoicing a Company, Odoo uses the concept of"
+"To manage the tax applied when invoicing a Company, CubicERP uses the concept of"
 " Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr ""
-"Para administrar las tasas aplicadas al facturar a una compañía, Odoo "
+"Para administrar las tasas aplicadas al facturar a una compañía, CubicERP "
 "utiliza el concepto de Posición fiscal: automáticamente se establece la tasa"
 " y/o cuenta adecuadas en función del estado o país del cliente."
 
@@ -11351,25 +11351,25 @@ msgstr "Avisos"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        data."
 msgstr ""
 "Podemos realizar el proceso de importación por usted:\n"
 "simplemente mande un archivo CSV a su project manager \n"
-"en Odoo con todos sus datos."
+"en CubicERP con todos sus datos."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "We can handle the whole import process\n"
-"                                        for you: simply send your Odoo project\n"
+"                                        for you: simply send  your CubicERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        products."
 msgstr ""
 "Podemos realizar el proceso de importación por usted:\n"
 "simplemente mande un archivo CSV a su project manager \n"
-"en Odoo con todos sus productos."
+"en CubicERP con todos sus productos."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner

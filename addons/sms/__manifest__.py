@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
 {
     'name': 'SMS gateway',
     'category': 'Tools',
@@ -16,5 +16,5 @@ The service is provided by the In App Purchase Odoo platform.
         'views/res_partner_views.xml',
     ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
 }

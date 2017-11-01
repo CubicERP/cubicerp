@@ -2606,7 +2606,7 @@ msgstr "Du må velge minst en oppføring"
 #. openerp-web
 #: code:addons/web/static/src/js/framework/crash_manager.js:69
 #, python-format
-msgid "Your Odoo session expired. Please refresh the current web page."
+msgid " Your CubicERP session expired. Please refresh the current web page."
 msgstr "Din Odoo sesjon har blitt tidsavbrutt. Vennligst oppdater nettsiden."
 
 #. module: web

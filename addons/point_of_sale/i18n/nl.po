@@ -327,6 +327,7 @@ msgstr ""
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_receipt_header
 msgid "A short text that will be inserted as a header in the printed receipt."
 msgstr ""
+"Een korte tekst die ingevoegd wordt als hoofding op het afgedrukte ticket."
 
 #. module: point_of_sale
 #. openerp-web
@@ -846,7 +847,7 @@ msgstr "Kies uit enkele fiscale posities tijdens het verwerken van een order"
 #: code:addons/point_of_sale/static/src/xml/pos.xml:352
 #, python-format
 msgid "City"
-msgstr "Gemeente"
+msgstr "Plaats"
 
 #. module: point_of_sale
 #: model:ir.actions.act_window,help:point_of_sale.product_product_action
@@ -1403,6 +1404,7 @@ msgstr "Lege partij / lotnummer"
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_iface_scan_via_proxy
 msgid "Enable barcode scanning with a remotely connected barcode scanner."
 msgstr ""
+"Schakel barcodes scannen met een extern verbonden barcode scanner toe."
 
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config_iface_electronic_scale
@@ -1975,7 +1977,7 @@ msgstr "Loyaliteitprogramma"
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.pos_config_view_form
 msgid "Loyalty program to use for this point of sale."
-msgstr ""
+msgstr "Het loyaliteitsprogramma gebruikt door deze kassa."
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.view_pos_payment
@@ -2588,7 +2590,7 @@ msgstr "Telefoon:"
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_order_picking_id
 msgid "Picking"
-msgstr "Verzamelen"
+msgstr "Picking"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_session_picking_count
@@ -3138,7 +3140,7 @@ msgstr "Verkoper"
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.pos_config_view_form
 msgid "Save"
-msgstr "Bewaar"
+msgstr "Opslaan"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.pos_config_view_form

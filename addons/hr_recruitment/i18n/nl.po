@@ -1490,6 +1490,7 @@ msgstr ""
 #: model:ir.model.fields,help:hr_recruitment.field_hr_job_hr_responsible_id
 msgid "Person responsible of validating the employee's contracts."
 msgstr ""
+"Persoon verantwoordelijk voor validatie van de werknemer zijn contracten."
 
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_applicant_partner_phone
@@ -1955,7 +1956,7 @@ msgstr ""
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_applicant_email_cc
 msgid "Watchers Emails"
-msgstr "Emails toeschouwers"
+msgstr "E-mails toeschouwers"
 
 #. module: hr_recruitment
 #: model:mail.template,subject:hr_recruitment.email_template_data_applicant_employee

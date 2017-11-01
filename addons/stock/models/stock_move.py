@@ -517,7 +517,7 @@ class StockMove(models.Model):
     @api.model
     def _prepare_merge_moves_distinct_fields(self):
         return [
-            'product_id', 'price_unit', 'product_packaging',
+            'product_id', 'price_unit', 'product_packaging', 'procure_method',
             'product_uom', 'restrict_partner_id', 'scrapped', 'origin_returned_move_id'
         ]
 
@@ -525,8 +525,8 @@ class StockMove(models.Model):
     def _prepare_merge_move_sort_method(self, move):
         move.ensure_one()
         return [
-            move.product_id.id, move.price_unit, move.product_packaging.id, move.product_uom.id,
-            move.restrict_partner_id.id, move.scrapped, move.origin_returned_move_id.id
+            move.product_id.id, move.price_unit, move.product_packaging.id, move.procure_method, 
+            move.product_uom.id, move.restrict_partner_id.id, move.scrapped, move.origin_returned_move_id.id
         ]
 
     def _merge_moves(self):
@@ -1025,6 +1025,13 @@ class StockMove(models.Model):
                 # If you were already putting stock.move.lots on the next one in the work order, transfer those to the new move
                 move.move_line_ids.filtered(lambda x: x.qty_done == 0.0).write({'move_id': new_move})
             move.move_line_ids._action_done()
+        # Check the consistency of the result packages; there should be an unique location across
+        # the contained quants.
+        for result_package in moves_todo\
+                .mapped('move_line_ids.result_package_id')\
+                .filtered(lambda p: p.quant_ids and len(p.quant_ids) > 1):
+            if len(result_package.quant_ids.mapped('location_id')) > 1:
+                raise UserError(_('You should not put the contents of a package in different locations.'))
         picking = self and self[0].picking_id or False
         moves_todo.write({'state': 'done', 'date': fields.Datetime.now()})
         moves_todo.mapped('move_dest_ids')._action_assign()

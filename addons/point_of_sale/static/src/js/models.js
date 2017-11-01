@@ -338,7 +338,7 @@ exports.PosModel = Backbone.Model.extend({
         },
     },{
         model:  'pos.category',
-        fields: ['id','name','parent_id','child_id','image'],
+        fields: ['id', 'name', 'parent_id', 'child_id'],
         domain: null,
         loaded: function(self, categories){
             self.db.add_categories(categories);
@@ -1393,6 +1393,7 @@ exports.Orderline = Backbone.Model.extend({
         // just like in sale.order changing the quantity will recompute the unit price
         if(! keep_price){
             this.set_unit_price(this.product.get_price(this.order.pricelist, this.get_quantity()));
+            this.order.fix_tax_included_price(this);
         }
     },
     // return the quantity of product
@@ -1729,7 +1730,7 @@ exports.Orderline = Backbone.Model.extend({
         var sign = 1;
         if(base < 0){
             base = -base;
-            var sign = -1;
+            sign = -1;
         }
 
         var incl_fixed_amount = 0.0;
@@ -1776,8 +1777,8 @@ exports.Orderline = Backbone.Model.extend({
         });
         return {
             taxes: taxes_vals,
-            total_excluded: round_pr(total_excluded, currency_rounding_bak),
-            total_included: round_pr(total_included, currency_rounding_bak)
+            total_excluded: sign * round_pr(total_excluded, currency_rounding_bak),
+            total_included: sign * round_pr(total_included, currency_rounding_bak)
         };
     },
     get_all_prices: function(){
@@ -1795,6 +1796,7 @@ exports.Orderline = Backbone.Model.extend({
                 return t.id === el;
             }));
         });
+        product_taxes = _.map(product_taxes, this._map_tax_fiscal_position.bind(this));
 
         var all_taxes = this.compute_all(product_taxes, price_unit, this.get_quantity(), this.pos.currency.rounding);
         _(all_taxes.taxes).each(function(tax) {
@@ -2294,6 +2296,7 @@ exports.Order = Backbone.Model.extend({
         this.pricelist = pricelist;
         _.each(this.get_orderlines(), function (line) {
             line.set_unit_price(line.product.get_price(self.pricelist, line.get_quantity()));
+            self.fix_tax_included_price(line);
         });
         this.trigger('change');
     },

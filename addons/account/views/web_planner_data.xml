@@ -29,13 +29,6 @@
                         <li>Your outstanding invoices, payments, and undeposited funds.</li>
                     </ul>
                     <p>Enjoy your Cubic ERP experience,</p>
-                    <div class="mt32">
-                        <img class="signature mb8" src="/web_planner/static/src/img/fabien_signature.png"/>
-                        <address>
-                            For the Cubic ERP Team,<br/>
-                            Fabien Pinckaers, Founder
-                        </address>
-                    </div>
                 </div>
             </t>
             <t t-call="web_planner.category">

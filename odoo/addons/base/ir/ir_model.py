@@ -13,7 +13,7 @@ from odoo.osv import expression
 from odoo.tools import pycompat
 from odoo.tools.safe_eval import safe_eval
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.base.ir.ir_model')
 
 MODULE_UNINSTALL_FLAG = '_force_unlink'
 

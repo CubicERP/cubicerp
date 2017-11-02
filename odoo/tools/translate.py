@@ -23,7 +23,7 @@ from . import config, pycompat
 from .misc import file_open, get_iso_codes, SKIPPED_ELEMENT_TYPES
 from .osutil import walksymlinks
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.tools.translate')
 
 # used to notify web client that these translations should be loaded in the UI
 WEB_TRANSLATION_COMMENT = "openerp-web"

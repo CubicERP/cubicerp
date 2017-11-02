@@ -10,7 +10,7 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.modules import get_module_path, get_module_resource
 from odoo.tools import pycompat
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger('cubicerp.addons.base.ir.ir_translation')
 
 TRANSLATION_TYPE = [
     ('field', 'Field'),                         # deprecated

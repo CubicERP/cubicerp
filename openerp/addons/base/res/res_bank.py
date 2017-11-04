@@ -115,7 +115,7 @@ class res_partner_bank(osv.osv):
     _columns = {
         'name': fields.char('Bank Account'), # to be removed in v6.2 ?
         'acc_number': fields.char('Account Number', size=64, required=True),
-        'bank': fields.many2one('res.bank', 'Bank'),
+        'bank': fields.many2one('res.bank', 'Bank', ondelete="cascade", required=True),
         'bank_bic': fields.char('Bank Identifier Code', size=16),
         'bank_name': fields.char('Bank Name'),
         'owner_name': fields.char('Account Owner Name'),

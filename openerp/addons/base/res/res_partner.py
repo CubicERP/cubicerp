@@ -343,6 +343,7 @@ class res_partner(osv.Model, format_address):
         'lang': api.model(lambda self: self.env.lang),
         'tz': api.model(lambda self: self.env.context.get('tz', False)),
         'customer': True,
+        'supplier': True,
         'category_id': _default_category,
         'color': 0,
         'is_company': False,

@@ -183,7 +183,7 @@ var AbstractWebClient = Widget.extend(mixins.ServiceProvider, {
                     delete window.onOriginError;
                 } else {
                     crash_manager.show_error({
-                        type: _t("Odoo Client Error"),
+                        type: _t("CubicERP Client Error"),
                         message: _t("Unknown CORS error"),
                         data: {debug: _t("An unknown CORS error occured. The error probably originates from a JavaScript file served from a different origin.")},
                     });
@@ -191,7 +191,7 @@ var AbstractWebClient = Widget.extend(mixins.ServiceProvider, {
             } else {
                 var traceback = error ? error.stack : '';
                 crash_manager.show_error({
-                    type: _t("Odoo Client Error"),
+                    type: _t("CubicERP Client Error"),
                     message: message,
                     data: {debug: file + ':' + line + "\n" + _t('Traceback:') + "\n" + traceback},
                 });

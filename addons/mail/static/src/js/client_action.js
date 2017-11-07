@@ -889,10 +889,10 @@ var ChatAction = Widget.extend(ControlPanelMixin, {
             def.then(function (value) {
                 if (value === 'denied') {
                     utils.send_notification(self, _t('Permission denied'),
-                        _t('Odoo will not have the permission to send native notifications on this device.'));
+                        _t('CubicERP will not have the permission to send native notifications on this device.'));
                 } else {
                     utils.send_notification(self, _t('Permission granted'),
-                        _t('Odoo has now the permission to send you native notifications on this device.'));
+                        _t('CubicERP has now the permission to send you native notifications on this device.'));
                 }
             });
         }

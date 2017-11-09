@@ -13,7 +13,6 @@ Roadmap Developers MeetUp 2018
 
 Useful Links
 ------------
-* Demo online: https://demo2018.cubicerp.com (us: demo, pw: demo)
 * Help to Users: https://cubicerp.com/help
 * New Features & Bugs: https://cubicerp.com/issues
 * Roadmap: http://cubicerp.com/roadmap

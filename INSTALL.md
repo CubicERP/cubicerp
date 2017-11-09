@@ -36,7 +36,7 @@ Para actualizar los repositorios poner los siguientes comandos:
     ## $ git pull 
     ## Para abrir la versión estable del repositorio ##
     $ git checkout trunk
-    $ git submodule foreach git checkout cubicerp
+    $ git submodule foreach git checkout trunk
     ## Limpia posibles archivos temporales
     $ git clean -d -f
     $ git submodule foreach git clean -d -f

@@ -23,16 +23,16 @@ Creación de usuario que contendrá al branch sincronizado
     
 Descarga de repositorios, preguntar el nombre se le puso a su repositorio privado (<tu_empresa>)
     
-    $ git clone https://github.com/CubicERP/src
-    $ cd src
-    ## Inicializa los submodulos para odoo y branch ##
+    $ git clone https://github.com/CubicERP/cubicerp
+    $ cd cubicerp
+    ## Inicializa los submodulos ##
     $ git submodule init
-    ## Actualiza los submodulos, es decir los directorios odoo y branch ##
+    ## Actualiza los submodulos ##
     $ git submodule update
     
 Para actualizar los repositorios poner los siguientes comandos:
 
-    ## # Actualiza el directorio actual de su repositorio privado, es decir "src" ##
+    ## # Actualiza el directorio actual de su repositorio privado, es decir "cubicerp" ##
     ## $ git pull 
     ## Para abrir la versión estable del repositorio ##
     $ git checkout master
@@ -43,6 +43,7 @@ Para actualizar los repositorios poner los siguientes comandos:
 
 Generación del archivo de configuración
 
+    $ cd ..
     $ cubicerp/cubicerp-server -s
     $ cp ~/.cubicerp_serverrc .
 

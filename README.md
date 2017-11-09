@@ -1,4 +1,4 @@
-Cubic ERP 9 Series (v9.x)
+Cubic ERP 9-Series (v9.x)
 =========================
 
 Cubic ERP is a suite of open source apps for business and government processes, available on mobile & web devices,

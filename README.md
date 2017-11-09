@@ -18,3 +18,7 @@ Useful Links
 * Roadmap: http://cubicerp.com/roadmap
 * Community Forum: https://cubicerp.com/community
 * Mailing List: https://groups.google.com/forum/#!forum/cubicerp
+
+Screenshots
+-----------
+![Cubic ERP v2018.0.alpha](/addons/account_accountant/static/description/CubicERP_2018.gif?raw=true "Cubic ERP v2018")

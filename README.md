@@ -1,7 +1,7 @@
 Cubic ERP v2018.0.alpha
 =======================
 
-Cubic ERP is a suite of open source apps for business and government processes, available on mobile & web devices, compatible with Odoo v11.
+Cubic ERP is a suite of open source apps for business and government processes, available on mobile & web devices, based on AGPL license and compatible with Odoo v11.
 
 The "Private Branch of Cubic ERP" is a suite of advanced open source applications licensed under AGPL v3 license. That Private Branch is permanently upgraded and has fully technical support. To access to the Private Branch you must acquire the support service or hire consulting hours.
 

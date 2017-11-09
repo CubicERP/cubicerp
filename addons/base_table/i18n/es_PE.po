@@ -1,0 +1,186 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* base_table
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0alpha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-03 00:52+0000\n"
+"PO-Revision-Date: 2012-11-02 20:06-0500\n"
+"Last-Translator: Yury Tello <ytello@cubicerp.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: base_table
+#: field:base.table,description:0
+msgid "Table Description"
+msgstr "Descripción Tabla"
+
+#. module: base_table
+#: help:base.element,element_percent:0
+msgid ""
+"Insert the number without the percent symbol. Examples: for 100% is 100, for "
+"3.75% is 3.75"
+msgstr ""
+"Insertar el número sin el símbolo de porcentaje. Ejemplo: para 100% escriba "
+"100, para 3.75% escriba 3.75"
+
+#. module: base_table
+#: field:base.element,end_date:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:118 sql_constraint:base.element:0
+#, python-format
+msgid "The element code must be unique for this table!"
+msgstr "El código del elemento debe ser único para esta tabla!"
+
+#. module: base_table
+#: field:base.table,child_ids:0
+msgid "Child Tables"
+msgstr "Tablas Hijas"
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:80 sql_constraint:base.table:0
+#, python-format
+msgid "The code must be unique!"
+msgstr "El código debe ser único!"
+
+#. module: base_table
+#: field:base.table,element_ids:0
+msgid "Elements"
+msgstr "Elementos"
+
+#. module: base_table
+#: view:base.element:0 view:base.table:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: base_table
+#: field:base.table,company_id:0 field:base.table,country_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: base_table
+#: field:base.table,parent_id:0
+msgid "Parent Table"
+msgstr "Tabla Padre"
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_table
+msgid "Base Table of Tables"
+msgstr "Base de Tabla de Tablas"
+
+#. module: base_table
+#: field:base.table,type:0
+msgid "Table Type"
+msgstr "Tipo de Tabla"
+
+#. module: base_table
+#: field:base.element,active:0 field:base.table,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "View"
+msgstr "Vista"
+
+#. module: base_table
+#: field:base.element,table_id:0
+msgid "Base Table"
+msgstr "Tabla Base"
+
+#. module: base_table
+#: field:base.table,complete_name:0 field:base.table,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: base_table
+#: view:base.table:0
+msgid "Table Elements"
+msgstr "Elementos de Tabla"
+
+#. module: base_table
+#: field:base.element,element_percent:0
+msgid "Element Percent"
+msgstr "Elemento Porcentaje"
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_element
+msgid "Elements in table of tables"
+msgstr "Elementos en la tabla de tablas"
+
+#. module: base_table
+#: field:base.element,name:0
+msgid "Element Code"
+msgstr "Código"
+
+#. module: base_table
+#: view:base.table:0
+#: model:ir.actions.act_window,name:base_table.base_table_list_action
+#: model:ir.ui.menu,name:base_table.base_table_menu
+msgid "Table of Tables"
+msgstr "Tabla de Tablas"
+
+#. module: base_table
+#: field:base.element,element_float:0
+msgid "Element Float"
+msgstr "Elemento Número decimal"
+
+#. module: base_table
+#: field:base.element,description:0
+msgid "Element Description"
+msgstr "Elemento Descripción"
+
+#. module: base_table
+#: field:base.table,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: base_table
+#: view:base.element:0
+msgid "Elements List"
+msgstr "Lista de Elementos"
+
+#. module: base_table
+#: view:base.table:0
+msgid "Table of Tables List"
+msgstr "Lista de Tabla de Tablas"
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:94 constraint:base.table:0
+#, python-format
+msgid "Error ! You can not create recursive table of tables."
+msgstr "Error !  usted no puede crear tabla de tablas recursivas."
+
+#. module: base_table
+#: field:base.element,element_char:0
+msgid "Element String"
+msgstr "Elemento Caracteres"
+
+#. module: base_table
+#: view:base.element:0
+msgid "Element Form"
+msgstr "Formulario Elemento"
+
+#. module: base_table
+#: field:base.element,start_date:0
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: base_table
+#: view:base.element:0
+msgid "Validity Dates"
+msgstr "Fecha Validez"

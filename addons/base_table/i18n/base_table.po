@@ -1,0 +1,189 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* base_table
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0alpha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-03 00:50+0000\n"
+"PO-Revision-Date: 2012-11-03 00:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_table
+#: field:base.table,description:0
+msgid "Table Description"
+msgstr ""
+
+#. module: base_table
+#: help:base.element,element_percent:0
+msgid "Insert the number without the percent symbol. Examples: for 100% is 100, for 3.75% is 3.75"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,end_date:0
+msgid "End Date"
+msgstr ""
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:118
+#: sql_constraint:base.element:0
+#, python-format
+msgid "The element code must be unique for this table!"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,child_ids:0
+msgid "Child Tables"
+msgstr ""
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:80
+#: sql_constraint:base.table:0
+#, python-format
+msgid "The code must be unique!"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,element_ids:0
+msgid "Elements"
+msgstr ""
+
+#. module: base_table
+#: view:base.element:0
+#: view:base.table:0
+msgid "Description"
+msgstr ""
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "Normal"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,company_id:0
+#: field:base.table,country_id:0
+msgid "Company"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,parent_id:0
+msgid "Parent Table"
+msgstr ""
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_table
+msgid "Base Table of Tables"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,type:0
+msgid "Table Type"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,active:0
+#: field:base.table,active:0
+msgid "Active"
+msgstr ""
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "View"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,table_id:0
+msgid "Base Table"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,complete_name:0
+#: field:base.table,name:0
+msgid "Name"
+msgstr ""
+
+#. module: base_table
+#: view:base.table:0
+msgid "Table Elements"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,element_percent:0
+msgid "Element Percent"
+msgstr ""
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_element
+msgid "Elements in table of tables"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,name:0
+msgid "Element Code"
+msgstr ""
+
+#. module: base_table
+#: view:base.table:0
+#: model:ir.actions.act_window,name:base_table.base_table_list_action
+#: model:ir.ui.menu,name:base_table.base_table_menu
+msgid "Table of Tables"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,element_float:0
+msgid "Element Float"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,description:0
+msgid "Element Description"
+msgstr ""
+
+#. module: base_table
+#: field:base.table,code:0
+msgid "Code"
+msgstr ""
+
+#. module: base_table
+#: view:base.element:0
+msgid "Elements List"
+msgstr ""
+
+#. module: base_table
+#: view:base.table:0
+msgid "Table of Tables List"
+msgstr ""
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:94
+#: constraint:base.table:0
+#, python-format
+msgid "Error ! You can not create recursive table of tables."
+msgstr ""
+
+#. module: base_table
+#: field:base.element,element_char:0
+msgid "Element String"
+msgstr ""
+
+#. module: base_table
+#: view:base.element:0
+msgid "Element Form"
+msgstr ""
+
+#. module: base_table
+#: field:base.element,start_date:0
+msgid "Start Date"
+msgstr ""
+
+#. module: base_table
+#: view:base.element:0
+msgid "Validity Dates"
+msgstr ""
+

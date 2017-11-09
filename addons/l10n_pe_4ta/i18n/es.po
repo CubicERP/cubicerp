@@ -1,0 +1,137 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_4ta
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-15 19:31+0000\n"
+"PO-Revision-Date: 2016-11-15 14:41-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,application_date:0
+msgid "Application Date"
+msgstr "Fecha de solicitud"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,application_end:0
+msgid "Application End"
+msgstr "Aplicación final"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,application_result:0
+msgid "Application Result"
+msgstr "Fecha de solicitud"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,display_name:0
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pe_4ta
+#: selection:l10n_pe_4ta.suspension,application_result:0
+msgid "Invalid"
+msgstr "Invalido"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,name:0
+msgid "Order Number"
+msgstr " Numero de orden"
+
+#. module: l10n_pe_4ta
+#: model:ir.model,name:l10n_pe_4ta.model_res_partner
+#: field:l10n_pe_4ta.suspension,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_pe_4ta
+#: sql_constraint:l10n_pe_4ta.suspension:0
+msgid "Partner and order number must be unique!"
+msgstr "¡Número de socio y el orden debe ser único!"
+
+#. module: l10n_pe_4ta
+#: model:base.table,name:l10n_pe_4ta.pe_4ta_rate
+msgid "Rate Rent 4th"
+msgstr "Tasa de renta 4"
+
+#. module: l10n_pe_4ta
+#: model:base.table,name:l10n_pe_4ta.pe_4ta
+msgid "Rent 4th Category Tables and Values"
+msgstr "Alquiler 4ª Categoría Tablas y Valores"
+
+#. module: l10n_pe_4ta
+#: field:res.partner,pe_4ta_suspension_id:0
+msgid "Suspension 4th Category"
+msgstr "Suspensión 4ª Categoría"
+
+#. module: l10n_pe_4ta
+#: model:base.table,name:l10n_pe_4ta.pe_4ta_suspension
+msgid "Suspension Rent 4th"
+msgstr "Suspensión de renta 4"
+
+#. module: l10n_pe_4ta
+#: view:l10n_pe_4ta.suspension:l10n_pe_4ta.view_pe_4ta_suspension_filter
+#: view:l10n_pe_4ta.suspension:l10n_pe_4ta.view_pe_4ta_suspension_form
+#: view:l10n_pe_4ta.suspension:l10n_pe_4ta.view_pe_4ta_suspension_tree
+msgid "Suspension Rent 4th Category"
+msgstr "Suspension de renta 4ta Categoria"
+
+#. module: l10n_pe_4ta
+#: model:ir.actions.act_window,name:l10n_pe_4ta.pe_4ta_suspension_list_action
+#: model:ir.ui.menu,name:l10n_pe_4ta.pe_4ta_suspension_menu
+msgid "Suspension Retencion 4th Category"
+msgstr "Suspensión Retencion de 4ta categoría"
+
+#. module: l10n_pe_4ta
+#: help:res.partner,pe_4ta_suspension_id:0
+msgid "This field contains the suspension certificate for retentions of rents 4th category"
+msgstr "Este campo contiene el certificado de suspensión de retenciones de 4ta categoría de rentas"
+
+#. module: l10n_pe_4ta
+#: selection:l10n_pe_4ta.suspension,application_result:0
+msgid "Valid"
+msgstr "Válido"
+
+#. module: l10n_pe_4ta
+#: field:l10n_pe_4ta.suspension,property_fiscalyear_id:0
+msgid "fiscal Year"
+msgstr "Año fiscal"

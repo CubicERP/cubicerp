@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record model='ir.ui.view' id='product_category_form_view'>
+			<field name='name'>product.category.form.inherit.pe</field>
+			<field name='model'>product.category</field>
+			<field name='inherit_id' ref='product.product_category_form_view'/>
+			<field name="priority">90</field>
+			<field name='arch' type='xml'>
+				<xpath expr="//group[@name='parent']" position="inside">
+					<group name="l10n_pe" string="Peruvian Localization Settings" colspan="2" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='product_normal_form_view'>
+			<field name='name'>product.normal.form.inherit.pe</field>
+			<field name='model'>product.template</field>
+			<field name='inherit_id' ref='account.product_template_form_view'/>
+			<field name="priority">90</field>
+			<field name='arch' type='xml'>
+				<xpath expr="//group[@name='properties']" position="inside">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

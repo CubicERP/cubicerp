@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.module.category" id="module_category_table">
+            <field name="name">Table of Tables</field>
+            <field name="description">Tables and Elements.</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="group_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_table"/>
+        </record>
+        
+        <record id="group_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_table"/>
+            <field name="implied_ids" eval="[(4, ref('group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+     </data>
+     
+     <data noupdate="1">
+        <record model="ir.rule" id="table_company_rule">
+            <field name="name">Table of tables multi-company</field>
+            <field name="model_id" ref="model_base_table"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+    </data>
+    
+</openerp>

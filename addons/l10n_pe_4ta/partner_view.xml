@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record model='ir.ui.view' id='view_partner_property_form'>
+			<field name='name'>res.partner.property.form.inherit.pe.4ta.category</field>
+			<field name='model'>res.partner</field>
+			<field name='inherit_id' ref='l10n_pe_base.view_partner_property_form'/>
+			<field name='arch' type='xml'>
+				<xpath expr="//group[@name='l10n_pe']" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</xpath>
+				<xpath expr="//group[@name='l10n_pe']" position="inside">
+	            	<field name="pe_4ta_suspension_id"/>
+	            </xpath>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

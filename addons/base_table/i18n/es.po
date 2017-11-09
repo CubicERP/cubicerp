@@ -1,0 +1,310 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* base_table
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-21 17:16+0000\n"
+"PO-Revision-Date: 2016-11-21 12:45-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: base_table
+#: field:base.element,active:0 field:base.table,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: base_table
+#: field:base.element,table_id:0
+msgid "Base Table"
+msgstr "Tabla Base"
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_table
+msgid "Base Table of Tables"
+msgstr "Base de Tabla de Tablas"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_form field:base.table,child_ids:0
+msgid "Child Tables"
+msgstr "Tablas Hijas"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_filter
+#: field:base.table,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: base_table
+#: field:base.table,company_id:0 field:base.table,country_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: base_table
+#: field:base.element,create_uid:0 field:base.table,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: base_table
+#: field:base.element,create_date:0 field:base.table,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_filter
+#: view:base.element:base_table.view_base_element_form
+#: view:base.table:base_table.view_base_table_form
+#: field:base.table,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: base_table
+#: field:base.element,display_name:0 field:base.table,display_name:0
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#. module: base_table
+#: field:base.element,code:0
+msgid "Element Code"
+msgstr "Código del elemento"
+
+#. module: base_table
+#: field:base.element,element_date:0
+msgid "Element Date"
+msgstr "Elemento Fecha"
+
+#. module: base_table
+#: field:base.element,description:0
+msgid "Element Description"
+msgstr "Elemento Descripción"
+
+#. module: base_table
+#: field:base.element,element_float:0
+msgid "Element Float"
+msgstr "Elemento Número decimal"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_form
+msgid "Element Form"
+msgstr "Formulario Elemento"
+
+#. module: base_table
+#: field:base.element,name:0
+msgid "Element Name"
+msgstr "Nombre del elemento"
+
+#. module: base_table
+#: field:base.element,parent_id:0
+msgid "Element Parent"
+msgstr "Element Parent"
+
+#. module: base_table
+#: field:base.element,element_percent:0
+msgid "Element Percent"
+msgstr "Elemento Porcentaje"
+
+#. module: base_table
+#: field:base.element,element_char:0
+msgid "Element String"
+msgstr "Elemento Caracteres"
+
+#. module: base_table
+#: field:base.table,element_ids:0
+msgid "Elements"
+msgstr "Elementos"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_tree
+msgid "Elements List"
+msgstr "Lista de Elementos"
+
+#. module: base_table
+#: model:ir.model,name:base_table.model_base_element
+msgid "Elements in table of tables"
+msgstr "Elementos en la tabla de tablas"
+
+#. module: base_table
+#: field:base.element,end_date:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:94 constraint:base.table:0
+#, python-format
+msgid "Error ! You can not create recursive table of tables."
+msgstr "Error !  usted no puede crear tabla de tablas recursivas."
+
+#. module: base_table
+#: field:base.element,id:0 field:base.table,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: base_table
+#: field:base.element,interval_init_infinity:0
+msgid "Infinity Negative"
+msgstr "Infinito Negativo"
+
+#. module: base_table
+#: field:base.element,interval_end_infinity:0
+msgid "Infinity Positive"
+msgstr "Infinito positivo"
+
+#. module: base_table
+#: help:base.element,element_percent:0
+msgid "Insert the number without the percent symbol. Examples: for 100% is 100, for 3.75% is 3.75"
+msgstr "Insertar el número sin el símbolo de porcentaje. Ejemplo: para 100% escriba 100, para 3.75% escriba 3.75"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_form
+msgid "Interval"
+msgstr "Intervalo"
+
+#. module: base_table
+#: field:base.element,interval_end:0
+msgid "Inverval End"
+msgstr "Final del intervalo"
+
+#. module: base_table
+#: field:base.element,interval_init:0
+msgid "Inverval Initial"
+msgstr "Inicio del intervalo"
+
+#. module: base_table
+#: field:base.element,__last_update:0 field:base.table,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: base_table
+#: field:base.element,write_uid:0 field:base.table,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizacion por"
+
+#. module: base_table
+#: field:base.element,write_date:0 field:base.table,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: base_table
+#: model:res.groups,name:base_table.group_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_filter
+#: field:base.table,complete_name:0 field:base.table,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_form
+msgid "Others"
+msgstr "Otros"
+
+#. module: base_table
+#: field:base.table,parent_id:0
+msgid "Parent Table"
+msgstr "Tabla Padre"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_filter
+msgid "Search Elements"
+msgstr "Elementos de búsqueda"
+
+#. module: base_table
+#: field:base.element,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: base_table
+#: field:base.element,start_date:0
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_form
+msgid "Table Elements"
+msgstr "Elementos de Tabla"
+
+#. module: base_table
+#: field:base.table,type:0
+msgid "Table Type"
+msgstr "Tipo de Tabla"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_form
+#: model:ir.actions.act_window,name:base_table.base_table_list_action
+#: model:ir.module.category,name:base_table.module_category_table
+#: model:ir.ui.menu,name:base_table.base_table_menu
+msgid "Table of Tables"
+msgstr "Tabla de Tablas"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_tree
+msgid "Table of Tables List"
+msgstr "Lista de Tabla de Tablas"
+
+#. module: base_table
+#: view:base.table:base_table.view_base_table_filter
+msgid "Table of Tables Search"
+msgstr "Tabla de tablas de Búsqueda"
+
+#. module: base_table
+#: model:ir.actions.act_window,name:base_table.base_table_tree_action
+#: model:ir.ui.menu,name:base_table.base_table_tree_menu
+msgid "Table of Tables in Tree"
+msgstr "Tabla de árbol en tablas"
+
+#. module: base_table
+#: model:ir.module.category,description:base_table.module_category_table
+msgid "Tables and Elements."
+msgstr "Tablas y Elementos."
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:80 sql_constraint:base.table:0
+#, python-format
+msgid "The code must be unique!"
+msgstr "El código debe ser único!"
+
+#. module: base_table
+#: code:addons/base_table/base_table.py:130 sql_constraint:base.element:0
+#, python-format
+msgid "The element code must be unique for this table!"
+msgstr "El código del elemento debe ser único para esta tabla!"
+
+#. module: base_table
+#: model:res.groups,name:base_table.group_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: base_table
+#: view:base.element:base_table.view_base_element_form
+msgid "Validity Dates"
+msgstr "Fecha Validez"
+
+#. module: base_table
+#: field:base.element,interval_end_close:0
+msgid "Value <= Interval End"
+msgstr "Valor <= Intervalo Final"
+
+#. module: base_table
+#: field:base.element,interval_init_close:0
+msgid "Value >= Interval Initial"
+msgstr "Valor >= Intervalo Inicial"
+
+#. module: base_table
+#: selection:base.table,type:0
+msgid "View"
+msgstr "Vista"

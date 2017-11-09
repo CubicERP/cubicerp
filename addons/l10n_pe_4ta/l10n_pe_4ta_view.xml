@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record model='ir.ui.view' id='view_pe_4ta_suspension_tree'>
+			<field name='name'>pe.4ta.suspension.tree</field>
+			<field name='model'>l10n_pe_4ta.suspension</field>
+			<field name='arch' type='xml'>
+				<tree string="Suspension Rent 4th Category">
+					<field name="partner_id"/>
+					<field name="property_fiscalyear_id"/>
+					<field name="name"/>
+					<field name="application_result"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='view_pe_4ta_suspension_form'>
+			<field name='name'>pe.4ta.suspension.form</field>
+			<field name='model'>l10n_pe_4ta.suspension</field>
+			<field name='arch' type='xml'>
+				<form string="Suspension Rent 4th Category">
+					<field name="partner_id"/>
+					<field name="property_fiscalyear_id"/>
+					<field name="name"/>
+					<field name="application_result"/>
+					<field name="application_date"/>
+					<field name="application_end"/>
+				</form>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='view_pe_4ta_suspension_filter'>
+			<field name='name'>pe.4ta.suspension.filter</field>
+			<field name='model'>l10n_pe_4ta.suspension</field>
+			<field name='arch' type='xml'>
+				<search string="Suspension Rent 4th Category">
+					<field name="partner_id"/>
+					<field name="property_fiscalyear_id"/>
+					<field name="name"/>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="pe_4ta_suspension_list_action">
+		    <field name="name">Suspension Retencion 4th Category</field>
+		    <field name="res_model">l10n_pe_4ta.suspension</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+
+	    <menuitem name='Suspension Retencion 4th Category' id='pe_4ta_suspension_menu' 
+	    	parent='account.next_id_27' sequence='90' action="pe_4ta_suspension_list_action"/>
+		
+	</data>
+</openerp>

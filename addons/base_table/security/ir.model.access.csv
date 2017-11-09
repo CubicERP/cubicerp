@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_base_element_all","base.element","model_base_element",,1,0,0,0
+"access_base_table_user","base.table","model_base_table",group_user,1,0,0,0
+"access_base_table_manager","base.table","model_base_table",group_manager,1,1,1,1
+"access_base_element_manager","base.element","model_base_element",group_manager,1,1,1,1
+"access_base_table_user","base.element","model_base_element",group_user,1,1,1,0

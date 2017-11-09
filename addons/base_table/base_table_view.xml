@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>		
+		
+		<record id="view_base_element_filter" model="ir.ui.view">
+            <field name="name">base.element.filter</field>
+            <field name="model">base.element</field>
+            <field name="arch" type="xml">
+                <search string="Search Elements">
+                    <field name="name" string="Code" filter_domain="['|',('name','ilike',self),('code','ilike',self)]"/>
+                    <field name="description" string="Description" filter_domain="['|',('description','ilike',self),('element_char','ilike',self)]"/>
+               </search>
+            </field>
+        </record>
+        
+	    <record id="view_base_element_tree" model="ir.ui.view">
+		<field name="name">Element of Table List</field>
+		<field name="model">base.element</field>
+		<field name="type">tree</field>
+		<field name="priority">100</field>
+		<field name="arch" type="xml">
+		    <tree string="Elements List">
+				<field name="name"/>
+				<field name="description"/>
+				<field name="element_char"/>
+				<field name="element_percent"/>
+				<field name="element_float"/>
+				<field name="element_date"/>
+				<field name="start_date"/>
+				<field name="end_date"/>
+				<field name="interval_init_infinity"/>
+				<field name="interval_init" attrs="{'invisible':[('interval_init_infinity','=',True)]}"/>
+				<field name="interval_end_infinity"/>
+				<field name="interval_end" attrs="{'invisible':[('interval_end_infinity','=',True)]}"/>
+		    </tree>
+		</field>
+	    </record>
+	    <record id="view_base_element_form" model="ir.ui.view">
+		<field name="name">Element of Table Form</field>
+		<field name="model">base.element</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		    <form string="Element Form">
+		    	<sheet>
+		    		<div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+		    		<group>
+		    			<group>
+		    				<field name="element_char"/>
+		    				<field name="element_date"/>
+		    			</group>
+		    			<group>
+		    				<field name="element_percent"/>
+							<field name="element_float"/>
+		    			</group>
+		    		</group>
+					<separator string="Validity Dates"/>
+					<group>
+		    			<group>
+		    				<field name="start_date"/>
+		    			</group>
+		    			<group>
+		    				<field name="end_date"/>
+		    			</group>
+		    		</group>
+					<separator string="Interval" colspan="4"/>
+					<group>
+		    			<group>
+		    				<field name="interval_init_infinity"/>
+		    				<field name="interval_init" attrs="{'invisible':[('interval_init_infinity','=',True)]}"/>
+		    				<field name="interval_init_close" attrs="{'invisible':[('interval_init_infinity','=',True)]}"/>
+		    			</group>
+		    			<group>
+		    				<field name="interval_end_infinity"/>
+		    				<field name="interval_end" attrs="{'invisible':[('interval_end_infinity','=',True)]}"/>
+		    				<field name="interval_end_close" attrs="{'invisible':[('interval_end_infinity','=',True)]}"/>
+		    			</group>
+		    		</group>
+					<separator string="Description"/>
+					<field name="description"/>
+					<separator string="Others"/>
+					<group>
+		    			<group>
+		    				<field name="code"/>
+		    				<field name="sequence"/>
+		    			</group>
+		    			<group>
+		    				<field name="parent_id"/>
+		    				<field name="active"/>
+		    			</group>
+		    		</group>
+				</sheet>
+		    </form>
+		</field>
+	    </record>
+
+
+	    <record id="view_base_table_tree" model="ir.ui.view">
+		<field name="name">Table of Tables List</field>
+		<field name="model">base.table</field>
+		<field name="type">tree</field>
+		<field name="field_parent">child_ids</field>
+		<field name="priority">100</field>
+		<field name="arch" type="xml">
+		    <tree string="Table of Tables List" toolbar="1" colors="blue:type=='view'">
+				<field name="complete_name"/>
+				<field name="name" invisible="1"/>
+				<field name="code"/>
+				<field name="parent_id"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+		    </tree>
+		</field>
+	    </record>
+	    
+	    <record id="view_base_table_form" model="ir.ui.view">
+		<field name="name">Table of Tables Form</field>
+		<field name="model">base.table</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		    <form string="Table of Tables">
+		    	<sheet>
+		    		<group>
+		    			<field name="parent_id"/>
+		    		</group>
+		    		<group>
+		    			<group>
+		    				<field name="name"/>
+		    				<field name="type"/>
+		    			</group>
+		    			<group>
+		    				<field name="code"/>
+		    				<field name="active"/>
+		    			</group>
+		    		</group>
+					<group>
+						<field name="company_id" groups="base.group_multi_company"/>
+					</group>
+					<notebook colspan="4">
+						<page string="Child Tables" attrs="{'invisible':[('type','!=','view')]}">
+		                    <field colspan="4" name="child_ids" nolabel="1"/>
+					    </page>
+					    <page string="Table Elements" attrs="{'invisible':[('type','=','view')]}">
+		                    <field colspan="4" name="element_ids" nolabel="1" attrs="{'readonly':[('type','=','view')]}"/>
+					    </page>
+					    <page string="Description">
+					        <field name="description" colspan="4" nolabel="1"/>
+					    </page>
+					</notebook>
+		    	</sheet>
+		    </form>
+		</field>
+	    </record>
+		<record id="view_base_table_filter" model="ir.ui.view">
+			<field name="name">Table of Tables Search</field>
+			<field name="model">base.table</field>
+			<field name="arch" type="xml">
+			    <search string="Table of Tables Search">
+			    	<field name="name" filter_domain="['|','|', ('name','ilike',self), ('code','ilike',self), ('description','ilike',self)]" string="Name"/>
+					<field name="type"/>
+					<field name="parent_id"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+			    </search>
+			</field>
+	    </record>
+	    <record model="ir.actions.act_window" id="base_table_list_action">
+		    <field name="name">Table of Tables</field>
+		    <field name="res_model">base.table</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Table of Tables' id = 'base_table_menu' parent='base.next_id_9' sequence='200' action="base_table_list_action"/>
+	    
+	    <record model="ir.actions.act_window" id="base_table_tree_action">
+		    <field name="name">Table of Tables in Tree</field>
+		    <field name="res_model">base.table</field>
+		    <field name="view_type">tree</field>
+		    <field name="view_mode">tree,form</field>
+		    <field name="domain">[('parent_id','=',False)]</field>
+	    </record>
+	    <menuitem name='Table of Tables in Tree' id = 'base_table_tree_menu' parent='base.next_id_9' sequence='300' action="base_table_tree_action"/>
+	    
+	</data>
+</openerp>

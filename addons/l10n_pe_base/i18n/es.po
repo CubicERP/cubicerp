@@ -1,0 +1,157 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-15 17:57+0000\n"
+"PO-Revision-Date: 2016-11-15 14:26-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: l10n_pe_base
+#: model:ir.model,name:l10n_pe_base.model_res_company
+msgid "Companies"
+msgstr "Compañias"
+
+#. module: l10n_pe_base
+#: code:addons/l10n_pe_base/partner.py:99
+#: code:addons/l10n_pe_base/partner.py:198
+#, python-format
+msgid "Connection error"
+msgstr "Error de conexión"
+
+#. module: l10n_pe_base
+#: field:res.partner,ciu_ids:0
+msgid "Economic activities"
+msgstr "Actividades económicas"
+
+#. module: l10n_pe_base
+#: code:addons/l10n_pe_base/partner.py:222
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: l10n_pe_base
+#: selection:res.partner,sunat_condition:0
+msgid "HABIDO"
+msgstr "HABIDO"
+
+#. module: l10n_pe_base
+#: help:res.partner,ciu_ids:0
+msgid "International Standard Industrial Classification"
+msgstr "International Standard Industrial Classification"
+
+#. module: l10n_pe_base
+#: help:res.partner,ciu_main_id:0
+msgid "Main International Standard Industrial Classification"
+msgstr "Main International Standard Industrial Classification"
+
+#. module: l10n_pe_base
+#: field:res.partner,ciu_main_id:0
+msgid "Main economic activity"
+msgstr "Principales actividades económicas"
+
+#. module: l10n_pe_base
+#: help:res.partner,sunat_state:0
+msgid "Must be ACTIVO, BAJA DE OFICIO, SUSPENSION TEMPORAL, ..."
+msgstr "Debe ser ACTIVO, BAJA DE OFICIO, SUSPENSIÓN TEMPORAL..."
+
+#. module: l10n_pe_base
+#: selection:res.partner,sunat_condition:0
+msgid "NO HABIDO"
+msgstr "NO HABIDO"
+
+#. module: l10n_pe_base
+#: selection:res.partner,sunat_condition:0
+msgid "NO HALLADO"
+msgstr "NO HALLADO"
+
+#. module: l10n_pe_base
+#: model:base.table,name:l10n_pe_base.osce
+msgid "OSCE Configuration"
+msgstr "Configuración de OSCE"
+
+#. module: l10n_pe_base
+#: selection:res.partner,sunat_condition:0
+msgid "PENDIENTE"
+msgstr "PENDIENTE"
+
+#. module: l10n_pe_base
+#: model:base.table,name:l10n_pe_base.pe
+msgid "PERU Configuration"
+msgstr "Configuración de PERU"
+
+#. module: l10n_pe_base
+#: model:ir.model,name:l10n_pe_base.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_pe_base
+#: view:account.account:l10n_pe_base.view_account_form
+#: view:account.account.type:l10n_pe_base.view_account_type_form
+#: view:account.invoice:l10n_pe_base.invoice_supplier_form
+#: view:account.journal:l10n_pe_base.view_account_journal_form
+#: view:product.category:l10n_pe_base.product_category_form_view
+#: view:product.template:l10n_pe_base.product_normal_form_view
+#: view:res.company:l10n_pe_base.view_company_form
+#: view:res.partner:l10n_pe_base.view_partner_property_form
+#: view:stock.location:l10n_pe_base.view_location_form
+msgid "Peruvian Localization Settings"
+msgstr "Configuracion de localizacion Peru"
+
+#. module: l10n_pe_base
+#: model:base.table,name:l10n_pe_base.pe_vars
+msgid "Perú Variables"
+msgstr "Perú Variables"
+
+#. module: l10n_pe_base
+#: field:res.partner,sunat_retention:0
+msgid "Retention Description"
+msgstr "Descripción de retención"
+
+#. module: l10n_pe_base
+#: model:base.table,name:l10n_pe_base.sunat
+msgid "SUNAT Configuration"
+msgstr "Configuración de SUNAT"
+
+#. module: l10n_pe_base
+#: field:res.partner,sunat_retention_agent:0
+msgid "Sunat Retention Agent"
+msgstr "Agente de retención de la SUNAT"
+
+#. module: l10n_pe_base
+#: field:res.company,sunat_search_vat:0
+msgid "Sunat Search VAT"
+msgstr "Búsqueda de SUNAT VAT"
+
+#. module: l10n_pe_base
+#: field:res.partner,sunat_state:0
+msgid "Sunat State"
+msgstr "Estado de Sunat"
+
+#. module: l10n_pe_base
+#: field:res.partner,sunat_condition:0
+msgid "Sunat condition"
+msgstr "Condición de SUNAT"
+
+#. module: l10n_pe_base
+#: code:addons/l10n_pe_base/partner.py:223
+#, python-format
+msgid "The DNI entered is incorrect"
+msgstr "El DNI ingresado es incorrecto"
+
+#. module: l10n_pe_base
+#: code:addons/l10n_pe_base/partner.py:100
+#: code:addons/l10n_pe_base/partner.py:199
+#, python-format
+msgid "The server is not available! try again!"
+msgstr "¡El servidor no está disponible! ¡Vuelve a intentarlo!"

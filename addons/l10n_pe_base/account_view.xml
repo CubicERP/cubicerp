@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record model='ir.ui.view' id='view_account_journal_form'>
+			<field name='name'>account.journal.form.inherit.pe</field>
+			<field name='model'>account.journal</field>
+			<field name='inherit_id' ref='account.view_account_journal_form'/>
+			<field name="priority">90</field>
+			<field name='arch' type='xml'>
+				<xpath expr="//page[@string='Advanced Settings']/group" position="inside">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+        <record model="ir.ui.view" id="view_account_form">
+            <field name="name">account.account.form.inherit.pe</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='note']" position="after">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+        <record model="ir.ui.view" id="view_account_type_form">
+            <field name="name">account.account.type.form.inherit.pe</field>
+            <field name="model">account.account.type</field>
+            <field name="inherit_id" ref="account.view_account_type_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//field[@name='note']" position="after">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+        <record model="ir.ui.view" id="invoice_supplier_form">
+            <field name="name">account.invoice.supplier.form.inherit.pe</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//page[@string='Other Info']/group" position="inside">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="1">
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

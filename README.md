@@ -10,6 +10,7 @@ Cubic ERP S.A.C is the company that lead this project, our experience in ERPs st
 Roadmap Developers MeetUp 2018
 ------------------------------
 * CubicERP 2018: http://cubicerp.com/roadmap
+* Odoo VS Cubic ERP: https://docs.google.com/spreadsheets/d/1wtsMpnigt4ItSmJRGyIbCxMQ53ZP-q8QlwQR_LZTsYg/edit?usp=sharing
 
 Useful Links
 ------------

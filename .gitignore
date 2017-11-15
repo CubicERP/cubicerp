@@ -1,13 +1,10 @@
 .settings/
-backup/
-log/
-junk/
-data/
 .cbc.pid
 .cubicerp_serverrc
 .DS_Store
 .idea
 .gunicorn.pid
+/data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

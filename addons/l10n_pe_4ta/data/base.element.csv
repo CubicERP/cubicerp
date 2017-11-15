@@ -1,0 +1,3 @@
+id,table_id:id,name,description,element_char,element_float,element_percent,start_date,end_date
+pe_4ta_rate_01,pe_4ta_rate,4ta.RATE,"Rate Rent 4th Category ",,,10,,
+pe_4ta_suspension_01,pe_4ta_suspension,4ta.MINIMUM.AMOUNT,"Minimum Amount Rent 4th Category ",,1500,,,

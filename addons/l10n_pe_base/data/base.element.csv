@@ -1,0 +1,8 @@
+id,table_id:id,name,description,element_char,element_float,element_percent,start_date,end_date
+pe_living_wage_2012_01,pe_vars,LIVING.WAGE,"Living Wage 2012(1)",,750,,2012-06-01,
+pe_living_wage_worker_2012_01,pe_vars,LIVING.WAGE.WORKER,"Living Wage Workers 2012(1)",,25,,2012-06-01,
+pe_uit_2013,pe_vars,UIT,"UIT 2013",,3700,,2013-01-01,2013-12-31
+pe_uit_2014,pe_vars,UIT,"UIT 2014",,3800,,2014-01-01,2014-12-31
+pe_uit_2015,pe_vars,UIT,"UIT 2015",,3850,,2015-01-01,2015-12-31
+pe_uit_2016,pe_vars,UIT,"UIT 2016",,3950,,2016-01-01,2016-12-31
+pe_uit_2017,pe_vars,UIT,"UIT 2017",,4050,,2017-01-01,2017-12-31

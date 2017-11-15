@@ -1,0 +1,4 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+pe_4ta,,Peru,PE.4ta,Rent 4th Category Tables and Values,,l10n_pe_base.sunat,view
+pe_4ta_rate,,Peru,PE.4ta.RATE,Rate Rent 4th,Rate Rent 4th Category,pe_4ta,normal
+pe_4ta_suspension,,Peru,PE.4ta.SUSPENSION,Suspension Rent 4th,Suspension Rent 4th Category,pe_4ta,normal

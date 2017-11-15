@@ -1,0 +1,5 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+pe,,Peru,PE,PERU Configuration,Tablas y valores de configuración para PERU,,view
+sunat,,Peru,PE.SUNAT,SUNAT Configuration,Tablas y valores de configuración para SUNAT,pe,view
+pe_vars,,Peru,PE.VARS,Perú Variables,Official Indicators and Variables for Perú,pe,normal
+osce,,Peru,PE.OSCE,OSCE Configuration,Tablas y valores de configuración para OSCE,pe,view

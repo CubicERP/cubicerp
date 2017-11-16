@@ -2424,6 +2424,10 @@
                             <field name="account_report_ids" attrs="{'invisible': [('type', '!=', 'account_report')]}"/>
                             <separator string="Analytic Accounts" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
                             <field name="analytic_ids" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
+                            <group>
+                                <field name="tax_included" attrs="{'invisible': [('type', 'not in', ['accounts','account_type'])]}"/>
+                            </group>
+                            <field name="tax_account_ids" attrs="{'invisible': ['|',('tax_included','=',False),('type', 'not in', ['accounts','account_type'])]}"/>
                         </page>
                         <page string="Children">
                             <field name="children_ids"/>

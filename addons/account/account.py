@@ -326,10 +326,11 @@ class account_account(osv.osv):
                         (__compute will handle their escaping) as a
                         tuple
         """
+        tax_account = tuple(context.get('tax_account_ids', []))
         mapping = {
-            'balance': "COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance",
-            'debit': "COALESCE(SUM(l.debit), 0) as debit",
-            'credit': "COALESCE(SUM(l.credit), 0) as credit",
+            'balance': (tax_account and "COALESCE(sum(wtax.total),0) + " or "") + "COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance",
+            'debit': (tax_account and "COALESCE(sum(wtax.debit),0) + " or "") + "COALESCE(SUM(l.debit), 0) as debit",
+            'credit': (tax_account and "COALESCE(sum(wtax.credit),0) + " or "") + "COALESCE(SUM(l.credit), 0) as credit",
             # by convention, foreign_balance is 0 when the account has no secondary currency, because the amounts may be in different currencies
             'foreign_balance': "(SELECT CASE WHEN currency_id IS NULL THEN 0 ELSE COALESCE(SUM(l.amount_currency), 0) END FROM account_account WHERE id IN (l.account_id)) as foreign_balance",
         }
@@ -348,6 +349,24 @@ class account_account(osv.osv):
             if aml_query.strip():
                 wheres.append(aml_query.strip())
             filters = " AND ".join(wheres)
+
+            with_taxes = ""
+            if tax_account:
+                with_taxes = cr.mogrify("left join (select aml.id as id, -1 * (aml.debit - aml.credit) / (cx.balance + tx.balance) * tx.balance as total,"
+                                        "                  -1 * aml.debit / (cx.balance + tx.balance) * tx.balance as debit,"
+                                        "                  -1 * aml.credit / (cx.balance + tx.balance) * tx.balance as credit " \
+                             "  from account_move_line as aml" \
+                             "          join (select move_id, sum(debit - credit) as balance" \
+                             "                 from account_move_line as aml1 join account_account as aa1 on (aml1.account_id = aa1.id)" \
+                             "                 where aa1.type in ('receivable','payable')" \
+                             "                 group by move_id) as cx on (cx.move_id = aml.move_id)" \
+                             "          join (select move_id, sum(debit - credit) as balance" \
+                             "                  from account_move_line" \
+                             "                 where account_id in %s" \
+                             "                 group by move_id) as tx on (tx.move_id = aml.move_id)" \
+                             "          join account_account as aa on (aa.id = aml.account_id)" \
+                             "    where aa.type = 'other' and aml.account_id not in %s ) as wtax on (wtax.id = l.id)", (tax_account, tax_account))
+
             # IN might not work ideally in case there are too many
             # children_and_consolidated, in that case join on a
             # values() e.g.:
@@ -357,7 +376,8 @@ class account_account(osv.osv):
             # or make _get_children_and_consol return a query and join on that
             request = ("SELECT l.account_id as id, " +\
                        ', '.join(mapping.values()) +
-                       " FROM account_move_line l" \
+                       " FROM account_move_line l " \
+                           + with_taxes +
                        " WHERE l.account_id IN %s " \
                             + filters +
                        " GROUP BY l.account_id")

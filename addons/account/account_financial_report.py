@@ -135,6 +135,8 @@ class account_financial_report(osv.osv):
             ctx = context.copy()
             if report.analytic_ids and (report.type == 'accounts' or report.type == 'account_type'):
                 ctx['analytic_account_id'] = [a.id for a in report.analytic_ids]
+            if report.tax_included and report.tax_account_ids and (report.type == 'accounts' or report.type == 'account_type'):
+                ctx['tax_account_ids'] = [a.id for a in report.tax_account_ids]
             vals = self._get_values(cr, uid, report, field_names, context=ctx)
             for field in field_names:
                 if report.aggregate == 'sum':
@@ -191,6 +193,8 @@ class account_financial_report(osv.osv):
         'account_report_ids':  fields.many2many('account.financial.report', 'account_finan_report_account_report', 'report_id', 'parent_id','Report Values'),
         'analytic_ids':  fields.many2many('account.analytic.account', 'account_finan_report_account_analytic', 'report_id', 'analytic_id','Analytic Accounts'),
         'account_type_ids': fields.many2many('account.account.type', 'account_account_financial_report_type', 'report_id', 'account_type_id', 'Account Types'),
+        'tax_included': fields.boolean("Tax Included"),
+        'tax_account_ids': fields.many2many('account.account', 'account_tax_financial_report', 'report_line_id', 'account_id', 'Tax Accounts'),
         'sign': fields.selection([(-1, 'Reverse balance sign'), (1, 'Preserve balance sign')], 'Sign on Reports', required=True, help='For accounts that are typically more debited than credited and that you would like to print as negative amounts in your reports, you should reverse the sign of the balance; e.g.: Expense account. The same applies for accounts that are typically more credited than debited and that you would like to print as positive amounts in your reports; e.g.: Income account.'),
         'aggregate': fields.selection([('sum','Sum'),
                                        ('avg','Average'),

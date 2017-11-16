@@ -76,6 +76,11 @@ class report_account_common(report_sxw.rml_parse, common_report_header):
         comparison_context['debit_credit'] = used_context['debit_credit'] = data['form'].get('debit_credit')
         ids2 = self.pool.get('account.financial.report')._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=used_context)
         for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, ids2, context=used_context):
+            if report.tax_included and report.tax_account_ids and (report.type == 'accounts' or report.type == 'account_type'):
+                used_context['tax_account_ids'] = [a.id for a in report.tax_account_ids]
+                comparison_context['tax_account_ids'] = [a.id for a in report.tax_account_ids]
+            else:
+                used_context['tax_account_ids'] = comparison_context['tax_account_ids'] = []
             multiplan = eval(report.multiplan)
             vals = {
                 'name': report.name,

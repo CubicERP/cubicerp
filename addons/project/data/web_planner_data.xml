@@ -32,7 +32,7 @@
                 <t t-set="menu_categoryclasses" t-value="'fa-flag-checkered'"/>
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Your Objectives</t>
-                    <t t-set="page_menutitle" t-value="'Objectives'"/>
+                    <t t-set="page_menutitle">Objectives</t>
                     <p class="text-muted">
                         It's essential to be clear about why you want to use Cubic ERP Project and what your goals are.
                         Indeed, there are many ways to manage a project, to find the best one for you, you need to know exactly what you want to achieve. And later on, we will hopefully transform your objectives into real improvements for your company.

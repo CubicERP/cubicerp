@@ -47,14 +47,18 @@
 # David Vidal <david.vidal@trespinos.es>, 2017
 # AleEscandon <alejandra.escandon@jarsa.com.mx>, 2017
 # e2f_es_ t6 <e2f_es_t6@outlook.com>, 2017
+# Eduardo Magdalena <emagdalena@close2circle.com>, 2017
 # Pierre-Antoine Magnet <pma@odoo.com>, 2017
+# Julián Andrés Osorio López <mcjulian1107@gmail.com>, 2017
+# Christopher Ormaza <chris.ormaza@gmail.com>, 2017
+# Nacho Hermoso <nacho@domatix.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-24 09:14+0000\n"
-"PO-Revision-Date: 2017-10-24 09:14+0000\n"
-"Last-Translator: Pierre-Antoine Magnet <pma@odoo.com>, 2017\n"
+"POT-Creation-Date: 2017-11-08 13:21+0000\n"
+"PO-Revision-Date: 2017-11-08 13:21+0000\n"
+"Last-Translator: Nacho Hermoso <nacho@domatix.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,6 +96,10 @@ msgid ""
 "Allow cashier to reprint receipts\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
+"Permitir que el cajero reimprima los recibos\n"
+"\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_hu
@@ -570,6 +578,9 @@ msgid ""
 "        Accounting reports for US\n"
 "    "
 msgstr ""
+"\n"
+"Informes contables para Reino Unido\n"
+"    "
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_uy_reports
@@ -675,6 +686,9 @@ msgid ""
 "        Enable the SEPA features in the payments of expenses\n"
 "    "
 msgstr ""
+"\n"
+"        Habilitar funcionalidades de SEPA en los pagos de gastos\n"
+"    "
 
 #. module: base
 #: model:ir.module.module,description:base.module_account_sepa
@@ -693,6 +707,8 @@ msgid ""
 "\n"
 "        Make Call from all modules using the VOIP system."
 msgstr ""
+"\n"
+"        Hacer llamadas desde todos los módulos usando el sistema de VOIP."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_quote_subscription
@@ -6368,7 +6384,7 @@ msgstr "El número de cuenta debe ser único"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_taxcloud
 msgid "Account TaxCloud"
-msgstr ""
+msgstr "Cuenta TaxCloud"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_sale_account_taxcloud
@@ -7557,6 +7573,13 @@ msgid "Before Amount"
 msgstr "Antes de la cantidad"
 
 #. module: base
+#: code:addons/base/res/res_users.py:954
+#, python-format
+msgid ""
+"Before clicking on 'Change Password', you have to write a new password."
+msgstr ""
+
+#. module: base
 #: model:res.country,name:base.by
 msgid "Belarus"
 msgstr "Bielorrusia"
@@ -7915,6 +7938,7 @@ msgstr "Canada - Contabilidad"
 #: model:ir.ui.view,arch_db:base.view_base_module_update
 #: model:ir.ui.view,arch_db:base.view_base_module_upgrade
 #: model:ir.ui.view,arch_db:base.view_base_module_upgrade_install
+#: model:ir.ui.view,arch_db:base.view_company_report_form
 #: model:ir.ui.view,arch_db:base.view_model_menu_create
 #: model:ir.ui.view,arch_db:base.view_users_form_simple_modif
 #: model:ir.ui.view,arch_db:base.wizard_lang_export
@@ -8285,7 +8309,6 @@ msgstr "Etiqueta de acción del cliente"
 #. module: base
 #: model:ir.ui.view,arch_db:base.view_base_language_install
 #: model:ir.ui.view,arch_db:base.view_base_module_update
-#: model:ir.ui.view,arch_db:base.view_company_report_form
 #: model:ir.ui.view,arch_db:base.wizard_lang_export
 msgid "Close"
 msgstr "Cerrar"
@@ -9144,11 +9167,6 @@ msgstr "Croacia - Contabilidad (RRIF 2012)"
 #: model:ir.module.module,shortdesc:base.module_l10n_hr_reports
 msgid "Croatia - RRIF 2012 COA - Accounting Reports"
 msgstr "Croacia - RRIF 2012 COA - Informes contables"
-
-#. module: base
-#: model:ir.model.fields,field_description:base.field_ir_cron_user_id
-msgid "Cron User"
-msgstr ""
 
 #. module: base
 #: model:res.country,name:base.cu
@@ -16044,7 +16062,7 @@ msgstr "Abrir una ventana"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_crm
 msgid "Opportunity to Quotation"
-msgstr "Oportunidad a Cotización"
+msgstr "Oportunidad a Presupuesto"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_act_window_domain
@@ -17360,7 +17378,7 @@ msgstr "Sólo lectura"
 
 #. module: base
 #: model:res.partner.industry,name:base.res_partner_industry_L
-msgid "Real Estrate"
+msgid "Real Estate"
 msgstr ""
 
 #. module: base
@@ -17922,7 +17940,7 @@ msgstr "Ventas y Compras"
 #: model:ir.module.module,shortdesc:base.module_sales_team
 #: model:ir.module.module,summary:base.module_sales_team
 msgid "Sales Channels"
-msgstr ""
+msgstr "Canales de Ventas"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_expense
@@ -18031,12 +18049,18 @@ msgstr "Acción planificada"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.ir_cron_act
+#: model:ir.model,name:base.model_ir_cron
 #: model:ir.ui.menu,name:base.menu_ir_cron_act
 #: model:ir.ui.view,arch_db:base.ir_cron_view_calendar
 #: model:ir.ui.view,arch_db:base.ir_cron_view_search
 #: model:ir.ui.view,arch_db:base.ir_cron_view_tree
 msgid "Scheduled Actions"
 msgstr "Acciones planificadas"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_cron_user_id
+msgid "Scheduler User"
+msgstr ""
 
 #. module: base
 #: model:res.partner.industry,name:base.res_partner_industry_M
@@ -20673,7 +20697,7 @@ msgstr "Validación de número CIF"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_voip
 msgid "VOIP"
-msgstr ""
+msgstr "VOIP"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_voip_onsip
@@ -21605,12 +21629,12 @@ msgstr "base.update.translations"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "binary"
-msgstr ""
+msgstr "binario"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "boolean"
-msgstr ""
+msgstr "booleano"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_bpost
@@ -21630,7 +21654,7 @@ msgstr "selección"
 #. module: base
 #: model:ir.module.category,name:base.module_category_crm
 msgid "crm"
-msgstr ""
+msgstr "crm"
 
 #. module: base
 #: code:addons/base/ir/ir_fields.py:314
@@ -21641,7 +21665,7 @@ msgstr "id de la base de datos"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "date"
-msgstr ""
+msgstr "fecha"
 
 #. module: base
 #: selection:ir.model.fields,ttype:0
@@ -21712,7 +21736,7 @@ msgstr "Por ejemplo, www.odoo.com"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_ebay
 msgid "eBay Connector"
-msgstr ""
+msgstr "conector con eBay"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_sale
@@ -21781,7 +21805,7 @@ msgstr "obtener"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "html"
-msgstr ""
+msgstr "html"
 
 #. module: base
 #: selection:base.language.install,state:0
@@ -21858,11 +21882,6 @@ msgstr "ir.autovacuum"
 #: model:ir.model,name:base.model_ir_config_parameter
 msgid "ir.config_parameter"
 msgstr "ir.config_parameter"
-
-#. module: base
-#: model:ir.model,name:base.model_ir_cron
-msgid "ir.cron"
-msgstr "ir.cron"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_default
@@ -22210,7 +22229,7 @@ msgstr "test_convert"
 #. module: base
 #: selection:ir.model.fields,ttype:0
 msgid "text"
-msgstr ""
+msgstr "Texto"
 
 #. module: base
 #: model:ir.ui.view,arch_db:base.res_config_installer
@@ -22247,9 +22266,9 @@ msgstr "Plan contable chino"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_cn_small_business
 msgid "中国小企业会计科目表"
-msgstr ""
+msgstr "中国小企业会计科目表"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_cn_standard
 msgid "会计科目表 - 中国企业会计准则"
-msgstr ""
+msgstr "会计科目表 - 中国企业会计准则"

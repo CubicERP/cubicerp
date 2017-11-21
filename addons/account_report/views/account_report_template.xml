@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="account_report_assets_backend" name="account_report assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/account_report/static/src/js/account_report_ledger_backend.js"></script>
+            <script type="text/javascript" src="/account_report/static/src/js/account_report_ledger_widgets.js"></script>
+            <link rel="stylesheet" href="/account_report/static/src/less/account_report_ledger.less" />
+        </xpath>
+   </template>
+
+</odoo>

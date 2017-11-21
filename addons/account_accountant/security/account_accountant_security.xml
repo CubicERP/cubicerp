@@ -8,7 +8,7 @@
 
         <record id="account.group_account_manager" model="res.groups">
             <field name="name">Advisor</field>
-            <field name="implied_ids" eval="[(2, ref('account.group_account_invoice')), (4, ref('account.group_account_user'))]"/>
+            <field name="implied_ids" eval="[(3, ref('account.group_account_invoice')), (4, ref('account.group_account_user'))]"/>
         </record>
 
         <record id="base.user_root" model="res.users">

@@ -315,7 +315,7 @@ class AccountJournal(models.Model):
         return self.env.ref('account.account_payment_method_manual_out')
 
     name = fields.Char(string='Journal Name', required=True)
-    code = fields.Char(string='Short Code', size=5, required=True, help="The journal entries of this journal will be named using this prefix.")
+    code = fields.Char(string='Short Code', size=8, required=True, help="The journal entries of this journal will be named using this prefix.")
     active = fields.Boolean(default=True, help="Set active to false to hide the Journal without removing it.")
     type = fields.Selection([
             ('sale', 'Sale'),
@@ -529,7 +529,7 @@ class AccountJournal(models.Model):
         prefix = code.upper()
         if refund:
             prefix = 'R' + prefix
-        return prefix + '/%(range_year)s/'
+        return prefix + '-'
 
     @api.model
     def _create_sequence(self, vals, refund=False):
@@ -539,7 +539,7 @@ class AccountJournal(models.Model):
             'name': refund and vals['name'] + _(': Refund') or vals['name'],
             'implementation': 'no_gap',
             'prefix': prefix,
-            'padding': 4,
+            'padding': 6,
             'number_increment': 1,
             'use_date_range': True,
         }

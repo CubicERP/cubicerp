@@ -215,6 +215,8 @@ class StockMove(models.Model):
                 move.is_quantity_done_editable = False
             elif move.picking_id.is_locked and move.state in ('done', 'cancel'):
                 move.is_quantity_done_editable = False
+            elif not move.product_uom_qty:
+                move.is_quantity_done_editable = True
             elif move.show_details_visible:
                 move.is_quantity_done_editable = False
             else:

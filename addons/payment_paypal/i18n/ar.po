@@ -18,6 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
+"Last-Translator: Mustafa Rawi <mustafa@cubexco.com>, 2017\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,22 +60,22 @@ msgstr "<span><i>علقت،</i> دفعيتك الشبكية بنجاح. لكن �
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_api_access_token
 msgid "Access Token"
-msgstr ""
+msgstr "رمز الوصول"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_api_access_token_validity
 msgid "Access Token Validity"
-msgstr ""
+msgstr "صلاحية رمز الوصول"
 
 #. module: payment_paypal
 #: model:ir.ui.view,arch_db:payment_paypal.acquirer_form_paypal
 msgid "How to configure your paypal account?"
-msgstr ""
+msgstr "كيف يتم اعداد paypal حساب الخاص بك ؟"
 
 #. module: payment_paypal
 #: model:ir.model,name:payment_paypal.model_payment_acquirer
 msgid "Payment Acquirer"
-msgstr ""
+msgstr "طريقة السداد الإلكتروني"
 
 #. module: payment_paypal
 #: model:ir.model.fields,help:payment_paypal.field_payment_acquirer_paypal_pdt_token
@@ -86,22 +87,22 @@ msgstr ""
 #. module: payment_paypal
 #: model:ir.model,name:payment_paypal.model_payment_transaction
 msgid "Payment Transaction"
-msgstr ""
+msgstr "معاملة السداد"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_email_account
 msgid "Paypal Email ID"
-msgstr ""
+msgstr "معرف البريد الالكتروني لـ PayPal"
 
 #. module: payment_paypal
 #: model:ir.model.fields,help:payment_paypal.field_payment_acquirer_paypal_use_ipn
 msgid "Paypal Instant Payment Notification"
-msgstr ""
+msgstr "تنبيه PayPal الفوري للدفع"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_seller_account
 msgid "Paypal Merchant ID"
-msgstr ""
+msgstr "معرف التاجر لدى PayPal"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_pdt_token
@@ -112,17 +113,17 @@ msgstr ""
 #: code:addons/payment_paypal/models/payment.py:138
 #, python-format
 msgid "Paypal: received data with missing reference (%s) or txn_id (%s)"
-msgstr ""
+msgstr "حساب Paypal: استلم بيانات بمرجع مفقود (%s) أو txn_id (%s)"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_api_password
 msgid "Rest API Password"
-msgstr ""
+msgstr "إعادة تعيين كلمة مرور لواجهة برمجة التطبيق (API)"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_api_username
 msgid "Rest API Username"
-msgstr ""
+msgstr "إعادة تعيين إسم المستخدم لواجهة برمجة التطبيق (API)"
 
 #. module: payment_paypal
 #: model:ir.model.fields,help:payment_paypal.field_payment_acquirer_paypal_seller_account
@@ -130,18 +131,20 @@ msgid ""
 "The Merchant ID is used to ensure communications coming from Paypal are "
 "valid and secured."
 msgstr ""
+"معرف التاجر يستخدم للتأكد من أن الاتصالات القادمة من PayPal تكون صالحة "
+"ومؤمنة."
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_transaction_paypal_txn_type
 msgid "Transaction type"
-msgstr ""
+msgstr "نوع المعاملة"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_use_ipn
 msgid "Use IPN"
-msgstr ""
+msgstr "إستخدام تنبيهات الدفع الفورية"
 
 #. module: payment_paypal
 #: model:ir.model.fields,field_description:payment_paypal.field_payment_acquirer_paypal_api_enabled
 msgid "Use Rest API"
-msgstr ""
+msgstr "إستخدم إعادة تعيين واجهة برمجة التطبيق"

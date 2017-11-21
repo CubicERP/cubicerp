@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CubicERP Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 11:35+0000\n"
-"PO-Revision-Date: 2017-10-10 11:35+0000\n"
+"POT-Creation-Date: 2017-11-16 09:37+0000\n"
+"PO-Revision-Date: 2017-11-16 09:37+0000\n"
 "Last-Translator: Alper Çiftçi <inactive+alprciftci@transifex.com>, 2017\n"
 "Language-Team: Turkish (https://www.transifex.com/odoo/teams/41243/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -334,6 +334,41 @@ msgid "%s has declined invitation"
 msgstr "%s daveti kabul etmedi"
 
 #. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_notif_5
+msgid "1 Day(s)"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_notif_3
+msgid "1 Hour(s)"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_notif_1
+msgid "15 Minute(s)"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_notif_4
+msgid "2 Hour(s)"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_mail_1
+msgid "3 Hour(s), by e-mail"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_notif_2
+msgid "30 Minute(s)"
+msgstr ""
+
+#. module: calendar
+#: model:calendar.alarm,name:calendar.alarm_mail_2
+msgid "6 Hour(s), by e-mail"
+msgstr ""
+
+#. module: calendar
 #: model:ir.ui.view,arch_db:calendar.view_calendar_event_form
 #: model:ir.ui.view,arch_db:calendar.view_calendar_event_form_popup
 msgid "<span> hours</span>"
@@ -369,7 +404,7 @@ msgstr "Etkinlik"
 #. module: calendar
 #: model:ir.model,name:calendar.model_mail_activity_type
 msgid "Activity Type"
-msgstr ""
+msgstr "Aktivite Tipi"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event_allday

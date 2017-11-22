@@ -184,6 +184,34 @@ class ir_cron(models.Model):
                 raise
         except Exception:
             _logger.warning('Exception in cron:', exc_info=True)
+            
+    @classmethod
+    def _acquire_job(cls, db_name):
+        """ Try to process all cron jobs.
+
+        This selects in database all the jobs that should be processed. It then
+        tries to lock each of them and, if it succeeds, run the cron job (if it
+        doesn't succeed, it means the job was already locked to be taken care
+        of by another thread) and return.
+
+        This method hides most exceptions related to the database's version, the
+        modules' state, and such.
+        """
+        try:
+            cls._process_jobs(db_name)
+        except BadVersion:
+            _logger.warning('Skipping database %s as its base version is not %s.', db_name, BASE_VERSION)
+        except BadModuleState:
+            _logger.warning('Skipping database %s because of modules to install/upgrade/remove.', db_name)
+        except psycopg2.ProgrammingError as e:
+            if e.pgcode == '42P01':
+                # Class 42 — Syntax Error or Access Rule Violation; 42P01: undefined_table
+                # The table ir_cron does not exist; this is probably not an OpenERP database.
+                _logger.warning('Tried to poll an undefined table on database %s.', db_name)
+            else:
+                raise
+        except Exception:
+            _logger.warning('Exception in cron:', exc_info=True)
 
     @api.multi
     def _try_lock(self):

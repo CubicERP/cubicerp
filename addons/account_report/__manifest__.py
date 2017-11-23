@@ -38,6 +38,7 @@ It transform the accounting PDF reports to useful dynamical reports.
         "views/account_report_ledger.xml",
         "views/account_report_view.xml",
         "views/account_report_template.xml",
+        "wizard/account_report_ledger_view.xml",
     ],
     'qweb': [
         'static/src/xml/account_report_ledger_backend.xml',

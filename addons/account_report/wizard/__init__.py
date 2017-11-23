@@ -19,5 +19,5 @@
 #
 ##############################################################################
 
-from . import models
-from . import wizard
+from . import account_report_common
+from . import account_report_ledger

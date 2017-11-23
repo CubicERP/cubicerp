@@ -31,4 +31,4 @@ class AccountReportGeneralLedger(models.TransientModel):
         data['form'].update(self.read(['initial_balance', 'sortby'])[0])
         if data['form'].get('initial_balance') and not data['form'].get('date_from'):
             raise UserError(_("You must define a Start Date"))
-        return self.client_action('account_report.action_ledger_report')
+        return self.client_action('account_report.action_ledger_report', data)

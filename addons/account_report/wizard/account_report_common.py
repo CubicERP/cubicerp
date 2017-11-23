@@ -40,8 +40,13 @@ class AccountCommonReport(models.TransientModel):
     def _preview_report(self, data):
         raise NotImplementedError()
 
-    def client_action(self, xml_id):
+    def client_action(self, xml_id, data):
+        ctx = self._context.copy()
+        ctx['data'] = data
         return {'type': 'ir.actions.client',
                 'name': self.env.ref(xml_id).name,
                 'tag': self.env.ref(xml_id).tag,
+                'id': self.env.ref(xml_id).id,
+                'xml_id': xml_id,
+                'context': ctx,
                 }

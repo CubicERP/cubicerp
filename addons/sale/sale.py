@@ -74,8 +74,8 @@ class sale_order(osv.osv):
             for line in order.order_line:
                 val1 += line.price_subtotal
                 val += self._amount_line_tax(cr, uid, line, context=context)
-            res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val)
-            res[order.id]['amount_untaxed'] = cur_obj.round(cr, uid, cur, val1)
+            res[order.id]['amount_tax'] = val # cur_obj.round(cr, uid, cur, val)
+            res[order.id]['amount_untaxed'] = val1 # cur_obj.round(cr, uid, cur, val1)
             res[order.id]['amount_total'] = res[order.id]['amount_untaxed'] + res[order.id]['amount_tax']
         return res
 
@@ -882,7 +882,7 @@ class sale_order_line(osv.osv):
                                         line.product_id,
                                         line.order_id.partner_id)
             cur = line.order_id.pricelist_id.currency_id
-            res[line.id] = cur_obj.round(cr, uid, cur, taxes['total'])
+            res[line.id] = taxes['total'] # cur_obj.round(cr, uid, cur, taxes['total'])
         return res
 
     def _get_uom_id(self, cr, uid, *args):

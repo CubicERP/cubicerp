@@ -66,7 +66,7 @@ class account_invoice(models.Model):
         untax = sum(line.price_subtotal for line in self.invoice_line)
         if self.tax_line:
             untax2 = sum(line.base for line in self.tax_line)
-            if abs(untax - untax2) < 0.05:
+            if (untax - untax2) and abs(untax - untax2) < 0.05:
                 untax = untax2
         self.amount_untaxed = untax
         self.amount_tax = sum(line.amount for line in self.tax_line)
@@ -758,6 +758,24 @@ class account_invoice(models.Model):
             else:
                 total -= line['price']
                 total_currency -= line['amount_currency'] or line['price']
+        amount_diff = self.amount_total - total_currency
+        if amount_diff:
+            if not self.company_id.income_currency_exchange_account_id or not self.company_id.expense_currency_exchange_account_id:
+                raise except_orm(_('Error!'), _("Please define the difference accounts located under configuration tab in company's form."))
+            price_diff = self.currency_id != company_currency and currency.compute(amount_diff, company_currency) or self.currency_id.round(amount_diff)
+            invoice_move_lines.append({
+                'account_id': amount_diff > 0 and self.company_id.income_currency_exchange_account_id.id or self.company_id.expense_currency_exchange_account_id.id,
+                'amount_currency': self.currency_id != company_currency and currency.round(amount_diff) or False,
+                'currency_id': self.currency_id != company_currency and currency.id or False,
+                'name': _('Rounding diff'),
+                'price': price_diff * -1.0,
+                'price_unit': price_diff,
+                'quantity': 1,
+                'type': 'rounding',
+                'ref': ref,
+            })
+            total += price_diff
+            total_currency += amount_diff
         return total, total_currency, invoice_move_lines
 
     def inv_line_characteristic_hashcode(self, invoice_line):
@@ -1227,8 +1245,8 @@ class account_invoice_line(models.Model):
         price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
         taxes = self.invoice_line_tax_id.compute_all(price, self.quantity, product=self.product_id, partner=self.invoice_id.partner_id)
         self.price_subtotal = taxes['total']
-        if self.invoice_id:
-            self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)
+        # if self.invoice_id:
+        #     self.price_subtotal = self.invoice_id.currency_id.round(self.price_subtotal)
 
     @api.model
     def _default_price_unit(self):

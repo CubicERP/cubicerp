@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="certificate_tree_view">
+            <field name="name">pki.certificate.tree</field>
+            <field name="model">pki.certificate</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Certificates" >
+                    <field name="name" />
+                    <field name="start_date" />
+                    <field name="stop_date" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="certificate_form_view">
+            <field name="name">pki.certificate.view.form</field>
+            <field name="model">pki.certificate</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Certificate" >
+                	<header>
+                		<button name="action_draft" string="Draft" states="request,cancel" type="object" />
+                        <button name="action_request" string="Request" states="draft" class="oe_highlight" type="object" />
+                        <button name="action_done" string="Done" states="request" class="oe_highlight" type="object" />
+                        <button name="action_cancel" string="Cancel" states="request,done" type="object" />
+                        <field name="state" widget="statusbar" />
+                	</header>
+                	<sheet>
+	                	<group>
+	                		<group>
+	                			<field name="name" />
+	                		</group>
+	                		<group>
+	                			<field name="start_date" />
+	                			<field name="stop_date" />
+	                		</group>
+	                	</group>
+	                    <separator string="Private Key" attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <field name="key" attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <separator string="Certificate Request"/>
+                        <field name="csr"/>
+                        <separator string="Certificate .crt"/>
+                        <field name="crt"/>
+                        <separator string="Certificate .cer"/>
+                        <field name="cer"/>
+                        <separator string="Certificate .pem"/>
+                        <field name="pem"/>
+                        <separator string="Certificate .der"/>
+                        <field name="der"/>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="certificate_action" model="ir.actions.act_window">
+            <field name="name">Certificate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pki.certificate</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="PKI Certificates" id="certificate_menu"
+             parent="base.menu_res_company_global" action="certificate_action"
+             sequence="90" />
+
+    </data>
+</openerp>

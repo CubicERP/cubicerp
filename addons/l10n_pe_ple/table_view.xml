@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- Account -->
+
+        <record model="ir.ui.view" id="account_form_view">
+            <field name="name">SUNAT PLE account form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_account_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+						<attribute name="invisible">0</attribute>
+					</xpath>
+					<xpath expr="//group[@name='l10n_pe']" position="inside">
+						<group>
+                        	<field name="bank_account_id" attrs="{'invisible': [('type','!=','liquidity')]}" />
+                        </group>
+					</xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Account Type -->
+
+        <record model="ir.ui.view" id="view_account_type_form">
+            <field name="name">account.account.type.form.inherit.ple</field>
+            <field name="model">account.account.type</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_account_type_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                        <group>
+                            <field name="sunat_code" />
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Journal -->
+
+        <record model="ir.ui.view" id="journal_form_view">
+            <field name="name">SUNAT PLE journal form</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name='inherit_id' ref='l10n_pe_base.view_account_journal_form'/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                        <field name="sunat_payment_code" attrs="{'invisible': [('type','not in',['bank','cash','general'])]}"/>
+                        <field name="sunat_payment_type" />
+                        <field name="sunat_customs_code" attrs="{'invisible': [('type','not in',['purchase','purchase_refund'])]}"/>
+                        <field name="sunat_operation_type" />
+                        <field name="sunat_revenue_kind" attrs="{'invisible': [('type','not in',['purchase','purchase_refund'])]}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Bank -->
+
+        <record model="ir.ui.view" id="bank_form_view">
+            <field name="name">SUNAT PLE bank form</field>
+            <field name="model">res.bank</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='bic']" position="after">
+                        <field name="sunat_bank_code" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Currency -->
+
+        <record model="ir.ui.view" id="currency_form_view">
+            <field name="name">SUNAT PLE currency</field>
+            <field name="model">res.currency</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='base']" position="before">
+                        <field name="sunat_code" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Product Category -->
+
+        <record model="ir.ui.view" id="product_category_form_view">
+            <field name="name">SUNAT PLE product category form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_pe_base.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                            <field name="sunat_tipo_existencia" />
+                            <field name="sunat_code" />
+                            <field name="osce_code" />
+                            <field name="sunat_inventory_display_type" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Product UOM -->
+
+        <record model="ir.ui.view" id="product_uom_form_view">
+            <field name="name">SUNAT PLE product uom form</field>
+            <field name="model">product.uom</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='active']" position="before">
+                        <field name="sunat_code" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Product Template -->
+
+        <record model="ir.ui.view" id="product_normal_form_view">
+            <field name="name">SUNAT PLE product template form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='status']" position="after">
+                        <group string="SUNAT">
+                            <field name="sunat_nominal_value" />
+                            <field name="sunat_acum_depreciation" />
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_template_form_view">
+            <field name="name">SUNAT PLE product template form</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='status']" position="after">
+                        <group string="SUNAT">
+                            <field name="sunat_title_type" />
+                            <field name="sunat_share_type" />
+                            <field name="sunat_valuation_method" />
+                            <field name="sunat_asset_type" />
+                            <field name="sunat_asset_state" />
+                            <field name="sunat_depreciation_method" />
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Stock Location -->
+
+        <record model="ir.ui.view" id="view_location_form">
+            <field name="name">SUNAT PLE stock location form</field>
+            <field name="model">stock.location</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_location_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                            <field name="sunat_branch_code" attrs="{'invisible':[('usage','!=','internal')]}"/>
+                            <field name="sunat_op_type_in" />
+                            <field name="sunat_op_type_out" />
+                        <newline />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Stock Picking -->
+
+        <record model="ir.ui.view" id="view_picking_form">
+            <field name="name">stock.picking.form.inherit.ple</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='backorder_id']" position="after">
+                   <field name="remision_number" attrs="{'readonly':[('state','in',['done','cancel'])]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- record model="ir.ui.view" id="view_picking_out_form">
+            <field name="name">stock.picking.out.form.inherit.ple</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stock_journal_id']" position="after">
+                   <field name="remision_number" attrs="{'readonly':[('state','in',['done','cancel'])]}"/>
+                </xpath>
+            </field>
+        </record -->
+
+        <!-- Account Invoice -->
+
+        <record model="ir.ui.view" id="invoice_supplier_form">
+            <field name="name">account.invoice.supplier.form.inherit.ple</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="l10n_pe_base.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                        <field name="sunat_exoneration"/>
+                        <field name="sunat_kind_service"/>
+                        <field name="sunat_lir_art_76"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Account Move -->
+
+        <!--record model="ir.ui.view" id="view_move_form">
+            <field name="name">account.move.form.inherit.ple</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='company_id']" position="after">
+                        <field name="sunat_payment_code"/>
+                    </xpath>
+                </data>
+            </field>
+        </record-->
+
+        <!-- Account Move line -->
+
+        <!--record model="ir.ui.view" id="account_move_line_tree_view">
+            <field name="name">SUNAT PLE account move line tree</field>
+            <field name="model">account.move.line</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='currency_id']" position="after">
+                        <field name="sunat_title_type" />
+                        <field name="sunat_share_type" />
+                    </xpath>
+                </data>
+            </field>
+        </record-->
+
+         <!-- Company -->
+
+        <record model="ir.ui.view" id="view_company_form">
+            <field name="name">res.company.form.inherit.ple</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_company_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside">
+                            <field name="sunat_accounting_plan" />
+                            <field name="sunat_financial_catalog" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Account Asset Category -->
+
+        <record model="ir.ui.view" id="account_asset_category_form_view">
+            <field name="name">SUNAT PLE account asset category form</field>
+            <field name="model">account.asset.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_category_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='open_asset']" position="after">
+                        <group name="sunat" >
+                            <field name="sunat_code" />
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Account Asset -->
+
+        <record model="ir.ui.view" id="account_asset_form_view">
+            <field name="name">SUNAT PLE account asset form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@string='General']/group" position="after">
+                        <group name="sunat" >
+                            <field name="sunat_asset_type" />
+                            <field name="sunat_asset_state" />
+                            <field name="sunat_depreciation_method" />
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Analytic Account -->
+
+        <record model="ir.ui.view" id="analytic_account_form_view">
+            <field name="name">SUNAT PLE analytic account form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@string='Contract Information']" position="after">
+                        <page string="SUNAT info" >
+                            <group name="General info">
+                                <field name="sunat_production_grouping" />
+                            </group>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Partner -->
+
+        <record model='ir.ui.view' id='res_partner_filter_view_inherit_person'>
+            <field name='name'>res.partner.filter.inherit.person</field>
+            <field name='model'>res.partner</field>
+            <field name='inherit_id' ref='base.view_res_partner_filter'/>
+            <field name='arch' type='xml'>
+                <field name="category_id" position="after">
+                    <field name="doc_number" string="Document Number" filter_domain="[('doc_number','ilike', self)]"/>
+                </field>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="partner_form_view">
+            <field name="name">l10n PE Partner adds</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='is_company']" position="attributes" >
+                        <attribute name="on_change" >onchange_is_company(is_company,doc_type)</attribute>
+                    </xpath>                    
+                    <xpath expr="//h1" position="after">
+                        <div>
+                            <field name="doc_type" 
+                                on_change="onchange_doc(doc_type,doc_number,is_company)" 
+                                style="width: 70%%"/>
+                            <field name="doc_number" 
+                                on_change="onchange_doc(doc_type,doc_number,is_company)"
+                                placeholder="Number"
+                                style="width: 29%%"/>
+                        </div>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_partner_property_form">
+            <field name="name">res.partner.property.form.inherit.pe.ple</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_partner_property_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='l10n_pe']" position="inside" >
+                        <field name="sunat_bienes_servicios"/>
+                        <field name="sunat_renuncia_exon_igv"/>
+                        <field name="sunat_renuncia_exon_date" attrs="{'invisible':[('sunat_renuncia_exon_igv','=',False)],'required':[('sunat_renuncia_exon_igv','=',True)]}"/>
+                    </xpath>                    
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_country_form">
+            <field name="name">res.country.form.inherit.pe.ple</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="code" position="after">
+                        <field name="sunat_code"/>
+                        <field name="sunat_agreement"/>
+                    </field>                    
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

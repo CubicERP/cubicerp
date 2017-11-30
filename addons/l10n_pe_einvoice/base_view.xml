@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model='ir.ui.view' id='certificate_form_view'>
+			<field name='name'>pki.certificate.view.form.inherit.pe</field>
+			<field name='model'>pki.certificate</field>
+			<field name='inherit_id' ref='base_pki.certificate_form_view'/>
+			<field name='arch' type='xml'>
+				<xpath expr="//field[@name='key']" position="attributes">
+					<attribute name="required">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='cer']" position="attributes">
+					<attribute name="required">1</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,434 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* account_load
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-19 16:41+0000\n"
+"PO-Revision-Date: 2016-08-19 14:26-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,account_id:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+msgid "Account Expense"
+msgstr "Cuenta Gastos"
+
+#. module: account_load
+#: model:ir.model,name:account_load.model_account_load
+msgid "Account Initial Load"
+msgstr "Carga Inicial de la Cuenta"
+
+#. module: account_load
+#: model:ir.model,name:account_load.model_account_load_move
+msgid "Account Initial Load Moves"
+msgstr "Movimientos de Carga Inicial de la cuenta"
+
+#. module: account_load
+#: field:account.load.move,load_id:0
+#: model:ir.actions.act_window,name:account_load.account_load_list_action
+#: model:ir.module.category,name:account_load.module_category_load
+#: model:ir.ui.menu,name:account_load.account_load_menu
+#: model:ir.ui.menu,name:account_load.account_load_root_menu
+msgid "Account Load"
+msgstr "Carga Inicial"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_tree
+msgid "Account Load List"
+msgstr "Lista Carga Inicial"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Account Load Move"
+msgstr "Movimiento de Carga Inicial"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_tree
+msgid "Account Load Move List"
+msgstr "Lista de Movimientos de Carga Inicial"
+
+#. module: account_load
+#: model:ir.actions.act_window,name:account_load.account_load_move_list_action
+#: model:ir.ui.menu,name:account_load.account_load_move_menu
+msgid "Account Load Moves"
+msgstr "Movimientos de Carga Inicial"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+msgid "Account Load Notes..."
+msgstr "Notas de Carga Inicial..."
+
+#. module: account_load
+#: field:account.load.move,move_id:0
+msgid "Account Move"
+msgstr "Movimiento Contable"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+msgid "Account Moves"
+msgstr "Movimientos Contables"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,account_type:0
+msgid "Account Type"
+msgstr "Tipo de Cuenta"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,account_user_type:0
+msgid "Account User Type"
+msgstr "Tipo de Cuenta de Usuario"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Add an internal note..."
+msgstr "Añadir una Nota Interna..."
+
+#. module: account_load
+#: help:account.load,period_id:0
+msgid "All entries will be written on this period"
+msgstr "Todos los apuntes contables serán escritas en este periodo"
+
+#. module: account_load
+#: field:account.load.move,amount_load:0
+msgid "Amount"
+msgstr "Monto"
+
+#. module: account_load
+#: field:account.load,amount_total:0
+msgid "Amount Total"
+msgstr "Monto Total"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,analytic_account_id:0
+msgid "Analytic Account"
+msgstr "Cuenta Analítica"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Cancel Entry"
+msgstr "Cancelar Entrada"
+
+#. module: account_load
+#: field:account.load,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_load
+#: field:account.load,create_uid:0 field:account.load.move,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: account_load
+#: field:account.load,create_date:0 field:account.load.move,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: account_load
+#: field:account.load,currency_id:0
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: account_load
+#: field:account.load.move,currency_amount:0
+msgid "Currency Amount"
+msgstr "Monto Divisa"
+
+#. module: account_load
+#: field:account.load,date:0
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,date_maturity:0
+msgid "Date Maturity"
+msgstr "Fecha Vencimiento"
+
+#. module: account_load
+#: help:account.load,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Fecha del último mensaje publicado en el registro."
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+#: selection:account.load,state:0
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Draft Load Moves"
+msgstr "Borrador de Movimientos de Carga Inicial"
+
+#. module: account_load
+#: code:addons/account_load/account_load.py:94
+#: code:addons/account_load/account_load.py:96
+#, python-format
+msgid "Error!"
+msgstr "Error!"
+
+#. module: account_load
+#: field:account.load,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Group By..."
+msgstr "Agrupar Por..."
+
+#. module: account_load
+#: model:ir.module.category,description:account_load.module_category_load
+msgid ""
+"Helps you manage your initial account load with multiple account moves in "
+"easy and secure way."
+msgstr ""
+"Ayuda a administrar la carga inicial contable con múltiples movimientos "
+"contables de una manera segura y fácil."
+
+#. module: account_load
+#: help:account.load,message_summary:0
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Mantiene un cuadro resumen (número de mensajes,...). Este resumen es "
+"mostrado directamente en HTML, de manera que puede ser integrado en las "
+"vistas kanban."
+
+#. module: account_load
+#: field:account.load,id:0 field:account.load.move,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_load
+#: help:account.load,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si está seleccionado nuevos mensajes requiere de su atención"
+
+#. module: account_load
+#: field:account.load,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es un seguidor"
+
+#. module: account_load
+#: field:account.load,journal_id:0
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Journal"
+msgstr "Diario"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Journal Entries"
+msgstr "Asientos del Diario"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Journal Items"
+msgstr "Elementos del Diario"
+
+#. module: account_load
+#: field:account.load,message_last_post:0
+msgid "Last Message Date"
+msgstr "Fecha del Último Mensaje"
+
+#. module: account_load
+#: field:account.load,write_uid:0 field:account.load.move,write_uid:0
+msgid "Last Updated by"
+msgstr "Última Actualización de"
+
+#. module: account_load
+#: field:account.load,write_date:0 field:account.load.move,write_date:0
+msgid "Last Updated on"
+msgstr "Última Actualización en"
+
+#. module: account_load
+#: field:account.load,line_ids:0
+msgid "Load Lines"
+msgstr "Lineas de Carga Inicial"
+
+#. module: account_load
+#: model:res.groups,name:account_load.group_load_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: account_load
+#: field:account.load,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: account_load
+#: help:account.load,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historial de mensajes y comunicación"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+msgid "Moves"
+msgstr "Movimientos"
+
+#. module: account_load
+#: field:account.load,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_load
+#: field:account.load,notes:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Number"
+msgstr "Número"
+
+#. module: account_load
+#: field:account.load,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+msgid "Other Info"
+msgstr "Otra Información"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Others"
+msgstr "Otros"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+#: field:account.load.move,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: account_load
+#: field:account.load,period_id:0
+msgid "Period"
+msgstr "Periodo"
+
+#. module: account_load
+#: code:addons/account_load/account_load.py:94
+#, python-format
+msgid "Please define sequence on the journal related to this load."
+msgstr ""
+"Por favor defina la secuencia en el diario relacionado a esta carga inicial."
+
+#. module: account_load
+#: code:addons/account_load/account_load.py:96
+#, python-format
+msgid ""
+"Please define the credit and debit account on the journal related to this "
+"load."
+msgstr ""
+"Por favor defina la cuenta de crédito y debito por defecto relacionada a "
+"esta carga inicial."
+
+#. module: account_load
+#: view:account.load:account_load.view_account_load_form
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Post"
+msgstr "Enviar"
+
+#. module: account_load
+#: selection:account.load,state:0
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Posted"
+msgstr "Enviado"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Posted Load Moves"
+msgstr "Movimientos de Carga Inicial Publicado"
+
+#. module: account_load
+#: field:account.load,ref:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Search Load Move"
+msgstr "Buscar Movimientos de Carga inicial "
+
+#. module: account_load
+#: field:account.load,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_filter
+msgid "Status"
+msgstr "Estado"
+
+#. module: account_load
+#: field:account.load,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: account_load
+#: help:account.load,journal_id:0
+msgid ""
+"This journal is used to obtain the credit/debit account to complete the "
+"account entry"
+msgstr ""
+"Este diario es usado para obtener la cuenta débito/crédito para completar el "
+"apunte contable."
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Total Credit"
+msgstr "Crédito Total"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "Total Debit"
+msgstr "Débito Total"
+
+#. module: account_load
+#: field:account.load,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes No Leidos"
+
+#. module: account_load
+#: field:account.load,user_id:0
+#: model:res.groups,name:account_load.group_load_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: account_load
+#: field:account.load,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mensajes de Sitios Web"
+
+#. module: account_load
+#: help:account.load,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historial de Comunicación del Sitio Web"
+
+#. module: account_load
+#: view:account.load.move:account_load.view_account_load_move_form
+msgid "first Journal Item"
+msgstr "Primer Elemento del Diario"

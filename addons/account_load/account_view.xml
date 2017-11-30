@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record model='ir.ui.view' id='journal_form_view_inherit_expense'>
+			<field name='name'>account.journal.form.inherit.expense</field>
+			<field name='model'>account.journal</field>
+			<field name='inherit_id' ref='account.view_account_journal_form'/>
+			<field name='arch' type='xml'>
+                <field name="sequence_id" position="after">
+                    <field name="load_account_id"/>
+                </field>
+			</field>
+		</record>
+        
+	</data>
+</openerp>

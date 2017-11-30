@@ -1,0 +1,12 @@
+diff --git a/addons/stock/stock.py b/addons/stock/stock.py
+index edd3515..c6b1ed6 100644
+--- a/addons/stock/stock.py
++++ b/addons/stock/stock.py
+@@ -696,6 +696,7 @@ class stock_picking(osv.osv):
+             ("none", "Not Applicable")], "Invoice Control",
+             select=True, required=True, readonly=True, track_visibility='onchange', states={'draft': [('readonly', False)]}),
+         'company_id': fields.many2one('res.company', 'Company', required=True, select=True, states={'done':[('readonly', True)], 'cancel':[('readonly',True)]}),
++        'remision_number': fields.char('Remision Number', 32, states={'done':[('readonly', False)], 'cancel':[('readonly',True)]}),
+     }
+     _defaults = {
+         'name': lambda self, cr, uid, context: '/',

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="1">		
+
+	    <record model="hr.holidays.status" id="holiday_status_falta">
+		    <field name="name">Faltas</field>
+		    <field name="code">FALTA</field>
+		    <field name="limit">1</field>
+	    </record>
+	    <record model="hr.holidays.status" id="holiday_status_tardanza">
+		    <field name="name">Tardanzas</field>
+		    <field name="code">TARDANZA</field>
+		    <field name="limit">1</field>
+	    </record>
+	    
+	</data>
+</openerp>

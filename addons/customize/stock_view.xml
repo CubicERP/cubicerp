@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+   <data>
+        <record model='ir.ui.view' id='view_move_form'>
+			<field name='name'>stock.move.form.inherit.cutomize</field>
+			<field name='model'>stock.move</field>
+			<field name='inherit_id' ref='stock.view_move_form'/>
+			<field name='arch' type='xml'>
+                <field name="location_id" position="after">
+                    <field name="price_unit" widget="monetary" options="{'currency_field': 'price_currency_id'}" 
+                    	/>
+                </field>
+            </field>
+        </record>
+
+	</data>
+</openerp>

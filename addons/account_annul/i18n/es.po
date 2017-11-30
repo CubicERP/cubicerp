@@ -1,0 +1,43 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* account_annul
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-23 14:02+0000\n"
+"PO-Revision-Date: 2016-11-23 09:02-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: account_annul
+#: model:ir.model,name:account_annul.model_account_move
+msgid "Account Entry"
+msgstr "Importe de Entrada"
+
+#. module: account_annul
+#: view:account.invoice:account_annul.invoice_form
+msgid "Annul Invoice"
+msgstr "Anular Factura"
+
+#. module: account_annul
+#: field:account.move,annul:0
+msgid "Annulled"
+msgstr "Anulado"
+
+#. module: account_annul
+#: view:account.invoice:account_annul.invoice_form
+msgid "Cancell Invoice"
+msgstr "Cancelar Factura"
+
+#. module: account_annul
+#: model:ir.model,name:account_annul.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"

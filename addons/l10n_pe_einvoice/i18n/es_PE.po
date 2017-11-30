@@ -1,0 +1,873 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_einvoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-28 23:16+0000\n"
+"PO-Revision-Date: 2016-12-28 18:18-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: l10n_pe_einvoice
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Add Electronic Documents"
+msgstr "Añadir Documentos Electronicos"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,amount_discount:0
+msgid "Amount Discount"
+msgstr "Monto de Descuento"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Base"
+msgstr "Base"
+
+#. module: l10n_pe_einvoice
+#: field:pe.einvoice.send.wizard.line,pe_einvoice_id:0
+msgid "Batch"
+msgstr "Batch"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Batch Electrónico"
+msgstr "Batch Electrónico"
+
+#. module: l10n_pe_einvoice
+#: field:pe.einvoice.send.wizard,pe_einvoice_lines:0
+msgid "Batch Lines"
+msgstr "Batch Lines"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,batch_pe_type:0
+msgid "Batch type"
+msgstr "Batch type"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+#: selection:einvoice.batch.pe,state:0 selection:einvoice.message.pe,state:0
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:100
+#, python-format
+msgid "Cancelled Invoice"
+msgstr "Facturas Canceladas"
+
+#. module: l10n_pe_einvoice
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Close"
+msgstr "Cerrado"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,code:0
+msgid "Code"
+msgstr "Codigo"
+
+#. module: l10n_pe_einvoice
+#: field:res.company,comercial_name:0
+msgid "Comercial Name"
+msgstr "Nombre Comercial"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Comment:"
+msgstr "Comentario:"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_res_company
+msgid "Companies"
+msgstr "Compañias"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,company_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,create_uid:0
+#: field:einvoice.batch.pe,create_uid:0 field:einvoice.message.pe,create_uid:0
+#: field:pe.einvoice.send.wizard,create_uid:0
+#: field:pe.einvoice.send.wizard.line,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,create_date:0
+#: field:einvoice.batch.pe,create_date:0
+#: field:einvoice.message.pe,create_date:0
+#: field:pe.einvoice.send.wizard,create_date:0
+#: field:pe.einvoice.send.wizard.line,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,credit_note_type:0
+#: field:account.invoice.refund,credit_note_type:0
+msgid "Credit note type"
+msgstr "Tipo de Nota de Credito"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Customer Code:"
+msgstr "Código de cliente"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_05
+msgid "CÓDIGO DE TIPO DE TRIBUTO"
+msgstr "CÓDIGO DE TIPO DE TRIBUTO"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_15
+msgid "CÓDIGOS DE ELEMENTOS ADICIONALES A LA FACTURA Y/O BOLETA"
+msgstr "CÓDIGOS DE ELEMENTOS ADICIONALES A LA FACTURA Y/O BOLETA"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_tabla_02
+msgid "CÓDIGOS DE ERROR"
+msgstr "CÓDIGOS DE ERROR"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_14
+msgid "CÓDIGOS DE OTROS CONCEPTOS TRIBUTARIOS"
+msgstr "CÓDIGOS DE OTROS CONCEPTOS TRIBUTARIOS"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/einvoice.py:130
+#, python-format
+msgid "Data Error"
+msgstr "Data Error"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,date:0 field:einvoice.message.pe,date:0
+#: field:einvoice.message.pe,date_end:0
+#: field:pe.einvoice.send.wizard.line,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,debit_note_type:0
+#: field:account.invoice,sunat_payment_type:0
+msgid "Debit note type"
+msgstr "Tipo de Nota de Debito"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,name:0
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Description"
+msgstr "Descripción"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Description:"
+msgstr "Descripción:"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,digest:0
+msgid "Digest"
+msgstr "Resumen"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,digest:0
+msgid "Digest Value"
+msgstr "Valor de Resumen"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Discount (%)"
+msgstr "Descuento (%)"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,amount_disc_total:0
+msgid "Discount from total"
+msgstr "Descuento del Total"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,discount:0
+msgid "Discount percentage"
+msgstr "Procentaje de Descuento"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,display_name:0
+#: field:einvoice.batch.pe,display_name:0
+#: field:einvoice.message.pe,display_name:0
+#: field:pe.einvoice.send.wizard,display_name:0
+#: field:pe.einvoice.send.wizard.line,display_name:0
+#: field:report.l10n_pe_einvoice.report_invoice,display_name:0
+msgid "Display Name"
+msgstr "Nombre Mostrador"
+
+#. module: l10n_pe_einvoice
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Documents list"
+msgstr "Lista de Documentos"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.batch.pe,state:0
+msgid "Done"
+msgstr "Done"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+#: selection:einvoice.batch.pe,state:0 selection:einvoice.message.pe,state:0
+#: selection:pe.einvoice.send.wizard,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:98
+#, python-format
+msgid "Draft Invoice"
+msgstr "Factura Borrador"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:92
+#, python-format
+msgid "Electronic"
+msgstr "Electronica"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_tree_view
+#: field:einvoice.message.pe,batch_id:0
+#: model:ir.actions.act_window,name:l10n_pe_einvoice.batch_pe_action
+#: model:ir.ui.menu,name:l10n_pe_einvoice.batch_pe_menu
+msgid "Electronic Batch"
+msgstr "Electronic Batch"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,batch_pe_id:0
+#: field:account.invoice,batch_summary_pe_id:0
+#: field:account.invoice,batch_voided_pe_id:0
+msgid "Electronic Batch Perú"
+msgstr "Electronic Batch Perú"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_tree_view
+msgid "Electronic Message"
+msgstr "Electronic Message"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Electronic Messages"
+msgstr "Electronic Messages"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_einvoice_batch_pe
+msgid "Email Thread"
+msgstr "Hilo de mensajes"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,zip_fname:0
+msgid "Filename"
+msgstr "Filename"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Fiscal Position Remark:"
+msgstr "Observaciones de la posición fiscal"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Get Response"
+msgstr "Obtener Respuesta"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Get Summary"
+msgstr "Obtener Resumen"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,id:0 field:einvoice.batch.pe,id:0
+#: field:einvoice.message.pe,id:0 field:pe.einvoice.send.wizard,id:0
+#: field:pe.einvoice.send.wizard.line,id:0
+#: field:report.l10n_pe_einvoice.report_invoice,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,invoice_id:0
+#: code:addons/l10n_pe_einvoice/account_invoice.py:94
+#: code:addons/l10n_pe_einvoice/account_invoice.py:108
+#: field:einvoice.batch.pe,invoice_id:0
+#: model:ir.model,name:l10n_pe_einvoice.model_account_invoice
+#, python-format
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Invoice Date:"
+msgstr "Fecha de factura:"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Reembolso de Factura"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+#: field:einvoice.batch.pe,invoice_ids:0
+#: field:einvoice.batch.pe,invoice_summary_ids:0
+#: field:einvoice.batch.pe,invoice_voided_ids:0
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Invoices Summary"
+msgstr "Resumen de Facturas"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Invoices Voided"
+msgstr "Facturas Anuladas"
+
+#. module: l10n_pe_einvoice
+#: field:pe.einvoice.send.wizard.line,pe_invoice_send_id:0
+msgid "Invoices to Send"
+msgstr "Facturas por Enviar"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es seguidor"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Is:"
+msgstr "Son:"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,__last_update:0
+#: field:einvoice.batch.pe,__last_update:0
+#: field:einvoice.message.pe,__last_update:0
+#: field:pe.einvoice.send.wizard,__last_update:0
+#: field:pe.einvoice.send.wizard.line,__last_update:0
+#: field:report.l10n_pe_einvoice.report_invoice,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,write_uid:0
+#: field:einvoice.batch.pe,write_uid:0 field:einvoice.message.pe,write_uid:0
+#: field:pe.einvoice.send.wizard,write_uid:0
+#: field:pe.einvoice.send.wizard.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,write_date:0
+#: field:einvoice.batch.pe,write_date:0 field:einvoice.message.pe,write_date:0
+#: field:pe.einvoice.send.wizard,write_date:0
+#: field:pe.einvoice.send.wizard.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+#: field:einvoice.message.pe,message:0
+msgid "Message"
+msgstr "Mensaje"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,emessage_ids:0 field:einvoice.batch.pe,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messages and communication history"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+msgid "Messaje"
+msgstr "Mensaje"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: l10n_pe_einvoice
+#: field:pe.einvoice.send.wizard,number:0
+msgid "Number"
+msgstr "Numero"
+
+#. module: l10n_pe_einvoice
+#: help:pe.einvoice.send.wizard,number:0
+msgid "Number of documents selected"
+msgstr "Numero de Documentos Seleccionados"
+
+#. module: l10n_pe_einvoice
+#: field:account.tax.code,other_tax_type_pe:0
+msgid "Other eInvoice Tax Type"
+msgstr "Other eInvoice Tax Type"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+msgid "Others"
+msgstr "Otros"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:96
+#, python-format
+msgid "PRO-FORMA"
+msgstr "PRO-FORMA"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Payment Term:"
+msgstr "Plazo de pago:"
+
+#. module: l10n_pe_einvoice
+#: model:ir.actions.report.xml,name:l10n_pe_einvoice.pe_account_invoices
+msgid "Perunvian Invoices"
+msgstr "Perunvian Invoices"
+
+#. module: l10n_pe_einvoice
+#: field:account.journal,is_einvoice_pe:0
+msgid "Peruvian Electronic Invoice"
+msgstr "Peruvian Electronic Invoice"
+
+#. module: l10n_pe_einvoice
+#: view:account.tax:l10n_pe_einvoice.view_tax_form
+#: view:account.tax.code:l10n_pe_einvoice.view_tax_code_form
+msgid "Peruvian eInvoice"
+msgstr "Peruvian eInvoice"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,sunat_qr_code:0
+msgid "QR code"
+msgstr "QR code"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.batch.pe,state:0
+#: selection:pe.einvoice.send.wizard,state:0
+msgid "Ready"
+msgstr "Ready"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.message.pe,state:0
+msgid "Received"
+msgstr "Received"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Reference:"
+msgstr "Referencia:"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Refresh"
+msgstr "Refresh"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:102
+#, python-format
+msgid "Refund"
+msgstr "Refund"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,emessage_ids:0
+msgid "Request and response messages from the einvoice servers"
+msgstr "Request and response messages from the einvoice servers"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.batch.pe,state:0
+msgid "Requested"
+msgstr "Requested"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice.sunat.add,element_id:0
+msgid "SUNAT Adds"
+msgstr "SUNAT Adds"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.pe_see
+msgid "SUNAT SEE del Contribuyente"
+msgstr "SUNAT SEE del Contribuyente"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+#: selection:pe.einvoice.send.wizard,state:0
+msgid "Send"
+msgstr "Enviar"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,send_date:0
+msgid "Send Date"
+msgstr "Fecha de Envio"
+
+#. module: l10n_pe_einvoice
+#: model:ir.ui.menu,name:l10n_pe_einvoice.batch_pe_menu_wizard
+msgid "Send E-Documents"
+msgstr "Enviar E-Documentos"
+
+#. module: l10n_pe_einvoice
+#: model:ir.actions.act_window,name:l10n_pe_einvoice.pe_einvoice_send_wizard
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Send Electronic Documents"
+msgstr "Send Electronic Documents"
+
+#. module: l10n_pe_einvoice
+#: model:ir.actions.act_window,name:l10n_pe_einvoice.pe_einvoice_send_action
+msgid "Send Invoice Wizard"
+msgstr "Send Invoice Wizard"
+
+#. module: l10n_pe_einvoice
+#: view:einvoice.batch.pe:l10n_pe_einvoice.batch_pe_form_view
+msgid "Send Request"
+msgstr "Send Request"
+
+#. module: l10n_pe_einvoice
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "Send selected  Electronic Documents?"
+msgstr "Send selected  Electronic Documents?"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.message.pe,state:0
+msgid "Sended"
+msgstr "Sended"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,signature:0
+#: view:einvoice.message.pe:l10n_pe_einvoice.message_pe_form_view
+#: field:einvoice.message.pe,signature:0
+msgid "Signature"
+msgstr "Firma"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Source:"
+msgstr "Origen:"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,state:0 field:einvoice.message.pe,state:0
+#: field:pe.einvoice.send.wizard,state:0
+#: field:pe.einvoice.send.wizard.line,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,status_code:0 field:einvoice.batch.pe,status_code:0
+#: field:einvoice.message.pe,status_code:0
+msgid "Status Code"
+msgstr "Codigo de Estado"
+
+#. module: l10n_pe_einvoice
+#: field:pe.einvoice.send.wizard.line,status_code:0
+msgid "Status code"
+msgstr "Codigo de Estado"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Summary:"
+msgstr "Resumen:"
+
+#. module: l10n_pe_einvoice
+#: view:account.invoice:l10n_pe_einvoice.invoice_form
+msgid "Sunat Add"
+msgstr "Sunat Add"
+
+#. module: l10n_pe_einvoice
+#: field:res.company,sunat_certificate:0
+msgid "Sunat Certificate"
+msgstr "Sunat Certificate"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,sunat_invoice_name:0
+msgid "Sunat Invoice Name"
+msgstr "Sunat Invoice Name"
+
+#. module: l10n_pe_einvoice
+#: field:res.company,sunat_see_server:0
+msgid "Sunat SEE Server"
+msgstr "Sunat SEE Server"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,sunat_add_line:0
+msgid "Sunat additional"
+msgstr "Sunat additional"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,zip_datas:0
+msgid "Sunat response file"
+msgstr "Sunat response file"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:106
+#, python-format
+msgid "Supplier Invoice"
+msgstr "Supplier Invoice"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:104
+#, python-format
+msgid "Supplier Refund"
+msgstr "Supplier Refund"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "TIN:"
+msgstr "NIF:"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_07
+msgid "TIPO AFECTACIÓN IGV"
+msgstr "TIPO AFECTACIÓN IGV"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_tabla_01
+msgid "TIPO DE ENVÍO"
+msgstr "TIPO DE ENVÍO"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_11
+msgid "TIPO DE IMPORTE DE VALOR DE VENTA REGISTRADO EN EL RESUMEN DIARIO"
+msgstr "TIPO DE IMPORTE DE VALOR DE VENTA REGISTRADO EN EL RESUMEN DIARIO"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_09
+msgid "TIPO DE NOTA DE CRÉDITO ELECTRÓNICA SEGÚN MOTIVO"
+msgstr "TIPO DE NOTA DE CRÉDITO ELECTRÓNICA SEGÚN MOTIVO"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_10
+msgid "TIPO DE NOTA DE DÉBITO ELECTRÓNICA SEGÚN MOTIVO"
+msgstr "TIPO DE NOTA DE DÉBITO ELECTRÓNICA SEGÚN MOTIVO"
+
+#. module: l10n_pe_einvoice
+#: model:base.table,name:l10n_pe_einvoice.see_catalogo_16
+msgid "TIPO PRECIO DE VENTA"
+msgstr "TIPO PRECIO DE VENTA"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_account_tax
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: l10n_pe_einvoice
+#: model:ir.model,name:l10n_pe_einvoice.model_account_tax_code
+msgid "Tax Code"
+msgstr "Código impuesto"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:225
+#, python-format
+msgid "The electronic batch %s (id:%s) asociate to this invoice, must be in draft state"
+msgstr "The electronic batch %s (id:%s) asociate to this invoice, must be in draft state"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:227
+#, python-format
+msgid "The electronic batch %s (id:%s) asociate to this invoice, must be type %s"
+msgstr "The electronic batch %s (id:%s) asociate to this invoice, must be type %s"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/account_invoice.py:229
+#, python-format
+msgid "The electronic batch %s (id:%s) asociate to this invoice, must belong to the company %s"
+msgstr "The electronic batch %s (id:%s) asociate to this invoice, must belong to the company %s"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/einvoice.py:125 constraint:einvoice.batch.pe:0
+#, python-format
+msgid "The name of the report must be unique!"
+msgstr "The name of the report must be unique!"
+
+#. module: l10n_pe_einvoice
+#: code:addons/l10n_pe_einvoice/einvoice.py:131
+#, python-format
+msgid "The synchronize mode support only one invoice, please check it!"
+msgstr "The synchronize mode support only one invoice, please check it!"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,ticket_code:0
+#: field:einvoice.message.pe,ticket_code:0
+msgid "Ticket code"
+msgstr "Ticket code"
+
+#. module: l10n_pe_einvoice
+#: help:account.invoice,sunat_payment_type:0
+msgid "Tipo de comprobante de pago o documento, according to SUNAT Table 10"
+msgstr "Tipo de comprobante de pago o documento, according to SUNAT Table 10"
+
+#. module: l10n_pe_einvoice
+#: selection:einvoice.batch.pe,state:0
+msgid "To Fix"
+msgstr "To Fix"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Total Without Taxes"
+msgstr "Base imponible"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,amount_exonerated:0
+msgid "Total exonerated"
+msgstr "Total exonerado"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,amount_gift:0
+msgid "Total gift"
+msgstr "Total gift"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,type:0 field:pe.einvoice.send.wizard.line,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_pe_einvoice
+#: view:website:l10n_pe_einvoice.report_invoice_document
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,message_unread:0
+msgid "Unread Messages"
+msgstr "Unread Messages"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.batch.pe,website_message_ids:0
+msgid "Website Messages"
+msgstr "Website Messages"
+
+#. module: l10n_pe_einvoice
+#: help:einvoice.batch.pe,website_message_ids:0
+msgid "Website communication history"
+msgstr "Website communication history"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,xml_datas:0
+msgid "XML File"
+msgstr "XML File"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,xml_fname:0
+msgid "XML File name"
+msgstr "XML File name"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,xml_sign_datas:0
+msgid "XML Signed File"
+msgstr "XML Signed File"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,xml_sign_fname:0
+msgid "XML Signed File name"
+msgstr "XML Signed File name"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,zip_sign_datas:0
+msgid "Zip Signed File"
+msgstr "Zip Signed File"
+
+#. module: l10n_pe_einvoice
+#: field:einvoice.message.pe,zip_sign_fname:0
+msgid "Zip Signed File name"
+msgstr "Zip Signed File name"
+
+#. module: l10n_pe_einvoice
+#: field:account.tax,igv_type_pe:0 field:account.tax.code,igv_type_pe:0
+msgid "eInvoice IGV Type"
+msgstr "eInvoice IGV Type"
+
+#. module: l10n_pe_einvoice
+#: field:account.tax,price_type_pe:0
+msgid "eInvoice Price Type"
+msgstr "eInvoice Price Type"
+
+#. module: l10n_pe_einvoice
+#: field:account.tax.code,tax_type_pe:0
+msgid "eInvoice Tax Type"
+msgstr "eInvoice Tax Type"
+
+#. module: l10n_pe_einvoice
+#: field:account.journal,batch_type_pe:0
+msgid "eInvoice Type"
+msgstr "eInvoice Type"
+
+#. module: l10n_pe_einvoice
+#: field:res.company,sunat_see_online:0
+msgid "eInvoice is Online"
+msgstr "eInvoice is Online"
+
+#. module: l10n_pe_einvoice
+#: view:pe.einvoice.send.wizard:l10n_pe_einvoice.pe_einvoice_send_wizard_from
+msgid "or"
+msgstr "o"
+
+#. module: l10n_pe_einvoice
+#: view:account.invoice:l10n_pe_einvoice.invoice_customize_form
+msgid "{'readonly':[('state','!=','draft')],'required':[('parent_invoice','=',True),('state','=','draft'),'|',('type','!=','out_invoice'),('sunat_payment_type','in',['07','08'])],'invisible':[('parent_invoice','=',False)]}"
+msgstr "{'readonly':[('state','!=','draft')],'required':[('parent_invoice','=',True),('state','=','draft'),'|',('type','!=','out_invoice'),('sunat_payment_type','in',['07','08'])],'invisible':[('parent_invoice','=',False)]}"

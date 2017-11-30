@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		
+		<record model="ir.ui.view" id="request_wizard_from">
+			<field name="name">Send Request</field>
+			<field name="model">pe.einvoice.request.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Send Request">
+					<p>Are you sure to send request for the selected batch documents?. Only is possible send request to batch in states draft or ready.</p>
+					<footer>
+						<button name='action_request' string='Send Request' type='object' class="oe_highlight"/>
+						<button name="cancel" string="Cancel" type="special" class="oe_link oe_inline"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window id="request_wizard"
+					name="Send Request"
+    				src_model="einvoice.batch.pe"
+					res_model="pe.einvoice.request.wizard"
+    				view_mode="form"
+					target="new"
+					key2="client_action_multi"/>
+
+	</data>
+</openerp>

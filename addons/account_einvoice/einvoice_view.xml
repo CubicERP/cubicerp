@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!--Server-->
+
+        <record model="ir.ui.view" id="server_tree_view">
+            <field name="name">einvoice.server.view.tree</field>
+            <field name="model">einvoice.server</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Servers" >
+                    <field name="name" />
+                    <field name="url" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="server_form_view">
+            <field name="name">einvoice.server.view.form</field>
+            <field name="model">einvoice.server</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Server" >
+                	<header>
+                		<button name="action_draft" string="Draft" states="ready" type="object" />
+                        <button name="action_ready" string="Ready" states="draft" class="oe_highlight" type="object" />
+                        <field name="state" widget="statusbar" />
+                	</header>
+                	<sheet>
+	                	<group>
+	                		<group>
+	                			<field name="name" />
+	                			<field name="url" />
+	                		</group>
+	                		<group>
+	                			<field name="user" />
+	                			<field name="password" />
+	                		</group>
+	                	</group>
+                        <separator string="Notes"/>
+                        <field name="notes"/>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="server_action" model="ir.actions.act_window">
+            <field name="name">Server</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">einvoice.server</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="eInvoice Server" id="server_menu"
+             parent="base.menu_res_company_global" action="server_action"
+             sequence="90" />
+
+    </data>
+</openerp>

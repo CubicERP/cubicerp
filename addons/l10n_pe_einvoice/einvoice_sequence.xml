@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Sequences for electronic batch RC -->
+        <record id="batch_rc_seq_type" model="ir.sequence.type">
+            <field name="name">Electronic Batch RC</field>
+            <field name="code">einvoice.batch.rc</field>
+        </record>
+        <record id="batch_rc_seq" model="ir.sequence">
+            <field name="name">Electronic Batch RC</field>
+            <field name="code">einvoice.batch.rc</field>
+            <field name="prefix">RC-%(year)s%(month)s%(day)s-</field>
+            <field name="implementation">no_gap</field>
+            <field name="padding">5</field>
+        </record>
+        
+        <!-- Sequences for electronic batch RA -->
+		<record id="batch_ra_seq_type" model="ir.sequence.type">
+            <field name="name">Electronic Batch RA</field>
+            <field name="code">einvoice.batch.ra</field>
+        </record>
+        <record id="batch_ra_seq" model="ir.sequence">
+            <field name="name">Electronic Batch RA</field>
+            <field name="code">einvoice.batch.ra</field>
+            <field name="prefix">RA-%(year)s%(month)s%(day)s-</field>
+            <field name="implementation">no_gap</field>
+            <field name="padding">5</field>
+        </record>
+        
+    </data>
+</openerp>

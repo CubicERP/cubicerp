@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		
+		<record model="ir.ui.view" id="pe_einvoice_send_wizard_from">
+			<field name="name">Send Electronic Documents</field>
+			<field name="model">pe.einvoice.send.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Send Electronic Documents">
+					<header>
+                        <button name='prepate_to_send'
+                            string='Add Electronic Documents'
+                            type='object'
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', 'in', ('ready', 'send'))]}"/>
+                        <button name='send_invoice'
+                            string='Send Electronic Documents'
+                            type='object'
+                            class="oe_highlight"
+                            confirm="Send selected  Electronic Documents?"
+                            attrs="{'invisible': [('state', 'in', ('draft', 'send'))]}"/>
+                        <span class="or_cancel" attrs="{'invisible': [('state', '=', 'send')]} ">or
+                            <button name="close_cb" special="nosave" string="Cancel" type="object" class="oe_link oe_inline"/>
+                        </span>
+                        <span class="or_cancel" attrs="{'invisible': [('state', '!=', 'send')]} ">
+                            <button name="close_cb" special="nosave"
+                                string="Close"
+                                type="object"
+                                class="oe_link oe_inline"/>
+                        </span>
+                        <field name="state" widget="statusbar" /> 
+                    </header>
+					<sheet>
+						<group>
+							<group>
+								<field name="date" />
+							</group>
+						</group>
+						<field name="pe_einvoice_lines">
+							<tree string="Documents list" editable='top'>
+								<field name="pe_einvoice_id"/>
+								<field name="type"/>
+								<field name="date"/>
+								<field name="state"/>
+								<field name="status_code" attrs="{'invisible': [('state','!=','send')]}" />
+							</tree>
+						</field>
+					</sheet>
+					
+				</form>
+			</field>
+		</record>
+		
+		<record id="pe_einvoice_send_action" model="ir.actions.act_window">
+			<field name="res_model">pe.einvoice.send.wizard</field>
+			<field name="view_type">form</field>
+			<field name="name">Send Invoice Wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+
+		<act_window id="pe_einvoice_send_wizard" name="Send Electronic Documents"
+    	src_model="einvoice.batch.pe" res_model="pe.einvoice.send.wizard"
+    	view_mode="form" target="new" key2="client_action_multi"/>
+
+    	<menuitem name="Send E-Documents" id="batch_pe_menu_wizard"
+             parent="account.menu_finance_receivables" action="pe_einvoice_send_wizard"
+             sequence="11" />
+		
+	</data>
+</openerp>

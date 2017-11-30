@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.einvoice.pe</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="l10n_pe_base.view_account_journal_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//group[@name='l10n_pe']" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</xpath>
+				<xpath expr="//group[@name='l10n_pe']" position="inside">
+					<field name="is_einvoice_pe" attrs="{'invisible':[('type','not in',['sale','sale_refund'])]}"/>
+	                <field name="batch_type_pe" attrs="{'invisible':[('is_einvoice_pe','=',False)]}"/>
+	                <field name="is_synchronous" readonly="True"/>
+				</xpath>
+
+            </field>
+        </record>                    
+        
+   		<record model='ir.ui.view' id='invoice_form'>
+			<field name='name'>account.invoice.form.inherit.einvoice.pe</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_form'/>
+			<field name="arch" type='xml'>
+				<xpath expr="//field[@name='move_id']" position="after">
+	                <field name="batch_pe_id" context="{'default_type':'sync'}"/>
+	                <field name="status_code"/>
+	                <field name="sunat_payment_type" invisible="1"/>
+	                <field name="credit_note_type" 
+	                attrs="{'readonly':[('state','!=','draft')],'invisible':[('sunat_payment_type','!=','07')], 'required':[('sunat_payment_type','in',['07'])]}"/>
+	                <field name="debit_note_type"
+	                 attrs="{'readonly':[('state','!=','draft')],'invisible':[('sunat_payment_type','!=','08')], 'required':[('sunat_payment_type','in',['08'])]}"/>
+	            </xpath>
+	            <xpath expr="//field[@name='discount']" position="after">
+           			<field name="pe_affectation_code" required="True" />
+           		</xpath>
+	            <xpath expr="//page[@string='Other Info']" position="inside">
+	            	<field name="sunat_add_line">
+		                <tree editable="bottom" string="Sunat Add">
+	                        <field name="element_id"/>
+	                        <field name="name"/>
+	                    </tree>
+	         		</field>
+	            </xpath>
+	            
+			</field>
+		</record>
+		<!-- ? es posible hacerlo desde el modulo customize -->
+		<record model='ir.ui.view' id='invoice_customize_form'>
+			<field name='name'>account.customize.invoice.form.inherit.einvoice.pe</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='customize.invoice_form'/>
+			<field name='arch' type='xml'>
+				<xpath expr="//field[@name='parent_id']" position="attributes">
+	                <attribute name="attrs">{'readonly':[('state','!=','draft')],'required':[('parent_invoice','=',True),('state','=','draft'),'|',('type','!=','out_invoice'),('sunat_payment_type','in',['07','08'])],'invisible':[('parent_invoice','=',False)]}</attribute>
+	            </xpath>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='view_account_invoice_refund'>
+			<field name='name'> account.invoice.refund.form.inherit.einvoice.pe</field>
+			<field name='model'>account.invoice.refund</field>
+			<field name='inherit_id' ref='account.view_account_invoice_refund'/>
+			<field name="arch" type='xml'>
+				<xpath expr="//field[@name='journal_id']" position="after">
+	                <field name="credit_note_type"/>
+	            </xpath>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='view_tax_code_form'>
+			<field name='name'> account.tax.code.form.inherit.einvoice.pe</field>
+			<field name='model'>account.tax.code</field>
+			<field name='inherit_id' ref='account.view_tax_code_form'/>
+			<field name="arch" type='xml'>
+				<xpath expr="//field[@name='info']" position="after">
+	                <group string="Peruvian eInvoice">
+	                	<group>
+	                		<field name="tax_type_pe" widget="selection"/>
+	                		<field name="other_tax_type_pe"/>
+	                	</group>
+	                	<group>
+	                		<field name="igv_type_pe"/>
+	                	</group>
+	                </group>
+	            </xpath>
+			</field>
+		</record>
+		
+		<record model='ir.ui.view' id='view_tax_form'>
+			<field name='name'> account.tax.form.inherit.einvoice.pe</field>
+			<field name='model'>account.tax</field>
+			<field name='inherit_id' ref='account.view_tax_form'/>
+			<field name="arch" type='xml'>
+				<xpath expr="//field[@name='tax_sign']" position="after">
+					<separator string="Peruvian eInvoice" colspan="2"/>
+					<field name="price_type_pe"/>
+	            </xpath>
+			</field>
+		</record>
+        
+        <report 
+            id="pe_account_invoices"
+            model="account.invoice"
+            string="Perunvian Invoices"
+            report_type="qweb-pdf"
+            name="l10n_pe_einvoice.report_invoice"
+            file="l10n_pe_einvoice.report_invoice"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('PEINV'+(object.number or '').replace('/','')+'.pdf')"
+        />
+	</data>
+</openerp>

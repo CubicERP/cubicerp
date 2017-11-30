@@ -1,0 +1,220 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* customize
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-21 15:43+0000\n"
+"PO-Revision-Date: 2016-11-21 11:05-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: customize
+#: model:ir.actions.act_window,help:customize.action_account_manual_reconcile2
+msgid ""
+"<p>\n"
+"                    No journal items found.\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p>\n"
+"No se han encontrado asientos en el diario.\n"
+"</p>\n"
+"            "
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_account
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_load_move
+msgid "Account Initial Load Moves"
+msgstr "Movimientos de carga inicial de la cuenta"
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_voucher
+msgid "Accounting Voucher"
+msgstr "Comprobantes contables"
+
+#. module: customize
+#: field:account.journal,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: customize
+#: field:account.invoice,amount_text:0
+msgid "Amount in text"
+msgstr "Cantidad de texto"
+
+#. module: customize
+#: model:ir.model,name:customize.model_res_company
+msgid "Companies"
+msgstr "Compañias"
+
+#. module: customize
+#: model:ir.model,name:customize.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: customize
+#: field:account.account,balance_current:0
+msgid "Current Balance"
+msgstr "Saldo actual"
+
+#. module: customize
+#: field:account.account,credit_current:0
+msgid "Current Credit"
+msgstr "Crédito actual"
+
+#. module: customize
+#: field:account.account,debit_current:0
+msgid "Current Debit"
+msgstr "Débito actual"
+
+#. module: customize
+#: field:account.invoice,discount_total:0
+msgid "Discount total"
+msgstr "Descuento total"
+
+#. module: customize
+#: model:hr.holidays.status,name:customize.holiday_status_falta
+msgid "Faltas"
+msgstr "Faltas"
+
+#. module: customize
+#: field:account.invoice,parent_invoice:0
+#: field:account.journal,parent_invoice:0
+msgid "Has Parent Invoice"
+msgstr "Tiene factura de Padres
+"
+
+#. module: customize
+#: model:ir.ui.menu,name:customize.input_rule_menu
+msgid "Imput Rule"
+msgstr "Regla de entrada"
+
+#. module: customize
+#: field:account.account,balance_initial:0
+msgid "Initial Balance"
+msgstr "Balance inicial "
+
+#. module: customize
+#: field:account.account,credit_initial:0
+msgid "Initial Credit"
+msgstr "Credito inicial"
+
+#. module: customize
+#: field:account.account,debit_initial:0
+msgid "Initial Debit"
+msgstr "Debito inicial"
+
+#. module: customize
+#: model:ir.actions.act_window,name:customize.input_rule_action
+msgid "Input Rule"
+msgstr "Regla de entrada"
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Reembolso de Factura"
+
+#. module: customize
+#: help:account.invoice,purchase_ids:0
+msgid "Invoices generated from a purchase order"
+msgstr "Facturas que se generan a partir de una orden de compra"
+
+#. module: customize
+#: model:ir.model,name:customize.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: customize
+#: view:account.move.line:customize.view_move_line_tree_reconcile2
+#: model:ir.actions.act_window,name:customize.action_account_manual_reconcile2
+msgid "Journal Items to Reconcile"
+msgstr "Apuntes a conciliar"
+
+#. module: customize
+#: field:res.currency,long_name:0
+msgid "Long Name"
+msgstr "Nombre largo"
+
+#. module: customize
+#: model:ir.ui.menu,name:customize.menu_manual_reconcile2
+msgid "Manual Reconciliation All Partners"
+msgstr "Conciliación manual todos los Partners"
+
+#. module: customize
+#: model:ir.actions.act_window,name:customize.account_move_reconcile_action
+#: model:ir.ui.menu,name:customize.account_move_reconcile_menu
+msgid "Move Reconcile"
+msgstr "Movimiento conciliar"
+
+#. module: customize
+#: view:account.move.reconcile:customize.view_move_reconcile_tree
+msgid "Move Reconciles"
+msgstr "Movimiento reconcilia"
+
+#. module: customize
+#: field:account.invoice,origin_custom:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: customize
+#: field:account.invoice,picking:0
+msgid "Picking number"
+msgstr "Número de seleccion"
+
+#. module: customize
+#: field:account.invoice,purchase_ids:0
+msgid "Purchases"
+msgstr "Compras"
+
+#. module: customize
+#: field:account.invoice,parent_id:0
+msgid "Related Invoice"
+msgstr "Factura relacionada"
+
+#. module: customize
+#: field:account.journal,reverse_journal_id:0
+msgid "Reverse Journal"
+msgstr "Revista inversa"
+
+#. module: customize
+#: field:res.company,currency2_id:0
+msgid "Secondary Currency"
+msgstr "Moneda secundaria"
+
+#. module: customize
+#: model:hr.holidays.status,name:customize.holiday_status_tardanza
+msgid "Tardanzas"
+msgstr "Tardanzas"
+
+#. module: customize
+#: help:account.invoice,parent_id:0
+msgid "This field must be used to register the related invoice from a refound invoice"
+msgstr "Este campo debe usarse para registrar la factura relacionada desde una factura de reembolso"
+
+#. module: customize
+#: view:account.move.line:customize.view_move_line_tree_reconcile2
+msgid "Total credit"
+msgstr "Crédito total"
+
+#. module: customize
+#: view:account.move.line:customize.view_move_line_tree_reconcile2
+msgid "Total debit"
+msgstr "Total debe"

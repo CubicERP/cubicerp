@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+   		<record model='ir.ui.view' id='invoice_form'>
+			<field name='name'>account.invoice.form.inherit.annul</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref='account.invoice_form'/>
+			<field name='arch' type='xml'>
+				<xpath expr="//button[@name='invoice_cancel']" position="after">
+                	<button name="invoice_annul" states="open" string="Annul Invoice" groups="account.group_account_invoice"/>
+                	<button name="invoice_cancel" states="annul" string="Cancel Invoice" groups="account.group_account_invoice"/>
+                </xpath>
+			</field>
+		</record>
+
+   		<record model='ir.ui.view' id='invoice_supplier_form'>
+			<field name='name'>account.invoice.supplier.form.inherit.annul</field>
+			<field name='model'>account.invoice</field>
+			<field name='inherit_id' ref="account.invoice_supplier_form"/>
+			<field name='arch' type='xml'>
+				<xpath expr="//button[@name='invoice_cancel']" position="after">
+                	<button name="invoice_annul" states="open" string="Annul Invoice" groups="account.group_account_invoice"/>
+                	<button name="invoice_cancel" states="annul" string="Cancel Invoice" groups="account.group_account_invoice"/>
+                </xpath>
+			</field>
+		</record>
+        
+        <record model='ir.ui.view' id='view_move_form'>
+			<field name='name'>account.move.form.inherit.annul</field>
+			<field name='model'>account.move</field>
+			<field name='inherit_id' ref='account.view_move_form'/>
+			<field name='arch' type='xml'>
+                <field name="to_check" position="after">
+                	<field name="annul" attrs="{'invisible':[('annul','=',False)]}"/>
+                </field>
+			</field>
+		</record>
+        
+	</data>
+</openerp>

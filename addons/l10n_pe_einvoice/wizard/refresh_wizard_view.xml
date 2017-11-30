@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		
+		<record model="ir.ui.view" id="refresh_wizard_from">
+			<field name="name">Refresh Documents</field>
+			<field name="model">pe.einvoice.refresh.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Refresh Documents">
+					<p>Are you sure to refresh the selected batch documents?. Only is possible refresh batch in states draft or ready. The draft batches will be change to ready state.</p>
+					<footer>
+						<button name='action_refresh' string='Refresh Documents' type='object' class="oe_highlight"/>
+						<button name="cancel" string="Cancel" type="special" class="oe_link oe_inline"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window id="refresh_wizard"
+					name="Refresh Documents"
+    				src_model="einvoice.batch.pe"
+					res_model="pe.einvoice.refresh.wizard"
+    				view_mode="form"
+					target="new"
+					key2="client_action_multi"/>
+
+	</data>
+</openerp>

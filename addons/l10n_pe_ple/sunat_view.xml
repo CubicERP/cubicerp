@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <menuitem parent="account.menu_finance_reports" name="Programa de Libros Electrónicos" id="sunat_ple_menu"/>
+
+        <!-- SUNAT PLE CONFIGURATION -->
+
+        <record model="ir.ui.view" id="sunat_ple_configuration_tree_view">
+            <field name="name">SUNAT Configuration tree</field>
+            <field name="model">l10n_pe.ple_configuration</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="SUNAT PLE Configuration" >
+                    <field name="company_id" />
+                    <field name="report_type" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sunat_ple_configuration_form_view">
+            <field name="name">SUNAT Configuration form</field>
+            <field name="model">l10n_pe.ple_configuration</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="SUNAT PLE Configuration" >
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                        </group>
+                        <group>
+                            <field name="report_type" />
+                        </group>
+                    </group>
+
+                    <separator string="Accounts" colspan="4" />
+                    <field name="accounts_ids" colspan="4" nolabel="1" />
+
+                    <separator string="Journals" colspan="4" />
+                    <field name="journals_ids" colspan="4" nolabel="1" />
+                    
+                    <group name="Specific" colspan="4" >
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="sunat_ple_configuration_action" model="ir.actions.act_window">
+            <field name="name">SUNAT PLE Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_pe.ple_configuration</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sunat_ple_configuration_tree_view"/>
+        </record>
+
+        <menuitem name="SUNAT PLE Configuration" id="sunat_ple_configuration_menu"
+             parent="account.menu_configuration_misc" action="sunat_ple_configuration_action"
+             sequence="9999" />
+
+        <!-- SUNAT FILE SAVE -->
+
+        <record id="save_file_form_view" model="ir.ui.view">
+            <field name="name">SUNAT Export data view</field>
+            <field name="model">l10n_pe.sunat_file_save</field>
+            <field name="arch" type="xml">
+                <form string="Export SUNAT Files" version="7.0">
+                    <field name="output_name" invisible="1"/>
+                    <div >
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported SUNAT file: <field name="output_file" readonly="1" filename="output_name"/></p>
+                        <p>This file was generated using the SUNAT specifications.</p> 
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

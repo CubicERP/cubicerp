@@ -32,8 +32,7 @@ Descarga de repositorio
     
 Generación del archivo de configuración
 
-    $ cd ..
-    $ cubicerp/cubicerp-server -s
+    $ ./cubicerp-server -s
     $ cp ~/.cubicerp_serverrc .
 
 
@@ -42,19 +41,12 @@ Modificación del archivo de configuración (asignación de puertos)
     $ vi .cubicerp_serverrc
     -------------------------------------------
     [options]
-    addons_path = ./cubicerp/addons,./trunk,./branch,./community
+    addons_path = ./odoo/addons,./addons
     ...
     data_dir = ./data
-    ...
-    xmlrpc = True
-    xmlrpc_interface =
-    xmlrpc_port = 8069
-    xmlrpcs = True
-    xmlrpcs_interface =
-    xmlrpcs_port = 8071
     -------------------------------------------
 
-    $ cubicerp/cubicerp-server -c .cubicerp_serverrc 
+    $ ./cubicerp-server -c .cubicerp_serverrc 
 
 Una vez iniciado el servicio para probar la instalación utilizar el siguiente url:
 

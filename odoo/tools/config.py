@@ -74,14 +74,13 @@ class configmanager(object):
         self.options = {
             'admin_passwd': 'admin',
             'csv_internal_sep': ',',
-            'publisher_warranty_url': 'http://services.openerp.com/publisher-warranty/',
             'reportgz': False,
             'root_path': None,
         }
 
         # Not exposed in the configuration file.
         self.blacklist_for_save = set([
-            'publisher_warranty_url', 'load_language', 'root_path',
+            'load_language', 'root_path',
             'init', 'save', 'config', 'update', 'stop_after_init', 'dev_mode', 'shell_interface'
         ])
 

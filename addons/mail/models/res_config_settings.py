@@ -15,7 +15,7 @@ class ResConfigSettings(models.TransientModel):
 
     fail_counter = fields.Integer('Fail Mail', readonly=True)
     alias_domain = fields.Char('Alias Domain', help="If you have setup a catch-all email domain redirected to "
-                               "the Odoo server, enter the domain name here.")
+                               "the Cubic ERP server, enter the domain name here.")
 
     @api.model
     def get_values(self):

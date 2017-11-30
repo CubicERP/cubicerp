@@ -4,29 +4,42 @@
     <template id="report_account_ledger_line">
         <t t-foreach="lines" t-as="a">
             <t t-set="trclass" t-value="'o_account_report_default_style'"/>
-            <t t-if="a.get('model') == 'stock.move.line'"><t t-set="trclass" t-value="'o_account_report_level0'"/></t>
-            <t t-if="a.get('model') == 'stock.quant'"><t t-set="trclass" t-value="'o_account_report_level0'"/></t>
+            <t t-if="a.get('model') == 'account.account'"><t t-set="trclass" t-value="'o_account_report_level0'"/></t>
             <t t-set="domainClass" t-value="'o_account_report_domain_line'"/>
             <t t-if="a['unfoldable'] == false">
                 <t t-set="domainClass" t-value="'o_account_report_domain_line_1'"/>
             </t>
             <t t-set="column" t-value="0" />
-            <tr t-att-data-type="a['type']" t-att-data-stream="a['stream']" t-att-data-unfold="a['unfoldable']" t-att-data-parent_id="a['parent_id']" t-att-data-id="a['id']" t-att-data-model_id="a['model_id']" t-att-data-model="a['model']" t-att-class="trclass">
+            <tr t-att-data-type="a['type']" t-att-data-unfold="a['unfoldable']" t-att-data-parent_id="a['parent_id']" t-att-data-id="a['id']" t-att-data-model_id="a['model_id']" t-att-data-model="a['model']" t-att-class="trclass">
                 <t t-set="tdclass" t-value="''" />
                 <t t-if="a.get('unfoldable')"><t t-set="tdclass" t-value="'o_account_report_unfoldable'" /></t>
+                <t t-set="cspan" t-value="5"/>
                 <t t-set="column" t-value="0" />
                 <t t-foreach="a['columns']" t-as="c">
                     <t t-set="column" t-value="column + 1" />
-                      <td t-att-data-id="a.get('id')" t-att-data-model="a['model']" t-att-data-model_id="a['model_id']" t-att-data-stream="a['stream']" t-att-class="tdclass" t-att-data-level="a['level']" t-att-data-parent_quant="a['parent_quant']">
+                    <t t-set="tdstyle" t-value="'white-space: nowrap;'" />
+                    <t t-if="isinstance(c, float) or isinstance(c, int)">
+                        <t t-set="tdstyle" t-value="'white-space: nowrap; text-align: right;'"/>
+                        <t t-set="ffmt" t-value="'%.'+str(data['decimal_places'])+'f'"/>
+                        <t t-set="c" t-value="ffmt%c"/>
+                    </t>
+                    <t t-if="not isinstance(c, str)">
+                        <t t-set="tdstyle" t-value="c[1]"/>
+                    </t>
+                    <td t-att-style="tdstyle" t-att-colspan="cspan" t-att-data-id="a.get('id')" t-att-data-model="a['model']" t-att-data-model_id="a['model_id']" t-att-class="tdclass" t-att-data-level="a['level']">
                         <t t-if="column == 1">
+                            <t t-set="cspan" t-value="1"/>
                             <span t-att-data-active-id="a['id']" t-att-class="a['type'] + ' ' + domainClass"></span>
                             <t t-if="a.get('unfoldable')">
                                 <span t-att-data-id="a['id']" class="o_account_report_unfoldable o_account_report_caret_icon"><i class="fa fa-fw fa-caret-right"></i></span>
                             </t>
                         </t>
-                        <span>
-                            <t t-raw="c" />
-                        </span>
+                        <t t-if="isinstance(c, str)"><span>
+                            <t t-raw="c"/>
+                        </span></t>
+                        <t t-if="not isinstance(c, str)"><span>
+                            <t t-raw="c[0]"/>
+                        </span></t>
                     </td>
                 </t>
             <td>
@@ -37,22 +50,55 @@
 
     <template id="report_account_ledger">
         <div class="container o_account_report_page o_account_report_no_print">
-            <span t-if="lines" class="o_report_heading text-left"><h1>Ledger</h1></span>
-            <span><t t-esc="context"/></span>
+            <span class="o_report_heading text-left"><h3>Ledger</h3></span>
+            <span class="o_report_heading text-left"><h4><t t-esc="company"/></h4></span>
+
+            <div class="row mt32">
+                <div class="col-xs-4">
+                    <strong>Journals:</strong>
+                      <p t-esc="', '.join([ lt or '' for lt in print_journal ])"/>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Display Account</strong>
+                    <p>
+                        <span t-if="data.get('display_account') == 'all'">All accounts'</span>
+                        <span t-if="data.get('display_account') == 'movement'">With movements</span>
+                        <span t-if="data.get('display_account') == 'not_zero'">With balance not equal to zero</span>
+                    </p>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Target Moves:</strong>
+                    <p t-if="data.get('target_move') == 'all'">All Entries</p>
+                    <p t-if="data.get('target_move') == 'posted'">All Posted Entries</p>
+                </div>
+                <div class="col-xs-2">
+                    <strong>Sorted By:</strong>
+                    <p t-if="data.get('sortby') == 'sort_date'">Date</p>
+                    <p t-if="data.get('sortby') == 'sort_journal_partner'">Journal and Partner</p>
+                </div>
+                <div class="col-xs-2">
+                    <t t-if="data.get('date_from')"><strong>Date from :</strong> <span t-esc="data['date_from']"/><br/></t>
+                    <t t-if="data.get('date_to')"><strong>Date to :</strong> <span t-esc="data['date_to']"/></t>
+                </div>
+            </div>
+
             <div class="o_account_report_table">
                 <t t-if="not lines">
                     <span class="text-center"><h2>No Data Available.</h2></span>
                 </t>
                 <t t-if="lines">
-                    <table width='100%' class="table-responsive">
+                    <table width='100%' class="table-responsive" t-att-data-form="form">
                         <thead>
                             <tr class="o_report_header">
-                                <th class="o_report_line_header">PRODUCT</th>
-                                <th class="o_report_line_header">LOT/SERIAL NUMBER</th>
-                                <th class="o_report_line_header">DATE</th>
-                                <th class="o_report_line_header">QUANTITY</th>
-                                <th class="o_report_line_header">LOCATION</th>
-                                <th></th>
+                                <th class="o_report_line_header"></th>
+                                <th class="o_report_line_header">Date</th>
+                                <th class="o_report_line_header">Journal</th>
+                                <th class="o_report_line_header">Partner</th>
+                                <th class="o_report_line_header">Communication</th>
+                                <th class="o_report_line_header">Debit</th>
+                                <th class="o_report_line_header">Credit</th>
+                                <th class="o_report_line_header">Balance</th>
+                                <th class="o_report_line_header">Currency</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,62 +110,4 @@
         </div>
     </template>
 
-    <template id="assets_account_ledger_print_report" inherit_id="web.assets_common" active="True">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" href="/account_report/static/src/less/account_report_ledger.less" />
-        </xpath>
-    </template>
-
-    <template id="report_account_ledger_print">
-        <t t-raw="'&lt;base href=%s&gt;' % base_url"/>
-        <t t-call="web.html_container">
-            <t t-call-assets="account_report.assets_account_ledger_print_report" t-js="False"/>
-            <t t-call='account_report.report_account_ledger_body_print'/>
-        </t>
-    </template>
-
-    <template id="report_account_ledger_body_print">
-        <div class="container o_account_report_page o_account_report_no_print">
-            <span class="text-left"><h3>Traceability Report</h3></span>
-            <div class="table-responsive">
-                <table width='100%' class="o_account_report_table">
-                    <thead>
-                        <tr class="o_report_header">
-                            <th class="o_report_line_header">PRODUCT</th>
-                            <th class="o_report_line_header">LOT/SERIAL NUMBER</th>
-                            <th class="o_report_line_header">DATE</th>
-                            <th class="o_report_line_header">QUANTITY</th>
-                            <th class="o_report_line_header">LOCATION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-set="space_td" t-value="'margin-left: 0'"/>
-                        <t t-foreach="lines" t-as="a">
-                            <t t-set="space_td" t-value="'margin-left: '+ str(a['level']) + 'px;'"/>
-                            <t t-set="trclass" t-value="'o_account_report_default_style'"/>
-                            <t t-if="a.get('model') == 'stock.move.line'"><t t-set="trclass" t-value="'o_account_report_level0'"/></t>
-                            <t t-if="a.get('model') == 'stock.quant'"><t t-set="trclass" t-value="'o_account_report_level0'"/></t>
-                            <t t-set="column" t-value="0" />
-                            <tr t-att-data-type="a['type']" t-att-data-stream="a['stream']" t-att-data-id="a['id']" t-att-data-model="a['model']" t-att-class="trclass">
-                                <t t-set="tdclass" t-value="''" />
-                                <t t-if="a.get('unfoldable')"><t t-set="tdclass" t-value="'o_account_report_unfoldable'" /></t>
-                                <t t-set="column" t-value="0" />
-                                <t t-foreach="a['columns']" t-as="c">
-                                    <t t-set="column" t-value="column + 1" />
-                                    <td>
-                                        <t t-if="column == 1">
-                                            <span t-att-style="space_td"></span>
-                                        </t>
-                                        <span>
-                                            <t t-raw="c" />
-                                        </span>
-                                    </td>
-                                </t>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </template>
 </odoo>

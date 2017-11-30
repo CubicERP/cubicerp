@@ -3,7 +3,9 @@
 <templates>
 
     <t t-name="accountReport.buttons">
-        <button type="button" class='btn btn-primary btn-sm o_stock-widget-pdf'>PRINT</button>
+        <button t-att-report_type="'qweb-pdf'" type="button" class='btn btn-primary btn-sm o_account-report-pdf'>PRINT</button>
+        <!-- The excel report is available only in Cubic ERP v2018, download from https://github.com/CubicERP/cubicerp/tree/trunk-->
+        <button t-att-report_type="'qweb-xls'" type="button" class='btn btn-primary btn-sm o_account-report-xls'>EXCEL</button>
     </t>
 
     <div t-name='accountkReport.errorModal' class="modal" id="editable_error" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true" style="z-index:9999;">

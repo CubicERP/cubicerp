@@ -5,6 +5,10 @@ header {
     margin: 0;
     padding: 0;
 
+    @media print {
+         display: none;
+     }
+
     > .main-nav {
         display: block;
         white-space: nowrap;
@@ -196,7 +200,17 @@ a.navbar-collapse.collapse {
 
 @font-face {
     font-family: Roboto;
-    src: url(/web_responsive/static/src/font/Roboto-Regular.ttf)
+    src: url(/web_responsive/static/src/font/Roboto-Regular.ttf);
+}
+@font-face {
+    font-family: Roboto;
+    src: url(/web_responsive/static/src/font/Roboto-Bold.ttf);
+    font-weight:bold;
+}
+@font-face {
+    font-family: Roboto;
+    src: url(/web_responsive/static/src/font/Roboto-Italic.ttf);
+    font-style:italic;
 }
 
 /* App Drawer Toggle */

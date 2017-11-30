@@ -77,7 +77,7 @@ def serialize_exception(f):
             se = _serialize_exception(e)
             error = {
                 'code': 200,
-                'message': "Odoo Server Error",
+                'message': "Cubic ERP Server Error",
                 'data': se
             }
             return werkzeug.exceptions.InternalServerError(json.dumps(error))
@@ -1596,6 +1596,13 @@ class ReportController(http.Controller):
             pdf = report.with_context(context).render_qweb_pdf(docids, data=data)[0]
             pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
             return request.make_response(pdf, headers=pdfhttpheaders)
+        elif converter == 'xls':
+            xls = report.with_context(context).render_qweb_html(docids, data=data)[0]
+            xlshttpheaders = [('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                              ('Cache-Control', 'max-age=0'),
+                              ('Content-Disposition', content_disposition("%s.xls"%report.name)),
+                              ('Content-Length', len(xls))]
+            return request.make_response(xls, headers=xlshttpheaders)
         else:
             raise werkzeug.exceptions.HTTPException(description='Converter %s not implemented.' % converter)
 
@@ -1661,13 +1668,41 @@ class ReportController(http.Controller):
                 response.headers.add('Content-Disposition', content_disposition(filename))
                 response.set_cookie('fileToken', token)
                 return response
+
+            elif type == 'qweb-xls':
+                reportname = url.split('/report/xls/')[1].split('?')[0]
+
+                docids = None
+                if '/' in reportname:
+                    reportname, docids = reportname.split('/')
+
+                if docids:
+                    # Generic report:
+                    response = self.report_routes(reportname, docids=docids, converter='xls')
+                else:
+                    # Particular report:
+                    data = url_decode(url.split('?')[1]).items()  # decoding the args represented in JSON
+                    response = self.report_routes(reportname, converter='xls', **dict(data))
+
+                report = request.env['ir.actions.report']._get_report_from_name(reportname)
+                filename = "%s.%s" % (report.name, "xls")
+                if docids:
+                    ids = [int(x) for x in docids.split(",")]
+                    obj = request.env[report.model].browse(ids)
+                    if report.print_report_name and not len(obj) > 1:
+                        report_name = safe_eval(report.print_report_name, {'object': obj, 'time': time})
+                        filename = "%s.%s" % (report_name, "xls")
+                response.headers.add('Content-Disposition', content_disposition(filename))
+                response.set_cookie('fileToken', token)
+                return response
+
             else:
                 return
         except Exception as e:
             se = _serialize_exception(e)
             error = {
                 'code': 200,
-                'message': "Odoo Server Error",
+                'message': "Cubic ERP Server Error",
                 'data': se
             }
             return request.make_response(html_escape(json.dumps(error)))

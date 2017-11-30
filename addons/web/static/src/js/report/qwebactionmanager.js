@@ -44,6 +44,7 @@ var make_report_url = function (action) {
     var report_urls = {
         'qweb-html': '/report/html/' + action.report_name,
         'qweb-pdf': '/report/pdf/' + action.report_name,
+        'qweb-xls': '/report/xls/' + action.report_name,
     };
     // We may have to build a query string with `action.data`. It's the place
     // were report's using a wizard to customize the output traditionally put
@@ -85,6 +86,32 @@ ActionManager.include({
                 display_name: action.display_name,
             });
             return this.do_action('report.client_action', client_action_options);
+
+        } else if (action.report_type === 'qweb-xls') {
+            framework.blockUI();
+            // Trigger the download of the XLS report.
+            var response;
+            var c = crash_manager;
+
+            var treated_actions = [];
+            var current_action = action;
+            do {
+                report_urls = make_report_url(current_action);
+                response = [
+                    report_urls['qweb-xls'],
+                    action.report_type, //The 'root' report is considered the maine one, so we use its type for all the others.
+                ];
+                var success = trigger_download(self.getSession(), response, c, current_action, options);
+                if (!success) {
+                    self.do_warn(_t('Warning'), _t('A popup window with your report was blocked.  You may need to change your browser settings to allow popup windows for this page.'), true);
+                }
+
+                treated_actions.push(current_action);
+                current_action = current_action.next_report_to_generate;
+            } while (current_action && !_.contains(treated_actions, current_action));
+            //Second part of the condition for security reasons (avoids infinite loop possibilty).
+            return;
+
         } else if (action.report_type === 'qweb-pdf') {
             framework.blockUI();
             // Before doing anything, we check the state of wkhtmltopdf on the server.

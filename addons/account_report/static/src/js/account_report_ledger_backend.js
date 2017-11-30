@@ -5,7 +5,7 @@ var core = require('web.core');
 var Widget = require('web.Widget');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var session = require('web.session');
-var ReportWidget = require('stock.ReportWidget');
+var ReportWidget = require('account_report.ReportWidget');
 var framework = require('web.framework');
 var crash_manager = require('web.crash_manager');
 
@@ -16,13 +16,9 @@ var account_report_ledger = Widget.extend(ControlPanelMixin, {
     init: function(parent, action) {
         this.actionManager = parent;
         this.given_context = {};
-        this.controller_url = action.context.url;
-        if (action.context.context) {
-            this.given_context = action.context.context;
+        if (action.context.data) {
+            this.given_context = action.context.data;
         }
-        this.given_context.active_id = action.context.active_id || action.params.active_id;
-        this.given_context.model = action.context.active_model || false;
-        this.given_context.ttype = action.context.ttype || false;
         return this._super.apply(this, arguments);
     },
     willStart: function() {
@@ -37,9 +33,6 @@ var account_report_ledger = Widget.extend(ControlPanelMixin, {
         }
         def.then(function () {
             self.report_widget.$el.html(self.html);
-            if(self.given_context['ttype'] == 'downstream'){
-                self.report_widget.$el.find('.o_report_heading').html('<h1>Downstream Traceability</h1>');
-            }
         });
     },
     start: function() {
@@ -78,26 +71,17 @@ var account_report_ledger = Widget.extend(ControlPanelMixin, {
         this.$buttons = $(QWeb.render("accountReport.buttons", {}));
         // pdf output
         this.$buttons.bind('click', function () {
-            var $element = $(self.$el[0]).find('.o_account_report_table tbody tr');
-            var dict = [];
-
-            $element.each(function( index ) {
-                var $el = $($element[index]);
-                dict.push({
-                        'id': $el.data('id'),
-                        'model_id': $el.data('model_id'),
-                        'model_name': $el.data('model'),
-                        'unfoldable': $el.data('unfold'),
-                        'level': $el.find('td:first').data('level') || 1
-                });
-            });
-            framework.blockUI();
-            var url_data = self.controller_url.replace('active_id', self.given_context['active_id']);
-            session.get_file({
-                url: url_data.replace('output_format', 'pdf'),
-                data: {data: JSON.stringify(dict)},
-                complete: framework.unblockUI,
-                error: crash_manager.rpc_error.bind(crash_manager),
+            var form = $(self.$el[0]).find('table').data('form');
+            return self.do_action({
+                type: 'ir.actions.report',
+                report_name: form['report_name'],
+                report_file: form['report_name'],
+                report_type: this.getAttribute('report_type'),
+                name: 'Report',
+                context: {landscape: true,
+                          active_model: form['active_model'],
+                          active_ids: [form['active_id']]},
+                data: {form: form}
             });
         });
         return this.$buttons;

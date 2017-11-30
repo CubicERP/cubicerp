@@ -6,11 +6,9 @@
     <record id="action_ledger_report" model="ir.actions.client">
         <field name="name">Ledger</field>
         <field name="tag">account_report_ledger</field>
+        <field name="context">{'model': 'account.report.ledger'}</field>
     </record>
 
-    <menuitem id="menu_audit_ledger" name="Ledger" parent="menu_audit_report" action="action_ledger_report"
-        sequence="10" groups="account.group_account_manager"/>
-
-    <menuitem id="account.menu_general_ledger" parent="menu_audit_report"/>
+    <menuitem id="account.menu_general_ledger" name="Ledger" parent="menu_audit_report"/>
 
 </odoo>

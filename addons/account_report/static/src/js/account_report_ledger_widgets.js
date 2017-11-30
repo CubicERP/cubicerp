@@ -13,7 +13,6 @@ var ReportWidget = Widget.extend({
         'click span.o_account_report_foldable': 'fold',
         'click span.o_account_report_unfoldable': 'unfold',
         'click .o_account_report_web_action': 'boundLink',
-        'click .o_account_report_stream': 'updownStream',
     },
     init: function(parent) {
         this._super.apply(this, arguments);
@@ -29,25 +28,6 @@ var ReportWidget = Widget.extend({
             res_id: $(e.target).data('active-id'),
             views: [[false, 'form']],
             target: 'current'
-        });
-    },
-    updownStream: function(e) {
-        var stream = $(e.target).parent().data('stream');
-        var $el = $(e.target).parents('tr');
-        var string = "Upstream Traceability"
-        if (stream == 'downstream') {
-            string = "Downstream Traceability"
-        }
-        this.do_action({
-            type: "ir.actions.client",
-            tag: 'account_report_ledger',
-            name: _t(string),
-            context: {
-                active_id : $el.data('model_id'),
-                active_model : $el.data('model'),
-                ttype: stream || false,
-                url: '/account_report/output_format/stock/active_id'
-            },
         });
     },
     removeLine: function(element) {
@@ -83,8 +63,7 @@ var ReportWidget = Widget.extend({
         var active_model_name = $CurretElement.data('model');
         var active_model_id = $CurretElement.data('model_id');
         var row_level = $CurretElement.data('level');
-        var stream = $CurretElement.data('stream');
-        var parent_quant = $CurretElement.data('parent_quant');
+        var form = $CurretElement.parents('table').data('form');
         var $cursor = $(e.target).parents('tr');
         this._rpc({
                 model: 'account.report.ledger',
@@ -93,15 +72,14 @@ var ReportWidget = Widget.extend({
                 kwargs: {
                     'model_id': active_model_id,
                     'model_name': active_model_name,
-                    'stream': stream || 'upstream',
-                    'parent_quant': parseInt(parent_quant) || false,
+                    'form': form,
                     'level': parseInt(row_level) + 30 || 1
                 },
             })
             .then(function (lines) {// After loading the line
                 var line;
                 for (line in lines) { // Render each line
-                    $cursor.after(QWeb.render("report_ledger_line", {l: lines[line]}));
+                    $cursor.after(QWeb.render("report_ledger_line", {l: lines[line], decimal_places: form['decimal_places']}));
                     $cursor = $cursor.next();
                 }
             });

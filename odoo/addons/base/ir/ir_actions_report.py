@@ -82,7 +82,7 @@ class IrActionsReport(models.Model):
     binding_type = fields.Selection(default='report')
     model = fields.Char(required=True)
 
-    report_type = fields.Selection([('qweb-html', 'HTML'), ('qweb-pdf', 'PDF')], required=True, default='qweb-pdf',
+    report_type = fields.Selection([('qweb-html', 'HTML'), ('qweb-pdf', 'PDF'), ('qweb-xls', 'XLS')], required=True, default='qweb-pdf',
                                    help='The type of the report that will be rendered, each one having its own rendering method.'
                                         'HTML means the report will be opened directly in your browser'
                                         'PDF means the report will be rendered using Wkhtmltopdf and downloaded by the user.')
@@ -416,7 +416,7 @@ class IrActionsReport(models.Model):
         the field report_name.
         """
         report_obj = self.env['ir.actions.report']
-        qwebtypes = ['qweb-pdf', 'qweb-html']
+        qwebtypes = ['qweb-pdf', 'qweb-html', 'qweb-xls']
         conditions = [('report_type', 'in', qwebtypes), ('report_name', '=', report_name)]
         context = self.env['res.users'].context_get()
         return report_obj.with_context(context).search(conditions, limit=1)

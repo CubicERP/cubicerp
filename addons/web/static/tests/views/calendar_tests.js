@@ -386,7 +386,7 @@ QUnit.module('Views', {
                     return $.Deferred().reject({
                         code: 200,
                         data: {},
-                        message: "Odoo server error",
+                        message: "Cubic ERP server error",
                     }, event);
                 }
                 return this._super(route, args);

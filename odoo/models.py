@@ -3396,7 +3396,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                     if not pleft:
                         # this is the leftmost child of its parent
                         cr.execute("SELECT parent_left FROM %s WHERE id=%%s" % self._table, (parent_val,))
-                        pleft = cr.fetchone()[0] + 1
+                        pleft = (cr.fetchone()[0] or 0) + 1
                 else:
                     # determine parent_left: it comes after all top-level parent_right
                     cr.execute("SELECT MAX(parent_right) FROM %s" % self._table)

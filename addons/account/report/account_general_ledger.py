@@ -44,12 +44,14 @@ class ReportGeneralLedger(models.AbstractModel):
                 '' AS invoice_id, '' AS invoice_type, '' AS invoice_number,\
                 '' AS partner_name\
                 FROM account_move_line l\
+                JOIN account_account aa ON (l.account_id=aa.id)\
+                JOIN account_account_type aat ON (aa.user_type_id=aat.id)\
                 LEFT JOIN account_move m ON (l.move_id=m.id)\
                 LEFT JOIN res_currency c ON (l.currency_id=c.id)\
                 LEFT JOIN res_partner p ON (l.partner_id=p.id)\
                 LEFT JOIN account_invoice i ON (m.id =i.move_id)\
                 JOIN account_journal j ON (l.journal_id=j.id)\
-                WHERE l.account_id IN %s""" + filters + ' GROUP BY l.account_id')
+                WHERE aat.include_initial_balance=TRUE AND l.account_id IN %s""" + filters + ' GROUP BY l.account_id')
             params = (tuple(accounts.ids),) + tuple(init_where_params)
             cr.execute(sql, params)
             for row in cr.dictfetchall():
@@ -87,6 +89,8 @@ class ReportGeneralLedger(models.AbstractModel):
             row['balance'] += balance
             move_lines[row.pop('account_id')].append(row)
 
+        if display_account == 'movement':
+            accounts = [a for a in accounts if move_lines[a.id]]
         # Calculate the debit, credit and balance for Accounts
         account_res = []
         for account in accounts:
@@ -94,6 +98,7 @@ class ReportGeneralLedger(models.AbstractModel):
             res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
             res['code'] = account.code
             res['name'] = account.name
+            res['account_id'] = account.id
             res['move_lines'] = move_lines[account.id]
             for line in res.get('move_lines'):
                 res['debit'] += line['debit']

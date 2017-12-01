@@ -25,26 +25,10 @@ Descarga de repositorios, preguntar el nombre se le puso a su repositorio privad
     
     $ git clone https://github.com/CubicERP/cubicerp
     $ cd cubicerp
-    ## Inicializa los submodulos ##
-    $ git submodule init
-    ## Actualiza los submodulos ##
-    $ git submodule update
-    
-Para actualizar los repositorios poner los siguientes comandos:
-
-    ## # Actualiza el directorio actual de su repositorio privado, es decir "cubicerp" ##
-    ## $ git pull 
-    ## Para abrir la versión estable del repositorio ##
-    $ git checkout master
-    $ git submodule foreach git checkout cubicerp
-    ## Limpia posibles archivos temporales
-    $ git clean -d -f
-    $ git submodule foreach git clean -d -f
 
 Generación del archivo de configuración
 
-    $ cd ..
-    $ cubicerp/cubicerp-server -s
+    $ ./cubicerp-server -s
     $ cp ~/.cubicerp_serverrc .
 
 
@@ -53,7 +37,7 @@ Modificación del archivo de configuración (asignación de puertos)
     $ vi .cubicerp_serverrc
     -------------------------------------------
     [options]
-    addons_path = ./odoo/addons,./trunk,./branch,./community
+    addons_path = ./openerp/addons,./addons
     ...
     data_dir = ./data
     ...
@@ -66,24 +50,6 @@ Modificación del archivo de configuración (asignación de puertos)
     -------------------------------------------
 
 
-Los comandos para iniciar y parar el servicio del CubicERP en desarrollo con Werkzeugh
-
-    $ ./stop.sh
-    $ ./start.sh
-
-Los comandos para iniciar y reiniciar el servicio del CubicERP en producción con gunicorn
-
-    $ ./gstart.sh
-    $ ./grestart.sh
-
-Agregando inicio automatico del servicio
-
-    $ sudo vi /etc/rc.local
-    -------------------------------------------
-    sudo su - cubicerp -c "cd cbc;./start.sh"
-    sudo su - cubicerp -c "cd cbc;./gstart.sh"
-    -------------------------------------------
-
 Una vez iniciado el servicio para probar la instalación utilizar el siguiente url:
 
     http://<ip-del-servidor>:8069
@@ -91,6 +57,5 @@ Una vez iniciado el servicio para probar la instalación utilizar el siguiente u
 
 Comandos para actualización  de toda la base de datos
 
-    $ cd cbc
-    $ cubicerp/cubicerp-server -c .cubicerp_serverrc -d <base_de_datos> -u all -F
+    $ ./cubicerp-server -c .cubicerp_serverrc -d <base_de_datos> -u all -F
 

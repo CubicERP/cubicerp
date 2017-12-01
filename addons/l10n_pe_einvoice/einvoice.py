@@ -513,4 +513,3 @@ class einvoice_message_pe(osv.Model):
                 vals.update(self.get_sunat_response(cr, uid, doc_name+'.zip', vals['zip_datas']))
             return vals
 
-            

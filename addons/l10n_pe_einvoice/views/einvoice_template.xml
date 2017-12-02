@@ -1,0 +1,131 @@
+<openerp>
+  <data>
+  	<template id="l10n_pe_einvoice.assets_frontend" name="Website inherit assets" inherit_id="website.assets_frontend">
+  		<xpath expr="." position="inside">
+			<script type="text/javascript" src="/web/static/lib/jquery.ui/js/jquery-ui-1.9.1.custom.js"></script>
+                
+            <script>
+                  $( function() {
+                    $(".cpe_date_invoice").datepicker({dateFormat: "yy-mm-dd"});
+                  } );
+            </script>
+       </xpath>
+  	</template>
+    <template id="cpe_page" name="Search CPE" page="True">
+      <t t-call="website.layout">
+        <div class="oe_structure">
+          <div class="container">
+            <br />
+            <div class="row">
+                <div class="col-lg-1">
+                </div>
+                <div class="col-lg-10">
+                  	<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Consulta de documento electronico</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" t-attf-role="form" t-attf-method="post">
+                                <!-- input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/-->
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">RUC del Emisor</label>
+                                    <div class="col-lg-10">
+                                         <input type="text" class="form-control" name="company_ruc" t-attf-placeholder="RUC Emisor" t-attf-pattern="^\d+" t-attf-required="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Tipo de Comprobante</label>
+                                    <div class="col-lg-10">
+                                        <select class="selectpicker" name="document_type" t-attf-required="true">
+                                            <option t-attf-selected="selected"></option>
+                                            <option t-attf-value="01">FACTURA ELECTRONICA</option>      
+                                            <option t-attf-value="03">BOLETA ELECTRONICA</option>
+                                            <option t-attf-value="07">NOTA DE CREDITO ELECTRONICA - BOLETA/FACTURA</option>                      
+                                            <option t-attf-value="08">NOTA DE DEBITO ELECTRONICA - BOLETA/FACTURA</option>  
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Tipo Documento del Receptor</label>
+                                    <div class="col-lg-10">
+                                        <select class="selectpicker" name="doc_type" t-attf-required="true">
+                                            <option t-attf-selected="selected"></option>    
+                                            <option t-attf-value="-">SIN DOCUMENTO</option>         
+                                            <option t-attf-value="0">DOC.TRIB.NO.DOM.SIN.RUC</option>              
+                                            <option t-attf-value="1">DOC. NACIONAL DE IDENTIDAD</option>
+                                            <option t-attf-value="4">CARNET DE EXTRANJERIA</option>     
+                                            <option t-attf-value="6">REG. UNICO DE CONTRIBUYENTES  </option>
+                                            <option t-attf-value="7">PASAPORTE </option>     
+                                            <option t-attf-value="A">CED. DIPLOMATICA DE IDENTIDAD </option>    
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Numero Documento del Receptor</label>
+                                    <div class="col-lg-10">
+                                         <input type="text" class="form-control" name="doc_number" t-attf-placeholder="Numero de Documento" t-attf-pattern="^\d+"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Numero del Comprobante</label>
+                                    <div class="col-lg-10">
+                                         <input type="text" class="form-control" name="number" t-attf-placeholder="Numero del Comprobante ejemplo F001-0005, F001-6" 
+                                         t-attf-required="true" t-attf-pattern="(B|F){1}[A-Z0-9]{3}-[0-9]{1,8}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Fecha de Emision</label>
+                                    <div class="col-lg-10">
+                                         <input type="text" class="form-control cpe_date_invoice" name="date_invoice" 
+                                         t-attf-placeholder="Fecha de Emision"  t-attf-required="true" t-attf-pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Importe Total</label>
+                                    <div class="col-lg-10">
+                                         <input type="text" class="form-control" name="amount_total" t-attf-placeholder="Importe Total" 
+                                         t-attf-required="true" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-2 col-lg-10">
+                                      <button t-attf-type="submit" class="btn btn-default">Buscar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-lg-1">
+                </div>
+            </div> 
+          </div>
+        </div>
+      </t>
+    </template>
+    
+    <template id="cpe_page_reponse" name="Response CPE" page="True">
+      <t t-call="website.layout">
+        <div class="oe_structure">
+          <div class="container">
+            <br />
+            <div class="col-lg-12">
+            	<a t-if="invoice.get('datas_sign')" class="btn btn-info" t-att-href="'data:application/xhtml+xml;base64,%s' % invoice.get('datas_sign')" 
+				t-att-download="'%s.xml'% invoice.get('name')">Descargar XML</a>
+				<br /><br />
+                <a t-if="invoice.get('datas_sign')" class="btn btn-info" t-att-href="'data:application/pdf;base64,%s' % invoice.get('datas_invoice')" 
+                t-att-download="'%s.pdf'% invoice.get('name')">Descargar PDF</a>
+                <br /><br />
+                <a t-if="invoice.get('datas_sign')" class="btn btn-info" t-att-href="'data:application/zip;base64,%s' % invoice.get('datas_response')" 
+				t-att-download="'R-%s.zip'% invoice.get('name')">Descargar CDR</a><br />
+            	<!--embed t-if="invoice.get('datas_invoice')" t-att-src="'data:application/pdf;base64,%s' % invoice.get('datas_invoice')" t-attf-width="100%" t-attf-height="600px"></embed-->
+            	<p t-if="invoice.get('error') or not invoice">El documento solicitado no ha sido encontrado</p>
+            </div>
+            
+          </div>
+        </div>
+      </t>
+    </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_country_state_tree_inherit" model="ir.ui.view">
+            <field name="name">res.country.state.tree.inherit</field>
+            <field name="model">res.country.state</field>
+            <field name="type">tree</field>
+            <field name='inherit_id' ref='base.view_country_state_tree'/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='code']" position="after">
+                    <field name="complete_name"/>
+                    <field name="type"/>
+				</xpath>
+            </field>
+        </record>
+        
+        <record id="view_country_state_form_inherit" model="ir.ui.view">
+            <field name="name">res.country.state.form.inherit</field>
+            <field name="model">res.country.state</field>
+            <field name="type">form</field>
+            <field name='inherit_id' ref='base.view_country_state_form'/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/field[@name='code']" position="replace">
+                    <field name="code"/>
+                    <field name="parent_id"/>
+                    <field name="type"/>
+				</xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

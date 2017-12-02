@@ -1,0 +1,1062 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_ple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-08 17:11+0000\n"
+"PO-Revision-Date: 2016-11-08 12:15-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_17
+msgid "ACCOUNT_PLAN"
+msgstr "ACCOUNT_PLAN"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_19
+msgid "ASSET_STATE"
+msgstr "ASSET_STATE"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_18
+msgid "ASSET_TYPE"
+msgstr "ASSET_TYPE"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_account
+#: field:l10n_pe.ple_line,account_id:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_move
+msgid "Account Entry"
+msgstr "Entrada de la Cuenta"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_account_type
+msgid "Account Type"
+msgstr "Tipo Contable"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_line,move_line_id:0
+msgid "Accounting movement"
+msgstr "Movimiento contable"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.ple_configuration:l10n_pe_ple.sunat_ple_configuration_form_view
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:87 code:addons/l10n_pe_ple/sunat.py:169
+#: code:addons/l10n_pe_ple/sunat.py:237
+#, python-format
+msgid "Action error"
+msgstr "Error de acción"
+
+#. module: l10n_pe_ple
+#: field:product.product,sunat_acum_depreciation:0
+msgid "Acumulated depreciaton x unit"
+msgstr "Acumulated depreciaton x unit"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Cuenta Analítica"
+
+#. module: l10n_pe_ple
+#: help:account.invoice,sunat_lir_art_76:0
+msgid "Aplicación del penúltimo párrafo del Art. 76° de la Ley del Impuesto a la Renta"
+msgstr "Aplicación del penúltimo párrafo del Art. 76° de la Ley del Impuesto a la Renta"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_asset_asset
+msgid "Asset"
+msgstr "Activo Fijo"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_asset_category
+msgid "Asset category"
+msgstr "Categoría de activo"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_res_bank
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_pe_ple
+#: field:res.bank,sunat_bank_code:0
+msgid "Bank code"
+msgstr "Código de banco"
+
+#. module: l10n_pe_ple
+#: field:res.partner,sunat_bienes_servicios:0
+msgid "Bienes / Servicios"
+msgstr "Bienes / Servicios"
+
+#. module: l10n_pe_ple
+#: field:stock.location,sunat_branch_code:0
+msgid "Branch Code"
+msgstr "Branch Code"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_30
+msgid "CLASF_BS_SERV"
+msgstr "CLASF_BS_SERV"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_34
+msgid "COD_RUB_FINAN"
+msgstr "COD_RUB_FINAN"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_25
+msgid "CONV_DBLE_TRIB"
+msgstr "CONV_DBLE_TRIB"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_04
+msgid "CURR_TYPE"
+msgstr "CURR_TYPE"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_11
+msgid "CUSTOMS_CODE"
+msgstr "CUSTOMS_CODE"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:411
+#, python-format
+msgid "Carnet de extranjeria should be alfanumeric, not longer than 12 characters! Please check!"
+msgstr "Carnet de extranjeria should be alfanumeric, not longer than 12 characters! Please check!"
+
+#. module: l10n_pe_ple
+#: help:res.company,sunat_financial_catalog:0
+msgid "Catálogo de estados financieros, according to SUNAT Table 22"
+msgstr "Catálogo de estados financieros, according to SUNAT Table 22"
+
+#. module: l10n_pe_ple
+#: help:asset.category,sunat_code:0
+msgid "Catálogo de existencias, according to SUNAT Table 13"
+msgstr "Catálogo de existencias, de acuerdo a SUNAT Tabla 13"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:429
+#, python-format
+msgid "Cedula diplomatica should be numeric, exactly 15 numbers long! Please check!"
+msgstr "Cedula diplomatica should be numeric, exactly 15 numbers long! Please check!"
+
+#. module: l10n_pe_ple
+#: help:res.partner,sunat_bienes_servicios:0
+msgid ""
+"Clasificación de los bienes y servicios adquiridos (Tabla 30)\n"
+"Aplicable solo a los contribuyentes que hayan obtenido ingresos mayores a 1,500 UIT en el ejercicio anterior"
+msgstr ""
+"Clasificación de los bienes y servicios adquiridos (Tabla 30)\n"
+"Aplicable solo a los contribuyentes que hayan obtenido ingresos mayores a 1,500 UIT en el ejercicio anterior"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_res_company
+msgid "Companies"
+msgstr "Compañias"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:398
+#, python-format
+msgid "Companies should be identified by RUC only! Please check!"
+msgstr "¡Las empresas sólo deben ser identificadas por RUC! ¡Por favor, compruebe!"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,company_id:0 field:l10n_pe.ple_configuration,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:146
+#, python-format
+msgid "Configuration error"
+msgstr "Error de configuración"
+
+#. module: l10n_pe_ple
+#: help:res.country,sunat_agreement:0
+msgid "Convenios para evitar la doble imposición"
+msgstr "Convenios para evitar la doble imposición"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_res_country
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,create_uid:0
+#: field:l10n_pe.sunat_file_save,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,create_date:0
+#: field:l10n_pe.sunat_file_save,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: l10n_pe_ple
+#: field:account.journal,sunat_customs_code:0
+msgid "Customs code"
+msgstr "Código aduana"
+
+#. module: l10n_pe_ple
+#: help:account.journal,sunat_customs_code:0
+msgid "Código de aduana, according to SUNAT Table 11"
+msgstr "Código de aduana, de acuerdo a SUNAT Tabla 11"
+
+#. module: l10n_pe_ple
+#: help:account.analytic.account,sunat_production_grouping:0
+msgid "Código de agrupamiento del costo de producción valorizado anual, according to SUNAT Table 21"
+msgstr "Código de agrupamiento del costo de producción valorizado anual, de acuerdo a SUNAT Tabla 21"
+
+#. module: l10n_pe_ple
+#: help:stock.location,sunat_branch_code:0
+msgid ""
+"Código de establecimiento anexo:\n"
+"1. Los cuatro primeros dígitos son obligatorios y corresponden al código de establecimiento anexo según el Registro Único de Contribuyentes. \n"
+"2. En caso el almacén se encuentre ubicado en el establecimiento de un tercero o no sea posible incluirlo como un establecimiento anexo, los cuatro primeros números serán: \"9999\" \n"
+"3. De la posición 5 a la 7 registrar un correlativo, de ser necesario"
+msgstr ""
+"Código de establecimiento anexo:\n"
+"1. Los cuatro primeros dígitos son obligatorios y corresponden al código de establecimiento anexo según el Registro Único de Contribuyentes. \n"
+"2. En caso el almacén se encuentre ubicado en el establecimiento de un tercero o no sea posible incluirlo como un establecimiento anexo, los cuatro primeros números serán: \"9999\" \n"
+"3. De la posición 5 a la 7 registrar un correlativo, de ser necesario"
+
+#. module: l10n_pe_ple
+#: help:product.category,osce_code:0
+msgid "Código de la existencia, de acuerdo al Catálogo de Bienes, Servicios y Obras (*)  establecido por el Organismo Supervisor de las Contrataciones del Estado (OSCE) y vigente al 01 de enero de cada año., according to UNSPSC and CUBSO Tables"
+msgstr "Código de la existencia, de acuerdo al Catálogo de Bienes, Servicios y Obras (*)  establecido por el Organismo Supervisor de las Contrataciones del Estado (OSCE) y vigente al 01 de enero de cada año., according to UNSPSC and CUBSO Tables"
+
+#. module: l10n_pe_ple
+#: help:product.category,sunat_tipo_existencia:0
+msgid "Código del catálogo utilizado. Sólo se podrá incluir las opciones 3 y 9 de la tabla 13."
+msgstr "Código del catálogo utilizado. Sólo se podrá incluir las opciones 3 y 9 de la tabla 13."
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_20
+msgid "DEP_METH"
+msgstr "DEP_METH"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_02
+msgid "DOC_TYPE"
+msgstr "DOC_TYPE"
+
+#. module: l10n_pe_ple
+#: help:l10n_pe.ple,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Fecha del último mensaje publicado en el registro."
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,display_name:0
+#: field:l10n_pe.ple_configuration,display_name:0
+#: field:l10n_pe.ple_line,display_name:0
+#: field:l10n_pe.sunat_file_save,display_name:0
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#. module: l10n_pe_ple
+#: view:res.partner:l10n_pe_ple.res_partner_filter_view_inherit_person
+#: field:res.partner,doc_number:0
+msgid "Document Number"
+msgstr "Número de documento"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:403
+#, python-format
+msgid "Document number should be alfanumeric, not longer than 15 characters! Please check!"
+msgstr "El número de documento debe ser alfanumérico, no más de 15 caracteres! ¡Por favor, compruebe!"
+
+#. module: l10n_pe_ple
+#: field:account.journal,sunat_payment_type:0 field:res.partner,doc_type:0
+msgid "Document type"
+msgstr "Tipo de documento"
+
+#. module: l10n_pe_ple
+#: selection:l10n_pe.ple,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_33
+msgid "EXON_OP_NO_DOM"
+msgstr "EXON_OP_NO_DOM"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_l10n_pe_ple
+msgid "Email Thread"
+msgstr "Hilo de mensajes"
+
+#. module: l10n_pe_ple
+#: help:res.bank,sunat_bank_code:0
+msgid "Entidad financiera, according to SUNAT Table 03"
+msgstr "Entidad financiera, de acuerdo a SUNAT Tabla 03"
+
+#. module: l10n_pe_ple
+#: help:asset.asset,sunat_asset_state:0
+#: help:product.product,sunat_asset_state:0
+#: help:product.template,sunat_asset_state:0
+msgid "Estado del activo fijo, according to SUNAT Table 19"
+msgstr "Estado del activo fijo, de acuerdo a SUNAT Tabla 19"
+
+#. module: l10n_pe_ple
+#: field:account.invoice,sunat_exoneration:0
+msgid "Exoneración Aplicada"
+msgstr "Exoneración Aplicada"
+
+#. module: l10n_pe_ple
+#: help:account.invoice,sunat_exoneration:0
+msgid "Exoneración Aplicada de acuerdo a la tabla 33"
+msgstr "Exoneración Aplicada de acuerdo a la tabla 33"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.sunat_file_save:l10n_pe_ple.save_file_form_view
+msgid "Export Complete"
+msgstr "Exportación completa"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.sunat_file_save:l10n_pe_ple.save_file_form_view
+msgid "Export SUNAT Files"
+msgstr "Exportar archivos SUNAT"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_03
+msgid "FIN_ENTITY"
+msgstr "FIN_ENTITY"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_22
+msgid "FIN_STATE"
+msgstr "FIN_STATE"
+
+#. module: l10n_pe_ple
+#: field:res.partner,sunat_renuncia_exon_date:0
+msgid "Fecha Renuncia"
+msgstr "Fecha Renuncia"
+
+#. module: l10n_pe_ple
+#: help:res.partner,sunat_renuncia_exon_date:0
+msgid "Fecha de la Renuncia a la Exoneración del IGV"
+msgstr "Fecha de la Renuncia a la Exoneración del IGV"
+
+#. module: l10n_pe_ple
+#: field:res.company,sunat_financial_catalog:0
+msgid "Financial catalog"
+msgstr "Financial catalog"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.sunat_file_save:l10n_pe_ple.save_file_form_view
+msgid "Here is the exported SUNAT file:"
+msgstr "Este es el archivo de exportación SUNAT:"
+
+#. module: l10n_pe_ple
+#: help:l10n_pe.ple,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Resumen de Chatter (número de mensajes, ...). Este resúmen se emite en formato html para ser insertado en la vista kanban."
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,id:0 field:l10n_pe.ple_configuration,id:0
+#: field:l10n_pe.ple_line,id:0 field:l10n_pe.sunat_file_save,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_13
+msgid "INVENTORY_CAT"
+msgstr "INVENTORY_CAT"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_05
+msgid "INVENTORY_TYPE"
+msgstr "INVENTORY_TYPE"
+
+#. module: l10n_pe_ple
+#: help:l10n_pe.ple,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_stock_location
+msgid "Inventory Locations"
+msgstr "Ubicaciones de inventario"
+
+#. module: l10n_pe_ple
+#: field:product.category,sunat_inventory_display_type:0
+#: field:product.category,sunat_inventory_type:0
+msgid "Inventory type"
+msgstr "Tipo de Existencia"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es un seguidor"
+
+#. module: l10n_pe_ple
+#: selection:l10n_pe.ple,state:0
+msgid "Issued"
+msgstr "Emitido"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_account_journal
+#: field:l10n_pe.ple,journal_id:0
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.ple_configuration:l10n_pe_ple.sunat_ple_configuration_form_view
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_last_post:0
+msgid "Last Message Date"
+msgstr "Fecha del último mensaje"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,__last_update:0
+#: field:l10n_pe.ple_configuration,__last_update:0
+#: field:l10n_pe.ple_line,__last_update:0
+#: field:l10n_pe.sunat_file_save,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,write_uid:0
+#: field:l10n_pe.sunat_file_save,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,write_date:0
+#: field:l10n_pe.sunat_file_save,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizacion en"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:407
+#, python-format
+msgid "Libreta electoral or DNI should be numeric, exactly 8 numbers long! Please check!"
+msgstr "Libreta electoral or DNI should be numeric, exactly 8 numbers long! Please check!"
+
+#. module: l10n_pe_ple
+#: selection:l10n_pe.ple,state:0
+msgid "Loaded"
+msgstr "Cargado"
+
+#. module: l10n_pe_ple
+#: model:res.groups,name:l10n_pe_ple.group_manager
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: l10n_pe_ple
+#: field:account.move,sunat_payment_code:0
+msgid "Medio de Pago"
+msgstr "Medio de Pago"
+
+#. module: l10n_pe_ple
+#: help:account.journal,sunat_payment_code:0
+msgid "Medio de pago, according to SUNAT Table 01"
+msgstr "Medio de pago, de acuerdo a SUNAT Tabla 01"
+
+#. module: l10n_pe_ple
+#: help:account.move,sunat_payment_code:0
+msgid "Medio de pago, de acuerdo a SUNAT Tabla 01"
+msgstr "Medio de pago, de acuerdo a SUNAT Tabla 01"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: l10n_pe_ple
+#: help:l10n_pe.ple,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historia de mensajes y comunicaciones"
+
+#. module: l10n_pe_ple
+#: help:account.invoice,sunat_kind_service:0
+msgid "Modalidad del servicio prestado por el no domiciliado, según tabla 32"
+msgstr "Modalidad del servicio prestado por el no domiciliado, según tabla 32"
+
+#. module: l10n_pe_ple
+#: help:asset.asset,sunat_depreciation_method:0
+#: help:product.product,sunat_depreciation_method:0
+#: help:product.template,sunat_depreciation_method:0
+msgid "Método de depreciación, according to SUNAT Table 20"
+msgstr "Método de depreciación, de acuerdo a SUNAT Tabla 20"
+
+#. module: l10n_pe_ple
+#: help:product.product,sunat_valuation_method:0
+#: help:product.template,sunat_valuation_method:0
+msgid "Método de valuación, according to SUNAT Table 14"
+msgstr "Método de valuación, according to SUNAT Table 14"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:147
+#, python-format
+msgid "No data for report SUNAT %(report_type)s for company [%(company)s]!"
+msgstr "No hay datos para el reporte SUNAT %(report_type)s para la compañía [%(company)s]!"
+
+#. module: l10n_pe_ple
+#: view:res.partner:l10n_pe_ple.partner_form_view
+msgid "Number"
+msgstr "Numero"
+
+#. module: l10n_pe_ple
+#: selection:l10n_pe.ple,state:0
+msgid "Numbered"
+msgstr "Numerado"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_12
+msgid "OPERATION_TYPE"
+msgstr "OPERATION_TYPE"
+
+#. module: l10n_pe_ple
+#: field:product.category,osce_code:0
+msgid "OSCE-CUBSO-UNSPSC code"
+msgstr "OSCE-CUBSO-UNSPSC code"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,operation_code:0
+msgid "Operation Code"
+msgstr "Código de operación"
+
+#. module: l10n_pe_ple
+#: field:account.journal,sunat_operation_type:0
+msgid "Operation type"
+msgstr "Tipo de operación"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,oportunity_code:0
+msgid "Oportunity Code"
+msgstr "Código de Oportunidad"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.sunat_file_save,output_file:0
+msgid "Output file"
+msgstr "Archivo de salida"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.sunat_file_save,output_name:0
+msgid "Output filename"
+msgstr "Archivo de salida"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_35
+msgid "PAISES"
+msgstr "PAISES"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_28
+msgid "PATR_NETO"
+msgstr "PATR_NETO"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_01
+msgid "PAYMENT_MEDIA"
+msgstr "PAYMENT_MEDIA"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_10
+msgid "PAYMENT_TYPE"
+msgstr "PAYMENT_TYPE"
+
+#. module: l10n_pe_ple
+#: model:ir.module.category,name:l10n_pe_ple.module_category_ple
+msgid "PLE SUNAT"
+msgstr "PLE SUNAT"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_21
+msgid "PROD_COST_GROUP"
+msgstr "PROD_COST_GROUP"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_res_partner
+msgid "Partner"
+msgstr "Socio"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:425
+#, python-format
+msgid "Pasaporte should be alfanumeric, not longer than 12 characters! Please check!"
+msgstr "¡Pasaporte debe ser alfanumérico, no más de 12 caracteres! ¡Por favor, compruebe!"
+
+#. module: l10n_pe_ple
+#: field:account.journal,sunat_payment_code:0
+msgid "Payment type"
+msgstr "Tipo de pago"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,period_id:0 field:l10n_pe.ple_line,period_id:0
+msgid "Period"
+msgstr "Período"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_stock_picking
+msgid "Picking List"
+msgstr "Guía"
+
+#. module: l10n_pe_ple
+#: help:res.company,sunat_accounting_plan:0
+msgid "Plan de cuentas, according to SUNAT Table 17"
+msgstr "Plan de cuentas, de acuerdo a SUNAT Tabla 17"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_product_category
+msgid "Product Category"
+msgstr "Categoría de Producto"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de Producto"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_product_uom
+msgid "Product Unit of Measure"
+msgstr "Unidad de medida del producto"
+
+#. module: l10n_pe_ple
+#: model:ir.ui.menu,name:l10n_pe_ple.sunat_ple_menu
+msgid "Programa de Libros Electrónicos"
+msgstr "Programa de Libros Electrónicos"
+
+#. module: l10n_pe_ple
+#: model:ir.module.category,description:l10n_pe_ple.module_category_ple
+msgid "Programa de Libros Electrónicos - SUNAT."
+msgstr "Programa de Libros Electrónicos - SUNAT."
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_regla_nombre_cc
+msgid "REGLA NOMBRE ARCHIVO CC"
+msgstr "REGLA NOMBRE ARCHIVO CC"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_regla_nombre_o
+msgid "REGLA NOMBRE ARCHIVO O"
+msgstr "REGLA NOMBRE ARCHIVO O"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/tables.py:415
+#, python-format
+msgid "RUC should be numeric, 8-11 numbers long! Please check!"
+msgstr "RUC debe ser numérico, 8-11 números de longitud! ¡Por favor, compruebe!"
+
+#. module: l10n_pe_ple
+#: help:res.partner,sunat_renuncia_exon_igv:0
+msgid "RUCs que renunciaron a la exoneración del IGV"
+msgstr "RUCs que renunciaron a la exoneración del IGV"
+
+#. module: l10n_pe_ple
+#: field:account.account,bank_account_id:0
+msgid "Related bank account"
+msgstr "Cuenta bancaria relacionada"
+
+#. module: l10n_pe_ple
+#: field:stock.move,remision_number:0 field:stock.picking,remision_number:0
+msgid "Remision Number"
+msgstr "Número de Remisión"
+
+#. module: l10n_pe_ple
+#: field:res.partner,sunat_renuncia_exon_igv:0
+msgid "Renuncia Exoneración IGV"
+msgstr "Renuncia Exoneración IGV"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,report_type:0
+msgid "Report type"
+msgstr "Tipo de reporte"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_16
+msgid "SHARE_TYPE"
+msgstr "SHARE_TYPE"
+
+#. module: l10n_pe_ple
+#: view:product.product:l10n_pe_ple.product_normal_form_view
+#: view:product.template:l10n_pe_ple.product_template_form_view
+msgid "SUNAT"
+msgstr "SUNAT"
+
+#. module: l10n_pe_ple
+#: field:res.country,sunat_agreement:0
+msgid "SUNAT Agreement"
+msgstr "SUNAT Agreement"
+
+#. module: l10n_pe_ple
+#: field:res.country,sunat_code:0
+msgid "SUNAT Code"
+msgstr "SUNAT Code"
+
+#. module: l10n_pe_ple
+#: field:product.category,sunat_tipo_existencia:0
+msgid "SUNAT Inventory Catalog"
+msgstr "SUNAT Inventory Catalog"
+
+#. module: l10n_pe_ple
+#: model:ir.actions.act_window,name:l10n_pe_ple.sunat_ple_configuration_action
+#: model:ir.ui.menu,name:l10n_pe_ple.sunat_ple_configuration_menu
+#: view:l10n_pe.ple_configuration:l10n_pe_ple.sunat_ple_configuration_form_view
+#: view:l10n_pe.ple_configuration:l10n_pe_ple.sunat_ple_configuration_tree_view
+msgid "SUNAT PLE Configuration"
+msgstr "Configuración SUNAT PLE"
+
+#. module: l10n_pe_ple
+#: field:res.company,sunat_accounting_plan:0
+msgid "SUNAT accounting plan"
+msgstr "Plan de cuentas SUNAT"
+
+#. module: l10n_pe_ple
+#: field:asset.asset,sunat_asset_state:0
+#: field:product.product,sunat_asset_state:0
+#: field:product.template,sunat_asset_state:0
+msgid "SUNAT asset state"
+msgstr "Estado del activo fijo SUNAT"
+
+#. module: l10n_pe_ple
+#: field:asset.asset,sunat_asset_type:0
+#: field:product.product,sunat_asset_type:0
+#: field:product.template,sunat_asset_type:0
+msgid "SUNAT asset type"
+msgstr "SUNAT asset type"
+
+#. module: l10n_pe_ple
+#: field:account.account.type,sunat_code:0
+#: field:asset.category,sunat_code:0 field:product.uom,sunat_code:0
+#: field:res.currency,sunat_code:0
+msgid "SUNAT code"
+msgstr "Código SUNAT"
+
+#. module: l10n_pe_ple
+#: help:product.category,sunat_inventory_display_type:0
+#: help:product.category,sunat_inventory_type:0
+msgid "SUNAT code, for this category or the first in parent's chain"
+msgstr "Código SUNAT, para esta categoría o la primera en la cadena de categorías padre"
+
+#. module: l10n_pe_ple
+#: field:asset.asset,sunat_depreciation_method:0
+#: field:product.product,sunat_depreciation_method:0
+#: field:product.template,sunat_depreciation_method:0
+msgid "SUNAT depreciation method"
+msgstr "SUNAT Método de depreciación"
+
+#. module: l10n_pe_ple
+#: help:account.account.type,sunat_code:0
+msgid "SUNAT financial report type, according to SUNAT Table 34"
+msgstr "SUNAT financial report type, according to SUNAT Table 34"
+
+#. module: l10n_pe_ple
+#: view:account.analytic.account:l10n_pe_ple.analytic_account_form_view
+msgid "SUNAT info"
+msgstr "Info SUNAT"
+
+#. module: l10n_pe_ple
+#: field:product.category,sunat_code:0
+msgid "SUNAT inventory type code"
+msgstr "SUNAT Código tipo de existencia"
+
+#. module: l10n_pe_ple
+#: field:stock.location,sunat_op_type_in:0
+msgid "SUNAT operation type IN"
+msgstr "SUNAT tipo de operacion IN"
+
+#. module: l10n_pe_ple
+#: field:stock.location,sunat_op_type_out:0
+msgid "SUNAT operation type OUT"
+msgstr "SUNATtipo de operacion OUT"
+
+#. module: l10n_pe_ple
+#: field:account.analytic.account,sunat_production_grouping:0
+msgid "SUNAT production grouping"
+msgstr "Agrup. Producción SUNAT"
+
+#. module: l10n_pe_ple
+#: field:product.product,sunat_share_type:0
+#: field:product.template,sunat_share_type:0
+msgid "SUNAT share type"
+msgstr "SUNAT typo de acción"
+
+#. module: l10n_pe_ple
+#: field:product.product,sunat_title_type:0
+#: field:product.template,sunat_title_type:0
+msgid "SUNAT title type"
+msgstr "SUNAT tipo de titulo"
+
+#. module: l10n_pe_ple
+#: field:product.product,sunat_valuation_method:0
+#: field:product.template,sunat_valuation_method:0
+msgid "SUNAT valuation method"
+msgstr "SUNAT método de valuación"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:189
+#, python-format
+msgid "Save output file"
+msgstr "Guardar el archivo de salida"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_line,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_pe_ple
+#: model:ir.model,name:l10n_pe_ple.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de Stock"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:238
+#, python-format
+msgid "Subclass has not implemented output filename action!"
+msgstr "La subclase no implementa la acción de nombre de archivo de salida!"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:170
+#, python-format
+msgid "Subclass has not implemented report action!"
+msgstr "¡La subclase no ha implementado la acción de informe!"
+
+#. module: l10n_pe_ple
+#: field:account.invoice,sunat_lir_art_76:0
+msgid "Sujeto al Art 76 LIR"
+msgstr "Sujeto al Art 76 LIR"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_31
+msgid "TIP_RENTA"
+msgstr "TIP_RENTA"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_32
+msgid "TIP_SRV_NO_DOM"
+msgstr "TIP_SRV_NO_DOM"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_15
+msgid "TITLE_TYPE"
+msgstr "TITLE_TYPE"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,accounts_ids:0
+msgid "Target accounts"
+msgstr "Cuentas objetivo"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple_configuration,journals_ids:0
+msgid "Target journals"
+msgstr "Diarios objetivo"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:230
+#, python-format
+msgid "The VAT number of the company is a mandatory field. It could not be blank! Please check it on company form"
+msgstr "The VAT number of the company is a mandatory field. It could not be blank! Please check it on company form"
+
+#. module: l10n_pe_ple
+#: sql_constraint:res.partner:0
+msgid "The document number must be unique!"
+msgstr "El número de documento debe ser único!"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:80
+#, python-format
+msgid "The report must be on draft state to delete it"
+msgstr "El informe debe estar en borrador para eliminarlo"
+
+#. module: l10n_pe_ple
+#: view:l10n_pe.sunat_file_save:l10n_pe_ple.save_file_form_view
+msgid "This file was generated using the SUNAT specifications."
+msgstr "Este archivo fue generado de acuerdo a las especificaciones del SUNAT."
+
+#. module: l10n_pe_ple
+#: field:account.journal,sunat_revenue_kind:0
+msgid "Tipo de Renta"
+msgstr "Tipo de Renta"
+
+#. module: l10n_pe_ple
+#: help:account.journal,sunat_revenue_kind:0
+msgid "Tipo de Renta de acuerdo a la tabla 31"
+msgstr "Tipo de Renta de acuerdo a la tabla 31"
+
+#. module: l10n_pe_ple
+#: field:account.invoice,sunat_kind_service:0
+msgid "Tipo de Servicio"
+msgstr "Tipo de Servicio"
+
+#. module: l10n_pe_ple
+#: help:product.product,sunat_share_type:0
+#: help:product.template,sunat_share_type:0
+msgid "Tipo de acciones o participaciones, according to SUNAT Table 16"
+msgstr "Tipo de acciones o participaciones, according to SUNAT Table 16"
+
+#. module: l10n_pe_ple
+#: help:asset.asset,sunat_asset_type:0
+#: help:product.product,sunat_asset_type:0
+#: help:product.template,sunat_asset_type:0
+msgid "Tipo de activo fijo, according to SUNAT Table 18"
+msgstr "Tipo de activo fijo, de acuerdo a SUNAT Tabla 18"
+
+#. module: l10n_pe_ple
+#: help:account.journal,sunat_payment_type:0
+msgid "Tipo de comprobante de pago o documento, according to SUNAT Table 10"
+msgstr "Tipo de comprobante de pago o documento, de acuerdo a SUNAT Tabla 10"
+
+#. module: l10n_pe_ple
+#: help:product.category,sunat_code:0
+msgid "Tipo de existencia, according to SUNAT Table 05"
+msgstr "Tipo de existencia, de acuerdo a SUNAT Tabla 05"
+
+#. module: l10n_pe_ple
+#: help:product.uom,sunat_code:0
+msgid "Tipo de existencia, according to SUNAT Table 06"
+msgstr "Tipo de existencia, de acuerdo a SUNAT Tabla 06"
+
+#. module: l10n_pe_ple
+#: help:res.currency,sunat_code:0
+msgid "Tipo de moneda, according to SUNAT Table 04"
+msgstr "Tipo de moneda, de acuerdo a SUNAT Tabla 04"
+
+#. module: l10n_pe_ple
+#: help:stock.location,sunat_op_type_in:0
+msgid "Tipo de operación de entrada, according to SUNAT Table 12"
+msgstr "Tipo de operación de entrada, according to SUNAT Table 12"
+
+#. module: l10n_pe_ple
+#: help:stock.location,sunat_op_type_out:0
+msgid "Tipo de operación de salida, according to SUNAT Table 12"
+msgstr "Tipo de operación de salida, according to SUNAT Table 12"
+
+#. module: l10n_pe_ple
+#: help:account.journal,sunat_operation_type:0
+msgid "Tipo de operación, according to SUNAT Table 12"
+msgstr "Tipo de operación, de acuerdo a SUNAT Tabla 12"
+
+#. module: l10n_pe_ple
+#: help:product.product,sunat_title_type:0
+#: help:product.template,sunat_title_type:0
+msgid "Tipo de título, according to SUNAT Table 15"
+msgstr "Tipo de título, according to SUNAT Table 15"
+
+#. module: l10n_pe_ple
+#: field:product.product,sunat_nominal_value:0
+msgid "Title/share nominal value x unit"
+msgstr "Título/valor nominal de participación x unidad"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_06
+msgid "UOM_TYPE"
+msgstr "UOM_TYPE"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:79
+#, python-format
+msgid "Unlink Error"
+msgstr "Error de enlace"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes no leidos"
+
+#. module: l10n_pe_ple
+#: model:res.groups,name:l10n_pe_ple.group_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_14
+msgid "VALUATION_METH"
+msgstr "VALUATION_METH"
+
+#. module: l10n_pe_ple
+#: model:base.table,name:l10n_pe_ple.sunat_tabla_27
+msgid "VINC_ECONOM"
+msgstr "VINC_ECONOM"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:229 code:addons/l10n_pe_ple/tables.py:397
+#: code:addons/l10n_pe_ple/tables.py:402 code:addons/l10n_pe_ple/tables.py:406
+#: code:addons/l10n_pe_ple/tables.py:410 code:addons/l10n_pe_ple/tables.py:414
+#: code:addons/l10n_pe_ple/tables.py:424 code:addons/l10n_pe_ple/tables.py:428
+#, python-format
+msgid "Value error"
+msgstr "Error de valor"
+
+#. module: l10n_pe_ple
+#: field:res.partner,sunat_vinculacion:0
+msgid "Vinculación"
+msgstr "Vinculación"
+
+#. module: l10n_pe_ple
+#: help:res.partner,sunat_vinculacion:0
+msgid "Vínculo entre el contribuyente y el residente en el extranjero"
+msgstr "Vínculo entre el contribuyente y el residente en el extranjero"
+
+#. module: l10n_pe_ple
+#: field:l10n_pe.ple,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: l10n_pe_ple
+#: help:l10n_pe.ple,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: l10n_pe_ple
+#: code:addons/l10n_pe_ple/sunat.py:88
+#, python-format
+msgid "You can not get back to \"draft\" an issued report!"
+msgstr "No se puede volver a borrador un reporte ya emitido!"
+
+#. module: l10n_pe_ple
+#: view:res.partner:l10n_pe_ple.partner_form_view
+msgid "onchange_is_company(is_company,doc_type)"
+msgstr "onchange_is_company(is_company,doc_type)"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="1">
+
+        <record id="see_prod_server" model="einvoice.server">
+            <field name="name">pe.sunat.see.produccion</field>
+            <field name="url">https://www.sunat.gob.pe/ol-ti-itcpgem/billService</field>
+        </record>
+        <record id="see_homologacion_server" model="einvoice.server">
+            <field name="name">pe.sunat.see.homologacion</field>
+            <field name="url">https://www.sunat.gob.pe/ol-ti-itcpgem-sqa/billService</field>
+        </record>
+        <record id="see_test_server" model="einvoice.server">
+            <field name="name">pe.sunat.see.PRUEBAS</field>
+            <field name="url">https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService</field>
+            <field name="user">MODDATOS</field>
+            <field name="password">moddatos</field>
+        </record>
+        
+	</data>
+</openerp>

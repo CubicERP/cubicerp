@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_account_load_user,account.load user,model_account_load,group_load_user,1,1,1,0
+access_account_load_move_user,account.load.move user,model_account_load_move,group_load_user,1,1,1,0
+access_account_load_manager,account.load manager,model_account_load,group_load_manager,1,1,1,1
+access_account_load_move_manager,account.load manager.move,model_account_load_move,group_load_manager,1,1,1,1

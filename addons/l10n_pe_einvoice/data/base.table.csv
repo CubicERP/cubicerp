@@ -1,0 +1,12 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+pe_see,,Peru,PE.SEE,SUNAT SEE del Contribuyente,Tablas y valores de configuración para SUNAT-SEE Sistema de Emisión Electronica desde los sistemas del contribuyente,l10n_pe_base.sunat,view
+see_tabla_01,,Peru,PE.SEE.TIPO,TIPO DE ENVÍO,Tipo de envío SEE,pe_see,normal
+see_tabla_02,,Peru,PE.SEE.ERROR,CÓDIGOS DE ERROR,Tabla de códigos de error SEE,pe_see,normal
+see_catalogo_05,,Peru,PE.SEE.CATALOGO_05,CÓDIGO DE TIPO DE TRIBUTO,Catalogo 05 Código de tipo de tributo,pe_see,normal
+see_catalogo_07,,Peru,PE.SEE.CATALOGO_07,TIPO AFECTACIÓN IGV,Catalogo 07 Tipo de afectación al IGV,pe_see,normal
+see_catalogo_09,,Peru,PE.SEE.CATALOGO_09,TIPO DE NOTA DE CRÉDITO ELECTRÓNICA SEGÚN MOTIVO,Catalogo 09 Tipo de nota de crédito electrónica según motivo,pe_see,normal
+see_catalogo_10,,Peru,PE.SEE.CATALOGO_10,TIPO DE NOTA DE DÉBITO ELECTRÓNICA SEGÚN MOTIVO,Catalogo 10 Tipo de nota de débito electrónica según motivo,pe_see,normal
+see_catalogo_11,,Peru,PE.SEE.CATALOGO_11,TIPO DE IMPORTE DE VALOR DE VENTA REGISTRADO EN EL RESUMEN DIARIO,Catalogo 11 Tipo de importe de valor de venta registrado en el resumen diario,pe_see,normal
+see_catalogo_14,,Peru,PE.SEE.CATALOGO_14,CÓDIGOS DE OTROS CONCEPTOS TRIBUTARIOS,Catalogo 14 Códigos de otros conceptos tributarios,pe_see,normal
+see_catalogo_15,,Peru,PE.SEE.CATALOGO_15,CÓDIGOS DE ELEMENTOS ADICIONALES A LA FACTURA Y/O BOLETA,Catalogo 15 Códigos de elementos adicionales a la factura y/o boleta,pe_see,normal
+see_catalogo_16,,Peru,PE.SEE.CATALOGO_16,TIPO PRECIO DE VENTA,Catalogo 16 Tipo de precio de venta,pe_see,normal

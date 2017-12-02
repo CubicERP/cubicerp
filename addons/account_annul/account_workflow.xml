@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+        
+		<record id="act_annul" model="workflow.activity">
+			<field name="kind">function</field>
+			<field name="name">annul</field>
+			<field name="join_mode">XOR</field>
+			<field name="wkf_id" ref="account.wkf"/>
+			<field eval="0" name="flow_stop"/>
+			<field name="split_mode">XOR</field>
+			<field name="action">action_annul()</field>
+			<field eval="0" name="flow_start"/>
+		</record>
+		        
+		<record id="trans_open_to_annul" model="workflow.transition">
+			<field name="signal">invoice_annul</field>
+			<field name="act_from" ref="account.act_open"/>
+			<field name="act_to" ref="act_annul"/>
+			<field name="condition">True</field>
+		</record>
+		<record id="trans_annul_to_cancel" model="workflow.transition">
+			<field name="signal">invoice_cancel</field>
+			<field name="act_from" ref="act_annul"/>
+			<field name="act_to" ref="account.act_cancel"/>
+			<field name="condition">True</field>
+		</record>
+		
+	</data>
+</openerp>

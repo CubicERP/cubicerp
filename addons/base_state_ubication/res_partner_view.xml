@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_partner_form_states_inherit">
+            <field name='name'>res.partner.form.states.inherited</field>
+            <field name='model'>res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name='type'>form</field>
+            <field name='arch' type='xml'>
+                <field name="state_id" position="replace"/>
+                <field name="country_id" position="replace"/>
+                <field name="street2" position="after">
+                    <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+                    <field name="state_id" class="oe_no_button" placeholder="Ubication" style="width: 100%%" options='{"no_open": True}' domain="[('country_id','=',country_id),('type','=','normal')]" string="Ubication"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

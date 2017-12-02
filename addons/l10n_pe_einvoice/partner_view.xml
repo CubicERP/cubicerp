@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model='ir.ui.view' id='view_partner_property_form'>
+			<field name='name'>res.partner.property.form.inherit.pe</field>
+			<field name='model'>res.partner</field>
+			<field name='inherit_id' ref='account.view_partner_property_form'/>
+			<field name="priority">90</field>
+			<field name='arch' type='xml'>
+				<xpath expr="//page[@string='Accounting']/group" position="inside">
+					<group name="l10n_pe" string="Peruvian Localization Settings" invisible="0">
+						<field name="anonymous_customer"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

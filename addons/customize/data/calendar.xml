@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="1">		
+
+	    <record model="resource.calendar" id="calendar_LV">
+		    <field name="name">L-V 9:00-18:00</field>
+	    </record>
+	    
+	    <record model="resource.calendar.attendance" id="calendar_LV_L1">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Lunes Mañana</field>
+		    <field name="dayofweek">0</field>
+		    <field name="hour_from">9</field>
+		    <field name="hour_to">13</field>
+	    </record>
+	    <record model="resource.calendar.attendance" id="calendar_LV_L2">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Lunes Tarde</field>
+		    <field name="dayofweek">0</field>
+		    <field name="hour_from">14</field>
+		    <field name="hour_to">18</field>
+	    </record>
+	    
+	    <record model="resource.calendar.attendance" id="calendar_LV_M1">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Martes Mañana</field>
+		    <field name="dayofweek">1</field>
+		    <field name="hour_from">9</field>
+		    <field name="hour_to">13</field>
+	    </record>
+	    <record model="resource.calendar.attendance" id="calendar_LV_M2">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Martes Tarde</field>
+		    <field name="dayofweek">1</field>
+		    <field name="hour_from">14</field>
+		    <field name="hour_to">18</field>
+	    </record>
+	    
+	    <record model="resource.calendar.attendance" id="calendar_LV_Mi1">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Miércoles Mañana</field>
+		    <field name="dayofweek">2</field>
+		    <field name="hour_from">9</field>
+		    <field name="hour_to">13</field>
+	    </record>
+	    <record model="resource.calendar.attendance" id="calendar_LV_Mi2">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Miércoles Tarde</field>
+		    <field name="dayofweek">2</field>
+		    <field name="hour_from">14</field>
+		    <field name="hour_to">18</field>
+	    </record>
+	    
+	    <record model="resource.calendar.attendance" id="calendar_LV_J1">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Jueves Mañana</field>
+		    <field name="dayofweek">3</field>
+		    <field name="hour_from">9</field>
+		    <field name="hour_to">13</field>
+	    </record>
+	    <record model="resource.calendar.attendance" id="calendar_LV_J2">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Jueves Tarde</field>
+		    <field name="dayofweek">3</field>
+		    <field name="hour_from">14</field>
+		    <field name="hour_to">18</field>
+	    </record>
+	    
+	    <record model="resource.calendar.attendance" id="calendar_LV_V1">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Viernes Mañana</field>
+		    <field name="dayofweek">4</field>
+		    <field name="hour_from">9</field>
+		    <field name="hour_to">13</field>
+	    </record>
+	    <record model="resource.calendar.attendance" id="calendar_LV_V2">
+	    	<field name="calendar_id" ref="calendar_LV"/>
+		    <field name="name">Viernes Tarde</field>
+		    <field name="dayofweek">4</field>
+		    <field name="hour_from">14</field>
+		    <field name="hour_to">18</field>
+	    </record>
+	</data>
+</openerp>

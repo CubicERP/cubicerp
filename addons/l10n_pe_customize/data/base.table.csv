@@ -1,0 +1,2 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+pe_ciiu,,Peru,PE.SUNAT.CIIU,CIIU,Tabla Clasificación Industrial Internacional Uniforme,l10n_pe_base.sunat,normal

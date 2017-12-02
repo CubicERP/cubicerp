@@ -1,0 +1,178 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* base_pki
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-21 19:08+0000\n"
+"PO-Revision-Date: 2016-11-21 14:20-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: selection:pki.certificate,state:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: base_pki
+#: model:ir.actions.act_window,name:base_pki.certificate_action
+#: view:pki.certificate:base_pki.certificate_form_view
+msgid "Certificate"
+msgstr "Certificado"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,cer:0
+msgid "Certificate .cer"
+msgstr "Certificate .cer"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,crt:0
+msgid "Certificate .crt"
+msgstr "Certificate .crt"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,der:0
+msgid "Certificate .der"
+msgstr "Certificate .der"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,pem:0
+msgid "Certificate .pem"
+msgstr "Certificate .pem"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,csr:0
+msgid "Certificate Request"
+msgstr "Solicitud de certificado"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_tree_view
+msgid "Certificates"
+msgstr "Certificados"
+
+#. module: base_pki
+#: field:pki.certificate,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: base_pki
+#: field:pki.certificate,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: base_pki
+#: field:pki.certificate,display_name:0
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: selection:pki.certificate,state:0
+msgid "Done"
+msgstr "Hecho"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: selection:pki.certificate,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: base_pki
+#: model:ir.module.category,description:base_pki.module_category
+msgid "Helps you manage your digital certificates in easy and secure way."
+msgstr "Ayuda a administrar sus certificados digitales de forma fácil y segura."
+
+#. module: base_pki
+#: field:pki.certificate,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: base_pki
+#: field:pki.certificate,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: base_pki
+#: field:pki.certificate,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizacion por"
+
+#. module: base_pki
+#: field:pki.certificate,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: base_pki
+#: model:res.groups,name:base_pki.group_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: base_pki
+#: field:pki.certificate,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: base_pki
+#: model:ir.ui.menu,name:base_pki.certificate_menu
+msgid "PKI Certificates"
+msgstr "Certificados PKI"
+
+#. module: base_pki
+#: field:pki.certificate,parent_id:0
+msgid "Parent Certificate"
+msgstr "Parent Certificate"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+#: field:pki.certificate,key:0
+msgid "Private Key"
+msgstr "Private Key"
+
+#. module: base_pki
+#: model:ir.module.category,name:base_pki.module_category
+msgid "Public Key Infraestructure"
+msgstr "Public Key Infraestructure"
+
+#. module: base_pki
+#: view:pki.certificate:base_pki.certificate_form_view
+msgid "Request"
+msgstr "Solicitud"
+
+#. module: base_pki
+#: selection:pki.certificate,state:0
+msgid "Requested"
+msgstr "Pedido"
+
+#. module: base_pki
+#: field:pki.certificate,start_date:0
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: base_pki
+#: field:pki.certificate,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: base_pki
+#: field:pki.certificate,stop_date:0
+msgid "Stop Date"
+msgstr "Stop de fecha"
+
+#. module: base_pki
+#: model:res.groups,name:base_pki.group_user
+msgid "User"
+msgstr "Usuario"

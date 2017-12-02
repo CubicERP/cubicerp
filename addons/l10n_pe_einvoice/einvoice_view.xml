@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    	
+<!--Batch-->
+
+        <record model="ir.ui.view" id="batch_pe_tree_view">
+            <field name="name">einvoice.batch.pe.view.tree</field>
+            <field name="model">einvoice.batch.pe</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Electronic Batch" >
+                    <field name="date" />
+                    <field name="name" />
+                    <field name="type" />
+                    <field name="status_code"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="batch_pe_form_view">
+            <field name="name">einvoice.batch.pe.view.form</field>
+            <field name="model">einvoice.batch.pe</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Electronic Batch" >
+                	<header>
+                		<button name="action_draft" string="Draft" states="cancel" type="object" />
+                		<button name="action_ready" string="Ready" states="draft" class="oe_highlight" type="object" />
+                        <button name="action_request" string="Send Request" groups="account_einvoice.group_manager" 
+                        states="ready,to_fix" class="oe_highlight" type="object" />
+                        <button name="action_refresh" string="Refresh" states="draft,ready" type="object"/>7
+                        <button name="action_response" string="Get Response" states="request" class="oe_highlight" type="object" />
+                        <button name="action_check" string="Check status" states="ready,request,to_fix" type="object"/>
+                        <button name="action_cancel" string="Cancel" states="draft,ready,request" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,request,done" statusbar_colors="{&quot;to_fix&quot;:&quot;red&quot;}"/>
+                	</header>
+                	<sheet>
+                		<div class="oe_title">
+                            <h1>
+                                <label string="Batch Electrónico " attrs="{'invisible':['|',('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+	                	<group>
+	                		<group>
+	                			<field name="type" />
+	                			<field name="status_code" />
+	                			<field name="ticket_code" />
+	                		</group>
+	                		<group>
+	                			<field name="date" />
+	                			<field name="company_id" groups="base.group_multi_company"/>
+	                		</group>
+	                	</group>
+	                	<notebook>
+	                		<page string="Electronic Messages">
+	                			<field name="emessage_ids"/>
+	                		</page>
+	                		<page string="Invoices" attrs="{'invisible':[('type','!=','sync')]}">
+	                			<field name="invoice_ids">
+	                				
+	                			</field>
+	                		</page>
+	                		<page string="Invoices Voided" attrs="{'invisible':[('type','!=','RA')]}">
+	                			<field name="invoice_voided_ids">
+	                				
+	                			</field>
+	                		</page>
+	                		<page string="Invoices Summary" attrs="{'invisible':[('type','!=','RC')]}">
+                                <button name="action_summary_documents" string="Get Summary" states="draft" class="oe_highlight" type="object" attrs="{'invisible':[('type','!=','RC')]}" />
+                                <field name="invoice_summary_ids">
+                                    
+                                </field>
+                            </page>
+	                	</notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="batch_pe_action" model="ir.actions.act_window">
+            <field name="name">Electronic Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">einvoice.batch.pe</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Electronic Batch" id="batch_pe_menu"
+             parent="account.menu_finance_receivables" action="batch_pe_action"
+             sequence="10" />
+
+    	
+<!--Message-->
+
+        <record model="ir.ui.view" id="message_pe_tree_view">
+            <field name="name">einvoice.message.pe.view.tree</field>
+            <field name="model">einvoice.message.pe</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Electronic Message" >
+                    <field name="date" />
+                    <field name="status_code" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="message_pe_form_view">
+            <field name="name">einvoice.message.pe.view.form</field>
+            <field name="model">einvoice.message.pe</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Electronic Message" >
+                	<header>
+                        <button name="action_send" string="Send" states="draft" type="object" />
+                        <!--button name="action_receive" string="Receive" states="draft" type="object" /-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft"/>
+                	</header>
+                	<sheet>
+                		<div class="oe_title">
+                            <h1>
+                                <label string="Messaje "/>
+                                <field name="date" class="oe_inline"/>
+                            </h1>
+                        </div>
+	                	<notebook>
+	                		<page string="Message">
+	                			<field name="message"/>
+	                		</page>
+	                		<page string="Signature">
+	                			<field name="signature"/>
+	                			<group>
+	                				<field name="digest"/>
+	                				<group>
+	                					<field name="xml_datas" filename="xml_fname"/>
+	                					<field name="xml_fname" invisible="1" class="oe_inline oe_right"/>
+	                					<field name="xml_sign_datas" filename="xml_sign_fname"/>
+	                					<field name="xml_sign_fname" invisible="1" class="oe_inline oe_right"/>
+	                				</group>
+	                				<group>
+	                					<field name="zip_sign_datas" filename="zip_sign_fname"/>
+	                					<field name="zip_sign_fname" invisible="1" class="oe_inline oe_right"/>
+	                					<field name="zip_datas" filename="zip_fname"/>
+	                					<field name="zip_fname" invisible="1" class="oe_inline oe_right"/>
+	                				</group>
+	                			</group>
+	                		</page>
+	                		<page string="Others">
+	                			<group>
+	                				<group>
+	                					<field name="date_end"/>
+	                					
+	                				</group>
+	                				<group>
+	                					<field name="batch_id"/>
+	                					<field name="status_code" />
+	                				</group>
+	                			</group>
+	                		</page>
+	                	</notebook>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

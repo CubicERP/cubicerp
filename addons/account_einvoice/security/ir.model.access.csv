@@ -1,0 +1,9 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_server_user,einvoice.server user,model_einvoice_server,group_user,1,0,0,0
+access_server_manager,einvoice.server manager,model_einvoice_server,group_manager,1,1,1,1,
+access_batch,einvoice.batch,model_einvoice_batch,,1,0,0,0
+access_batch_user,einvoice.batch user,model_einvoice_batch,group_user,1,1,1,0
+access_batch_manager,einvoice.batch manager,model_einvoice_batch,group_manager,1,1,1,1
+access_message,einvoice.message,model_einvoice_message,,1,0,0,0
+access_message_user,einvoice.message user,model_einvoice_message,group_user,1,0,1,0
+access_message_manager,einvoice.message manager,model_einvoice_message,group_manager,1,1,1,1,

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>		
+
+	    <record model="ir.actions.act_window" id="input_rule_action">
+		    <field name="name">Input Rule</field>
+		    <field name="res_model">hr.rule.input</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+	    <menuitem name='Imput Rule' id='input_rule_menu' 
+	    	parent='hr_payroll.payroll_configure' sequence='12' action="input_rule_action"/>
+	    
+	</data>
+</openerp>

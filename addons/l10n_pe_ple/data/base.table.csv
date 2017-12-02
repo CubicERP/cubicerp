@@ -1,0 +1,31 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+sunat_tabla_01,,Peru,PE.SUNAT.TABLA_01,PAYMENT_MEDIA,Tabla 1: Tipo de medio de pago,l10n_pe_base.sunat,normal
+sunat_tabla_02,,Peru,PE.SUNAT.TABLA_02,DOC_TYPE,Tabla 2: Tipo de documento de identidad,l10n_pe_base.sunat,normal
+sunat_tabla_03,,Peru,PE.SUNAT.TABLA_03,FIN_ENTITY,Tabla 3: Entidad financiera,l10n_pe_base.sunat,normal
+sunat_tabla_04,,Peru,PE.SUNAT.TABLA_04,CURR_TYPE,Tabla 4: Tipo de moneda,l10n_pe_base.sunat,normal
+sunat_tabla_05,,Peru,PE.SUNAT.TABLA_05,INVENTORY_TYPE,Tabla 5: Tipo de existencia,l10n_pe_base.sunat,normal
+sunat_tabla_06,,Peru,PE.SUNAT.TABLA_06,UOM_TYPE,Tabla 6: Código de la unidad de medida,l10n_pe_base.sunat,normal
+sunat_tabla_10,,Peru,PE.SUNAT.TABLA_10,PAYMENT_TYPE,Tabla 10: Tipo de comprobante de pago o documento,l10n_pe_base.sunat,normal
+sunat_tabla_11,,Peru,PE.SUNAT.TABLA_11,CUSTOMS_CODE,Tabla 11: Código de la Aduana,l10n_pe_base.sunat,normal
+sunat_tabla_12,,Peru,PE.SUNAT.TABLA_12,OPERATION_TYPE,Tabla 12: Tipo de la operación,l10n_pe_base.sunat,normal
+sunat_tabla_13,,Peru,PE.SUNAT.TABLA_13,INVENTORY_CAT,Tabla 13: Catálogo de existencias,l10n_pe_base.sunat,normal
+sunat_tabla_14,,Peru,PE.SUNAT.TABLA_14,VALUATION_METH,Tabla 14: Método de valuación,l10n_pe_base.sunat,normal
+sunat_tabla_15,,Peru,PE.SUNAT.TABLA_15,TITLE_TYPE,Tabla 15: Tipo de título,l10n_pe_base.sunat,normal
+sunat_tabla_16,,Peru,PE.SUNAT.TABLA_16,SHARE_TYPE,Tabla 16: Tipo de acciones o participantes,l10n_pe_base.sunat,normal
+sunat_tabla_17,,Peru,PE.SUNAT.TABLA_17,ACCOUNT_PLAN,Tabla 17: Plan de cuentas,l10n_pe_base.sunat,normal
+sunat_tabla_18,,Peru,PE.SUNAT.TABLA_18,ASSET_TYPE,Tabla 18: Tipo de activo fijo,l10n_pe_base.sunat,normal
+sunat_tabla_19,,Peru,PE.SUNAT.TABLA_19,ASSET_STATE,Tabla 19: Estado del activo fijo,l10n_pe_base.sunat,normal
+sunat_tabla_20,,Peru,PE.SUNAT.TABLA_20,DEP_METH,Tabla 20: Método de depreciación,l10n_pe_base.sunat,normal
+sunat_tabla_21,,Peru,PE.SUNAT.TABLA_21,PROD_COST_GROUP,Tabla 21: Código de agrupamiento del costo de producción valorizado anual,l10n_pe_base.sunat,normal
+sunat_tabla_22,,Peru,PE.SUNAT.TABLA_22,FIN_STATE,Tabla 22: Catálogo de estados financieros,l10n_pe_base.sunat,normal
+sunat_tabla_25,,Peru,PE.SUNAT.TABLA_25,CONV_DBLE_TRIB,Tabla 25: CONVENIOS PARA EVITAR LA DOBLE TRIBUTACIÓN,l10n_pe_base.sunat,normal
+sunat_tabla_27,,Peru,PE.SUNAT.TABLA_27,VINC_ECONOM,Tabla 27: TIPO DE VINCULACION ECONOMICA,l10n_pe_base.sunat,normal
+sunat_tabla_28,,Peru,PE.SUNAT.TABLA_28,PATR_NETO,Tabla 28: PATRIMONIO NETO,l10n_pe_base.sunat,normal
+sunat_tabla_30,,Peru,PE.SUNAT.TABLA_30,CLASF_BS_SERV,Tabla 30: CLASIFICACIÓN DE LOS BIENES Y SERVICIOS ADQUIRIDOS,l10n_pe_base.sunat,normal
+sunat_tabla_31,,Peru,PE.SUNAT.TABLA_31,TIP_RENTA,Tabla 31: TIPO DE RENTA,l10n_pe_base.sunat,normal
+sunat_tabla_32,,Peru,PE.SUNAT.TABLA_32,TIP_SRV_NO_DOM,Tabla 32: MODALIDAD DEL SERVICIO PRESTADO POR EL SUJETO NO DOMICILIADO,l10n_pe_base.sunat,normal
+sunat_tabla_33,,Peru,PE.SUNAT.TABLA_33,EXON_OP_NO_DOM,Tabla 33: EXONERACIONES DE OPERACIONES DE NO DOMICILIADOS (ART. 19 DE LA LEY DEL IMPUESTO A LA RENTA),l10n_pe_base.sunat,normal
+sunat_tabla_34,,Peru,PE.SUNAT.TABLA_34,COD_RUB_FINAN,Tabla 34: CÓDIGO DE LOS RUBROS DE LOS ESTADOS FINANCIEROS,l10n_pe_base.sunat,normal
+sunat_tabla_35,,Peru,PE.SUNAT.TABLA_35,PAISES,Tabla 35: PAISES,l10n_pe_base.sunat,normal
+sunat_regla_nombre_cc,,Peru,PE.SUNAT.REGLA_NOMBRE_CC,REGLA NOMBRE ARCHIVO CC,Regla Nombre CC: Código de oportunidad de presentación del EEFF,l10n_pe_base.sunat,normal
+sunat_regla_nombre_o,,Peru,PE.SUNAT.REGLA_NOMBRE_O,REGLA NOMBRE ARCHIVO O,Regla Nombre O: Indicador de operaciones,l10n_pe_base.sunat,normal

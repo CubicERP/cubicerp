@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_invoice_sunat_add,access_account_invoice_sunat_add,model_account_invoice_sunat_add,,1,1,1,1
+access_einvoice_batch_pe,einvoice.batch.pe,model_einvoice_batch_pe,,1,0,0,0
+access_einvoice_batch_pe_user,einvoice.batch.pe.user,model_einvoice_batch_pe,account_einvoice.group_user,1,1,1,0
+access_einvoice_batch_pe_manager,einvoice.batch.pe.manager,model_einvoice_batch_pe,account_einvoice.group_manager,1,1,1,1
+access_einvoice_message_pe,einvoice.message.pe,model_einvoice_message_pe,,1,0,0,0
+access_einvoice_message_pe_user,einvoice.message.pe,model_einvoice_message_pe,account_einvoice.group_user,1,1,1,0
+access_einvoice_message_pe_manager,einvoice.message.pe,model_einvoice_message_pe,account_einvoice.group_manager,1,1,1,1

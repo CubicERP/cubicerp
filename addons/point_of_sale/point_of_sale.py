@@ -838,8 +838,9 @@ class pos_order(osv.osv):
                 res[order.id]['amount_paid'] +=  payment.amount
                 res[order.id]['amount_return'] += (payment.amount < 0 and payment.amount or 0)
             for line in order.lines:
-                val1 += self._amount_line_tax(cr, uid, line, context=context)
-                val2 += line.price_subtotal
+                amount_tax = self._amount_line_tax(cr, uid, line, context=context)
+                val1 += amount_tax
+                val2 += line.price_subtotal_incl - amount_tax #line.price_subtotal
             res[order.id]['amount_tax'] = cur_obj.round(cr, uid, cur, val1)
             amount_untaxed = cur_obj.round(cr, uid, cur, val2)
             res[order.id]['amount_total'] = res[order.id]['amount_tax'] + amount_untaxed

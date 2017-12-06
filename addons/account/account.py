@@ -352,9 +352,9 @@ class account_account(osv.osv):
 
             with_taxes = ""
             if tax_account:
-                with_taxes = cr.mogrify("left join (select aml.id as id, -1 * (aml.debit - aml.credit) / (cx.balance + tx.balance) * tx.balance as total,"
-                                        "                  -1 * aml.debit / (cx.balance + tx.balance) * tx.balance as debit,"
-                                        "                  -1 * aml.credit / (cx.balance + tx.balance) * tx.balance as credit " \
+                with_taxes = cr.mogrify("left join (select aml.id as id, CASE WHEN (cx.balance + tx.balance) = 0 THEN 0 ELSE -1 * (aml.debit - aml.credit) / (cx.balance + tx.balance) * tx.balance END as total,"
+                                        "                  CASE WHEN (cx.balance + tx.balance) = 0 THEN 0 ELSE -1 * aml.debit / (cx.balance + tx.balance) * tx.balance END as debit,"
+                                        "                  CASE WHEN (cx.balance + tx.balance) = 0 THEN 0 ELSE -1 * aml.credit / (cx.balance + tx.balance) * tx.balance END as credit " \
                              "  from account_move_line as aml" \
                              "          join (select move_id, sum(debit - credit) as balance" \
                              "                 from account_move_line as aml1 join account_account as aa1 on (aml1.account_id = aa1.id)" \

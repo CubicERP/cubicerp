@@ -29,13 +29,13 @@ from datetime import datetime
 class einvoice_batch_pe(osv.Model):
     _name = "einvoice.batch.pe"
     _inherit = "einvoice.batch"
-
+    
     def _get_type(self, cr, uid, context=None):
         return self.pool.get('base.element').get_as_selection(cr, uid, 'PE.SEE.TIPO', context=context)
-
+    
     def _get_status_code(self, cr, uid, context=None):
         return self.pool.get('base.element').get_as_selection(cr, uid, 'PE.SEE.ERROR', context=context)
-
+    
     def _date(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -44,7 +44,7 @@ class einvoice_batch_pe(osv.Model):
                 res[batch.id] = invoice.date_invoice
                 continue
         return res
-
+    
     def _status_code(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -53,7 +53,7 @@ class einvoice_batch_pe(osv.Model):
                 res[batch.id] = message.status_code
                 continue
         return res
-
+    
     def _ticket_code(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -62,7 +62,7 @@ class einvoice_batch_pe(osv.Model):
                 res[batch.id] = message.ticket_code
                 continue
         return res
-
+    
     def _invoice_id(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -71,7 +71,7 @@ class einvoice_batch_pe(osv.Model):
                 res[batch.id] = invoice.id
                 continue
         return res
-
+    
     def _name_unique(self, cr, uid, ids, context=None):
         for batch in self.browse(cr, uid, ids, context=context):
             if batch.name and batch.name <> '/':
@@ -79,7 +79,7 @@ class einvoice_batch_pe(osv.Model):
                                       ('name','=',batch.name)], context=context)) > 1:
                     return False
         return True
-
+    
     def _get_digest(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -89,7 +89,7 @@ class einvoice_batch_pe(osv.Model):
                     res[batch.id] = message.digest
                     break
         return res
-
+    
     def _get_signature(self, cr, uid, ids, fields, args, context=None):
         res = {}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -99,7 +99,7 @@ class einvoice_batch_pe(osv.Model):
                     res[batch.id] = message.signature
                     break
         return res
-
+    
     _columns = {
             'date': fields.date('Date', required=True, readonly=True, states={'draft':[('readonly',False)],}),
             #'date': fields.function(_date, string='Date', type='date'),
@@ -117,16 +117,16 @@ class einvoice_batch_pe(osv.Model):
             'signature': fields.function(_get_signature, string='Signature', type='char'),
             'status_emessage': fields.char("Status Message"),
         }
-
+    
     _order= "name, date desc"
-
+    
     _defaults = {
             'name' : '/',
             'date': fields.date.context_today,
         }
-
+    
     _constraints = [(_name_unique, _('The name of the report must be unique!'), ['company_id','name'])]
-
+    
     def create_from_invoice(self, cr, uid, invoice, context=None):
         res = False
         vals = {}
@@ -148,7 +148,7 @@ class einvoice_batch_pe(osv.Model):
                 vals['company_id'] = invoice.company_id.id
                 res = self.create(cr, uid, vals, context=context)
         return res
-
+    
     def action_ready(self, cr, uid, ids, context=None):
         batch_ids = [(b.id, b.name) for b in self.browse(cr, uid, ids, context=context) if b.state != 'draft']
         if batch_ids:
@@ -180,7 +180,7 @@ class einvoice_batch_pe(osv.Model):
         ctx = context.copy()
         ctx['force_refresh'] = True
         return self.action_ready(cr, uid, ids, context=ctx)
-
+    
     def action_request(self, cr, uid, ids, context=None):
         batch_ids = [(b.id, b.name) for b in self.browse(cr, uid, ids, context=context) if b.state != 'ready']
         if batch_ids:
@@ -192,7 +192,7 @@ class einvoice_batch_pe(osv.Model):
             if batch.name=="/":
                 if batch.type == 'sync':
                     for invoice in batch.invoice_ids:
-                        vals['name'] = "%s-%s"%(invoice.journal_id.sunat_payment_type,invoice.number)
+                        vals['name'] = "%s-%s"%(invoice.journal_id.sunat_payment_type,invoice.number) 
                 elif batch.type == 'RC':
                     vals['name'] =  self.pool.get('ir.sequence').get(cr, uid, 'einvoice.batch.rc', context=context)
                 elif batch.type == 'RA':
@@ -205,22 +205,22 @@ class einvoice_batch_pe(osv.Model):
                 self.write(cr, uid, [batch.id], {'emessage_ids':[(0,0,message.get_xml_sign(cr, uid, batch, context=context))]}, context=context)
             message.send(cr, uid, batch.id, context=context)
         return super(einvoice_batch_pe,self).action_request(cr, uid, ids, context=context)
-
+    
     def action_cancel(self, cr, uid, ids, context=None):
         for batch in self.browse(cr, uid, ids, context=context):
             for message in batch.emessage_ids:
                 message.action_cancel()
         return super(einvoice_batch_pe,self).action_cancel(cr, uid, ids, context=context)
-
+    
     def action_draft(self, cr, uid, ids, context=None):
         for batch in self.browse(cr, uid, ids, context=context):
             for message in batch.emessage_ids:
                 message.action_draft()
         return super(einvoice_batch_pe,self).action_draft(cr, uid, ids, context=context)
-
+    
     def action_check(self, cr, uid, ids, context=None):
         for batch in self.browse(cr, uid, ids, context=context):
-            if batch.type=="sync":
+            if batch.type=="sync": 
                 for emessage_id in batch.emessage_ids:
                     vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
                     self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
@@ -230,26 +230,26 @@ class einvoice_batch_pe(osv.Model):
                         vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
                         if vals:
                             self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
-
+    
     def get_annul_invoice(self, cr, uid, ids, context=None):
-        querry=[('state', '=','annul'),('journal_id.is_einvoice_pe', '=', True),
+        querry=[('state', '=','annul'),('journal_id.is_einvoice_pe', '=', True), 
                 ('batch_voided_pe_id','=', False),]
         invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)
             self.write(cr, uid, ids, {'invoice_voided_ids':[(4, invoice_id)]}, context=context)
-
+    
     def action_summary_documents(self, cr, uid, ids, context=None):
         batch=self.browse(cr, uid, ids, context)
-        querry=[('state', '!=','draft'),('journal_id.is_einvoice_pe', '=', True),
-                ('date_invoice', '=', batch.date),
+        querry=[('state', '!=','draft'),('journal_id.is_einvoice_pe', '=', True), 
+                ('date_invoice', '=', batch.date), 
                 "|",('sunat_payment_type', '=', '03'), ('parent_id.sunat_payment_type', '=', '03'),
                 ]
         invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)
             self.write(cr, uid, ids, {'invoice_summary_ids':[(4, invoice_id)]}, context=context)
-
+    
     def action_response(self, cr, uid, ids, context=None):
         vals={}
         for batch in self.browse(cr, uid, ids, context=context):
@@ -262,21 +262,20 @@ class einvoice_batch_pe(osv.Model):
                     for emessage_id in invoice_id.batch_pe_id.emessage_ids:
                         if vals.get('zip_datas'):
                             del vals['zip_datas']
-                        if vals.get('zip_datas'):
-                            del vals['zip_datas']
                         self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
                     if invoice_id.batch_pe_id.name=="/":
-                        self.pool.get('einvoice.batch.pe').write(cr, uid, [invoice_id.batch_pe_id.id],
-                                                                  {'name': invoice_id.internal_number}, context=context)
+                        name = "%s-%s"%(invoice_id.journal_id.sunat_payment_type,invoice_id.number)
+                        self.pool.get('einvoice.batch.pe').write(cr, uid, [invoice_id.batch_pe_id.id], 
+                                                                  {'name': name}, context=context)
         return super(einvoice_batch_pe, self).action_response(cr, uid, ids, context)
 
 class einvoice_message_pe(osv.Model):
     _name = "einvoice.message.pe"
     _inherit = "einvoice.message"
-
+    
     def _get_status_code(self, cr, uid, context=None):
         return self.pool.get('base.element').get_as_selection(cr, uid, 'PE.SEE.ERROR', context=context)
-
+    
     def _data_get(self, cr, uid, ids, name, arg, context=None):
         if context is None:
             context = {}
@@ -289,7 +288,7 @@ class einvoice_message_pe(osv.Model):
             else:
                 result[attach.id] =False
         return result
-
+    
     def _data_set(self, cr, uid, id, name, value, arg, context=None):
         # We dont handle setting data to null
         if not value:
@@ -299,7 +298,7 @@ class einvoice_message_pe(osv.Model):
         attach = self.pool.get('ir.attachment')
         self.write(cr, uid, [id], {'zip_datas': value}, context=context)
         return True
-
+    
     _columns = {
             'batch_id': fields.many2one('einvoice.batch.pe', string='Electronic Batch', readonly=True),
             'status_code': fields.selection(_get_status_code, string='Status Code', size=16, readonly=True),
@@ -315,11 +314,11 @@ class einvoice_message_pe(osv.Model):
             'zip_sign_fname': fields.char('Zip Signed File name'),
             'ticket_code': fields.char("Ticket code")
         }
-
+    
     def send(self, cr, uid, batch_id, context=None):
         message_ids = self.search(cr, uid, [('batch_id','=',batch_id),('state','=','draft')], context=context)
         return self.action_send(cr, uid, message_ids, context=context)
-
+    
     def _verify_message(self, cr, uid, ids, context=None):
         for msg in self.browse(cr, uid, ids, context=context):
             vals={}
@@ -328,7 +327,7 @@ class einvoice_message_pe(osv.Model):
             if (xml_string and xml_datas) and xml_string !=xml_datas:
                 vals.update(self.get_xml_sign(cr, uid, msg.batch_id, xml_string=xml_string, context=context))
                 self.write(cr, uid, [msg.id], vals, context=context)
-
+    
     def action_send(self, cr, uid, ids, context=None):
         batch_obj = self.pool.get('einvoice.batch.pe')
         self._verify_message(cr, uid, ids, context)
@@ -358,7 +357,7 @@ class einvoice_message_pe(osv.Model):
                                       'The batch %s (id:%s) have an unexpected error: %s' % (
                                       msg.batch_id.name, str(msg.batch_id.id), e.message))
         return super(einvoice_message_pe, self).action_send(cr, uid, ids, context=context)
-
+    
     def get_zip_invoice(self, cr, uid, batch_id, signature, context=None):
         #signature=message_obj.signature
         directory = tempfile.mkdtemp(suffix=batch_id.company_id.vat and batch_id.company_id.vat[2:] or '', prefix='tmp')
@@ -368,9 +367,9 @@ class einvoice_message_pe(osv.Model):
         else:
             file_name+=batch_id.name
         directory_name=directory+'/'+file_name+'.zip'
-        zf = zipfile.ZipFile(directory_name,
-                             mode='w',
-                             compression=zipfile.ZIP_DEFLATED,
+        zf = zipfile.ZipFile(directory_name, 
+                             mode='w', 
+                             compression=zipfile.ZIP_DEFLATED, 
                              )
         try:
             zf.writestr(file_name+'.xml', signature)
@@ -383,7 +382,7 @@ class einvoice_message_pe(osv.Model):
         encoded=res.read().encode('base64')
         res.close()
         return encoded, file_name+'.zip', file_name
-
+    
     def get_sunat_response(self, cr, uid, file_name, zip_datas, context=None):
         vals={}
         vals['zip_fname']=file_name
@@ -404,7 +403,7 @@ class einvoice_message_pe(osv.Model):
             if vals['status_code']=="0000":
                 vals['state']="receive"
         return vals
-
+    
     def get_ticket_status(self, cr, uid, batch, context):
         vals = {}
         client=self.get_client(cr, uid, batch, context=context)
@@ -433,9 +432,9 @@ class einvoice_message_pe(osv.Model):
         #        return ""
                 #raise osv.except_osv (_('Data Error'),
                 #       _('Include at least one invoice, please check it!'))
-
+        
         return convertXML.get_xml(self, cr, uid, batch)
-
+            
     def get_xml_sign(self, cr, uid, batch, xml_string=None, xml_sign=None, context=None):
         if context is None:
             context = {}
@@ -466,7 +465,7 @@ class einvoice_message_pe(osv.Model):
         if digest!=-1:
             vals['signature'] = sign.text
         return vals
-
+    
     def get_client(self, cr, uid, batch, url=None, context=None):
         url = url or batch.company_id.sunat_see_server.url
         client = SoapClient(wsdl="%s?WSDL"% url, cache = None, ns="tzmed", soap_ns="soapenv", soap_server="jbossas6", trace=True)
@@ -482,10 +481,12 @@ class einvoice_message_pe(osv.Model):
         url="https://www.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
         for emessage_id in self.browse(cr, uid, ids, context):
             vals={}
+            state=False
             try:
+                name="%s-%s"%(emessage_id.batch_id.invoice_ids[0].journal_id.sunat_payment_type,emessage_id.batch_id.invoice_ids[0].number)
                 doc_name=(emessage_id.batch_id.company_id.vat and emessage_id.batch_id.company_id.vat[2:].encode('utf-8')) + '-'
-                doc_name+=emessage_id.batch_id.name
-                #client={'ruc': emessage_id.batch_id.company_id.vat[2:],
+                doc_name+=name
+                #client={'ruc': emessage_id.batch_id.company_id.vat[2:], 
                 #        'username': emessage_id.batch_id.company_id.sunat_see_server.user,
                 #        'password': emessage_id.batch_id.company_id.sunat_see_server.password,
                 #        'url': url,
@@ -501,15 +502,16 @@ class einvoice_message_pe(osv.Model):
                 }
                 response=client.getStatusCdr(**params)
                 vals['zip_datas']=response.get('statusCdr', {}).get('content', False)
+                state=True
             except SoapFault as e:
-                state=False
                 vals['status_emessage']="%s - %s" %(str(e.faultcode or ""), str(e.faultstring or ""))
                 errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
                 if errmsg:
                     vals['status_emessage'] = e.faultcode.encode('utf-8')
             except Exception:
-                state=False
+                pass
             if state and vals.get('zip_datas'):
                 vals.update(self.get_sunat_response(cr, uid, doc_name+'.zip', vals['zip_datas']))
             return vals
-
+            
+            

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
 from odoo.tests import common
 from odoo.addons.calendar.models.calendar import calendar_id2real_id

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
 from .test_project_base import TestProjectBase
 from odoo.tools import mute_logger

@@ -1,5 +1,5 @@
 import odoo.tests
-# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
 
 class TestUi(odoo.tests.HttpCase):

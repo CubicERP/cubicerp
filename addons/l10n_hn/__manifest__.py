@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE_OLD file for full copyright and licensing details.
+# Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
 # Copyright (c) 2009-2016 Salvatore Josué Trimarchi Pinto <trimarchi@bacgroup.net>
 

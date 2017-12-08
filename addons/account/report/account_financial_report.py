@@ -84,12 +84,16 @@ class report_account_common(report_sxw.rml_parse, common_report_header):
             multiplan = eval(report.multiplan)
             vals = {
                 'name': report.name,
-                'balance': (sum(multiplan) * report.sign) if multiplan else (report.balance * report.sign),
                 'type': 'report',
                 'level': bool(report.style_overwrite) and report.style_overwrite or report.level,
                 'account_type': report.type =='sum' and 'view' or False, #used to underline the financial report balances
-                'multiplan': multiplan and [v and v * report.sign or 0.0 for v in multiplan] or [],
             }
+            if report.type == 'sum':
+                vals['balance'] = (sum(multiplan) * report.sign) if multiplan else (report.balance * report.sign)
+                vals['multiplan'] = multiplan and [v and v * report.sign or 0.0 for v in multiplan] or []
+            else:
+                vals['balance'] = sum(multiplan) if multiplan else report.balance
+                vals['multiplan'] = multiplan and [v or 0.0 for v in multiplan] or []
             if data['form']['debit_credit']:
                 vals['debit'] = report.debit
                 vals['credit'] = report.credit

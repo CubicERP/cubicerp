@@ -92,7 +92,7 @@ class account_financial_report(osv.osv):
             # it's the sum of the linked accounts
             for a in account_obj.browse(cr, uid, [a.id for a in report.account_ids], context=context):
                 for field in field_names:
-                    vals[field] = vals.get(field,[]) + [getattr(a, field)] # * report.sign
+                    vals[field] = vals.get(field,[]) + [getattr(a, field) * report.sign]
         elif report.type == 'account_type':
             # it's the sum the leaf accounts with such an account type
             report_types = [x.id for x in report.account_type_ids]
@@ -100,14 +100,14 @@ class account_financial_report(osv.osv):
                                              context=context)
             for a in account_obj.browse(cr, uid, account_ids, context=context):
                 for field in field_names:
-                    vals[field] = vals.get(field,[]) + [getattr(a, field)]  # * report.sign
+                    vals[field] = vals.get(field,[]) + [getattr(a, field) * report.sign]
         elif report.type == 'account_report' and report.account_report_ids:
             # it's the amount of the linked report
             res2 = self._get_balance(cr, uid, [r.id for r in report.account_report_ids], field_names, False,
                                      context=context)
             for key, value in res2.items():
                 for field in field_names:
-                    vals[field] = vals.get(field,[]) + [value[field]]
+                    vals[field] = vals.get(field,[]) + [value[field] * report.sign]
         elif report.type == 'sum':
             # it's the sum of the children of this account.report
             res2 = self._get_balance(cr, uid, [rec.id for rec in report.children_ids], field_names, False,

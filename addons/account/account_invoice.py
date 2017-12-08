@@ -758,7 +758,7 @@ class account_invoice(models.Model):
             else:
                 total -= line['price']
                 total_currency -= line['amount_currency'] or line['price']
-        amount_diff = self.amount_total - total_currency
+        amount_diff = self.amount_total - abs(total_currency)
         if amount_diff:
             if not self.company_id.income_currency_exchange_account_id or not self.company_id.expense_currency_exchange_account_id:
                 raise except_orm(_('Error!'), _("Please define the difference accounts located under configuration tab in company's form."))

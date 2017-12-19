@@ -224,7 +224,7 @@ class account_account_type(osv.osv):
     _columns = {
         'name': fields.char('Account Type', required=True, translate=True),
         'code': fields.char('Code', size=32, required=True, select=True),
-        'close_method': fields.selection([('none', 'None'), ('balance', 'Balance'), ('detail', 'Detail'), ('unreconciled', 'Unreconciled')], 'Deferral Method', required=True, help="""Set here the method that will be used to generate the end of year journal entries for all the accounts of this type.
+        'close_method': fields.selection([('none', 'None'), ('balance', 'Balance'), ('analytic','Analytical Balance'), ('detail', 'Detail'), ('unreconciled', 'Unreconciled')], 'Deferral Method', required=True, help="""Set here the method that will be used to generate the end of year journal entries for all the accounts of this type.
 
  'None' means that nothing will be done.
  'Balance' will generally be used for cash accounts.
@@ -1428,6 +1428,8 @@ class account_move(osv.osv):
         for line in self.browse(cr, uid, ids, context=context):
             if not line.journal_id.update_posted:
                 raise osv.except_osv(_('Error!'), _('You cannot modify a posted entry of this journal.\nFirst you should set the journal to allow cancelling entries.'))
+            if line.period_id.state == 'done':
+                raise osv.except_osv(_('Error!'), _('You cannot modify a posted entry of a closed period.'))
         if ids:
             cr.execute('UPDATE account_move '\
                        'SET state=%s '\

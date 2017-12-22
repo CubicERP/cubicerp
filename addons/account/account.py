@@ -1446,6 +1446,13 @@ class account_move(osv.osv):
         self.validate(cr, uid, ids, context=context)
         return result
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        if context is None:
+            context = {}
+        ctx = context.copy()
+        ctx['no_verify_close_period'] = True
+        return super(account_move, self).copy(cr, uid, id, default=default, context=ctx)
+
     def create(self, cr, uid, vals, context=None):
         context = dict(context or {})
         if vals.get('line_id'):

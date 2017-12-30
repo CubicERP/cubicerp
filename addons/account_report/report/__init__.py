@@ -19,34 +19,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Accounting Reports',
-    'version': '1.0',
-    'category': 'Accounting',
-    'sequence': 35,
-    'author': 'Cubic ERP',
-    'license': 'AGPL-3',
-    'summary': 'Financial and Analytic Reports',
-    'description': """
-Accounting Reports
-==================
-It transform the accounting PDF reports to useful dynamical reports. 
-""",
-    'website': 'https://www.cubicerp.com',
-    'depends': ['account'],
-    'data': [
-        "views/account_report_ledger.xml",
-        "views/account_report_view.xml",
-        "views/account_report_template.xml",
-        "wizard/account_report_ledger_view.xml",
-        "report/account_entries_report_view.xml",
-    ],
-    'qweb': [
-        'static/src/xml/account_report_ledger_backend.xml',
-    ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
+from . import account_entries_report

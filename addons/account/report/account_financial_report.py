@@ -63,3 +63,27 @@ class account_financial_report(models.Model):
         (6, 'Smallest Text'),
         ], 'Financial Report Style', default=0,
         help="You can set up here the format you want this record to be displayed. If you leave the automatic formatting, it will be computed based on the financial reports hierarchy (auto-computed field 'level').")
+
+    @api.model
+    def create(self, vals):
+        res = super(account_financial_report, self).create(vals)
+        for val in vals.get('account_type_ids', []):
+            if val[0] == 6:
+                for account_type in self.env['account.account.type'].browse(val[2]):
+                    if not account_type.financial_report_id:
+                        account_type.financial_report_id = res.id
+        return res
+
+    def write(self, vals):
+        for val in vals.get('account_type_ids', []):
+            if val[0] == 6:
+                for account_type in self.env['account.account.type'].browse(val[2]):
+                    if not account_type.financial_report_id:
+                        for report in self:
+                            account_type.write({'financial_report_id': report.id})
+                for at in list(set([at.id for at in self.account_type_ids]) - set(val[2])):
+                    account_type = self.env['account.account.type'].browse(at)
+                    for report in self:
+                        if account_type.financial_report_id.id == report.id:
+                            account_type.financial_report_id = False
+        return super(account_financial_report, self).write(vals)

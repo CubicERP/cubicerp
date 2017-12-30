@@ -26,6 +26,24 @@ class AccountAccountType(models.Model):
         "different types of accounts: liquidity type is for cash or bank accounts"\
         ", payable/receivable is for vendor/customer accounts.")
     note = fields.Text(string='Description')
+    financial_report_id = fields.Many2one('account.financial.report', string="Financial Report", domain=[('type','=','account_type')])
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountAccountType, self).create(vals)
+        if vals.get('financial_report_id'):
+            res.financial_report_id.write({'account_type_ids': [(4, res.id)]})
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if 'financial_report_id' in vals:
+            for account_type in self:
+                if account_type.financial_report_id:
+                    account_type.financial_report_id.write({'account_type_ids': [(3, account_type.id)]})
+            if vals['financial_report_id']:
+                self.env['account.financial.report'].browse(vals['financial_report_id']).write({'account_type_ids': [(4, at.id) for at in self]})
+        return super(AccountAccountType, self).write(vals)
 
 
 class AccountAccountTag(models.Model):
@@ -76,6 +94,7 @@ class AccountAccount(models.Model):
         default=lambda self: self.env['res.company']._company_default_get('account.account'))
     tag_ids = fields.Many2many('account.account.tag', 'account_account_account_tag', string='Tags', help="Optional tags you may want to assign for custom reporting")
     group_id = fields.Many2one('account.group')
+    chart_account_id = fields.Many2one('account.group', string="Chart Account", compute="_get_chart_account", store=True)
 
     opening_debit = fields.Monetary(string="Opening debit", compute='_compute_opening_debit_credit', inverse='_set_opening_debit', help="Opening debit value for this account.")
     opening_credit = fields.Monetary(string="Opening credit", compute='_compute_opening_debit_credit', inverse='_set_opening_credit', help="Opening credit value for this account.")
@@ -83,6 +102,15 @@ class AccountAccount(models.Model):
     _sql_constraints = [
         ('code_company_uniq', 'unique (code,company_id)', 'The code of the account must be unique per company !')
     ]
+
+    @api.depends('group_id','group_id.parent_id')
+    def _get_chart_account(self):
+        for account in self:
+            parent = old_parent = account.group_id
+            while parent:
+                old_parent = parent
+                parent = parent.parent_id
+            account.chart_account_id = old_parent
 
     def _compute_opening_debit_credit(self):
         for record in self:
@@ -285,6 +313,19 @@ class AccountGroup(models.Model):
     parent_right = fields.Integer('Right Parent', index=True)
     name = fields.Char(required=True)
     code_prefix = fields.Char()
+    complete_name = fields.Char('Full Name', compute="_get_full_name")
+
+    @api.depends('name', 'parent_id')
+    def _get_full_name(self):
+        for elmt in self:
+            elmt.complete_name = self._get_one_full_name(elmt)
+
+    def _get_one_full_name(self, elmt):
+        if elmt.parent_id:
+            parent_path = self._get_one_full_name(elmt.parent_id) + " / "
+        else:
+            parent_path = ''
+        return parent_path + elmt.name
 
     def name_get(self):
         result = []
@@ -323,6 +364,8 @@ class AccountJournal(models.Model):
             ('cash', 'Cash'),
             ('bank', 'Bank'),
             ('general', 'Miscellaneous'),
+            ('opening', 'Opening Fiscal Year'),
+            ('closing', 'Closing Fiscal Year'),
         ], required=True,
         help="Select 'Sale' for customer invoices journals.\n"\
         "Select 'Purchase' for vendor bills journals.\n"\

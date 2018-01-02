@@ -25,6 +25,7 @@ from StringIO import StringIO
 from pysimplesoap.client import SoapClient, SoapFault, fetch
 from pysimplesoap.simplexml import SimpleXMLElement
 import logging
+from datetime import datetime
 log = logging.getLogger(__name__)
 
 class Convert2XML:
@@ -105,37 +106,18 @@ class Convert2XML:
         etree.SubElement(supplier, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.doc_type
         tag = etree.QName(self._cac, 'Party')
         party=etree.SubElement(supplier, tag.text, nsmap={'cac':tag.namespace})
-        if batch.company_id.comercial_name:
-            tag = etree.QName(self._cac, 'PartyName')
-            party_name=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'Name')
-            etree.SubElement(party_name, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.comercial_name
+        tag = etree.QName(self._cac, 'PartyName')
+        party_name=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
+        tag = etree.QName(self._cbc, 'Name')
+        etree.SubElement(party_name, tag.text, nsmap={'cbc':tag.namespace}).text=etree.CDATA(batch.company_id.comercial_name or '-')
         tag = etree.QName(self._cac, 'PostalAddress')
         address=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
-        if batch.company_id.partner_id.state_id.code:
-            tag = etree.QName(self._cbc, 'ID')
-            etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.state_id.code[2:]
-        tag = etree.QName(self._cbc, 'StreetName')
-        etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.street
-        if batch.company_id.partner_id.street2:
-            tag = etree.QName(self._cbc, 'CitySubdivisionName')
-            etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.street2
-        if batch.company_id.partner_id.state_id:
-            tag = etree.QName(self._cbc, 'CityName')
-            etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.state_id.parent_id.parent_id.name
-            tag = etree.QName(self._cbc, 'CountrySubentity')
-            etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.state_id.parent_id.name
-            tag = etree.QName(self._cbc, 'District')
-            etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.state_id.name
-        if batch.company_id.partner_id.country_id:
-            tag = etree.QName(self._cac, 'Country')
-            country=etree.SubElement(address, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'IdentificationCode')
-            etree.SubElement(country, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.country_id.code
+        tag = etree.QName(self._cbc, 'AddressTypeCode')
+        etree.SubElement(address, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.partner_id.state_id.code[2:]
         tag = etree.QName(self._cac, 'PartyLegalEntity')
         entity=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
         tag = etree.QName(self._cbc, 'RegistrationName')
-        etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=batch.company_id.name
+        etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=etree.CDATA(batch.company_id.name)
 
     def getAdditionalInformation(self, cr, uid, batch, tax_obj, currency_obj, data, content):
         tag = etree.QName(self._sac, 'AdditionalInformation')
@@ -160,20 +142,6 @@ class Convert2XML:
             tag = etree.QName(self._cbc, 'PayableAmount')
             etree.SubElement(info_monetary, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
                              nsmap={'cbc':tag.namespace}).text=str(amount_exonerated)
-#         for line in batch.invoice_id.invoice_line:
-#             if not line.invoice_line_tax_id and line.discount==100:
-#                 tag = etree.QName(self._sac, 'AdditionalMonetaryTotal')
-#                 info_monetary=etree.SubElement(information, tag.text, nsmap={'sac':tag.namespace})
-#                 tag = etree.QName(self._cbc, 'ID')
-#                 etree.SubElement(info_monetary, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_14_04').name
-#                 tag = etree.QName(self._cbc, 'PayableAmount')
-#                 # evaluar esto
-#                 tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-#                 total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_lines['total_included'])
-#                 etree.SubElement(info_monetary, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-#                                  nsmap={'cbc':tag.namespace}).text=str(total_included)
-
-
         if batch.invoice_id.amount_gift>0:
             tag = etree.QName(self._sac, 'AdditionalMonetaryTotal')
             info_monetary=etree.SubElement(information, tag.text, nsmap={'sac':tag.namespace})
@@ -202,12 +170,35 @@ class Convert2XML:
             etree.SubElement(prop, tag.text, nsmap={'cbc':tag.namespace}).text=add.code
             tag = etree.QName(self._cbc, 'Value')
             etree.SubElement(prop, tag.text, nsmap={'cbc':tag.namespace}).text=add.name
+        tag = etree.QName(self._sac, 'SUNATTransaction')
+        transaction =etree.SubElement(information, tag.text, nsmap={'sac':tag.namespace})
+        tag = etree.QName(self._cbc, 'ID')
+        # Analizar las otras opciones
+        etree.SubElement(transaction, tag.text, nsmap={'cbc':tag.namespace}).text = "01"
+        tag = etree.QName(self._sac, 'SoftwareID')
+        etree.SubElement(transaction, tag.text, nsmap={'sac':tag.namespace}).text = str(batch.invoice_id.id)
 
-    def getUBLVersion(self):
+    def getUBLVersion(self, customization=None):
         tag = etree.QName(self._cbc, 'UBLVersionID')
         etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text='2.0'
         tag = etree.QName(self._cbc, 'CustomizationID')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text='1.0'
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=customization or '1.0'
+
+    def getDocumentDetail(self, batch):
+        tag = etree.QName(self._cbc, 'ID')
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.internal_number or ''
+        #tag = etree.QName(self._cbc, 'IssueDate')
+        #etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.date_invoice
+        tag = etree.QName(self._cbc, 'IssueDate')   
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.invoice_id.sunat_date, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+        tag = etree.QName(self._cbc, 'IssueTime')   
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.invoice_id.sunat_date, "%Y-%m-%d %H:%M:%S").strftime("%H:%M:%S")
+        if batch.invoice_id.sunat_payment_type  in ['01', '03']:
+            tag = etree.QName(self._cbc, 'InvoiceTypeCode')   
+            etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.journal_id.sunat_payment_type
+        tag = etree.QName(self._cbc, 'DocumentCurrencyCode')   
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name
+        
 
     def getDiscrepancyResponse(self, batch):
         tag = etree.QName(self._cac, 'DiscrepancyResponse')
@@ -223,15 +214,31 @@ class Convert2XML:
         tag = etree.QName(self._cbc, 'Description')
         etree.SubElement(discrepancy, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.number
 
-    def getBillingReference(self, batch):
+    def getBillingReference(self, batch, line = None):
         tag = etree.QName(self._cac, 'BillingReference')
-        reference=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
+        reference=etree.SubElement(line or self._root, tag.text, nsmap={'cac':tag.namespace})
         tag = etree.QName(self._cac, 'InvoiceDocumentReference')
         invoice=etree.SubElement(reference, tag.text, nsmap={'cac':tag.namespace})
         tag = etree.QName(self._cbc, 'ID')
         etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.parent_id.number or ''
         tag = etree.QName(self._cbc, 'DocumentTypeCode')
         etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.parent_id.journal_id.sunat_payment_type
+
+
+    def getPartner(self, invoice_id, line=None):
+        tag = etree.QName(self._cac, 'AccountingCustomerParty')
+        customer=etree.SubElement(line or self._root, tag.text, nsmap={'cac':tag.namespace})
+        tag = etree.QName(self._cbc, 'CustomerAssignedAccountID')
+        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.partner_id.doc_number or '-'
+        tag = etree.QName(self._cbc, 'AdditionalAccountID')
+        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.partner_id.doc_type or '-'
+        if not line:
+            tag = etree.QName(self._cac, 'Party')
+            party=etree.SubElement(customer, tag.text, nsmap={'cac':tag.namespace})
+            tag = etree.QName(self._cac, 'PartyLegalEntity')
+            entity=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
+            tag = etree.QName(self._cbc, 'RegistrationName')
+            etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.partner_id.name or '-'
 
     def getTaxTotal(self, cr, uid, batch, currency_obj):
         tag = etree.QName(self._cac, 'TaxTotal')
@@ -278,74 +285,27 @@ class Convert2XML:
         etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
                          nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, amount_exonerated+(amount_tax or 0)+amount_untaxed))
 
-    def getInvoice(self, cr, uid, batch, tax_obj, currency_obj, data, context=None):
-        xmlns=etree.QName("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2", 'Invoice')
-        nsmap1=OrderedDict([(None, xmlns.namespace), ('cac', self._cac), ('cbc', self._cbc), ('ccts', self._ccts),
-                            ('ds', self._ds), ('ext', self._ext), ('qdt', self._qdt), ('sac', self._sac), ('udt', self._udt),
-                            ('xsi', self._xsi)] )
-        self._root=etree.Element(xmlns.text, nsmap=nsmap1)
-        tag = etree.QName(self._ext, 'UBLExtensions')
-        extensions=etree.SubElement(self._root, tag.text, nsmap={'ext':tag.namespace})
-        #era opcional - Leyenda
-        tag = etree.QName(self._ext, 'UBLExtension')
-        extension=etree.SubElement(extensions, tag.text, nsmap={'ext':tag.namespace})
-        tag = etree.QName(self._ext, 'ExtensionContent')
-        content=etree.SubElement(extension, tag.text, nsmap={'ext':tag.namespace})
-
-        self.getAdditionalInformation(cr, uid, batch, tax_obj, currency_obj, data, content)
-        # to sign
-        #tag = etree.QName(self._ext, 'UBLExtensions')
-        #extensions=etree.SubElement(self._root, tag.text, nsmap={'ext':tag.namespace})
-        tag = etree.QName(self._ext, 'UBLExtension')
-        extension=etree.SubElement(extensions, tag.text, nsmap={'ext':tag.namespace})
-        tag = etree.QName(self._ext, 'ExtensionContent')
-        content=etree.SubElement(extension, tag.text, nsmap={'ext':tag.namespace})
-
-        #get x509 template
-        self.getX509Template(content)
-        self.getUBLVersion()
-
-        tag = etree.QName(self._cbc, 'ID')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.internal_number or ''
-        tag = etree.QName(self._cbc, 'IssueDate')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.date_invoice
-        #catalogo numero 1 -- falta procesar
-        tag = etree.QName(self._cbc, 'InvoiceTypeCode')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.journal_id.sunat_payment_type
-        tag = etree.QName(self._cbc, 'DocumentCurrencyCode')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name
-
-        self.getSignature(batch)
-
-        #datos de la compania
-        self.getCompany(batch)
-
-        tag = etree.QName(self._cac, 'AccountingCustomerParty')
-        customer=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'CustomerAssignedAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_number or '-'
-        tag = etree.QName(self._cbc, 'AdditionalAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_type or '-'
-        tag = etree.QName(self._cac, 'Party')
-        party=etree.SubElement(customer, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cac, 'PartyLegalEntity')
-        entity=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'RegistrationName')
-        etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.name or '-'
-
-        amount_tax=self.getTaxTotal(cr, uid, batch, currency_obj)
-        self.getLegalMonetaryTotal(cr, uid, batch, currency_obj, amount_tax)
-
+    def getDocumentLines(self, cr, uid, batch, tax_obj, currency_obj, data, context=None):
         cont=1
         for line in batch.invoice_id.invoice_line:
             if line.price_subtotal<0:
                 continue
-            tag = etree.QName(self._cac, 'InvoiceLine')
+            if batch.invoice_id.sunat_payment_type=='08':
+                tag = etree.QName(self._cac, 'DebitNoteLine')
+            elif batch.invoice_id.sunat_payment_type=='07':
+                tag = etree.QName(self._cac, 'CreditNoteLine')
+            else:
+                tag = etree.QName(self._cac, 'InvoiceLine')
             inv_line=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
             tag = etree.QName(self._cbc, 'ID')
             etree.SubElement(inv_line, tag.text, nsmap={'cbc':tag.namespace}).text=str(cont)
             cont+=1
-            tag = etree.QName(self._cbc, 'InvoicedQuantity')
+            if batch.invoice_id.sunat_payment_type == "08":
+                tag = etree.QName(self._cbc, 'DebitedQuantity')
+            elif batch.invoice_id.sunat_payment_type == "07":
+                tag = etree.QName(self._cbc, 'CreditedQuantity')
+            else:
+                tag = etree.QName(self._cbc, 'InvoicedQuantity')
             etree.SubElement(inv_line, tag.text, unitCode=line.uos_id and line.uos_id.sunat_code or 'NIU',
                              nsmap={'cbc':tag.namespace}).text=str(line.quantity)
             tag = etree.QName(self._cbc, 'LineExtensionAmount')
@@ -357,28 +317,37 @@ class Convert2XML:
             tag = etree.QName(self._cac, 'AlternativeConditionPrice')
             alternative=etree.SubElement(pricing, tag.text, nsmap={'cac':tag.namespace})
             tag = etree.QName(self._cbc, 'PriceAmount')
-            #evaluar si crear un modulo adicional
-            #tax_obj=self.pool.get('invoice.tax')
+            
             tax_line=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
             total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_line['total_included'])
             etree.SubElement(alternative, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
                              nsmap={'cbc':tag.namespace}).text=str(line.price_unit * (1 - (line.discount or 0.0) / 100.0) and total_included)
             tag = etree.QName(self._cbc, 'PriceTypeCode')
-            etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_16_1').name
+            etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text="01"
 
             if line.discount==100 or line.price_subtotal==0:
                 tag = etree.QName(self._cac, 'AlternativeConditionPrice')
                 alternative=etree.SubElement(pricing, tag.text, nsmap={'cac':tag.namespace})
                 tag = etree.QName(self._cbc, 'PriceAmount')
-                #evaluar si crear un modulo adicional
-                #tax_obj=self.pool.get('invoice.tax')
                 tax_line=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
                 total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_line['total_included'])
                 etree.SubElement(alternative, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
                                  nsmap={'cbc':tag.namespace}).text=str(total_included)
                 tag = etree.QName(self._cbc, 'PriceTypeCode')
-                etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_16_2').name
-
+                etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text="02"
+            
+            #if line.discount==100:
+            #    tag = etree.QName(self._cac, 'Allowancecharge')   
+            #    charge=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
+            #    tag = etree.QName(self._cbc, 'ChargeIndicator')   
+            #    etree.SubElement(charge, tag.text, nsmap={'cbc':tag.namespace}).text="false"
+            #    tag = etree.QName(self._cbc, 'Amount')
+            #    price = line.price_unit
+            #    tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
+            #    total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_line['total_included'])
+            #    etree.SubElement(charge, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
+            #                     nsmap={'cbc':tag.namespace}).text= str(total_included)    
+            
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
             for tax in tax_lines['taxes']:
@@ -394,9 +363,7 @@ class Convert2XML:
                 tag = etree.QName(self._cac, 'TaxCategory')
                 category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
                 tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                #evaluar la forma de poner estos datos podria ser desde impuestos o codigo de impuestos
-                #tax_data=tax_obj.browse(cr, uid, tax[id], context)
-                #catalogo 07
+                
                 etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.igv_type_pe
                 tag = etree.QName(self._cac, 'TaxScheme')
                 scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
@@ -459,7 +426,7 @@ class Convert2XML:
             item=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
             tag = etree.QName(self._cbc, 'Description')
             # verificar
-            etree.SubElement(item, tag.text, nsmap={'cbc':tag.namespace}).text=line.name
+            etree.SubElement(item, tag.text, nsmap={'cbc':tag.namespace}).text= etree.CDATA(line.name)
             if line.product_id:
                 tag = etree.QName(self._cac, 'SellersItemIdentification')
                 identification=etree.SubElement(item, tag.text, nsmap={'cac':tag.namespace})
@@ -473,6 +440,52 @@ class Convert2XML:
             etree.SubElement(price, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
                              nsmap={'cbc':tag.namespace}).text=str(total_untaxed)
 
+    def getInvoice(self, cr, uid, batch, tax_obj, currency_obj, data, context=None):
+        xmlns=etree.QName("urn:oasis:names:specification:ubl:schema:xsd:Invoice-2", 'Invoice')
+        nsmap1=OrderedDict([(None, xmlns.namespace), ('cac', self._cac), ('cbc', self._cbc), ('ccts', self._ccts),
+                            ('ds', self._ds), ('ext', self._ext), ('qdt', self._qdt), ('sac', self._sac), ('udt', self._udt),
+                            ('xsi', self._xsi)] )
+        self._root=etree.Element(xmlns.text, nsmap=nsmap1)
+        tag = etree.QName(self._ext, 'UBLExtensions')
+        extensions=etree.SubElement(self._root, tag.text, nsmap={'ext':tag.namespace})
+        #era opcional - Leyenda
+        tag = etree.QName(self._ext, 'UBLExtension')
+        extension=etree.SubElement(extensions, tag.text, nsmap={'ext':tag.namespace})
+        tag = etree.QName(self._ext, 'ExtensionContent')
+        content=etree.SubElement(extension, tag.text, nsmap={'ext':tag.namespace})
+
+        self.getAdditionalInformation(cr, uid, batch, tax_obj, currency_obj, data, content)
+        # to sign
+        #tag = etree.QName(self._ext, 'UBLExtensions')
+        #extensions=etree.SubElement(self._root, tag.text, nsmap={'ext':tag.namespace})
+        tag = etree.QName(self._ext, 'UBLExtension')
+        extension=etree.SubElement(extensions, tag.text, nsmap={'ext':tag.namespace})
+        tag = etree.QName(self._ext, 'ExtensionContent')
+        content=etree.SubElement(extension, tag.text, nsmap={'ext':tag.namespace})
+
+        #get x509 template
+        self.getX509Template(content)
+        
+        if batch.invoice_id.sunat_payment_type  in ['01']:
+            self.getUBLVersion("1.1")
+        else:
+            self.getUBLVersion()
+
+        self.getDocumentDetail(batch)
+
+        self.getSignature(batch)
+
+        #datos de la compania
+        self.getCompany(batch)
+        
+        #datos del cliente
+        self.getPartner(batch.invoice_id)
+
+        amount_tax=self.getTaxTotal(cr, uid, batch, currency_obj)
+        self.getLegalMonetaryTotal(cr, uid, batch, currency_obj, amount_tax)
+
+        self.getDocumentLines(cr, uid, batch, tax_obj, currency_obj, data, context)
+        
         xml_str = etree.tostring(self._root, pretty_print=True, xml_declaration = True, encoding='utf-8', standalone=False)
         return xml_str
 
@@ -501,12 +514,7 @@ class Convert2XML:
         self.getX509Template(content)
         self.getUBLVersion()
 
-        tag = etree.QName(self._cbc, 'ID')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.number or ''
-        tag = etree.QName(self._cbc, 'IssueDate')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.date_invoice
-        tag = etree.QName(self._cbc, 'DocumentCurrencyCode')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name
+        self.getDocumentDetail(batch)
 
         self.getDiscrepancyResponse(batch)
 
@@ -517,147 +525,13 @@ class Convert2XML:
         #datos de la compania
         self.getCompany(batch)
 
-        tag = etree.QName(self._cac, 'AccountingCustomerParty')
-        customer=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'CustomerAssignedAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_number or '-'
-        tag = etree.QName(self._cbc, 'AdditionalAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_type or '-'
-        tag = etree.QName(self._cac, 'Party')
-        party=etree.SubElement(customer, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cac, 'PartyLegalEntity')
-        entity=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'RegistrationName')
-        etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.name or '-'
-
+        self.getPartner(batch.invoice_id)
+        
         amount_tax=self.getTaxTotal(cr, uid, batch, currency_obj)
 
-        tag = etree.QName(self._cac, 'LegalMonetaryTotal')
-        total=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'PayableAmount')
-        amount_exonerated=currency_obj.round(cr, uid, batch.invoice_id.currency_id, batch.invoice_id.amount_exonerated*(batch.invoice_id.discount and (1-batch.invoice_id.discount/100) or 1.0))
-        amount_untaxed=currency_obj.round(cr, uid, batch.invoice_id.currency_id, batch.invoice_id.amount_untaxed-amount_exonerated)
-        etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                         nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, amount_exonerated+amount_tax+amount_untaxed))
-
-        cont=1
-        for line in batch.invoice_id.invoice_line:
-            tag = etree.QName(self._cac, 'CreditNoteLine')
-            inv_line=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'ID')
-            etree.SubElement(inv_line, tag.text, nsmap={'cbc':tag.namespace}).text=str(cont)
-            cont+=1
-            tag = etree.QName(self._cbc, 'CreditedQuantity')
-            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id and line.uos_id.sunat_code or 'NIU',
-                             nsmap={'cbc':tag.namespace}).text=str(line.quantity)
-            tag = etree.QName(self._cbc, 'LineExtensionAmount')
-            etree.SubElement(inv_line, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,nsmap={'cbc':tag.namespace}).text=str(line.price_subtotal)
-
-            tag = etree.QName(self._cac, 'PricingReference')
-            pricing=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cac, 'AlternativeConditionPrice')
-            alternative=etree.SubElement(pricing, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'PriceAmount')
-            #evaluar si crear un modulo adicional
-            #tax_obj=self.pool.get('invoice.tax')
-            tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, 1, line.quantity, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_lines['total_included'])
-            etree.SubElement(alternative, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                             nsmap={'cbc':tag.namespace}).text=str(total_included)
-            tag = etree.QName(self._cbc, 'PriceTypeCode')
-            etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_16_1').name
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            for tax in tax_lines['taxes']:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name, nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax['amount']))
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name, nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax['amount']))
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                #evaluar la forma de poner estos datos podria ser desde impuestos o codigo de impuestos
-                #tax_data=tax_obj.browse(cr, uid, tax[id], context)
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).ref_tax_code_id.igv_type_pe
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).ref_tax_code_id.tax_type_pe.name
-                tag = etree.QName(self._cbc, 'Name')
-                tax_type_pe=tax_obj.browse(cr, uid, tax['id'], context).ref_tax_code_id.tax_type_pe.description and tax_obj.browse(cr, uid, tax['id'], context).ref_tax_code_id.tax_type_pe.description.split(' ')[0] or ''
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= tax_type_pe
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).ref_tax_code_id.tax_type_pe.element_char
-
-            if not tax_lines['taxes'] and line.discount<100:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_07_8').name
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').name
-                tag = etree.QName(self._cbc, 'Name')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').description.split(' ')[0]
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').element_char
-            if not tax_lines['taxes'] and line.discount==100:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_07_10').name
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').name
-                tag = etree.QName(self._cbc, 'Name')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').description.split(' ')[0]
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').element_char
-
-
-            tag = etree.QName(self._cac, 'Item')
-            item=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'Description')
-            # verificar
-            etree.SubElement(item, tag.text, nsmap={'cbc':tag.namespace}).text=line.name
-            if line.product_id:
-                tag = etree.QName(self._cac, 'SellersItemIdentification')
-                identification=etree.SubElement(item, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(identification, tag.text, nsmap={'cbc':tag.namespace}).text=line.product_id and line.product_id.default_code or ''
-            tag = etree.QName(self._cac, 'Price')
-            price=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'PriceAmount')
-            tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            total_untaxed=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_lines['total'])
-            etree.SubElement(price, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                             nsmap={'cbc':tag.namespace}).text=str(total_untaxed)
+        self.getLegalMonetaryTotal(cr, uid, batch, currency_obj, amount_tax)
+        
+        self.getDocumentLines(cr, uid, batch, tax_obj, currency_obj, data, context)
 
         xml_str = etree.tostring(self._root, pretty_print=True, xml_declaration = True, encoding='utf-8', standalone=False)
         return xml_str
@@ -677,9 +551,7 @@ class Convert2XML:
         content=etree.SubElement(extension, tag.text, nsmap={'ext':tag.namespace})
 
         self.getAdditionalInformation(cr, uid, batch, tax_obj, currency_obj, data, content)
-        # to sign
-        #tag = etree.QName(self._ext, 'UBLExtensions')
-        #extensions=etree.SubElement(self._root, tag.text, nsmap={'ext':tag.namespace})
+        
         tag = etree.QName(self._ext, 'UBLExtension')
         extension=etree.SubElement(extensions, tag.text, nsmap={'ext':tag.namespace})
         tag = etree.QName(self._ext, 'ExtensionContent')
@@ -689,168 +561,21 @@ class Convert2XML:
         self.getX509Template(content)
         self.getUBLVersion()
 
-        tag = etree.QName(self._cbc, 'ID')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.number or ''
-        tag = etree.QName(self._cbc, 'IssueDate')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.date_invoice
-        tag = etree.QName(self._cbc, 'DocumentCurrencyCode')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name
-
+        self.getDocumentDetail(batch)
+        
         self.getDiscrepancyResponse(batch)
         self.getBillingReference(batch)
         self.getSignature(batch)
         self.getCompany(batch)
 
-        tag = etree.QName(self._cac, 'AccountingCustomerParty')
-        customer=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'CustomerAssignedAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_number or '-'
-        tag = etree.QName(self._cbc, 'AdditionalAccountID')
-        etree.SubElement(customer, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.doc_type or '-'
-        tag = etree.QName(self._cac, 'Party')
-        party=etree.SubElement(customer, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cac, 'PartyLegalEntity')
-        entity=etree.SubElement(party, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'RegistrationName')
-        etree.SubElement(entity, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.partner_id.name or '-'
-        amount_tax =currency_obj.round(cr, uid, batch.invoice_id.currency_id, batch.invoice_id.amount_tax*(batch.invoice_id.discount and (1-batch.invoice_id.discount/100) or 1))
-        if amount_tax>0:
-            amount_tax=self.getTaxTotal(cr, uid, batch, currency_obj)
-        tag = etree.QName(self._cac, 'RequestedMonetaryTotal')
-        total=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-        tag = etree.QName(self._cbc, 'PayableAmount')
-        amount_exonerated=currency_obj.round(cr, uid, batch.invoice_id.currency_id, batch.invoice_id.amount_exonerated*(batch.invoice_id.discount and (1-batch.invoice_id.discount/100) or 1.0))
-        amount_untaxed=currency_obj.round(cr, uid, batch.invoice_id.currency_id, batch.invoice_id.amount_untaxed-amount_exonerated)
-        etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                         nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, amount_exonerated+amount_tax+amount_untaxed))
-        cont=1
-        for line in batch.invoice_id.invoice_line:
-            if line.price_subtotal<0:
-                continue
-            tag = etree.QName(self._cac, 'DebitNoteLine')
-            inv_line=etree.SubElement(self._root, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'ID')
-            etree.SubElement(inv_line, tag.text, nsmap={'cbc':tag.namespace}).text=str(cont)
-            cont+=1
-            tag = etree.QName(self._cbc, 'DebitedQuantity')
-            # verifiar siempre es 1?
-            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id and line.uos_id.sunat_code or 'ZZ',
-                             nsmap={'cbc':tag.namespace}).text=str(line.quantity)
-            tag = etree.QName(self._cbc, 'LineExtensionAmount')
-            etree.SubElement(inv_line, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                             nsmap={'cbc':tag.namespace}).text=str(line.price_subtotal)
+        self.getPartner(batch.invoice_id)
+        
+        amount_tax=self.getTaxTotal(cr, uid, batch, currency_obj)
 
-            tag = etree.QName(self._cac, 'PricingReference')
-            pricing=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cac, 'AlternativeConditionPrice')
-            alternative=etree.SubElement(pricing, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'PriceAmount')
-            #evaluar si crear un modulo adicional
-            #tax_obj=self.pool.get('invoice.tax')
-            tax_line=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            total_included=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_line['total_included'])
-            etree.SubElement(alternative, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                             nsmap={'cbc':tag.namespace}).text=str(line.price_unit * (1 - (line.discount or 0.0) / 100.0) and total_included)
-            tag = etree.QName(self._cbc, 'PriceTypeCode')
-            if line.discount==100 or line.price_subtotal==0:
-                etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_16_2').name
-            else:
-                etree.SubElement(alternative, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_16_1').name
-            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, price, line.quantity, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            for tax in tax_lines['taxes']:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax['amount']))
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name, nsmap={'cbc':tag.namespace}).text=str(currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax['amount']))
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                #evaluar la forma de poner estos datos podria ser desde impuestos o codigo de impuestos
-                #tax_data=tax_obj.browse(cr, uid, tax[id], context)
-                #catalogo 07
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.igv_type_pe
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.tax_type_pe.name
-                tag = etree.QName(self._cbc, 'Name')
-                tax_type_pe=tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.tax_type_pe.description and tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.tax_type_pe.description.split(' ')[0] or ''
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= tax_type_pe
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=tax_obj.browse(cr, uid, tax['id'], context).tax_code_id.tax_type_pe.element_char
-
-            if not tax_lines['taxes'] and line.discount<100:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_07_8').name
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').name
-                tag = etree.QName(self._cbc, 'Name')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').description.split(' ')[0]
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').element_char
-            if not tax_lines['taxes'] and line.discount==100:
-                tag = etree.QName(self._cac, 'TaxTotal')
-                total=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(total, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxSubtotal')
-                subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxAmount')
-                etree.SubElement(subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                                 nsmap={'cbc':tag.namespace}).text=str(0.00)
-                tag = etree.QName(self._cac, 'TaxCategory')
-                category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_07_10').name
-                tag = etree.QName(self._cac, 'TaxScheme')
-                scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').name
-                tag = etree.QName(self._cbc, 'Name')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').description.split(' ')[0]
-                tag = etree.QName(self._cbc, 'TaxTypeCode')
-                etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text= data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_05_1').element_char
-
-
-            tag = etree.QName(self._cac, 'Item')
-            item=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'Description')
-            # verificar
-            etree.SubElement(item, tag.text, nsmap={'cbc':tag.namespace}).text=line.name
-            if line.product_id:
-                tag = etree.QName(self._cac, 'SellersItemIdentification')
-                identification=etree.SubElement(item, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ID')
-                etree.SubElement(identification, tag.text, nsmap={'cbc':tag.namespace}).text=line.product_id and line.product_id.default_code or ''
-            tag = etree.QName(self._cac, 'Price')
-            price=etree.SubElement(inv_line, tag.text, nsmap={'cac':tag.namespace})
-            tag = etree.QName(self._cbc, 'PriceAmount')
-            tax_lines=tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, line.price_unit, 1, product=line.product_id or None, partner=batch.invoice_id.partner_id or None)
-            total_untaxed=currency_obj.round(cr, uid, batch.invoice_id.currency_id, tax_lines['total'])
-            etree.SubElement(price, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
-                             nsmap={'cbc':tag.namespace}).text=str(total_untaxed)
-
+        self.getLegalMonetaryTotal(cr, uid, batch, currency_obj, amount_tax)
+        
+        self.getDocumentLines(cr, uid, batch, tax_obj, currency_obj, data, context)
+        
         xml_str = etree.tostring(self._root, pretty_print=True, xml_declaration = True, encoding='utf-8', standalone=False)
         return xml_str
 
@@ -878,8 +603,12 @@ class Convert2XML:
         etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.name
         tag = etree.QName(self._cbc, 'ReferenceDate')
         etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.date
-        tag = etree.QName(self._cbc, 'IssueDate')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.send_date
+        
+        tag = etree.QName(self._cbc, 'IssueDate')   
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.send_date, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+        #tag = etree.QName(self._cbc, 'IssueTime')   
+        #etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.send_date, "%Y-%m-%d %H:%M:%S").strftime("%H:%M:%S")
+        
         self.getSignature(batch)
         self.getCompany(batch)
         cont=1
@@ -914,16 +643,18 @@ class Convert2XML:
 
         #get x509 template
         self.getX509Template(content)
-        self.getUBLVersion()
+        self.getUBLVersion("1.1")
 
         tag = etree.QName(self._cbc, 'ID')
         etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.name
         tag = etree.QName(self._cbc, 'ReferenceDate')
         etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.date
-        #catalogo numero 1 -- falta procesar <cbc:IssueDate>2012-06-24</cbc:IssueDate>
-        tag = etree.QName(self._cbc, 'IssueDate')
-        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=batch.send_date
-
+        
+        tag = etree.QName(self._cbc, 'IssueDate')   
+        etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.send_date, "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+        #tag = etree.QName(self._cbc, 'IssueTime')   
+        #etree.SubElement(self._root, tag.text, nsmap={'cbc':tag.namespace}).text=datetime.strptime(batch.send_date, "%Y-%m-%d %H:%M:%S").strftime("%H:%M:%S")
+        
         self.getSignature(batch)
 
         #datos de la compania
@@ -935,28 +666,23 @@ class Convert2XML:
         cont=1
         for journal_id in journal_ids:
             journal_id=journal_id[0]
-            taxes=[]
-            summary_total=0
-            summary_untaxed=0
-            #evaluar esto
-            summary_inaffected=0
-            summary_exonerated=0
-            summary_gift=0
-            summary_discount =0
-            taxes.append({'amount_tax_line':0, 'tax_name':'2000', 'tax_description':'ISC', 'tax_type_pe':'EXC'})
-            taxes.append({'amount_tax_line':0, 'tax_name':'1000', 'tax_description':'IGV', 'tax_type_pe':'VAT'})
-            taxes.append({'amount_tax_line':0, 'tax_name':'9999', 'tax_description':'OTROS', 'tax_type_pe':'OTH'})
+            
             for invoice_id in batch.invoice_summary_ids:
                 if invoice_id.journal_id.id==journal_id:
+                    taxes=[]
+                    taxes.append({'amount_tax_line':0, 'tax_name':'2000', 'tax_description':'ISC', 'tax_type_pe':'EXC'})
+                    taxes.append({'amount_tax_line':0, 'tax_name':'1000', 'tax_description':'IGV', 'tax_type_pe':'VAT'})
+                    taxes.append({'amount_tax_line':0, 'tax_name':'9999', 'tax_description':'OTROS', 'tax_type_pe':'OTH'})
                     amount_tax =currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_tax*(invoice_id.discount and (1-invoice_id.discount/100) or 1))
                     amount_exonerated=currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_exonerated*(invoice_id.discount and (1-invoice_id.discount/100) or 1.0))
                     amount_untaxed=currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_untaxed-amount_exonerated)
                     total=currency_obj.round(cr, uid, invoice_id.currency_id, amount_exonerated+(amount_tax or 0)+amount_untaxed)
-                    summary_total+=total
-                    summary_untaxed+=amount_untaxed
-                    summary_exonerated+=amount_exonerated
-                    summary_gift+=invoice_id.amount_gift
-                    summary_discount+=invoice_id.amount_discount
+                    summary_total=total
+                    summary_inaffected=0
+                    summary_untaxed=amount_untaxed
+                    summary_exonerated=amount_exonerated
+                    summary_gift=invoice_id.amount_gift
+                    summary_discount=invoice_id.amount_discount
                     for tax in invoice_id.tax_line:
                         amount_tax_line=currency_obj.round(cr, uid, invoice_id.currency_id, tax.amount*(invoice_id.discount and (1-invoice_id.discount/100) or 1))
                         #tax_name=tax.tax_code_id.tax_type_pe.name
@@ -966,118 +692,125 @@ class Convert2XML:
                             if taxes[i]['tax_name']==tax.tax_code_id.tax_type_pe.name:
                                 taxes[i]['amount_tax_line']+=amount_tax_line
 
-            journal=journal_obj.browse(cr, uid, journal_id, context=context)
-            currency_code=journal.currency and (journal.currency.sunat_code or journal.currency.name) or (batch.company_id.currency_id.sunat_code or batch.company_id.currency_id.name)
-
-            tag = etree.QName(self._sac, 'SummaryDocumentsLine')
-            line=etree.SubElement(self._root, tag.text, nsmap={'sac':tag.namespace})
-            tag = etree.QName(self._cbc, 'LineID')
-            etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=str(cont)
-            cont+=1
-            tag = etree.QName(self._cbc, 'DocumentTypeCode')
-            etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=journal.sunat_payment_type
-            tag = etree.QName(self._sac, 'DocumentSerialID')
-            etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace}).text=journal.code
-            tag = etree.QName(self._sac, 'StartDocumentNumberID')
-            invoice_min=invoice_obj.search(cr, uid, [('journal_id', '=', journal_id),('batch_summary_pe_id', '=', batch.id)], order="number asc", limit=1, context=context)
-            etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace}).text=invoice_obj.browse(cr, uid, invoice_min, context=context)[0].number.split('-')[1]
-            tag = etree.QName(self._sac, 'EndDocumentNumberID')
-            invoice_max=invoice_obj.search(cr, uid, [('journal_id', '=', journal_id),('batch_summary_pe_id', '=', batch.id)], order="number desc", limit=1, context=context)
-            etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace}).text=invoice_obj.browse(cr, uid, invoice_max, context=context)[0].number.split('-')[1]
-            tag = etree.QName(self._sac, 'TotalAmount')
-            etree.SubElement(line, tag.text, currencyID=currency_code,
-                             nsmap={'sac':tag.namespace}).text=str(summary_total)
-            if summary_untaxed>0:
-                tag = etree.QName(self._sac, 'BillingPayment')
-                billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
-                tag = etree.QName(self._cbc, 'PaidAmount')
-                etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_untaxed)
-                tag = etree.QName(self._cbc, 'InstructionID')
-                etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="01"
-            if summary_inaffected>0:
-                tag = etree.QName(self._sac, 'BillingPayment')
-                billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
-                tag = etree.QName(self._cbc, 'PaidAmount')
-                etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_inaffected)
-                tag = etree.QName(self._cbc, 'InstructionID')
-                etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="02"
-            if summary_exonerated>0:
-                tag = etree.QName(self._sac, 'BillingPayment')
-                billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
-                tag = etree.QName(self._cbc, 'PaidAmount')
-                etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_exonerated)
-                tag = etree.QName(self._cbc, 'InstructionID')
-                etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="03"
-
-            if summary_gift>0:
-                tag = etree.QName(self._sac, 'BillingPayment')
-                billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
-                tag = etree.QName(self._cbc, 'PaidAmount')
-                etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_exonerated)
-                tag = etree.QName(self._cbc, 'InstructionID')
-                etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="05"
-
-            if summary_discount>0:
-                tag = etree.QName(self._cac, 'AllowanceCharge')
-                allowance=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
-                tag = etree.QName(self._cbc, 'ChargeIndicator')
-                etree.SubElement(allowance, tag.text, nsmap={'cbc':tag.namespace}).text="true"
-                tag = etree.QName(self._cbc, 'Amount')
-                etree.SubElement(allowance, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_discount)
-
-            for tax in taxes:
-                if tax['tax_name']=='9999' and tax['amount_tax_line']>0:
-                    tag = etree.QName(self._cac, 'TaxTotal')
-                    total=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'TaxAmount')
-                    etree.SubElement(total, tag.text, currencyID=currency_code,
-                                     nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
-                    tag = etree.QName(self._cac, 'TaxSubtotal')
-                    tax_subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'TotalAmount')
-                    etree.SubElement(tax_subtotal, tag.text, currencyID=currency_code,
-                                     nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
-                    tag = etree.QName(self._cac, 'TaxCategory')
-                    category=etree.SubElement(tax_subtotal, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cac, 'TaxScheme')
-                    scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'ID')
-                    etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=str(tax['tax_name'])
-                    tag = etree.QName(self._cbc, 'Name')
-                    etree.SubElement(scheme, tag.text,
-                                              nsmap={'cbc':tag.namespace}).text=str(tax['tax_description'])
-                    tag = etree.QName(self._cbc, 'TaxTypeCode')
-                    etree.SubElement(scheme, tag.text,
-                                              nsmap={'cbc':tag.namespace}).text=str(tax['tax_type_pe'])
-                else:
-                    tag = etree.QName(self._cac, 'TaxTotal')
-                    total=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'TaxAmount')
-                    etree.SubElement(total, tag.text, currencyID=currency_code,
-                                     nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
-                    tag = etree.QName(self._cac, 'TaxSubtotal')
-                    tax_subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'TaxAmount')
-                    etree.SubElement(tax_subtotal, tag.text, currencyID=currency_code,
-                                     nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
-                    tag = etree.QName(self._cac, 'TaxCategory')
-                    category=etree.SubElement(tax_subtotal, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cac, 'TaxScheme')
-                    scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
-                    tag = etree.QName(self._cbc, 'ID')
-                    etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=str(tax['tax_name'])
-                    tag = etree.QName(self._cbc, 'Name')
-                    etree.SubElement(scheme, tag.text,
-                                              nsmap={'cbc':tag.namespace}).text=str(tax['tax_description'])
-                    tag = etree.QName(self._cbc, 'TaxTypeCode')
-                    etree.SubElement(scheme, tag.text,
-                                              nsmap={'cbc':tag.namespace}).text=str(tax['tax_type_pe'])
+                    journal=journal_obj.browse(cr, uid, journal_id, context=context)
+                    currency_code=invoice_id.currency_id.sunat_code or  invoice_id.currency_id.name
+        
+                    tag = etree.QName(self._sac, 'SummaryDocumentsLine')
+                    line=etree.SubElement(self._root, tag.text, nsmap={'sac':tag.namespace})
+                    tag = etree.QName(self._cbc, 'LineID')
+                    etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=str(cont)
+                    cont+=1
+                    tag = etree.QName(self._cbc, 'DocumentTypeCode')
+                    etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.sunat_payment_type
+                    
+                    tag = etree.QName(self._cbc, 'ID')   
+                    etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.internal_number
+                    
+                    self.getPartner(invoice_id, line)
+                    if invoice_id.sunat_payment_type in ['7', '8']:
+                        self.getBillingReference(invoice_id, line)
+                    
+                    tag = etree.QName(self._cac, 'Status')   
+                    status = etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
+                    tag = etree.QName(self._cbc, 'ConditionCode')   
+                    #analizar los otros codigos  2 3 y 4
+                    etree.SubElement(status, tag.text, nsmap={'cbc':tag.namespace}).text="1"
+                    
+                    tag = etree.QName(self._sac, 'TotalAmount')
+                    etree.SubElement(line, tag.text, currencyID=currency_code,
+                                     nsmap={'sac':tag.namespace}).text=str(summary_total)
+                    if summary_untaxed>0:
+                        tag = etree.QName(self._sac, 'BillingPayment')
+                        billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
+                        tag = etree.QName(self._cbc, 'PaidAmount')
+                        etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_untaxed)
+                        tag = etree.QName(self._cbc, 'InstructionID')
+                        etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="01"
+                    if summary_inaffected>0:
+                        tag = etree.QName(self._sac, 'BillingPayment')
+                        billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
+                        tag = etree.QName(self._cbc, 'PaidAmount')
+                        etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_inaffected)
+                        tag = etree.QName(self._cbc, 'InstructionID')
+                        etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="02"
+                    if summary_exonerated>0:
+                        tag = etree.QName(self._sac, 'BillingPayment')
+                        billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
+                        tag = etree.QName(self._cbc, 'PaidAmount')
+                        etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_exonerated)
+                        tag = etree.QName(self._cbc, 'InstructionID')
+                        etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="03"
+        
+                    if summary_gift>0:
+                        tag = etree.QName(self._sac, 'BillingPayment')
+                        billing=etree.SubElement(line, tag.text, nsmap={'sac':tag.namespace})
+                        tag = etree.QName(self._cbc, 'PaidAmount')
+                        etree.SubElement(billing, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_exonerated)
+                        tag = etree.QName(self._cbc, 'InstructionID')
+                        etree.SubElement(billing, tag.text, nsmap={'cbc':tag.namespace}).text="05"
+        
+                    if summary_discount>0:
+                        tag = etree.QName(self._cac, 'AllowanceCharge')
+                        allowance=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
+                        tag = etree.QName(self._cbc, 'ChargeIndicator')
+                        etree.SubElement(allowance, tag.text, nsmap={'cbc':tag.namespace}).text="true"
+                        tag = etree.QName(self._cbc, 'Amount')
+                        etree.SubElement(allowance, tag.text, currencyID=currency_code, nsmap={'cbc':tag.namespace}).text=str(summary_discount)
+        
+                    for tax in taxes:
+                        if tax['tax_name']=='9999' and tax['amount_tax_line']>0:
+                            tag = etree.QName(self._cac, 'TaxTotal')
+                            total=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'TaxAmount')
+                            etree.SubElement(total, tag.text, currencyID=currency_code,
+                                             nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
+                            tag = etree.QName(self._cac, 'TaxSubtotal')
+                            tax_subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'TotalAmount')
+                            etree.SubElement(tax_subtotal, tag.text, currencyID=currency_code,
+                                             nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
+                            tag = etree.QName(self._cac, 'TaxCategory')
+                            category=etree.SubElement(tax_subtotal, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cac, 'TaxScheme')
+                            scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'ID')
+                            etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=str(tax['tax_name'])
+                            tag = etree.QName(self._cbc, 'Name')
+                            etree.SubElement(scheme, tag.text,
+                                                      nsmap={'cbc':tag.namespace}).text=str(tax['tax_description'])
+                            tag = etree.QName(self._cbc, 'TaxTypeCode')
+                            etree.SubElement(scheme, tag.text,
+                                                      nsmap={'cbc':tag.namespace}).text=str(tax['tax_type_pe'])
+                        elif tax['amount_tax_line']>0:
+                            tag = etree.QName(self._cac, 'TaxTotal')
+                            total=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'TaxAmount')
+                            etree.SubElement(total, tag.text, currencyID=currency_code,
+                                             nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
+                            tag = etree.QName(self._cac, 'TaxSubtotal')
+                            tax_subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'TaxAmount')
+                            etree.SubElement(tax_subtotal, tag.text, currencyID=currency_code,
+                                             nsmap={'cbc':tag.namespace}).text=str(tax['amount_tax_line'])
+                            tag = etree.QName(self._cac, 'TaxCategory')
+                            category=etree.SubElement(tax_subtotal, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cac, 'TaxScheme')
+                            scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
+                            tag = etree.QName(self._cbc, 'ID')
+                            etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text=str(tax['tax_name'])
+                            tag = etree.QName(self._cbc, 'Name')
+                            etree.SubElement(scheme, tag.text,
+                                                      nsmap={'cbc':tag.namespace}).text=str(tax['tax_description'])
+                            tag = etree.QName(self._cbc, 'TaxTypeCode')
+                            etree.SubElement(scheme, tag.text,
+                                                      nsmap={'cbc':tag.namespace}).text=str(tax['tax_type_pe'])
         xml_str = etree.tostring(self._root, pretty_print=True, xml_declaration = True, encoding='utf-8', standalone=False)
         return xml_str
 
     def sign_invoice(self, xml, key_file, crt_file):
+        parser = etree.XMLParser(strip_cdata=False)
         xml_iofile=StringIO(xml)
-        root=etree.parse(xml_iofile).getroot()
+        root=etree.parse(xml_iofile, parser).getroot()
         signature_node = xmlsec.tree.find_node(root, xmlsec.Node.SIGNATURE)
         assert signature_node is not None
         assert signature_node.tag.endswith(xmlsec.Node.SIGNATURE)

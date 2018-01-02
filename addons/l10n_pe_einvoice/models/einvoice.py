@@ -103,7 +103,7 @@ class einvoice_batch_pe(osv.Model):
     _columns = {
             'date': fields.date('Date', required=True, readonly=True, states={'draft':[('readonly',False)],}),
             #'date': fields.function(_date, string='Date', type='date'),
-            'send_date': fields.date(string='Send Date'),
+            'send_date': fields.datetime(string='Send Date'),
             'invoice_ids': fields.one2many('account.invoice', 'batch_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
             'invoice_voided_ids': fields.one2many('account.invoice', 'batch_voided_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
             'invoice_summary_ids': fields.one2many('account.invoice', 'batch_summary_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
@@ -197,7 +197,7 @@ class einvoice_batch_pe(osv.Model):
                     vals['name'] =  self.pool.get('ir.sequence').get(cr, uid, 'einvoice.batch.rc', context=context)
                 elif batch.type == 'RA':
                     vals['name'] =  self.pool.get('ir.sequence').get(cr, uid, 'einvoice.batch.ra', context=context)
-            vals['send_date']= fields.date.context_today(self, cr, uid, context=context) #time.strftime('%Y-%m-%d')
+            vals['send_date']= fields.datetime.context_timestamp(cr, uid, datetime.now(), context)#time.strftime('%Y-%m-%d')
             self.write(cr, uid, [batch.id], vals, context=context)
             if batch.type in ['RA', 'RC']:
                 if  batch.emessage_ids:

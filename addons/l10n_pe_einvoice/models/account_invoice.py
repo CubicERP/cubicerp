@@ -20,7 +20,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning, except_orm
 import openerp.addons.decimal_precision as dp
-from datetime import date
+from datetime import date, datetime
 #from pdf417gen import encode, render_image
 import base64
 import tempfile
@@ -193,6 +193,14 @@ class account_invoice(models.Model):
     sunat_qr_code=fields.Binary("QR code", compute=_get_pe_qrcode)
 #    sunat_bar_code=fields.Binary("Bar code", compute=_get_pe_bar_code)
     sunat_invoice_name=fields.Char("Sunat Invoice Name", compute=_get_sunat_invoice_name)
+    sunat_date = fields.Datetime("Sunat Date")
+    
+    @api.multi
+    def action_date_assign(self):
+        res = super(account_invoice, self).action_date_assign()
+        for inv in self:
+            inv.sunat_date = fields.Datetime.context_timestamp(self, datetime.now())
+        return res
     
     @api.one
     def validate_pe_invoice(self):

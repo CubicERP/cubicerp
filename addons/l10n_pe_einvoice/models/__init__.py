@@ -1,8 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (c) 2015 Cubic ERP - Teradata SAC. (http://cubicerp.com).
+#    Cubic ERP, Enterprise and Government Management Software
+#    Copyright (C) 2017 Cubic ERP S.A.C. (<http://cubicerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,9 @@
 #
 ##############################################################################
 
-import models
-import reports
-import wizard
+import company
+import account
+import account_invoice
+import einvoice
+import convertXML
+import res_partner

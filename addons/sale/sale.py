@@ -1361,6 +1361,7 @@ class stock_move(osv.osv):
     _inherit = 'stock.move'
 
     def _fnc_sale_line_id(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
         for move in self.browse(cr, uid, ids, context=context):
             res[move.id] = move._sale_line_id and move._sale_line_id.id or (move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id or False)
         return res

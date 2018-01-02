@@ -24,7 +24,7 @@ from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
+from openerp.tools import float_compare, float_round
 import openerp.addons.decimal_precision as dp
 
 # mapping invoice type to journal type
@@ -759,6 +759,8 @@ class account_invoice(models.Model):
                 total -= line['price']
                 total_currency -= line['amount_currency'] or line['price']
         amount_diff = self.amount_total - abs(total_currency)
+        curr_rounding = self.company_id.currency_id.rounding
+        amount_diff = float_round(amount_diff, precision_rounding=curr_rounding)
         if amount_diff:
             if not self.company_id.income_currency_exchange_account_id or not self.company_id.expense_currency_exchange_account_id:
                 raise except_orm(_('Error!'), _("Please define the difference accounts located under configuration tab in company's form."))

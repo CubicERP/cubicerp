@@ -115,7 +115,7 @@ class AccountEntriesReport(models.Model):
                 left join account_account_type at on (a.user_type_id = at.id)
                 
                 %s
-                where l.id > 1
+                where l.id > 0
                 %s
             )
         """%(self._get_select(),self._get_from(),self._get_where()))

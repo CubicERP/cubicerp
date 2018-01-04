@@ -212,7 +212,7 @@ class AccountMove(models.Model):
 
     @api.multi
     def assert_balanced(self):
-        if not self.ids:
+        if not self.ids or self._context.get('exclude_assert_balanced', False):
             return True
         prec = self.env['decimal.precision'].precision_get('Account')
 

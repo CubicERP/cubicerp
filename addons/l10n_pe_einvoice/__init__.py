@@ -22,3 +22,4 @@
 import models
 import reports
 import wizard
+import controllers

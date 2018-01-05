@@ -242,10 +242,10 @@ class einvoice_batch_pe(osv.Model):
     def action_summary_documents(self, cr, uid, ids, context=None):
         batch=self.browse(cr, uid, ids, context)
         querry=[('state', '!=','draft'),('journal_id.is_einvoice_pe', '=', True), 
-                ('date_invoice', '=', batch.date), 
+                ('date_invoice', '=', batch.date), ('batch_summary_pe_id', '=', False),
                 "|",('sunat_payment_type', '=', '03'), ('parent_id.sunat_payment_type', '=', '03'),
                 ]
-        invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
+        invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order="internal_number ASC", context=None, limit=500, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)
             self.write(cr, uid, ids, {'invoice_summary_ids':[(4, invoice_id)]}, context=context)

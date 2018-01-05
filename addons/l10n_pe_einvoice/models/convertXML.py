@@ -389,7 +389,7 @@ class Convert2XML:
                 tag = etree.QName(self._cac, 'TaxCategory')
                 category=etree.SubElement(subtotal, tag.text, nsmap={'cac':tag.namespace})
                 tag = etree.QName(self._cbc, 'TaxExemptionReasonCode')
-                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text=data.get_object(cr, uid, 'l10n_pe_einvoice', 'element_07_8').name
+                etree.SubElement(category, tag.text, nsmap={'cbc':tag.namespace}).text="30"
                 tag = etree.QName(self._cac, 'TaxScheme')
                 scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
                 tag = etree.QName(self._cbc, 'ID')

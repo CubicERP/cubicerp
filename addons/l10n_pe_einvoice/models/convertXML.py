@@ -670,9 +670,9 @@ class Convert2XML:
             for invoice_id in batch.invoice_summary_ids:
                 if invoice_id.journal_id.id==journal_id:
                     taxes=[]
-                    taxes.append({'amount_tax_line':0, 'tax_name':'2000', 'tax_description':'ISC', 'tax_type_pe':'EXC'})
-                    taxes.append({'amount_tax_line':0, 'tax_name':'1000', 'tax_description':'IGV', 'tax_type_pe':'VAT'})
-                    taxes.append({'amount_tax_line':0, 'tax_name':'9999', 'tax_description':'OTROS', 'tax_type_pe':'OTH'})
+                    taxes.append({'amount_tax_line':0.0, 'tax_name':'1000', 'tax_description':'IGV', 'tax_type_pe':'VAT'})
+                    taxes.append({'amount_tax_line':0.0, 'tax_name':'2000', 'tax_description':'ISC', 'tax_type_pe':'EXC'})
+                    taxes.append({'amount_tax_line':0.0, 'tax_name':'9999', 'tax_description':'OTROS', 'tax_type_pe':'OTH'})
                     amount_tax =currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_tax*(invoice_id.discount and (1-invoice_id.discount/100) or 1))
                     amount_exonerated=currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_exonerated*(invoice_id.discount and (1-invoice_id.discount/100) or 1.0))
                     amount_untaxed=currency_obj.round(cr, uid, invoice_id.currency_id, invoice_id.amount_untaxed-amount_exonerated)
@@ -781,7 +781,7 @@ class Convert2XML:
                             tag = etree.QName(self._cbc, 'TaxTypeCode')
                             etree.SubElement(scheme, tag.text,
                                                       nsmap={'cbc':tag.namespace}).text=str(tax['tax_type_pe'])
-                        elif tax['amount_tax_line']>0:
+                        elif tax['amount_tax_line']>0 or tax['tax_name']=='1000':
                             tag = etree.QName(self._cac, 'TaxTotal')
                             total=etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
                             tag = etree.QName(self._cbc, 'TaxAmount')

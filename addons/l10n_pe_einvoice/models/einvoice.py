@@ -115,7 +115,8 @@ class einvoice_batch_pe(osv.Model):
             'ticket_code': fields.function(_ticket_code, string='Ticket code', type='char'),
             'digest': fields.function(_get_digest, string='Digest', type='char'),
             'signature': fields.function(_get_signature, string='Signature', type='char'),
-            'status_emessage': fields.char("Status Message"),
+            'status_emessage': fields.char("Status Message", readonly=True, states={'draft':[('readonly',False)],}),
+            'is_new': fields.boolean("Is New?", readonly=True, states={'draft':[('readonly',False)],}),
         }
     
     _order= "name, date desc"
@@ -241,6 +242,10 @@ class einvoice_batch_pe(osv.Model):
     
     def action_summary_documents(self, cr, uid, ids, context=None):
         batch=self.browse(cr, uid, ids, context)
+        if batch.is_new:
+            invoice_ids=self.pool.get('account.invoice').search(cr, uid, [('batch_summary_pe_id','!=', False),
+                                                                          ('date_invoice', '=', batch.date)], context=None)
+            self.pool.get('account.invoice').write(cr, uid, invoice_ids, {'batch_summary_pe_id':False}, context=context)
         querry=[('state', '!=','draft'),('journal_id.is_einvoice_pe', '=', True), 
                 ('date_invoice', '=', batch.date), ('batch_summary_pe_id', '=', False),
                 "|",('sunat_payment_type', '=', '03'), ('parent_id.sunat_payment_type', '=', '03'),

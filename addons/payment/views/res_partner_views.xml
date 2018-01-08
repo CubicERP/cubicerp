@@ -12,10 +12,39 @@
                         <button type="action" class="btn-link"
                             name="%(payment.payment_token_action)d"
                             context="{'search_default_partner_id': active_id}">
-                            <field name="payment_token_count" widget="statinfo" string="Credit card(s)"/>
+                            <field name="payment_token_count" widget="statinfo" string="Payment Tokens"/>
                         </button>
                     </xpath>
                 </field>
         </record>
+
+        <record id="view_res_bank_form" model="ir.ui.view">
+                <field name="name">res.bank.form.inherit.payment</field>
+                <field name="model">res.bank</field>
+                <field name="inherit_id" ref="base.view_res_bank_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr='//field[@name="name"]' position="after">
+                        <field name="acquirer_ids" widget="many2many_tags"/>
+                        <field name="medium_type_ids" widget="many2many_tags"/>
+                    </xpath>
+                </field>
+        </record>
+
+        <record id="view_partner_bank_form" model="ir.ui.view">
+                <field name="name">res.partner.bank.form.inherit.payment</field>
+                <field name="model">res.partner.bank</field>
+                <field name="inherit_id" ref="base.view_partner_bank_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr='//field[@name="acc_number"]' position="after">
+                        <field name="medium_type_id" options="{'no_create': True}"/>
+                    </xpath>
+                    <xpath expr='//field[@name="company_id"]' position="after">
+                        <field name="has_expiration" invisible="1"/>
+                        <field name="expiration_month" attrs="{'invisible':[('has_expiration','=',False)]}"/>
+                        <field name="expiration_year" attrs="{'invisible':[('has_expiration','=',False)]}"/>
+                    </xpath>
+                </field>
+        </record>
+
     </data>
 </odoo>

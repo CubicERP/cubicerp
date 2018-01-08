@@ -8,6 +8,44 @@
             id='root_payment_menu'
             parent='account.menu_finance_configuration'/>
 
+        <record id="meidum_type_tree" model="ir.ui.view">
+            <field name="name">payment.medium.type.tree</field>
+            <field name="model">payment.medium.type</field>
+            <field name="arch" type="xml">
+                <tree string="Medium type">
+                    <field name="name"/>
+                    <field name="has_expiration"/>
+                </tree>
+            </field>
+        </record>
+        <record id="meidum_type_form" model="ir.ui.view">
+            <field name="name">payment.medium.type.form</field>
+            <field name="model">payment.medium.type</field>
+            <field name="arch" type="xml">
+                <form string="Medium type">
+                    <group>
+                        <field name="name"/>
+                        <field name="has_expiration"/>
+                    </group>
+                    <separator string="Payment Methods"/>
+                    <field name="bank_ids"/>
+                </form>
+            </field>
+        </record>
+        <record id="action_payment_medium_type" model="ir.actions.act_window">
+            <field name="name">Medium Payment Type</field>
+            <field name="res_model">payment.medium.type</field>
+            <field name='view_type'>form</field>
+            <field name='view_mode'>tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a medium payment type.
+                </p>
+            </field>
+        </record>
+        <menuitem action='action_payment_acquirer' id='payment_acquirer_menu' parent='root_payment_menu' sequence='40'/>
+
+
         <record id="acquirer_form" model="ir.ui.view">
             <field name="name">payment.acquirer.form</field>
             <field name="model">payment.acquirer</field>
@@ -62,6 +100,8 @@
                             <group name="acquirer_left">
                                 <field name="provider" groups="base.group_no_one"/>
                                 <field name="company_id" groups="base.group_multi_company" options='{"no_open":True}'/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                                <field name="bank_ids" widget="many2many_tags"/>
                             </group>
                         </group>
                         <notebook attrs="{'invisible': ['&amp;', ('module_id', '!=', False), ('module_state', '!=', 'installed')]}">
@@ -121,7 +161,6 @@
                 </form>
             </field>
         </record>
-
 
         <!-- Acquirer Kanban View -->
         <record id="acquirer_kanban" model="ir.ui.view">

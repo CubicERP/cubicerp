@@ -53,6 +53,8 @@ class PaymentAcquirer(models.Model):
 
     name = fields.Char('Name', required=True, translate=True)
     description = fields.Html('Description')
+    tag_ids = fields.Many2many("payment.medium.type", string="Medium Types")
+    bank_ids = fields.Many2many("res.bank", 'payment_acquirer_bank_rel', 'acquirer_id', 'bank_id', string="Banks")
     sequence = fields.Integer('Sequence', default=10, help="Determine the display order")
     provider = fields.Selection(
         selection=[('manual', 'Manual Configuration')], string='Provider',
@@ -426,6 +428,15 @@ class PaymentAcquirer(models.Model):
                 'context': context,
             }
 
+
+class PaymentMediumType(models.Model):
+    _name = "payment.medium.type"
+
+    name = fields.Char()
+    has_expiration = fields.Boolean("Has Expiration")
+    bank_ids = fields.Many2many("res.bank", 'payment_medium_bank_rel', 'medium_type_id', 'bank_id', string="Banks")
+
+
 class PaymentIcon(models.Model):
     _name = 'payment.icon'
     _description = 'Payment Icon'
@@ -452,6 +463,7 @@ class PaymentIcon(models.Model):
            vals['image_payment_form'] = image_resize_image(vals['image'], size=(45,30))
            vals['image'] = image_resize_image(vals['image'], size=(64,64))
         return super(PaymentIcon, self).write(vals)
+
 
 class PaymentTransaction(models.Model):
     """ Transaction Model. Each specific acquirer can extend the model by adding

@@ -214,15 +214,15 @@ class Convert2XML:
         tag = etree.QName(self._cbc, 'Description')
         etree.SubElement(discrepancy, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.number
 
-    def getBillingReference(self, batch, line = None):
+    def getBillingReference(self, invoice_id, line = None):
         tag = etree.QName(self._cac, 'BillingReference')
         reference=etree.SubElement(line or self._root, tag.text, nsmap={'cac':tag.namespace})
         tag = etree.QName(self._cac, 'InvoiceDocumentReference')
         invoice=etree.SubElement(reference, tag.text, nsmap={'cac':tag.namespace})
         tag = etree.QName(self._cbc, 'ID')
-        etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.parent_id.number or ''
+        etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.parent_id.number or ''
         tag = etree.QName(self._cbc, 'DocumentTypeCode')
-        etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=batch.invoice_id.parent_id.journal_id.sunat_payment_type
+        etree.SubElement(invoice, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.parent_id.journal_id.sunat_payment_type
 
 
     def getPartner(self, invoice_id, line=None):
@@ -518,7 +518,7 @@ class Convert2XML:
 
         self.getDiscrepancyResponse(batch)
 
-        self.getBillingReference(batch)
+        self.getBillingReference(batch.invoice_id)
         #parte de la firma digital
         self.getSignature(batch)
 
@@ -564,7 +564,7 @@ class Convert2XML:
         self.getDocumentDetail(batch)
         
         self.getDiscrepancyResponse(batch)
-        self.getBillingReference(batch)
+        self.getBillingReference(batch.invoice_id)
         self.getSignature(batch)
         self.getCompany(batch)
 

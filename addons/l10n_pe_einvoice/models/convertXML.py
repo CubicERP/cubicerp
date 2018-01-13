@@ -707,7 +707,7 @@ class Convert2XML:
                     etree.SubElement(line, tag.text, nsmap={'cbc':tag.namespace}).text=invoice_id.internal_number
                     
                     self.getPartner(invoice_id, line)
-                    if invoice_id.sunat_payment_type in ['7', '8']:
+                    if invoice_id.sunat_payment_type in ['07', '08']:
                         self.getBillingReference(invoice_id, line)
                     
                     tag = etree.QName(self._cac, 'Status')   

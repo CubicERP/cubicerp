@@ -1,0 +1,57 @@
+# Translation of Server.
+# This file contains the translation of the following modules:
+# 	* base_person
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-21 19:22+0000\n"
+"PO-Revision-Date: 2016-11-21 14:24-0500\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_PE\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: base_person
+#: view:res.partner:base_person.res_partner_form_view_inherit_person
+#: field:res.partner,first_name:0 field:res.users,first_name:0
+msgid "First Name"
+msgstr "Nombre"
+
+#. module: base_person
+#: view:res.partner:base_person.res_partner_form_view_inherit_person
+#: field:res.partner,middle_name:0 field:res.users,middle_name:0
+msgid "Middle Name"
+msgstr "Segundo nombre"
+
+#. module: base_person
+#: view:res.partner:base_person.res_partner_form_view_inherit_person
+#: field:res.partner,mother_name:0 field:res.users,mother_name:0
+msgid "Mother's Name"
+msgstr "Nombre de la madre"
+
+#. module: base_person
+#: view:res.partner:base_person.res_partner_form_view_inherit_person
+msgid "Name"
+msgstr "Nombre"
+
+#. module: base_person
+#: model:ir.model,name:base_person.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: base_person
+#: view:res.partner:base_person.res_partner_form_view_inherit_person
+#: field:res.partner,surname:0 field:res.users,surname:0
+msgid "Surname"
+msgstr "Apellido"
+
+#. module: base_person
+#: model:ir.model,name:base_person.model_res_users
+msgid "Users"
+msgstr "Usuarios"

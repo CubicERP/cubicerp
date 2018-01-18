@@ -1,0 +1,3 @@
+id,company_id,country_id,code,name,description,parent_id:id,type
+un,,,UN,UN Configuration,Tables y settings values,,view
+un_unspsc,,,UN.UNSPSC,UNSPSC,UNSPSC v14_0801 Codeset Spanish Translation,un,normal

@@ -103,7 +103,7 @@ class einvoice_batch_pe(osv.Model):
     _columns = {
             'date': fields.date('Date', required=True, readonly=True, states={'draft':[('readonly',False)],}),
             #'date': fields.function(_date, string='Date', type='date'),
-            'send_date': fields.date(string='Send Date'),
+            'send_date': fields.datetime(string='Send Date'),
             'invoice_ids': fields.one2many('account.invoice', 'batch_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
             'invoice_voided_ids': fields.one2many('account.invoice', 'batch_voided_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
             'invoice_summary_ids': fields.one2many('account.invoice', 'batch_summary_pe_id', string="Invoices", readonly=True, states={'draft':[('readonly',False)],}),
@@ -115,7 +115,8 @@ class einvoice_batch_pe(osv.Model):
             'ticket_code': fields.function(_ticket_code, string='Ticket code', type='char'),
             'digest': fields.function(_get_digest, string='Digest', type='char'),
             'signature': fields.function(_get_signature, string='Signature', type='char'),
-            'status_emessage': fields.char("Status Message"),
+            'status_emessage': fields.char("Status Message", readonly=True, states={'draft':[('readonly',False)],}),
+            'is_new': fields.boolean("Is New?", readonly=True, states={'draft':[('readonly',False)],}),
         }
     
     _order= "name, date desc"
@@ -197,7 +198,7 @@ class einvoice_batch_pe(osv.Model):
                     vals['name'] =  self.pool.get('ir.sequence').get(cr, uid, 'einvoice.batch.rc', context=context)
                 elif batch.type == 'RA':
                     vals['name'] =  self.pool.get('ir.sequence').get(cr, uid, 'einvoice.batch.ra', context=context)
-            vals['send_date']= fields.date.context_today(self, cr, uid, context=context) #time.strftime('%Y-%m-%d')
+            vals['send_date']= fields.datetime.context_timestamp(cr, uid, datetime.now(), context)#time.strftime('%Y-%m-%d')
             self.write(cr, uid, [batch.id], vals, context=context)
             if batch.type in ['RA', 'RC']:
                 if  batch.emessage_ids:
@@ -241,11 +242,15 @@ class einvoice_batch_pe(osv.Model):
     
     def action_summary_documents(self, cr, uid, ids, context=None):
         batch=self.browse(cr, uid, ids, context)
+        if batch.is_new:
+            invoice_ids=self.pool.get('account.invoice').search(cr, uid, [('batch_summary_pe_id','!=', False),
+                                                                          ('date_invoice', '=', batch.date)], context=None)
+            self.pool.get('account.invoice').write(cr, uid, invoice_ids, {'batch_summary_pe_id':False}, context=context)
         querry=[('state', '!=','draft'),('journal_id.is_einvoice_pe', '=', True), 
-                ('date_invoice', '=', batch.date), 
+                ('date_invoice', '=', batch.date), ('batch_summary_pe_id', '=', False),
                 "|",('sunat_payment_type', '=', '03'), ('parent_id.sunat_payment_type', '=', '03'),
                 ]
-        invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
+        invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order="internal_number ASC", context=None, limit=500, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)
             self.write(cr, uid, ids, {'invoice_summary_ids':[(4, invoice_id)]}, context=context)

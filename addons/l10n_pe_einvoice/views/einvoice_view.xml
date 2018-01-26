@@ -69,10 +69,17 @@
 	                			</field>
 	                		</page>
 	                		<page string="Invoices Summary" attrs="{'invisible':[('type','!=','RC')]}">
-                                <button name="action_summary_documents" string="Get Summary" states="draft" class="oe_highlight" type="object" attrs="{'invisible':[('type','!=','RC')]}" />
+	                			<button name="action_summary_documents" string="Get Summary" states="draft" class="oe_highlight" type="object" 
+	                			attrs="{'invisible':[('type','!=','RC')],'readonly':[('state','!=','draft')]}" />
                                 <field name="invoice_summary_ids">
                                     
                                 </field>
+                                <group>
+	                				<group>
+	                					<field name="is_new" />
+	                				</group>
+	                			</group>
+                                
                             </page>
 	                	</notebook>
 					</sheet>

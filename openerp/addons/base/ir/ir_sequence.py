@@ -68,9 +68,16 @@ class ir_sequence(openerp.osv.osv.osv):
                 # get number from postgres sequence. Cannot use
                 # currval, because that might give an error when
                 # not having used nextval before.
+                cr.execute("select exists(select 1 from pg_views where viewname='pg_sequences')")
+                (pg_sequences,) = cr.fetchone()
                 statement = (
+                    "SELECT last_value,"
+                    "       (select increment_by from pg_sequences where sequencename='ir_sequence_%03d') as increment_by,"
+                    "       is_called"
+                    "  FROM ir_sequence_%03d"%(element.id, element.id)
+                ) if pg_sequences else (
                     "SELECT last_value, increment_by, is_called"
-                    " FROM ir_sequence_%03d"
+                        " FROM ir_sequence_%03d"
                     % element.id)
                 cr.execute(statement)
                 (last_value, increment_by, is_called) = cr.fetchone()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-		<menuitem name="Account Load" id='account_load_root_menu' parent='base.edit_menu_access' sequence="20"/>
+		<menuitem name="Account Load" id='account_load_root_menu' parent='account.menu_finance_periodical_processing' sequence="20"/>
 		
 	    <record id="view_account_load_tree" model="ir.ui.view">
             <field name="name">Account Load List</field>

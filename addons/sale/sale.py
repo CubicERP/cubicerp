@@ -209,6 +209,7 @@ class sale_order(osv.osv):
         'partner_id': fields.many2one('res.partner', 'Customer', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, required=True, change_default=True, select=True, track_visibility='always'),
         'partner_invoice_id': fields.many2one('res.partner', 'Invoice Address', readonly=True, required=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Invoice address for current sales order."),
         'partner_shipping_id': fields.many2one('res.partner', 'Delivery Address', readonly=True, required=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Delivery address for current sales order."),
+        'partner_parent_id': fields.related('partner_id','parent_id',type='many2one', relation='res.partner', string="Parent Partner", readonly=True),
         'order_policy': fields.selection([
                 ('manual', 'On Demand'),
             ], 'Create Invoice', required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
@@ -338,7 +339,7 @@ class sale_order(osv.osv):
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         if not part:
-            return {'value': {'partner_invoice_id': False, 'partner_shipping_id': False,  'payment_term': False, 'fiscal_position': False}}
+            return {'value': {'partner_parent_id': False, 'partner_invoice_id': False, 'partner_shipping_id': False,  'payment_term': False, 'fiscal_position': False}}
 
         part = self.pool.get('res.partner').browse(cr, uid, part, context=context)
         addr = self.pool.get('res.partner').address_get(cr, uid, [part.id], ['delivery', 'invoice', 'contact'])
@@ -347,6 +348,7 @@ class sale_order(osv.osv):
         payment_term = invoice_part.property_payment_term and invoice_part.property_payment_term.id or False
         dedicated_salesman = part.user_id and part.user_id.id or uid
         val = {
+            'partner_parent_id': part.parent_id.id,
             'partner_invoice_id': addr['invoice'],
             'partner_shipping_id': addr['delivery'],
             'payment_term': payment_term,

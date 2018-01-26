@@ -127,7 +127,7 @@ class account_entries_report(osv.osv):
                 am.date as date,
                 l.date_maturity as date_maturity,
                 l.date_created as date_created,
-                am.ref as ref,
+                coalesce(am.ref,am.name) as ref,
                 l.name as note,
                 am.state as move_state,
                 l.state as move_line_state,

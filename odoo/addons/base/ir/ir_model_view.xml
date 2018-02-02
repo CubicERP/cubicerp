@@ -173,8 +173,13 @@
                         <page string="Notes" groups="base.group_no_one">
                             <field name="info"/>
                         </page>
-                        <page string="Views" groups="base.group_no_one">
+                        <page string="User Interface" groups="base.group_no_one">
+                            <separator string="Views"/>
                             <field name="view_ids"/>
+                            <separator string="Actions"/>
+                            <field name="action_ids"/>
+                            <separator string="Menus"/>
+                            <field name="menu_ids"/>
                         </page>
                     </notebook>
                   </sheet>

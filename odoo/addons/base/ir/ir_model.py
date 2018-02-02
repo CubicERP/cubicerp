@@ -92,6 +92,8 @@ class IrModel(models.Model):
     transient = fields.Boolean(string="Transient Model")
     modules = fields.Char(compute='_in_modules', string='In Apps', help='List of modules in which the object is defined or inherited')
     view_ids = fields.One2many('ir.ui.view', compute='_view_ids', string='Views')
+    action_ids = fields.One2many('ir.actions.act_window', compute='_view_ids', string='Actions')
+    menu_ids = fields.One2many('ir.ui.menu', compute='_view_ids', string='Menus')
     count = fields.Integer(compute='_compute_count', string="Count (incl. archived)",
                            help="Total number of records in this model")
 
@@ -115,6 +117,8 @@ class IrModel(models.Model):
     def _view_ids(self):
         for model in self:
             model.view_ids = self.env['ir.ui.view'].search([('model', '=', model.model)])
+            model.action_ids = self.env['ir.actions.act_window'].search([('res_model', '=', model.model)])
+            model.menu_ids = self.env['ir.ui.menu'].search([('action','in',["ir.actions.act_window,%s"%a.id for a in model.action_ids])])
 
     @api.depends()
     def _compute_count(self):

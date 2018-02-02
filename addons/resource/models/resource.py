@@ -56,11 +56,13 @@ class ResourceCalendar(models.Model):
     @api.model
     def default_get(self, fields):
         res = super(ResourceCalendar, self).default_get(fields)
-        if not res.get('name') and res.get('company_id'):
+        if not res.get('name') and res.get('company_id') and not self._context.get('no_defaults', False):
             res['name'] = _('Working Hours of %s') % self.env['res.company'].browse(res['company_id']).name
         return res
 
     def _get_default_attendance_ids(self):
+        if self._context.get('no_defaults', False):
+            return []
         return [
             (0, 0, {'name': _('Monday Morning'), 'dayofweek': '0', 'hour_from': 8, 'hour_to': 12}),
             (0, 0, {'name': _('Monday Evening'), 'dayofweek': '0', 'hour_from': 13, 'hour_to': 17}),
@@ -639,6 +641,8 @@ class ResourceCalendarAttendance(models.Model):
         ('5', 'Saturday'),
         ('6', 'Sunday')
         ], 'Day of Week', required=True, index=True, default='0')
+    day_from = fields.Integer("Day from", help="Day of month from")
+    day_to = fields.Integer("Day to", help="Day of month to")
     date_from = fields.Date(string='Starting Date')
     date_to = fields.Date(string='End Date')
     hour_from = fields.Float(string='Work from', required=True, index=True, help="Start and End time of working.")

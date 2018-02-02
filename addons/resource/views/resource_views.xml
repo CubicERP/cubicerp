@@ -190,6 +190,8 @@
                 <field name="dayofweek"/>
                 <field name="hour_from" widget="float_time"/>
                 <field name="hour_to" widget="float_time"/>
+                <field name="day_from"/>
+                <field name="day_to"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
             </tree>
@@ -205,6 +207,8 @@
                     <field name="name"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
+                    <field name="day_from"/>
+                    <field name="day_to"/>
                     <field name="dayofweek"/>
                     <label for="hour_from" string="Hours"/>
                     <div>

@@ -51,3 +51,19 @@ class res_partner_bank(models.Model):
                                          ('11', '11'),
                                          ('12', '12')], string="Expiration Month")
     expiration_year = fields.Char("Expiration Year", size=4)
+    require_number = fields.Boolean("Require Number", related="medium_type_id.require_number")
+    has_owner = fields.Boolean("Has Owner", related="medium_type_id.has_owner")
+    owner_id = fields.Many2one("res.partner", "Owner")
+    has_address = fields.Boolean("Has Address", related="medium_type_id.has_address")
+    address_id = fields.Many2one("res.partner", "Address")
+    has_calendar = fields.Boolean("Has Calendar", related="medium_type_id.has_calendar")
+    calendar_id = fields.Many2one("resource.calendar", "Calendar")
+
+    @api.multi
+    @api.depends('acc_number', 'bank_id', 'medium_type_id')
+    def name_get(self):
+        result = []
+        for bank in self:
+            name = "%s%s%s"%(bank.acc_number,bank.bank_name and ' [%s]'%bank.bank_name or '',bank.medium_type_id and ' (%s)'%bank.medium_type_id.name or '')
+            result.append((bank.id, name))
+        return result

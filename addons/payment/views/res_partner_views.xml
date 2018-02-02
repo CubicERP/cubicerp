@@ -35,13 +35,27 @@
                 <field name="model">res.partner.bank</field>
                 <field name="inherit_id" ref="base.view_partner_bank_form"/>
                 <field name="arch" type="xml">
-                    <xpath expr='//field[@name="acc_number"]' position="after">
+                    <xpath expr='//field[@name="acc_number"]' position="before">
                         <field name="medium_type_id" options="{'no_create': True}"/>
                     </xpath>
-                    <xpath expr='//field[@name="company_id"]' position="after">
+                    <xpath expr='//field[@name="bank_id"]' position="attributes">
+                        <attribute name="domain">[('medium_type_ids','=',medium_type_id)]</attribute>
+                    </xpath>
+                    <xpath expr='//field[@name="acc_number"]' position="attributes">
+                        <attribute name="attrs">{'required':[('require_number','=',True)]}</attribute>
+                    </xpath>
+                    <xpath expr='//field[@name="company_id"]' position="before">
                         <field name="has_expiration" invisible="1"/>
                         <field name="expiration_month" attrs="{'invisible':[('has_expiration','=',False)]}"/>
                         <field name="expiration_year" attrs="{'invisible':[('has_expiration','=',False)]}"/>
+                        <field name="has_owner" invisible="1"/>
+                        <field name="owner_id" attrs="{'invisible':[('has_owner','=',False)]}"/>
+                        <field name="has_address" invisible="1"/>
+                        <field name="address_id" attrs="{'invisible':[('has_address','=',False)]}"
+                               domain="[('id','child_of',partner_id)]" context="{'default_parent_id':partner_id}"/>
+                        <field name="has_calendar" invisible="1"/>
+                        <field name="calendar_id" attrs="{'invisible':[('has_calendar','=',False)]}" context="{'no_defaults':True}"/>
+                        <field name="require_number" invisible="1"/>
                     </xpath>
                 </field>
         </record>

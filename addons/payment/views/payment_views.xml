@@ -23,12 +23,23 @@
             <field name="model">payment.medium.type</field>
             <field name="arch" type="xml">
                 <form string="Medium type">
-                    <group>
-                        <field name="name"/>
-                        <field name="has_expiration"/>
-                    </group>
-                    <separator string="Payment Methods"/>
-                    <field name="bank_ids"/>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" placeholder="Eg. Credit Card"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="require_number"/>
+                            <field name="has_expiration"/>
+                            <field name="has_owner"/>
+                            <field name="has_address"/>
+                            <field name="has_calendar"/>
+                        </group>
+                        <separator string="Payment Methods"/>
+                        <field name="bank_ids"/>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -43,7 +54,7 @@
                 </p>
             </field>
         </record>
-        <menuitem action='action_payment_acquirer' id='payment_acquirer_menu' parent='root_payment_menu' sequence='40'/>
+        <menuitem action='action_payment_medium_type' id='payment_medium_type_menu' parent='root_payment_menu' sequence='40'/>
 
 
         <record id="acquirer_form" model="ir.ui.view">
@@ -123,6 +134,8 @@
                                 <group name="acquirer_config">
                                     <field name="journal_id" context="{'default_type': 'bank'}"/>
                                     <field name="capture_manually" attrs="{'invisible': [('authorize_implemented', '=', False)]}"/>
+                                    <field name="partial_payment"/>
+                                    <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                                     <field name="save_token" widget="radio" attrs="{'invisible': [('token_implemented', '=', False)]}"/>
                                     <field name="fees_active" attrs="{'invisible': [('fees_implemented', '=', False)]}"/>
                                     <field name="fees_dom_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
@@ -161,7 +174,6 @@
                 </form>
             </field>
         </record>
-
         <!-- Acquirer Kanban View -->
         <record id="acquirer_kanban" model="ir.ui.view">
             <field name="name">payment.acquirer.kanban</field>
@@ -201,7 +213,6 @@
                 </kanban>
             </field>
         </record>
-
         <record id="acquirer_list" model="ir.ui.view">
             <field name="name">payment.acquirer.list</field>
             <field name="model">payment.acquirer</field>
@@ -215,7 +226,6 @@
                 </tree>
             </field>
         </record>
-
         <record id="acquirer_search" model="ir.ui.view">
             <field name="name">payment.acquirer.search</field>
             <field name="model">payment.acquirer</field>
@@ -230,7 +240,6 @@
                 </search>
             </field>
         </record>
-
         <record id="action_payment_acquirer" model="ir.actions.act_window">
             <field name="name">Payment Acquirers</field>
             <field name="res_model">payment.acquirer</field>
@@ -242,7 +251,6 @@
                 </p>
             </field>
         </record>
-
         <menuitem
             action='action_payment_acquirer'
             id='payment_acquirer_menu'
@@ -269,6 +277,8 @@
                                     <field name="amount"/>
                                     <field name="currency_id" options="{'no_open': True, 'no_create': True}"/>
                                 </div>
+                                <field name="partial_payment" invisible="1"/>
+                                <field name="amount_pay" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                                 <field name="fees" readonly="1"/>
                                 <label for="partner_id"/>
                                 <div>
@@ -291,16 +301,16 @@
                                 <field name="acquirer_reference" readonly="1"/>
                                 <field name="create_date"/>
                                 <field name="date_validate"/>
+                                <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                             </group>
                         </group>
-                        <group string="Message">
+                        <group string="Message" name="message">
                             <field name="state_message" nolabel="1"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-
         <record id="transaction_list" model="ir.ui.view">
             <field name="name">payment.transaction.list</field>
             <field name="model">payment.transaction</field>
@@ -313,11 +323,12 @@
                     <field name="partner_name"/>
                     <field name="amount"/>
                     <field name="fees"/>
+                    <field name="partial_payment" invisible="1"/>
+                    <field name="amount_pay"/>
                     <field name="state"/>
                 </tree>
             </field>
         </record>
-
         <record id="transaction_view_kanban" model="ir.ui.view">
             <field name="name">payment.transaction.kanban</field>
             <field name="model">payment.transaction</field>
@@ -348,7 +359,6 @@
                 </kanban>
             </field>
         </record>
-
         <record id="transaction" model="ir.ui.view">
             <field name="name">payment.transaction.search</field>
             <field name="model">payment.transaction</field>
@@ -361,14 +371,12 @@
                 </search>
             </field>
         </record>
-
         <record id="action_payment_transaction" model="ir.actions.act_window">
             <field name="name">Payment Transactions</field>
             <field name="res_model">payment.transaction</field>
             <field name='view_type'>form</field>
             <field name='view_mode'>tree,kanban,form</field>
         </record>
-
         <menuitem
             action='action_payment_transaction'
             id='payment_transaction_menu'
@@ -390,7 +398,6 @@
                 </tree>
             </field>
         </record>
-
         <record id='payment_token_view_search' model='ir.ui.view'>
             <field name='name'>payment.token.search</field>
             <field name='model'>payment.token</field>
@@ -400,7 +407,6 @@
                 </search>
             </field>
         </record>
-
         <record id="action_payment_tx_ids" model="ir.actions.act_window">
             <field name="name">Payment Transactions</field>
             <field name="res_model">payment.transaction</field>
@@ -409,7 +415,6 @@
             <field name="domain">[('payment_token_id','=', active_id)]</field>
             <field name="context">{'create': False}</field>
         </record>
-
         <record model='ir.ui.view' id='payment_token_form_view'>
             <field name='name'>payment.token.form</field>
             <field name='model'>payment.token</field>
@@ -434,14 +439,12 @@
                 </form>
             </field>
         </record>
-
         <record model='ir.actions.act_window' id='payment_token_action'>
             <field name='name'>Saved Payment Data</field>
             <field name='res_model'>payment.token</field>
             <field name='view_type'>form</field>
             <field name='view_mode'>tree,form</field>
         </record>
-
         <menuitem
             action='payment_token_action'
             id='payment_token_menu'
@@ -470,7 +473,6 @@
                 </form>
             </field>
         </record>
-
         <record id="action_payment_icon" model="ir.actions.act_window">
             <field name="name">Payment Icons</field>
             <field name="res_model">payment.icon</field>
@@ -482,7 +484,6 @@
                 </p>
             </field>
         </record>
-
         <menuitem
             action="action_payment_icon"
             id="payment_icon_menu"

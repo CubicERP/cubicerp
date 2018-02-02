@@ -94,6 +94,10 @@ class PaymentAcquirer(models.Model):
         'res.country', 'payment_country_rel',
         'payment_id', 'country_id', 'Countries',
         help="This payment gateway is available for selected countries. If none is selected it is available for all countries.")
+    partial_payment = fields.Boolean("Partial Payments", help="This Acquirer support partial payment of a transaction")
+    payment_distribute = fields.Selection([('weighted','Weighted'),
+                                           ('lifo','LIFO'),
+                                           ('fifo','FIFO')], help="Payment distribute for partial payments", default='weighted')
 
     pre_msg = fields.Html(
         'Help Message', translate=True,
@@ -433,7 +437,11 @@ class PaymentMediumType(models.Model):
     _name = "payment.medium.type"
 
     name = fields.Char()
+    require_number = fields.Boolean("Require Number", default=True)
     has_expiration = fields.Boolean("Has Expiration")
+    has_owner = fields.Boolean("Has Owner")
+    has_address = fields.Boolean("Has Address")
+    has_calendar = fields.Boolean("Has Calendar")
     bank_ids = fields.Many2many("res.bank", 'payment_medium_bank_rel', 'medium_type_id', 'bank_id', string="Banks")
 
 
@@ -522,6 +530,11 @@ class PaymentTransaction(models.Model):
     fees = fields.Float(
         'Fees', digits=(16, 2), track_visibility='always',
         help='Fees amount; set by the system because depends on the acquirer')
+    amount_pay = fields.Monetary('Amount Paid', currency_field="currency_id", track_visibility='onchange', help='Real amount paid allowed by acquirer partial payment')
+    partial_payment = fields.Boolean(related="acquirer_id.partial_payment")
+    payment_distribute = fields.Selection([('weighted', 'Weighted'),
+                                           ('lifo', 'LIFO'),
+                                           ('fifo', 'FIFO')], help="Payment distribute for partial payments")
     currency_id = fields.Many2one('res.currency', 'Currency', required=True)
     reference = fields.Char(
         'Reference', default=lambda self: self.env['ir.sequence'].next_by_code('payment.transaction'),

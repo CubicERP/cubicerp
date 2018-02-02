@@ -25,5 +25,6 @@ class AccountJournal(models.Model):
 
     @api.onchange('type')
     def onchange_type(self):
+        super(AccountJournal, self).onchange_type()
         if self.type not in ['bank', 'cash']:
             self.journal_user = False

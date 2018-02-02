@@ -141,7 +141,8 @@ DOMAIN_OPERATORS = (NOT_OPERATOR, OR_OPERATOR, AND_OPERATOR)
 # operators are also used. In this case its right operand has the form (subselect, params).
 TERM_OPERATORS = ('=', '!=', '<=', '<', '>', '>=', '=?', '=like', '=ilike',
                   'like', 'not like', 'ilike', 'not ilike', 'in', 'not in',
-                  'child_of', 'parent_of')
+                  'child_of', 'parent_of', '=*', '!=*', '<=*', '<*', '>*',
+                  '>=*')
 
 # A subset of the above operators, with a 'negative' semantic. When the
 # expressions 'in NEGATIVE_TERM_OPERATORS' or 'not in NEGATIVE_TERM_OPERATORS' are used in the code
@@ -1240,6 +1241,13 @@ class expression(object):
                     create_substitution_leaf(eleaf, (left, '=', right), model))
 
         else:
+            column_right = False
+            if operator[-1] == '*':
+                if right not in model:
+                    raise ValueError("Invalid domain term %r, The field %s is not in %s" % (leaf,right,model._name))
+                operator = operator[:-1]
+                column_right = '%s.%s' % (table_alias, _quote(right))
+
             need_wildcard = operator in ('like', 'ilike', 'not like', 'not ilike')
             sql_operator = {'=like': 'like', '=ilike': 'ilike'}.get(operator, operator)
             cast = '::text' if  sql_operator.endswith('like') else ''
@@ -1249,13 +1257,15 @@ class expression(object):
             format = '%s' if need_wildcard else model._fields[left].column_format
             unaccent = self._unaccent if sql_operator.endswith('like') else lambda x: x
             column = '%s.%s' % (table_alias, _quote(left))
-            query = '(%s %s %s)' % (unaccent(column + cast), sql_operator, unaccent(format))
+            query = '(%s %s %s)' % (unaccent(column + cast), sql_operator, column_right or unaccent(format))
 
             if need_wildcard:
                 native_str = pycompat.to_native(right)
                 if not native_str:
                     query = '(%s OR %s."%s" IS NULL)' % (query, table_alias, left)
                 params = ['%%%s%%' % native_str]
+            elif column_right:
+                params = []
             else:
                 params = [model._fields[left].convert_to_column(right, model)]
 

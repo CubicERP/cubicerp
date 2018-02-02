@@ -396,8 +396,6 @@
                         <group>
                             <field name="date_invoice"/>
                             <field name="date_due" attrs="{'readonly': ['|',('payment_term_id','!=',False), ('state','=','paid')]}" force_save="1"/>
-                            <field name="move_name" invisible="1"/>
-                            <field name="user_id" groups="base.group_user"/>
                             <label for="currency_id" groups="base.group_multi_currency"/>
                             <div groups="base.group_multi_currency">
                                 <field name="currency_id" options="{'no_create': True, 'no_open': True}" class="oe_inline"/>
@@ -483,6 +481,10 @@
                                     <field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>
                                     <field name="origin" groups="base.group_user" attrs="{'invisible': [('origin', '=', False)]}"/>
                                     <field name="name"/>
+                                    <field name="related_invoice" invisible="1"/>
+                                    <field name="refund_invoice_id" attrs="{'invisible':[('related_invoice','=',False)],'required':[('related_invoice','=',True)]}"/>
+                                    <field name="move_name" invisible="1"/>
+                                    <field name="user_id" groups="base.group_user"/>
                                 </group>
                             </group>
                             <field name="tax_line_ids">
@@ -700,7 +702,7 @@
             <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
             <field eval="False" name="view_id"/>
             <field name="domain">[('type','=','out_refund')]</field>
-            <field name="context">{'default_type': 'out_refund', 'type': 'out_refund', 'journal_type': 'sale'}</field>
+            <field name="context">{'default_type': 'out_refund', 'type': 'out_refund', 'journal_type': 'sale_refund'}</field>
             <field name="search_view_id" ref="view_account_invoice_filter_inherit_credit_notes"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -774,7 +776,7 @@
             <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
             <field eval="False" name="view_id"/>
             <field name="domain">[('type','=','in_refund')]</field>
-            <field name="context">{'default_type': 'in_refund', 'type': 'in_refund', 'journal_type': 'purchase'}</field>
+            <field name="context">{'default_type': 'in_refund', 'type': 'in_refund', 'journal_type': 'purchase_refund'}</field>
             <field name="search_view_id" ref="view_account_invoice_filter_inherit_credit_notes"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

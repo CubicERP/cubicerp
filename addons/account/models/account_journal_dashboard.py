@@ -17,7 +17,7 @@ class account_journal(models.Model):
 
     @api.one
     def _kanban_dashboard_graph(self):
-        if (self.type in ['sale', 'purchase']):
+        if (self.type in ['sale', 'purchase', 'sale_refund', 'purchase_refund']):
             self.kanban_dashboard_graph = json.dumps(self.get_bar_graph_datas())
         elif (self.type in ['cash', 'bank']):
             self.kanban_dashboard_graph = json.dumps(self.get_line_graph_datas())
@@ -31,8 +31,12 @@ class account_journal(models.Model):
     def _graph_title_and_key(self):
         if self.type == 'sale':
             return ['', _('Sales: Untaxed Total')]
+        elif self.type == 'sale_refund':
+            return ['', _('Credit Note: Untaxed Total')]
         elif self.type == 'purchase':
             return ['', _('Purchase: Untaxed Total')]
+        elif self.type == 'purchase_refund':
+            return ['', _('Credit Note Bill: Untaxed Total')]
         elif self.type == 'cash':
             return ['', _('Cash: Balance')]
         elif self.type == 'bank':
@@ -182,8 +186,15 @@ class account_journal(models.Model):
                 if query_results and query_results[0].get('sum') != None:
                     account_sum = query_results[0].get('sum')
         #TODO need to check if all invoices are in the same currency than the journal!!!!
-        elif self.type in ['sale', 'purchase']:
-            title = _('Bills to pay') if self.type == 'purchase' else _('Invoices owed to you')
+        elif self.type in ['sale', 'purchase', 'sale_refund', 'purchase_refund']:
+            if self.type == 'sale':
+                title = _('Invoices owed to you')
+            elif self.type == 'purchase':
+                title = _('Bills to pay')
+            elif self.type == 'sale_refund':
+                title = _('Credit note to pay')
+            else:
+                title = _('Credit note bills to pay')
 
             (query, query_args) = self._get_open_bills_to_pay_query()
             self.env.cr.execute(query, query_args)
@@ -255,13 +266,15 @@ class account_journal(models.Model):
         model = 'account.invoice'
         if self.type == 'sale':
             ctx.update({'journal_type': self.type, 'default_type': 'out_invoice', 'type': 'out_invoice', 'default_journal_id': self.id})
-            if ctx.get('refund'):
-                ctx.update({'default_type':'out_refund', 'type':'out_refund'})
+            view_id = self.env.ref('account.invoice_form').id
+        elif self.type == 'sale_refund':
+            ctx.update({'journal_type': self.type, 'default_type': 'out_refund', 'type': 'out_refund', 'default_journal_id': self.id})
             view_id = self.env.ref('account.invoice_form').id
         elif self.type == 'purchase':
             ctx.update({'journal_type': self.type, 'default_type': 'in_invoice', 'type': 'in_invoice', 'default_journal_id': self.id})
-            if ctx.get('refund'):
-                ctx.update({'default_type': 'in_refund', 'type': 'in_refund'})
+            view_id = self.env.ref('account.invoice_supplier_form').id
+        elif self.type == 'purchase_refund':
+            ctx.update({'journal_type': self.type, 'default_type': 'in_refund', 'type': 'in_refund', 'default_journal_id': self.id})
             view_id = self.env.ref('account.invoice_supplier_form').id
         else:
             ctx.update({'default_journal_id': self.id, 'view_no_maturity': True})
@@ -303,9 +316,9 @@ class account_journal(models.Model):
         else:
             # Open reconciliation view for customers/suppliers
             action_context = {'show_mode_selector': False, 'company_ids': self.mapped('company_id').ids}
-            if self.type == 'sale':
+            if self.type == 'sale' or self.type == 'sale_refund':
                 action_context.update({'mode': 'customers'})
-            elif self.type == 'purchase':
+            elif self.type == 'purchase' or self.type == 'purchase_refund':
                 action_context.update({'mode': 'suppliers'})
             return {
                 'type': 'ir.actions.client',
@@ -322,23 +335,23 @@ class account_journal(models.Model):
                 action_name = 'action_bank_statement_tree'
             elif self.type == 'cash':
                 action_name = 'action_view_bank_statement_tree'
-            elif self.type == 'sale':
+            elif self.type in ['sale', 'sale_refund']:
                 action_name = 'action_invoice_tree1'
-            elif self.type == 'purchase':
+            elif self.type in ['purchase', 'purchase_refund']:
                 action_name = 'action_invoice_tree2'
             else:
                 action_name = 'action_move_journal_line'
 
         _journal_invoice_type_map = {
-            ('sale', None): 'out_invoice',
-            ('purchase', None): 'in_invoice',
-            ('sale', 'refund'): 'out_refund',
-            ('purchase', 'refund'): 'in_refund',
-            ('bank', None): 'bank',
-            ('cash', None): 'cash',
-            ('general', None): 'general',
+            'sale': 'out_invoice',
+            'purchase': 'in_invoice',
+            'sale_refund': 'out_refund',
+            'purchase_refund': 'in_refund',
+            'bank': 'bank',
+            'cash': 'cash',
+            'general': 'general',
         }
-        invoice_type = _journal_invoice_type_map[(self.type, self._context.get('invoice_type'))]
+        invoice_type = _journal_invoice_type_map[self.type]
 
         ctx = self._context.copy()
         ctx.pop('group_by', None)

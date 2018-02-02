@@ -254,10 +254,10 @@
                 <search string="Search Account Journal">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Journal"/>
                     <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
-                    <filter domain="[('type', '=', 'sale')]" string="Sales"/>
-                    <filter domain="[('type', '=', 'purchase')]" string="Purchases"/>
+                    <filter domain="[('type', 'in', ['sale', 'sale_refund'])]" string="Sales"/>
+                    <filter domain="[('type', 'in', ['purchase', 'purchase_refund'])]" string="Purchases"/>
                     <filter domain="['|', ('type', '=', 'cash'), ('type', '=', 'bank')]" string="Liquidity"/>
-                    <filter domain="[('type', 'not in', ['sale', 'purchase', 'cash', 'bank'])]" string="Miscellaneous"/>
+                    <filter domain="[('type', 'not in', ['sale', 'sale_refund', 'purchase', 'purchase_refund', 'cash', 'bank'])]" string="Miscellaneous"/>
                     <filter name="dashboard" string="Favorites" domain="[('show_on_dashboard', '=', True)]"/>
                 </search>
             </field>
@@ -297,7 +297,14 @@
                                             <field name="sequence_id" required="0"
                                                    attrs="{'readonly': 1}" groups="base.group_no_one"/>
                                         </div>
-                                        <field name="refund_sequence"
+                                        <field name="related_journal"
+                                               attrs="{'invisible': [('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])]}"
+                                               groups="base.group_no_one"/>
+                                        <field name="related_journal_id"
+                                               attrs="{'invisible': ['|',('related_journal','=',False),('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])],'required':[('related_journal','=',True)]}"
+                                               domain="[('type','in',['sale','purchase'])]"
+                                               groups="base.group_no_one"/>
+                                        <!--field name="refund_sequence"
                                                attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}"
                                                groups="base.group_no_one"/>
                                         <label for="refund_sequence_number_next"
@@ -306,7 +313,7 @@
                                             <field name="refund_sequence_number_next" style="padding-right: 1.0em"/>
                                             <field name="refund_sequence_id" required="0"
                                                    attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                                        </div>
+                                        </div-->
                                     </group>
                                     <group>
                                         <field name="default_debit_account_id" domain="[('deprecated', '=', False)]" groups="account.group_account_user"/>

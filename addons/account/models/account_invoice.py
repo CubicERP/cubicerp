@@ -24,8 +24,8 @@ _logger = logging.getLogger(__name__)
 TYPE2JOURNAL = {
     'out_invoice': 'sale',
     'in_invoice': 'purchase',
-    'out_refund': 'sale',
-    'in_refund': 'purchase',
+    'out_refund': 'sale_refund',
+    'in_refund': 'purchase_refund',
 }
 
 # mapping invoice type to refund type
@@ -243,7 +243,9 @@ class AccountInvoice(models.Model):
         'Security Token', copy=False,
         default=_get_default_access_token)
 
-    refund_invoice_id = fields.Many2one('account.invoice', string="Invoice for which this invoice is the credit note")
+    related_invoice = fields.Boolean("Require Related Invoice", related="journal_id.related_journal")
+    refund_invoice_id = fields.Many2one('account.invoice', "Related Invoice", readonly=True, states={'draft': [('readonly', False)]},
+                                        help="Invoice for which this invoice is the credit note")
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     move_name = fields.Char(string='Journal Entry Name', readonly=False,
         default=False, copy=False,
@@ -325,7 +327,7 @@ class AccountInvoice(models.Model):
     journal_id = fields.Many2one('account.journal', string='Journal',
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=_default_journal,
-        domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale'], 'in_refund': ['purchase'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]")
+        domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]")
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
@@ -373,7 +375,7 @@ class AccountInvoice(models.Model):
         journal_sequence = self.journal_id.sequence_id
         if self.journal_id.refund_sequence:
             domain = [('type', '=', self.type)]
-            journal_sequence = self.type in ['in_refund', 'out_refund'] and self.journal_id.refund_sequence_id or self.journal_id.sequence_id
+            journal_sequence = self.journal_id.sequence_id
         elif self.type in ['in_invoice', 'in_refund']:
             domain = [('type', 'in', ['in_invoice', 'in_refund'])]
         else:
@@ -1310,9 +1312,9 @@ class AccountInvoice(models.Model):
         if journal_id:
             journal = self.env['account.journal'].browse(journal_id)
         elif invoice['type'] == 'in_invoice':
-            journal = self.env['account.journal'].search([('type', '=', 'purchase')], limit=1)
+            journal = self.env['account.journal'].search([('type', '=', 'purchase_refund')], limit=1)
         else:
-            journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
+            journal = self.env['account.journal'].search([('type', '=', 'sale_refund')], limit=1)
         values['journal_id'] = journal.id
 
         values['type'] = TYPE2REFUND[invoice['type']]

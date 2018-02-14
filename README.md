@@ -19,6 +19,7 @@ Useful Links
 * Roadmap: http://cubicerp.com/roadmap
 * Community Forum: https://cubicerp.com/community
 * Mailing List: https://groups.google.com/forum/#!forum/cubicerp
+* Demo: http://v2018.cubicerp.com - User: demo, Pswd: demo
 
 Screenshots
 -----------

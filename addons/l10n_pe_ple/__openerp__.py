@@ -40,7 +40,6 @@ Base objects and configuration
 	     "base_translate_tools",
 	     "base_table",
          "base_person",
-         "report_excel",
          "customize",
 	],
     "data":[

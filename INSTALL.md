@@ -8,7 +8,7 @@ Installation of Python libraries
     $ sudo apt-get install python-docutils python-gdata python-mako python-dateutil python-feedparser python-lxml python-tz python-vatnumber python-webdav python-xlwt python-werkzeug python-yaml python-zsi python-unittest2 python-mock python-libxslt1 python-ldap python-reportlab python-pybabel python-pychart python-simplejson python-psycopg2 python-vobject python-openid python-setuptools bzr postgresql unixodbc unixodbc-dev python-pyodbc python-psutil nginx git python-gevent language-pack-es tesseract-ocr tesseract-ocr-eng python-m2crypto libxml2-dev libxmlsec1-dev build-essential libssl-dev libffi-dev python-dev python-pip python-openpyxl python-numpy wkhtmltopdf-dbg
     $ sudo easy_install jinja2 CubicReport decorator requests pyPdf openerp-client-lib openerp-client-etl gunicorn passlib psycogreen pytesseract pycrypto qrcode
     $ sudo pip install --upgrade pip
-    $ sudo pip install suds xmlsec cryptography boxsdk pyDNS cubicerp-client-etl
+    $ sudo pip install suds-py3 xmlsec cryptography boxsdk pyDNS cubicerp-client-etl
     $ sudo apt-get install -f
 
 Creation of the database user

@@ -270,6 +270,25 @@ class Convert2XML:
             tag = etree.QName(self._cbc, 'TaxTypeCode')
             etree.SubElement(scheme, tag.text,
                                       nsmap={'cbc':tag.namespace}).text=tax.tax_code_id.tax_type_pe.element_char
+        if not batch.invoice_id.tax_line:
+            tag = etree.QName(self._cac, 'TaxSubtotal')
+            tax_subtotal=etree.SubElement(total, tag.text, nsmap={'cac':tag.namespace})
+            tag = etree.QName(self._cbc, 'TaxAmount')
+            etree.SubElement(tax_subtotal, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
+                             nsmap={'cbc':tag.namespace}).text=str(0.0)
+            tag = etree.QName(self._cac, 'TaxCategory')
+            category=etree.SubElement(tax_subtotal, tag.text, nsmap={'cac':tag.namespace})
+            tag = etree.QName(self._cac, 'TaxScheme')
+            scheme=etree.SubElement(category, tag.text, nsmap={'cac':tag.namespace})
+            tag = etree.QName(self._cbc, 'ID')
+            
+            etree.SubElement(scheme, tag.text, nsmap={'cbc':tag.namespace}).text="1000"
+            tag = etree.QName(self._cbc, 'Name')
+            etree.SubElement(scheme, tag.text,
+                                      nsmap={'cbc':tag.namespace}).text="IGV"
+            tag = etree.QName(self._cbc, 'TaxTypeCode')
+            etree.SubElement(scheme, tag.text,
+                                      nsmap={'cbc':tag.namespace}).text="VAT"
         return amount_tax
 
     def getLegalMonetaryTotal(self, cr, uid, batch, currency_obj, amount_tax):

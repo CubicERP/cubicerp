@@ -503,6 +503,7 @@ class PaymentTransaction(models.Model):
         return self.env['res.company']._company_default_get('payment.transaction').country_id.id
 
     create_date = fields.Datetime('Creation Date', readonly=True)
+    date = fields.Date('Date', track_visibility='always', default=fields.Date.today)
     date_validate = fields.Datetime('Validation Date')
     acquirer_id = fields.Many2one('payment.acquirer', 'Acquirer', required=True)
     provider = fields.Selection(string='Provider', related='acquirer_id.provider')

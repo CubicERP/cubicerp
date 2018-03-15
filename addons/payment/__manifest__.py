@@ -6,7 +6,7 @@
     'summary': 'Payment Acquirer Base Module',
     'version': '1.0',
     'description': """Payment Acquirer Base Module""",
-    'depends': ['account'],
+    'depends': ['account', 'resource'],
     'data': [
         'data/account_data.xml',
         'data/payment_icon_data.xml',

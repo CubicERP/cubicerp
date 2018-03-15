@@ -28,6 +28,14 @@ class ProductionLot(models.Model):
         ('name_ref_uniq', 'unique (name, product_id)', 'The combination of serial number and product must be unique !'),
     ]
 
+    def name_get(self):
+        res = []
+        stock = self.env.context.get("lot_with_stock", False)
+        for lot in self:
+            name = stock and "%s (%s)"%(lot.name,lot.product_qty) or lot.name
+            res.append((lot.id,name))
+        return res
+
     @api.model
     def create(self, vals):
         active_picking_id = self.env.context.get('active_picking_id', False)

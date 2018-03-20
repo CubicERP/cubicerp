@@ -87,6 +87,14 @@ class SaleOrder(models.Model):
                 'invoice_status': invoice_status
             })
 
+    @api.depends("partner_id")
+    def _partner_parent_id(self):
+        if self.partner_id:
+            self.partner_parent_id = self.partner_id.parent_id.id or self.partner_id.id
+        else:
+            self.partner_parent_id = False
+
+
     @api.model
     def get_empty_list_help(self, help):
         if help:
@@ -135,6 +143,7 @@ class SaleOrder(models.Model):
     partner_id = fields.Many2one('res.partner', string='Customer', readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, required=True, change_default=True, index=True, track_visibility='always')
     partner_invoice_id = fields.Many2one('res.partner', string='Invoice Address', readonly=True, required=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Invoice address for current sales order.")
     partner_shipping_id = fields.Many2one('res.partner', string='Delivery Address', readonly=True, required=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Delivery address for current sales order.")
+    partner_parent_id = fields.Many2one('res.partner', compute=_partner_parent_id, string="Parent Partner")
 
     pricelist_id = fields.Many2one('product.pricelist', string='Pricelist', required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, help="Pricelist for current sales order.")
     currency_id = fields.Many2one("res.currency", related='pricelist_id.currency_id', string="Currency", readonly=True, required=True)
@@ -218,10 +227,10 @@ class SaleOrder(models.Model):
         """
         if not self.partner_id:
             self.update({
-                'partner_invoice_id': False,
                 'partner_shipping_id': False,
                 'payment_term_id': False,
                 'fiscal_position_id': False,
+                'partner_parent_id': False,
             })
             return
 
@@ -231,7 +240,7 @@ class SaleOrder(models.Model):
             'payment_term_id': self.partner_id.property_payment_term_id and self.partner_id.property_payment_term_id.id or False,
             'partner_invoice_id': addr['invoice'],
             'partner_shipping_id': addr['delivery'],
-            'user_id': self.partner_id.user_id.id or self.env.uid
+            'user_id': self.partner_id.user_id.id or self.env.uid,
         }
         if self.env['ir.config_parameter'].sudo().get_param('sale.use_sale_note') and self.env.user.company_id.sale_note:
             values['note'] = self.with_context(lang=self.partner_id.lang).env.user.company_id.sale_note

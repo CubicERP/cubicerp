@@ -569,8 +569,8 @@ class MrpProduction(models.Model):
         self.post_inventory()
         moves_to_cancel = (self.move_raw_ids | self.move_finished_ids).filtered(lambda x: x.state not in ('done', 'cancel'))
         moves_to_cancel._action_cancel()
-        self.write({'state': 'done', 'date_finished': fields.Datetime.now()})
-        return self.write({'state': 'done'})
+
+        return self.write({'state': 'done', 'date_finished': fields.Datetime.now()})
 
     @api.multi
     def do_unreserve(self):

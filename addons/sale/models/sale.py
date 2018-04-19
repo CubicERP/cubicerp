@@ -89,10 +89,11 @@ class SaleOrder(models.Model):
 
     @api.depends("partner_id")
     def _partner_parent_id(self):
-        if self.partner_id:
-            self.partner_parent_id = self.partner_id.parent_id.id or self.partner_id.id
-        else:
-            self.partner_parent_id = False
+        for sale in self:
+            if sale.partner_id:
+                sale.partner_parent_id = sale.partner_id.parent_id.id or sale.partner_id.id
+            else:
+                sale.partner_parent_id = False
 
 
     @api.model

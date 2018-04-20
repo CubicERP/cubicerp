@@ -34,9 +34,13 @@ class MailActivityType(models.Model):
         'mail.activity.type', 'mail_activity_rel', 'recommended_id', 'activity_id',
         string='Preceding Activities')
     category = fields.Selection([
-        ('default', 'Other')], default='default',
+        ('default', 'Other'),('action','Actions')], default='default',
         string='Category',
         help='Categories may trigger specific behavior like opening calendar view')
+
+    action_id = fields.Many2one("ir.actions.server", "Server Action")
+    action_auto = fields.Boolean("Automatic Action")
+
 
 
 class MailActivity(models.Model):
@@ -73,6 +77,8 @@ class MailActivity(models.Model):
         'mail.activity.type', 'Activity',
         domain="['|', ('res_model_id', '=', False), ('res_model_id', '=', res_model_id)]")
     activity_category = fields.Selection(related='activity_type_id.category')
+    action_auto = fields.Boolean(related='activity_type_id.action_auto')
+    action_cron_id = fields.Many2one("ir.cron", string="Cron Action", help="Cron for related server action")
     icon = fields.Char('Icon', related='activity_type_id.icon')
     summary = fields.Char('Summary')
     note = fields.Html('Note')

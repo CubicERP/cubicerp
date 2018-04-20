@@ -20,6 +20,16 @@ def _partner_split_name(partner_name):
     return [' '.join(partner_name.split()[:-1]), ' '.join(partner_name.split()[-1:])]
 
 
+TRANSACTION_STATES = [
+        ('draft', 'Draft'),
+        ('pending', 'Pending'),
+        ('authorized', 'Authorized'),
+        ('done', 'Done'),
+        ('refunding', 'Refunding'),
+        ('refunded', 'Refunded'),
+        ('error', 'Error'),
+        ('cancel', 'Canceled')]
+
 class PaymentAcquirer(models.Model):
     """ Acquirer Model. Each specific acquirer can extend the model by adding
     its own fields, using the acquirer_name as a prefix for the new fields.
@@ -47,6 +57,15 @@ class PaymentAcquirer(models.Model):
     button form and that the acquirer uses to send the customer back after the
     transaction, with transaction details given as a POST request.
     """
+
+    @api.depends("journal_id","journal_id.currency_id")
+    def _currency_id(self):
+        for acquirer in self:
+            if acquirer.journal_id:
+                acquirer.currency_id = acquirer.journal_id.currency_id and acquirer.journal_id.currency_id.id or acquirer.journal_id.company_id.currency_id.id
+            else:
+                acquirer.currency_id = acquirer.company_id.currency_id.id
+
     _name = 'payment.acquirer'
     _description = 'Payment Acquirer'
     _order = 'website_published desc, sequence, name'
@@ -88,6 +107,7 @@ class PaymentAcquirer(models.Model):
                 the payment journal). Then when you get paid on your bank account by the payment acquirer, you
                 reconcile the bank statement line with this temporary transfer account. Use reconciliation
                 templates to do it in one-click.""")
+    currency_id = fields.Many2one("res.currency", string="Acquirer Currency", compute=_currency_id)
     specific_countries = fields.Boolean(string="Specific Countries",
         help="If you leave it empty, the payment acquirer will be available for all the countries.")
     country_ids = fields.Many2many(
@@ -513,15 +533,7 @@ class PaymentTransaction(models.Model):
         ('form', 'Form'),
         ('form_save', 'Form with tokenization')], 'Type',
         default='form', required=True)
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('pending', 'Pending'),
-        ('authorized', 'Authorized'),
-        ('done', 'Done'),
-        ('refunding', 'Refunding'),
-        ('refunded', 'Refunded'),
-        ('error', 'Error'),
-        ('cancel', 'Canceled')], 'Status',
+    state = fields.Selection(TRANSACTION_STATES, 'Status',
         copy=False, default='draft', required=True, track_visibility='onchange')
     state_message = fields.Text('Message', help='Field used to store error and/or validation messages for information')
     # payment
@@ -538,7 +550,7 @@ class PaymentTransaction(models.Model):
                                            ('fifo', 'FIFO')], help="Payment distribute for partial payments")
     currency_id = fields.Many2one('res.currency', 'Currency', required=True)
     reference = fields.Char(
-        'Reference', default=lambda self: self.env['ir.sequence'].next_by_code('payment.transaction'),
+        'Reference', default='new',
         required=True, help='Internal reference of the TX')
     acquirer_reference = fields.Char('Acquirer Reference', help='Reference of the TX as stored in the acquirer database')
     # duplicate partner / transaction data to store the values at transaction time
@@ -597,9 +609,6 @@ class PaymentTransaction(models.Model):
 
     @api.model
     def create(self, values):
-        if values.get('partner_id'):  # @TDENOTE: not sure
-            values.update(self.on_change_partner_id(values['partner_id'])['value'])
-
         # call custom create method if defined (i.e. ogone_create for ogone)
         if values.get('acquirer_id'):
             acquirer = self.env['payment.acquirer'].browse(values['acquirer_id'])
@@ -617,9 +626,9 @@ class PaymentTransaction(models.Model):
                 values.update(getattr(self, custom_method_name)(values))
 
         # Default value of reference is
+        if values.get('reference','new') == 'new':
+            values['reference'] = self.env['ir.sequence'].next_by_code('payment.transaction')
         tx = super(PaymentTransaction, self).create(values)
-        if not values.get('reference'):
-            tx.write({'reference': str(tx.id)})
 
         # Generate callback hash if it is configured on the tx; avoid generating unnecessary stuff
         # (limited sudo env for checking callback presence, must work for manual transactions too)
@@ -651,6 +660,30 @@ class PaymentTransaction(models.Model):
                 res = super(PaymentTransaction, tx).write(vals)
             return res
         return super(PaymentTransaction, self).write(values)
+
+    def action_draft(self):
+        return self.write({'state': 'draft'})
+
+    def action_pending(self):
+        return self.write({'state': 'pending'})
+
+    def action_authorized(self):
+        return self.write({'state': 'authorized'})
+
+    def action_done(self):
+        return self.write({'state': 'done'})
+
+    def action_refunding(self):
+        return self.write({'state': 'refunding'})
+
+    def action_refunded(self):
+        return self.write({'state': 'refunded'})
+
+    def action_error(self):
+        return self.write({'state': 'error'})
+
+    def action_cancel(self):
+        return self.write({'state': 'cancel'})
 
     @api.model
     def get_next_reference(self, reference):

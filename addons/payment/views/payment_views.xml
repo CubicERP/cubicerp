@@ -3,10 +3,12 @@
     <data>
 
         <!-- Payment menu in settings -->
+        <menuitem name='Collect Payment' id='main_payment_menu' sequence="50" web_icon="payment,static/description/icon.png"/>
+        <menuitem name="Configuration" id="configuration_menu" parent="main_payment_menu"/>
         <menuitem
             name='Payments'
             id='root_payment_menu'
-            parent='account.menu_finance_configuration'/>
+            parent='main_payment_menu'/>
 
         <record id="meidum_type_tree" model="ir.ui.view">
             <field name="name">payment.medium.type.tree</field>
@@ -54,7 +56,7 @@
                 </p>
             </field>
         </record>
-        <menuitem action='action_payment_medium_type' id='payment_medium_type_menu' parent='root_payment_menu' sequence='40'/>
+        <menuitem action='action_payment_medium_type' id='payment_medium_type_menu' parent='configuration_menu' sequence='40'/>
 
 
         <record id="acquirer_form" model="ir.ui.view">
@@ -109,7 +111,7 @@
                         </div>
                         <group name="acquirer_base" col="2" attrs="{'invisible': ['&amp;', ('module_id', '!=', False), ('module_state', '!=', 'installed')]}">
                             <group name="acquirer_left">
-                                <field name="provider" groups="base.group_no_one"/>
+                                <field name="provider" groups="account.group_account_manager"/>
                                 <field name="company_id" groups="base.group_multi_company" options='{"no_open":True}'/>
                                 <field name="tag_ids" widget="many2many_tags"/>
                                 <field name="bank_ids" widget="many2many_tags"/>
@@ -144,8 +146,8 @@
                                     <field name="fees_int_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
                                     <field name="specific_countries"/>
                                     <field name="country_ids" widget="many2many_tags" attrs="{'invisible': [('specific_countries', '=', False)]}"/>
-                                    <label for="view_template_id" groups="base.group_no_one"/>
-                                    <div groups="base.group_no_one">
+                                    <label for="view_template_id" groups="account.group_account_manager"/>
+                                    <div groups="account.group_account_manager">
                                         <field name="view_template_id" nolabel="1"/>
                                         <div>
                                             This template renders the acquirer button with all necessary values.
@@ -164,7 +166,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <field name="registration_view_template_id" groups="base.group_no_one"/>
+                                    <field name="registration_view_template_id" groups="account.group_account_manager"/>
                                     <field name="payment_icon_ids" widget="many2many_tags"/>
                                     <field name="payment_flow" widget="radio"/>
                                 </group>
@@ -254,7 +256,7 @@
         <menuitem
             action='action_payment_acquirer'
             id='payment_acquirer_menu'
-            parent='root_payment_menu'
+            parent='configuration_menu'
             sequence='10' />
 
         <!-- Payment transactions -->
@@ -266,10 +268,19 @@
                     <header>
                         <button type="object" name="action_capture" states="authorized" string="Capture Transaction" class="oe_highlight"/>
                         <button type="object" name="action_void" states="authorized" string="Void Transaction"/>
-                        <field name="state" widget="statusbar" clickable="True"/>
+                        <button type="object" name="action_draft" string="Set to Draft" states="cancel"/>
+                        <button type="object" name="action_pending" string="Pending" states="draft" class="oe_highlight"/>
+                        <button type="object" name="action_authorized" string="Authorized" states="pending" class="oe_highlight"/>
+                        <button type="object" name="action_done" string="Done" states="authorized" class="oe_highlight"/>
+                        <button type="object" name="action_refunding" string="Refunding" states="done"/>
+                        <button type="object" name="action_refunded" string="Refunded" states="refunding"/>
+                        <button type="object" name="action_refunded" string="Refunded" states="refunding"/>
+                        <button type="object" name="action_error" string="Error" states="pending,authorized,redunding"/>
+                        <button type="object" name="action_cancel" string="Cancel" states="pending,authorized"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,authorized,done"/>
                     </header>
                     <sheet>
-                        <group>
+                        <group name="main_group">
                             <group>
                                 <field name="reference"/>
                                 <label for="amount"/>
@@ -368,7 +379,13 @@
                     <field name="reference"/>
                     <field name="acquirer_id"/>
                     <field name="partner_id"/>
-                    <field name="partner_name"/>
+                    <field name="acquirer_reference"/>
+                    <filter icon="terp-document-new" name="pending_state" string="Pending" domain="[('state','=','pending')]" help="Pending Transactions"/>
+                    <filter icon="terp-camera_test" string="Error" domain="[('state','=','error')]" help="Error Transactions"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Aquirer" icon="terp-folder-orange" domain="[]" context="{'group_by':'acquirer_id'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
                 </search>
             </field>
         </record>
@@ -377,12 +394,13 @@
             <field name="res_model">payment.transaction</field>
             <field name='view_type'>form</field>
             <field name='view_mode'>tree,kanban,form</field>
+            <field name="context">{'search_default_pending_state':1}</field>
         </record>
         <menuitem
             action='action_payment_transaction'
             id='payment_transaction_menu'
             parent='root_payment_menu'
-            groups="base.group_no_one"
+            groups="account.group_account_manager"
             sequence='20' />
 
         <!-- Payment Tokens -->
@@ -450,7 +468,9 @@
             action='payment_token_action'
             id='payment_token_menu'
             parent='root_payment_menu'
-            groups='base.group_no_one'/>
+            groups='account.group_account_manager'
+            sequence="50"
+        />
 
         <!-- Payment icons -->
         <record model="ir.ui.view" id="payment_icon_form_view">
@@ -463,7 +483,7 @@
                         <div class="oe_title">
                             <h1><field name="name" placeholder="Name"/></h1>
                         </div>
-                        <group group="base.group_no_one">
+                        <group group="account.group_account_manager">
                             <notebook>
                                 <page string="Acquirers list">
                                     <field nolabel="1" name="acquirer_ids"/>
@@ -488,7 +508,7 @@
         <menuitem
             action="action_payment_icon"
             id="payment_icon_menu"
-            parent="root_payment_menu"
-            groups="base.group_no_one"/>
+            parent="configuration_menu"
+            groups="account.group_account_manager"/>
     </data>
 </odoo>

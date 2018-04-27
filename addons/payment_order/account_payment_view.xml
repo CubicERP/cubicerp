@@ -130,6 +130,9 @@
                                 </group>
                                 <group string="Others">
                                     <field name="date_created"/>
+                                    <field name="approve_user_id"/>
+                                    <field name="date_approve"/>
+                                    <field name="done_user_id"/>
                                     <field name="date_done"/>
                                 </group>
                             </group>

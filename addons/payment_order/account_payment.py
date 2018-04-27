@@ -63,18 +63,21 @@ class payment_order(osv.osv):
             ('cancel', 'Cancelled'),
             ('open', 'Confirmed'),
             ('approve', 'Approved'),
-            ('done', 'Done')], 'Status', select=True, copy=False,
+            ('done', 'Done')], 'Status', select=True, copy=False, track_visibility='onchange',
             help='When an order is placed the status is \'Draft\'.\n Once the bank is confirmed the status is set to \'Confirmed\'.\n Then the order is paid the status is \'Done\'.'),
         'line_ids': fields.one2many('payment.line', 'order_id', 'Payment lines', states={'done': [('readonly', True)]}),
         'total': fields.function(_total, string="Total", type='float'),
         'user_id': fields.many2one('res.users', 'Responsible', required=True, states={'done': [('readonly', True)]}),
+        'approve_user_id': fields.many2one('res.users', 'Approve User', readonly=True),
+        'done_user_id': fields.many2one('res.users', 'Done User', readonly=True),
         'date_prefered': fields.selection([
             ('now', 'Directly'),
             ('due', 'Due date'),
             ('fixed', 'Fixed date')
             ], "Preferred Date", change_default=True, required=True, states={'done': [('readonly', True)]}, help="Choose an option for the Payment Order:'Fixed' stands for a date specified by you.'Directly' stands for the direct execution.'Due date' stands for the scheduled date of execution."),
-        'date_created': fields.date('Creation Date', readonly=True),
-        'date_done': fields.date('Execution Date', readonly=True),
+        'date_created': fields.datetime('Creation Date', readonly=True),
+        'date_approve': fields.datetime('Approve Date', readonly=True),
+        'date_done': fields.datetime('Execution Date', readonly=True),
         'company_id': fields.related('mode', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
         'period_id': fields.many2one('account.period', 'Force Period', states={'done': [('readonly', True)]}),
         'move_id': fields.many2one('account.move', 'Account Move', readonly=True),
@@ -85,7 +88,7 @@ class payment_order(osv.osv):
         'state': 'draft',
         'date_prefered': 'due',
         'date_scheduled': lambda *a: time.strftime('%Y-%m-%d'),
-        'date_created': lambda *a: time.strftime('%Y-%m-%d'),
+        'date_created': fields.datetime.now,
         'name': '/',
         'type': 'request',
     }
@@ -101,10 +104,10 @@ class payment_order(osv.osv):
         return True
 
     def action_open(self, cr, uid, ids, context=None):
-        return True
+        return self.write(cr, uid, ids, {'date_created': fields.datetime.now()})
 
     def action_approve(self, cr, uid, ids, context=None):
-        return True
+        return self.write(cr, uid, ids, {'approve_user_id': uid, 'date_approve': fields.datetime.now()}, context=context)
 
     def action_cancel(self, cr, uid, ids, context=None):
         move_pool = self.pool.get('account.move')
@@ -174,7 +177,8 @@ class payment_order(osv.osv):
                 move_obj.post(cr, uid, [move_id], context=context)
             for rec_ids in reconcile:
                 line_obj.reconcile_partial(cr, uid, rec_ids, context=context)
-        return self.write(cr, uid, ids, {'date_done': time.strftime('%Y-%m-%d'),
+        return self.write(cr, uid, ids, {'date_done': fields.datetime.now(),
+                                         'done_user_id': uid,
                                          'state': 'done'})
 
     def write(self, cr, uid, ids, vals, context=None):

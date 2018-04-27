@@ -139,6 +139,7 @@ class account_fiscalyear_close(osv.osv_memory):
               AND a.company_id = %s
               AND t.close_method = %s''', (company_id, 'unreconciled', ))
         account_ids = map(lambda x: x[0], cr.fetchall())
+        account_ids = obj_acc_account.search(cr, uid, [('id', 'in', account_ids)], context=context)
         if account_ids:
             cr.execute('''
                 INSERT INTO account_move_line (
@@ -190,6 +191,7 @@ class account_fiscalyear_close(osv.osv_memory):
               AND a.company_id = %s
               AND t.close_method = %s''', (company_id, 'detail', ))
         account_ids = map(lambda x: x[0], cr.fetchall())
+        account_ids = obj_acc_account.search(cr, uid, [('id', 'in', account_ids)], context=context)
 
         if account_ids:
             cr.execute('''
@@ -219,6 +221,7 @@ class account_fiscalyear_close(osv.osv_memory):
               AND a.company_id = %s
               AND t.close_method = %s''', (company_id, 'balance', ))
         account_ids = map(lambda x: x[0], cr.fetchall())
+        account_ids = obj_acc_account.search(cr, uid, [('id','in',account_ids)], context=context)
 
         query_1st_part = """
                 INSERT INTO account_move_line (

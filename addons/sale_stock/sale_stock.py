@@ -380,19 +380,6 @@ class sale_order_line(osv.osv):
 class stock_move(osv.osv):
     _inherit = 'stock.move'
 
-    def _fnc_sale_line_id(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for move in self.browse(cr, uid, ids, context=context):
-            res[move.id] = move._sale_line_id and move._sale_line_id.id or (
-            move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id or False)
-        return res
-
-    _columns = {
-        'sale_line_id': fields.function(_fnc_sale_line_id, string='Sale Order Line', type="many2one",
-                                        relation="sale.order.line"),
-        '_sale_line_id': fields.many2one("sale.order.line", string='Internal Sale Line')
-    }
-
     def _create_invoice_line_from_vals(self, cr, uid, move, invoice_line_vals, context=None):
         invoice_line_id = super(stock_move, self)._create_invoice_line_from_vals(cr, uid, move, invoice_line_vals, context=context)
         if context.get('inv_type') in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:

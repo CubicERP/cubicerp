@@ -127,16 +127,16 @@ class account_bank_statement(osv.osv):
                  'will be with same name as statement name. '
                  'This allows the statement entries to have the same references than the '
                  'statement itself'),
-        'date': fields.date('Date', required=True, states={'confirm': [('readonly', True)]},
+        'date': fields.date('Date', required=True, states={'confirm': [('readonly', True)],'approve':[('readonly', True)]},
                             select=True, copy=False),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True,
             readonly=True, states={'draft':[('readonly',False)]}),
         'period_id': fields.many2one('account.period', 'Period', required=True,
-            states={'confirm':[('readonly', True)]}),
+            states={'confirm':[('readonly', True)],'approve':[('readonly', True)]}),
         'balance_start': fields.float('Starting Balance', digits_compute=dp.get_precision('Account'),
-            states={'confirm':[('readonly',True)]}),
+            states={'confirm':[('readonly',True)],'approve':[('readonly', True)]}),
         'balance_end_real': fields.float('Ending Balance', digits_compute=dp.get_precision('Account'),
-            states={'confirm': [('readonly', True)]}, help="Computed using the cash control lines"),
+            states={'confirm': [('readonly', True)],'approve':[('readonly', True)]}, help="Computed using the cash control lines"),
         'balance_end': fields.function(_end_balance,
             store = {
                 'account.bank.statement': (lambda self, cr, uid, ids, c={}: ids, ['line_ids','move_line_ids','balance_start'], 10),
@@ -146,9 +146,9 @@ class account_bank_statement(osv.osv):
         'company_id': fields.related('journal_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
         'line_ids': fields.one2many('account.bank.statement.line',
                                     'statement_id', 'Statement lines',
-                                    states={'confirm':[('readonly', True)]}, copy=True),
+                                    states={'confirm':[('readonly', True)],'approve':[('readonly', True)]}, copy=True),
         'move_line_ids': fields.one2many('account.move.line', 'statement_id',
-                                         'Entry lines', states={'confirm':[('readonly',True)]}),
+                                         'Entry lines', states={'confirm':[('readonly',True)],'approve':[('readonly', True)]}),
         'state': fields.selection([('draft', 'New'),
                                    ('open','Open'), # used by cash statements
                                    ('to_approve', 'To Approve'),

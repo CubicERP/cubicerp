@@ -224,12 +224,18 @@ class einvoice_batch_pe(osv.Model):
             if batch.type=="sync": 
                 for emessage_id in batch.emessage_ids:
                     vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
+                    file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
+                    file_name+=batch.name
+                    vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                     self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
             elif batch.type=="RC":
                 for invoice_id in batch.invoice_summary_ids:
                     for emessage_id in invoice_id.batch_pe_id.emessage_ids:
                         vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
                         if vals:
+                            file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
+                            file_name+=batch.name
+                            vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                             self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
     
     def get_annul_invoice(self, cr, uid, ids, context=None):

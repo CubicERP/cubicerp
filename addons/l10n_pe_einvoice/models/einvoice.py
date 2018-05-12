@@ -350,18 +350,22 @@ class einvoice_message_pe(osv.Model):
                         vals['ticket_code']= result['ticket']
                     self.write(cr, uid, [msg.id], vals, context=context)
                 except SoapFault as e:
-                    if msg.batch_id.company_id.sunat_see_online:
-                        errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
-                        raise osv.except_osv ('SUNAT Error',
-                                    'The batch %s (id:%s) have an error ({0}): {1} %s'.format(e.faultcode.encode('utf-8'),
-                                                                                              e.faultstring.encode('utf-8'))%(msg.batch_id.name,str(msg.batch_id.id), errmsg))
-                    else:
-                        self.write(cr, uid, [msg.id], {'status_code': e.faultcode.split('.')[-1]}, context=context)
+                    #if msg.batch_id.company_id.sunat_see_online:
+                    #    errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
+                    #    raise osv.except_osv ('SUNAT Error',
+                    #                'The batch %s (id:%s) have an error ({0}): {1} %s'.format(e.faultcode.encode('utf-8'),
+                    #                                                                          e.faultstring.encode('utf-8'))%(msg.batch_id.name,str(msg.batch_id.id), errmsg))
+                    #else:
+                    #    
+                    vals['status_code']=  e.faultcode.split('.')[-1]
+                    vals['status_emessage']="%s - %s" %(str(e.faultcode or ""), str(e.faultstring or ""))
+                    self.write(cr, uid, [msg.id], vals, context=context)
                 except Exception as e:
-                    if msg.batch_id.company_id.sunat_see_online:
-                        raise osv.except_osv('SOAP Error',
-                                          'The batch %s (id:%s) have an unexpected error: %s' % (
-                                          msg.batch_id.name, str(msg.batch_id.id), e.message))
+                    pass
+                    #if msg.batch_id.company_id.sunat_see_online:
+                    #    raise osv.except_osv('SOAP Error',
+                    #                      'The batch %s (id:%s) have an unexpected error: %s' % (
+                    #                      msg.batch_id.name, str(msg.batch_id.id), e.message))
         return super(einvoice_message_pe, self).action_send(cr, uid, ids, context=context)
     
     def get_zip_invoice(self, cr, uid, batch_id, signature, context=None):

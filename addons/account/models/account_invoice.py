@@ -1346,7 +1346,23 @@ class AccountInvoice(models.Model):
             new_invoices += refund_invoice
         return new_invoices
 
+    def _get_payment_vals(self, pay_amount, date, communication, pay_journal, payment_type, payment_method, writeoff_acc):
+        return {
+            'invoice_ids': [(6, 0, self.ids)],
+            'amount': pay_amount or self.residual,
+            'payment_date': date or fields.Date.context_today(self),
+            'communication': communication,
+            'partner_id': self.partner_id.id,
+            'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
+            'journal_id': pay_journal.id,
+            'payment_type': payment_type,
+            'payment_method_id': payment_method.id,
+            'payment_difference_handling': writeoff_acc and 'reconcile' or 'open',
+            'writeoff_account_id': writeoff_acc and writeoff_acc.id or False,
+        }
+
     @api.multi
+    @api.returns("account.payment")
     def pay_and_reconcile(self, pay_journal, pay_amount=None, date=None, writeoff_acc=None):
         """ Create and post an account.payment for the invoice self, which creates a journal entry that reconciles the invoice.
 
@@ -1372,24 +1388,11 @@ class AccountInvoice(models.Model):
         if self.origin:
             communication = '%s (%s)' % (communication, self.origin)
 
-        payment_vals = {
-            'invoice_ids': [(6, 0, self.ids)],
-            'amount': pay_amount or self.residual,
-            'payment_date': date or fields.Date.context_today(self),
-            'communication': communication,
-            'partner_id': self.partner_id.id,
-            'partner_type': self.type in ('out_invoice', 'out_refund') and 'customer' or 'supplier',
-            'journal_id': pay_journal.id,
-            'payment_type': payment_type,
-            'payment_method_id': payment_method.id,
-            'payment_difference_handling': writeoff_acc and 'reconcile' or 'open',
-            'writeoff_account_id': writeoff_acc and writeoff_acc.id or False,
-        }
-
+        payment_vals = self._get_payment_vals(pay_amount, date, communication, pay_journal, payment_type, payment_method, writeoff_acc)
         payment = self.env['account.payment'].create(payment_vals)
         payment.post()
 
-        return True
+        return payment
 
     @api.multi
     def _track_subtype(self, init_values):
@@ -1506,6 +1509,14 @@ class AccountInvoiceLine(models.Model):
     currency_id = fields.Many2one('res.currency', related='invoice_id.currency_id', store=True, related_sudo=False)
     company_currency_id = fields.Many2one('res.currency', related='invoice_id.company_currency_id', readonly=True, related_sudo=False)
     is_rounding_line = fields.Boolean(string='Rounding Line', help='Is a rounding line in case of cash rounding.')
+
+    def name_get(self):
+        res = []
+        for record in self:
+            res.append((record.id, "[%s]%s %s"%(record.invoice_id.number or "id:%s"%record.invoice_id.id,
+                                                record.product_id and " %s -"%(record.product_id.default_code or record.product_id.name) or "",
+                                                record.name)))
+        return res
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):

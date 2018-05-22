@@ -480,7 +480,7 @@ class account_payment(models.Model):
                         sequence_code = 'account.payment.supplier.refund'
                     if rec.payment_type == 'outbound':
                         sequence_code = 'account.payment.supplier.invoice'
-            rec.name = self.env['ir.sequence'].with_context(ir_sequence_date=rec.payment_date).next_by_code(sequence_code)
+            rec.name = rec.move_name or self.env['ir.sequence'].with_context(ir_sequence_date=rec.payment_date).next_by_code(sequence_code)
             if not rec.name and rec.payment_type != 'transfer':
                 raise UserError(_("You have to define a sequence for %s in your company.") % (sequence_code,))
 

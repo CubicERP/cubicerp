@@ -24,6 +24,7 @@ class res_bank(models.Model):
 
     acquirer_ids = fields.Many2many("payment.acquirer", 'payment_acquirer_bank_rel', 'bank_id', 'acquirer_id', string="Acquirers")
     medium_type_ids = fields.Many2many("payment.medium.type", 'payment_medium_bank_rel', 'bank_id', 'medium_type_id', string="Medium Types")
+    sector_ids = fields.One2many("payment.address.sector", "bank_id", string="Address Sectors")
 
 
 class res_partner_bank(models.Model):
@@ -35,8 +36,12 @@ class res_partner_bank(models.Model):
             self.has_expiration = self.medium_type_id.has_expiration
         else:
             self.has_expiration = False
+        self.sector_id = False
+        self.bank_id = False
+        self.acc_number = False
 
     medium_type_id = fields.Many2one("payment.medium.type", string="Medium Type")
+    has_mandate = fields.Boolean("Has Mandate", related="medium_type_id.has_mandate")
     has_expiration = fields.Boolean("Has Expiration Date", compute=_has_expiration)
     expiration_month = fields.Selection([('01', '01'),
                                          ('02', '02'),
@@ -56,14 +61,20 @@ class res_partner_bank(models.Model):
     owner_id = fields.Many2one("res.partner", "Owner")
     has_address = fields.Boolean("Has Address", related="medium_type_id.has_address")
     address_id = fields.Many2one("res.partner", "Address")
+    state_id = fields.Many2one("res.country.state", related="address_id.state_id", string="State")
+    sector_id = fields.Many2one("payment.address.sector", string="Address Sector")
     has_calendar = fields.Boolean("Has Calendar", related="medium_type_id.has_calendar")
     calendar_id = fields.Many2one("resource.calendar", "Calendar")
 
-    @api.multi
-    @api.depends('acc_number', 'bank_id', 'medium_type_id')
+    @api.depends("acc_number","medium_type_id","bank_name")
     def name_get(self):
         result = []
         for bank in self:
-            name = "%s%s%s"%(bank.acc_number,bank.bank_name and ' [%s]'%bank.bank_name or '',bank.medium_type_id and ' (%s)'%bank.medium_type_id.name or '')
+            name = "%s%s%s"%(bank.acc_number or '',bank.bank_name and ' [%s]'%bank.bank_name or '',bank.medium_type_id and ' (%s)'%bank.medium_type_id.name or '')
             result.append((bank.id, name))
         return result
+
+    @api.onchange("sector_id")
+    def on_change_sector(self):
+        self.acc_number = self.sector_id.name
+        self.bank_id = self.sector_id.bank_id.id

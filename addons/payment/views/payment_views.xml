@@ -34,6 +34,7 @@
                         </div>
                         <group>
                             <field name="require_number"/>
+                            <field name="has_mandate"/>
                             <field name="has_expiration"/>
                             <field name="has_owner"/>
                             <field name="has_address"/>
@@ -58,6 +59,54 @@
         </record>
         <menuitem action='action_payment_medium_type' id='payment_medium_type_menu' parent='configuration_menu' sequence='40'/>
 
+
+        <record id="address_sector_tree" model="ir.ui.view">
+            <field name="name">payment.address.sector.tree</field>
+            <field name="model">payment.address.sector</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="address_sector_form" model="ir.ui.view">
+            <field name="name">payment.address.sector.form</field>
+            <field name="model">payment.address.sector</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="bank_id"/>
+                        </group>
+                        <separator string="Description"/>
+                        <field name="description"/>
+                        <separator string="Country States"/>
+                        <field name="state_ids"/>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_payment_address_sector" model="ir.actions.act_window">
+            <field name="name">Address Sector</field>
+            <field name="res_model">payment.address.sector</field>
+            <field name='view_type'>form</field>
+            <field name='view_mode'>tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new address sector.
+                </p>
+            </field>
+        </record>
+        <menuitem action='action_payment_address_sector' id='payment_address_sector_menu' parent='configuration_menu' sequence='50'/>
+        
 
         <record id="acquirer_form" model="ir.ui.view">
             <field name="name">payment.acquirer.form</field>
@@ -135,8 +184,10 @@
                             <page string="Configuration">
                                 <group name="acquirer_config">
                                     <field name="journal_id" context="{'default_type': 'bank'}"/>
+                                    <field name="make_statement"/>
                                     <field name="capture_manually" attrs="{'invisible': [('authorize_implemented', '=', False)]}"/>
                                     <field name="partial_payment"/>
+                                    <field name="pay_retry"/>
                                     <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                                     <field name="save_token" widget="radio" attrs="{'invisible': [('token_implemented', '=', False)]}"/>
                                     <field name="fees_active" attrs="{'invisible': [('fees_implemented', '=', False)]}"/>
@@ -271,12 +322,11 @@
                         <button type="object" name="action_draft" string="Set to Draft" states="cancel"/>
                         <button type="object" name="action_pending" string="Pending" states="draft" class="oe_highlight"/>
                         <button type="object" name="action_authorized" string="Authorized" states="pending" class="oe_highlight"/>
-                        <button type="object" name="action_done" string="Done" states="authorized" class="oe_highlight"/>
-                        <button type="object" name="action_refunding" string="Refunding" states="done"/>
+                        <button type="object" name="action_done" string="Done" states="authorized" class="oe_highlight" groups="payment.group_payment_manager"/>
+                        <!--button type="object" name="action_refunding" string="Refunding" states="done"/-->
                         <button type="object" name="action_refunded" string="Refunded" states="refunding"/>
-                        <button type="object" name="action_refunded" string="Refunded" states="refunding"/>
-                        <button type="object" name="action_error" string="Error" states="pending,authorized,redunding"/>
-                        <button type="object" name="action_cancel" string="Cancel" states="pending,authorized"/>
+                        <button type="object" name="action_error" string="Error" states="pending,authorized,redunding" groups="payment.group_payment_manager"/>
+                        <button type="object" name="action_cancel" string="Cancel" states="pending,authorized,done" groups="payment.group_payment_manager"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,pending,authorized,done"/>
                     </header>
                     <sheet>
@@ -329,6 +379,7 @@
             <field name="arch" type="xml">
                 <tree string="Payment Transactions">
                     <field name="reference"/>
+                    <field name="date"/>
                     <field name="create_date"/>
                     <field name="acquirer_id"/>
                     <field name="partner_id"/>

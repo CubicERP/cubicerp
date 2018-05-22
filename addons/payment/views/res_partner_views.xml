@@ -26,6 +26,7 @@
                     <xpath expr='//field[@name="name"]' position="after">
                         <field name="acquirer_ids" widget="many2many_tags"/>
                         <field name="medium_type_ids" widget="many2many_tags"/>
+                        <field name="sector_ids" widget="many2many_tags"/>
                     </xpath>
                 </field>
         </record>
@@ -39,7 +40,15 @@
                         <field name="medium_type_id" options="{'no_create': True}"/>
                     </xpath>
                     <xpath expr='//field[@name="bank_id"]' position="attributes">
-                        <attribute name="domain">[('medium_type_ids','=',medium_type_id)]</attribute>
+                        <attribute name="domain">[('medium_type_ids','=',medium_type_id),'|',('sector_ids','in',sector_id),('sector_ids','=',[])]</attribute>
+                    </xpath>
+                    <xpath expr='//field[@name="bank_id"]' position="before">
+                        <field name="has_address" invisible="1"/>
+                        <field name="address_id" attrs="{'invisible':[('has_address','=',False)]}" options="{&quot;always_reload&quot;: True}"
+                               domain="[('id','child_of',partner_id)]" context="{'default_parent_id':partner_id, 'show_address': 1}"/>
+                        <field name="state_id" invisible="1"/>
+                        <field name="sector_id" attrs="{'invisible':[('has_address','=',False)]}"
+                               domain="[('state_ids','in',state_id)]"/>
                     </xpath>
                     <xpath expr='//field[@name="acc_number"]' position="attributes">
                         <attribute name="attrs">{'required':[('require_number','=',True)]}</attribute>
@@ -50,9 +59,6 @@
                         <field name="expiration_year" attrs="{'invisible':[('has_expiration','=',False)]}"/>
                         <field name="has_owner" invisible="1"/>
                         <field name="owner_id" attrs="{'invisible':[('has_owner','=',False)]}"/>
-                        <field name="has_address" invisible="1"/>
-                        <field name="address_id" attrs="{'invisible':[('has_address','=',False)]}"
-                               domain="[('id','child_of',partner_id)]" context="{'default_parent_id':partner_id}"/>
                         <field name="has_calendar" invisible="1"/>
                         <field name="calendar_id" attrs="{'invisible':[('has_calendar','=',False)]}" context="{'no_defaults':True}"/>
                         <field name="require_number" invisible="1"/>

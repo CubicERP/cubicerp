@@ -107,6 +107,7 @@ class PaymentAcquirer(models.Model):
                 the payment journal). Then when you get paid on your bank account by the payment acquirer, you
                 reconcile the bank statement line with this temporary transfer account. Use reconciliation
                 templates to do it in one-click.""")
+    make_statement = fields.Boolean("Make Statement", default=True, help="Make bank statement line automatically")
     currency_id = fields.Many2one("res.currency", string="Acquirer Currency", compute=_currency_id)
     specific_countries = fields.Boolean(string="Specific Countries",
         help="If you leave it empty, the payment acquirer will be available for all the countries.")
@@ -115,9 +116,9 @@ class PaymentAcquirer(models.Model):
         'payment_id', 'country_id', 'Countries',
         help="This payment gateway is available for selected countries. If none is selected it is available for all countries.")
     partial_payment = fields.Boolean("Partial Payments", help="This Acquirer support partial payment of a transaction")
-    payment_distribute = fields.Selection([('weighted','Weighted'),
-                                           ('lifo','LIFO'),
-                                           ('fifo','FIFO')], help="Payment distribute for partial payments", default='weighted')
+    pay_retry = fields.Boolean("Retry Payment", default=True, help="Manual retry payment, use this when the acquirer do not make automatic retry payments")
+    payment_distribute = fields.Selection([('lifo','LIFO'),
+                                           ('fifo','FIFO')], help="Payment distribute for partial payments", default='fifo')
 
     pre_msg = fields.Html(
         'Help Message', translate=True,
@@ -462,7 +463,17 @@ class PaymentMediumType(models.Model):
     has_owner = fields.Boolean("Has Owner")
     has_address = fields.Boolean("Has Address")
     has_calendar = fields.Boolean("Has Calendar")
+    has_mandate = fields.Boolean("Has Mandate")
     bank_ids = fields.Many2many("res.bank", 'payment_medium_bank_rel', 'medium_type_id', 'bank_id', string="Banks")
+
+
+class PaymentAddressSector(models.Model):
+    _name = "payment.address.sector"
+
+    name = fields.Char(required=True)
+    description = fields.Text()
+    bank_id = fields.Many2one("res.bank", string="Payment Method")
+    state_ids = fields.Many2many("res.country.state", "payment_sector_state_rel", "sector_id", "state_id", string="States")
 
 
 class PaymentIcon(models.Model):
@@ -523,54 +534,60 @@ class PaymentTransaction(models.Model):
         return self.env['res.company']._company_default_get('payment.transaction').country_id.id
 
     create_date = fields.Datetime('Creation Date', readonly=True)
-    date = fields.Date('Date', track_visibility='always', default=fields.Date.today)
-    date_validate = fields.Datetime('Validation Date')
-    acquirer_id = fields.Many2one('payment.acquirer', 'Acquirer', required=True)
-    provider = fields.Selection(string='Provider', related='acquirer_id.provider')
+    date = fields.Date('Date', track_visibility='always', default=fields.Date.today, readonly=True, states={'draft': [('readonly', False)]})
+    date_validate = fields.Date('Validation Date', readonly=True,
+                                    states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
+    acquirer_id = fields.Many2one('payment.acquirer', 'Acquirer', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    provider = fields.Selection(string='Provider', related='acquirer_id.provider', readonly=True)
     type = fields.Selection([
         ('validation', 'Validation of the bank card'),
         ('server2server', 'Server To Server'),
         ('form', 'Form'),
         ('form_save', 'Form with tokenization')], 'Type',
-        default='form', required=True)
-    state = fields.Selection(TRANSACTION_STATES, 'Status',
-        copy=False, default='draft', required=True, track_visibility='onchange')
+        default='form', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    state = fields.Selection(TRANSACTION_STATES, 'Status', copy=False, default='draft', required=True,
+                             track_visibility='onchange', readonly=True)
     state_message = fields.Text('Message', help='Field used to store error and/or validation messages for information')
     # payment
-    amount = fields.Float(
-        'Amount', digits=(16, 2), required=True, track_visibility='always',
-        help='Amount')
-    fees = fields.Float(
-        'Fees', digits=(16, 2), track_visibility='always',
-        help='Fees amount; set by the system because depends on the acquirer')
-    amount_pay = fields.Monetary('Amount Paid', currency_field="currency_id", track_visibility='onchange', help='Real amount paid allowed by acquirer partial payment')
-    partial_payment = fields.Boolean(related="acquirer_id.partial_payment")
-    payment_distribute = fields.Selection([('weighted', 'Weighted'),
-                                           ('lifo', 'LIFO'),
-                                           ('fifo', 'FIFO')], help="Payment distribute for partial payments")
-    currency_id = fields.Many2one('res.currency', 'Currency', required=True)
-    reference = fields.Char(
-        'Reference', default='new',
-        required=True, help='Internal reference of the TX')
-    acquirer_reference = fields.Char('Acquirer Reference', help='Reference of the TX as stored in the acquirer database')
+    amount = fields.Float('Amount', digits=(16, 2), required=True, track_visibility='always', help='Amount',
+                          readonly=True, states={'draft': [('readonly', False)]})
+    fees = fields.Float('Fees', digits=(16, 2), track_visibility='always',
+                        help='Fees amount; set by the system because depends on the acquirer',
+                        readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
+    amount_pay = fields.Monetary('Amount Paid', currency_field="currency_id", track_visibility='onchange',
+                                 help='Real amount paid allowed by acquirer partial payment',
+                                 readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
+    partial_payment = fields.Boolean(related="acquirer_id.partial_payment", readonly=True)
+    payment_distribute = fields.Selection([('lifo', 'LIFO'),
+                                           ('fifo', 'FIFO')], help="Payment distribute for partial payments",
+                                          readonly=True, states={'draft': [('readonly', False)]})
+    statement_line_id = fields.Many2one("account.bank.statement.line", string="Statement Line",
+                                        readonly=True, states={'draft': [('readonly', False)]})
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True,
+                                  readonly=True, states={'draft': [('readonly', False)]})
+    reference = fields.Char('Reference', default='new', required=True, help='Internal reference of the TX',
+                            readonly=True, states={'draft': [('readonly', False)]})
+    acquirer_reference = fields.Char('Acquirer Reference', help='Reference of the TX as stored in the acquirer database',
+                                     readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
     # duplicate partner / transaction data to store the values at transaction time
-    partner_id = fields.Many2one('res.partner', 'Customer', track_visibility='onchange')
-    partner_name = fields.Char('Partner Name')
-    partner_lang = fields.Selection(_lang_get, 'Language', default=lambda self: self.env.lang)
-    partner_email = fields.Char('Email')
-    partner_zip = fields.Char('Zip')
-    partner_address = fields.Char('Address')
-    partner_city = fields.Char('City')
-    partner_country_id = fields.Many2one('res.country', 'Country', default=_get_default_partner_country_id, required=True)
-    partner_phone = fields.Char('Phone')
-    html_3ds = fields.Char('3D Secure HTML')
+    partner_id = fields.Many2one('res.partner', 'Customer', track_visibility='onchange', readonly=True, states={'draft': [('readonly', False)]})
+    partner_name = fields.Char('Partner Name', readonly=True, states={'draft': [('readonly', False)]})
+    partner_lang = fields.Selection(_lang_get, 'Language', default=lambda self: self.env.lang, readonly=True, states={'draft': [('readonly', False)]})
+    partner_email = fields.Char('Email', readonly=True, states={'draft': [('readonly', False)]})
+    partner_zip = fields.Char('Zip', readonly=True, states={'draft': [('readonly', False)]})
+    partner_address = fields.Char('Address', readonly=True, states={'draft': [('readonly', False)]})
+    partner_city = fields.Char('City', readonly=True, states={'draft': [('readonly', False)]})
+    partner_country_id = fields.Many2one('res.country', 'Country', default=_get_default_partner_country_id, required=True, readonly=True, states={'draft': [('readonly', False)]})
+    partner_phone = fields.Char('Phone', readonly=True, states={'draft': [('readonly', False)]})
+    html_3ds = fields.Char('3D Secure HTML', readonly=True, states={'draft': [('readonly', False)]})
 
-    callback_model_id = fields.Many2one('ir.model', 'Callback Document Model', groups="base.group_system")
-    callback_res_id = fields.Integer('Callback Document ID', groups="base.group_system")
-    callback_method = fields.Char('Callback Method', groups="base.group_system")
-    callback_hash = fields.Char('Callback Hash', groups="base.group_system")
+    callback_model_id = fields.Many2one('ir.model', 'Callback Document Model', groups="base.group_system", readonly=True, states={'draft': [('readonly', False)]})
+    callback_res_id = fields.Integer('Callback Document ID', groups="base.group_system", readonly=True, states={'draft': [('readonly', False)]})
+    callback_method = fields.Char('Callback Method', groups="base.group_system", readonly=True, states={'draft': [('readonly', False)]})
+    callback_hash = fields.Char('Callback Hash', groups="base.group_system", readonly=True, states={'draft': [('readonly', False)]})
 
-    payment_token_id = fields.Many2one('payment.token', 'Payment Token', domain="[('acquirer_id', '=', acquirer_id)]")
+    payment_token_id = fields.Many2one('payment.token', 'Payment Token', domain="[('acquirer_id', '=', acquirer_id)]",
+                                       readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
@@ -671,7 +688,30 @@ class PaymentTransaction(models.Model):
         return self.write({'state': 'authorized'})
 
     def action_done(self):
-        return self.write({'state': 'done'})
+        for transaction in self:
+            vals = {'state': 'done'}
+            if not transaction.amount_pay and not transaction.partial_payment:
+                vals['amount_pay'] = transaction.amount
+            if not transaction.payment_distribute:
+                vals['payment_distribute'] = transaction.acquirer_id.payment_distribute
+            if not transaction.date_validate:
+                vals['date_validate'] = fields.Date.today()
+            if transaction.acquirer_id.make_statement and not transaction.statement_line_id:
+                statement = self.env['account.bank.statement'].search([('journal_id', '=', transaction.acquirer_id.journal_id.id),
+                                                                       ('date', '=', transaction.date_validate or vals['date_validate'])])
+                if not statement:
+                    statement = self.env['account.bank.statement'].create({'journal_id': transaction.acquirer_id.journal_id.id,
+                                                                           'date': transaction.date_validate or vals['date_validate'],
+                                                                           })
+                if statement.state != 'open':
+                    raise exceptions.ValidationError("The bank statement must be in open state")
+                vals['statement_line_id'] = self.env['account.bank.statement.line'].create({'statement_id': statement.id,
+                                                                                            'date': transaction.date_validate or vals['date_validate'],
+                                                                                            'partner_id': transaction.partner_id.id,
+                                                                                            'name': transaction.reference,
+                                                                                            'amount': transaction.amount_pay or transaction.amount}).id
+            transaction.write(vals)
+        return True
 
     def action_refunding(self):
         return self.write({'state': 'refunding'})
@@ -683,6 +723,13 @@ class PaymentTransaction(models.Model):
         return self.write({'state': 'error'})
 
     def action_cancel(self):
+        for trans in self:
+            if trans.statement_line_id:
+                trans.statement_line_id.button_cancel_reconciliation()
+                trans.statement_line_id.unlink()
+            payments = self.env['account.payment'].search([('payment_transaction_id','=',trans.id),('state','!=','cancel')])
+            payments.cancel()
+
         return self.write({'state': 'cancel'})
 
     @api.model

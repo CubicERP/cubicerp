@@ -5,10 +5,8 @@
         <!-- Payment menu in settings -->
         <menuitem name='Collect Payment' id='main_payment_menu' sequence="50" web_icon="payment,static/description/icon.png"/>
         <menuitem name="Configuration" id="configuration_menu" parent="main_payment_menu"/>
-        <menuitem
-            name='Payments'
-            id='root_payment_menu'
-            parent='main_payment_menu'/>
+        <menuitem name='Payments' id='root_payment_menu' parent='main_payment_menu'/>
+        <menuitem parent="configuration_menu" id="payment_bank_menu" action="base.action_res_bank_form" sequence="20"/>
 
         <record id="meidum_type_tree" model="ir.ui.view">
             <field name="name">payment.medium.type.tree</field>

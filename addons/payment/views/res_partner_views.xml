@@ -28,6 +28,12 @@
                         <field name="medium_type_ids" widget="many2many_tags"/>
                         <field name="sector_ids" widget="many2many_tags"/>
                     </xpath>
+                    <xpath expr="//field[@name='active']/.." position="after">
+                        <group string="Validation">
+                            <field name="validation"/>
+                            <field name="validation_code" attrs="{'invisible':[('validation','=',False)]}"/>
+                        </group>
+                    </xpath>
                 </field>
         </record>
 

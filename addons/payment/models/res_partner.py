@@ -1,7 +1,13 @@
 # coding: utf-8
 
-from odoo import api, fields, models
+from odoo import api, fields, models, exceptions, _
 
+VALIDATION_CODE_DEFAULT = """# acc_number: char card number
+# card: res.partner.bank object
+# result = True : activate the constraint
+
+#result = acc_number and acc_number[0]!='4'
+#message = 'Wrong VISA card'"""
 
 class res_partner(models.Model):
     _name = 'res.partner'
@@ -25,6 +31,8 @@ class res_bank(models.Model):
     acquirer_ids = fields.Many2many("payment.acquirer", 'payment_acquirer_bank_rel', 'bank_id', 'acquirer_id', string="Acquirers")
     medium_type_ids = fields.Many2many("payment.medium.type", 'payment_medium_bank_rel', 'bank_id', 'medium_type_id', string="Medium Types")
     sector_ids = fields.One2many("payment.address.sector", "bank_id", string="Address Sectors")
+    validation = fields.Boolean("Python Validation", help="Python code to validate the account number format")
+    validation_code = fields.Text("Validation Code", default=VALIDATION_CODE_DEFAULT)
 
 
 class res_partner_bank(models.Model):
@@ -55,7 +63,8 @@ class res_partner_bank(models.Model):
                                          ('10', '10'),
                                          ('11', '11'),
                                          ('12', '12')], string="Expiration Month")
-    expiration_year = fields.Char("Expiration Year", size=4)
+    expiration_year = fields.Selection(lambda s:[(str(a),str(a)) for a in range(1997,int(fields.Date.today().split('-')[0])+7)],
+                                       string="Expiration Year", default=lambda s: fields.Date.today().split('-')[0])
     require_number = fields.Boolean("Require Number", related="medium_type_id.require_number")
     has_owner = fields.Boolean("Has Owner", related="medium_type_id.has_owner")
     owner_id = fields.Many2one("res.partner", "Owner")
@@ -65,6 +74,22 @@ class res_partner_bank(models.Model):
     sector_id = fields.Many2one("payment.address.sector", string="Address Sector")
     has_calendar = fields.Boolean("Has Calendar", related="medium_type_id.has_calendar")
     calendar_id = fields.Many2one("resource.calendar", "Calendar")
+
+    @api.constrains("acc_number", "bank_id")
+    def validate_number(self):
+        for card in self.filtered(lambda b: b.bank_id and b.bank_id.validation):
+            localdict = {'acc_number': card.acc_number,
+                         'card': card,
+                         }
+            exec(card.bank_id.validation_code, localdict)
+            if localdict.get('result', False):
+                raise exceptions.ValidationError(localdict.get('message',_("Card Number Wrong!")))
+
+    @api.constrains("has_expiration", "expiration_month", "expiration_year")
+    def validate_expiration(self):
+        for card in self.filtered("has_expiration"):
+            if "%s-%s-31"%(card.expiration_year, card.expiration_month) < fields.Date.today():
+                raise exceptions.ValidationError(_("The card  is expired"))
 
     @api.depends("acc_number","medium_type_id","bank_name")
     def name_get(self):

@@ -383,7 +383,7 @@ Aplicable solo a los contribuyentes que hayan obtenido ingresos mayores a 1,500 
     def onchange_doc (self, cr, uid, ids, doc_type, doc_number, is_company, context=None):
         res = {'value':{},'warning':{}}
 
-        if doc_number and is_company and (doc_type != '6'):
+        if doc_number and is_company and (doc_type not in ['6','0']):
             res['warning']['title'] = _('Value error')
             res['warning']['message'] = _('Companies should be identified by RUC only! Please check!')
             

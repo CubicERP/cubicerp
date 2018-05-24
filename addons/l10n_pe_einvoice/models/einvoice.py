@@ -224,12 +224,18 @@ class einvoice_batch_pe(osv.Model):
             if batch.type=="sync": 
                 for emessage_id in batch.emessage_ids:
                     vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
+                    file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
+                    file_name+=batch.name
+                    vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                     self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
             elif batch.type=="RC":
                 for invoice_id in batch.invoice_summary_ids:
                     for emessage_id in invoice_id.batch_pe_id.emessage_ids:
                         vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
                         if vals:
+                            file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
+                            file_name+=batch.name
+                            vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                             self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
     
     def get_annul_invoice(self, cr, uid, ids, context=None):
@@ -338,29 +344,34 @@ class einvoice_message_pe(osv.Model):
         self._verify_message(cr, uid, ids, context)
         for msg in self.browse(cr, uid, ids, context=context):
             client = self.get_client(cr, uid, msg.batch_id, context=context)
-            try:
-                vals={}
-                if msg.batch_id.type=="sync":
-                    result=client.sendBill(msg.zip_sign_fname, msg.zip_sign_datas)
-                    vals['zip_datas']=result['applicationResponse']
-                    vals.update(self.get_sunat_response(cr, uid, msg.zip_sign_fname, vals['zip_datas'], context))
-                elif msg.batch_id.type in ["RA", "RC"]:
-                    result=client.sendSummary(msg.zip_sign_fname, msg.zip_sign_datas)
-                    vals['ticket_code']= result['ticket']
-                self.write(cr, uid, [msg.id], vals, context=context)
-            except SoapFault as e:
-                if msg.batch_id.company_id.sunat_see_online:
-                    errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
-                    raise osv.except_osv ('SUNAT Error',
-                                'The batch %s (id:%s) have an error ({0}): {1} %s'.format(e.faultcode.encode('utf-8'),
-                                                                                          e.faultstring.encode('utf-8'))%(msg.batch_id.name,str(msg.batch_id.id), errmsg))
-                else:
-                    self.write(cr, uid, [msg.id], {'status_code': e.faultcode.split('.')[-1]}, context=context)
-            except Exception as e:
-                if msg.batch_id.company_id.sunat_see_online:
-                    raise osv.except_osv('SOAP Error',
-                                      'The batch %s (id:%s) have an unexpected error: %s' % (
-                                      msg.batch_id.name, str(msg.batch_id.id), e.message))
+            if client:
+                try:
+                    vals={}
+                    if msg.batch_id.type=="sync":
+                        result=client.sendBill(msg.zip_sign_fname, msg.zip_sign_datas)
+                        vals['zip_datas']=result['applicationResponse']
+                        vals.update(self.get_sunat_response(cr, uid, msg.zip_sign_fname, vals['zip_datas'], context))
+                    elif msg.batch_id.type in ["RA", "RC"]:
+                        result=client.sendSummary(msg.zip_sign_fname, msg.zip_sign_datas)
+                        vals['ticket_code']= result['ticket']
+                    self.write(cr, uid, [msg.id], vals, context=context)
+                except SoapFault as e:
+                    #if msg.batch_id.company_id.sunat_see_online:
+                    #    errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
+                    #    raise osv.except_osv ('SUNAT Error',
+                    #                'The batch %s (id:%s) have an error ({0}): {1} %s'.format(e.faultcode.encode('utf-8'),
+                    #                                                                          e.faultstring.encode('utf-8'))%(msg.batch_id.name,str(msg.batch_id.id), errmsg))
+                    #else:
+                    #    
+                    vals['status_code']=  e.faultcode.split('.')[-1]
+                    vals['status_emessage']="%s - %s" %(str(e.faultcode or ""), str(e.faultstring or ""))
+                    self.write(cr, uid, [msg.id], vals, context=context)
+                except Exception as e:
+                    pass
+                    #if msg.batch_id.company_id.sunat_see_online:
+                    #    raise osv.except_osv('SOAP Error',
+                    #                      'The batch %s (id:%s) have an unexpected error: %s' % (
+                    #                      msg.batch_id.name, str(msg.batch_id.id), e.message))
         return super(einvoice_message_pe, self).action_send(cr, uid, ids, context=context)
     
     def get_zip_invoice(self, cr, uid, batch_id, signature, context=None):
@@ -390,41 +401,45 @@ class einvoice_message_pe(osv.Model):
     
     def get_sunat_response(self, cr, uid, file_name, zip_datas, context=None):
         vals={}
-        vals['zip_fname']=file_name
-        xml_response=self.get_response(cr, uid, zip_datas, 'R-'+file_name.split('.')[0]+'.xml', contex=None)
-        sunat_response=et.fromstring(xml_response)
-        cbc='urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
-        tag = et.QName(cbc, 'ResponseDate')
-        date=sunat_response.find('.//'+tag.text)
-        tag = et.QName(cbc, 'ResponseTime')
-        time= sunat_response.find('.//'+tag.text)
-        #if time!=-1 and date!=-1:
-        #    vals['date_end']=date.text.encode('utf-8')+' '+time.text.encode('utf-8')
-        #vals['date_end']=fields.datetime.context_timestamp(cr, uid, cr, datetime.now(), context)
-        tag = et.QName(cbc, 'ResponseCode')
-        code = sunat_response.find('.//'+tag.text)
-        if code!=-1:
-            vals['status_code']="%04d" % int(code.text)
-            if vals['status_code']=="0000":
-                vals['state']="receive"
+        try:
+            vals['zip_fname']=file_name
+            xml_response=self.get_response(cr, uid, zip_datas, 'R-'+file_name.split('.')[0]+'.xml', contex=None)
+            sunat_response=et.fromstring(xml_response)
+            cbc='urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            tag = et.QName(cbc, 'ResponseDate')
+            date=sunat_response.find('.//'+tag.text)
+            tag = et.QName(cbc, 'ResponseTime')
+            time= sunat_response.find('.//'+tag.text)
+            #if time!=-1 and date!=-1:
+            #    vals['date_end']=date.text.encode('utf-8')+' '+time.text.encode('utf-8')
+            #vals['date_end']=fields.datetime.context_timestamp(cr, uid, cr, datetime.now(), context)
+            tag = et.QName(cbc, 'ResponseCode')
+            code = sunat_response.find('.//'+tag.text)
+            if code!=-1:
+                vals['status_code']="%04d" % int(code.text)
+                if vals['status_code']=="0000":
+                    vals['state']="receive"
+        except Exception:
+            pass
         return vals
     
     def get_ticket_status(self, cr, uid, batch, context):
         vals = {}
         client=self.get_client(cr, uid, batch, context=context)
-        try:
-            status=client.getStatus(batch.ticket_code)
-            vals['zip_datas']=status['status']['content']
-        except SoapFault as e:
-            errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
-            raise osv.except_osv('SUNAT Error',
-                                 'The batch %s (id:%s) Ticket %s have an error ({0}): {1} %s'.format(
-                                     e.faultcode.encode('utf-8'),
-                                     e.faultstring.encode('utf-8')) % (
-                                 batch.name, str(batch.id), batch.ticket_code, errmsg))
-        file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
-        file_name+=batch.name
-        vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
+        if client:
+            try:
+                status=client.getStatus(batch.ticket_code)
+                vals['zip_datas']=status['status']['content']
+            except SoapFault as e:
+                errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
+                raise osv.except_osv('SUNAT Error',
+                                     'The batch %s (id:%s) Ticket %s have an error ({0}): {1} %s'.format(
+                                         e.faultcode.encode('utf-8'),
+                                         e.faultstring.encode('utf-8')) % (
+                                     batch.name, str(batch.id), batch.ticket_code, errmsg))
+            file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
+            file_name+=batch.name
+            vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
         return vals
 
     def ivoice_xml_element(self, cr, uid, batch, context=None):
@@ -473,14 +488,17 @@ class einvoice_message_pe(osv.Model):
     
     def get_client(self, cr, uid, batch, url=None, context=None):
         url = url or batch.company_id.sunat_see_server.url
-        client = SoapClient(wsdl="%s?WSDL"% url, cache = None, ns="tzmed", soap_ns="soapenv", soap_server="jbossas6", trace=True)
-        client['wsse:Security'] = {
-                   'wsse:UsernameToken': {
-                        'wsse:Username': '%s%s'%(batch.company_id.vat[2:], batch.company_id.sunat_see_server.user),
-                        'wsse:Password': '%s'% (batch.company_id.sunat_see_server.password),
+        try:
+            client = SoapClient(wsdl="%s?WSDL"% url, cache = None, ns="tzmed", soap_ns="soapenv", soap_server="jbossas6", trace=True)
+            client['wsse:Security'] = {
+                       'wsse:UsernameToken': {
+                            'wsse:Username': '%s%s'%(batch.company_id.vat[2:], batch.company_id.sunat_see_server.user),
+                            'wsse:Password': '%s'% (batch.company_id.sunat_see_server.password),
+                            }
                         }
-                    }
-        return client
+            return client
+        except Exception:
+            return None
 
     def get_document_status(self, cr, uid, ids, context=None):
         url="https://www.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
@@ -498,23 +516,26 @@ class einvoice_message_pe(osv.Model):
                 #    }
                 #state, status=convertXML.get_status_cdr(doc_name, client)
                 client= self.get_client(cr, uid, emessage_id.batch_id, url=url, context=context)
-                res=doc_name.split("-")
-                params = {
-                    'rucComprobante': res[0],
-                    'tipoComprobante': res[1],
-                    'serieComprobante': res[2],
-                    'numeroComprobante': res[3]
-                }
-                response=client.getStatusCdr(**params)
-                vals['zip_datas']=response.get('statusCdr', {}).get('content', False)
-                state=True
+                if client:
+                    res=doc_name.split("-")
+                    params = {
+                        'rucComprobante': res[0],
+                        'tipoComprobante': res[1],
+                        'serieComprobante': res[2],
+                        'numeroComprobante': res[3]
+                    }
+                    response=client.getStatusCdr(**params)
+                    vals['zip_datas']=response.get('statusCdr', {}).get('content', False)
+                    state=True
+                else:
+                    state=False
             except SoapFault as e:
                 vals['status_emessage']="%s - %s" %(str(e.faultcode or ""), str(e.faultstring or ""))
                 errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
                 if errmsg:
                     vals['status_emessage'] = e.faultcode.encode('utf-8')
             except Exception:
-                pass
+                state=False
             if state and vals.get('zip_datas'):
                 vals.update(self.get_sunat_response(cr, uid, doc_name+'.zip', vals['zip_datas']))
             return vals

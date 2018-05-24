@@ -5,7 +5,7 @@
         <field name="model">payment.transaction</field>
         <field name="inherit_id" ref="payment.transaction_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='reference']" position="after">
+            <xpath expr="//field[@name='acquirer_reference']" position="after">
                 <field name="sale_order_id"/>
             </xpath>
         </field>

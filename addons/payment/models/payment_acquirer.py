@@ -116,7 +116,8 @@ class PaymentAcquirer(models.Model):
         'payment_id', 'country_id', 'Countries',
         help="This payment gateway is available for selected countries. If none is selected it is available for all countries.")
     partial_payment = fields.Boolean("Partial Payments", help="This Acquirer support partial payment of a transaction")
-    pay_retry = fields.Boolean("Retry Payment", default=True, help="Manual retry payment, use this when the acquirer do not make automatic retry payments")
+    pay_retry = fields.Boolean("Retry Payment", default=False, help="Manual retry payment, use this when the acquirer do not make automatic retry payments")
+    pay_max_retries = fields.Integer("Max Pay Retries", default=3, help="Maximum payment retries, zero means unlimited retries.")
     payment_distribute = fields.Selection([('lifo','LIFO'),
                                            ('fifo','FIFO')], help="Payment distribute for partial payments", default='fifo')
 
@@ -524,6 +525,7 @@ class PaymentTransaction(models.Model):
     _description = 'Payment Transaction'
     _order = 'id desc'
     _rec_name = 'reference'
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
 
     @api.model
     def _lang_get(self):
@@ -539,6 +541,8 @@ class PaymentTransaction(models.Model):
                                     states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
     acquirer_id = fields.Many2one('payment.acquirer', 'Acquirer', required=True, readonly=True, states={'draft': [('readonly', False)]})
     provider = fields.Selection(string='Provider', related='acquirer_id.provider', readonly=True)
+    pay_retry = fields.Boolean(related='acquirer_id.pay_retry', readonly=True)
+    pay_max_retries = fields.Integer(related='acquirer_id.pay_max_retries', readonly=True)
     type = fields.Selection([
         ('validation', 'Validation of the bank card'),
         ('server2server', 'Server To Server'),
@@ -548,6 +552,7 @@ class PaymentTransaction(models.Model):
     state = fields.Selection(TRANSACTION_STATES, 'Status', copy=False, default='draft', required=True,
                              track_visibility='onchange', readonly=True)
     state_message = fields.Text('Message', help='Field used to store error and/or validation messages for information')
+    retries = fields.Integer("Payment Retries", default=0, readonly=True, help="Manual payment retries, allowed in the acquirer form.")
     # payment
     amount = fields.Float('Amount', digits=(16, 2), required=True, track_visibility='always', help='Amount',
                           readonly=True, states={'draft': [('readonly', False)]})
@@ -721,6 +726,13 @@ class PaymentTransaction(models.Model):
 
     def action_error(self):
         return self.write({'state': 'error'})
+
+    def action_retry(self):
+        for trans in self:
+            if not trans.pay_retry:
+                raise exceptions.UserError("The transaction %s is not allowed to retry the payment"%trans.name)
+            trans.retries += 1
+        return self.action_pending()
 
     def action_cancel(self):
         for trans in self:

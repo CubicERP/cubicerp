@@ -186,6 +186,7 @@
                                     <field name="capture_manually" attrs="{'invisible': [('authorize_implemented', '=', False)]}"/>
                                     <field name="partial_payment"/>
                                     <field name="pay_retry"/>
+                                    <field name="pay_max_retries" attrs="{'invisible': [('pay_retry','=',False)]}"/>
                                     <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                                     <field name="save_token" widget="radio" attrs="{'invisible': [('token_implemented', '=', False)]}"/>
                                     <field name="fees_active" attrs="{'invisible': [('fees_implemented', '=', False)]}"/>
@@ -324,13 +325,17 @@
                         <!--button type="object" name="action_refunding" string="Refunding" states="done"/-->
                         <button type="object" name="action_refunded" string="Refunded" states="refunding"/>
                         <button type="object" name="action_error" string="Error" states="pending,authorized,redunding" groups="payment.group_payment_manager"/>
+                        <button type="object" name="action_retry" string="Payment Retry" states="error"/>
                         <button type="object" name="action_cancel" string="Cancel" states="pending,authorized,done" groups="payment.group_payment_manager"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,pending,authorized,done"/>
                     </header>
                     <sheet>
+                        <label for="reference" class="oe_edit_only"/>
+                        <h1>
+                            <field name="reference" class="oe_inline" placeholder="TX Reference"/>
+                        </h1>
                         <group name="main_group">
                             <group>
-                                <field name="reference"/>
                                 <label for="amount"/>
                                 <div class="o_row">
                                     <field name="amount"/>
@@ -339,6 +344,10 @@
                                 <field name="partial_payment" invisible="1"/>
                                 <field name="amount_pay" attrs="{'invisible':[('partial_payment','=',False)]}"/>
                                 <field name="fees" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="acquirer_id"/>
+                                <field name="date"/>
                                 <label for="partner_id"/>
                                 <div>
                                     <field name="partner_id" context="{'show_address': 1}" options="{'always_reload': True}"/>
@@ -353,21 +362,41 @@
                                     </div>
                                 </div>
                             </group>
-                            <group>
-                                <field name="acquirer_id"/>
-                                <field name="provider" invisible="1"/>
-                                <field name="payment_token_id" options="{'no_create': True}"/>
-                                <field name="acquirer_reference" readonly="1"/>
-                                <field name="date"/>
-                                <field name="create_date"/>
-                                <field name="date_validate"/>
-                                <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
-                            </group>
                         </group>
-                        <group string="Message" name="message">
-                            <field name="state_message" nolabel="1"/>
-                        </group>
+                        <notebook>
+                            <page string="Message" name="message">
+                                <field name="state_message"/>
+                            </page>
+                            <page string="Details" name="details">
+                                <group>
+                                    <group>
+                                        <field name="acquirer_reference" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="provider" invisible="1"/>
+                                        <field name="payment_token_id" options="{'no_create': True}"/>
+                                        <field name="create_date"/>
+                                        <field name="date_validate"/>
+                                    </group>
+                                    <group>
+                                        <field name="payment_distribute" attrs="{'invisible':[('partial_payment','=',False)]}"/>
+                                        <field name="pay_retry" invisible="1"/>
+                                        <label for="retries" attrs="{'invisible':[('pay_retry','=',False)]}"/>
+                                        <div class="o_row" attrs="{'invisible':[('pay_retry','=',False)]}">
+                                            <field name="retries"/>
+                                            /
+                                            <field name="pay_max_retries"/>
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>

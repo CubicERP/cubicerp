@@ -99,7 +99,7 @@ class procurement_order(osv.osv):
             'product_uos_qty': procurement.product_uos and procurement.product_uos_qty or False,
             'product_uos': procurement.product_uos and procurement.product_uos.id or False,
             'location_src_id': procurement.location_id.id,
-            'location_dest_id': procurement.location_dest_id.id or procurement.location_id.id,
+            'location_dest_id': procurement.location_dest_id.id or self.pool.get('mrp.production')._dest_id_default(cr, uid, [], context=context) or procurement.location_id.id,
             'bom_id': bom_id,
             'routing_id': routing_id,
             'date_planned': newdate.strftime('%Y-%m-%d %H:%M:%S'),

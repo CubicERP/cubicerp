@@ -32,7 +32,6 @@
                         </div>
                         <group>
                             <field name="require_number"/>
-                            <field name="has_mandate"/>
                             <field name="has_expiration"/>
                             <field name="has_owner"/>
                             <field name="has_address"/>

@@ -464,7 +464,6 @@ class PaymentMediumType(models.Model):
     has_owner = fields.Boolean("Has Owner")
     has_address = fields.Boolean("Has Address")
     has_calendar = fields.Boolean("Has Calendar")
-    has_mandate = fields.Boolean("Has Mandate")
     bank_ids = fields.Many2many("res.bank", 'payment_medium_bank_rel', 'medium_type_id', 'bank_id', string="Banks")
 
 

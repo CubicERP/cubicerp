@@ -49,7 +49,6 @@ class res_partner_bank(models.Model):
         self.acc_number = False
 
     medium_type_id = fields.Many2one("payment.medium.type", string="Medium Type")
-    has_mandate = fields.Boolean("Has Mandate", related="medium_type_id.has_mandate")
     has_expiration = fields.Boolean("Has Expiration Date", compute=_has_expiration)
     expiration_month = fields.Selection([('01', '01'),
                                          ('02', '02'),
@@ -91,11 +90,10 @@ class res_partner_bank(models.Model):
             if "%s-%s-31"%(card.expiration_year, card.expiration_month) < fields.Date.today():
                 raise exceptions.ValidationError(_("The card  is expired"))
 
-    @api.depends("acc_number","medium_type_id","bank_name")
     def name_get(self):
         result = []
         for bank in self:
-            name = "%s%s%s"%(bank.acc_number or '',bank.bank_name and ' [%s]'%bank.bank_name or '',bank.medium_type_id and ' (%s)'%bank.medium_type_id.name or '')
+            name = "%s%s%s"%(bank.acc_number or bank.acc_number or '',bank.bank_id.name and ' [%s]'%bank.bank_name or '',bank.medium_type_id and ' %s'%bank.medium_type_id.name or '')
             result.append((bank.id, name))
         return result
 

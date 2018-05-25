@@ -501,7 +501,7 @@ class einvoice_message_pe(osv.Model):
             return None
 
     def get_document_status(self, cr, uid, ids, context=None):
-        url="https://www.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
+        url="https://e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
         for emessage_id in self.browse(cr, uid, ids, context):
             vals={}
             state=False

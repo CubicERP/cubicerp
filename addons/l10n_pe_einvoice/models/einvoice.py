@@ -240,7 +240,8 @@ class einvoice_batch_pe(osv.Model):
     
     def get_annul_invoice(self, cr, uid, ids, context=None):
         querry=[('state', '=','annul'),('journal_id.is_einvoice_pe', '=', True), 
-                ('batch_voided_pe_id','=', False),]
+                ('batch_voided_pe_id','=', False),
+                "|",('sunat_payment_type', '=', '01'), ('parent_id.sunat_payment_type', '=', '01')]
         invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)

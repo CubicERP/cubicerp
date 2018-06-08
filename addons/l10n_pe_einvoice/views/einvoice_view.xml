@@ -31,7 +31,7 @@
                         <button name="action_request" string="Send Request" groups="account_einvoice.group_manager" 
                         states="ready,to_fix" class="oe_highlight" type="object" />
                         <button name="action_refresh" string="Refresh" states="draft,ready" type="object"/>7
-                        <button name="action_response" string="Get Response" states="request" class="oe_highlight" type="object" />
+                        <button name="action_response" string="Get Response" states="request,to_fix" class="oe_highlight" type="object" />
                         <button name="action_check" string="Check status" states="ready,request,to_fix" type="object"/>
                         <button name="action_cancel" string="Cancel" states="draft,ready,request" type="object" />
                         <field name="state" widget="statusbar" statusbar_visible="draft,request,done" statusbar_colors="{&quot;to_fix&quot;:&quot;red&quot;}"/>

@@ -226,7 +226,7 @@ class einvoice_batch_pe(osv.Model):
                     vals = self.pool.get('einvoice.message.pe').get_document_status(cr, uid, [emessage_id.id], context=context)
                     file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
                     file_name+=batch.name
-                    vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
+                    vals.update(self.pool.get('einvoice.message.pe').get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                     self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
             elif batch.type=="RC":
                 for invoice_id in batch.invoice_summary_ids:
@@ -235,12 +235,13 @@ class einvoice_batch_pe(osv.Model):
                         if vals:
                             file_name=(batch.company_id.vat and batch.company_id.vat[2:].encode('utf-8')) + '-'
                             file_name+=batch.name
-                            vals.update(self.get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
+                            vals.update(self.pool.get('einvoice.message.pe').get_sunat_response(cr, uid, file_name+'.zip', vals['zip_datas']))
                             self.pool.get('einvoice.message.pe').write(cr, uid, [emessage_id.id], vals, context=context)
     
     def get_annul_invoice(self, cr, uid, ids, context=None):
         querry=[('state', '=','annul'),('journal_id.is_einvoice_pe', '=', True), 
-                ('batch_voided_pe_id','=', False),]
+                ('batch_voided_pe_id','=', False),
+                "|",('sunat_payment_type', '=', '01'), ('parent_id.sunat_payment_type', '=', '01')]
         invoice_ids=self.pool.get('account.invoice').search(cr, uid, querry, order=None, context=None, count=False)
         for invoice_id in invoice_ids:
             #self.pool.get('account.invoice').write(cr, uid, [invoice_id], {'is_ra_send':True}, context)
@@ -501,7 +502,7 @@ class einvoice_message_pe(osv.Model):
             return None
 
     def get_document_status(self, cr, uid, ids, context=None):
-        url="https://www.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
+        url="https://e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"
         for emessage_id in self.browse(cr, uid, ids, context):
             vals={}
             state=False

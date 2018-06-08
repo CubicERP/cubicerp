@@ -733,7 +733,10 @@ class Convert2XML:
                     status = etree.SubElement(line, tag.text, nsmap={'cac':tag.namespace})
                     tag = etree.QName(self._cbc, 'ConditionCode')   
                     #analizar los otros codigos  2 3 y 4
-                    etree.SubElement(status, tag.text, nsmap={'cbc':tag.namespace}).text="1"
+                    if invoice_id.state == "annul":
+                        etree.SubElement(status, tag.text, nsmap={'cbc':tag.namespace}).text="3"
+                    else:
+                        etree.SubElement(status, tag.text, nsmap={'cbc':tag.namespace}).text="1"
                     
                     tag = etree.QName(self._sac, 'TotalAmount')
                     etree.SubElement(line, tag.text, currencyID=currency_code,

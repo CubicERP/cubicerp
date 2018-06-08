@@ -208,6 +208,7 @@
             <field file="base/static/img/country_flags/bo.png" name="image" type="base64" />
             <field name="currency_id" ref="BOB" />
             <field eval="591" name="phone_code" />
+            <field name="vat_label">NIT</field>
         </record>
         <record id="bq" model="res.country">
             <field name="name">Bonaire, Sint Eustatius and Saba</field>
@@ -328,6 +329,7 @@
             <field file="base/static/img/country_flags/cl.png" name="image" type="base64" />
             <field name="currency_id" ref="CLP" />
             <field eval="56" name="phone_code" />
+            <field name="vat_label">RUT</field>
         </record>
         <record id="cm" model="res.country">
             <field name="name">Cameroon</field>
@@ -352,6 +354,7 @@
             <field name="currency_id" ref="COP" />
             <field eval="57" name="phone_code" />
             <field name="address_format" eval="'%(street)s\n%(street2)s\n%(city)s %(state_name)s %(zip)s\n%(country_name)s'" />
+            <field name="vat_label">NIT</field>
         </record>
         <record id="cr" model="res.country">
             <field name="name">Costa Rica</field>
@@ -1243,6 +1246,7 @@
             <field file="base/static/img/country_flags/pe.png" name="image" type="base64" />
             <field name="currency_id" ref="PEN" />
             <field eval="51" name="phone_code" />
+            <field name="vat_label">RUC</field>
         </record>
         <record id="pf" model="res.country">
             <field name="name">French Polynesia</field>

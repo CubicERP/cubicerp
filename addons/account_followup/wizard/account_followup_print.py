@@ -260,7 +260,7 @@ class account_followup_print(osv.osv_memory):
         return self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.follow_up_msg
 
     _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
+        'date': fields.date.context_today, #lambda *a: time.strftime('%Y-%m-%d'),
         'followup_id': _get_followup,
         'email_body': "",
         'email_subject': _('Invoices Reminder'),

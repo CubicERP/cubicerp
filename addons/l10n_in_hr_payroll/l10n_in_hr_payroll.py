@@ -74,7 +74,7 @@ class payroll_advice(osv.osv):
     }
 
     _defaults = {
-        'date': lambda * a: time.strftime('%Y-%m-%d'),
+        'date': fields.date.context_today, #lambda * a: time.strftime('%Y-%m-%d'),
         'state': lambda * a: 'draft',
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,

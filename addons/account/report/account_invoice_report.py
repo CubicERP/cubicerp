@@ -28,6 +28,7 @@ class AccountInvoiceReport(models.Model):
             record.user_currency_price_average = base_currency_id.with_context(ctx).compute(record.price_average, user_currency_id)
             record.user_currency_residual = base_currency_id.with_context(ctx).compute(record.residual, user_currency_id)
 
+    invoice_number = fields.Char(readonly=True)
     date = fields.Date(readonly=True)
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
     product_qty = fields.Float(string='Product Quantity', readonly=True)
@@ -90,7 +91,7 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         select_str = """
-            SELECT sub.id, sub.date, sub.product_id, sub.partner_id, sub.country_id, sub.account_analytic_id,
+            SELECT sub.id, sub.invoice_number, sub.date, sub.product_id, sub.partner_id, sub.country_id, sub.account_analytic_id,
                 sub.payment_term_id, sub.uom_name, sub.currency_id, sub.journal_id,
                 sub.fiscal_position_id, sub.user_id, sub.company_id, sub.nbr, sub.type, sub.state,
                 sub.categ_id, sub.date_due, sub.account_id, sub.account_line_id, sub.partner_bank_id,
@@ -102,6 +103,7 @@ class AccountInvoiceReport(models.Model):
     def _sub_select(self):
         select_str = """
                 SELECT ail.id AS id,
+                    ai.number AS invoice_number,
                     ai.date_invoice AS date,
                     ail.product_id, ai.partner_id, ai.payment_term_id, ail.account_analytic_id,
                     u2.name AS uom_name,
@@ -146,7 +148,7 @@ class AccountInvoiceReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
-                GROUP BY ail.id, ail.product_id, ail.account_analytic_id, ai.date_invoice, ai.id,
+                GROUP BY ail.id, ail.product_id, ail.account_analytic_id, ai.number, ai.date_invoice, ai.id,
                     ai.partner_id, ai.payment_term_id, u2.name, u2.id, ai.currency_id, ai.journal_id,
                     ai.fiscal_position_id, ai.user_id, ai.company_id, ai.type, invoice_type.sign, ai.state, pt.categ_id,
                     ai.date_due, ai.account_id, ail.account_id, ai.partner_bank_id, ai.residual_company_signed,

@@ -1,12 +1,14 @@
 # coding: utf-8
 
 from odoo import api, fields, models, exceptions, _
+import luhn
 
 VALIDATION_CODE_DEFAULT = """# acc_number: char card number
 # card: res.partner.bank object
+# luhn: luhn validation library
 # result = True : activate the constraint
 
-#result = acc_number and acc_number[0]!='4'
+#result = acc_number and acc_number[0]!='4' and not luhn.verify(acc_number)
 #message = 'Wrong VISA card'"""
 
 class res_partner(models.Model):
@@ -79,6 +81,7 @@ class res_partner_bank(models.Model):
         for card in self.filtered(lambda b: b.bank_id and b.bank_id.validation):
             localdict = {'acc_number': card.acc_number,
                          'card': card,
+                         'luhn': luhn,
                          }
             exec(card.bank_id.validation_code, localdict)
             if localdict.get('result', False):

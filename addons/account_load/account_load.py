@@ -76,7 +76,7 @@ class account_load(osv.Model):
         }
     _defaults = {
             'name': '/',
-            'date': lambda *a: time.strftime('%Y-%m-%d'),
+            'date': fields.date.context_today, #lambda *a: time.strftime('%Y-%m-%d'),
             'state': 'draft',
             'company_id': lambda s,cr,u,c: s.pool.get('res.users').browse(cr,u,u,context=c).company_id.id,
             'user_id': lambda s,cr,u,c: u,

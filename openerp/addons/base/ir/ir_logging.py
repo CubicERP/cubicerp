@@ -128,7 +128,10 @@ class ir_logging(models.Model):
             msg = {}
             if names:
                 for col in cols:
-                    msg[col] = str(getattr(l,col))
+                    try:
+                        msg[col] = str(getattr(l,col))
+                    except:
+                        pass
             line['message'] = str(msg)
             self.sudo().create(line)
         return True

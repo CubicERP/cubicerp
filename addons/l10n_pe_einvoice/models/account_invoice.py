@@ -41,7 +41,7 @@ class account_invoice(models.Model):
     def _get_pe_qrcode(self):
         res=[]
         for invoice_id in self:
-            if invoice_id.type=="out_invoice" and invoice_id.internal_number and qr_mod:
+            if invoice_id.internal_number and qr_mod:
                 res.append(invoice_id.company_id.vat and invoice_id.company_id.vat[2:] or '')
                 res.append(invoice_id.journal_id.sunat_payment_type or '')
                 res.append(invoice_id.internal_number or '')

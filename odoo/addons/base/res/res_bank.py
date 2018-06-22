@@ -32,6 +32,8 @@ class Bank(models.Model):
     active = fields.Boolean(default=True)
     bic = fields.Char('Bank Identifier Code', index=True, help="Sometimes called BIC or Swift.")
 
+    _sql_constraints = [('name_unique', 'UNIQUE(name)', 'The name must be unique!')]
+
     @api.multi
     @api.depends('name', 'bic')
     def name_get(self):

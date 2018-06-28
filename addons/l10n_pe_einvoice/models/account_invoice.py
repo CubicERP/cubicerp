@@ -161,7 +161,16 @@ class account_invoice(models.Model):
                 if line.price_subtotal<0:
                     disc += line.price_subtotal
         self.discount=-(self.amount_untaxed and disc*100/(self.amount_untaxed+self.amount_disc_total)) or 0         
-    
+
+    @api.one
+    @api.depends('invoice_line.price_unit', 'invoice_line.quantity')
+    def _compute_amount_undiscounted(self):
+        amount_undiscounted = 0.0
+        for inv in self:
+            for line in inv.invoice_line:
+                amount_undiscounted += line.invoice_line_tax_id.compute_all(line.price_unit, line.quantity, line.product_id, inv.partner_id)['total']
+        self.amount_undiscounted = amount_undiscounted
+
     status_code = fields.Selection(_get_status_code, string='Status Code', readonly=True, compute=_status_code, store=True)
     batch_pe_id = fields.Many2one('einvoice.batch.pe', string='Electronic Batch Perú', readonly=True, 
                                         domain=[('state','=','draft')], copy=False,
@@ -194,7 +203,10 @@ class account_invoice(models.Model):
 #    sunat_bar_code=fields.Binary("Bar code", compute=_get_pe_bar_code)
     sunat_invoice_name=fields.Char("Sunat Invoice Name", compute=_get_sunat_invoice_name)
     sunat_date = fields.Datetime("Sunat Date")
-    
+    other_comment = fields.Char('Other information')
+    amount_undiscounted = fields.Float(string='Amount undiscounted', digits=dp.get_precision('Account'),
+                                  store=True, readonly=True, compute='_compute_amount_undiscounted', track_visibility='always')
+
     @api.multi
     def action_date_assign(self):
         res = super(account_invoice, self).action_date_assign()

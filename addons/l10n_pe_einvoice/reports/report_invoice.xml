@@ -51,7 +51,13 @@
                         </tr>
                         <tr>
                             <td style="width:50%;">Tipo de moneda</td>
-                            <td>: <strong><span t-field="o.currency_id.long_name"/></strong></td></tr>
+                            <td>:
+                                <strong>
+                                    <span t-field="o.currency_id.long_name" t-if="o.currency_id.long_name"/>
+                                    <span t-field="o.currency_id.name" t-if="not o.currency_id.long_name"/>
+                                </strong>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="width:50%;">Observación</td>
                             <td>: <strong><span t-field="o.comment"/></strong></td></tr>
@@ -73,7 +79,7 @@
                     <thead style="border: 1px solid black;">
                         <tr>
                             <th class="text-center" style="padding: 2px"><strong>Cantidad</strong></th>
-                            <th class="text-center" style="padding: 2px" groups="product.group_uom"><strong>Unidad Medida</strong></th>
+                            <th class="text-center" style="padding: 2px"><strong>Unidad Medida</strong></th>
                             <th class="text-center" style="padding: 2px"><strong>Código</strong></th>
                             <th class="text-left" style="padding: 2px"><strong>Descripción</strong></th>
                             <th class="text-right" style="padding: 2px"><strong>Valor Unitario</strong></th>
@@ -82,7 +88,7 @@
                     <tbody class="invoice_tbody">
                         <tr t-foreach="o.invoice_line" t-as="l">
                             <td class="text-center" style="padding: 2px"><span t-field="l.quantity"/></td>
-                            <td class="text-center" style="padding: 2px" groups="product.group_uom"><span t-field="l.uos_id"/></td>
+                            <td class="text-center" style="padding: 2px"><span t-field="l.uos_id"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.product_id.code"/></td>
                             <td class="text-left" style="padding: 2px"><span t-field="l.name"/></td>
                             <td class="text-right" style="padding: 2px"><span t-field="l.price_unit"/></td>
@@ -132,11 +138,13 @@
 
             <div class="row" style="padding: 5px 10px">
                 <div class="col-xs-12 text-center" style="border: 1px solid black;">
-                    <i>Esta es una representación Impresa de la Factura Electrónica, generada en el Sistema de <span t-field="o.company_id.name"/>. Puede verificarla utilizando su
-clave SOL y/o <span t-field="o.company_id.email" />/cpe.</i>
+                    <i>
+                        Esta es una representación Impresa de la Factura Electrónica, generada en el Sistema de
+                        <span t-field="o.company_id.name"/>. Puede verificarla utilizando su clave SOL y/o
+                        <t t-esc="request.env['ir.config_parameter'].get_param('web.base.url')"/>/cpe.</i>
                 </div>
             </div>
-                
+
         </div>
 </template>
 

@@ -3,9 +3,11 @@
 <data>
 <template id="report_invoice_document">
     <div class="page container-fluid" style="border: 1px solid black;">
-
-            <div class="row" style="border-bottom: 1px solid black; padding: 20px 10px 5px 0px">
-                <div class="col-xs-8">
+        <div class="row" style="border-bottom: 1px solid black; padding: 20px 10px 5px 0px">
+            <div class="col-xs-3">
+                <img class="img-responsive" t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' %o.company_id.logo" style="max-height: 45px;"/>
+            </div>
+            <div class="col-xs-6">
                     <table style="width:100%; line-height:20px;">
                         <tr>
                             <td><strong><span t-field="o.company_id.name"/></strong></td>
@@ -18,7 +20,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-xs-4" style="border: 1px solid black;">
+                <div class="col-xs-3" style="border: 1px solid black;">
                     <table style="width:100%; line-height:20px;">
                         <tr class="text-center"><td><strong>FACTURA ELECTRONICA</strong></td></tr>
                         <tr class="text-center"><td><strong>RUC: <span t-field="o.company_id.partner_id.doc_number"/></strong></td></tr>
@@ -53,8 +55,8 @@
                             <td style="width:50%;">Tipo de moneda</td>
                             <td>:
                                 <strong>
-                                    <span t-field="o.currency_id.long_name" t-if="o.currency_id.long_name"/>
-                                    <span t-field="o.currency_id.name" t-if="not o.currency_id.long_name"/>
+                                    <t t-if="o.currency_id.long_name"><span t-field="o.currency_id.long_name"/></t>
+                                    <t t-if="not o.currency_id.long_name"><span t-field="o.currency_id"/></t>
                                 </strong>
                             </td>
                         </tr>
@@ -99,6 +101,16 @@
             <div class="row" style="padding: 0px 10px;">
                 <div class="col-xs-8">
                     <strong><span>SON: </span><span t-field="o.amount_text" /></strong>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <img class="img-responsive" style="max-height: 3cm; float:left;" t-if="o.sunat_qr_code" t-att-src="'data:image/png;base64,%s' %o.sunat_qr_code"/>
+                        </div>
+                        <div class="col-xs-9" style="padding: 30px 25px 0px 0px;">
+                            <span t-field="o.pe_digest"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-4" style="border: 1px solid black;">
                     <table style="width:100%; border-collapse: collapse; padding: 5px" cellspacing="10">

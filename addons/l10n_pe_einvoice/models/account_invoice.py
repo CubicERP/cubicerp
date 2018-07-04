@@ -206,6 +206,7 @@ class account_invoice(models.Model):
     other_comment = fields.Char('Other information')
     amount_undiscounted = fields.Float(string='Amount undiscounted', digits=dp.get_precision('Account'),
                                   store=True, readonly=True, compute='_compute_amount_undiscounted', track_visibility='always')
+    pe_digest = fields.Char("Digest", related="batch_pe_id.digest")
 
     @api.multi
     def action_date_assign(self):

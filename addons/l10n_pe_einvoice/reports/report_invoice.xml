@@ -92,7 +92,7 @@
                             <td class="text-center" style="padding: 2px"><span t-field="l.quantity"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.uos_id"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.product_id.code"/></td>
-                            <td class="text-left" style="padding: 2px"><span t-field="l.name"/></td>
+                            <td class="text-left" style="padding: 2px"><span t-field="l.product_id.name"/></td>
                             <td class="text-right" style="padding: 2px"><span t-field="l.price_unit"/></td>
                         </tr>
                     </tbody>

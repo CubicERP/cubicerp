@@ -68,10 +68,10 @@
                 <div class="col-xs-5">
                     <table style="width:100%; line-height:20px;">
                         <tr>
-                            <td style="width:50%;">GUIA DE REMISION REMITENTE</td>
+                            <td style="width:50%;">Guía de Remisión Remitente</td>
                             <td>: <strong><span t-field="o.picking"/></strong></td></tr>
                         <tr>
-                            <td style="width:50%;">OTROS</td>
+                            <td style="width:50%;">Otros</td>
                             <td>: <strong><span t-field="o.other_comment"/></strong></td></tr>
                     </table>
                 </div>

@@ -486,7 +486,7 @@ class Convert2XML:
         self.getX509Template(content)
         
         if batch.invoice_id.sunat_payment_type  in ['01']:
-            self.getUBLVersion("1.1")
+            self.getUBLVersion("1.0")
         else:
             self.getUBLVersion()
 

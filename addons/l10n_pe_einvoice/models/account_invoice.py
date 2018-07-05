@@ -320,6 +320,64 @@ class account_invoice(models.Model):
         res['name'] = "%s-%s" %(self.company_id and self.company_id.vat[2:] or "", self.batch_pe_id.name or "cpe")
         return res
     
+    @api.multi
+    def action_invoice_sent(self):
+        res= super(account_invoice, self).action_invoice_sent()
+        self.ensure_one()
+        if self.journal_id.is_einvoice_pe and self.batch_pe_id:
+            template = self.env.ref('l10n_pe_einvoice.email_template_edi_einvoice', False)
+            attach={}
+            name = self.batch_pe_id.emessage_ids[0].xml_fname and self.batch_pe_id.emessage_ids[0].xml_fname.split('.')[0] or self.number
+
+            attach['name']= "%s.xml" % name
+            attach['type']="binary"
+            attach['datas']= self.batch_pe_id.emessage_ids[0].xml_sign_datas
+            attach['datas_fname']= "%s.xml" % name
+            attach['res_model']="mail.compose.message"
+            attachment_id=self.env['ir.attachment'].create(attach)
+            attachment_ids=[]
+            attachment_ids.append(attachment_id.id)
+            attach={}
+            (result_pdf, result_format)=report.render_report(self._cr, self._uid, self.ids, 'l10n_pe_einvoice.report_invoice', self._context)
+            
+            attach['name']= "%s.pdf" % name
+            attach['type']="binary"
+            attach['datas']= result_pdf.encode('base64')
+            attach['datas_fname']= "%s.pdf" % name
+            attach['res_model']="mail.compose.message"
+            attachment_id=self.env['ir.attachment'].create(attach)
+            attachment_ids.append(attachment_id.id)
+            vals={}
+            vals['default_use_template']=bool(template)
+            vals['default_template_id']=template and template.id or False
+            vals['default_attachment_ids']=[(6, 0, attachment_ids)]
+            res['context'].update(vals)
+        return  res
+    
+    @api.multi
+    def action_send_einvoice_mail(self):
+        print "imprimiendo"
+        for invoice_id in self:
+            if invoice_id.partner_id.email:
+                account_mail = invoice_id.action_invoice_sent()
+                context = account_mail.get('context')
+                print context
+                if not context:
+                    continue
+                template_id = account_mail['context'].get('default_template_id')
+                print template_id
+                if not template_id:
+                    continue
+                attachment_ids=[]
+                if context.get('default_attachment_ids', False):
+                    for attach in context.get('default_attachment_ids'):
+                        attachment_ids+=attach[2]
+                mail_id = self.env['email.template'].browse(template_id)
+                ctx={'is_attach_evinvoice': True, 'attach_evinvoice': attachment_ids}
+                print mail_id
+                mail_id.with_context(**ctx).send_mail(invoice_id.id, force_send=True)
+    
+    
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
     

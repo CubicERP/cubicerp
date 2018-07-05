@@ -51,6 +51,7 @@ Key Features
     "data":[
         "data/base.table.csv",
         "data/base.element.csv",
+        "data/invoice_action_data.xml",
         "views/company_view.xml",
         "reports/report_invoice.xml",
         "views/account_view.xml",

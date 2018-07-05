@@ -25,3 +25,4 @@ import account_invoice
 import einvoice
 import convertXML
 import res_partner
+import email_template

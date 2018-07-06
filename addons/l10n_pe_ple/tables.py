@@ -345,9 +345,23 @@ class res_partner(osv.osv):
     
     def _get_vinculacion(self, cr, uid, context=None):
         return self.pool.get('base.element').get_as_selection(cr, uid, 'PE.SUNAT.TABLA_27', context=context)
-    
+
+    def _compute_doc_type_abbr(self, cr, uid, ids, field_name, arg, context=None):
+        # todo: se sugiere incluir las abreviaturas del tipo de documento en la respectiva tabla
+        abbrs = {'A': 'CDI',
+                 '7': 'PASAPORTE',
+                 '6': 'RUC',
+                 '4': 'CE',
+                 '1': 'DNI',
+                 '0': 'OTROS'}
+        res = {}
+        for partner in self.browse(cr, uid, ids, context=context):
+            res[partner.id] = partner.doc_type and abbrs[partner.doc_type] or False
+        return res
+
     _columns = {
         'doc_type': fields.selection (_get_doc_types, 'Document type'),
+        'doc_type_abbr': fields.function(_compute_doc_type_abbr, string="Document type abbreviation", type="char"),
         'doc_number': fields.char('Document Number',32,select=1),
         'sunat_bienes_servicios': fields.selection (_get_bienes_servicios, 'Bienes / Servicios', help="""Clasificación de los bienes y servicios adquiridos (Tabla 30)
 Aplicable solo a los contribuyentes que hayan obtenido ingresos mayores a 1,500 UIT en el ejercicio anterior"""),

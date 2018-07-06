@@ -348,12 +348,12 @@ class res_partner(osv.osv):
 
     def _compute_doc_type_abbr(self, cr, uid, ids, field_name, arg, context=None):
         # todo: se sugiere incluir las abreviaturas del tipo de documento en la respectiva tabla
-        abbrs = {'A': 'CDI',
-                 '7': 'PASAPORTE',
+        abbrs = {'A': 'Documento de Identidad',
+                 '7': 'Documento de Identidad',
                  '6': 'RUC',
-                 '4': 'CE',
+                 '4': 'Documento de Identidad',
                  '1': 'DNI',
-                 '0': 'OTROS'}
+                 '0': 'NIT'}
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
             res[partner.id] = partner.doc_type and abbrs[partner.doc_type] or False

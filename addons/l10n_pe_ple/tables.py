@@ -348,10 +348,10 @@ class res_partner(osv.osv):
 
     def _compute_doc_type_abbr(self, cr, uid, ids, field_name, arg, context=None):
         # todo: se sugiere incluir las abreviaturas del tipo de documento en la respectiva tabla
-        abbrs = {'A': 'CÉDULA DIPLOMÁTICA DE IDENTIDAD',
-                 '7': 'PASAPORTE',
+        abbrs = {'A': 'Cédula Diplomática de Identidad',
+                 '7': 'Pasaporte',
                  '6': 'RUC',
-                 '4': 'CARNET DE EXTRANJERIA',
+                 '4': 'Carnet de Extranjeria',
                  '1': 'DNI',
                  '0': 'NIT'}
         res = {}

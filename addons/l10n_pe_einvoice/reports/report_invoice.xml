@@ -45,7 +45,7 @@
                             <td style="width:50%;">Señor(es)</td>
                             <td>: <strong><span t-field="o.partner_id.name"/></strong></td></tr>
                         <tr>
-                            <td style="width:50%;">RUC</td>
+                            <td style="width:50%;"><span t-field="o.partner_id.doc_type_abbr"/></td>
                             <td>: <strong><span t-field="o.partner_id.doc_number"/></strong></td>
                         </tr>
                     </table>

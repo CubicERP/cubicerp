@@ -54,6 +54,10 @@
                 <div class="col-xs-5">
                     <table style="width:100%; line-height:20px;">
                         <tr>
+                            <td style="width:50%;">Documento Origen</td>
+                            <td>: <strong><span t-field="o.origin"/></strong></td></tr>
+                        <tr>
+                        <tr>
                             <td style="width:50%;">Guía de Remisión Remitente</td>
                             <td>: <strong><span t-field="o.picking"/></strong></td></tr>
                         <tr>

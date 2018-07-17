@@ -94,8 +94,8 @@
                             <th class="text-center" style="padding: 2px"><strong>Cantidad</strong></th>
                             <th class="text-center" style="padding: 2px"><strong>Unidad Medida</strong></th>
                             <th class="text-center" style="padding: 2px"><strong>Código</strong></th>
-                            <th class="text-left" style="padding: 2px"><strong>Descripción</strong></th>
-                            <th class="text-right" style="padding: 2px"><strong>Valor Unitario</strong></th>
+                            <th class="text-center" style="padding: 2px"><strong>Descripción</strong></th>
+                            <th class="text-center" style="padding: 2px"><strong>Valor Unitario</strong></th>
                             <th class="text-center" style="padding: 2px"><strong>Valor Total</strong></th>
                         </tr>
                     </thead>
@@ -105,8 +105,8 @@
                             <td class="text-center" style="padding: 2px"><span t-field="l.uos_id"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.product_id.code"/></td>
                             <td class="text-left" style="padding: 2px"><span t-field="l.product_id.name"/></td>
-                            <td class="text-right" style="padding: 2px"><span t-field="l.price_unit"/></td>
-                            <td class="text-rigth" style="padding: 2px"><span t-field="l.price_subtotal"/></td>
+                            <td class="text-center" style="padding: 2px"><span t-field="l.price_unit"/></td>
+                            <td class="text-center" style="padding: 2px"><span t-field="l.price_subtotal"/></td>
                         </tr>
                     </tbody>
                 </table>

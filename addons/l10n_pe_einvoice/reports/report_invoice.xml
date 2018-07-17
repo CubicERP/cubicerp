@@ -57,7 +57,6 @@
                             <td style="width:50%;">Documento Origen</td>
                             <td>: <strong><span t-field="o.origin"/></strong></td></tr>
                         <tr>
-                        <tr>
                             <td style="width:50%;">Guía de Remisión Remitente</td>
                             <td>: <strong><span t-field="o.picking"/></strong></td></tr>
                         <tr>

@@ -20,7 +20,7 @@ Useful Links
 * Community Forum: https://cubicerp.com/community
 * Developer Talk Gitter: https://gitter.im/CubicERP
 * Mailing List: https://groups.google.com/forum/#!forum/cubicerp
-* Demo: http://v2018.cubicerp.com - User: demo, Pswd: demo
+* Demo: http://v2018.cubicerp.com/web - User: demo, Pswd: demo
 
 Screenshots
 -----------

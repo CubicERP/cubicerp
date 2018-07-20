@@ -27,6 +27,7 @@
                         <field name="acquirer_ids" widget="many2many_tags"/>
                         <field name="medium_type_ids" widget="many2many_tags"/>
                         <field name="sector_ids" widget="many2many_tags"/>
+                        <field name="partner_id"/>
                     </xpath>
                     <xpath expr="//field[@name='active']/.." position="after">
                         <group string="Validation">

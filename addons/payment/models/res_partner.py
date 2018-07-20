@@ -35,6 +35,7 @@ class res_bank(models.Model):
     sector_ids = fields.One2many("payment.address.sector", "bank_id", string="Address Sectors")
     validation = fields.Boolean("Python Validation", help="Python code to validate the account number format")
     validation_code = fields.Text("Validation Code", default=VALIDATION_CODE_DEFAULT)
+    partner_id = fields.Many2one("res.partner", string="Partner", help="Related partner for accounting purposes")
 
 
 class res_partner_bank(models.Model):

@@ -376,9 +376,16 @@ class Partner(models.Model):
         for partner in self:
             partner.is_company = partner.company_type == 'company'
 
+    def _onchange_company_type(self):
+        vals = {'values': {}}
+        vals['values']['is_company'] = (self.company_type == 'company')
+        return vals
+
     @api.onchange('company_type')
     def onchange_company_type(self):
-        self.is_company = (self.company_type == 'company')
+        vals = self._onchange_company_type()
+        self.update(vals.pop('values'))
+        return vals
 
     @api.multi
     def _update_fields_values(self, fields):

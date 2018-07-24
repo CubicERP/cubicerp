@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-xs-3" style="border: 1px solid black;">
                     <table style="width:100%; line-height:20px;">
-                        <tr class="text-center"><td><strong style="text-transform:uppercase;"><span t-field="o.sunat_payment_type"/></strong></td></tr>
+                        <tr class="text-center"><td><strong style="text-transform:uppercase;"><span t-field="o.sunat_payment_type"/> ELECTRÓNICA</strong></td></tr>
                         <tr class="text-center"><td><strong style="text-transform:uppercase;"><span t-field="o.company_id.partner_id.doc_type_abbr"/>: <span t-field="o.company_id.partner_id.doc_number"/></strong></td></tr>
                         <tr class="text-center"><td><strong><span t-field="o.number"/></strong></td></tr>
                     </table>
@@ -88,7 +88,7 @@
 
             </div>
             <div class="row" style="padding: 10px 10px;">
-                <table style="width:100%; line-height:20px; border: 1px solid black; padding: 10px 10px;">
+                <table style="width:100%; line-height:20px; border:1px solid black; padding:10px 10px;">
                     <thead style="border: 1px solid black;">
                         <tr>
                             <th class="text-center" style="padding: 2px"><strong>Cantidad</strong></th>
@@ -99,7 +99,7 @@
                             <th class="text-center" style="padding: 2px"><strong>Valor Total</strong></th>
                         </tr>
                     </thead>
-                    <tbody class="invoice_tbody">
+                    <tbody class="invoice_tbody" style="font-size:10px">
                         <tr t-foreach="o.invoice_line" t-as="l">
                             <td class="text-center" style="padding: 2px"><span t-field="l.quantity"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.uos_id"/></td>

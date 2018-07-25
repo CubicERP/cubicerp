@@ -99,11 +99,11 @@
                             <th class="text-center" style="padding: 2px"><strong>Valor Total</strong></th>
                         </tr>
                     </thead>
-                    <tbody class="invoice_tbody" style="font-size:10px">
+                    <tbody class="invoice_tbody" style="font-size:12px">
                         <tr t-foreach="o.invoice_line" t-as="l">
                             <td class="text-center" style="padding: 2px"><span t-field="l.quantity"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.uos_id"/></td>
-                            <td class="text-center" style="padding: 2px"><span t-field="l.product_id.code"/></td>
+                            <td class="text-left" style="padding: 2px"><span t-field="l.product_id.code"/></td>
                             <td class="text-left" style="padding: 2px"><span t-field="l.product_id.name"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.price_unit"/></td>
                             <td class="text-center" style="padding: 2px"><span t-field="l.price_subtotal"/></td>

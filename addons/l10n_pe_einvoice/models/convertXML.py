@@ -325,7 +325,7 @@ class Convert2XML:
                 tag = etree.QName(self._cbc, 'CreditedQuantity')
             else:
                 tag = etree.QName(self._cbc, 'InvoicedQuantity')
-            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id and line.uos_id.sunat_code or 'NIU',
+            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id.sunat_code and line.uos_id.sunat_code.name or 'NIU',
                              nsmap={'cbc':tag.namespace}).text=str(line.quantity)
             tag = etree.QName(self._cbc, 'LineExtensionAmount')
             etree.SubElement(inv_line, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,

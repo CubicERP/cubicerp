@@ -601,6 +601,8 @@ class Partner(models.Model):
                 name = "%s <%s>" % (name, partner.email)
             if self._context.get('html_format'):
                 name = name.replace('\n', '<br/>')
+            if self._context.get('show_vat') and partner.vat:
+                name = "[%s] %s" % (partner.vat, name)
             res.append((partner.id, name))
         return res
 

@@ -97,6 +97,17 @@
         }
     }
 
+    // Title & avatar
+    .oe_title {
+        color: @headings-color;
+        @media (max-width: @screen-xxs-max) {
+            word-break: break-all;
+        }
+        @media (min-width: @screen-xs-min) {
+            padding-right: @odoo-innergroup-rpadding;
+        }
+    }
+
     // Editable specific rules
     &.o_form_editable {
         .oe_read_only {

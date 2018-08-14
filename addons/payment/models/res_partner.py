@@ -77,22 +77,33 @@ class res_partner_bank(models.Model):
     has_calendar = fields.Boolean("Has Calendar", related="medium_type_id.has_calendar")
     calendar_id = fields.Many2one("resource.calendar", "Calendar")
 
-    @api.constrains("acc_number", "bank_id")
+    @api.constrains("acc_number", "bank_id", "has_expiration", "expiration_month", "expiration_year")
     def validate_number(self):
-        for card in self.filtered(lambda b: b.bank_id and b.bank_id.validation):
-            localdict = {'acc_number': card.acc_number,
-                         'card': card,
-                         'luhn': luhn,
-                         }
-            exec(card.bank_id.validation_code, localdict)
-            if localdict.get('result', False):
-                raise exceptions.ValidationError(localdict.get('message',_("Card Number Wrong!")))
+        for card in self:
+            if card.bank_id.validation:
+                result, message = card._validation_exec(card.acc_number, card.bank_id.validation_code)
+                if result:
+                    raise exceptions.ValidationError(message)
+            if card.has_expiration:
+                if "%s-%s-31" % (card.expiration_year, card.expiration_month) < fields.Date.today():
+                    raise exceptions.ValidationError(_("The card  is expired"))
 
-    @api.constrains("has_expiration", "expiration_month", "expiration_year")
-    def validate_expiration(self):
-        for card in self.filtered("has_expiration"):
-            if "%s-%s-31"%(card.expiration_year, card.expiration_month) < fields.Date.today():
-                raise exceptions.ValidationError(_("The card  is expired"))
+    @api.onchange("acc_number", "bank_id")
+    def onchange_acc_number(self):
+        res = {}
+        if self.acc_number and self.bank_id.validation:
+            result, message = self._validation_exec(self.acc_number, self.bank_id.validation_code)
+            if result:
+                res['warning'] = {'title': _('Warning'), 'message': message}
+        return res
+
+    def _validation_exec(self, acc_number, validation_code):
+        localdict = {'acc_number': acc_number,
+                     'card': self,
+                     'luhn': luhn,
+                     }
+        exec(validation_code, localdict)
+        return localdict.get('result', False), localdict.get('message',_("Card Number Wrong!"))
 
     def name_get(self):
         result = []

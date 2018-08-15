@@ -25,6 +25,7 @@
 			<field name='inherit_id' ref='account.invoice_form'/>
 			<field name="arch" type='xml'>
 				<xpath expr="//field[@name='move_id']" position="after">
+	                <field name="other_comment"/>
 	                <field name="batch_pe_id" context="{'default_type':'sync'}"/>
 	                <field name="status_code"/>
 	                <field name="sunat_payment_type" invisible="1"/>
@@ -44,7 +45,6 @@
 	                    </tree>
 	         		</field>
 	            </xpath>
-	            
 			</field>
 		</record>
 		<!-- ? es posible hacerlo desde el modulo customize -->
@@ -100,8 +100,25 @@
 	            </xpath>
 			</field>
 		</record>
-        
-        <report 
+
+
+		<record id="paperformat_account_einvoice_pe" model="report.paperformat">
+            <field name="name">Factura Electrónica Perú</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <report
             id="pe_account_invoices"
             model="account.invoice"
             string="Perunvian Invoices"
@@ -111,5 +128,10 @@
             attachment_use="True"
             attachment="(object.state in ('open','paid')) and ('PEINV'+(object.number or '').replace('/','')+'.pdf')"
         />
+
+		<record id="pe_account_invoices" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_account_einvoice_pe" />
+        </record>
+
 	</data>
 </openerp>

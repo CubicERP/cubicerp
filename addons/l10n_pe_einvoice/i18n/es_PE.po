@@ -871,3 +871,13 @@ msgstr "o"
 #: view:account.invoice:l10n_pe_einvoice.invoice_customize_form
 msgid "{'readonly':[('state','!=','draft')],'required':[('parent_invoice','=',True),('state','=','draft'),'|',('type','!=','out_invoice'),('sunat_payment_type','in',['07','08'])],'invisible':[('parent_invoice','=',False)]}"
 msgstr "{'readonly':[('state','!=','draft')],'required':[('parent_invoice','=',True),('state','=','draft'),'|',('type','!=','out_invoice'),('sunat_payment_type','in',['07','08'])],'invisible':[('parent_invoice','=',False)]}"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,other_comment:0
+msgid "Other information"
+msgstr "Otra información"
+
+#. module: l10n_pe_einvoice
+#: field:account.invoice,amount_undiscounted:0
+msgid "Amount undiscounted"
+msgstr "Subtotal sin descuento"

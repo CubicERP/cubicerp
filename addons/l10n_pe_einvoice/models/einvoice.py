@@ -340,6 +340,15 @@ class einvoice_message_pe(osv.Model):
                 vals.update(self.get_xml_sign(cr, uid, msg.batch_id, xml_string=xml_string, context=context))
                 self.write(cr, uid, [msg.id], vals, context=context)
     
+    def send_einvoice_mail(self, cr, uid, ids, context):
+        batch_obj = self.pool.get('einvoice.batch.pe')
+        batch_id = batch_obj.browse(cr, uid, ids, context)
+        if batch_id.type == 'sync':
+            self.pool.get('account.invoice').action_send_einvoice_mail(cr, uid, [batch_id.invoice_id.id], context)
+        elif batch_id.type == 'RC':
+            for invoice_id in batch_id.invoice_summary_ids:
+                self.pool.get('account.invoice').action_send_einvoice_mail(cr, uid, [invoice_id.id], context)
+    
     def action_send(self, cr, uid, ids, context=None):
         batch_obj = self.pool.get('einvoice.batch.pe')
         self._verify_message(cr, uid, ids, context)
@@ -356,6 +365,7 @@ class einvoice_message_pe(osv.Model):
                         result=client.sendSummary(msg.zip_sign_fname, msg.zip_sign_datas)
                         vals['ticket_code']= result['ticket']
                     self.write(cr, uid, [msg.id], vals, context=context)
+                    self.send_einvoice_mail(cr, uid, [msg.batch_id.id], context)
                 except SoapFault as e:
                     #if msg.batch_id.company_id.sunat_see_online:
                     #    errmsg = self.pool['base.element'].get_char(cr, uid, 'PE.SEE.ERROR', e.faultcode.encode('utf-8'))
@@ -368,6 +378,7 @@ class einvoice_message_pe(osv.Model):
                     vals['status_emessage']="%s - %s" %(str(e.faultcode or ""), str(e.faultstring or ""))
                     self.write(cr, uid, [msg.id], vals, context=context)
                 except Exception as e:
+                    print e
                     pass
                     #if msg.batch_id.company_id.sunat_see_online:
                     #    raise osv.except_osv('SOAP Error',

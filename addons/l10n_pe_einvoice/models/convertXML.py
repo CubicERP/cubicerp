@@ -325,7 +325,7 @@ class Convert2XML:
                 tag = etree.QName(self._cbc, 'CreditedQuantity')
             else:
                 tag = etree.QName(self._cbc, 'InvoicedQuantity')
-            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id and line.uos_id.sunat_code or 'NIU',
+            etree.SubElement(inv_line, tag.text, unitCode=line.uos_id.sunat_code and line.uos_id.sunat_code.name or 'NIU',
                              nsmap={'cbc':tag.namespace}).text=str(line.quantity)
             tag = etree.QName(self._cbc, 'LineExtensionAmount')
             etree.SubElement(inv_line, tag.text, currencyID=batch.invoice_id.currency_id.sunat_code or  batch.invoice_id.currency_id.name,
@@ -486,7 +486,7 @@ class Convert2XML:
         self.getX509Template(content)
         
         if batch.invoice_id.sunat_payment_type  in ['01']:
-            self.getUBLVersion("1.1")
+            self.getUBLVersion("1.0")
         else:
             self.getUBLVersion()
 

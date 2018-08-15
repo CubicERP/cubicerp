@@ -78,7 +78,7 @@
             <field name="act_window_id" ref="action_new_bank_statement_tree"/>
         </record>
 
-        <record id="view_cash_statement_pos_tree" model="ir.ui.view">
+        <!--record id="view_cash_statement_pos_tree" model="ir.ui.view">
             <field name="name">account.bank.statement.tree</field>
             <field name="model">account.bank.statement</field>
             <field name="inherit_id" ref="account.view_cash_statement_tree"/>
@@ -87,7 +87,7 @@
                     <field name="user_id" string="Responsible"/>
                 </field>
             </field>
-        </record>
+        </record-->
 
         <record id="action_new_bank_statement_all_tree" model="ir.actions.act_window">
             <field name="name">Cash Registers</field>

@@ -825,6 +825,7 @@ class account_journal(osv.osv):
         'loss_account_id' : fields.many2one('account.account', 'Loss Account'),
         'internal_account_id' : fields.many2one('account.account', 'Internal Transfers Account', select=1),
         'cash_control' : fields.boolean('Cash Control', help='If you want the journal should be control at opening/closing, check this option'),
+        'active': fields.boolean("Active"),
     }
 
     _defaults = {

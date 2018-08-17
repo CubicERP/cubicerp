@@ -583,6 +583,7 @@ class PaymentTransaction(models.Model):
     partner_city = fields.Char('City', readonly=True, states={'draft': [('readonly', False)]})
     partner_country_id = fields.Many2one('res.country', 'Country', default=_get_default_partner_country_id, required=True, readonly=True, states={'draft': [('readonly', False)]})
     partner_phone = fields.Char('Phone', readonly=True, states={'draft': [('readonly', False)]})
+    partner_vat = fields.Char('VAT', related='partner_id.vat')
     html_3ds = fields.Char('3D Secure HTML', readonly=True, states={'draft': [('readonly', False)]})
 
     callback_model_id = fields.Many2one('ir.model', 'Callback Document Model', groups="base.group_system", readonly=True, states={'draft': [('readonly', False)]})
@@ -598,7 +599,6 @@ class PaymentTransaction(models.Model):
         onchange_vals = self.on_change_partner_id(self.partner_id.id).get('value', {})
         self.update(onchange_vals)
 
-    @api.multi
     def on_change_partner_id(self, partner_id):
         partner = None
         if partner_id:

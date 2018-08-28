@@ -642,7 +642,8 @@ class AccountJournal(models.Model):
     @api.returns('account.journal')
     def get_related_journal(self):
         self.ensure_one()
-        return self.env['account.journal'].search([('related_journal_id', '=', self.id)])
+        journal = self.env['account.journal'].search([('related_journal_id', '=', self.id),('type','in',['sale_refund','purchase_refund'])])
+        return journal and journal[0] or False
 
     @api.model
     def create(self, vals):

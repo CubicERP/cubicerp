@@ -123,6 +123,7 @@ var FormController = BasicController.extend({
             this.$buttons.on('click', '.o_form_button_create', this._onCreate.bind(this));
             this.$buttons.on('click', '.o_form_button_save', this._onSave.bind(this));
             this.$buttons.on('click', '.o_form_button_cancel', this._onDiscard.bind(this));
+            this.$buttons.on('click', '.o_form_button_refresh', this._onRefresh.bind(this));
 
             this._updateButtons();
         }
@@ -520,6 +521,25 @@ var FormController = BasicController.extend({
         var field = event.data.field;
         var state = this.model.get(this.handle);
         this.renderer.confirmChange(state, state.id, [field]);
+    },
+    /**
+     * This method is called when someone tries to reload form view
+     */
+    _onRefresh: function () {
+        var self = this;
+        if (self.mode === 'readonly') {
+            return self.reload();
+        } else {
+            var message = _t("The record has been modified, your changes will be discarded. Do you want to proceed?");
+            var dialog = Dialog.confirm(self, message, {
+                title: _t("Warning"),
+                confirm_callback: function() {
+                    return self.reload().then(function(){
+                        return self._setMode('readonly');
+                    });
+                }
+            });
+        }
     },
 });
 

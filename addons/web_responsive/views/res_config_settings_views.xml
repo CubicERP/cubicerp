@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--Screen Background Views-->
+    <record id="screen_background_tree_view" model="ir.ui.view">
+        <field name="name">res.config.settings.screen_background.tree</field>
+        <field name="model">res.config.settings.screen_background</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="image" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
+            </tree>
+        </field>
+    </record>
+    <record id="screen_background_form_view" model="ir.ui.view">
+        <field name="name">res.config.settings.screen_background.form</field>
+        <field name="model">res.config.settings.screen_background</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="image" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!--Res Config Settings View-->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Theme" string="Theme" data-key="web_responsive">
+                    <h2>Screen Settings</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 o_setting_box">
+                            <field name="screen_background_ids" mode="tree"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

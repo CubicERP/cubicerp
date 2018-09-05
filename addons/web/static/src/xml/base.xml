@@ -189,6 +189,7 @@
         </div>
         <div class="o_cp_right">
             <div class="btn-group o_search_options"/>
+            <div class="o_cp_extra_buttons"/>
             <div class="o_cp_pager"/>
             <div class="btn-group btn-group-sm o_cp_switch_buttons"/>
         </div>
@@ -208,6 +209,12 @@
             t-att-aria-label="view.type"
             t-att-data-view-type="view.type" t-att-title="view.label"/>
     </t>
+</t>
+
+<t t-name="ViewManager.extra_buttons">
+    <button type="button" class="btn btn-default btn-sm o_form_button_refresh mr16" accesskey="r">
+        <i class="fa fa-refresh"></i>
+    </button>
 </t>
 
 <t t-name="WebClient.DebugManager">
@@ -425,10 +432,6 @@
                 class="btn btn-default btn-sm o_form_button_create" accesskey="c">
             Create
         </button>
-        <button type="button"
-                class="btn btn-default btn-sm o_form_button_refresh" accesskey="r">
-            Refresh
-        </button>
     </div>
     <div class="o_form_buttons_edit">
         <button type="button"
@@ -438,10 +441,6 @@
         <button type="button"
                 class="btn btn-default btn-sm o_form_button_cancel" accesskey="j">
             Discard
-        </button>
-        <button type="button"
-                class="btn btn-default btn-sm o_form_button_refresh" accesskey="r">
-            Refresh
         </button>
     </div>
 </t>

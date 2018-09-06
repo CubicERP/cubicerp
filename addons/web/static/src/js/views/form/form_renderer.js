@@ -5,6 +5,8 @@ var BasicRenderer = require('web.BasicRenderer');
 var config = require('web.config');
 var core = require('web.core');
 var dom = require('web.dom');
+var Session = require('web.session');
+var Data = require('web.data');
 
 var _t = core._t;
 var qweb = core.qweb;
@@ -670,7 +672,20 @@ var FormRenderer = BasicRenderer.extend({
         // this worked in 10.0 for "o_form_label_empty" reevaluation but not for
         // "o_invisible_modifier" reevaluation on labels...
         this._registerModifiers(node, this.state, $result, modifiersOptions);
-        return $result;
+
+        var $img = $('<button class="fa fa-globe btn-link ml16" style=""></button>');
+        $img.on('click', this._onQuickTranslate.bind(this, fieldName, text, $result));
+
+        var $container = $('<div style="display:flex;">')
+        if (fieldName) {
+            if(Session.debug)
+                $container.append($img);
+
+            $container.append($result);
+        }
+        this._registerModifiers(node, this.state, $container, modifiersOptions);
+
+        return $container;
     },
     /**
      * @private
@@ -873,6 +888,21 @@ var FormRenderer = BasicRenderer.extend({
     _onTranslate: function (event) {
         event.preventDefault();
         this.trigger_up('translate', {fieldName: event.target.name, id: this.state.id});
+    },
+    /**
+     * open a prompt for translate the current field
+     */
+    _onQuickTranslate: function(fieldName, fieldText, $html_label_elem) {
+        var self = this;
+        var new_value = window.prompt('Enter the new translated label for "'+ fieldText + '" field.');
+        if(new_value) {
+            var ds = new Data.DataSet(self, "ir.translation");
+            ds.call('manual_translation', [0, this.state.model, fieldName, new_value]).done(function (result) {
+                if(result) {
+                    $html_label_elem.text(new_value);
+                }
+            });
+        }
     },
 });
 

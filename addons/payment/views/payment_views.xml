@@ -342,7 +342,7 @@
                                 </div>
                                 <field name="partial_payment" invisible="1"/>
                                 <field name="amount_pay" attrs="{'invisible':[('partial_payment','=',False)]}"/>
-                                <field name="fees" readonly="1"/>
+                                <field name="fees" readonly="0"/>
                             </group>
                             <group>
                                 <field name="acquirer_id"/>

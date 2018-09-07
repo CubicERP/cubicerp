@@ -897,7 +897,7 @@ var FormRenderer = BasicRenderer.extend({
         var new_value = window.prompt('Enter the new translated label for "'+ fieldText + '" field.');
         if(new_value) {
             var ds = new Data.DataSet(self, "ir.translation");
-            ds.call('manual_translation', [0, this.state.model, fieldName, new_value]).done(function (result) {
+            ds.call('manual_translation', [this.state.model, fieldName, new_value]).done(function (result) {
                 if(result) {
                     $html_label_elem.text(new_value);
                 }

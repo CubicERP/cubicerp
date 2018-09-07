@@ -549,7 +549,7 @@ class PaymentTransaction(models.Model):
         ('form_save', 'Form with tokenization')], 'Type',
         default='form', required=True, readonly=True, states={'draft': [('readonly', False)]})
     state = fields.Selection(TRANSACTION_STATES, 'Status', copy=False, default='draft', required=True,
-                             track_visibility='onchange', readonly=True)
+                             track_visibility='onchange', readonly=True, index=True)
     state_message = fields.Text('Message', help='Field used to store error and/or validation messages for information')
     retries = fields.Integer("Payment Retries", default=0, readonly=True, help="Manual payment retries, allowed in the acquirer form.")
     # payment

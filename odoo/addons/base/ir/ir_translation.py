@@ -157,6 +157,7 @@ class IrTranslationImport(object):
                             AND ti.value IS NOT NULL
                             AND ti.value != ''
                             AND noupdate IS NOT TRUE
+                            AND irt.custom = false
                        """ % (self._model_table, self._table, find_expr),
                        (tuple(src_relevant_fields), tuple(src_relevant_fields)))
 
@@ -205,6 +206,7 @@ class IrTranslation(models.Model):
     # aka gettext extracted-comments - we use them to flag openerp-web translation
     # cfr: http://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/PO-Files.html
     comments = fields.Text(string='Translation comments', index=True)
+    custom = fields.Boolean('Custom Transation', help="This translation don't will be overridden", default=False)
 
     _sql_constraints = [
         ('lang_fkey_res_lang', 'FOREIGN KEY(lang) REFERENCES res_lang(code)',
@@ -761,3 +763,32 @@ class IrTranslation(models.Model):
                          ('name', 'like', model_name+','),
             ],
         }
+
+    @api.model
+    def manual_translation(self, res_id, src_model, src_field_name, new_value):
+        fields = self.get_field_string(src_model)
+        field_term = '%s,%s' % (src_model, src_field_name)
+
+        current_trans = self.search([('name', '=', field_term),
+                                     ('type', '=', 'field'),
+                                     ('lang', '=', self.env.user.lang),
+                                     ('res_id', '=', res_id)])
+        if current_trans:
+            current_trans.write({
+                'value': new_value,
+                'state': 'translated',
+                'custom': True
+            })
+        else:
+            self.create({
+                'src': fields[src_field_name],
+                'name': field_term,
+                'value': new_value,
+                'lang': self.env.user.lang,
+                'type': 'field',
+                'state': 'translated',
+                'custom': True,
+                'res_id': res_id,
+            })
+
+        return True

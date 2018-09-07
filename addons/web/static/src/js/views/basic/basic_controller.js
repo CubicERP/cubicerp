@@ -14,6 +14,7 @@ var FieldManagerMixin = require('web.FieldManagerMixin');
 var Pager = require('web.Pager');
 
 var _t = core._t;
+var QWeb = core.qweb;
 
 var BasicController = AbstractController.extend(FieldManagerMixin, {
     custom_events: _.extend({}, AbstractController.prototype.custom_events, FieldManagerMixin.custom_events, {
@@ -142,6 +143,19 @@ var BasicController = AbstractController.extend(FieldManagerMixin, {
         });
         this.pager.appendTo($node);
         this._updatePager();  // to force proper visibility
+    },
+    /**
+     * @override
+     */
+    renderExtraButtons: function ($node) {
+        $node.empty();
+
+        this.extraButtons = $node;
+
+        var $tmp = $(QWeb.render('ViewManager.extra_buttons', {}));
+        $tmp.appendTo(this.extraButtons);
+
+        this.extraButtons.on('click', '.o_form_button_refresh', this._onRefresh.bind(this));
     },
     /**
      * Saves the record whose ID is given if necessary (@see _saveRecord).
@@ -594,6 +608,14 @@ var BasicController = AbstractController.extend(FieldManagerMixin, {
                 args: [record.model, record.res_id, event.data.fieldName, record.getContext()],
             }
         }).then(this.do_action.bind(this));
+    },
+    /**
+     * This method is called when someone tries to reload form view
+     */
+    _onRefresh: function () {
+        var self = this;
+        self._setMode('readonly');
+        self.reload();
     },
 });
 

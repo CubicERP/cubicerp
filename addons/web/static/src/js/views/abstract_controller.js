@@ -166,6 +166,13 @@ var AbstractController = Widget.extend({
     renderSidebar: function ($node) {
     },
     /**
+     * Same as renderPager, but for the 'Extra Buttons' zone
+     *
+     * @param {Query Node} $node
+     */
+    renderExtraButtons: function ($node) {
+    },
+    /**
      * Not sure about this one, it probably needs to be reworked, maybe merged
      * in get/set local state methods.
      *

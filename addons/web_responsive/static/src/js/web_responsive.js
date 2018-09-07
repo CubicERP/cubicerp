@@ -11,6 +11,7 @@ odoo.define('web_responsive', function(require) {
     var config = require('web.config');
     var FieldOne2Many = core.form_widget_registry.get('one2many');
     var ViewManager = require('web.ViewManager');
+    var Data = require('web.data');
 
     Menu.include({
 
@@ -95,10 +96,13 @@ odoo.define('web_responsive', function(require) {
             $clickZones.click($.proxy(this.handleClickZones, this));
             core.bus.on('resize', this, this.handleWindowResize);
             core.bus.on('keydown', this, this.handleNavKeys);
+
+            this.$el.drawer('open')
         },
 
         // It provides initialization handlers for Drawer
         initDrawer: function() {
+            var self = this;
             this.$el = $('.drawer');
             this.$el.drawer();
             this.$el.one('drawer.opened', $.proxy(this.onDrawerOpen, this));
@@ -116,6 +120,14 @@ odoo.define('web_responsive', function(require) {
                 this.iScroll.on('scroll', $.proxy(onIScroll, this));
             });
             this.initialized = true;
+
+            var ds = new Data.DataSet(self, 'res.config.settings');
+            ds.call('get_random_background', []).done(function (result) {
+                if(result) {
+                    var url =  "url('data:image/png;base64," + result.image + "')";
+                    self.$el.find('.drawer-nav')[0].style.setProperty('background-image', url, 'important');
+                }
+            });
         },
 
         // It provides handlers to hide drawer when "unfocused"

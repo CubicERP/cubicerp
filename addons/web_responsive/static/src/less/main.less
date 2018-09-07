@@ -100,3 +100,16 @@ main {
 .o_chat_window {
     z-index: 1000;
 }
+
+::placeholder {
+    color: red;
+    opacity: 0.4; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: red;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+   color: red;
+}

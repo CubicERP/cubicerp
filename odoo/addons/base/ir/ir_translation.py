@@ -765,30 +765,38 @@ class IrTranslation(models.Model):
         }
 
     @api.model
-    def manual_translation(self, res_id, src_model, src_field_name, new_value):
-        fields = self.get_field_string(src_model)
-        field_term = '%s,%s' % (src_model, src_field_name)
+    def manual_translation(self, src_model, src_field_name, new_value):
+        field_term_type = 'ir.model.fields,field_description'
 
-        current_trans = self.search([('name', '=', field_term),
-                                     ('type', '=', 'field'),
-                                     ('lang', '=', self.env.user.lang),
-                                     ('res_id', '=', res_id)])
-        if current_trans:
-            current_trans.write({
+        model_field = self.env['ir.model.fields'].search([('name', '=', src_field_name),
+                                                          ('model', '=', src_model)])
+
+        field_term = self.search([('name', '=', field_term_type),
+                                  ('lang', '=', self.env.user.lang),
+                                  ('res_id', '=', model_field.id),
+                                  ('src', '=', model_field.field_description)])
+
+        if field_term:
+            field_term.write({
                 'value': new_value,
                 'state': 'translated',
                 'custom': True
             })
         else:
+            model_data = self.env['ir.model.data'].search([('model', '=', 'ir.model.fields'),
+                                                           ('res_id', '=', model_field.id)])
+
             self.create({
                 'src': fields[src_field_name],
                 'name': field_term,
                 'value': new_value,
                 'lang': self.env.user.lang,
-                'type': 'field',
+                'type': field_term_type,
+                'module': model_data.module,
                 'state': 'translated',
                 'custom': True,
-                'res_id': res_id,
             })
+
+        self._modified_model(src_model)
 
         return True

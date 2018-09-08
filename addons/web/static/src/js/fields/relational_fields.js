@@ -124,6 +124,10 @@ var FieldMany2One = AbstractField.extend({
         // 'recordParams' is a dict of params used when calling functions
         // 'getDomain' and 'getContext' on this.record
         this.recordParams = {fieldName: this.name, viewType: this.viewType};
+
+        //with this attributes we will cant select many values on SelectDialog for m2m_tags widget
+        this.m2m_tags_special = false;
+        this.m2m_tags_selected_records = [];
     },
     start: function () {
         // booleean indicating that the content of the input isn't synchronized
@@ -428,8 +432,9 @@ var FieldMany2One = AbstractField.extend({
             title: (view === 'search' ? _t("Search: ") : _t("Create: ")) + this.string,
             initial_ids: ids ? _.map(ids, function (x) { return x[0]; }) : undefined,
             initial_view: view,
-            disable_multiple_selection: true,
+            disable_multiple_selection: !self.m2m_tags_special,
             on_selected: function (records) {
+                self.m2m_tags_selected_records = records;
                 self.reinitialize(records[0]);
                 self.activate();
             }
@@ -1633,6 +1638,9 @@ var FieldMany2ManyTags = AbstractField.extend({
         this.many2one._getSearchBlacklist = function () {
             return self.value.res_ids;
         };
+
+        this.many2one.m2m_tags_special = true;
+
         return this.many2one.appendTo(this.$el);
     },
     /**
@@ -1666,14 +1674,25 @@ var FieldMany2ManyTags = AbstractField.extend({
      * @param {OdooEvent} ev
      */
     _onFieldChanged: function (ev) {
+        var self = this;
+
         if (ev.target !== this.many2one) {
             return;
         }
         ev.stopPropagation();
-        var newValue = ev.data.changes[this.name];
-        if (newValue) {
-            this._addTag(newValue);
+
+        var selection = this.many2one.m2m_tags_selected_records;
+        if(selection.length > 0) {
+            _.each(selection, function(element) {
+                self._addTag(element);
+            });
             this.many2one.reinitialize(false);
+        } else {
+            var newValue = ev.data.changes[this.name];
+            if (newValue) {
+                this._addTag(newValue);
+                this.many2one.reinitialize(false);
+            }
         }
     },
     /**

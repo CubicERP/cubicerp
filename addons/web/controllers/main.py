@@ -1071,7 +1071,7 @@ class Binary(http.Controller):
         height = None
         if resize:
             width, height = resize.split(",")
-        return self.content_image(model=model, id=id, field=field, width=width, height=height)
+        return self.content_image(model=model, id=id, field=field, width=width, height=height, **kw)
 
 
     @http.route('/web/binary/upload', type='http', auth="user")

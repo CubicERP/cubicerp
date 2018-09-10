@@ -121,11 +121,15 @@ odoo.define('web_responsive', function(require) {
             });
             this.initialized = true;
 
+            var container = self.$el.find('.drawer-nav')[0];
+            var clientWidth = $(container).context.clientWidth;
+            var clientHeight = $(container).context.clientHeight;
+
             var ds = new Data.DataSet(self, 'res.config.settings');
-            ds.call('get_random_background', []).done(function (result) {
+            ds.call('get_random_background', [clientWidth, clientHeight]).done(function (result) {
                 if(result) {
-                    var url =  "url('data:image/png;base64," + result.image + "')";
-                    self.$el.find('.drawer-nav')[0].style.setProperty('background-image', url, 'important');
+                    var url =  "url('" + result + "')";
+                    container.style.setProperty('background-image', url, 'important');
                 }
             });
         },

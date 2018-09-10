@@ -17,12 +17,19 @@ class ResConfigSettings(models.TransientModel):
     screen_background_ids = fields.Many2many('res.config.settings.screen_background', string='Backgrounds')
 
     @api.model
-    def get_random_background(self):
+    def get_random_background(self, clientWidth, clientHeight):
         params = self.env['ir.config_parameter'].sudo()
         ids = eval(params.get_param('web_responsive.screen_background_ids', '[]'))
         if ids:
             id_selected = random.randint(0, len(ids) - 1)
-            return self.screen_background_ids.browse(ids[id_selected]).read([])[0]
+
+            # Reutilizando el controller 'BinaryController' del modulo web
+            url = '/web/binary/image?model=%s&field=image&id=%s' % (self.screen_background_ids._name, ids[id_selected])
+            if clientWidth and clientHeight:
+                resize = 'resize=%s,%s&crop=1' % (clientWidth, clientHeight)
+                url += '&' + resize
+
+            return url
 
         return False
 

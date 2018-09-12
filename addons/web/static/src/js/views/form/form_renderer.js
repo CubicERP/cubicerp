@@ -673,15 +673,14 @@ var FormRenderer = BasicRenderer.extend({
         // "o_invisible_modifier" reevaluation on labels...
         this._registerModifiers(node, this.state, $result, modifiersOptions);
 
-        var $img = $('<button class="fa fa-globe btn-link ml16" style=""></button>');
+        var $img = $('<i class="fa fa-pencil-square-o" style="font-size:xx-small"></i>');
         $img.on('click', this._onQuickTranslate.bind(this, fieldName, text, $result));
 
         var $container = $('<div style="display:flex;">')
         if (fieldName) {
+            $container.append($result);
             if(Session.debug)
                 $container.append($img);
-
-            $container.append($result);
         }
         this._registerModifiers(node, this.state, $container, modifiersOptions);
 

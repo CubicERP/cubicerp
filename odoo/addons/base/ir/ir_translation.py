@@ -785,18 +785,14 @@ class IrTranslation(models.Model):
         else:
             model_data = self.env['ir.model.data'].search([('model', '=', 'ir.model.fields'),
                                                            ('res_id', '=', model_field.id)])
-
-            self.create({
-                'src': fields[src_field_name],
-                'name': field_term,
-                'value': new_value,
-                'lang': self.env.user.lang,
-                'type': field_term_type,
-                'module': model_data.module,
-                'state': 'translated',
-                'custom': True,
-            })
-
+            self._cr.execute("insert into ir_translation(src,res_id,name,value,lang,type,module,state,custom)"
+                             "values(%s,%s,%s,%s,%s,'model',%s,'translated',true)",
+                             (model_field.field_description,
+                              model_field.id,
+                              field_term_type,
+                              new_value,
+                              self.env.user.lang,
+                              model_data.module))
         self._modified_model(src_model)
 
         return True

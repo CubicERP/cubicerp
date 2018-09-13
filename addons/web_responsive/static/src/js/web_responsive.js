@@ -130,6 +130,7 @@ odoo.define('web_responsive', function(require) {
                 if(result) {
                     var url =  "url('" + result + "')";
                     container.style.setProperty('background-image', url, 'important');
+                    self.handleWindowResize();
                 }
             });
         },

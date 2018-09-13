@@ -7,9 +7,16 @@
                 <search string="Translations">
                     <filter string="Untranslated" name="untranslated"
                         domain="['|','|',('state','=','to_translate'),('value', '=', False),('value','=','')]"/>
+                    <filter string="Custom Translation" name="custom" domain="[('custom','=',True)]"/>
                     <filter name="openerp-web"
                         string="Web-only translations"
                         domain="[('comments', 'like', 'openerp-web')]"/>
+                    <filter string="Fields" name="field" domain="[('name','=','ir.model.fields,field_description')]"/>
+                    <filter string="Tooltips" name="tooltip" domain="[('name','=','ir.model.fields,help')]"/>
+                    <filter string="Selections" name="selection" domain="[('type','=','selection')]"/>
+                    <filter string="Views" name="view" domain="[('name','=','ir.ui.view,arch_db')]"/>
+                    <filter string="Constraints" name="consraint" domain="[('type','in',['constraint', 'sql_constraint'])]"/>
+                    <filter string="Source Code" name="code" domain="[('type','=','code')]"/>
                     <field name="lang"/>
                     <field name="source"/>
                     <field name="value"/>
@@ -31,11 +38,13 @@
                         <group>
                             <field name="name"/>
                             <field name="lang"/>
+                            <field name="custom"/>
                         </group>
                         <group>
                             <field name="module" groups="base.group_no_one"/>
                             <field name="type"/>
                             <field name="res_id"/>
+                            <field name="type_name"/>
                         </group>
                         <group string="Source Term">
                            <field name="source" nolabel="1" height="400"/>
@@ -57,10 +66,10 @@
                 <tree string="Translations" editable="top">
                     <field name="source"/>
                     <field name="value"/>
-                    <field name="name"/>
                     <field name="lang"/>
-                    <field name="type"/>
+                    <field name="type_name"/>
                     <field name="state"/>
+                    <field name="custom"/>
                 </tree>
             </field>
         </record>
@@ -81,6 +90,7 @@
             <field name="name">Translated Terms</field>
             <field name="res_model">ir.translation</field>
             <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_translation_tree"/>
         </record>
 

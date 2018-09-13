@@ -187,10 +187,32 @@ class IrTranslation(models.Model):
     _name = "ir.translation"
     _log_access = False
 
+    @api.depends('name', 'type')
+    def _type_name(self):
+        names = {
+            'ir.model.fields,field_description': 'field',
+            'ir.model.fields,help': 'tooltip',
+            'ir.ui.view,arch_db': 'view',
+            'selection': 'selection',
+            'constraint': 'constraint',
+            'sql_constraint': 'sql_constraint',
+            'code': 'code',
+        }
+        for translate in self:
+            translate.type_name = names.get(translate.name, names.get(translate.type, 'other'))
+
     name = fields.Char(string='Translated field', required=True)
     res_id = fields.Integer(string='Record ID', index=True)
     lang = fields.Selection(selection='_get_languages', string='Language')
     type = fields.Selection(TRANSLATION_TYPE, string='Type', index=True)
+    type_name = fields.Selection([('field','Field'),
+                                  ('tooltip','Tooltip'),
+                                  ('selection','Selection'),
+                                  ('view','View'),
+                                  ('constraint', 'Constraint'),
+                                  ('sql_constraint','SQL Constraint'),
+                                  ('code','Source Code'),
+                                  ('other','Other')], string='Type', compute=_type_name)
     src = fields.Text(string='Internal Source')  # stored in database, kept for backward compatibility
     source = fields.Text(string='Source term', compute='_compute_source',
                          inverse='_inverse_source', search='_search_source')
@@ -206,7 +228,7 @@ class IrTranslation(models.Model):
     # aka gettext extracted-comments - we use them to flag openerp-web translation
     # cfr: http://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/PO-Files.html
     comments = fields.Text(string='Translation comments', index=True)
-    custom = fields.Boolean('Custom Transation', help="This translation don't will be overridden", default=False)
+    custom = fields.Boolean('Custom', help="This translation don't will be overridden", default=False)
 
     _sql_constraints = [
         ('lang_fkey_res_lang', 'FOREIGN KEY(lang) REFERENCES res_lang(code)',
@@ -747,6 +769,7 @@ class IrTranslation(models.Model):
         :return: action definition to open the list of available translations
         """
         fields = self.env['ir.model.fields'].search([('model', '=', model_name)])
+        views = self.env['ir.ui.view'].search([('model', '=', model_name)])
         view = self.env.ref("base.view_translation_tree", False) or self.env['ir.ui.view']
         return {
             'name': _("Technical Translations"),
@@ -754,11 +777,16 @@ class IrTranslation(models.Model):
             'views': [(view.id, "list")],
             'res_model': 'ir.translation',
             'type': 'ir.actions.act_window',
+            'context': {'search_default_field': 1, 'search_default_selection': 1, 'search_default_tooltip': 1},
             'domain': [
+                '|', ('name', '=', model_name),
                 '|',
                     '&', ('type', '=', 'model'),
-                        '&', ('res_id', 'in', fields.ids),
-                             ('name', 'like', 'ir.model.fields,'),
+                        '|',
+                            '&', ('res_id', 'in', fields.ids),
+                                 ('name', 'like', 'ir.model.fields,'),
+                            '&', ('res_id', 'in', views.ids),
+                                 ('name', 'like', 'ir.ui.view,'),
                     '&', ('type', '=', 'selection'),
                          ('name', 'like', model_name+','),
             ],

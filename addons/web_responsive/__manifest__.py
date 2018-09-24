@@ -14,6 +14,7 @@
     "installable": True,
     "depends": [
         'web',
+        'base_setup',
     ],
     "data": [
         'views/assets.xml',

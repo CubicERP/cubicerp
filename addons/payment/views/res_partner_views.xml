@@ -43,13 +43,13 @@
                 <field name="model">res.partner.bank</field>
                 <field name="inherit_id" ref="base.view_partner_bank_form"/>
                 <field name="arch" type="xml">
-                    <xpath expr='//field[@name="acc_number"]' position="before">
+                    <xpath expr='//field[@name="bank_id"]' position="before">
                         <field name="medium_type_id" options="{'no_create': True}"/>
                     </xpath>
                     <xpath expr='//field[@name="bank_id"]' position="attributes">
                         <attribute name="domain">[('medium_type_ids','=',medium_type_id),'|',('sector_ids','in',sector_id),('sector_ids','=',[])]</attribute>
                     </xpath>
-                    <xpath expr='//field[@name="bank_id"]' position="before">
+                    <xpath expr='//field[@name="currency_id"]' position="before">
                         <field name="has_address" invisible="1"/>
                         <field name="address_id" attrs="{'invisible':[('has_address','=',False)]}" options="{&quot;always_reload&quot;: True}"
                                domain="[('id','child_of',partner_id)]" context="{'default_parent_id':partner_id, 'show_address': 1}"/>

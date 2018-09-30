@@ -64,11 +64,11 @@
                 <form string="Bank account">
                     <group>
                         <group name="one">
+                            <field name="bank_id"/>
                             <field name="acc_number"/>
                             <field name="partner_id"/>
                         </group>
                         <group name="two">
-                            <field name="bank_id"/>
                             <field name="currency_id" groups="base.group_multi_currency" options="{'no_create': True}"/>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>

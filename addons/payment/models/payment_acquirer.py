@@ -724,7 +724,13 @@ class PaymentTransaction(models.Model):
         return self.write({'state': 'refunded'})
 
     def action_error(self):
-        return self.write({'state': 'error'})
+        to_write = self.env['payment.transaction']
+        for transaction in self:
+            if transaction.pay_retry and transaction.retries <= transaction.pay_max_retries:
+                transaction.action_retry()
+            else:
+                to_write |= transaction
+        return to_write and to_write.write({'state': 'error'}) or False
 
     def action_retry(self):
         for trans in self:

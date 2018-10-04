@@ -726,7 +726,7 @@ class PaymentTransaction(models.Model):
     def action_error(self):
         to_write = self.env['payment.transaction']
         for transaction in self:
-            if transaction.pay_retry and transaction.retries <= transaction.pay_max_retries:
+            if transaction.pay_retry and transaction.retries < transaction.pay_max_retries:
                 transaction.action_retry()
             else:
                 to_write |= transaction

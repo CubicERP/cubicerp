@@ -25,6 +25,7 @@ class ProductCategory(models.Model):
     complete_name = fields.Char(
         'Complete Name', compute='_compute_complete_name',
         store=True)
+    code = fields.Char("Internal Code", index=1)
     parent_id = fields.Many2one('product.category', 'Parent Category', index=True, ondelete='cascade')
     child_id = fields.One2many('product.category', 'parent_id', 'Child Categories')
     parent_left = fields.Integer('Left Parent', index=1)

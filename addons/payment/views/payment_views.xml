@@ -337,11 +337,11 @@
                             <group>
                                 <label for="amount"/>
                                 <div class="o_row">
-                                    <field name="amount"/>
+                                    <field name="amount" default_focus="1"/>
                                     <field name="currency_id" options="{'no_open': True, 'no_create': True}"/>
                                 </div>
                                 <field name="partial_payment" invisible="1"/>
-                                <field name="amount_pay" attrs="{'invisible':[('partial_payment','=',False)]}"/>
+                                <field name="amount_pay"/>
                                 <field name="fees" readonly="0"/>
                             </group>
                             <group>
@@ -365,6 +365,12 @@
                         <notebook>
                             <page string="Message" name="message">
                                 <field name="state_message"/>
+                            </page>
+                            <page string="Partial Payments" name="partial_page" attrs="{'invisible':[('partial_payment','=',False)]}">
+                                <field name="child_ids" context="{'default_partner_id':partner_id,'default_acquirer_id':acquirer_id,'default_currency_id':currency_id}"/>
+                                <group>
+                                    <field name="parent_id"/>
+                                </group>
                             </page>
                             <page string="Details" name="details">
                                 <group>

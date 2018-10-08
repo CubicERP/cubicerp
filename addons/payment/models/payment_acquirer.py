@@ -551,20 +551,23 @@ class PaymentTransaction(models.Model):
     state = fields.Selection(TRANSACTION_STATES, 'Status', copy=False, default='draft', required=True,
                              track_visibility='onchange', readonly=True, index=True)
     state_message = fields.Text('Message', help='Field used to store error and/or validation messages for information')
-    retries = fields.Integer("Payment Retries", default=0, readonly=True, help="Manual payment retries, allowed in the acquirer form.")
+    retries = fields.Integer("Payment Retries", default=0, readonly=True, help="Manual payment retries, allowed in the acquirer form.", copy=False)
     # payment
-    amount = fields.Float('Amount', digits=(16, 2), required=True, track_visibility='always', help='Amount',
+    amount = fields.Float('Amount', digits=(16, 2), required=True, track_visibility='always', help='Amount', copy=False,
                           readonly=True, states={'draft': [('readonly', False)]})
-    fees = fields.Float('Fees', digits=(16, 2), track_visibility='always',
+    fees = fields.Float('Fees', digits=(16, 2), track_visibility='always', copy=False,
                         help='Fees amount; set by the system because depends on the acquirer',
                         readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
-    amount_pay = fields.Monetary('Amount Paid', currency_field="currency_id", track_visibility='onchange',
+    amount_pay = fields.Monetary('Amount Paid', currency_field="currency_id", track_visibility='onchange', copy=False,
                                  help='Real amount paid allowed by acquirer partial payment',
                                  readonly=True, states={'draft': [('readonly', False)], 'pending': [('readonly', False)], 'authorized': [('readonly', False)]})
     partial_payment = fields.Boolean(related="acquirer_id.partial_payment", readonly=True)
     payment_distribute = fields.Selection([('lifo', 'LIFO'),
                                            ('fifo', 'FIFO')], help="Payment distribute for partial payments",
                                           readonly=True, states={'draft': [('readonly', False)]})
+    parent_id = fields.Many2one("payment.transaction", "Parent Transaction", readonly=True, states={'draft': [('readonly', False)]})
+    child_ids = fields.One2many("payment.transaction", "parent_id", "Partial Payments", readonly=True,
+                                states={'draft': [('readonly', False)],'pending': [('readonly', False)],'authorized': [('readonly', False)]})
     statement_line_id = fields.Many2one("account.bank.statement.line", string="Statement Line",
                                         readonly=True, states={'draft': [('readonly', False)]})
     currency_id = fields.Many2one('res.currency', 'Currency', required=True,
@@ -682,6 +685,12 @@ class PaymentTransaction(models.Model):
             return res
         return super(PaymentTransaction, self).write(values)
 
+    def copy(self, default=None):
+        if default is None:
+            default = {}
+        default['reference'] = "new"
+        return super(PaymentTransaction, self).copy(default=default)
+
     def action_draft(self):
         return self.write({'state': 'draft'})
 
@@ -696,6 +705,8 @@ class PaymentTransaction(models.Model):
             vals = {'state': 'done'}
             if not transaction.amount_pay and not transaction.partial_payment:
                 vals['amount_pay'] = transaction.amount
+            if transaction.parent_id:
+                transaction.parent_id.write({'amount': transaction.parent_id.amount - transaction.amount_pay})
             if not transaction.payment_distribute:
                 vals['payment_distribute'] = transaction.acquirer_id.payment_distribute
             if not transaction.date_validate:

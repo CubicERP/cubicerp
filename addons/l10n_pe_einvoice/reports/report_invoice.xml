@@ -69,7 +69,7 @@
                 <div class="col-xs-12">
                     <table style="width:100%; line-height:20px;">
                         <tr>
-                            <td style="width:28.5%;">Establecimiento del Emisor</td>
+                            <td style="width:28.5%;">Dirección del Cliente</td>
                             <td>: <strong><span t-field="o.partner_id.street"/> <span t-esc="o.company_id.street2"/> <span t-esc="o.company_id.city"/> - <span t-esc="o.company_id.state_id.name"/> - <span t-esc="o.company_id.country_id.name"/></strong></td>
                         </tr>
                         <tr>

@@ -25,7 +25,7 @@ class StockMove(models.Model):
             return self.env['stock.picking'].browse(self.env.context['default_picking_id']).group_id.id
         return False
 
-    name = fields.Char('Description', index=True, required=True)
+    name = fields.Text('Description', index=True, required=True)
     sequence = fields.Integer('Sequence', default=10)
     priority = fields.Selection(PROCUREMENT_PRIORITIES, 'Priority', default='1')
     create_date = fields.Datetime('Creation Date', index=True, readonly=True)

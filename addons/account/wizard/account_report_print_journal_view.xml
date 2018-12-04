@@ -13,7 +13,7 @@
             <newline/>
         </xpath>
         <xpath expr="//field[@name='journal_ids']" position="attributes">
-            <attribute name="domain">[('type', 'in', ('sale', 'purchase'))]</attribute>
+            <attribute name="domain">[('type', 'in', ('sale', 'purchase','sale_refund', 'purchase_refund'))]</attribute>
         </xpath>
         </data>
         </field>

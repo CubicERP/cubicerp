@@ -149,7 +149,9 @@ class MrpProduction(models.Model):
 
     check_to_done = fields.Boolean(compute="_get_produced_qty", string="Check Produced Qty", 
         help="Technical Field to see if we can show 'Mark as Done' button")
-    qty_produced = fields.Float(compute="_get_produced_qty", string="Quantity Produced")
+    qty_produced = fields.Float(compute="_get_produced_qty", digits=dp.get_precision('Product Unit of Measure'),
+                                string="Quantity Produced", help="Quantity Produced")
+    inefficiency_percent = fields.Float(compute="_get_produced_qty", string="Inefficency", help="Inefficiency percent (quantity produced / quantity ordered %)")
     procurement_group_id = fields.Many2one(
         'procurement.group', 'Procurement Group',
         copy=False)
@@ -255,7 +257,9 @@ class MrpProduction(models.Model):
             wo_done = True
             if any([x.state not in ('done', 'cancel') for x in production.workorder_ids]):
                 wo_done = False
-            production.check_to_done = production.is_locked and done_moves and (qty_produced >= production.product_qty) and (production.state not in ('done', 'cancel')) and wo_done
+            #production.check_to_done = production.is_locked and done_moves and (qty_produced >= production.product_qty) and (production.state not in ('done', 'cancel')) and wo_done
+            production.check_to_done = production.is_locked and done_moves and (qty_produced) and (production.state not in ('done', 'cancel')) and wo_done
+            production.inefficiency_percent = production.product_qty and ((1.0 - (qty_produced / production.product_qty)) * 100.0) or 0.0
             production.qty_produced = qty_produced
         return True
 

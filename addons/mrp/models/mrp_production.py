@@ -151,7 +151,7 @@ class MrpProduction(models.Model):
         help="Technical Field to see if we can show 'Mark as Done' button")
     qty_produced = fields.Float(compute="_get_produced_qty", digits=dp.get_precision('Product Unit of Measure'),
                                 string="Quantity Produced", help="Quantity Produced")
-    inefficiency_percent = fields.Float(compute="_get_produced_qty", string="Inefficency", help="Inefficiency percent (quantity produced / quantity ordered %)")
+    inefficiency_percent = fields.Float(compute="_get_produced_qty", string="Inefficency", help="Inefficiency percent (1 - quantity produced / quantity ordered %)")
     procurement_group_id = fields.Many2one(
         'procurement.group', 'Procurement Group',
         copy=False)

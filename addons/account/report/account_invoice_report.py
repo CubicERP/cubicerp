@@ -43,6 +43,7 @@ class AccountInvoiceReport(models.Model):
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
     user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
     price_total = fields.Float(string='Total Without Tax', readonly=True)
+    price_subtotal = fields.Float(string='SubTotal Without Tax', readonly=True)
     user_currency_price_total = fields.Float(string="Total Without Tax", compute='_compute_amounts_in_user_currency', digits=0)
     price_average = fields.Float(string='Average Price', readonly=True, group_operator="avg")
     user_currency_price_average = fields.Float(string="Average Price", compute='_compute_amounts_in_user_currency', digits=0)
@@ -95,7 +96,7 @@ class AccountInvoiceReport(models.Model):
                 sub.payment_term_id, sub.uom_name, sub.currency_id, sub.journal_id,
                 sub.fiscal_position_id, sub.user_id, sub.company_id, sub.nbr, sub.type, sub.state,
                 sub.categ_id, sub.date_due, sub.account_id, sub.account_line_id, sub.partner_bank_id,
-                sub.product_qty, sub.price_total as price_total, sub.price_average as price_average,
+                sub.product_qty, sub.price_total as price_total, sub.price_subtotal as price_subtotal, sub.price_average as price_average,
                 COALESCE(cr.rate, 1) as currency_rate, sub.residual as residual, sub.commercial_partner_id as commercial_partner_id
         """
         return select_str
@@ -113,6 +114,7 @@ class AccountInvoiceReport(models.Model):
                     ai.partner_bank_id,
                     SUM ((invoice_type.sign * ail.quantity) / u.factor * u2.factor) AS product_qty,
                     SUM(ail.price_subtotal_signed * invoice_type.sign) AS price_total,
+                    SUM(ail.price_subtotal * invoice_type.sign) AS price_subtotal,
                     SUM(ABS(ail.price_subtotal_signed)) / CASE
                             WHEN SUM(ail.quantity / u.factor * u2.factor) <> 0::numeric
                                THEN SUM(ail.quantity / u.factor * u2.factor)

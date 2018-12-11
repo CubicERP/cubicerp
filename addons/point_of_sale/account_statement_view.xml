@@ -99,12 +99,12 @@
             <field name="search_view_id" ref="account.view_account_bank_statement_filter"/>
             <field name="context">{'search_default_state_draft': 1, 'search_default_state_open': 1}</field>
         </record>
-        <record model="ir.actions.act_window.view" id="act_cash_statement_all_register1">
+        <!--record model="ir.actions.act_window.view" id="act_cash_statement_all_register1">
             <field name="sequence" eval="0"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_cash_statement_pos_tree"/>
             <field name="act_window_id" ref="action_new_bank_statement_all_tree"/>
-        </record>
+        </record-->
         <record model="ir.actions.act_window.view" id="act_cash_statement_all_register">
             <field name="sequence" eval="5"/>
             <field name="view_mode">form</field>

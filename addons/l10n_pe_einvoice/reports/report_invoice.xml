@@ -34,13 +34,14 @@
                 <div class="col-xs-7">
                     <table style="width:100%; line-height:20px;">
                         <tr>
-                            <td style="width:50%;">Fecha de vencimiento</td>
-                            <td>: <strong><span t-field="o.date_due"/></strong></td>
-                        </tr>
-                        <tr>
-                            <td style="width:50%;">Fecha de emisión</td>
+                            <td style="width:50%;">Fecha de Emisión</td>
                             <td>: <strong><span t-field="o.date_invoice"/></strong></td>
                         </tr>
+                        <tr>
+                            <td style="width:50%;">Fecha de Vencimiento</td>
+                            <td>: <strong><span t-field="o.date_due"/></strong></td>
+                        </tr>
+
                         <tr>
                             <td style="width:50%;">Señor(es)</td>
                             <td>: <strong><span t-field="o.partner_id.name"/></strong></td></tr>
@@ -68,11 +69,11 @@
                 <div class="col-xs-12">
                     <table style="width:100%; line-height:20px;">
                         <tr>
-                            <td style="width:28.5%;">Establecimiento del emisor</td>
+                            <td style="width:28.5%;">Dirección del Cliente</td>
                             <td>: <strong><span t-field="o.partner_id.street"/> <span t-esc="o.company_id.street2"/> <span t-esc="o.company_id.city"/> - <span t-esc="o.company_id.state_id.name"/> - <span t-esc="o.company_id.country_id.name"/></strong></td>
                         </tr>
                         <tr>
-                            <td style="width:28.5%;">Tipo de moneda</td>
+                            <td style="width:28.5%;">Tipo de Moneda</td>
                             <td>:
                                 <strong>
                                     <t t-if="o.currency_id.long_name"><span t-field="o.currency_id.long_name"/></t>

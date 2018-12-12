@@ -829,6 +829,7 @@ class account_journal(osv.osv):
     }
 
     _defaults = {
+        'active' : True,
         'cash_control' : False,
         'with_last_closing_balance' : True,
         'user_id': lambda self, cr, uid, context: uid,

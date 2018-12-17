@@ -954,6 +954,7 @@
                     <field name="name"/>
                     <field name="type"/>
                     <field name="financial_report_id"/>
+                    <field name="sequence" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -966,6 +967,7 @@
                         <group>
                             <field name="name"/>
                             <field name="type"/>
+                            <field name="sequence"/>
                         </group>
                         <group>
                             <field name="include_initial_balance"/>

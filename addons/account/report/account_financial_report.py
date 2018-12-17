@@ -11,6 +11,7 @@ from odoo import api, models, fields
 class account_financial_report(models.Model):
     _name = "account.financial.report"
     _description = "Account Report"
+    _order = "sequence"
 
     @api.multi
     @api.depends('parent_id', 'parent_id.level')

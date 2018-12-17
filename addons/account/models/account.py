@@ -13,6 +13,7 @@ from odoo import api, fields, models, _
 class AccountAccountType(models.Model):
     _name = "account.account.type"
     _description = "Account Type"
+    _order = "sequence"
 
     name = fields.Char(string='Account Type', required=True, translate=True)
     include_initial_balance = fields.Boolean(string="Bring Accounts Balance Forward", help="Used in reports to know if we should consider journal items from the beginning of time instead of from the fiscal year only. Account types that should be reset to zero at each new fiscal year (like expenses, revenue..) should not have this option set.")
@@ -27,6 +28,7 @@ class AccountAccountType(models.Model):
         ", payable/receivable is for vendor/customer accounts.")
     note = fields.Text(string='Description')
     financial_report_id = fields.Many2one('account.financial.report', string="Financial Report", domain=[('type','=','account_type')])
+    sequence = fields.Integer('Sequence')
 
     @api.model
     def create(self, vals):

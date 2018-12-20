@@ -248,12 +248,16 @@ class SaleOrderLine(models.Model):
             values = line._prepare_procurement_values(group_id=line.order_id.procurement_group_id)
             product_qty = line.product_uom_qty - qty
             try:
-                self.env['procurement.group'].run(line.product_id, product_qty, line.product_uom, line.order_id.partner_shipping_id.property_stock_customer, line.name, line.order_id.name, values)
+                self.env['procurement.group'].run(line._get_product_id(), product_qty, line.product_uom, line.order_id.partner_shipping_id.property_stock_customer, line.name, line.order_id.name, values)
             except UserError as error:
                 errors.append(error.name)
         if errors:
             raise UserError('\n'.join(errors))
         return True
+
+    def _get_product_id(self):
+        self.ensure_one()
+        return self.product_id
 
     @api.multi
     def _get_delivered_qty(self):

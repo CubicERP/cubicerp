@@ -349,6 +349,39 @@ var CalendarController = AbstractController.extend({
         var subtitle = (this.mode === 'week' ? _t('Week ') : '') + event.data.title;
         this.set({title: this.displayName + ' (' + subtitle + ')'});
     },
+     /**
+     * This method is called when someone tries to reload form view
+     */
+    _onRefresh: function () {
+        var self = this;
+        self.reload();
+    },
+    /**
+     * @override
+     */
+    renderExtraButtons: function ($node) {
+        $node.empty();
+
+        this.extraButtons = $node;
+
+        var $tmp = $(QWeb.render('ViewManager.extra_buttons', {}));
+        $tmp.appendTo(this.extraButtons);
+
+        var modelName = this.modelName
+        var $dbutton = $('.o_cp_extra_buttons')[0]
+        if (typeof $dbutton != "undefined"){
+            var $devent = $._data($('.o_cp_extra_buttons')[0], 'events');
+            if (typeof $devent != "undefined"){
+                var i =  ($._data($('.o_cp_extra_buttons')[0] , 'events').click.length - 1)
+                for( i =  ($._data($('.o_cp_extra_buttons')[0] , 'events').click.length - 1) ; i >= 0 ; i--){
+                    if (modelName != $._data($('.o_cp_extra_buttons')[0] , 'events').click[i].data) {
+                        $('.o_cp_extra_buttons').off('click', '.o_form_button_refresh', $._data($('.o_cp_extra_buttons')[0],'events').click[i].handler);
+                    };
+                };
+            };
+        };
+        this.extraButtons.on('click', '.o_form_button_refresh', this.modelName, this._onRefresh.bind(this));
+    },
 });
 
 return CalendarController;

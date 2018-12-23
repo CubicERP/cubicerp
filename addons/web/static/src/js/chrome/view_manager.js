@@ -298,6 +298,12 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                 });
             }
 
+            var $dbutton = $('.o_cp_extra_buttons')[0]
+            if (typeof $dbutton != "undefined" && view && view.controller){
+                $('.o_cp_extra_buttons').off('click', '.o_form_button_refresh');
+                $('.o_cp_extra_buttons').on('click', '.o_form_button_refresh', view.controller._onRefresh.bind(view.controller));
+            };
+
             return $.when(view.loaded)
                 .then(function() {
                     self._display_view(old_view);

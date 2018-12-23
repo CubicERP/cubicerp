@@ -155,7 +155,20 @@ var BasicController = AbstractController.extend(FieldManagerMixin, {
         var $tmp = $(QWeb.render('ViewManager.extra_buttons', {}));
         $tmp.appendTo(this.extraButtons);
 
-        this.extraButtons.on('click', '.o_form_button_refresh', this._onRefresh.bind(this));
+        var modelName = this.modelName
+        var $dbutton = $('.o_cp_extra_buttons')[0]
+        if (typeof $dbutton != "undefined"){
+            var $devent = $._data($('.o_cp_extra_buttons')[0], 'events');
+            if (typeof $devent != "undefined"){
+                var i =  ($._data($('.o_cp_extra_buttons')[0] , 'events').click.length - 1)
+                for( i =  ($._data($('.o_cp_extra_buttons')[0] , 'events').click.length - 1) ; i >= 0 ; i--){
+                    if (modelName != $._data($('.o_cp_extra_buttons')[0] , 'events').click[i].data) {
+                        $('.o_cp_extra_buttons').off('click', '.o_form_button_refresh', $._data($('.o_cp_extra_buttons')[0],'events').click[i].handler);
+                    };
+                };
+            };
+        };
+        this.extraButtons.on('click', '.o_form_button_refresh', this.modelName, this._onRefresh.bind(this));
     },
     /**
      * Saves the record whose ID is given if necessary (@see _saveRecord).

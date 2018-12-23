@@ -58,7 +58,7 @@ class AccountReportLedger(models.TransientModel):
                          'columns': [m['move_name'],
                                      m['ldate'],
                                      m['lcode'],
-                                     m['partner_name'],
+                                     m['partner_name'] or '',
                                      "%s%s" % (m['lname'], m.get('lref') and " - %s" % m['lref'] or ''),
                                      m['debit'],
                                      m['credit'],

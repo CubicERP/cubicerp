@@ -25,9 +25,9 @@ class ResConfigSettings(models.TransientModel):
 
             # Reutilizando el controller 'BinaryController' del modulo web
             url = '/web/binary/image?model=%s&field=image&id=%s' % (self.screen_background_ids._name, ids[id_selected])
-            if clientWidth and clientHeight:
-                resize = 'resize=%s,%s&crop=1' % (clientWidth, clientHeight)
-                url += '&' + resize
+            # if clientWidth and clientHeight:
+            #     resize = 'resize=%s,%s&crop=1' % (clientWidth, clientHeight)
+            #     url += '&' + resize
 
             return url
 

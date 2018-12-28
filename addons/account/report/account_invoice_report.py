@@ -224,7 +224,7 @@ class account_invoice_report(osv.osv):
               AS (select ai.id, (SELECT rate FROM res_currency_rate cr2
                                               WHERE (cr2.currency_id = ai.currency_id) AND ((ai.date_invoice IS NOT NULL AND cr2.name <= ai.date_invoice) OR (ai.date_invoice IS NULL AND cr2.name <= NOW()))
                                               ORDER BY name DESC LIMIT 1) as rate,
-                                (SELECT id FROM res_currency_rate cr3
+                                (SELECT rate FROM res_currency_rate cr3
                                               WHERE (cr3.currency_id = rc.currency_id) AND ((ai.date_invoice IS NOT NULL AND cr3.name <= ai.date_invoice) OR (ai.date_invoice IS NULL AND cr3.name <= NOW()))
                                               ORDER BY name DESC LIMIT 1) as rate_company
                     from account_invoice ai

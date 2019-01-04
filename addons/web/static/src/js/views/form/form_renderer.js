@@ -676,7 +676,7 @@ var FormRenderer = BasicRenderer.extend({
         var $img = $('<i class="fa fa-pencil-square-o" style="font-size:xx-small"></i>');
         $img.on('click', this._onQuickTranslate.bind(this, fieldName, text, $result));
 
-        var $container = $('<div style="display:flex;">')
+        var $container = $('<div style="display:inline;">')
         if (fieldName) {
             $container.append($result);
             if(Session.debug)

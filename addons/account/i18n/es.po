@@ -5040,7 +5040,7 @@ msgstr "Falta el contenido del formulario, este informe no se puede imprimir."
 #: code:addons/account/models/account_invoice.py:93
 #, python-format
 msgid "Free Reference"
-msgstr "Referencia libre / Nº Fact. Proveedor"
+msgstr "Referencia libre"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_account_move_line_filter
@@ -5896,6 +5896,11 @@ msgstr "Impuesto de factura"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_refund_invoice_id
+msgid "Related Invoice"
+msgstr "Factura Relacionada"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_invoice_refund_invoice_id
 msgid "Invoice for which this invoice is the credit note"
 msgstr "Factura por la cual esta factura es la nota de crédito"
 
@@ -8648,7 +8653,7 @@ msgstr "Referencia/Descripción"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_refund_invoice_ids
 msgid "Refund Invoices"
-msgstr "Facturas de reembolso"
+msgstr "Factura de reembolso"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_refund_filter_refund

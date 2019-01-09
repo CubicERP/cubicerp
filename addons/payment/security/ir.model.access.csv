@@ -15,3 +15,6 @@ payment_method_system,payment.token.system,model_payment_token,base.group_system
 payment_icon_all,payment.icon.all,model_payment_icon,,1,0,0,0
 payment_icon_user,payment.icon.user,model_payment_icon,base.group_user,1,1,1,0
 payment_icon_system,payment.icon.system,model_payment_icon,base.group_system,1,1,1,1
+payment_address_sector_all,payment.address_sector.all,model_payment_address_sector,,1,0,0,0
+payment_address_sector_user,payment.address_sector.user,model_payment_address_sector,base.group_user,1,1,1,0
+payment_address_sector_system,payment.address_sector.system,model_payment_address_sector,base.group_system,1,1,1,1

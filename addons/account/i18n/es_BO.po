@@ -4104,7 +4104,7 @@ msgstr ""
 #: code:addons/account/models/account_invoice.py:77
 #, python-format
 msgid "Free Reference"
-msgstr "Referencia libre / Nº Fact. Proveedor"
+msgstr "Referencia libre"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_account_move_line_filter

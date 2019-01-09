@@ -40,13 +40,9 @@ It transform the accounting PDF reports to useful dynamical reports.
         "views/account_report_template.xml",
         "wizard/account_report_ledger_view.xml",
         "report/account_entries_report_view.xml",
+        "security/ir.model.access.csv",
     ],
     'qweb': [
         'static/src/xml/account_report_ledger_backend.xml',
     ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
 }

@@ -17,5 +17,5 @@ Auto-Complete Addresses based on VAT numbers
         'views/res_partner_views.xml',
         'views/res_company_view.xml',
     ],
-    'auto_install': True
+    'auto_install': False,
 }

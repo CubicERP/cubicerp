@@ -229,8 +229,7 @@ class AccountInvoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)]}, copy=False, help='The name that will be used on account move lines')
 
     origin = fields.Char(string='Source Document',
-        help="Reference of the document that produced this invoice.",
-        readonly=True, states={'draft': [('readonly', False)]})
+        help="Reference of the document that produced this invoice.")
     type = fields.Selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Vendor Bill'),
@@ -244,7 +243,7 @@ class AccountInvoice(models.Model):
         default=_get_default_access_token)
 
     related_invoice = fields.Boolean("Require Related Invoice", related="journal_id.related_journal")
-    refund_invoice_id = fields.Many2one('account.invoice', "Related Invoice", readonly=True, states={'draft': [('readonly', False)]},
+    refund_invoice_id = fields.Many2one('account.invoice', string="Related Invoice",
                                         help="Invoice for which this invoice is the credit note")
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     move_name = fields.Char(string='Journal Entry Name', readonly=False,

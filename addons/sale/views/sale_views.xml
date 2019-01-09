@@ -219,9 +219,9 @@
                     </div>
                     <group>
                         <group>
-                            <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
-                            <field name="partner_invoice_id" domain="['|','|','|',('id','=',partner_id),('parent_id','=',partner_id),('parent_id','=',partner_parent_id),('id','=',partner_parent_id)]" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}" options='{"always_reload": True}'/>
-                            <field name="partner_shipping_id" domain="['|','|','|',('id','=',partner_id),('parent_id','=',partner_id),('parent_id','=',partner_parent_id),('id','=',partner_parent_id)]" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}" options='{"always_reload": True}'/>
+                            <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 0}" options='{"always_reload": True}'/>
+                            <field name="partner_invoice_id" domain="['|','|','|',('id','=',partner_id),('parent_id','=',partner_id),('parent_id','=',partner_parent_id),('id','=',partner_parent_id)]" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice', 'show_address': 1}" options='{"always_reload": True}'/>
+                            <field name="partner_shipping_id" domain="['|','|','|',('id','=',partner_id),('parent_id','=',partner_id),('parent_id','=',partner_parent_id),('id','=',partner_parent_id)]" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery', 'show_address': 1}" options='{"always_reload": True}'/>
                             <field name="partner_parent_id" invisible="1"/>
                         </group>
                         <group>
@@ -725,7 +725,7 @@
                         <field name="team_id"/>
                     </xpath>
                     <xpath expr="//field[@name='partner_id']" position="after">
-                       <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address"/>
+                       <field name="partner_shipping_id" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True, &quot;no_quick_create&quot;: True}" groups="sale.group_delivery_invoice_address"/>
                    </xpath>
                     <xpath expr="//page/field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
                         <field name="layout_category_id" groups="sale.group_sale_layout"/>

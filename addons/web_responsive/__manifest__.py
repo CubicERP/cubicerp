@@ -20,6 +20,7 @@
         'views/assets.xml',
         'views/web.xml',
         'views/res_config_settings_views.xml',
+        "security/ir.model.access.csv",
     ],
     'qweb': [
         'static/src/xml/form_view.xml',

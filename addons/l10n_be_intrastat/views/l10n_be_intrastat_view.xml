@@ -75,7 +75,7 @@
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='first']" position="after">
+                <xpath expr="//group[@name='first']" position="inside">
                     <group string="Intrastat">
                         <field name="intrastat_id"/>
                     </group>

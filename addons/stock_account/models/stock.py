@@ -11,6 +11,13 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class StockPickingType(models.Model):
+    _inherit = "stock.picking.type"
+
+    journal_id = fields.Many2one("account.journal", "Journal", domain=[('type','=','stock')],
+                                 help="This stock journal replace to the journal defined in the product category.")
+
+
 class StockInventory(models.Model):
     _inherit = "stock.inventory"
 
@@ -454,7 +461,7 @@ class StockMove(models.Model):
             raise UserError(_('Cannot find a stock output account for the product %s. You must define one on the product category, or on the location, before processing this operation.') % (self.product_id.name))
         if not acc_valuation:
             raise UserError(_('You don\'t have any stock valuation account defined on your product category. You must define one before processing this operation.'))
-        journal_id = accounts_data['stock_journal'].id
+        journal_id = self.picking_type_id.journal_id.id or accounts_data['stock_journal'].id
         return journal_id, acc_src, acc_dest, acc_valuation
     
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):

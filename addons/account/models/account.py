@@ -708,7 +708,7 @@ class AccountJournal(models.Model):
         res = []
         for journal in self:
             currency = journal.currency_id or journal.company_id.currency_id
-            name = "%s (%s)" % (journal.name, currency.name)
+            name = "[%s] %s (%s)" % (journal.code, journal.name, currency.name)
             res += [(journal.id, name)]
         return res
 

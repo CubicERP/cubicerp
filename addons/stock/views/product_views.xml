@@ -7,7 +7,7 @@
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_form_view" />
             <field name="arch" type="xml">
-                <group name="first" position="after">
+                <group name="first" position="inside">
                     <group string="Logistics">
                         <field name="route_ids" widget="many2many_tags" groups="stock.group_adv_location"/>
                         <div colspan="2" attrs="{'invisible': [('parent_id', '=', False)]}">

@@ -216,7 +216,7 @@ class ProductCategory(models.Model):
         First In First Out (FIFO): The products are valued supposing those that enter the company first will also leave it first.
         """)
     property_stock_journal = fields.Many2one(
-        'account.journal', 'Stock Journal', company_dependent=True,
+        'account.journal', 'Stock Journal', company_dependent=True, domain=[('type','=','stock')],
         help="When doing real-time inventory valuation, this is the Accounting Journal in which entries will be automatically posted when stock moves are processed.")
     property_stock_account_input_categ_id = fields.Many2one(
         'account.account', 'Stock Input Account', company_dependent=True,

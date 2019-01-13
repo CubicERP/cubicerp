@@ -8917,7 +8917,7 @@ msgstr "SEPA Direct Debit (SDD)"
 #: model:ir.ui.view,arch_db:account.view_account_tax_template_search
 #: model:ir.ui.view,arch_db:account.view_partner_property_form
 msgid "Sale"
-msgstr "Oferta"
+msgstr "Venta"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_wizard_multi_chart

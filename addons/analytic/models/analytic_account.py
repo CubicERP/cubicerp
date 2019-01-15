@@ -64,15 +64,15 @@ class AccountAnalyticAccount(models.Model):
     def name_get(self):
         res = []
         for analytic in self:
-            res.append((analytic.id, analytic._get_one_full_name()))
+            res.append((analytic.id, analytic._get_full_name()))
         return res
 
-    def _get_one_full_name(self, level=5):
+    def _get_full_name(self,level=5):
         self.ensure_one()
         if level<=0:
             return '...'
         if self.parent_id:
-            parent_path = self.parent_id._get_one_full_name(level-1) + " / "
+            parent_path = self.parent_id._get_full_name(level-1) + " / "
         else:
             parent_path = ''
         return parent_path + "%s%s%s"%(self.code and '[%s] '%self.code or '',

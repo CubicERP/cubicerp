@@ -64,7 +64,7 @@ class AccountAnalyticAccount(models.Model):
     def name_get(self):
         res = []
         for analytic in self:
-            res.append((analytic.id, self._get_one_full_name()))
+            res.append((analytic.id, analytic._get_one_full_name()))
         return res
 
     def _get_one_full_name(self, level=5):

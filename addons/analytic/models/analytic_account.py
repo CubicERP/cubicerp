@@ -77,7 +77,7 @@ class AccountAnalyticAccount(models.Model):
             parent_path = ''
         return parent_path + "%s%s%s"%(self.code and '[%s] '%self.code or '',
                                        self.name,
-                                       self.partner_id and ' - %s'%self.partner_id.name and '')
+                                       self.partner_id and ' - %s'%self.partner_id.name or '')
 
 
     @api.model

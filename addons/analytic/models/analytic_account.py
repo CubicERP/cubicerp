@@ -60,23 +60,22 @@ class AccountAnalyticAccount(models.Model):
 
     currency_id = fields.Many2one(related="company_id.currency_id", string="Currency", readonly=True)
 
-    # def name_get(self):
-    #     res = []
-    #     for analytic in self:
-    #         res.append((analytic.id, analytic._get_full_name()))
-    #     return res
-    #
-    # def _get_full_name(self,level=5):
-    #     self.ensure_one()
-    #     if level<=0:
-    #         return '...'
-    #     if self.parent_id:
-    #         parent_path = self.parent_id._get_full_name(level-1) + " / "
-    #     else:
-    #         parent_path = ''
-    #     return parent_path + "%s%s%s"%(self.code and '[%s] '%self.code or '',
-    #                                    self.name,
-    #                                    self.partner_id and ' - %s'%self.partner_id.name or '')
+    def name_get(self):
+        res = []
+        for analytic in self:
+            res.append((analytic.id, self._get_full(analytic)))
+        return res
+
+    def _get_full(self, e, level=5):
+        if level<=0:
+            return '...'
+        if e.parent_id:
+            parent_path = self._get_full(e.parent_id, level-1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + "%s%s%s"%(e.code and '[%s] '%e.code or '',
+                                       e.name,
+                                       e.partner_id and ' - %s'%e.partner_id.name or '')
 
 
     @api.model

@@ -126,6 +126,7 @@ class PurchaseRequisitionLine(models.Model):
     _rec_name = 'product_id'
 
     product_id = fields.Many2one('product.product', string='Product', domain=[('purchase_ok', '=', True)], required=True)
+    name = fields.Char("Description", required=True)
     product_uom_id = fields.Many2one('product.uom', string='Product Unit of Measure')
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
     price_unit = fields.Float(string='Unit Price', digits=dp.get_precision('Product Price'))
@@ -152,8 +153,18 @@ class PurchaseRequisitionLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
-            self.product_uom_id = self.product_id.uom_id
+            self.product_uom_id = self.product_id.uom_po_id or self.product_id.uom_id
             self.product_qty = 1.0
+        if not self.name:
+            # Compute name
+            product_lang = self.product_id.with_context({
+                'lang': self.env.user.partner_id.lang,
+                'partner_id': self.env.user.id,
+            })
+            name = product_lang.display_name
+            if product_lang.description_purchase:
+                name += '\n' + product_lang.description_purchase
+            self.name = name
         if not self.account_analytic_id:
             self.account_analytic_id = self.requisition_id.account_analytic_id
         if not self.schedule_date:
@@ -166,7 +177,7 @@ class PurchaseRequisitionLine(models.Model):
         return {
             'name': name,
             'product_id': self.product_id.id,
-            'product_uom': self.product_id.uom_po_id.id,
+            'product_uom': self.product_uom_id.id,
             'product_qty': product_qty,
             'price_unit': price_unit,
             'taxes_id': [(6, 0, taxes_ids)],
@@ -215,14 +226,7 @@ class PurchaseOrder(models.Model):
         # Create PO lines if necessary
         order_lines = []
         for line in requisition.line_ids:
-            # Compute name
-            product_lang = line.product_id.with_context({
-                'lang': partner.lang,
-                'partner_id': partner.id,
-            })
-            name = product_lang.display_name
-            if product_lang.description_purchase:
-                name += '\n' + product_lang.description_purchase
+            name = line.name
 
             # Compute taxes
             if fpos:

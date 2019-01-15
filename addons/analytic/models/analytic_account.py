@@ -64,13 +64,21 @@ class AccountAnalyticAccount(models.Model):
     def name_get(self):
         res = []
         for analytic in self:
-            name = analytic.name
-            if analytic.code:
-                name = '['+analytic.code+'] '+name
-            if analytic.partner_id:
-                name = name +' - '+analytic.partner_id.commercial_partner_id.name
-            res.append((analytic.id, name))
+            res.append((analytic.id, self._get_one_full_name()))
         return res
+
+    def _get_one_full_name(self, level=5):
+        self.ensure_one()
+        if level<=0:
+            return '...'
+        if self.parent_id:
+            parent_path = self.parent_id._get_one_full_name(level-1) + " / "
+        else:
+            parent_path = ''
+        return parent_path + "%s%s%s"%(self.code and '[%s] '%self.code or '',
+                                       self.name,
+                                       self.partner_id and ' - %s'%self.partner_id.name and '')
+
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

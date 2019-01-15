@@ -168,6 +168,7 @@
                         <field name="line_ids">
                             <tree string="Products" editable="bottom">
                                 <field name="product_id"/>
+                                <field name="name"/>
                                 <field name="product_qty"/>
                                 <field name="qty_ordered"/>
                                 <field name="product_uom_id" groups="product.group_uom"/>
@@ -178,6 +179,7 @@
                             <form string="Products">
                                 <group>
                                     <field name="product_id" />
+                                    <field name="name" />
                                     <field name="product_qty"/>
                                     <field name="qty_ordered"/>
                                     <field name="product_uom_id" />
@@ -305,7 +307,7 @@
 
     <menuitem
         id="menu_purchase_requisition_pro_mgt"
-        sequence="10"
+        sequence="2"
         parent="purchase.menu_procurement_management"
         action="action_purchase_requisition"/>
 

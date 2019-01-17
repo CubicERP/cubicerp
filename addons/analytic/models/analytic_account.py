@@ -45,6 +45,9 @@ class AccountAnalyticAccount(models.Model):
     name = fields.Char(string='Analytic Account', index=True, required=True, track_visibility='onchange')
     code = fields.Char(string='Reference', index=True, track_visibility='onchange')
     active = fields.Boolean('Active', help="If the active field is set to False, it will allow you to hide the account without removing it.", default=True)
+    parent_id = fields.Many2one("account.analytic.account", string="Analytic Parent", domain=[('type','=','view')], index=True)
+    child_ids = fields.One2many("account.analytic.account", "parent_id", string="Analytic Childs")
+    type = fields.Selection([('normal','Normal'),('view','View')], string="Type", default='normal', required=True, index=True)
 
     tag_ids = fields.Many2many('account.analytic.tag', 'account_analytic_account_tag_rel', 'account_id', 'tag_id', string='Tags', copy=True)
     line_ids = fields.One2many('account.analytic.line', 'account_id', string="Analytic Lines")
@@ -76,7 +79,6 @@ class AccountAnalyticAccount(models.Model):
         return parent_path + "%s%s%s"%(e.code and '[%s] '%e.code or '',
                                        e.name,
                                        e.partner_id and ' - %s'%e.partner_id.name or '')
-
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

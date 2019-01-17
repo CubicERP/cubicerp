@@ -108,10 +108,12 @@
                         <group name="main">
                             <group>
                                 <field name="code"/>
-                                <field name="partner_id"/>
+                                <field name="parent_id"/>
+                                <field name="partner_id" attrs="{'invisible':[('type','=','view')]}"/>
                             </group>
                             <group>
-                                <field name="tag_ids" widget="many2many_tags"/>
+                                <field name="type"/>
+                                <field name="tag_ids" widget="many2many_tags" attrs="{'invisible':[('type','=','view')]}"/>
                                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                                 <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
                             </group>
@@ -130,15 +132,16 @@
             <field name="model">account.analytic.account</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
-                <tree string="Analytic Accounts">
+                <tree string="Analytic Accounts" colors="blue:type=='view'">
+                    <field name="type" invisible="1"/>
                     <field name="display_name"/>
                     <field name="code"/>
                     <field name="partner_id"/>
                     <field name="active" invisible="1"/>
                     <field name="company_id" groups="base.group_multi_company"/>
-                    <field name="debit"/>
-                    <field name="credit"/>
-                    <field name="balance"/>
+                    <field name="debit" attrs="{'invisible':[('type','=','view')]}"/>
+                    <field name="credit" attrs="{'invisible':[('type','=','view')]}"/>
+                    <field name="balance" attrs="{'invisible':[('type','=','view')]}"/>
                 </tree>
             </field>
         </record>
@@ -181,6 +184,7 @@
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Analytic Account"/>
                     <field name="tag_ids"/>
                     <field name="partner_id"/>
+                    <filter string="Without Views" domain="[('type', '!=', 'view')]" name="wo_view"/>
                     <filter string="Archived" domain="[('active', '=', False)]" name="inactive"/>
                     <group expand="0" string="Group By...">
                         <filter string="Associated Partner" domain="[]" context="{'group_by':'partner_id'}"/>
@@ -195,7 +199,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="search_view_id" ref="view_account_analytic_account_search"/>
-            <field name="context">{'search_default_active':1}</field>
+            <field name="context">{'search_default_active':1,'search_default_wo_view':1}</field>
             <field name="view_id" ref="view_account_analytic_account_list"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

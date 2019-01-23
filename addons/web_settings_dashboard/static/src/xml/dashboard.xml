@@ -153,7 +153,7 @@
                 <div class="text-center">
                     <div class="user-heading">
                         <h3>
-                            Cubic ERP <t t-esc="server_version"/> (Compatible with Odoo v11)
+                            Cubic ERP <t t-esc="server_version"/>
                         </h3>
                     </div>
                     <div>

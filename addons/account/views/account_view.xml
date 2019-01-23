@@ -963,7 +963,7 @@
             <field name="model">account.account.type</field>
             <field name="arch" type="xml">
                 <form string="Account Type">
-                    <group>
+                    <group name="one">
                         <group>
                             <field name="name"/>
                             <field name="type"/>
@@ -1104,7 +1104,7 @@
                             </field>
                         </page>
                         <page string="Advanced Options">
-                            <group>
+                            <group name="advanced_group">
                                 <group>
                                     <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
                                     <field name="tax_group_id"/>

@@ -327,7 +327,7 @@ class AccountGroup(models.Model):
             parent_path = self._get_one_full_name(elmt.parent_id) + " / "
         else:
             parent_path = ''
-        return parent_path + elmt.name
+        return parent_path + (elmt and elmt.name or '')
 
     def name_get(self):
         result = []

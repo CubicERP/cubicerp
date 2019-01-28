@@ -333,6 +333,8 @@
                                     <field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>
                                     <field name="date" domain="[('state', '=', 'draft'), ('company_id', '=', company_id)]" groups="account.group_account_user"/>
                                     <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="related_invoice" invisible="1"/>
+                                    <field name="refund_invoice_id" attrs="{'invisible':[('related_invoice','=',False)],'required':[('related_invoice','=',True)],'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </group>
                         </page>

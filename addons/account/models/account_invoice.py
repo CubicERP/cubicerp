@@ -244,7 +244,7 @@ class AccountInvoice(models.Model):
 
     related_invoice = fields.Boolean("Require Related Invoice", related="journal_id.related_journal")
     refund_invoice_id = fields.Many2one('account.invoice', string="Related Invoice",
-                                        help="Invoice for which this invoice is the credit note")
+                                        help="Invoice for which this invoice is their credit note")
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
     move_name = fields.Char(string='Journal Entry Name', readonly=False,
         default=False, copy=False,
@@ -486,6 +486,9 @@ class AccountInvoice(models.Model):
         using the default values computed for the other fields.
         """
         res = super(AccountInvoice, self).default_get(default_fields)
+
+        if res.get('type', '') in ('in_invoice','in_refund'):
+            res['date'] = fields.Date.today()
 
         if not res.get('type', False) == 'out_invoice' or not 'company_id' in res:
             return res
@@ -749,7 +752,7 @@ class AccountInvoice(models.Model):
         if self.filtered(lambda inv: inv.state != 'cancel'):
             raise UserError(_("Invoice must be cancelled in order to reset it to draft."))
         # go from canceled state to draft state
-        self.write({'state': 'draft', 'date': False})
+        self.write({'state': 'draft'})
         # Delete former printed invoice
         try:
             report_invoice = self.env['ir.actions.report']._get_report_from_name('account.report_invoice')

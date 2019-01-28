@@ -1363,10 +1363,12 @@ class AccountMoveLine(models.Model):
     def name_get(self):
         result = []
         for line in self:
+            name = "[%s] %s"%(line.account_id.code, line.name and '%s - '%line.name or '')
             if line.ref:
-                result.append((line.id, (line.move_id.name or '') + '(' + line.ref + ')'))
+                name += (line.move_id.name or '') + '(' + line.ref + ')'
             else:
-                result.append((line.id, line.move_id.name))
+                name += line.move_id.name
+            result.append((line.id, name))
         return result
 
     def _get_matched_percentage(self):

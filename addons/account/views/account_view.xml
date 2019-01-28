@@ -505,6 +505,7 @@
                         </div>
                         <group>
                             <field name="name"/>
+                            <field name="applicability"/>
                         </group>
                     </sheet>
                 </form>
@@ -520,6 +521,8 @@
               </p>
             </field>
         </record>
+        <menuitem id="menu_action_account_tag" parent="account.account_account_menu"
+                  action="account_tag_action" sequence="0" groups="account.group_account_manager"/>
 
         <!-- Bank statement -->
 
@@ -1461,7 +1464,7 @@
                             <field name="ref" attrs="{'required': [('id', '==', False)]}"/>
                         </group>
                         <group>
-                            <field name="journal_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="journal_id" options="{'no_create': True}"/>
                             <field name="company_id" required="1" groups="base.group_multi_company"/>
                             <field name="amount" invisible="1"/>
                             <field name="currency_id" invisible="1"/>

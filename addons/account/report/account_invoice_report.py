@@ -43,7 +43,7 @@ class AccountInvoiceReport(models.Model):
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
     user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
     price_total = fields.Float(string='Total Without Tax', readonly=True)
-    price_subtotal = fields.Float(string='SubTotal Without Tax', readonly=True)
+    price_subtotal = fields.Float(string='Currency Amount', help="Currency SubTotal Without Taxes", readonly=True)
     user_currency_price_total = fields.Float(string="Total Without Tax", compute='_compute_amounts_in_user_currency', digits=0)
     price_average = fields.Float(string='Average Price', readonly=True, group_operator="avg")
     user_currency_price_average = fields.Float(string="Average Price", compute='_compute_amounts_in_user_currency', digits=0)

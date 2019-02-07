@@ -25,6 +25,7 @@
         'security/hr_security.xml',
         'security/ir.model.access.csv',
         'views/hr_views.xml',
+        'views/partner_view.xml',
         'views/hr_templates.xml',
         'views/res_config_settings_views.xml',
         'data/hr_data.xml',

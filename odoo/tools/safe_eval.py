@@ -90,6 +90,8 @@ _EXPR_OPCODES = _CONST_OPCODES.union(set(opmap[x] for x in [
     # comprehensions
     'LIST_APPEND', 'MAP_ADD', 'SET_ADD',
     'COMPARE_OP',
+    # 3.7
+    'LOAD_METHOD', 'CALL_METHOD',
 ] if x in opmap))
 
 _SAFE_OPCODES = _EXPR_OPCODES.union(set(opmap[x] for x in [

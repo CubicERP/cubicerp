@@ -100,7 +100,7 @@ class AssetsBundle(object):
             elif f['atype'] == 'text/javascript':
                 self.javascripts.append(JavascriptAsset(self, url=f['url'], filename=f['filename'], inline=f['content']))
 
-    def to_html(self, sep=None, css=True, js=True, debug=False, async=False, url_for=(lambda url: url)):
+    def to_html(self, sep=None, css=True, js=True, debug=False, _async=False, url_for=(lambda url: url)):
         if sep is None:
             sep = u'\n            '
         response = []
@@ -129,7 +129,7 @@ class AssetsBundle(object):
                     msg = '\n'.join(self.css_errors)
                     response.append(JavascriptAsset(self, inline=self.dialog_message(msg)).to_html())
             if js and self.javascripts:
-                response.append(u'<script %s type="text/javascript" src="%s"></script>' % (async and u'async="async"' or '', url_for(self.js().url)))
+                response.append(u'<script %s type="text/javascript" src="%s"></script>' % (_async and u'async="async"' or '', url_for(self.js().url)))
         response.extend(self.remains)
 
         return sep + sep.join(response)

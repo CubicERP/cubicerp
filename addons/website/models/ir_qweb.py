@@ -23,11 +23,11 @@ class QWeb(models.AbstractModel):
         'img':     'src',
     }
 
-    def _get_asset(self, xmlid, options, css=True, js=True, debug=False, async=False, values=None):
+    def _get_asset(self, xmlid, options, css=True, js=True, debug=False, _async=False, values=None):
         website = getattr(request, 'website', None) if request else None
         if website and website.cdn_activated:
             values = dict(values, url_for=website.get_cdn_url)
-        return super(QWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+        return super(QWeb, self)._get_asset(xmlid, options, css, js, debug, _async, values)
 
     def _website_build_attribute(self, tagName, name, value, options, values):
         """ Compute the value of an attribute while rendering the template. """

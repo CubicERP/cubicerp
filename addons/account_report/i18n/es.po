@@ -1,0 +1,495 @@
+# Translation of CubicERP Server.
+# This file contains the translation of the following modules:
+#	* account_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CubicERP Server 2019.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-08 22:27+0000\n"
+"PO-Revision-Date: 2019-02-08 22:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_tree
+msgid "# of Entries"
+msgstr "# de Asientos"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_nbr
+msgid "# of Items"
+msgstr "# de elementos"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_tree
+msgid "# of Products Qty"
+msgstr "# de productos"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Date from :</strong>"
+msgstr "<strong>Fecha desde:</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Date to :</strong>"
+msgstr "<strong>Fecha hasta:</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Display Account</strong>"
+msgstr "<strong>Ver cuenta</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Journals:</strong>"
+msgstr "<strong>Diarios:</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Sorted By:</strong>"
+msgstr "<strong>Ordenado por:</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "<strong>Target Moves:</strong>"
+msgstr "<strong>Movimientos señalados:</strong>"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Acc.Type"
+msgstr "Tipo cuenta"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_account_id
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: account_report
+#: model:ir.model,name:account_report.model_account_common_report
+msgid "Account Common Report"
+msgstr "Informe contable común"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_user_type
+msgid "Account Type"
+msgstr "Tipo de cuenta"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "All Entries"
+msgstr "Todos los asientos"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "All Posted Entries"
+msgstr "Todos los asientos contabilizados"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "All accounts'"
+msgstr "Todas la cuentas"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_amount_currency
+msgid "Amount Currency"
+msgstr "Monto en moneda"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_analytic_account_id
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: account_report
+#: model:ir.ui.menu,name:account_report.menu_audit_report
+msgid "Audit Reports"
+msgstr "Reportes Audit"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_balance
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Balance"
+msgstr "Balance"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_chart_account
+msgid "Chart Account"
+msgstr "Chart Account"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Closing F.Year"
+msgstr "Cerrando año fiscal"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Closing fiscal year journal entries"
+msgstr "Cerrando año fiscal de asiento contable"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Communication"
+msgstr "Comunicación"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_company_id
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_company_analysis_tree
+msgid "Company Analysis"
+msgstr "Análisis de compañia"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_credit
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Credit"
+msgstr "Haber"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_currency_id
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_date_created
+msgid "Date Created"
+msgstr "Fecha de creación"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_date_maturity
+msgid "Date Maturity"
+msgstr "Fecha de vencimiento"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_debit
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Debit"
+msgstr "Debe"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_note
+msgid "Detail"
+msgstr "Detalle"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_display_name
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: account_report
+#. openerp-web
+#: code:addons/account_report/static/src/xml/account_report_ledger_backend.xml:8
+#, python-format
+msgid "EXCEL"
+msgstr "EXCEL"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_date_effective
+msgid "Effective Date"
+msgstr "Fecha efectiva"
+
+#. module: account_report
+#: model:ir.actions.act_window,name:account_report.action_account_entries_report_all
+#: model:ir.ui.menu,name:account_report.menu_action_account_entries_report_all
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_pivot
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_tree
+msgid "Entries Analysis"
+msgstr "Análisis de asientos contables"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Entries Date by Month"
+msgstr "Fecha de asientos por mes"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Entries Month"
+msgstr "Mes de asiento"
+
+#. module: account_report
+#. openerp-web
+#: code:addons/account_report/static/src/xml/account_report_ledger_backend.xml:16
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Extended Filters..."
+msgstr "Filtros extendidos..."
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_report_type
+msgid "Financial Report"
+msgstr "Reporte financiero"
+
+#. module: account_report
+#: model:ir.actions.act_window,help:account_report.action_account_entries_report_all
+msgid "From this view, have an analysis of your different financial accounts. The document shows your debit and credit taking in consideration some criteria you can choose by using the search tool."
+msgstr "Desde esta vista, tiene un análisis de sus diferentes cuentas financieras. El documento muestra su debito y credito, teniendo en consideración algunos criterios que usted puede elegir usando la herramienta de búsqueda "
+
+#. module: account_report
+#: model:ir.model,name:account_report.model_account_report_general_ledger
+msgid "General Ledger Report"
+msgstr "Informe del Libro Mayor"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_id
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_journal_id
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Journal"
+msgstr "Diario"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Journal Entries with month in current month"
+msgstr "Apunte contable con mes en año actual "
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Journal Entries with period in current year"
+msgstr "Apunte contable con periodo en año actual"
+
+#. module: account_report
+#: model:ir.model,name:account_report.model_account_entries_report
+msgid "Journal Items Analysis"
+msgstr "Análisis de elementos de diario"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_journal_type
+msgid "Journal Type"
+msgstr "Tipos de diario"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Journal and Partner"
+msgstr "Diario y asociado"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report___last_update
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_report_ledger_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: account_report
+#: model:ir.actions.client,name:account_report.action_ledger_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "Ledger"
+msgstr "Libro mayor"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "No Data Available."
+msgstr "Datos no disponibles."
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Opening F.Year"
+msgstr "Apertura de año"
+
+#. module: account_report
+#: selection:account.entries.report,journal_type:0
+msgid "Opening Fiscal Year"
+msgstr "Apertura de año fiscal"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Opening fiscal year journal entries"
+msgstr "Apertura de año fiscal apunte contable"
+
+#. module: account_report
+#. openerp-web
+#: code:addons/account_report/static/src/xml/account_report_ledger_backend.xml:6
+#, python-format
+msgid "PRINT"
+msgstr "IMPRIMIR"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_parent_account_id
+msgid "Parent Account"
+msgstr "Cuenta padre"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_partner_id
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: account_report
+#: selection:account.entries.report,move_state:0
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Posted"
+msgstr "Contabilizado"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Posted entries"
+msgstr "Asientos contabilizados"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.account_report_general_ledger_view
+msgid "Preview"
+msgstr "Previsualizar"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_product_uom_id
+msgid "Product Unit of Measure"
+msgstr "Unidad de medidad del producto"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_product_quantity
+msgid "Products Quantity"
+msgstr "Cantidad de productos"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Reconciled"
+msgstr "Conciliado"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Reconciled entries"
+msgstr "Asientos conciliados"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_reconcile_id
+msgid "Reconciliation number"
+msgstr "Numero de reconciliación"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_ref
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: account_report
+#: selection:account.entries.report,journal_type:0
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Regular Operations"
+msgstr "Operaciones regulares"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Regular operation in the fiscal year"
+msgstr "Operación regular en el año fiscal"
+
+#. module: account_report
+#: selection:account.entries.report,journal_type:0
+msgid "Shutdown Fiscal Year"
+msgstr "Apagar año fiscal"
+
+#. module: account_report
+#: model:ir.model.fields,field_description:account_report.field_account_entries_report_move_state
+msgid "Status"
+msgstr "Estado"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "This F.Year"
+msgstr "Este año fiscal"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "This Month"
+msgstr "Este Mes"
+
+#. module: account_report
+#: code:addons/account_report/models/account_report_ledger.py:71
+#, python-format
+msgid "Undistributed profit"
+msgstr "Ganancia no distribuida"
+
+#. module: account_report
+#: selection:account.entries.report,move_state:0
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Unposted"
+msgstr "Sin Contabilizar"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Unreconciled"
+msgstr "No conciliado"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "Unreconciled entries"
+msgstr "Apuntes no conciliados"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "With balance not equal to zero"
+msgstr "Con saldo distinto a 0"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.report_account_ledger
+msgid "With movements"
+msgstr "Con movimientos"
+
+#. module: account_report
+#: code:addons/account_report/wizard/account_report_ledger.py:33
+#, python-format
+msgid "You must define a Start Date"
+msgstr "Debe defimir una fecha de inicio"
+
+#. module: account_report
+#: model:ir.model,name:account_report.model_account_report_ledger
+msgid "account.report.ledger"
+msgstr "account.report.ledger"
+
+#. module: account_report
+#: model:ir.ui.view,arch_db:account_report.view_account_entries_report_search
+msgid "entries"
+msgstr "asiento"
+

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CubicERP Server 2019.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 21:12+0000\n"
-"PO-Revision-Date: 2019-02-08 21:12+0000\n"
+"POT-Creation-Date: 2019-02-08 22:07+0000\n"
+"PO-Revision-Date: 2019-02-08 22:07+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -436,10 +436,10 @@ msgid "<span class=\"panel-title\">\n"
 "                                        <span class=\"small\">Recommended if &gt;100 products</span>\n"
 "                                    </span>"
 msgstr "<span class=\"panel-title\">\n"
-"                                        <span class=\"fa\" data-icon=\"\"/>\n"
-"                                        <strong>Importar archivo</strong><br/>\n"
-"                                        <span class=\"small\">Recomendado si &gt;100 productos</span>\n"
-"                                    </span>"
+"<span class=\"fa\" data-icon=\"&#57408;\"/>\n"
+"<strong>Importar un archivo</strong><br/>\n"
+"<span class=\"small\">Recomendado si &gt;100 productos</span>\n"
+"</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -449,10 +449,10 @@ msgid "<span class=\"panel-title\">\n"
 "                                        <span class=\"small\">&gt; 200 contacts</span>\n"
 "                                    </span>"
 msgstr "<span class=\"panel-title\">\n"
-"                                        <span class=\"fa\" data-icon=\"\"/>\n"
-"                                        <strong>Importar</strong><br/>\n"
-"                                        <span class=\"small\">&gt; 200 contactos</span>\n"
-"                                    </span>"
+"<span class=\"fa\" data-icon=\"&#57408;\"/>\n"
+"<strong>Importar</strong><br/>\n"
+"<span class=\"small\">&gt; 200 contactos</span>\n"
+"</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -462,10 +462,10 @@ msgid "<span class=\"panel-title\">\n"
 "                                        <span class=\"small\">&lt; 200 contacts</span>\n"
 "                                    </span>"
 msgstr "<span class=\"panel-title\">\n"
-"                                        <span class=\"fa\" data-icon=\"\"/>\n"
-"                                        <strong> Crear manualmente </strong><br/>\n"
-"                                        <span class=\"small\">&lt; 200 contactos</span>\n"
-"                                    </span>"
+"<span class=\"fa\" data-icon=\"&#57440;\"/>\n"
+"<strong> Crear manualmente</strong><br/>\n"
+"<span class=\"small\">&lt; 200 contactos</span>\n"
+"</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -475,10 +475,10 @@ msgid "<span class=\"panel-title\">\n"
 "                                        <span class=\"small\">Recommended if &lt;100 products</span>\n"
 "                                    </span>"
 msgstr "<span class=\"panel-title\">\n"
-"                                        <span class=\"fa\" data-icon=\"\"/>\n"
-"                                        <strong> Crear manualmente </strong><br/>\n"
-"                                        <span class=\"small\">Recomendado si &lt;100 productos</span>\n"
-"                                    </span>"
+"<span class=\"fa\" data-icon=\"&#57440;\"/>\n"
+"<strong> Crear manualmente</strong><br/>\n"
+"<span class=\"small\">Recomendado si &lt;100 productos</span>\n"
+"</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -629,7 +629,7 @@ msgstr "<span>Conciliación</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "<span>Reporting</span>"
-msgstr "<span>Reportería</span>"
+msgstr "<span>Reportes</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -639,7 +639,7 @@ msgstr "<span>Ver</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The Cubic ERP Team</strong>"
-msgstr "<strong>-The Cubic ERP Team</strong>"
+msgstr "<strong>-El equipo de Odoo</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -900,8 +900,8 @@ msgstr "<strong>Conciliar la cuenta bancaria</strong>"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>Reconcile with existing transaction</strong><br/>\n"
 "                                        In this case, Cubic ERP should automatically match the bank statement with the previously recorded check transaction."
-msgstr "<strong>Reconcile with existing transaction</strong><br/>\n"
-"                                        In this case, Cubic ERP should automatically match the bank statement with the previously recorded check transaction."
+msgstr "<strong>Conciliar con una transaccón existente</strong><br/>\n"
+"En este caso, CubicERP debería hacer coincidir automáticamente el extracto bancario con la transacción marcada, guardada con anterioridad."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -988,12 +988,12 @@ msgstr "<strong>Movimientos señalados:</strong>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>Test the following three scenarios in order to assist you in familiarizing yourself with Cubic ERP:</strong>"
-msgstr "<strong>Test the following three scenarios in order to assist you in familiarizing yourself with Cubic ERP:</strong>"
+msgstr "<strong>Examine los tres escenarios siguientes para poder familiarizarse con Odoo:</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>There are three different levels of access rights in Cubic ERP:</strong>"
-msgstr "<strong>There are three different levels of access rights in Cubic ERP:</strong>"
+msgstr "<strong>Hay tres niveles de derechos de acceso diferentes en Odoo:</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.report_overdue_document
@@ -1099,9 +1099,7 @@ msgstr "Una lista de las condiciones de pago de sus clientes y proveedores."
 msgid "A product in Cubic ERP is something you sell or buy\n"
 "                        whether or not it is goods, consumables, or services.\n"
 "                        Choose how you want to create your products:"
-msgstr "A product in Cubic ERP is something you sell or buy\n"
-"                        whether or not it is goods, consumables, or services.\n"
-"                        Choose how you want to create your products:"
+msgstr "Un producto en CubicERP es algo que vendes o compras, sean cosas, consumibles o servicios. Elija cómo quiere crear sus productos:"
 
 #. module: account
 #: code:addons/account/models/account_move.py:886
@@ -1172,11 +1170,6 @@ msgstr "Una advertencia puede ser configurada en una ficha de entidad(Cuenta)"
 #, python-format
 msgid "Account"
 msgstr "Cuenta"
-
-#. module: account
-#: model:ir.model.fields,field_description:account.field_res_config_settings_module_account_accountant
-msgid "Account Accountant"
-msgstr "Contabilidad completa"
 
 #. module: account
 #: model:ir.model,name:account.model_account_aged_trial_balance
@@ -1499,8 +1492,8 @@ msgid "Accountant"
 msgstr "Accountant"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_res_config_settings_module_account_accountant
 #: model:ir.ui.menu,name:account.account_account_menu
-#: model:ir.ui.menu,name:account.menu_finance
 msgid "Accounting"
 msgstr "Contabilidad"
 
@@ -1700,7 +1693,7 @@ msgstr "Saldos vencidos de empresa"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_aged_balance_view
 msgid "Aged Partner Balance is a more detailed report of your receivables by intervals. Cubic ERP calculates a table of credit balance by start Date. So if you request an interval of 30 days Cubic ERP generates an analysis of creditors for the past month, past two months, and so on."
-msgstr "Aged Partner Balance is a more detailed report of your receivables by intervals. Cubic ERP calculates a table of credit balance by start Date. So if you request an interval of 30 days Cubic ERP generates an analysis of creditors for the past month, past two months, and so on."
+msgstr "Saldos vencidos de empresa es un informe más detallado de sus cuentas por cobrar por intervalos. CubicERP calcula una tabla de saldo acreedor por fecha de inicio. Así, si usted solicita un intervalo de 30 días, CubicERP genera un análisis de los acreedores durante el último mes, los últimos dos meses, y así sucesivamente."
 
 #. module: account
 #: selection:account.balance.report,display_account:0
@@ -3277,6 +3270,11 @@ msgid "Congratulations, you're done!"
 msgstr "¡Enhorabuena, ha terminado!"
 
 #. module: account
+#: model:ir.ui.menu,name:account.menu_finance
+msgid "Contabilidad"
+msgstr "Contabilidad"
+
+#. module: account
 #: model:ir.model,name:account.model_res_partner
 msgid "Contact"
 msgstr "Contacto"
@@ -3641,21 +3639,21 @@ msgstr "Credit note to pay"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Cubic ERP Accounting has many free extra-features:"
-msgstr "Cubic ERP Accounting has many free extra-features:"
+msgstr "La contabilidad en CubicERP tienen muchas características extra gratuítas:"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_line
 msgid "Cubic ERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
-msgstr "Cubic ERP allows you to reconcile a statement line directly with\n"
-"                the related sale or puchase invoice(s)."
+msgstr "CubicERP le permite conciliar una línea de un extracto directamente con\n"
+"la(s) factura(s) de venta o compra relacionadas."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_bank_statement_tree
 msgid "Cubic ERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
-msgstr "Cubic ERP allows you to reconcile a statement line directly with\n"
-"                the related sale or puchase invoices."
+msgstr "CubicERP le permite conciliar una línea de un extracto directamente con \n"
+"las facturas de venta o compra relacionadas."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_move_journal_line
@@ -3663,20 +3661,19 @@ msgid "Cubic ERP automatically creates one journal entry per accounting\n"
 "                document: invoice, refund, vendor payment, bank statements,\n"
 "                etc. So, you should record journal entries manually only/mainly\n"
 "                for miscellaneous operations."
-msgstr "Cubic ERP automatically creates one journal entry per accounting\n"
-"                document: invoice, refund, vendor payment, bank statements,\n"
-"                etc. So, you should record journal entries manually only/mainly\n"
-"                for miscellaneous operations."
+msgstr "CubicERP crea automáticamente un asiento contable por cada\n"
+"documento contable: facturas, devoluciones, pagos a proveedores, extractos bancarios, \n"
+"etc. Por tanto, sólo debería introducir asientos contables principalmente para otras operaciones."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Cubic ERP can manage multiple companies, but we suggest to setup everything for your first company before configuring the other ones."
-msgstr "Cubic ERP can manage multiple companies, but we suggest to setup everything for your first company before configuring the other ones."
+msgstr "CubicERP puede administrar múltiples compañías, aunque le sugerimos configurar completamente su primera compañía antes de continuar con el resto."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Cubic ERP has already preconfigured a few taxes according to your country.<br/>Simply review them and check if you need more."
-msgstr "Cubic ERP has already preconfigured a few taxes according to your country.<br/>Simply review them and check if you need more."
+msgstr "CubicERP ha preconfigurado algunas tasas de acuerdo con su país.<br/>Revíselas y compruebe si necesita alguna más."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_invoice_tree1
@@ -4453,7 +4450,7 @@ msgstr "Caja final"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Enjoy your Cubic ERP experience,"
-msgstr "Enjoy your Cubic ERP experience,"
+msgstr "Disfrute de su experiencia Odoo,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -5189,7 +5186,7 @@ msgstr "Si utiliza los términos de pago, la fecha de vencimiento se calculará 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
-msgstr "If you want to be able to send customer statements from Cubic ERP, you must:"
+msgstr "Si quiere enviar extractos de clientes desde CubicERP debe:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -5197,10 +5194,10 @@ msgid "If you want to be able to send your customers their statements \n"
 "                        from Cubic ERP, you first need to record all outstanding transactions\n"
 "                        in the payable and receivable accounts. These would be invoices \n"
 "                        that have not been paid or payments that have not been reconciled."
-msgstr "If you want to be able to send your customers their statements \n"
-"                        from Cubic ERP, you first need to record all outstanding transactions\n"
-"                        in the payable and receivable accounts. These would be invoices \n"
-"                        that have not been paid or payments that have not been reconciled."
+msgstr "Si quiere enviar extractos a sus clientes desde Odoo,\n"
+" primero necesita grabar todas las transacciones pendientes\n"
+"en las cuentas pendientes de pago. Son tanto facturas\n"
+"que no han sido pagadas como pagos que no han sido reconciliados."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -5710,11 +5707,11 @@ msgid "It's common practice to change your accounting software \n"
 "                            data to import and balances to set. If you plan to do so, \n"
 "                            we recommend you start using Cubic ERP for invoicing and payments\n"
 "                            now, and then move all other accounting transactions at a later time."
-msgstr "It's common practice to change your accounting software \n"
-"                            at the end of a fiscal year. This allows you to have less \n"
-"                            data to import and balances to set. If you plan to do so, \n"
-"                            we recommend you start using Cubic ERP for invoicing and payments\n"
-"                            now, and then move all other accounting transactions at a later time."
+msgstr "Es una práctica común cambiar de programa de contabilidad\n"
+"al final del año fiscal. Esto le permite tener que importar\n"
+"menos datos y configurar menos balances. Si planea hacerlo así, \n"
+"le recomendamos empezar a utilizar CubicERP para crear facturas y pagos\n"
+"para, posteriormente, traspasar todos los movimientos contables."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -6930,7 +6927,7 @@ msgstr "Octubre"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Odoo should do most of the reconciliation work automatically, so you'll only need to review a few of them when a <strong>'Reconcile Items'</strong> button appears on your Vendor Bills dash."
-msgstr "Odoo should do most of the reconciliation work automatically, so you'll only need to review a few of them when a <strong>'Reconcile Items'</strong> button appears on your Vendor Bills dash."
+msgstr "CubicERP debería realizar automáticamente la mayoría de las conciliaciones, por lo que sólo tendrá que revisarlas cuando el botón <strong>'Conciliar Items'</strong> aparezca en el apartado de Facturas de proveedor."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_invoice_confirm_view
@@ -7835,7 +7832,7 @@ msgstr "Compra"
 #. module: account
 #: selection:account.journal,type:0
 msgid "Purchase Refund"
-msgstr "Purchase Refund"
+msgstr "Reembolso de compras"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -8131,8 +8128,8 @@ msgstr "Registrar pagos en múltiples facturas"
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Registering outstanding invoices and payments can be a huge undertaking, \n"
 "                        but you can start using Cubic ERP without it by:"
-msgstr "Registering outstanding invoices and payments can be a huge undertaking, \n"
-"                        but you can start using Cubic ERP without it by:"
+msgstr "Registrar facturas y pagos pendientes puede suponer una enorme tarea,\n"
+"pero puede empezar a utilizar CubicERP sin necesidad de ello:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -8215,7 +8212,7 @@ msgstr "Representa la moneda más pequeña con valor distinto de cero (por ejemp
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_journal_related_journal
 msgid "Require Related Document"
-msgstr "Require Related Document"
+msgstr "Requiere documento relacionado"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_related_invoice
@@ -8371,7 +8368,7 @@ msgstr "Venta"
 #. module: account
 #: selection:account.journal,type:0
 msgid "Sale Refund"
-msgstr "Sale Refund"
+msgstr "Reembolso de ventas"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_wizard_multi_chart
@@ -9780,8 +9777,7 @@ msgstr "Este campo se usa para guardar el nombre de un tercero cuando se importa
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "This guide will help you get started with Cubic ERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
-msgstr "This guide will help you get started with Cubic ERP Accounting.\n"
-"                        Once you're done, you'll benefit from:"
+msgstr "Esta guía le ayudará a empezar con la contabilidad en Odoo. Una vez termine se verá beneficiado con:"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.open_account_journal_dashboard_kanban
@@ -9913,7 +9909,7 @@ msgstr "A pagar"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "To manage the tax applied when invoicing a Company, Cubic ERP uses the concept of Fiscal Position: they serve to automatically set the right tax and/or account according to the customer country and state."
-msgstr "To manage the tax applied when invoicing a Company, Cubic ERP uses the concept of Fiscal Position: they serve to automatically set the right tax and/or account according to the customer country and state."
+msgstr "Para administrar las tasas aplicadas al facturar a una compañía, CubicERP utiliza el concepto de Posición fiscal: automáticamente se establece la tasa y/o cuenta adecuadas en función del estado o país del cliente."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.invoice_supplier_tree
@@ -10547,10 +10543,9 @@ msgid "We can handle the whole import process\n"
 "                                        for you: simply send your Cubic ERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        data."
-msgstr "We can handle the whole import process\n"
-"                                        for you: simply send your Cubic ERP project\n"
-"                                        manager a CSV file containing all your\n"
-"                                        data."
+msgstr "Podemos realizar el proceso de importación por usted:\n"
+"simplemente mande un archivo CSV a su project manager \n"
+"en CubicERP con todos sus datos."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -10558,10 +10553,9 @@ msgid "We can handle the whole import process\n"
 "                                        for you: simply send your Cubic ERP project\n"
 "                                        manager a CSV file containing all your\n"
 "                                        products."
-msgstr "We can handle the whole import process\n"
-"                                        for you: simply send your Cubic ERP project\n"
-"                                        manager a CSV file containing all your\n"
-"                                        products."
+msgstr "Podemos realizar el proceso de importación por usted:\n"
+"simplemente mande un archivo CSV a su project manager \n"
+"en CubicERP con todos sus productos."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner

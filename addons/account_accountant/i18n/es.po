@@ -1,24 +1,24 @@
-# Translation of Odoo Server.
+# Translation of CubicERP Server.
 # This file contains the translation of the following modules:
-# * account_accountant
-# 
-# Translators:
-# RGB Consulting <odoo@rgbconsulting.com>, 2016
-# Raquel Iciarte <ric@odoo.com>, 2016
-# Raul Tlaxcala Trujillo <rtlaxcala@gmail.com>, 2016
+#	* account_accountant
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0c\n"
+"Project-Id-Version: CubicERP Server 2019.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 08:56+0000\n"
-"PO-Revision-Date: 2016-09-07 08:56+0000\n"
-"Last-Translator: Raul Tlaxcala Trujillo <rtlaxcala@gmail.com>, 2016\n"
-"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
+"POT-Creation-Date: 2019-02-08 21:28+0000\n"
+"PO-Revision-Date: 2019-02-08 21:28+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.menu_action_account_type_form
+msgid "Account Types"
+msgstr "Tipos de cuenta"
 
 #. module: account_accountant
 #. openerp-web
@@ -31,32 +31,19 @@ msgstr "Empecemos con una nueva factura de cliente."
 #. openerp-web
 #: code:addons/account_accountant/static/src/js/tour.js:13
 #, python-format
-msgid ""
-"Ready to discover your new favorite <b>accounting app</b>? Get started by "
-"clicking here."
-msgstr ""
-"Listo para descubrir su nueva <b>aplicación de contabilidad</b> favorita? "
-"Comience haciendo clic aquí."
+msgid "Ready to discover your new favorite <b>accounting app</b>? Get started by clicking here."
+msgstr "Listo para descubrir su nueva <b>aplicación de contabilidad</b> favorita? Comience haciendo clic aquí."
 
 #. module: account_accountant
 #. openerp-web
 #: code:addons/account_accountant/static/src/js/tour.js:23
 #, python-format
-msgid ""
-"Use the path to quickly click back to <b>previous screens</b>, without "
-"reloading the page."
-msgstr ""
-"Use la ruta para regresar rápidamente a<b>pantallas anteriores</b>, sin "
-"recargar la página."
+msgid "Use the path to quickly click back to <b>previous screens</b>, without reloading the page."
+msgstr "Use la ruta para regresar rápidamente a<b>pantallas anteriores</b>, sin recargar la página."
 
 #. module: account_accountant
 #. openerp-web
 #: code:addons/account_accountant/static/src/js/tour.js:27
 #, python-format
-msgid ""
-"Your reports are available in real time. <i>No need to close a fiscal year "
-"to get a Profit &amp; Loss statement or view the Balance Sheet.</i>"
-msgstr ""
-"Tus informes están disponibles en tiempo real. <i>No es necesario cerrar el "
-"año fiscal para obtener un saldo de cuenta de Ganancias &amp; Pérdidas o "
-"visualizar el Balance Financiero.</i>"
+msgid "Your reports are available in real time. <i>No need to close a fiscal year to get a Profit &amp; Loss statement or view the Balance Sheet.</i>"
+msgstr "Tus informes están disponibles en tiempo real. <i>No es necesario cerrar el año fiscal para obtener un saldo de cuenta de Ganancias &amp; Pérdidas o visualizar el Balance Financiero.</i>"

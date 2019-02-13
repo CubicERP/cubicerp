@@ -1,3 +1,5 @@
+ARCHIVED, go to https://git.cubicerp.com/ce/cubicerp
+
 Cubic ERP v2018
 ===============
 

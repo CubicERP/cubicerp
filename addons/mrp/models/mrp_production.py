@@ -572,6 +572,10 @@ class MrpProduction(models.Model):
                 raise UserError(_('Work order %s is still running') % wo.name)
         self.post_inventory()
         moves_to_cancel = (self.move_raw_ids | self.move_finished_ids).filtered(lambda x: x.state not in ('done', 'cancel'))
+        for move in moves_to_cancel.filtered('move_dest_ids'):
+            for move_dest in move.move_dest_ids.filtered(lambda m: m.state not in ('done','cancel')):
+                move_dest.write({'product_uom_qty': move_dest.product_uom_qty - move.product_uom_qty})
+                move_dest._do_unreserve()
         moves_to_cancel._action_cancel()
 
         return self.write({'state': 'done', 'date_finished': fields.Datetime.now()})

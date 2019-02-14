@@ -73,7 +73,7 @@ class einvoice_batch(osv.AbstractModel):
         return self.unlink(cr, uid, ids, context=context)
     
     def action_draft(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'draft'}, context=context)
+        return self.write(cr, uid, ids, {'state': 'draft', 'status_emessage': ''}, context=context)
 
     def action_ready(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'ready'}, context=context)

@@ -1,6 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 payment_acquirer_all,payment.acquirer.all,model_payment_acquirer,,1,0,0,0
-payment_acquirer_user,payment.acquirer.user,model_payment_acquirer,base.group_user,1,1,1,0
 payment_acquirer_system,payment.acquirer.system,model_payment_acquirer,base.group_system,1,1,1,1
 payment_medium_type_all,payment.medium_type.all,model_payment_medium_type,,1,0,0,0
 payment_medium_type_user,payment.medium_type.user,model_payment_medium_type,base.group_user,1,1,1,0

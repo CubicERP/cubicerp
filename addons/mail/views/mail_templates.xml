@@ -41,10 +41,16 @@
 
         <template id="qunit_suite" name="mail_tests" inherit_id="web.qunit_suite">
             <xpath expr="//t[@t-set='head']" position="inside">
-                <script type="text/javascript" src="/mail/static/tests/client_action_tests.js"></script>
                 <script type="text/javascript" src="/mail/static/tests/chatter_tests.js"></script>
+                <script type="text/javascript" src="/mail/static/tests/mail_utils_tests.js"></script>
                 <script type="text/javascript" src="/mail/static/tests/systray_tests.js"></script>
                 <script type="text/javascript" src="/mail/static/tests/chat_window_test.js"></script>
+            </xpath>
+        </template>
+
+        <template id="qunit_mobile_suite" name="mail_mobile_tests" inherit_id="web.qunit_mobile_suite">
+            <xpath expr="//t[@t-set='head']" position="inside">
+                <script type="text/javascript" src="/mail/static/tests/client_action_mobile_tests.js"></script>
             </xpath>
         </template>
 
@@ -57,7 +63,7 @@
         </template>
 
         <template id="message_user_assigned">
-            <p>Dear <t t-esc="object.user_id.name"/>,</p>
+            <p>Dear <t t-esc="object.user_id.sudo().name"/>,</p>
             <p>You have been assigned to the <t t-esc="object._description.lower()"/> <t t-esc="object.name_get()[0][1]"/>.</p>
             <p>
                 <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object._name, object.id)"

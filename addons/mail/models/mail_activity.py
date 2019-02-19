@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
 from datetime import date, datetime, timedelta
+import pytz
 
 from odoo import api, exceptions, fields, models, _
 
@@ -83,7 +84,7 @@ class MailActivity(models.Model):
     summary = fields.Char('Summary')
     note = fields.Html('Note')
     feedback = fields.Html('Feedback')
-    date_deadline = fields.Date('Due Date', index=True, required=True, default=fields.Date.today)
+    date_deadline = fields.Date('Due Date', index=True, required=True, default=fields.Date.context_today)
     # description
     user_id = fields.Many2one(
         'res.users', 'Assigned to',
@@ -114,8 +115,16 @@ class MailActivity(models.Model):
 
     @api.depends('date_deadline')
     def _compute_state(self):
-        today = date.today()
+        today_default = date.today()
+
         for record in self.filtered(lambda activity: activity.date_deadline):
+            today = today_default
+            tz = record.user_id.sudo().tz
+            if tz:
+                today_utc = pytz.UTC.localize(datetime.utcnow())
+                today_tz = today_utc.astimezone(pytz.timezone(tz))
+                today = date(year=today_tz.year, month=today_tz.month, day=today_tz.day)
+
             date_deadline = fields.Date.from_string(record.date_deadline)
             diff = (date_deadline - today)
             if diff.days == 0:
@@ -129,7 +138,13 @@ class MailActivity(models.Model):
     def _onchange_activity_type_id(self):
         if self.activity_type_id:
             self.summary = self.activity_type_id.summary
-            self.date_deadline = (datetime.now() + timedelta(days=self.activity_type_id.days))
+            tz = self.user_id.sudo().tz
+            if tz:
+                today_utc = pytz.UTC.localize(datetime.utcnow())
+                today = today_utc.astimezone(pytz.timezone(tz))
+            else:
+                today = datetime.now()
+            self.date_deadline = (today + timedelta(days=self.activity_type_id.days))
 
     @api.onchange('previous_activity_type_id')
     def _onchange_previous_activity_type_id(self):
@@ -138,7 +153,8 @@ class MailActivity(models.Model):
 
     @api.onchange('recommended_activity_type_id')
     def _onchange_recommended_activity_type_id(self):
-        self.activity_type_id = self.recommended_activity_type_id
+        if self.recommended_activity_type_id:
+            self.activity_type_id = self.recommended_activity_type_id
 
     @api.multi
     def _check_access(self, operation):
@@ -270,28 +286,35 @@ class MailActivityMixin(models.AbstractModel):
     activity_ids = fields.One2many(
         'mail.activity', 'res_id', 'Activities',
         auto_join=True,
+        groups="base.group_user",
         domain=lambda self: [('res_model', '=', self._name)])
     activity_state = fields.Selection([
         ('overdue', 'Overdue'),
         ('today', 'Today'),
         ('planned', 'Planned')], string='State',
         compute='_compute_activity_state',
+        groups="base.group_user",
         help='Status based on activities\nOverdue: Due date is already passed\n'
              'Today: Activity date is today\nPlanned: Future activities.')
     activity_user_id = fields.Many2one(
         'res.users', 'Responsible',
         related='activity_ids.user_id',
-        search='_search_activity_user_id')
+        search='_search_activity_user_id',
+        groups="base.group_user")
     activity_type_id = fields.Many2one(
         'mail.activity.type', 'Next Activity Type',
         related='activity_ids.activity_type_id',
-        search='_search_activity_type_id')
+        search='_search_activity_type_id',
+        groups="base.group_user")
     activity_date_deadline = fields.Date(
         'Next Activity Deadline', related='activity_ids.date_deadline',
-        readonly=True, store=True)  # store to enable ordering + search
+        readonly=True, store=True,  # store to enable ordering + search
+        groups="base.group_user")
     activity_summary = fields.Char(
-        'Next Activity Summary', related='activity_ids.summary',
-        search='_search_activity_summary')
+        'Next Activity Summary',
+        related='activity_ids.summary',
+        search='_search_activity_summary',
+        groups="base.group_user",)
 
     @api.depends('activity_ids.state')
     def _compute_activity_state(self):
@@ -315,6 +338,15 @@ class MailActivityMixin(models.AbstractModel):
     @api.model
     def _search_activity_summary(self, operator, operand):
         return [('activity_ids.summary', operator, operand)]
+
+    @api.multi
+    def write(self, vals):
+        # Delete activities of archived record.
+        if 'active' in vals and vals['active'] is False:
+            self.env['mail.activity'].sudo().search(
+                [('res_model', '=', self._name), ('res_id', 'in', self.ids)]
+            ).unlink()
+        return super(MailActivityMixin, self).write(vals)
 
     @api.multi
     def unlink(self):

@@ -3,7 +3,7 @@
 
     <template id="cart_delivery" name="Delivery Costs" inherit_id="website_sale.total">
         <xpath expr="//div[@id='order_total_untaxed']" position="before">
-            <div class="row" id="order_delivery" t-if="website_sale_order and website_sale_order.has_delivery">
+            <div class="row" id="order_delivery" t-if="website_sale_order and website_sale_order.carrier_id">
                   <span class="col-xs-6 text-right text-muted" title="Delivery will be updated after choosing a new delivery method"> Delivery:</span>
                   <span class="col-xs-6 text-right-not-xs text-left-xs text-muted">
                       <span t-field="website_sale_order.amount_delivery" style="white-space: nowrap;" t-options='{
@@ -35,12 +35,12 @@
                             <label class="label-optional" t-field="delivery.name" t-att-for="'delivery_%i' % delivery.id"/>
                             <t t-if="delivery.delivery_type == 'fixed'">
                                 <span t-if="delivery.fixed_price > 0.0" class="badge pull-right"
-                                      t-field="delivery.fixed_price" t-options='{"widget": "monetary", "display_currency": website_sale_order.currency_id}'/>
+                                      t-field="delivery.fixed_price" t-options='{"widget": "monetary",
+                                      "from_currency": delivery.product_id.company_id.currency_id, "display_currency": website_sale_order.currency_id}'/>
                                 <span t-else="" class="badge pull-right">Free</span>
                             </t>
                             <t t-else="">
-                                <span class="badge pull-right hidden" t-field="delivery.fixed_price" t-options='{"widget": "monetary",
-                                                                                                          "display_currency": website_sale_order.currency_id}'/>
+                                <span class="badge pull-right hidden" t-field="delivery.fixed_price" t-options='{"widget": "monetary", "from_currency": delivery.product_id.company_id.currency_id, "display_currency": website_sale_order.currency_id}'/>
                                 <span class="badge pull-right o_delivery_compute">Select to compute delivery rate</span>
                             </t>
                             <t t-if="delivery.website_description">
@@ -56,6 +56,10 @@
                     <i class="fa fa-arrow-right" aria-hidden="true"></i> Add delivery methods
                 </a>
             </div>
+        </xpath>
+        <!-- we shouldn't be able to pay if there is no way to deliver -->
+        <xpath expr="//div[@id='payment_method']" position="attributes">
+                <attribute name="t-att-style">'display: none!important' if not deliveries and delivery_has_stockable else ''</attribute>
         </xpath>
     </template>
 

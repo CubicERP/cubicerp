@@ -3,16 +3,17 @@
 # * website_event_track
 # 
 # Translators:
-# Martin Trigaux <mat@odoo.com>, 2017
-# Boško Stojaković <bluesoft83@gmail.com>, 2017
+# Martin Trigaux, 2017
 # Bole <bole@dajmi5.com>, 2017
+# Boško Stojaković <bluesoft83@gmail.com>, 2019
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
-"PO-Revision-Date: 2017-10-02 11:26+0000\n"
-"Last-Translator: Bole <bole@dajmi5.com>, 2017\n"
+"PO-Revision-Date: 2017-09-20 10:26+0000\n"
+"Last-Translator: Boško Stojaković <bluesoft83@gmail.com>, 2019\n"
 "Language-Team: Bosnian (https://www.transifex.com/odoo/teams/41243/bs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -311,7 +312,7 @@ msgstr "Prikazani naziv"
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.track_view
 msgid "Documents"
-msgstr ""
+msgstr "Dokumenti"
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_track_duration
@@ -421,7 +422,7 @@ msgstr ""
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "Future Activities"
-msgstr ""
+msgstr "Buduće aktivnosti"
 
 #. module: website_event_track
 #: model:event.sponsor.type,name:website_event_track.event_sponsor_type3
@@ -431,7 +432,7 @@ msgstr "Zlatni"
 #. module: website_event_track
 #: selection:event.track,kanban_state:0
 msgid "Green"
-msgstr ""
+msgstr "Zelena"
 
 #. module: website_event_track
 #: selection:event.track,kanban_state:0
@@ -557,7 +558,7 @@ msgstr "Zadnje ažurirano"
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "Late Activities"
-msgstr ""
+msgstr "Aktivnosti u kašnjenju"
 
 #. module: website_event_track
 #: model:ir.ui.menu,name:website_event_track.menu_event_track_location
@@ -602,6 +603,9 @@ msgid ""
 "128x128px image, with aspect ratio preserved. Use this field in form views "
 "or some kanban views."
 msgstr ""
+"Slika srednje veličine ovog kontakta. Automatski je promjenjena veličina na "
+"128x128px, sa očuvanom razmjerom. Koristite ovo polje u forma pogledima ili "
+"nekim kanban pogledima."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track25
@@ -621,7 +625,7 @@ msgstr ""
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "My Activities"
-msgstr ""
+msgstr "Moje aktivnosti"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track20
@@ -734,7 +738,7 @@ msgstr ""
 #. module: website_event_track
 #: selection:event.track,kanban_state:0
 msgid "Red"
-msgstr ""
+msgstr "Crveno"
 
 #. module: website_event_track
 #: model:event.track.stage,name:website_event_track.event_track_stage4
@@ -763,7 +767,7 @@ msgstr "Sekvenca"
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.view_event_track_search
 msgid "Show all records which has next action date is before today"
-msgstr ""
+msgstr "Prikaži sve zapise koji imaju datum sljedeće akcije prije danas"
 
 #. module: website_event_track
 #: model:event.sponsor.type,name:website_event_track.event_sponsor_type2

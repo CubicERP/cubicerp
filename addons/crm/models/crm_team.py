@@ -149,14 +149,22 @@ class Team(models.Model):
         tree_view_id = self.env.ref('crm.crm_case_tree_view_oppor').id
         form_view_id = self.env.ref('crm.crm_case_form_view_oppor').id
         kanb_view_id = self.env.ref('crm.crm_case_kanban_view_leads').id
-        action['views'] = [
-                [kanb_view_id, 'kanban'],
-                [tree_view_id, 'tree'],
-                [form_view_id, 'form'],
-                [False, 'graph'],
-                [False, 'calendar'],
-                [False, 'pivot']
-            ]
+
+        mode_string = action.get('view_mode', '')
+        view_mode = mode_string.split(',') if mode_string else ['kanban', 'tree', 'form', 'graph', 'calendar', 'pivot']
+        dict_views = {
+            'kanban': kanb_view_id,
+            'tree': tree_view_id,
+            'form': form_view_id,
+            'graph': False,
+            'calendar': False,
+            'pivot': False,
+        }
+
+        # Sort the views according to the view mode of the action
+        # which can be modified via studio, or technical menu for that matter
+        action['views'] = [[dict_views.get(view_type, False), view_type] for view_type in view_mode]
+
         action['context'] = action_context
         return action
 
@@ -204,8 +212,11 @@ class Team(models.Model):
     def _get_graph(self):
         graph_datas = super(Team, self)._get_graph()
         if self.dashboard_graph_model == 'crm.opportunity.report' and self.dashboard_graph_group_pipeline == 'stage':
-            stage_data = self.env['crm.stage'].browse([d['label'] for d in graph_datas[0]['values']]).read(['sequence', 'name'])
+            stage_ids = [d['label'] for d in graph_datas[0]['values'] if d['label'] is not None]
+            stage_data = self.env['crm.stage'].browse(stage_ids).read(['sequence', 'name'])
             stage_data = {d['id']: {'name': d['name'], 'sequence': d['sequence']} for d in stage_data}
+            # use "Undefined" stage for unset stage records
+            stage_data[None] = {'name': _('Undefined'), 'sequence': -1}
             graph_datas[0]['values'] = sorted(graph_datas[0]['values'], key=lambda el: stage_data[el['label']]['sequence'])
             for gdata in graph_datas[0]['values']:
                 gdata['label'] = stage_data[gdata['label']]['name']

@@ -51,7 +51,7 @@ class AuthorizeForm(AuthorizeCommon):
         form_values = {
             'x_login': self.authorize.authorize_login,
             'x_trans_key': self.authorize.authorize_transaction_key,
-            'x_amount': '320.0',
+            'x_amount': '56.16',
             'x_show_form': 'PAYMENT_FORM',
             'x_type': 'AUTH_CAPTURE',
             'x_method': 'CC',
@@ -66,6 +66,7 @@ class AuthorizeForm(AuthorizeCommon):
             'x_invoice_num': 'SO004',
             'x_first_name': 'Norbert',
             'x_last_name': 'Buyer',
+            'x_company': 'Big Company',
             'x_address': 'Huge Street 2/543',
             'x_city': 'Sin City',
             'x_zip': '1000',
@@ -86,7 +87,7 @@ class AuthorizeForm(AuthorizeCommon):
 
         form_values['x_fp_hash'] = self._authorize_generate_hashing(form_values)
         # render the button
-        res = self.authorize.render('SO004', 320.0, self.currency_usd.id, values=self.buyer_values)
+        res = self.authorize.render('SO004', 56.16, self.currency_usd.id, values=self.buyer_values)
         # check form result
         tree = objectify.fromstring(res)
 
@@ -212,7 +213,7 @@ class AuthorizeForm(AuthorizeCommon):
             'acquirer_id': authorize.id,
             'type': 'server2server',
             'currency_id': self.currency_usd.id,
-            'reference': 'test_ref_%s' % odoo.fields.Date.today(),
+            'reference': 'test_ref_%s' % int(time.time()),
             'payment_token_id': payment_token.id,
             'partner_id': self.buyer_id,
 
@@ -254,3 +255,20 @@ class AuthorizeForm(AuthorizeCommon):
         self.assertEqual(transaction.state, 'authorized')
         transaction.action_void()
         self.assertEqual(transaction.state, 'cancel')
+
+        # try charging an unexisting profile
+        ghost_payment_token = payment_token.copy()
+        ghost_payment_token.authorize_profile = '99999999999'
+        # create normal s2s transaction
+        transaction = self.env['payment.transaction'].create({
+            'amount': 500,
+            'acquirer_id': authorize.id,
+            'type': 'server2server',
+            'currency_id': self.currency_usd.id,
+            'reference': 'test_ref_%s' % int(time.time()),
+            'payment_token_id': ghost_payment_token.id,
+            'partner_id': self.buyer_id,
+
+        })
+        transaction.authorize_s2s_do_transaction()
+        self.assertEqual(transaction.state, 'error')

@@ -57,7 +57,7 @@
                                 <h4 class="media-heading">
                                     <a itemprop="url" t-att-class="event.state == 'done' and 'text-success'" t-attf-href="/event/#{ slug(event) }/#{(not event.menu_id) and 'register' or ''}"><span itemprop="name" t-field="event.name"> </span></a>
                                     <small t-if="event.is_participating" class="label label-info">Participating</small>
-                                    <small t-if="not event.is_online" class="label label-info">Online</small>
+                                    <small t-if="event.is_online" class="label label-info">Online</small>
                                     <small t-if="not event.website_published" class="label label-danger">unpublished</small>
                                 </h4>
                                 <div>
@@ -81,12 +81,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 col-xs-offset-3">
-                        <t t-call="website.pager"/>
-                    </div>
-                </div>
                 <div class="col-md-3 oe_structure" id="right_column">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-xs-offset-3">
+                    <t t-call="website.pager"/>
                 </div>
             </div>
         </div>
@@ -480,7 +480,7 @@
             <t t-if="event.state != 'draft'" itemprop="availability" content="http://schema.org/Discontinued">
                 Event registration is closed.
             </t>
-            <t t-if="uid">
+            <t t-if="request.env.user.has_group('event.group_event_manager')">
                 <a t-attf-href="/web#id=#{event.id}&amp;view_type=form&amp;model=event.event">
                     <i class="fa fa-plus-circle"></i>
                     <em>Configure and Launch Event Registration</em>
@@ -542,7 +542,7 @@
                         <h4 class="modal-title" id="myModalLabel"><strong>Attendees</strong></h4>
                     </div>
                     <div class="modal-body">
-                        <div class="">
+                        <div class="container">
                             <t t-set="counter_type" t-value="1"/>
                             <t t-set="counter" t-value="0"/>
                             <t t-foreach="tickets" t-as="ticket">

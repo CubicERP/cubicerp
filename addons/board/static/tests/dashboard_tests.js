@@ -3,6 +3,7 @@ odoo.define('board.dashboard_tests', function (require) {
 
 var testUtils = require('web.test_utils');
 var FormView = require('web.FormView');
+var ListRenderer = require('web.ListRenderer');
 
 var createView = testUtils.createView;
 
@@ -123,8 +124,8 @@ QUnit.test('basic functionality, with one sub action', function (assert) {
             if (route === '/web/dataset/search_read') {
                 assert.deepEqual(args.domain, [['foo', '!=', 'False']], "the domain should be passed");
             }
-            if (route === '/web/view/add_custom') {
-                assert.step('add custom');
+            if (route === '/web/view/edit_custom') {
+                assert.step('edit custom');
                 return $.when(true);
             }
             return this._super.apply(this, arguments);
@@ -155,7 +156,7 @@ QUnit.test('basic functionality, with one sub action', function (assert) {
     form.$('.oe_fold').click();
 
     assert.ok(form.$('.oe_content').is(':visible'), "content is visible again");
-    assert.verifySteps(['load action', 'add custom', 'add custom']);
+    assert.verifySteps(['load action', 'edit custom', 'edit custom']);
 
     assert.strictEqual($('.modal').length, 0, "should have no modal open");
 
@@ -183,7 +184,58 @@ QUnit.test('basic functionality, with one sub action', function (assert) {
     assert.strictEqual($('.modal').length, 0, "should have no modal open");
     assert.strictEqual(form.$('.oe_action').length, 0, "should have no displayed action");
 
-    assert.verifySteps(['load action', 'add custom', 'add custom', 'add custom', 'add custom']);
+    assert.verifySteps(['load action', 'edit custom', 'edit custom', 'edit custom', 'edit custom']);
+    form.destroy();
+});
+
+QUnit.test('can render an action without view_mode attribute', function (assert) {
+    // The view_mode attribute is automatically set to the 'action' nodes when
+    // the action is added to the dashboard using the 'Add to dashboard' button
+    // in the searchview. However, other dashboard views can be written by hand
+    // (see openacademy tutorial), and in this case, we don't want hardcode
+    // action's params (like context or domain), as the dashboard can directly
+    // retrieve them from the action. Same applies for the view_type, as the
+    // first view of the action can be used, by default.
+    assert.expect(2);
+
+    var form = createView({
+        View: FormView, // replace by BoardView when forwarported to saas-11.3
+        model: 'board',
+        data: this.data,
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action string="ABC" name="51" context="{\'a\': 1}"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        archs: {
+            'partner,4,list':
+                '<tree string="Partner"><field name="foo"/></tree>',
+        },
+        mockRPC: function (route, args) {
+            if (route === '/board/static/src/img/layout_1-1-1.png') {
+                return $.when();
+            }
+            if (route === '/web/action/load') {
+                return $.when({
+                    context: '{"b": 2}',
+                    domain: '[["foo", "=", "yop"]]',
+                    res_model: 'partner',
+                    views: [[4, 'list'], [false, 'form']],
+                });
+            }
+            if (route === '/web/dataset/search_read') {
+                assert.deepEqual(args.domain, [['foo', '=', 'yop']],
+                    "should use the domain of the action");
+            }
+            return this._super.apply(this, arguments);
+        },
+    });
+
+    assert.strictEqual(form.$('.oe_action:contains(ABC) .o_list_view').length, 1,
+        "the list view (first view of action) should have been rendered correctly");
+
     form.destroy();
 });
 
@@ -271,6 +323,51 @@ QUnit.test('can open a record', function (assert) {
     form.destroy();
 });
 
+QUnit.test('can open record using action form view', function (assert) {
+    assert.expect(1);
+
+    var form = createView({
+        View: FormView,
+        model: 'board',
+        data: this.data,
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action context="{}" view_mode="list" string="ABC" name="51" domain="[]"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        mockRPC: function (route) {
+            if (route === '/web/action/load') {
+                return $.when({
+                    res_model: 'partner',
+                    views: [[4, 'list'], [5, 'form']],
+                });
+            }
+            return this._super.apply(this, arguments);
+        },
+        archs: {
+            'partner,4,list':
+                '<tree string="Partner"><field name="foo"/></tree>',
+            'partner,5,form':
+                '<form string="Partner"><field name="display_name"/></form>',
+        },
+        intercepts: {
+            do_action: function (event) {
+                assert.deepEqual(event.data.action, {
+                    res_id: 1,
+                    res_model: 'partner',
+                    type: 'ir.actions.act_window',
+                    views: [[5, 'form']],
+                }, "should do a do_action with correct parameters");
+            },
+        },
+    });
+
+    form.$('tr.o_data_row td:contains(yop)').click();
+    form.destroy();
+});
+
 QUnit.test('can drag and drop a view', function (assert) {
     assert.expect(4);
 
@@ -292,8 +389,8 @@ QUnit.test('can drag and drop a view', function (assert) {
                     views: [[4, 'list']],
                 });
             }
-            if (route === '/web/view/add_custom') {
-                assert.step('add custom');
+            if (route === '/web/view/edit_custom') {
+                assert.step('edit custom');
                 return $.when(true);
             }
             return this._super.apply(this, arguments);
@@ -339,8 +436,8 @@ QUnit.test('twice the same action in a dashboard', function (assert) {
                     views: [[4, 'list'],[5, 'kanban']],
                 });
             }
-            if (route === '/web/view/add_custom') {
-                assert.step('add custom');
+            if (route === '/web/view/edit_custom') {
+                assert.step('edit custom');
                 return $.when(true);
             }
             return this._super.apply(this, arguments);
@@ -361,6 +458,184 @@ QUnit.test('twice the same action in a dashboard', function (assert) {
     var $secondAction = form.$('.oe_action:contains(DEF)');
     assert.strictEqual($secondAction.find('.o_kanban_view').length, 1,
         "kanban view should be displayed in 'DEF' block");
+
+    form.destroy();
+});
+
+QUnit.test('non-existing action in a dashboard', function (assert) {
+    assert.expect(1);
+
+    var form = createView({
+        View: FormView,
+        model: 'board',
+        data: this.data,
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action context="{}" view_mode="kanban" string="ABC" name="51" domain="[]"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        intercepts: {
+            load_views: function () {
+                throw new Error('load_views should not be called');
+            }
+        },
+        mockRPC: function (route) {
+            if (route === '/board/static/src/img/layout_1-1-1.png') {
+                return $.when();
+            }
+            if (route === '/web/action/load') {
+                // server answer if the action doesn't exist anymore
+                return $.when(false);
+            }
+            return this._super.apply(this, arguments);
+        },
+    });
+
+    assert.strictEqual(form.$('.oe_action:contains(ABC)').length, 1,
+        "there should be a box for the non-existing action");
+
+    form.destroy();
+});
+
+QUnit.test('clicking on a kanban\'s button should trigger the action', function (assert) {
+    assert.expect(2);
+
+    var form = createView({
+        View: FormView,
+        model: 'board',
+        data: this.data,
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action name="149" string="Partner" view_mode="kanban" id="action_0_1"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        archs: {
+            'partner,false,kanban':
+                '<kanban class="o_kanban_test"><templates><t t-name="kanban-box">' +
+                    '<div>' +
+                    '<field name="foo"/>' +
+                    '</div>' +
+                    '<div><button name="sitting_on_a_park_bench" type="object">Eying little girls with bad intent</button>' +
+                    '</div>' +
+                '</t></templates></kanban>',
+        },
+        intercepts: {
+            execute_action: function (event) {
+                var data = event.data;
+                assert.strictEqual(data.env.model, 'partner', "should have correct model");
+                assert.strictEqual(data.action_data.name, 'sitting_on_a_park_bench',
+                    "should call correct method");
+            }
+        },
+
+        mockRPC: function (route) {
+            if (route === '/board/static/src/img/layout_1-1-1.png') {
+                return $.when();
+            }
+            if (route === '/web/action/load') {
+                return $.when({res_model: 'partner', view_mode: 'kanban', views: [[false, 'kanban']]});
+            }
+            if (route === '/web/dataset/search_read') {
+                return $.when({records: [{foo: 'aqualung'}]});
+            }
+            return this._super.apply(this, arguments);
+        }
+    });
+
+    form.$('.o_kanban_test').find('button:first').click();
+
+    form.destroy();
+});
+
+QUnit.test('subviews are aware of attach in or detach from the DOM', function (assert) {
+    assert.expect(2);
+
+    // patch list renderer `on_attach_callback` for the test only
+    testUtils.patch(ListRenderer, {
+        on_attach_callback: function () {
+            assert.step('subview on_attach_callback');
+        }
+    });
+
+    var form = createView({
+        View: FormView,
+        model: 'board',
+        data: this.data,
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action context="{}" view_mode="list" string="ABC" name="51" domain="[]"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        mockRPC: function (route) {
+            if (route === '/web/action/load') {
+                return $.when({
+                    res_model: 'partner',
+                    views: [[4, 'list']],
+                });
+            }
+            return this._super.apply(this, arguments);
+        },
+        archs: {
+            'partner,4,list':
+                '<list string="Partner"><field name="foo"/></list>',
+        },
+    });
+
+    assert.verifySteps(['subview on_attach_callback']);
+
+    // restore on_attach_callback of ListRenderer
+    testUtils.unpatch(ListRenderer);
+
+    form.destroy();
+});
+
+QUnit.test("Views should be loaded in the user's language", function (assert) {
+    assert.expect(2);
+
+    var form = createView({
+        View: FormView,
+        model: 'board',
+        data: this.data,
+        session: {user_context: {lang: 'fr_FR'}},
+        arch: '<form string="My Dashboard">' +
+                '<board style="2-1">' +
+                    '<column>' +
+                        '<action context="{\'lang\': \'en_US\'}" view_mode="list" string="ABC" name="51" domain="[]"></action>' +
+                    '</column>' +
+                '</board>' +
+            '</form>',
+        mockRPC: function (route, args) {
+            if (route === "/web/dataset/search_read") {
+                assert.deepEqual(args.context, {lang: 'fr_FR'},
+                    'The data should be loaded with the correct context');
+            }
+
+            if (route === '/web/action/load') {
+                return $.when({
+                    res_model: 'partner',
+                    views: [[4, 'list']],
+                });
+            }
+            return this._super.apply(this, arguments);
+        },
+        archs: {
+            'partner,4,list':
+                '<list string="Partner"><field name="foo"/></list>',
+        },
+
+        interceptsPropagate: {
+            load_views: function (ev) {
+                assert.deepEqual(ev.data.context.eval(), {lang: 'fr_FR'},
+                    'The views should be loaded with the correct context');
+            }
+        },
+    });
 
     form.destroy();
 });

@@ -3,7 +3,6 @@ odoo.define('mail.systray', function (require) {
 
 var config = require('web.config');
 var core = require('web.core');
-var framework = require('web.framework');
 var session = require('web.session');
 var SystrayMenu = require('web.SystrayMenu');
 var Widget = require('web.Widget');
@@ -123,15 +122,19 @@ var MessagingMenu = Widget.extend({
         if (channelID === 'channel_inbox') {
             var resID = $(event.currentTarget).data('res_id');
             var resModel = $(event.currentTarget).data('res_model');
-            if (resModel && resID) {
+            if (resModel && resModel !== 'mail.channel' && resID) {
                 this.do_action({
                     type: 'ir.actions.act_window',
                     res_model: resModel,
-                    views: [[false, 'form'], [false, 'kanban']],
+                    views: [[false, 'form']],
                     res_id: resID
                 });
             } else {
-                this.do_action('mail.mail_channel_action_client_chat', {clear_breadcrumbs: true})
+                var clientChatOptions = {clear_breadcrumbs: true};
+                if (resModel && resModel === 'mail.channel' && resID) {
+                    clientChatOptions.active_id = resID;
+                }
+                this.do_action('mail.mail_channel_action_client_chat', clientChatOptions)
                     .then(function () {
                         self.trigger_up('hide_app_switcher');
                         core.bus.trigger('change_menu_section', chat_manager.get_discuss_menu_id());
@@ -175,6 +178,9 @@ var ActivityMenu = Widget.extend({
         return self._rpc({
             model: 'res.users',
             method: 'activity_user_count',
+            kwargs: {
+                context: session.user_context,
+            },
         }).then(function (data) {
             self.activities = data;
             self.activityCounter = _.reduce(data, function(total_count, p_data){ return total_count + p_data.total_count; }, 0);

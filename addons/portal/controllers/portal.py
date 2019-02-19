@@ -6,8 +6,10 @@ import math
 from werkzeug import urls
 
 from odoo import fields as odoo_fields, tools, _
+from odoo.osv import expression
 from odoo.exceptions import ValidationError
 from odoo.http import Controller, request, route
+from odoo.addons.web.controllers.main import WebClient
 
 # --------------------------------------------------
 # Misc tools
@@ -200,6 +202,8 @@ class CustomerPortal(Controller):
         # vat validation
         partner = request.env["res.partner"]
         if data.get("vat") and hasattr(partner, "check_vat"):
+            if data.get("country_id"):
+                data["vat"] = request.env["res.partner"].fix_eu_vat_number(int(data.get("country_id")), data.get("vat"))
             partner_dummy = partner.new({
                 'vat': data['vat'],
                 'country_id': (int(data['country_id'])

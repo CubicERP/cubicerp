@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
-from ast import literal_eval
-
 from odoo import api, fields, models, _
 
 
@@ -16,7 +14,7 @@ class ResConfigSettings(models.TransientModel):
         'account.journal',
         related='company_id.currency_exchange_journal_id',
         string="Exchange Gain or Loss Journal",
-        domain=[('type', '=', 'general')],
+        domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
         help='The accounting journal where automatic exchange differences will be registered')
     has_chart_of_accounts = fields.Boolean(compute='_compute_has_chart_of_accounts', string='Company has a chart of accounts')
     chart_template_id = fields.Many2one('account.chart.template', string='Template',
@@ -36,7 +34,7 @@ class ResConfigSettings(models.TransientModel):
     module_account_budget = fields.Boolean(string='Budget Management')
     module_account_payment = fields.Boolean(string='Online Payment')
     module_account_reports = fields.Boolean("Dynamic Reports")
-    module_account_reports_followup = fields.Boolean("Enable payment followup management")
+    module_account_reports_followup = fields.Boolean("Follow-up Levels")
     default_sale_tax_id = fields.Many2one('account.tax', string="Default Sale Tax",
         company_dependent=True, oldname="default_sale_tax")
     default_purchase_tax_id = fields.Many2one('account.tax', string="Default Purchase Tax",
@@ -45,7 +43,7 @@ class ResConfigSettings(models.TransientModel):
     module_account_batch_deposit = fields.Boolean(string='Use batch deposit',
         help='This allows you to group received checks before you deposit them to the bank.\n'
              '-This installs the module account_batch_deposit.')
-    module_account_sepa = fields.Boolean(string='Use SEPA payments')
+    module_account_sepa = fields.Boolean(string='SEPA Credit Transfer (SCT)')
     module_account_sepa_direct_debit = fields.Boolean(string='Use SEPA Direct Debit')
     module_account_plaid = fields.Boolean(string="Plaid Connector")
     module_account_yodlee = fields.Boolean("Bank Interface - Sync your bank feeds automatically")
@@ -53,7 +51,7 @@ class ResConfigSettings(models.TransientModel):
     module_account_bank_statement_import_ofx = fields.Boolean("Import in .ofx format")
     module_account_bank_statement_import_csv = fields.Boolean("Import in .csv format")
     module_account_bank_statement_import_camt = fields.Boolean("Import in CAMT.053 format")
-    module_currency_rate_live = fields.Boolean(string="Allow Currency Rate Live")
+    module_currency_rate_live = fields.Boolean(string="Automatic Currency Rates")
     module_print_docsaway = fields.Boolean(string="Docsaway")
     module_product_margin = fields.Boolean(string="Allow Product Margin")
     module_l10n_eu_service = fields.Boolean(string="EU Digital Goods VAT")
@@ -65,25 +63,19 @@ class ResConfigSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
-        params = self.env['ir.config_parameter'].sudo()
-        tax = self.env['account.tax'].sudo()
-        default_purchase_tax_id = literal_eval(params.get_param('account.default_purchase_tax_id', default='False'))
-        default_sale_tax_id = literal_eval(params.get_param('account.default_sale_tax_id', default='False'))
-        if default_purchase_tax_id and not tax.browse(default_purchase_tax_id).exists():
-            default_purchase_tax_id = False
-        if default_sale_tax_id and not tax.browse(default_sale_tax_id).exists():
-            default_sale_tax_id = False
+        # ONLY FOR v11. DO NOT FORWARD-PORT
+        IrDefault = self.env['ir.default'].sudo()
+        default_sale_tax_id = IrDefault.get('product.template', "taxes_id", company_id=self.company_id.id or self.env.user.company_id.id)
+        default_purchase_tax_id = IrDefault.get('product.template', "supplier_taxes_id", company_id=self.company_id.id or self.env.user.company_id.id)
         res.update(
-            default_purchase_tax_id=default_purchase_tax_id,
-            default_sale_tax_id=default_sale_tax_id,
+            default_purchase_tax_id=default_purchase_tax_id[0] if default_purchase_tax_id else False,
+            default_sale_tax_id=default_sale_tax_id[0] if default_sale_tax_id else False,
         )
         return res
 
     @api.multi
     def set_values(self):
         super(ResConfigSettings, self).set_values()
-        self.env['ir.config_parameter'].sudo().set_param("account.default_purchase_tax_id", self.default_purchase_tax_id.id)
-        self.env['ir.config_parameter'].sudo().set_param("account.default_sale_tax_id", self.default_sale_tax_id.id)
         if self.group_multi_currency:
             self.env.ref('base.group_user').write({'implied_ids': [(4, self.env.ref('product.group_sale_pricelist').id)]})
         """ Set the product taxes if they have changed """

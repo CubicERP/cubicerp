@@ -67,14 +67,14 @@
 
 <!-- Layout -->
 <template id="submenu" name="Submenu">
-    <li t-if="not submenu.child_id" t-att-class="
+    <li t-if="submenu.is_visible and not submenu.child_id.filtered(lambda menu: menu.is_visible)" t-att-class="
         'active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else None
         ">
         <a t-att-href="submenu.clean_url()" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
             <span t-field="submenu.name"/>
         </a>
     </li>
-    <li t-if="submenu.child_id" t-attf-class="dropdown #{
+    <li t-if="submenu.child_id.filtered(lambda menu: menu.is_visible)" t-attf-class="dropdown #{
         (submenu.clean_url() and submenu.clean_url() != '/' and any([request.httprequest.path == child.url for child in submenu.child_id if child.url]) or
          (submenu.clean_url() and request.httprequest.path == submenu.clean_url())) and 'active'
         }">
@@ -116,13 +116,16 @@
     </xpath>
     <xpath expr="//t[@t-set='head_website']" position="replace">
         <t t-set="head_website">
+            <meta name="generator" content="Odoo"/>
+
             <meta t-if="main_object and 'website_indexed' in main_object
                 and not main_object.website_indexed" name="robots" content="noindex"/>
-            <meta name="description" t-att-content="main_object and 'website_meta_description' in main_object
+            <t t-set="meta_description" t-value="main_object and 'website_meta_description' in main_object
                 and main_object.website_meta_description or website_meta_description"/>
-            <meta name="keywords" t-att-content="main_object and 'website_meta_keywords' in main_object
+            <t t-set="meta_keywords" t-value="main_object and 'website_meta_keywords' in main_object
                 and main_object.website_meta_keywords or website_meta_keywords"/>
-            <meta name="generator" content="Odoo"/>
+            <meta t-if="meta_description or editable" name="description" t-att-content="meta_description"/>
+            <meta t-if="meta_keywords or editable" name="keywords" t-att-content="meta_keywords"/>
 
             <!-- OpenGraph tags for Facebook sharing -->
             <meta property="og:title" t-att-content="additional_title" />
@@ -169,16 +172,8 @@
             <t t-call-assets="website.assets_editor" t-css="false" groups="website.group_website_publisher"/>
         </t>
     </xpath>
-    <xpath expr="//header//div[hasclass('navbar-header')]" position="replace">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/" t-if="website" t-field="website.name">My Website</a>
-        </div>
+    <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
+        <a class="navbar-brand" href="/" t-if="website" t-field="website.name">My Website</a>
     </xpath>
     <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="attributes">
         <attribute name="t-if">website.user_id != user_id</attribute>

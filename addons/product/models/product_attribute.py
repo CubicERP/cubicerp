@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
+from odoo.osv import expression
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
 
 
 class ProductAttribute(models.Model):
@@ -107,7 +109,7 @@ class ProductAttributeLine(models.Model):
         # search on a m2o and one on a m2m, probably this will quickly become
         # difficult to compute - check if performance optimization is required
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
-            new_args = ['|', ('attribute_id', operator, name), ('value_ids', operator, name)]
-        else:
-            new_args = args
-        return super(ProductAttributeLine, self).name_search(name=name, args=new_args, operator=operator, limit=limit)
+            args = args or []
+            domain = ['|', ('attribute_id', operator, name), ('value_ids', operator, name)]
+            return self.search(expression.AND([domain, args]), limit=limit).name_get()
+        return super(ProductAttributeLine, self).name_search(name=name, args=args, operator=operator, limit=limit)

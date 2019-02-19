@@ -22,11 +22,9 @@ var DateWidget = Widget.extend({
     init: function(parent, options) {
         this._super.apply(this, arguments);
 
-        var l10n = _t.database.parameters;
-
         this.name = parent.name;
         this.options = _.defaults(options || {}, {
-            format : time.strftime_to_moment_format((this.type_of_date === 'datetime')? (l10n.date_format + ' ' + l10n.time_format) : l10n.date_format),
+            format : this.type_of_date === 'datetime' ? time.getLangDatetimeFormat() : time.getLangDateFormat(),
             minDate: moment({ y: 1900 }),
             maxDate: moment().add(200, "y"),
             calendarWeeks: true,
@@ -51,12 +49,8 @@ var DateWidget = Widget.extend({
      */
     start: function() {
         this.$input = this.$('input.o_datepicker_input');
-        this.$input.focus(function(e) {
-            e.stopImmediatePropagation();
-        });
         this.$input.datetimepicker(this.options);
         this.picker = this.$input.data('DateTimePicker');
-        this.$input.click(this.picker.toggle.bind(this.picker));
         this._setReadonly(false);
     },
     /**
@@ -79,8 +73,15 @@ var DateWidget = Widget.extend({
             var oldValue = this.getValue();
             this._setValueFromUi();
             var newValue = this.getValue();
-
-            if (!oldValue !== !newValue || oldValue && newValue && !oldValue.isSame(newValue)) {
+            var hasChanged = !oldValue !== !newValue;
+            if (oldValue && newValue) {
+                var formattedOldValue = oldValue.format(time.getLangDatetimeFormat());
+                var formattedNewValue = newValue.format(time.getLangDatetimeFormat())
+                if (formattedNewValue !== formattedOldValue) {
+                    hasChanged = true;
+                }
+            }
+            if (hasChanged) {
                 // The condition is strangely written; this is because the
                 // values can be false/undefined
                 this.trigger("datetime_changed");

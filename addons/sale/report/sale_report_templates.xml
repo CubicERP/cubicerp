@@ -60,6 +60,10 @@
                     <strong>Payment Terms:</strong>
                     <p t-field="doc.payment_term_id"/>
                 </div>
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
+                    <strong>Expiration Date:</strong>
+                    <p t-field="doc.validity_date"/>
+                </div>
             </div>
 
             <!-- Is there a discount on at least one line? -->
@@ -137,9 +141,9 @@
             </t>
 
             <div class="clearfix">
-                <div class="row pull-right" name="total">
-                    <div>
-                        <table class="table-condensed" style="min-width: 200px;max-width: 350px;">
+                <div class="row" name="total">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
                             <tr class="border-black" style="border-bottom:1px solid #dddddd;">
                                 <td><strong>Subtotal</strong></td>
                                 <td class="text-right">
@@ -150,7 +154,10 @@
                             <t t-foreach="doc._get_tax_amount_by_group()" t-as="amount_by_group">
                                 <tr style="border-bottom:1px solid #dddddd;">
                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
-                                        <td><span t-esc="amount_by_group[0]"/></td>
+                                        <td>
+                                            <span t-esc="amount_by_group[0]"/>
+                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/></span>
+                                        </td>
                                         <td class="text-right">
                                             <span t-esc="amount_by_group[1]"
                                                 t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
@@ -158,7 +165,7 @@
                                     </t>
                                     <t t-else ="">
                                         <td>
-                                            <span t-esc="amount_by_group[0]"/><span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/></span>
+                                            <span t-esc="amount_by_group[0]"/>
                                         </td>
                                         <td class="text-right">
                                             <span t-esc="amount_by_group[1]"

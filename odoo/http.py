@@ -58,6 +58,9 @@ rpc_response = logging.getLogger(__name__ + '.rpc.response')
 # 1 week cache for statics as advised by Google Page Speed
 STATIC_CACHE = 60 * 60 * 24 * 7
 
+# To remove when corrected in Babel
+babel.core.LOCALE_ALIASES['nb'] = 'nb_NO'
+
 #----------------------------------------------------------
 # RequestHandler
 #----------------------------------------------------------
@@ -163,7 +166,7 @@ def redirect_with_hash(url, code=303):
     # FIXME: decide whether urls should be bytes or text, apparently
     # addons/website/controllers/main.py:91 calls this with a bytes url
     # but addons/web/controllers/main.py:481 uses text... (blows up on login)
-    url = pycompat.to_text(url)
+    url = pycompat.to_text(url).strip()
     if urls.url_parse(url, scheme='http').scheme not in ('http', 'https'):
         url = u'http://' + url
     url = url.replace("'", "%27").replace("<", "%3C")
@@ -575,6 +578,7 @@ class JsonRequest(WebRequest):
         super(JsonRequest, self).__init__(*args)
 
         self.jsonp_handler = None
+        self.params = {}
 
         args = self.httprequest.args
         jsonp = args.get('jsonp')
@@ -600,7 +604,7 @@ class JsonRequest(WebRequest):
             request = self.session.pop('jsonp_request_%s' % (request_id,), '{}')
         else:
             # regular jsonrpc2
-            request = self.httprequest.stream.read().decode(self.httprequest.charset)
+            request = self.httprequest.get_data().decode(self.httprequest.charset)
 
         # Read POST content or POST Form Data named "request"
         try:
@@ -635,8 +639,9 @@ class JsonRequest(WebRequest):
             body = json.dumps(response, default=ustr)
 
         return Response(
-                    body, headers=[('Content-Type', mime),
-                                   ('Content-Length', len(body))])
+            body, status=error and error.pop('http_status', 200) or 200,
+            headers=[('Content-Type', mime), ('Content-Length', len(body))]
+        )
 
     def _handle_exception(self, exception):
         """Called within an except block to allow converting exceptions
@@ -645,13 +650,18 @@ class JsonRequest(WebRequest):
         try:
             return super(JsonRequest, self)._handle_exception(exception)
         except Exception:
-            if not isinstance(exception, (odoo.exceptions.Warning, SessionExpiredException, odoo.exceptions.except_orm)):
+            if not isinstance(exception, (odoo.exceptions.Warning, SessionExpiredException,
+                                          odoo.exceptions.except_orm, werkzeug.exceptions.NotFound)):
                 _logger.exception("Exception during JSON request handling.")
             error = {
                     'code': 200,
                     'message': "CubicERP Server Error",
                     'data': serialize_exception(exception)
             }
+            if isinstance(exception, werkzeug.exceptions.NotFound):
+                error['http_status'] = 404
+                error['code'] = 404
+                error['message'] = "404: Not Found"
             if isinstance(exception, AuthenticationError):
                 error['code'] = 100
                 error['message'] = "CubicERP Session Invalid"
@@ -795,7 +805,7 @@ class HttpRequest(WebRequest):
 
 CubicERP URLs are CSRF-protected by default (when accessed with unsafe
 HTTP methods). See
-https://www.odoo.com/documentation/9.0/reference/http.html#csrf for
+https://www.odoo.com/documentation/11.0/reference/http.html#csrf for
 more details.
 
 * if this endpoint is accessed through CubicERP via py-QWeb form, embed a CSRF
@@ -1030,7 +1040,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         self.db = db
         self.uid = uid
         self.login = login
-        self.password = password
+        self.session_token = uid and security.compute_session_token(self, request.env)
         request.uid = uid
         request.disable_db = False
 
@@ -1045,7 +1055,18 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         """
         if not self.db or not self.uid:
             raise SessionExpiredException("Session expired")
-        security.check(self.db, self.uid, self.password)
+        # We create our own environment instead of the request's one.
+        # to avoid creating it without the uid since request.uid isn't set yet
+        env = odoo.api.Environment(request.cr, self.uid, self.context)
+        #  == BACKWARD COMPATIBILITY TO CONVERT OLD SESSION TYPE TO THE NEW ONES ! REMOVE ME AFTER 11.0 ==
+        if self.get('password'):
+            security.check(self.db, self.uid, self.password)
+            self.session_token = security.compute_session_token(self, env)
+            self.pop('password')
+        # =================================================================================================
+        # here we check if the session is still valid
+        if not security.check_session(self, env):
+            raise SessionExpiredException("Session expired")
 
     def logout(self, keep_db=False):
         for k in list(self):
@@ -1058,7 +1079,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         self.setdefault("db", None)
         self.setdefault("uid", None)
         self.setdefault("login", None)
-        self.setdefault("password", None)
+        self.setdefault("session_token", None)
         self.setdefault("context", {})
 
     def get_context(self):
@@ -1300,6 +1321,15 @@ class Root(object):
     def load_addons(self):
         """ Load all addons from addons path containing static files and
         controllers and configure them.  """
+        # The ODOO_PRELOAD_ADDONS environment variable is available for version 11.0 only.
+        # Due to two implementation changes in Python 3's GIL and import system, early
+        # requests have some chances to trigger an invalid RegistryManager if they are
+        # accepted just after the server listen on the socket. This bug is only reproducible
+        # in threaded mode and the odds to happen are pretty low except when using socket
+        # activation in such case ` ODOO_PRELOAD_ADDONS=no ` should be used.
+        # Note: Odoo versions > 11.0 does not preload addons anymore.
+        preload_addons = os.environ.get('ODOO_PRELOAD_ADDONS', 'yes') == 'yes'
+
         # TODO should we move this to ir.http so that only configured modules are served ?
         statics = {}
         for addons_path in odoo.modules.module.ad_paths:
@@ -1315,10 +1345,9 @@ class Root(object):
                             continue
                         manifest['addons_path'] = addons_path
                         _logger.debug("Loading %s", module)
-                        if 'odoo.addons' in sys.modules:
+                        m = None
+                        if 'odoo.addons' in sys.modules and preload_addons:
                             m = __import__('odoo.addons.' + module)
-                        else:
-                            m = None
                         addons_module[module] = m
                         addons_manifest[module] = manifest
                         statics['/%s/static' % module] = path_static
@@ -1394,17 +1423,6 @@ class Root(object):
             response = Response(result, mimetype='text/html')
         else:
             response = result
-
-        # save to cache if requested and possible
-        if getattr(request, 'cache_save', False) and response.status_code == 200:
-            response.freeze()
-            r = response.response
-            if isinstance(r, list) and len(r) == 1 and isinstance(r[0], str):
-                request.registry.cache[request.cache_save] = {
-                    'content': r[0],
-                    'mimetype': response.headers['Content-Type'],
-                    'time': time.time(),
-                }
 
         if httprequest.session.should_save:
             if httprequest.session.rotate:
@@ -1496,6 +1514,7 @@ def db_filter(dbs, httprequest=None):
     if d == "www" and r:
         d = r.partition('.')[0]
     if odoo.tools.config['dbfilter']:
+        d, h = re.escape(d), re.escape(h)
         r = odoo.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
         dbs = [i for i in dbs if re.match(r, i)]
     elif odoo.tools.config['db_name']:
@@ -1629,15 +1648,9 @@ def send_file(filepath_or_fp, mimetype=None, as_attachment=False, filename=None,
 
 def content_disposition(filename):
     filename = odoo.tools.ustr(filename)
-    escaped = urls.url_quote(filename.encode('utf8'))
-    browser = request.httprequest.user_agent.browser
-    version = int((request.httprequest.user_agent.version or '0').split('.')[0])
-    if browser == 'msie' and version < 9:
-        return "attachment; filename=%s" % escaped
-    elif browser == 'safari' and version < 537:
-        return u"attachment; filename=%s" % filename.encode('ascii', 'replace')
-    else:
-        return "attachment; filename*=UTF-8''%s" % escaped
+    escaped = urls.url_quote(filename)
+
+    return "attachment; filename*=UTF-8''%s" % escaped
 
 #----------------------------------------------------------
 # RPC controller

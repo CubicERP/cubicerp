@@ -10,8 +10,12 @@ from odoo.tools.misc import mod10r
 def _is_l10n_ch_postal(account_ref):
     """ Returns True iff the string account_ref is a valid postal account number,
     i.e. it only contains ciphers and is last cipher is the result of a recursive
-    modulo 10 operation ran over the rest of it.
+    modulo 10 operation ran over the rest of it. Shorten form with - is also accepted.
     """
+    if re.match('^[0-9]{2}-[0-9]{1,6}-[0-9]$', account_ref or ''):
+        ref_subparts = account_ref.split('-')
+        account_ref = ref_subparts[0] + ref_subparts[1].rjust(6,'0') + ref_subparts[2]
+
     if re.match('\d+$', account_ref or ''):
         account_ref_without_check = account_ref[:-1]
         return mod10r(account_ref_without_check) == account_ref
@@ -44,10 +48,10 @@ class ResPartnerBank(models.Model):
     @api.depends('acc_number')
     def _compute_l10n_ch_postal(self):
         for record in self:
-            if record.acc_type == 'postal':
-                record.l10n_ch_postal = record.sanitized_acc_number
-            elif record.acc_type == 'iban':
+            if record.acc_type == 'iban':
                 record.l10n_ch_postal = record._retrieve_l10n_ch_postal(record.sanitized_acc_number)
+            else:
+                record.l10n_ch_postal = record.sanitized_acc_number
 
     def _retrieve_l10n_ch_postal(self, iban):
         """ Reads a swiss postal account number from a an IBAN and returns it as

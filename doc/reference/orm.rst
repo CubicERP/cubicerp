@@ -476,6 +476,11 @@ added.
     ``onchange`` methods work on virtual records assignment on these records
     is not written to the database, just used to know which value to send back
     to the client
+    
+.. warning::
+
+    It is not possible for a ``one2many`` or ``many2many`` field to modify 
+    itself via onchange. This is a webclient limitation - see `#2693 <https://github.com/odoo/odoo/issues/2693>`_.
 
 Low-level SQL
 -------------
@@ -494,8 +499,8 @@ necessary to clear caches when using ``CREATE``, ``UPDATE`` or ``DELETE`` in
 SQL, but not ``SELECT`` (which simply reads the database).
 
 Clearing caches can be performed using the
-:meth:`~odoo.api.Environment.invalidate_all` method of the
-:class:`~odoo.api.Environment` object.
+:meth:`~odoo.models.BaseModel.invalidate_cache` method of the
+:class:`~odoo.models.BaseModel` object.
 
 
 .. _reference/orm/oldapi:
@@ -630,6 +635,9 @@ Model Reference
 
         If set to ``False``, override :meth:`.init` to create the database
         table
+        
+     .. tip:: To create a model without any table, inherit
+              from ``odoo.models.AbstractModel``
 
     .. attribute:: _table
 
@@ -939,17 +947,17 @@ them (e.g. to change their default sort order):
 
 .. literalinclude:: ../../odoo/addons/test_documentation_examples/extension.py
     :language: python
-    :lines: 5-
+    :lines: 7-
 
 .. literalinclude:: ../../odoo/addons/test_documentation_examples/tests/test_extension.py
     :language: python
-    :lines: 8,13
+    :lines: 10,15
 
 will yield:
 
 .. literalinclude:: ../../odoo/addons/test_documentation_examples/tests/test_extension.py
     :language: text
-    :lines: 11
+    :lines: 13
 
 .. note:: it will also yield the various :ref:`automatic fields
           <reference/orm/model/automatic>` unless they've been disabled

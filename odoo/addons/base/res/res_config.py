@@ -366,9 +366,8 @@ class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin)
             ``execute`` triggers the immediate installation of the module named 'XXX' 
             if the field has the integer value ``1``.
 
-        *   For the other fields, the method ``execute`` invokes all methods with a name
-            that starts with 'set_'; such methods can be defined to implement the effect
-            of those fields.
+        *   For the other fields, the method ``execute`` invokes `set_values`.
+            Override it to implement the effect of those fields.
 
         The method ``default_get`` retrieves values that reflect the current status of the
         fields like 'default_XXX', 'group_XXX' and 'module_XXX'.  It also invokes all methods
@@ -381,8 +380,6 @@ class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin)
     def copy(self, values):
         raise UserError(_("Cannot duplicate configuration!"), "")
 
-    # TODO: Find replacement for 'onchange' attribute in view with dynamic
-    # api.onchange(...) and migrate the onchange_module(...) accordingly.
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
@@ -404,9 +401,6 @@ class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin)
                     modifiers = json.loads(node.get("modifiers"))
                     modifiers['readonly'] = True
                     node.set("modifiers", json.dumps(modifiers))
-                if 'on_change' not in node.attrib:
-                    node.set("on_change",
-                    "onchange_module(%s, '%s')" % (field, field))
 
         ret_val['arch'] = etree.tostring(doc, encoding='unicode')
         return ret_val
@@ -429,6 +423,16 @@ class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin)
                 }
             }
         return {}
+
+    def _register_hook(self):
+        """ Add an onchange method for each module field. """
+        def make_method(name):
+            return lambda self: self.onchange_module(self[name], name)
+
+        for name in self._fields:
+            if name.startswith('module_'):
+                method = make_method(name)
+                self._onchange_methods[name].append(method)
 
     @api.model
     def _get_classified_fields(self):
@@ -529,12 +533,17 @@ class ResConfigSettings(models.TransientModel, ResConfigModuleInstallationMixin)
             IrDefault.set(model, field, value)
 
         # group fields: modify group / implied groups
-        for name, groups, implied_group in classified['group']:
-            if self[name]:
-                groups.write({'implied_ids': [(4, implied_group.id)]})
-            else:
-                groups.write({'implied_ids': [(3, implied_group.id)]})
-                implied_group.write({'users': [(3, user.id) for user in groups.mapped('users')]})
+        current_settings = self.default_get(list(self.fields_get()))
+        with self.env.norecompute():
+            for name, groups, implied_group in classified['group']:
+                if self[name] == current_settings[name]:
+                    continue
+                if self[name]:
+                    groups.write({'implied_ids': [(4, implied_group.id)]})
+                else:
+                    groups.write({'implied_ids': [(3, implied_group.id)]})
+                    implied_group.write({'users': [(3, user.id) for user in groups.mapped('users')]})
+        self.recompute()
 
         # other fields: execute method 'set_values'
         # Methods that start with `set_` are now deprecated

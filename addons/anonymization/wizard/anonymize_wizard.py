@@ -127,6 +127,9 @@ class IrModelFieldsAnonymizeWizard(models.TransientModel):
     @api.multi
     def anonymize_database(self):
         """Sets the 'anonymized' state to defined fields"""
+        # pylint: disable=W0101
+        raise UserError("""The Odoo Migration Platform no longer accepts anonymized databases.\n
+            If you wish for your data to remain private during migration, please contact us at upgrade@odoo.com""")
         self.ensure_one()
 
         # create a new history record:
@@ -220,7 +223,7 @@ class IrModelFieldsAnonymizeWizard(models.TransientModel):
                ]
         msg = '\n'.join(msgs) % (dirpath, abs_filepath)
 
-        with open(abs_filepath, 'r') as fn:
+        with open(abs_filepath, 'rb') as fn:
             self.write({
                 'msg': msg,
                 'file_export': base64.encodestring(fn.read()),
@@ -266,10 +269,10 @@ class IrModelFieldsAnonymizeWizard(models.TransientModel):
         # load the json/pickle file content into a data structure:
         content = base64.decodestring(self.file_import)
         try:
-            data = json.loads(content)
+            data = json.loads(content.decode('utf8'))
         except Exception:
             # backward-compatible mode
-            data = pickle.loads(content)
+            data = pickle.loads(content, encoding='utf8')
 
         fixes = self.env['ir.model.fields.anonymization.migration.fix'].search_read([
             ('target_version', '=', '.'.join(str(v) for v in version_info[:2]))

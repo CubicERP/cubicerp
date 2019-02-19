@@ -4,6 +4,7 @@
 
 import json
 import logging
+import re
 from hashlib import sha256
 
 from werkzeug import urls
@@ -76,7 +77,7 @@ class AcquirerSips(models.Model):
         if self.environment == 'prod':
             # For production environment, key version 2 is required
             merchant_id = getattr(self, 'sips_merchant_id')
-            key_version = '2'
+            key_version = self.env['ir.config_parameter'].sudo().get_param('sips.key_version', '2')
         else:
             # Test key provided by Atos Wordline works only with version 1
             merchant_id = '002001000000001'
@@ -109,6 +110,16 @@ class AcquirerSips(models.Model):
     def sips_get_form_action_url(self):
         self.ensure_one()
         return self.environment == 'prod' and self.sips_prod_url or self.sips_test_url
+
+
+class PaymentTransactionSips(models.Model):
+    _inherit = 'payment.transaction'
+
+    @api.model
+    def _get_next_reference(self, reference, acquirer=None):
+        if acquirer and acquirer.provider == 'sips':
+            reference = re.sub(r'[^0-9a-zA-Z]+', 'x' , reference)
+        return super(PaymentTransactionSips, self)._get_next_reference(reference, acquirer=acquirer)
 
 
 class TxSips(models.Model):

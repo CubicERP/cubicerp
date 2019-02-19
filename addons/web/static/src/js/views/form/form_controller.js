@@ -12,9 +12,10 @@ var qweb = core.qweb;
 
 var FormController = BasicController.extend({
     custom_events: _.extend({}, BasicController.prototype.custom_events, {
-        open_one2many_record: '_onOpenOne2ManyRecord',
         bounce_edit: '_onBounceEdit',
         button_clicked: '_onButtonClicked',
+        edited_list: '_onEditedList',
+        open_one2many_record: '_onOpenOne2ManyRecord',
         open_record: '_onOpenRecord',
         toggle_column_order: '_onToggleColumnOrder',
     }),
@@ -98,6 +99,7 @@ var FormController = BasicController.extend({
      * @todo convert to new style
      */
     on_attach_callback: function () {
+        this._super.apply(this, arguments);
         this.autofocus();
     },
     /**
@@ -211,6 +213,16 @@ var FormController = BasicController.extend({
             return changedFields;
         });
     },
+    /**
+     * Overrides to force the viewType to 'form', so that we ensure that the
+     * correct fields are reloaded (this is only useful for one2many form views).
+     *
+     * @override
+     */
+    update: function (params, options) {
+        params = _.extend({viewType: 'form'}, params);
+        return this._super(params, options);
+    },
 
     //--------------------------------------------------------------------------
     // Private
@@ -296,6 +308,17 @@ var FormController = BasicController.extend({
         var env = this.model.get(this.handle, {env: true});
         state.id = env.currentId;
         this._super(state);
+    },
+    /**
+     * Calls unfreezeOrder when changing the mode.
+     *
+     * @override
+     */
+    _setMode: function (mode, recordID) {
+        if ((recordID || this.handle) === this.handle) {
+            this.model.unfreezeOrder(this.handle);
+        }
+        return this._super.apply(this, arguments);
     },
     /**
      * Updates the controller's title according to the new state
@@ -444,6 +467,21 @@ var FormController = BasicController.extend({
         this._setMode('edit');
     },
     /**
+     * This method is called when someone tries to freeze the order, most likely
+     * in a x2many list view
+     *
+     * @private
+     * @param {OdooEvent} ev
+     * @param {integer} ev.id of the list to freeze while editing a line
+     */
+    _onEditedList: function (ev) {
+        ev.stopPropagation();
+        if (ev.data.id) {
+            this.model.save(ev.data.id, {savePoint: true});
+        }
+        this.model.freezeOrder(ev.data.id);
+    },
+    /**
      * Opens a one2many record (potentially new) in a dialog. This handler is
      * o2m specific as in this case, the changes done on the related record
      * shouldn't be saved in DB when the user clicks on 'Save' in the dialog,
@@ -485,6 +523,7 @@ var FormController = BasicController.extend({
      * @param {OdooEvent} event
      */
     _onOpenRecord: function (event) {
+        event.stopPropagation();
         var self = this;
         var record = this.model.get(event.data.id, {raw: true});
         new dialogs.FormViewDialog(self, {
@@ -516,10 +555,12 @@ var FormController = BasicController.extend({
      */
     _onToggleColumnOrder: function (event) {
         event.stopPropagation();
-        this.model.setSort(event.data.id, event.data.name);
-        var field = event.data.field;
-        var state = this.model.get(this.handle);
-        this.renderer.confirmChange(state, state.id, [field]);
+        var self = this;
+        this.model.setSort(event.data.id, event.data.name).then(function () {
+            var field = event.data.field;
+            var state = self.model.get(self.handle);
+            self.renderer.confirmChange(state, state.id, [field]);
+        });
     },
 });
 

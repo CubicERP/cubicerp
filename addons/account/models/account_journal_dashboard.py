@@ -58,9 +58,9 @@ class account_journal(models.Model):
                                 WHERE c.journal_id = %s
                                     AND c.date > %s
                                     AND c.date <= %s
-                                    GROUP BY date, id
-                                    ORDER BY date, id) AS b
-                        WHERE a.id = b.stmt_id;"""
+                                    GROUP BY date) AS b
+                        WHERE a.id = b.stmt_id
+                        ORDER BY date;"""
 
         self.env.cr.execute(query, (self.id, last_month, today))
         bank_stmt = self.env.cr.dictfetchall()
@@ -212,18 +212,19 @@ class account_journal(models.Model):
             (number_draft, sum_draft) = self._count_results_and_sum_amounts(query_results_drafts, currency)
             (number_late, sum_late) = self._count_results_and_sum_amounts(late_query_results, currency)
 
+        difference = currency.round(last_balance-account_sum) + 0.0
         return {
             'number_to_reconcile': number_to_reconcile,
-            'account_balance': formatLang(self.env, account_sum, currency_obj=self.currency_id or self.company_id.currency_id),
-            'last_balance': formatLang(self.env, last_balance, currency_obj=self.currency_id or self.company_id.currency_id),
-            'difference': (last_balance-account_sum) and formatLang(self.env, last_balance-account_sum, currency_obj=self.currency_id or self.company_id.currency_id) or False,
+            'account_balance': formatLang(self.env, currency.round(account_sum) + 0.0, currency_obj=currency),
+            'last_balance': formatLang(self.env, currency.round(last_balance) + 0.0, currency_obj=currency),
+            'difference': formatLang(self.env, difference, currency_obj=currency) if difference else False,
             'number_draft': number_draft,
             'number_waiting': number_waiting,
             'number_late': number_late,
-            'sum_draft': formatLang(self.env, sum_draft or 0.0, currency_obj=self.currency_id or self.company_id.currency_id),
-            'sum_waiting': formatLang(self.env, sum_waiting or 0.0, currency_obj=self.currency_id or self.company_id.currency_id),
-            'sum_late': formatLang(self.env, sum_late or 0.0, currency_obj=self.currency_id or self.company_id.currency_id),
-            'currency_id': self.currency_id and self.currency_id.id or self.company_id.currency_id.id,
+            'sum_draft': formatLang(self.env, currency.round(sum_draft) + 0.0, currency_obj=currency),
+            'sum_waiting': formatLang(self.env, currency.round(sum_waiting) + 0.0, currency_obj=currency),
+            'sum_late': formatLang(self.env, currency.round(sum_late) + 0.0, currency_obj=currency),
+            'currency_id': currency.id,
             'bank_statements_source': self.bank_statements_source,
             'title': title,
         }
@@ -234,7 +235,7 @@ class account_journal(models.Model):
         data as its first element, and the arguments dictionary to use to run
         it as its second.
         """
-        return ("""SELECT state, amount_total, currency_id AS currency
+        return ("""SELECT state, amount_total, currency_id AS currency, type
                   FROM account_invoice
                   WHERE journal_id = %(journal_id)s AND state = 'open';""", {'journal_id':self.id})
 
@@ -244,7 +245,7 @@ class account_journal(models.Model):
         gather the bills in draft state data, and the arguments
         dictionary to use to run it as its second.
         """
-        return ("""SELECT state, amount_total, currency_id AS currency
+        return ("""SELECT state, amount_total, currency_id AS currency, type
                   FROM account_invoice
                   WHERE journal_id = %(journal_id)s AND state = 'draft';""", {'journal_id':self.id})
 
@@ -257,7 +258,9 @@ class account_journal(models.Model):
         for result in results_dict:
             cur = self.env['res.currency'].browse(result.get('currency'))
             rslt_count += 1
-            rslt_sum += cur.compute(result.get('amount_total'), target_currency)
+
+            type_factor = result.get('type') in ('in_refund', 'out_refund') and -1 or 1
+            rslt_sum += type_factor * cur.compute(result.get('amount_total'), target_currency)
         return (rslt_count, rslt_sum)
 
     @api.multi
@@ -358,12 +361,13 @@ class account_journal(models.Model):
         ctx.update({
             'journal_type': self.type,
             'default_journal_id': self.id,
-            'search_default_journal_id': self.id,
             'default_type': invoice_type,
             'type': invoice_type
         })
 
         [action] = self.env.ref('account.%s' % action_name).read()
+        if not self.env.context.get('use_domain'):
+            ctx['search_default_journal_id'] = self.id
         action['context'] = ctx
         action['domain'] = self._context.get('use_domain', [])
         account_invoice_filter = self.env.ref('account.view_account_invoice_filter', False)

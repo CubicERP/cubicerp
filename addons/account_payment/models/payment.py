@@ -50,7 +50,7 @@ class PaymentTransaction(models.Model):
             if not s2s_result or self.state != valid_state:
                 _logger.warning(
                     _("<%s> transaction (%s) invalid state : %s") %
-                    (self.acquirer_id.provider, self.id, self.state_mesage))
+                    (self.acquirer_id.provider, self.id, self.state_message))
                 return 'pay_invoice_tx_state'
 
             try:
@@ -71,7 +71,19 @@ class PaymentTransaction(models.Model):
             _logger.warning('<%s> transaction STATE INCORRECT for invoice %s (ID %s, state %s)', self.acquirer_id.provider, self.account_invoice_id.number, self.account_invoice_id.id, self.account_invoice_id.state)
             return 'pay_invoice_invalid_doc_state'
         if not float_compare(self.amount, self.account_invoice_id.amount_total, 2) == 0:
-            _logger.warning('<%s> transaction AMOUNT MISMATCH for invoice %s (ID %s)', self.acquirer_id.provider, self.account_invoice_id.number, self.account_invoice_id.id)
+            _logger.warning(
+                '<%s> transaction AMOUNT MISMATCH for invoice %s (ID %s): expected %r, got %r',
+                self.acquirer_id.provider, self.account_invoice_id.number, self.account_invoice_id.id,
+                self.account_invoice_id.amount_total, self.amount,
+            )
+            self.account_invoice_id.message_post(
+                subject=_("Amount Mismatch (%s)") % self.acquirer_id.provider,
+                body=_("The invoice was not confirmed despite response from the acquirer (%s): invoice amount is %r but acquirer replied with %r.") % (
+                    self.acquirer_id.provider,
+                    self.account_invoice_id.amount_total,
+                    self.amount,
+                )
+            )
             return 'pay_invoice_tx_amount'
 
         if self.state == 'authorized' and self.acquirer_id.capture_manually:
@@ -147,7 +159,7 @@ class PaymentTransaction(models.Model):
                 'currency_id': invoice.currency_id.id,
                 'partner_id': invoice.partner_id.id,
                 'partner_country_id': invoice.partner_id.country_id.id,
-                'reference': self.get_next_reference(invoice.number),
+                'reference': self._get_next_reference(invoice.number, acquirer=acquirer),
                 'account_invoice_id': invoice.id,
             }
             if add_tx_values:
@@ -163,3 +175,10 @@ class PaymentTransaction(models.Model):
         })
 
         return tx
+
+    def _post_process_after_done(self, **kwargs):
+        # set invoice id in payment transaction when payment being done from sale order
+        res = super(PaymentTransaction, self)._post_process_after_done()
+        if kwargs.get('invoice_id'):
+            self.account_invoice_id = kwargs['invoice_id']
+        return res

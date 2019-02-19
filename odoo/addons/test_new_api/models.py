@@ -320,6 +320,10 @@ class Related(models.Model):
     related_name = fields.Char(related='name')
     related_related_name = fields.Char(related='related_name')
 
+    message = fields.Many2one('test_new_api.message')
+    message_name = fields.Text(related="message.body", related_sudo=False, string='Message Body')
+    message_currency = fields.Many2one(related="message.author", string='Message Author')
+
 
 class ComputeInverse(models.Model):
     _name = 'test_new_api.compute.inverse'
@@ -345,6 +349,9 @@ class CompanyDependent(models.Model):
     _name = 'test_new_api.company'
 
     foo = fields.Char(company_dependent=True)
+    date = fields.Date(company_dependent=True)
+    moment = fields.Datetime(company_dependent=True)
+    tag_id = fields.Many2one('test_new_api.multi.tag', company_dependent=True)
 
 class CompanyDependentAttribute(models.Model):
     _name = 'test_new_api.company.attr'

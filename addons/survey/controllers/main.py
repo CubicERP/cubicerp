@@ -109,9 +109,8 @@ class WebsiteSurvey(http.Controller):
             return errpage
 
         # Load the user_input
-        try:
-            user_input = UserInput.sudo().search([('token', '=', token)], limit=1)
-        except IndexError:  # Invalid token
+        user_input = UserInput.sudo().search([('token', '=', token)], limit=1)
+        if not user_input:  # Invalid token
             return request.render("website.403")
 
         # Do not display expired survey (even if some pages have already been
@@ -252,6 +251,10 @@ class WebsiteSurvey(http.Controller):
     def print_survey(self, survey, token=None, **post):
         '''Display an survey in printable view; if <token> is set, it will
         grab the answers of the user_input_id that has <token>.'''
+
+        if survey.auth_required and request.env.user == request.website.user_id:
+            return request.render("survey.auth_required", {'survey': survey, 'token': token})
+
         return request.render('survey.survey_print',
                                       {'survey': survey,
                                        'token': token,

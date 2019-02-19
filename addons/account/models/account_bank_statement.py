@@ -4,7 +4,7 @@ from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.tools import float_is_zero, pycompat
 from odoo.tools import float_compare, float_round, float_repr
-from odoo.tools.misc import formatLang
+from odoo.tools.misc import formatLang, format_date
 from odoo.exceptions import UserError, ValidationError
 
 import time
@@ -339,14 +339,14 @@ class AccountBankStatement(models.Model):
     def link_bank_to_partner(self):
         for statement in self:
             for st_line in statement.line_ids:
-                if st_line.bank_account_id and st_line.partner_id and st_line.bank_account_id.partner_id != st_line.partner_id:
+                if st_line.bank_account_id and st_line.partner_id and not st_line.bank_account_id.partner_id:
                     st_line.bank_account_id.partner_id = st_line.partner_id
 
 
 class AccountBankStatementLine(models.Model):
     _name = "account.bank.statement.line"
     _description = "Bank Statement Line"
-    _order = "statement_id desc, sequence, id desc"
+    _order = "statement_id desc, date desc, sequence, id desc"
 
     name = fields.Char(string='Label', required=True)
     date = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
@@ -512,7 +512,7 @@ class AccountBankStatementLine(models.Model):
             'ref': self.ref,
             'note': self.note or "",
             'name': self.name,
-            'date': self.date,
+            'date': format_date(self.env, self.date),
             'amount': amount,
             'amount_str': amount_str,  # Amount in the statement line currency
             'currency_id': self.currency_id.id or statement_currency.id,
@@ -569,7 +569,7 @@ class AccountBankStatementLine(models.Model):
         # Black lines = unreconciled & (not linked to a payment or open balance created by statement
         domain_matching = [('reconciled', '=', False)]
         if partner_id or overlook_partner:
-            domain_matching = expression.AND([domain_matching, [('account_id.internal_type', 'in', ['payable', 'receivable'])]])
+            domain_matching = expression.AND([domain_matching, ['|', ('account_id.internal_type', 'in', ['payable', 'receivable']), '&', ('account_id.internal_type', '=', 'other'), ('account_id.reconcile', '=', True)]])
         else:
             # TODO : find out what use case this permits (match a check payment, registered on a journal whose account type is other instead of liquidity)
             domain_matching = expression.AND([domain_matching, [('account_id.reconcile', '=', True)]])
@@ -864,6 +864,8 @@ class AccountBankStatementLine(models.Model):
             :returns: The journal entries with which the transaction was matched. If there was at least an entry in counterpart_aml_dicts or new_aml_dicts, this list contains
                 the move created by the reconciliation, containing entries for the statement.line (1), the counterpart move lines (0..*) and the new move lines (0..*).
         """
+        payable_account_type = self.env.ref('account.data_account_type_payable')
+        receivable_account_type = self.env.ref('account.data_account_type_receivable')
         counterpart_aml_dicts = counterpart_aml_dicts or []
         payment_aml_rec = payment_aml_rec or self.env['account.move.line']
         new_aml_dicts = new_aml_dicts or []
@@ -884,10 +886,16 @@ class AccountBankStatementLine(models.Model):
                 raise UserError(_('A selected move line was already reconciled.'))
             if isinstance(aml_dict['move_line'], pycompat.integer_types):
                 aml_dict['move_line'] = aml_obj.browse(aml_dict['move_line'])
+
+        account_types = self.env['account.account.type']
         for aml_dict in (counterpart_aml_dicts + new_aml_dicts):
             if aml_dict.get('tax_ids') and isinstance(aml_dict['tax_ids'][0], pycompat.integer_types):
                 # Transform the value in the format required for One2many and Many2many fields
                 aml_dict['tax_ids'] = [(4, id, None) for id in aml_dict['tax_ids']]
+
+            user_type_id = self.env['account.account'].browse(aml_dict.get('account_id')).user_type_id
+            if user_type_id in [payable_account_type, receivable_account_type] and user_type_id not in account_types:
+                account_types |= user_type_id
         if any(line.journal_entry_ids for line in self):
             raise UserError(_('A selected statement line was already reconciled with an account move.'))
 
@@ -895,7 +903,7 @@ class AccountBankStatementLine(models.Model):
         total = self.amount
         for aml_rec in payment_aml_rec:
             total -= aml_rec.debit - aml_rec.credit
-            aml_rec.write({'statement_line_id': self.id})
+            aml_rec.with_context(check_move_validity=False).write({'statement_line_id': self.id})
             counterpart_moves = (counterpart_moves | aml_rec.move_id)
 
         # Create move line(s). Either matching an existing journal entry (eg. invoice), in which
@@ -915,7 +923,9 @@ class AccountBankStatementLine(models.Model):
             if abs(total)>0.00001:
                 partner_id = self.partner_id and self.partner_id.id or False
                 partner_type = False
-                if partner_id:
+                if partner_id and len(account_types) == 1:
+                    partner_type = 'customer' if account_types == receivable_account_type else 'supplier'
+                if partner_id and not partner_type:
                     if total < 0:
                         partner_type = 'supplier'
                     else:
@@ -934,7 +944,7 @@ class AccountBankStatementLine(models.Model):
                     'currency_id': currency.id,
                     'amount': abs(total),
                     'communication': self._get_communication(payment_methods[0] if payment_methods else False),
-                    'name': self.statement_id.name,
+                    'name': self.statement_id.name or _("Bank Statement %s") %  self.date,
                 })
 
             # Complete dicts to create both counterpart move lines and write-offs

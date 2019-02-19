@@ -273,7 +273,7 @@ return core.Class.extend({
             attrs.options = attrs.options ? pyeval.py_eval(attrs.options) : {};
         }
 
-        if (attrs.on_change && !field.onChange) {
+        if (attrs.on_change && attrs.on_change !== "0" && !field.onChange) {
             field.onChange = "1";
         }
 
@@ -365,12 +365,6 @@ return core.Class.extend({
                                 child.attrs.modifiers.column_invisible || false;
                         }
                     });
-
-                    // detect editables list has they behave differently with respect
-                    // to the sorting (changes are not sorted directly)
-                    if (mode === 'list' && view.arch.attrs.editable) {
-                         attrs.keepChangesUnsorted = true;
-                    }
                 }
             }
             if (attrs.Widget.prototype.fieldsToFetch) {
@@ -423,8 +417,12 @@ return core.Class.extend({
                 if (fieldsInfo[node.attrs.name].fieldDependencies) {
                     var deps = fieldsInfo[node.attrs.name].fieldDependencies;
                     for (var dependency_name in deps) {
+                        var dependency_dict = {name: dependency_name, type: deps[dependency_name].type};
                         if (!(dependency_name in fieldsInfo)) {
-                            fieldsInfo[dependency_name] = {'name': dependency_name, 'type': deps[dependency_name].type, 'options':  deps[dependency_name].options || {}};
+                            fieldsInfo[dependency_name] = _.extend({}, dependency_dict, {options: deps[dependency_name].options || {}});
+                        }
+                        if (!(dependency_name in fields)) {
+                            fields[dependency_name] = dependency_dict;
                         }
                     }
                 }

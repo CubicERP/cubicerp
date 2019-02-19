@@ -275,15 +275,36 @@ var SnippetOption = Widget.extend({
      */
     _setActive: function () {
         var self = this;
-        this.$el.find('[data-toggle-class], [data-select-class]')
-            .addBack('[data-toggle-class], [data-select-class]')
+        this.$el.find('[data-toggle-class]')
+            .addBack('[data-toggle-class]')
             .removeClass('active')
             .filter(function () {
-                var $elem = $(this);
-                var className = $elem.data('toggleClass') || $elem.data('selectClass');
-                return self.$target.hasClass(className);
+                var className = $(this).data('toggleClass');
+                return !className || self.$target.hasClass(className);
             })
             .addClass('active');
+
+        _processSelectClassElements(this.$el);
+        _.each(this.$el.find('.dropdown-menu'), function (group) {
+            _processSelectClassElements($(group).children());
+        });
+
+        function _processSelectClassElements($elements) {
+            var maxNbClasses = -1;
+            $elements.filter('[data-select-class]')
+                .removeClass('active')
+                .filter(function () {
+                    var className = $(this).data('selectClass');
+                    var nbClasses = className ? className.split(' ').length : 0;
+                    if (nbClasses >= maxNbClasses && (!className || self.$target.hasClass(className))) {
+                        maxNbClasses = nbClasses;
+                        return true;
+                    }
+                    return false;
+                })
+                .last()
+                .addClass('active');
+        }
     },
 
     //--------------------------------------------------------------------------
@@ -813,6 +834,7 @@ registry.colorpicker = SnippetOption.extend({
      */
     _onColorResetButtonClick: function () {
         this.$target.removeClass(this.classes);
+        this.$target.trigger('content_changed');
         this.$el.find('.colorpicker button.selected').removeClass('selected');
     },
 });
@@ -872,8 +894,15 @@ registry.background = SnippetOption.extend({
         // Put fake image in the DOM, edit it and use it as background-image
         var $image = $('<img/>', {class: 'hidden', src: value}).appendTo(this.$target);
 
-        var _editor = new widget.MediaDialog(this, {}, null, $image[0]).open();
-        _editor.$('[href="#editor-media-video"], [href="#editor-media-icon"]').addClass('hidden');
+        var $editable = this.$target.closest('.o_editable');
+        var options = {
+            res_model: $editable.data('oe-model'),
+            res_id: $editable.data('oe-id'),
+        };
+        var _editor = new widget.MediaDialog(this, options, null, $image[0]).open();
+        _editor.opened(function () {
+            _editor.$('[href="#editor-media-video"], [href="#editor-media-icon"]').addClass('hidden');
+        });
 
         _editor.on('save', this, function () {
             this._setCustomBackground($image.attr('src'));
@@ -904,7 +933,9 @@ registry.background = SnippetOption.extend({
      */
     setTarget: function () {
         this._super.apply(this, arguments);
+        // TODO should be automatic for all options as equal to the start method
         this.bindBackgroundEvents();
+        this.__customImageSrc = this._getSrcFromCssValue();
     },
 
     //--------------------------------------------------------------------------
@@ -1284,7 +1315,7 @@ registry.many2one = SnippetOption.extend({
             method: 'search_read',
             args: [domain, this.Model === 'res.partner' ? ['name', 'display_name', 'city', 'country_id'] : ['name', 'display_name']],
             kwargs: {
-                order: 'name DESC',
+                order: [{name: 'name', asc: false}],
                 limit: 5,
                 context: weContext.get(),
             },

@@ -3,7 +3,7 @@
 # * resource
 # 
 # Translators:
-# Martin Trigaux <mat@odoo.com>, 2017
+# Martin Trigaux, 2017
 # Yoshi Tashiro <tashiro@roomsfor.hk>, 2017
 # Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2017
 # Manami Hashi <manami@roomsfor.hk>, 2017
@@ -114,7 +114,7 @@ msgstr "表示名"
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_resource_time_efficiency
 msgid "Efficiency Factor"
-msgstr "効率性"
+msgstr "効率因子"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance_date_to
@@ -379,7 +379,7 @@ msgstr "作業時間の検索"
 #: code:addons/resource/models/res_company.py:23
 #, python-format
 msgid "Standard 40 hours/week"
-msgstr ""
+msgstr "標準40時間/週"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_leaves_date_from
@@ -388,8 +388,10 @@ msgstr "開始日"
 
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_calendar_attendance_hour_from
-msgid "Start and End time of working."
-msgstr "作業の開始時刻と終了時刻。"
+msgid ""
+"Start and End time of working.\n"
+"A specific value of 24:00 is interpreted as 23:59:59.999999."
+msgstr ""
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance_date_from
@@ -457,8 +459,8 @@ msgstr "タイムゾーン"
 #. module: resource
 #: model:ir.model.fields,help:resource.field_resource_calendar_leaves_tz
 msgid ""
-"Timezone used when encoding the leave. It is used to correctlylocalize leave"
-" hours when computing time intervals."
+"Timezone used when encoding the leave. It is used to correctly localize "
+"leave hours when computing time intervals."
 msgstr ""
 
 #. module: resource
@@ -519,7 +521,7 @@ msgstr "作業詳細"
 #. module: resource
 #: model:ir.ui.view,arch_db:resource.resource_calendar_form
 msgid "Work Resources"
-msgstr ""
+msgstr "リソース"
 
 #. module: resource
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_attendance_hour_from

@@ -71,7 +71,8 @@
                                     <t t-if="record.pos_session_state.raw_value == 'closing_control'">
                                         <div class="label label-info o_kanban_inline_block">Closing Control</div>
                                     </t>
-                                    <div class="o_secondary mt16"><t t-esc="record.pos_session_username.value || 'Unused'"/></div>
+                                    <t t-set="unused_message">Unused</t>
+                                    <div class="o_secondary mt16"><t t-esc="record.pos_session_username.value || unused_message"/></div>
                                 </div>
                                 <div class="o_kanban_manage_button_section">
                                     <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" /></a>
@@ -133,7 +134,7 @@
                                     </div>
                                 </div>
 
-                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row" groups="point_of_sale.group_pos_manager">
                                     <div class="col-xs-12 text-right">
                                         <a type="edit">Settings</a>
                                     </div>

@@ -188,6 +188,7 @@ class Module(models.Model):
                     'doctitle_xform': False,
                     'output_encoding': 'unicode',
                     'xml_declaration': False,
+                    'file_insertion_enabled': False,
                 }
                 output = publish_string(source=module.description or '', settings_overrides=overrides, writer=MyWriter())
                 module.description_html = tools.html_sanitize(output)
@@ -418,17 +419,19 @@ class Module(models.Model):
                 todo = todo.mapped('dependencies_id.depend_id')
             return result
 
-        for category in install_mods.mapped('category_id').filtered('exclusive'):
-            # the installation is valid if all installed modules in category
-            # correspond to one module and all its dependencies in category
-            category_mods = install_mods.filtered(lambda mod: mod.category_id == category)
-            if not any(closure(module) & category_mods == category_mods
-                       for module in category_mods):
+        exclusives = self.env['ir.module.category'].search([('exclusive', '=', True)])
+        for category in exclusives:
+            # retrieve installed modules in category and sub-categories
+            categories = category.search([('id', 'child_of', category.ids)])
+            modules = install_mods.filtered(lambda mod: mod.category_id in categories)
+            # the installation is valid if all installed modules in categories
+            # belong to the transitive dependencies of one of them
+            if modules and not any(modules <= closure(module) for module in modules):
                 msg = _('You are trying to install incompatible modules in category "%s":')
                 labels = dict(self.fields_get(['state'])['state']['selection'])
                 raise UserError("\n".join([msg % category.name] + [
                     "- %s (%s)" % (module.shortdesc, labels[module.state])
-                    for module in category_mods
+                    for module in modules
                 ]))
 
         return dict(ACTION_DICT, name=_('Install'))
@@ -460,7 +463,8 @@ class Module(models.Model):
         """
         modules_to_remove = self.mapped('name')
         self.env['ir.model.data']._module_data_uninstall(modules_to_remove)
-        self.write({'state': 'uninstalled', 'latest_version': False})
+        # we deactivate prefetching to not try to read a column that has been deleted
+        self.with_context(prefetch_fields=False).write({'state': 'uninstalled', 'latest_version': False})
         return True
 
     @api.multi
@@ -674,7 +678,7 @@ class Module(models.Model):
         res = [0, 0]    # [update, add]
 
         default_version = modules.adapt_version('1.0')
-        known_mods = self.search([])
+        known_mods = self.with_context(lang=None).search([])
         known_mods_names = {mod.name: mod for mod in known_mods}
 
         # iterate through detected modules and update/create them in db
@@ -698,11 +702,10 @@ class Module(models.Model):
                     mod.write(updated_values)
             else:
                 mod_path = modules.get_module_path(mod_name)
-                if not mod_path:
+                if not mod_path or not terp:
                     continue
-                if not terp or not terp.get('installable', True):
-                    continue
-                mod = self.create(dict(name=mod_name, state='uninstalled', **values))
+                state = "uninstalled" if terp.get('installable', True) else "uninstallable"
+                mod = self.create(dict(name=mod_name, state=state, **values))
                 res[1] += 1
 
             mod._update_dependencies(terp.get('depends', []))

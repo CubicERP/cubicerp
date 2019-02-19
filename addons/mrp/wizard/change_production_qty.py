@@ -43,7 +43,8 @@ class ChangeProductionQty(models.TransientModel):
             production = wizard.mo_id
             produced = sum(production.move_finished_ids.filtered(lambda m: m.product_id == production.product_id).mapped('quantity_done'))
             if wizard.product_qty < produced:
-                raise UserError(_("You have already processed %d. Please input a quantity higher than %d ")%(produced, produced))
+                format_qty = '%.{precision}f'.format(precision=precision)
+                raise UserError(_("You have already processed %s. Please input a quantity higher than %s ") % (format_qty % produced, format_qty % produced))
             production.write({'product_qty': wizard.product_qty})
             done_moves = production.move_finished_ids.filtered(lambda x: x.state == 'done' and x.product_id == production.product_id)
             qty_produced = production.product_id.uom_id._compute_quantity(sum(done_moves.mapped('product_qty')), production.product_uom_id)
@@ -67,15 +68,17 @@ class ChangeProductionQty(models.TransientModel):
                                  cycle_number * operation.time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
                 quantity = wo.qty_production - wo.qty_produced
                 if production.product_id.tracking == 'serial':
-                    quantity = 1.0 if float_is_zero(quantity, precision_digits=precision) else 0.0
+                    quantity = 1.0 if not float_is_zero(quantity, precision_digits=precision) else 0.0
                 else:
                     quantity = quantity if (quantity > 0) else 0
                 if float_is_zero(quantity, precision_digits=precision):
                     wo.final_lot_id = False
-                    wo.active_move_lot_ids.unlink()
+                    wo.active_move_line_ids.unlink()
                 wo.qty_producing = quantity
                 if wo.qty_produced < wo.qty_production and wo.state == 'done':
                     wo.state = 'progress'
+                if wo.qty_produced == wo.qty_production and wo.state == 'progress':
+                    wo.state = 'done'
                 # assign moves; last operation receive all unassigned moves
                 # TODO: following could be put in a function as it is similar as code in _workorders_create
                 # TODO: only needed when creating new moves

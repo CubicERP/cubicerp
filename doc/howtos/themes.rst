@@ -37,56 +37,60 @@ From common CMS to Odoo
 
 This is usually the first question from a web designer used to working with Wordpress or Joomla and coming to Odoo for the first time.
 
-.. container:: col-sm-4
+.. container:: row
 
-   .. image:: theme_tutorial_assets/img/cms.jpg
+  .. container:: col-sm-4
 
-.. container:: col-sm-7
+     .. image:: theme_tutorial_assets/img/cms.jpg
 
-  Indeed, when using common CMSs, you have to code several files (like header.php, page.php, post.php, etc.) in order to create a basic structure for your website. With those systems, this base structure acts as a design foundation that you have to update over time to ensure compatibility within your CMS. So, even after you have spent hours coding the files, you have not even started on the design yet.
+  .. container:: col-sm-7
 
-  This **does not** apply to creating Odoo themes.
+    Indeed, when using common CMSs, you have to code several files (like header.php, page.php, post.php, etc.) in order to create a basic structure for your website. With those systems, this base structure acts as a design foundation that you have to update over time to ensure compatibility within your CMS. So, even after you have spent hours coding the files, you have not even started on the design yet.
+
+    This **does not** apply to creating Odoo themes.
 
 
 .. note::
-   :class: col-sm-12
-
    We think that theme design should be simple (and powerful). When we created our Website Builder, we decided to start from scratch instead of relying on what already existed. This approach gave us the freedom to focus on the things that are really important for designers: styles, content and the logic behind them. No more struggling with technical stuff.
 
 Odoo default theme structure
 ----------------------------
 
-.. container:: col-sm-8
+.. container:: row
 
-  Odoo comes with a default theme structure.
-  It is a very basic “theme” that provides minimal structure and layout. When you create a new theme, you are actually extending this.
-  Indeed it’s always enabled in your setup and it acts exactly like the CMS’s base structure we mentioned above, except that you don’t have to create or maintain it.
-  It will upgrade automatically within  your CubicERP installation and, since it is included in the Website Builder module, everything is smoothly integrated by default.
+  .. container:: col-sm-8
 
-  As a result, you are totally free to focus on design while this structure does the job of providing integrations and functionality.
+    Odoo comes with a default theme structure.
+    It is a very basic “theme” that provides minimal structure and layout. When you create a new theme, you are actually extending this.
+    Indeed it’s always enabled in your setup and it acts exactly like the CMS’s base structure we mentioned above, except that you don’t have to create or maintain it.
+    It will upgrade automatically within your Odoo installation and, since it is included in the Website Builder module, everything is smoothly integrated by default.
 
-.. container:: col-sm-4
+    As a result, you are totally free to focus on design while this structure does the job of providing integrations and functionality.
 
-   .. image:: theme_tutorial_assets/img/def_structure.jpg
+  .. container:: col-sm-4
 
-.. container:: col-md-6
+     .. image:: theme_tutorial_assets/img/def_structure.jpg
 
-   **Main features:**
+.. container:: row
 
-   * Basic layouts for pages, blog and eCommerce
-   * Website Builder integration
-   * Basic Snippets
-   * Automatic Less/Sass compiling
-   * Automatic Js and CSS minification and combination
+  .. container:: col-md-6
 
-.. container:: col-md-6
+     **Main features:**
 
-   **Main technologies:**
+     * Basic layouts for pages, blog and eCommerce
+     * Website Builder integration
+     * Basic Snippets
+     * Automatic Less/Sass compiling
+     * Automatic Js and CSS minification and combination
 
-   * Twitter Bootstrap
-   * jQuery
-   * jQuery UI
-   * underscore.js
+  .. container:: col-md-6
+
+     **Main technologies:**
+
+     * Twitter Bootstrap
+     * jQuery
+     * jQuery UI
+     * underscore.js
 
 Thinking "modular"
 ==================
@@ -103,42 +107,42 @@ As a designer, your goal is to style these elements in order to achieve a wonder
 
 Let’s take a tour of our “list” elements:
 
-.. row
+.. container:: row
 
-.. figure:: theme_tutorial_assets/img/snippet.jpg
-   :figclass: col-sm-6
+  .. figure:: theme_tutorial_assets/img/snippet.jpg
+     :figclass: col-sm-6
 
-   Snippets (or building-blocks)
+     Snippets (or building-blocks)
 
-   A piece of HTML code.  The user  will  drag&drop, modify and combine them using our built-in Website Builder interface. You can define sets of options and styles for each snippet. The user will choose from them according to their needs.
+     A piece of HTML code.  The user  will  drag&drop, modify and combine them using our built-in Website Builder interface. You can define sets of options and styles for each snippet. The user will choose from them according to their needs.
 
-.. figure:: theme_tutorial_assets/img/page.jpg
-   :figclass: col-sm-6
+  .. figure:: theme_tutorial_assets/img/page.jpg
+     :figclass: col-sm-6
 
-   Pages
+     Pages
 
-   These are normal web pages, except that they will be editable by the final user and that you can define an empty area that the user can “fill” by dragging snippets into it.
+     These are normal web pages, except that they will be editable by the final user and that you can define an empty area that the user can “fill” by dragging snippets into it.
 
-.. /row
 .. raw:: html
 
     <div class="clearfix themes"></div>
 
-.. figure:: theme_tutorial_assets/img/styles.jpg
-   :figclass: col-sm-6
+.. container:: row
 
-   Styles
+  .. figure:: theme_tutorial_assets/img/styles.jpg
+     :figclass: col-sm-6
 
-   Styles are defined using standard CSS files (or Less/Sass). You can define a style as **default** or **optional**. The default styles are always active in your theme, the optional styles can be enabled or disabled by the user.
+     Styles
 
-.. figure:: theme_tutorial_assets/img/functionalities.jpg
-   :figclass: col-sm-6
+     Styles are defined using standard CSS files (or Less/Sass). You can define a style as **default** or **optional**. The default styles are always active in your theme, the optional styles can be enabled or disabled by the user.
 
-   Functionalities
+  .. figure:: theme_tutorial_assets/img/functionalities.jpg
+     :figclass: col-sm-6
 
-   Thanks to Odoo’s modularity, everything can be personalized even more. This means there are endless possibilities for your creativity. Adding functionalities is easy and it’s simple to provide the end user with customizable options.
+     Functionalities
 
-.. /row
+     Thanks to Odoo’s modularity, everything can be personalized even more. This means there are endless possibilities for your creativity. Adding functionalities is easy and it’s simple to provide the end user with customizable options.
+
 
 Odoo's XML files, an overview
 -----------------------------
@@ -182,17 +186,19 @@ Keep reading the tutorial to learn to how properly extend it with your own code.
 Update your theme
 -----------------
 
-.. container:: col-sm-6
+.. container:: row
 
-  Since XML files are only loaded when you install the theme, you will have to force reloading every time you make changes on an xml file.
+  .. container:: col-sm-6
 
-  To do that, click on the Upgrade button in the module’s page.
+    Since XML files are only loaded when you install the theme, you will have to force reloading every time you make changes on an xml file.
 
-  .. image:: theme_tutorial_assets/img/restart.png
+    To do that, click on the Upgrade button in the module’s page.
 
-.. container:: col-sm-5
+    .. image:: theme_tutorial_assets/img/restart.png
 
-  .. image:: theme_tutorial_assets/img/upgrade_module.png
+  .. container:: col-sm-5
+
+    .. image:: theme_tutorial_assets/img/upgrade_module.png
 
 
 
@@ -269,7 +275,7 @@ The ``data`` property will contain the xml files list. Right now it’s empty, b
 Installing your theme
 ---------------------
 
-To install your theme, you just place your theme folder inside addons in  your CubicERP installation.
+To install your theme, you just place your theme folder inside addons in your Odoo installation.
 
 After that, navigate to the Settings page, look for your theme and click on the install button.
 
@@ -371,27 +377,37 @@ Imagine that we want to create a specific layout for a Services page.
 For this page, we need to add a list of services to the top and give the client the possibility of setting the rest of the page’s layout using snippets.
 
 Inside your *views* folder, create a **pages.xml** file and add the
-default Odoo markup.  Inside ``<odoo>`` create a ``<template>`` tag, set the
-``page`` attribute to ``True`` and add your code into it.
+default Odoo markup.  Inside ``<odoo>``, instead of defining a ``<template>``,
+we will create a *page* object.
 
 .. code-block:: xml
 
    <?xml version="1.0" encoding="utf-8" ?>
    <odoo>
 
-       <!-- === Services Page === -->
-       <template name="Services page" id="website.services" page="True">
-         <h1>Our Services</h1>
-           <ul class="services">
-             <li>Cloud Hosting</li>
-             <li>Support</li>
-             <li>Unlimited space</li>
-           </ul>
-         </template>
+        <!-- === Services Page === -->
+        <record id="services_page" model="website.page">
+            <field name="name">Services page</field>
+            <field name="website_published">True</field>
+            <field name="url">/services</field>
+            <field name="type">qweb</field>
+            <field name="key">theme_tutorial.services_page</field>
+            <field name="arch" type="xml">
+                <t t-name="theme_tutorial.services_page_template">
+                    <h1>Our Services</h1>
+                    <ul class="services">
+                        <li>Cloud Hosting</li>
+                        <li>Support</li>
+                        <li>Unlimited space</li>
+                    </ul>
+                </t>
+            </field>
+        </record>
 
-     </odoo>
+    </odoo>
 
-The page title will be the template ID. In our case *Services* (from ``website.services``)
+As you can see, pages come with many additional properties like the *name* or
+the *url* where it is reachable.
 
 We successfully created a new page layout, but we haven't told the
 system **how to use it**. To do that, we can use **QWeb**. Wrap the
@@ -399,21 +415,30 @@ html code into a ``<t>`` tag, like in this example.
 
 .. code-block:: xml
 
-   <!-- === Services Page === -->
-   <template name="Services page" id="website.services" page="True">
-     <t t-call="website.layout">
-       <div id="wrap">
-         <div class="container">
-           <h1>Our Services</h1>
-           <ul class="services">
-             <li>Cloud Hosting</li>
-             <li>Support</li>
-             <li>Unlimited space</li>
-           </ul>
-         </div>
-       </div>
-     </t>
-   </template>
+    <!-- === Services Page === -->
+    <record id="services_page" model="website.page">
+        <field name="name">Services page</field>
+        <field name="website_published">True</field>
+        <field name="url">/services</field>
+        <field name="type">qweb</field>
+        <field name="key">theme_tutorial.services_page</field>
+        <field name="arch" type="xml">
+            <t t-name="theme_tutorial.services_page_template">
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="container">
+                            <h1>Our Services</h1>
+                            <ul class="services">
+                                <li>Cloud Hosting</li>
+                                <li>Support</li>
+                                <li>Unlimited space</li>
+                            </ul>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
 
 Using ``<t t-call="website.layout">`` we will extend the Odoo
 default page layout with our code.
@@ -426,32 +451,79 @@ can fill with snippets. To achieve this, just create a ``div`` with
 
 .. code-block:: xml
 
-   <?xml version="1.0" encoding="utf-8" ?>
-   <odoo>
+    <?xml version="1.0" encoding="utf-8" ?>
+    <odoo>
 
-   <!-- === Services Page === -->
-   <template name="Services page" id="website.services" page="True">
-     <t t-call="website.layout">
-      <div id="wrap">
-        <div class="container">
-          <h1>Our Services</h1>
-          <ul class="services">
-            <li>Cloud Hosting</li>
-            <li>Support</li>
-            <li>Unlimited space</li>
-          </ul>
-          <!-- === Snippets' area === -->
-          <div class="oe_structure" />
-        </div>
-      </div>
-     </t>
-   </template>
+        <!-- === Services Page === -->
+        <record id="services_page" model="website.page">
+            <field name="name">Services page</field>
+            <field name="website_published">True</field>
+            <field name="url">/services</field>
+            <field name="type">qweb</field>
+            <field name="key">theme_tutorial.services_page</field>
+            <field name="arch" type="xml">
+                <t t-name="theme_tutorial.services_page_template">
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="container">
+                                <h1>Our Services</h1>
+                                <ul class="services">
+                                    <li>Cloud Hosting</li>
+                                    <li>Support</li>
+                                    <li>Unlimited space</li>
+                                </ul>
 
-   </odoo>
+                                <!-- === Snippets' area === -->
+                                <div class="oe_structure" />
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+    </odoo>
 
 .. tip::
 
    You can create as many snippet areas as you like and place them anywhere in your pages.
+
+It is worth mentioning there is an alternative to create pages using the
+``<template>`` directive we saw before.
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="utf-8" ?>
+    <odoo>
+
+        <!-- === Services Page === -->
+        <template id="services_page_template">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container">
+                        <h1>Our Services</h1>
+                        <ul class="services">
+                            <li>Cloud Hosting</li>
+                            <li>Support</li>
+                            <li>Unlimited space</li>
+                        </ul>
+
+                        <!-- === Snippets' area === -->
+                        <div class="oe_structure" />
+                    </div>
+                </div>
+            </t>
+        </template>
+        <record id="services_page" model="website.page">
+            <field name="name">Services page</field>
+            <field name="website_published">True</field>
+            <field name="url">/services</field>
+            <field name="view_id" ref="services_page_template"/>
+        </record>
+
+    </odoo>
+
+This would allow your page content to be further customized using ``<xpath>``.
 
 Our page is almost ready. Now all we have to do is add **pages.xml** in our **__manifest__.py** file
 
@@ -466,7 +538,7 @@ Update your theme
 
 .. image:: theme_tutorial_assets/img/restart.png
 
-Great, our Services page is ready and you’ll be able to access it by navigating to ``/yourwebsite/page/services``.
+Great, our Services page is ready and you’ll be able to access it by navigating to ``<yourwebsite>/services`` (the URL we chose above).
 
 You will notice that it's possible to drag/drop snippets underneath the
 *Our Services* list.
@@ -481,12 +553,12 @@ copy/paste the following code.
 
   <record id="services_page_link" model="website.menu">
     <field name="name">Services</field>
-    <field name="url">/page/services</field>
+    <field name="page_id" ref="services_page"/>
     <field name="parent_id" ref="website.main_menu" />
     <field name="sequence" type="int">99</field>
   </record>
 
-This code will add a link to the main menu.
+This code will add a link to the main menu, referring to the page we created.
 
 .. image:: theme_tutorial_assets/img/services_page_menu.png
    :class: shadow-0
@@ -614,7 +686,7 @@ The previous code will create the snippet’s content, but we still need to plac
 .. code-block:: xml
 
    <template id="place_into_bar" inherit_id="website.snippets" name="Place into bar">
-     <xpath expr="//div[@id='snippet_content']/div[@class='o_panel_body']" position="inside">
+     <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
        <t t-snippet="theme_tutorial.snippet_testimonial"
           t-thumbnail="/theme_tutorial/static/src/img/ui/snippet_thumb.jpg"/>
      </xpath>
@@ -659,13 +731,13 @@ Options group properties
 
 Options are wrapped in groups. Groups can have properties that define how the included options will interact with the user interface.
 
-``data-selector=" css selector(s) "``
+``data-selector="[css selector(s)]"``
   Bind all the options included into the group to a particular element.
 ``data-js=" custom method name "``
   Is used to bind custom Javascript methods.
-``data-drop-in=" css selector(s) "``
+``data-drop-in="[css selector(s)]"``
   Defines the list of elements where the snippet can be dropped into.
-``data-drop-near=" css selector(s) "``
+``data-drop-near="[css selector(s)]"``
   Defines the list of elements that the snippet can be dropped beside.
 
 Default option methods
@@ -673,10 +745,10 @@ Default option methods
 
 Options apply standard CSS classes to the snippet. Depending on the method that you choose, the UI will behave differently.
 
-``data-select-class=" class name "``
+``data-select-class="[class name]"``
   More data-select-class in the same group defines a list of classes that the user can choose to apply. Only one option can be enabled at a time.
 
-``data-toggle-class=" class name "``
+``data-toggle-class="[class name]"``
   The data-toggle-class is used to apply one or more CSS classes from the list to a snippet. Multiple selections can be applied at once.
 
 Let's demonstrate how default options work with a basic example.
@@ -903,27 +975,29 @@ As content is so important for SEO, you should concentrate on giving publishers 
 
 Let’s have a look to this example of a classic two column snippet, implemented in two different ways.
 
+.. container:: row
 
-.. container:: col-sm-7
+  .. container:: col-sm-7
 
-  .. image:: theme_tutorial_assets/img/seo_snippet_wrong.png
+    .. image:: theme_tutorial_assets/img/seo_snippet_wrong.png
 
-.. container:: col-sm-5
+  .. container:: col-sm-5
 
-  Bad
+    **Bad**
 
-  Using fixed image, the publisher will be forced to limit the text in order to follow the layout.
+    Using fixed image, the publisher will be forced to limit the text in order to follow the layout.
 
+.. container:: row
 
-.. container:: col-sm-7
+  .. container:: col-sm-7
 
-  .. image:: theme_tutorial_assets/img/seo_snippet_good.png
+    .. image:: theme_tutorial_assets/img/seo_snippet_good.png
 
-.. container:: col-sm-5
+  .. container:: col-sm-5
 
-  Good
+    **Good**
 
-  Using background images that fit the column height, the publisher will be free to add the content regardless of the image’s height.
+    Using background images that fit the column height, the publisher will be free to add the content regardless of the image’s height.
 
 
 

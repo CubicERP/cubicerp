@@ -2,18 +2,23 @@
 # This file contains the translation of the following modules:
 # * website_forum_doc
 # 
+# Translators:
+# Yihya Hugirat <hugirat@gmail.com>, 2017
+# שהאב חוסיין <shhab89@gmail.com>, 2018
+# Martin Trigaux, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
+"Last-Translator: Martin Trigaux, 2018\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.forum_question_doc
@@ -70,34 +75,34 @@ msgstr ""
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_post_color
 msgid "Color Index"
-msgstr ""
+msgstr "אינדקס צבע"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_create_uid
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "נוצר על ידי"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_create_date
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_create_date
 msgid "Created on"
-msgstr ""
+msgstr "נוצר ב-"
 
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_crm
 msgid "Customer Relationship Management"
-msgstr ""
+msgstr "ניהול קשרי לקוחות"
 
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_sale_customer
 msgid "Customers"
-msgstr ""
+msgstr "לקוחות"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.view_forum_post_kanban
 msgid "Delete"
-msgstr ""
+msgstr "מחק"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.promote_question
@@ -108,7 +113,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_display_name
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "השם המוצג"
 
 #. module: website_forum_doc
 #: model:ir.actions.act_url,name:website_forum_doc.action_open_documentation
@@ -144,7 +149,7 @@ msgstr ""
 #. module: website_forum_doc
 #: model:forum.documentation.stage,name:website_forum_doc.stage_draft
 msgid "Draft"
-msgstr ""
+msgstr "טיוטה"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.view_forum_post_kanban
@@ -160,7 +165,7 @@ msgstr ""
 #: code:addons/website_forum_doc/models/forum_documentation_toc.py:38
 #, python-format
 msgid "Error ! You cannot create recursive categories."
-msgstr ""
+msgstr "שגיאה! לא ניתן ליצור קטגוריות רקורסיביות"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.promote_question
@@ -175,7 +180,7 @@ msgstr ""
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_forum_id
 msgid "Forum"
-msgstr ""
+msgstr "פורום"
 
 #. module: website_forum_doc
 #: model:ir.model,name:website_forum_doc.model_forum_post
@@ -216,12 +221,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_id
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_id
 msgid "ID"
-msgstr ""
+msgstr "מזהה"
 
 #. module: website_forum_doc
 #: model:forum.documentation.stage,name:website_forum_doc.stage_ideas
 msgid "Ideas"
-msgstr ""
+msgstr "רעיונות"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_introduction
@@ -232,19 +237,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage___last_update
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "תאריך שינוי אחרון"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_write_uid
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "עודכן לאחרונה על ידי"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_write_date
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "תאריך עדכון אחרון"
 
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_crm_lead
@@ -254,12 +259,12 @@ msgstr ""
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_parent_left
 msgid "Left Parent"
-msgstr ""
+msgstr "הורים משמאל"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_name
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.documentation_post
@@ -299,7 +304,7 @@ msgstr ""
 #. module: website_forum_doc
 #: model:forum.documentation.stage,name:website_forum_doc.stage_publish
 msgid "Publish"
-msgstr ""
+msgstr "פרסום"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.promote_question
@@ -344,7 +349,7 @@ msgstr ""
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_sale
 msgid "Sales Management"
-msgstr ""
+msgstr "ניהול מכירות"
 
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_sale_so
@@ -360,24 +365,24 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_forum_doc.documentation
 #: model:ir.ui.view,arch_db:website_forum_doc.documentation_post
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.documentation
 #: model:ir.ui.view,arch_db:website_forum_doc.documentation_post
 msgid "Search..."
-msgstr ""
+msgstr "חיפוש…"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_sequence
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_toc_sequence
 msgid "Sequence"
-msgstr ""
+msgstr "רצף"
 
 #. module: website_forum_doc
 #: model:ir.model.fields,field_description:website_forum_doc.field_forum_documentation_stage_name
 msgid "Stage Name"
-msgstr ""
+msgstr "שם השלב"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.promote_question
@@ -429,7 +434,7 @@ msgstr ""
 #. module: website_forum_doc
 #: model:forum.documentation.toc,name:website_forum_doc.toc_website
 msgid "Website"
-msgstr ""
+msgstr "אתר"
 
 #. module: website_forum_doc
 #: model:ir.ui.view,arch_db:website_forum_doc.promote_question

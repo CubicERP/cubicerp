@@ -11,10 +11,14 @@ class StockScrap(models.Model):
     _order = 'id desc'
 
     def _get_default_scrap_location_id(self):
-        return self.env['stock.location'].search([('scrap_location', '=', True)], limit=1).id
+        return self.env['stock.location'].search([('scrap_location', '=', True), ('company_id', 'in', [self.env.user.company_id.id, False])], limit=1).id
 
     def _get_default_location_id(self):
-        return self.env.ref('stock.stock_location_stock', raise_if_not_found=False)
+        company_user = self.env.user.company_id
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', company_user.id)], limit=1)
+        if warehouse:
+            return warehouse.lot_stock_id.id
+        return None
 
     name = fields.Char(
         'Reference',  default=lambda self: _('New'),
@@ -117,6 +121,8 @@ class StockScrap(models.Model):
 
     def action_validate(self):
         self.ensure_one()
+        if self.product_id.type != 'product':
+            return self.do_scrap()
         precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
         available_qty = sum(self.env['stock.quant']._gather(self.product_id,
                                                             self.location_id,
@@ -124,7 +130,8 @@ class StockScrap(models.Model):
                                                             self.package_id,
                                                             self.owner_id,
                                                             strict=True).mapped('quantity'))
-        if float_compare(available_qty, self.scrap_qty, precision_digits=precision) >= 0:
+        scrap_qty = self.product_uom_id._compute_quantity(self.scrap_qty, self.product_id.uom_id)
+        if float_compare(available_qty, scrap_qty, precision_digits=precision) >= 0:
             return self.do_scrap()
         else:
             return {

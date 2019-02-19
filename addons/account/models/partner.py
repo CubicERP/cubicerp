@@ -204,7 +204,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def _credit_debit_get(self):
-        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        tables, where_clause, where_params = self.env['account.move.line'].with_context(company_id=self.env.user.company_id.id)._query_get()
         where_params = [tuple(self.ids)] + where_params
         if where_clause:
             where_clause = 'AND ' + where_clause
@@ -297,10 +297,16 @@ class ResPartner(models.Model):
             partner.total_invoiced = sum(price['total'] for price in price_totals if price['partner_id'] in child_ids)
 
     @api.multi
-    def _journal_item_count(self):
+    def _compute_journal_item_count(self):
+        AccountMoveLine = self.env['account.move.line']
         for partner in self:
-            partner.journal_item_count = self.env['account.move.line'].search_count([('partner_id', '=', partner.id)])
-            partner.contracts_count = self.env['account.analytic.account'].search_count([('partner_id', '=', partner.id)])
+            partner.journal_item_count = AccountMoveLine.search_count([('partner_id', '=', partner.id)])
+
+    @api.multi
+    def _compute_contracts_count(self):
+        AccountAnalyticAccount = self.env['account.analytic.account']
+        for partner in self:
+            partner.contracts_count = AccountAnalyticAccount.search_count([('partner_id', '=', partner.id)])
 
     def get_followup_lines_domain(self, date, overdue_only=False, only_unblocked=False):
         domain = [('reconciled', '=', False), ('account_id.deprecated', '=', False), ('account_id.internal_type', '=', 'receivable'), '|', ('debit', '!=', 0), ('credit', '!=', 0), ('company_id', '=', self.env.user.company_id.id)]
@@ -374,9 +380,8 @@ class ResPartner(models.Model):
         groups='account.group_account_invoice')
     currency_id = fields.Many2one('res.currency', compute='_get_company_currency', readonly=True,
         string="Currency", help='Utility field to express amount currency')
-
-    contracts_count = fields.Integer(compute='_journal_item_count', string="Contracts", type='integer')
-    journal_item_count = fields.Integer(compute='_journal_item_count', string="Journal Items", type="integer")
+    contracts_count = fields.Integer(compute='_compute_contracts_count', string="Contracts", type='integer')
+    journal_item_count = fields.Integer(compute='_compute_journal_item_count', string="Journal Items", type="integer")
     property_account_payable_id = fields.Many2one('account.account', company_dependent=True,
         string="Account Payable", oldname="property_account_payable",
         domain="[('internal_type', '=', 'payable'), ('deprecated', '=', False)]",
@@ -436,3 +441,12 @@ class ResPartner(models.Model):
         action['domain'] = literal_eval(action['domain'])
         action['domain'].append(('partner_id', 'child_of', self.id))
         return action
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        company = self.env['res.company']
+        if self.company_id:
+            company = self.company_id
+        else:
+            company = self.env.user.company_id
+        return {'domain': {'property_account_position_id': [('company_id', 'in', [company.id, False])]}}

@@ -11,6 +11,7 @@ from odoo.tools.misc import consteq
 
 class MailController(MailController):
 
+    @classmethod
     def _redirect_to_record(cls, model, res_id, access_token=None):
         # If the current user doesn't have access to the sales order, but provided
         # a valid access token, redirect him to the front-end view.
@@ -23,7 +24,7 @@ class MailController(MailController):
             except AccessError:
                 if record_sudo.access_token and consteq(record_sudo.access_token, access_token):
                     record_action = record_sudo.with_context(
-                        force_website=True).get_access_action(uid)
+                        force_website=True).get_access_action()
                     if record_action['type'] == 'ir.actions.act_url':
                         return werkzeug.utils.redirect(record_action['url'])
         return super(MailController, cls)._redirect_to_record(model, res_id, access_token=access_token)

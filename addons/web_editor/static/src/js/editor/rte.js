@@ -42,7 +42,10 @@ var History = function History($editable) {
             $editable.removeAttr('contentEditable').removeProp('contentEditable');
         }
 
+        $editable.trigger('content_will_be_destroyed');
         $editable.html(oSnap.contents).scrollTop(oSnap.scrollTop);
+        $editable.trigger('content_was_recreated');
+
         $('.oe_overlay').remove();
         $('.note-control-selection').hide();
 
@@ -157,7 +160,7 @@ var History = function History($editable) {
 
         if (aUndo[pos]) {
             pos = Math.min(pos, aUndo.length);
-            aUndo.splice(Math.max(pos,1), aUndo.length);
+            aUndo.splice(pos, aUndo.length);
         }
 
         // => make a snap when the user change editable zone (because: don't make snap for each keydown)
@@ -276,21 +279,40 @@ var RTEWidget = Widget.extend({
 
         var $editable = this.editable();
 
+        // When a undo/redo is performed, the whole DOM is changed so we have
+        // to prepare for it (website will restart animations for example)
+        // TODO should be better handled
+        $editable.on('content_will_be_destroyed', function (ev) {
+            self.trigger_up('content_will_be_destroyed', {
+                $target: $(ev.currentTarget),
+            });
+        });
+        $editable.on('content_was_recreated', function (ev) {
+            self.trigger_up('content_was_recreated', {
+                $target: $(ev.currentTarget),
+            });
+        });
+
         $editable.addClass('o_editable')
         .data('rte', this)
         .each(function () {
             var $node = $(this);
 
+            // fallback for firefox iframe display:none see https://github.com/odoo/odoo/pull/22610
+            var computedStyles = window.getComputedStyle(this) || window.parent.getComputedStyle(this);
             // add class to display inline-block for empty t-field
-            if (window.getComputedStyle(this).display === 'inline' && $node.data('oe-type') !== 'image') {
+            if (computedStyles.display === 'inline' && $node.data('oe-type') !== 'image') {
                 $node.addClass('o_is_inline_editable');
             }
         });
 
         // start element observation
-        $(document).on('content_changed', '.o_editable', function (event) {
-            self.trigger_up('rte_change', {target: event.target});
-            $(this).addClass('o_dirty');
+        $(document).on('content_changed', '.o_editable', function (ev) {
+            self.trigger_up('rte_change', {target: ev.target});
+            if (!ev.__isDirtyHandled) {
+                $(this).addClass('o_dirty');
+                ev.__isDirtyHandled = true;
+            }
         });
 
         $('#wrapwrap, .o_editable').on('click.rte', '*', this, this._onClick.bind(this));
@@ -374,15 +396,24 @@ var RTEWidget = Widget.extend({
      * @param {boolean} internal_history
      */
     historyRecordUndo: function ($target, event, internal_history) {
+        $target = $($target);
         var rng = range.create();
         var $editable = $(rng && rng.sc).closest('.o_editable');
         if (!rng || !$editable.length) {
-            $editable = $($target).closest('.o_editable');
+            $editable = $target.closest('.o_editable');
             rng = range.create($target.closest('*')[0],0);
         } else {
             rng = $editable.data('range') || rng;
         }
-        rng.select();
+        try {
+            // TODO this line might break for unknown reasons. I suppose that
+            // the created range is an invalid one. As it might be tricky to
+            // adapt that line and that it is not a critical one, temporary fix
+            // is to ignore the errors that this generates.
+            rng.select();
+        } catch (e) {
+            console.log('error', e);
+        }
         history.recordUndo($editable, event, internal_history);
     },
     /**
@@ -397,6 +428,10 @@ var RTEWidget = Widget.extend({
     save: function (context) {
         var self = this;
 
+        $('.o_editable')
+            .destroy()
+            .removeClass('o_editable o_is_inline_editable');
+
         var $dirty = $('.o_dirty');
         $dirty
             .removeAttr('contentEditable')
@@ -405,7 +440,7 @@ var RTEWidget = Widget.extend({
             var $el = $(el);
 
             $el.find('[class]').filter(function () {
-                if (!this.className.match(/\S/)) {
+                if (!this.getAttribute('class').match(/\S/)) {
                     this.removeAttribute('class');
                 }
             });
@@ -573,6 +608,14 @@ var RTEWidget = Widget.extend({
             return;
         }
 
+        // Removes strange _moz_abspos attribute when it appears. Cannot
+        // find another solution which works in all cases. A grabber still
+        // appears at the same time which I did not manage to remove.
+        // TODO find a complete and better solution
+        _.defer(function () {
+            $editable.find('[_moz_abspos]').removeAttr('_moz_abspos');
+        });
+
         if ($target.is('a')) {
             /**
              * Remove content editable everywhere and add it on the link only so that characters can be added
@@ -650,26 +693,16 @@ var RTEWidget = Widget.extend({
             self.historyRecordUndo($target, 'activate',  true);
         });
 
-        // To Fix Google Chrome Tripleclick Issue, which selects the ending
-        // whitespace characters (so Tripleclicking then typing text will remove
-        // the whole paragraph instead of its content).
-        // http://stackoverflow.com/questions/38467334/why-does-google-chrome-always-add-space-after-selected-text
-        if ($.browser.chrome === true && ev.originalEvent.detail === 3) {
-            var currentSelection = range.create();
-            if (currentSelection.sc.parentNode === currentSelection.ec) {
-                _selectSC(currentSelection);
-            } else if (currentSelection.eo === 0) {
-                var $hasNext = $(currentSelection.sc).parent();
-                while (!$hasNext.next().length && !$hasNext.is('body')) {
-                    $hasNext = $hasNext.parent();
-                }
-                if ($hasNext.next()[0] === currentSelection.ec) {
-                    _selectSC(currentSelection);
-                }
-            }
-        }
-        function _selectSC(selection) {
-            range.create(selection.sc, selection.so, selection.sc, selection.sc.length).select();
+        // Browsers select different content from one to another after a
+        // triple click (especially: if triple-clicking on a paragraph on
+        // Chrome, blank characters of the element following the paragraph are
+        // selected too)
+        //
+        // The triple click behavior is reimplemented for all browsers here
+        if (ev.originalEvent.detail === 3) {
+            // Select the whole content inside the deepest DOM element that was
+            // triple-clicked
+            range.create(ev.target, 0, ev.target, ev.target.childNodes.length).select();
         }
     },
 });

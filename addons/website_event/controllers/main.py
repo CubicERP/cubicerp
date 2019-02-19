@@ -153,7 +153,7 @@ class WebsiteEventController(http.Controller):
             # page not found
             values['path'] = re.sub(r"^website_event\.", '', page)
             values['from_template'] = 'website_event.default_page'  # .strip('website_event.')
-            page = 'website.page_404'
+            page = 'website.%s' % (request.website.is_publisher() and 'page_404' or '404')
 
         return request.render(page, values)
 
@@ -173,7 +173,7 @@ class WebsiteEventController(http.Controller):
             'event': event,
             'main_object': event,
             'range': range,
-            'registrable': event._is_event_registrable()
+            'registrable': event.sudo()._is_event_registrable()
         }
         return request.render("website_event.event_description_full", values)
 
@@ -259,6 +259,6 @@ class WebsiteEventController(http.Controller):
                 Attendees._prepare_attendee_values(registration))
 
         return request.render("website_event.registration_complete", {
-            'attendees': Attendees,
+            'attendees': Attendees.sudo(),
             'event': event,
         })

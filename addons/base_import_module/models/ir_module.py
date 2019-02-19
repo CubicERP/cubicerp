@@ -11,7 +11,7 @@ from os.path import join as opj
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.modules import load_information_from_description_file
-from odoo.tools import convert_file, exception_to_unicode
+from odoo.tools import convert_file, exception_to_unicode, pycompat
 from odoo.tools.osutil import tempdir
 
 _logger = logging.getLogger(__name__)
@@ -24,6 +24,13 @@ class IrModule(models.Model):
 
     imported = fields.Boolean(string="Imported Module")
 
+    @api.depends('name')
+    def _get_latest_version(self):
+        imported_modules = self.filtered(lambda m: m.imported and m.latest_version)
+        for module in imported_modules:
+            module.installed_version = module.latest_version
+        super(IrModule, self - imported_modules)._get_latest_version()
+
     @api.multi
     def _import_module(self, module, path, force=False):
         known_mods = self.search([])
@@ -32,6 +39,8 @@ class IrModule(models.Model):
 
         terp = load_information_from_description_file(module, mod_path=path)
         values = self.get_values_from_terp(terp)
+        if 'version' in terp:
+            values['latest_version'] = terp['version']
 
         unmet_dependencies = set(terp['depends']).difference(installed_mods)
 
@@ -78,8 +87,9 @@ class IrModule(models.Model):
                     full_path = opj(root, static_file)
                     with open(full_path, 'rb') as fp:
                         data = base64.b64encode(fp.read())
-                    url_path = '/%s%s' % (module, full_path.split(path)[1].replace(os.path.sep, '/'))
-                    url_path = url_path.decode(sys.getfilesystemencoding())
+                    url_path = '/{}{}'.format(module, full_path.split(path)[1].replace(os.path.sep, '/'))
+                    if not isinstance(url_path, pycompat.text_type):
+                        url_path = url_path.decode(sys.getfilesystemencoding())
                     filename = os.path.split(url_path)[1]
                     values = dict(
                         name=filename,
@@ -144,12 +154,13 @@ def _is_studio_custom(path):
     Returns True if any of the records contains a context with the key
     studio in it, False if none of the records do
     """
-    path = os.path.join(path, 'data')
-    filenames = next(iter(os.walk(path)))[2]
-    filenames = [f for f in filenames if f.lower().endswith('.xml')]
+    filepaths = []
+    for level in os.walk(path):
+        filepaths += [os.path.join(level[0], fn) for fn in level[2]]
+    filepaths = [fp for fp in filepaths if fp.lower().endswith('.xml')]
 
-    for filename in filenames:
-        root = lxml.etree.parse(os.path.join(path, filename)).getroot()
+    for fp in filepaths:
+        root = lxml.etree.parse(fp).getroot()
 
         for record in root:
             # there might not be a context if it's a non-studio module

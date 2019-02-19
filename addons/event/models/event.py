@@ -44,7 +44,7 @@ class EventType(models.Model):
         help="It will select this default maximum value when you choose this event")
     auto_confirm = fields.Boolean(
         'Automatically Confirm Registrations', default=True,
-        help="Events and registrations will automatically be confirmed"
+        help="Events and registrations will automatically be confirmed "
              "upon creation, easing the flow for simple events.")
     # location
     is_online = fields.Boolean(
@@ -291,6 +291,12 @@ class EventEvent(models.Model):
             self.message_subscribe([vals['organizer_id']])
         return res
 
+    @api.multi
+    def copy(self, default=None):
+        self.ensure_one()
+        default = dict(default or {}, name=_("%s (copy)") % (self.name))
+        return super(EventEvent, self).copy(default)
+
     @api.one
     def button_draft(self):
         self.state = 'draft'
@@ -311,7 +317,7 @@ class EventEvent(models.Model):
         self.state = 'confirm'
 
     @api.one
-    def mail_attendees(self, template_id, force_send=False, filter_func=lambda self: True):
+    def mail_attendees(self, template_id, force_send=False, filter_func=lambda self: self.state != 'cancel'):
         for attendee in self.registration_ids.filtered(filter_func):
             self.env['mail.template'].browse(template_id).send_mail(attendee.id, force_send=force_send)
 
@@ -432,9 +438,14 @@ class EventRegistration(models.Model):
     @api.multi
     def message_get_suggested_recipients(self):
         recipients = super(EventRegistration, self).message_get_suggested_recipients()
+        public_users = self.env['res.users'].sudo()
+        public_groups = self.env.ref("base.group_public", raise_if_not_found=False)
+        if public_groups:
+            public_users = public_groups.sudo().with_context(active_test=False).mapped("users")
         try:
             for attendee in self:
-                if attendee.partner_id:
+                is_public = attendee.sudo().with_context(active_test=False).partner_id.user_ids in public_users if public_users else False
+                if attendee.partner_id and not is_public:
                     attendee._message_add_suggested_recipient(recipients, partner=attendee.partner_id, reason=_('Customer'))
                 elif attendee.email:
                     attendee._message_add_suggested_recipient(recipients, email=attendee.email, reason=_('Customer Email'))
@@ -455,6 +466,17 @@ class EventRegistration(models.Model):
                     ('state', 'not in', ['cancel']),
                 ]).write({'partner_id': new_partner.id})
         return super(EventRegistration, self)._message_post_after_hook(message)
+
+    @api.multi
+    def message_get_default_recipients(self):
+        # Prioritize registration email over partner_id, which may be shared when a single
+        # partner booked multiple seats
+        return {
+            r.id: {'partner_ids': [],
+                   'email_to': r.email,
+                   'email_cc': False}
+            for r in self
+        }
 
     @api.multi
     def action_send_badge_email(self):

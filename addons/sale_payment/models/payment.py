@@ -3,6 +3,7 @@
 import logging
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
 _logger = logging.getLogger(__name__)
@@ -13,6 +14,7 @@ class PaymentTransaction(models.Model):
 
     # YTI FIXME: The auto_join seems useless
     sale_order_id = fields.Many2one('sale.order', string='Sales Order', auto_join=True)
+    so_state = fields.Selection('sale.order', string='Sale Order State', related='sale_order_id.state')
 
     @api.model
     def form_feedback(self, data, acquirer_name):
@@ -44,19 +46,29 @@ class PaymentTransaction(models.Model):
             _logger.warning('<%s> transaction STATE INCORRECT for order %s (ID %s, state %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id, self.sale_order_id.state)
             return 'pay_sale_invalid_doc_state'
         if not float_compare(self.amount, self.sale_order_id.amount_total, 2) == 0:
-            _logger.warning('<%s> transaction AMOUNT MISMATCH for order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
+            _logger.warning(
+                '<%s> transaction AMOUNT MISMATCH for order %s (ID %s): expected %r, got %r',
+                self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id,
+                self.sale_order_id.amount_total, self.amount,
+            )
+            self.sale_order_id.message_post(
+                subject=_("Amount Mismatch (%s)") % self.acquirer_id.provider,
+                body=_("The sale order was not confirmed despite response from the acquirer (%s): SO amount is %r but acquirer replied with %r.") % (
+                    self.acquirer_id.provider,
+                    self.sale_order_id.amount_total,
+                    self.amount,
+                )
+            )
             return 'pay_sale_tx_amount'
 
         if self.state == 'authorized' and self.acquirer_id.capture_manually:
             _logger.info('<%s> transaction authorized, auto-confirming order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             if self.sale_order_id.state in ('draft', 'sent'):
                 self.sale_order_id.with_context(send_email=True).action_confirm()
-
-        if self.state == 'done':
-            _logger.info('<%s> transaction completed, auto-confirming order %s (ID %s) and generating invoice', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
+        elif self.state == 'done':
+            _logger.info('<%s> transaction completed, auto-confirming order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             if self.sale_order_id.state in ('draft', 'sent'):
                 self.sale_order_id.with_context(send_email=True).action_confirm()
-            self._generate_and_pay_invoice()
         elif self.state not in ['cancel', 'error'] and self.sale_order_id.state == 'draft':
             _logger.info('<%s> transaction pending/to confirm manually, sending quote email for order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             self.sale_order_id.force_quotation_send()
@@ -73,8 +85,16 @@ class PaymentTransaction(models.Model):
         # force_company needed for company_dependent fields
         ctx_company = {'company_id': self.sale_order_id.company_id.id,
                        'force_company': self.sale_order_id.company_id.id}
-        created_invoice = self.sale_order_id.with_context(**ctx_company).action_invoice_create()
-        created_invoice = self.env['account.invoice'].browse(created_invoice).with_context(**ctx_company)
+
+        # We might fail to create the invoice because there is no invoiceable lines. This will
+        # raise a UserError and break the workflow. Better catch the error.
+        try:
+            created_invoice = self.sale_order_id.with_context(**ctx_company).action_invoice_create()
+            created_invoice = self.env['account.invoice'].browse(created_invoice).with_context(**ctx_company)
+        except UserError:
+            _logger.warning('<%s> transaction completed, could not auto-generate invoice for %s (ID %s)',
+                            self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id, exc_info=True)
+            return
 
         if created_invoice:
             _logger.info('<%s> transaction completed, auto-generated invoice %s (ID %s) for %s (ID %s)',
@@ -92,6 +112,7 @@ class PaymentTransaction(models.Model):
             created_invoice.with_context(default_currency_id=self.currency_id.id).pay_and_reconcile(self.acquirer_id.journal_id, pay_amount=created_invoice.amount_total)
             if created_invoice.payment_ids:
                 created_invoice.payment_ids[0].payment_transaction_id = self
+            self._post_process_after_done(invoice_id=created_invoice)
         else:
             _logger.warning('<%s> transaction completed, could not auto-generate invoice for %s (ID %s)',
                             self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
@@ -161,7 +182,7 @@ class PaymentTransaction(models.Model):
                 'currency_id': order.pricelist_id.currency_id.id,
                 'partner_id': order.partner_id.id,
                 'partner_country_id': order.partner_id.country_id.id,
-                'reference': self.get_next_reference(order.name),
+                'reference': self._get_next_reference(order.name, acquirer=acquirer),
                 'sale_order_id': order.id,
             }
             if add_tx_values:

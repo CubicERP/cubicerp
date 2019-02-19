@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 import json
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.release import version
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 
@@ -24,7 +24,7 @@ class CrmTeam(models.Model):
     def _get_default_team_id(self, user_id=None):
         if not user_id:
             user_id = self.env.uid
-        company_id = self.sudo(user_id).company_id.id
+        company_id = self.sudo(user_id).env.user.company_id.id
         team_id = self.env['crm.team'].sudo().search([
             '|', ('user_id', '=', user_id), ('member_ids', '=', user_id),
             '|', ('company_id', '=', False), ('company_id', 'child_of', [company_id])
@@ -33,8 +33,13 @@ class CrmTeam(models.Model):
             team_id = self.env['crm.team'].browse(self.env.context.get('default_team_id'))
         if not team_id:
             default_team_id = self.env.ref('sales_team.team_sales_department', raise_if_not_found=False)
-            if default_team_id and (self.env.context.get('default_type') != 'lead' or default_team_id.use_leads):
-                team_id = default_team_id
+            if default_team_id:
+                try:
+                    default_team_id.check_access_rule('read')
+                except AccessError:
+                    return self.env['crm.team']
+                if self.env.context.get('default_type') != 'lead' or default_team_id.use_leads and default_team_id.active:
+                    team_id = default_team_id
         return team_id
 
     def _get_default_favorite_user_ids(self):
@@ -209,7 +214,7 @@ class CrmTeam(models.Model):
 
         self.ensure_one()
         values = []
-        today = date.today()
+        today = fields.Date.from_string(fields.Date.context_today(self))
         start_date, end_date = self._graph_get_dates(today)
         graph_data = self._graph_data(start_date, end_date)
 
@@ -232,7 +237,7 @@ class CrmTeam(models.Model):
                 values[index][y_field] = data_item.get('y_value')
 
         elif self.dashboard_graph_group == 'week':
-            weeks_in_start_year = int(date(start_date.year, 12, 31).isocalendar()[1])
+            weeks_in_start_year = int(date(start_date.year, 12, 28).isocalendar()[1]) # This date is always in the last week of ISO years
             for week in range(0, (end_date.isocalendar()[1] - start_date.isocalendar()[1]) % weeks_in_start_year + 1):
                 short_name = get_week_name(start_date + relativedelta(days=7 * week), locale)
                 values.append({x_field: short_name, y_field: 0})

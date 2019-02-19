@@ -98,6 +98,7 @@ var AbstractView = Class.extend({
             modelName: params.modelName,
             res_id: params.currentId,
             res_ids: params.ids,
+            orderedBy: params.context ? params.context.orderedBy : [],
         };
         if (params.modelName) {
             this.loadParams.modelName = params.modelName;
@@ -138,21 +139,23 @@ var AbstractView = Class.extend({
      */
     getController: function (parent) {
         var self = this;
+        // check if a model already exists, as if not, one will be created and
+        // we'll have to set the controller as its parent
+        var alreadyHasModel = !!this.model;
         return $.when(this._loadData(parent), ajax.loadLibs(this)).then(function () {
-            var model = self.getModel();
-            var state = model.get(arguments[0]);
+            var state = self.model.get(arguments[0]);
             var renderer = self.getRenderer(parent, state);
             var Controller = self.Controller || self.config.Controller;
             var controllerParams = _.extend({
                 initialState: state,
             }, self.controllerParams);
-            var controller = new Controller(parent, model, renderer, controllerParams);
+            var controller = new Controller(parent, self.model, renderer, controllerParams);
             renderer.setParent(controller);
 
-            if (!self.model) {
+            if (!alreadyHasModel) {
                 // if we have a model, it already has a parent. Otherwise, we
                 // set the controller, so the rpcs from the model actually work
-                model.setParent(controller);
+                self.model.setParent(controller);
             }
             return controller;
         });
@@ -222,12 +225,17 @@ var AbstractView = Class.extend({
 
             _.each(this.loadParams.fieldsInfo.form, function (attrs, fieldName) {
                 var field = fields[fieldName];
+                if (!field) {
+                    // when a one2many record is opened in a form view, the fields
+                    // of the main one2many view (list or kanban) are added to the
+                    // fieldsInfo of its form view, but those fields aren't in the
+                    // loadParams.fields, as they are not displayed in the view, so
+                    // we can ignore them.
+                    return;
+                }
                 if (field.type !== 'one2many' && field.type !== 'many2many') {
                     return;
                 }
-
-                attrs.limit = attrs.mode === "tree" ? 80 :
-                         (attrs.widget === 'many2many_tags' ? 1000 : 40);
 
                 if (attrs.Widget.prototype.useSubview && !attrs.__no_fetch && !attrs.views[attrs.mode]) {
                     var context = {};
@@ -244,14 +252,64 @@ var AbstractView = Class.extend({
                             for (var viewName in views) {
                                 attrs.views[viewName] = views[viewName];
                             }
+                            self._setSubViewLimit(attrs);
                         }));
+                } else {
+                    self._setSubViewLimit(attrs);
                 }
             });
         }
         return $.when.apply($, defs);
-    }
+    },
+    /**
+     * We set here the limit for the number of records fetched (in one page).
+     * This method is only called for subviews, not for main views.
+     *
+     * @private
+     * @param {Object} attrs
+     */
+    _setSubViewLimit: function (attrs) {
+        var view = attrs.views && attrs.views[attrs.mode];
+        var limit = view && view.arch.attrs.limit && parseInt(view.arch.attrs.limit);
+        if (!limit && attrs.widget === 'many2many_tags') {
+            limit = 1000;
+        }
+        attrs.limit = limit || 40;
+    },
 });
 
 return AbstractView;
+
+});
+
+odoo.define('web.viewUtils', function () {
+"use strict";
+
+/**
+ * FIXME: move this module to its own file in master
+ */
+
+var utils = {
+    /**
+     * States whether or not the quick create feature is available for the given
+     * datapoint, depending on its groupBy field.
+     *
+     * @param {Object} list dataPoint of type list
+     * @returns {Boolean} true iff the kanban quick create feature is available
+     */
+    isQuickCreateEnabled: function (list) {
+        var groupByField = list.groupedBy[0] && list.groupedBy[0].split(':')[0];
+        if (!groupByField) {
+            return false;
+        }
+        var availableTypes = ['char', 'boolean', 'many2one'];
+        if (!_.contains(availableTypes, list.fields[groupByField].type)) {
+            return false;
+        }
+        return true;
+    },
+};
+
+return utils;
 
 });

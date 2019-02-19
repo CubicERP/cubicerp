@@ -2,6 +2,7 @@ odoo.define('mail.ChatThread', function (require) {
 "use strict";
 
 var core = require('web.core');
+var time = require('web.time');
 var DocumentViewer = require('mail.DocumentViewer');
 var Widget = require('web.Widget');
 
@@ -111,6 +112,7 @@ var Thread = Widget.extend({
             messages: msgs,
             options: options,
             ORDER: ORDER,
+            date_format: time.getLangDatetimeFormat(),
         }));
 
         this.attachments = _.uniq(_.flatten(_.map(messages, 'attachment_ids')));
@@ -208,6 +210,10 @@ var Thread = Widget.extend({
         }
     },
     on_click_redirect: function (event) {
+        // ignore inherited branding
+        if ($(event.target).data('oe-field') !== undefined) {
+            return;
+        }
         var id = $(event.target).data('oe-id');
         if (id) {
             event.preventDefault();
@@ -223,7 +229,7 @@ var Thread = Widget.extend({
         } else {
             this.trigger('redirect', options.model, options.id);
         }
-    }, 200, true),
+    }, 500, true),
 
     on_click_show_more: function () {
         this.trigger('load_more_messages');
@@ -322,6 +328,7 @@ var Thread = Widget.extend({
      * @param {MouseEvent} event
      */
     _onAttachmentView: function (event) {
+        event.stopPropagation();
         var activeAttachmentID = $(event.currentTarget).data('id');
         if (activeAttachmentID) {
             var attachmentViewer = new DocumentViewer(this, this.attachments, activeAttachmentID);

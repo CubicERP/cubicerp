@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 
-from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
@@ -21,7 +20,7 @@ class CrmLead(models.Model):
             nbr = 0
             company_currency = lead.company_currency or self.env.user.company_id.currency_id
             for order in lead.order_ids:
-                if order.state in ('draft', 'sent', 'sale'):
+                if order.state in ('draft', 'sent'):
                     nbr += 1
                 if order.state not in ('draft', 'sent', 'cancel'):
                     total += order.currency_id.compute(order.amount_untaxed, company_currency)
@@ -31,7 +30,7 @@ class CrmLead(models.Model):
     @api.model
     def retrieve_sales_dashboard(self):
         res = super(CrmLead, self).retrieve_sales_dashboard()
-        date_today = date.today()
+        date_today = fields.Date.from_string(fields.Date.context_today(self))
 
         res['invoiced'] = {
             'this_month': 0,

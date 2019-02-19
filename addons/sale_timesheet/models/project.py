@@ -56,13 +56,23 @@ class Project(models.Model):
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
-    sale_line_id = fields.Many2one('sale.order.line', 'Sales Order Item', domain="[('is_service', '=', True), ('order_partner_id', '=', partner_id)]")
+    @api.model
+    def _default_sale_line_id(self):
+        sale_line_id = False
+        if self._context.get('default_parent_id'):
+            sale_line_id = self.env['project.task'].browse(self._context['default_parent_id']).sale_line_id.id
+        if not sale_line_id and self._context.get('default_project_id'):
+            sale_line_id = self.env['project.project'].browse(self._context['default_project_id']).sale_line_id.id
+        return sale_line_id
+
+    sale_line_id = fields.Many2one('sale.order.line', 'Sales Order Item', default=_default_sale_line_id, domain="[('is_service', '=', True), ('order_partner_id', '=', partner_id)]")
 
     @api.model
     def create(self, values):
         # sub task has the same so line than their parent
-        if 'parent_id' in values:
-            values['sale_line_id'] = self.env['project.task'].browse(values['parent_id']).sudo().sale_line_id.id
+        parent_id = values['parent_id'] if 'parent_id' in values else self.env.context.get('default_parent_id')
+        if parent_id:
+            values['sale_line_id'] = self.env['project.task'].browse(parent_id).sudo().sale_line_id.id
         return super(ProjectTask, self).create(values)
 
     @api.multi
@@ -74,6 +84,10 @@ class ProjectTask(models.Model):
         result = super(ProjectTask, self).write(values)
         # reassign SO line on related timesheet lines
         if 'sale_line_id' in values:
+            # subtasks should have the same SO line than their mother
+            self.sudo().mapped('child_ids').write({
+                'so_line': values['sale_line_id']
+            })
             self.sudo().mapped('timesheet_ids').write({
                 'so_line': values['sale_line_id']
             })

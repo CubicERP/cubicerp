@@ -145,24 +145,6 @@ var MentionManager = Widget.extend({
         return selections;
     },
 
-    proposition_navigation: function (keycode) {
-        var $active = this.$('.o_mention_proposition.active');
-        if (keycode === $.ui.keyCode.ENTER) { // selecting proposition
-            $active.click();
-        } else { // navigation in propositions
-            var $to;
-            if (keycode === $.ui.keyCode.DOWN) {
-                $to = $active.nextAll('.o_mention_proposition').first();
-            } else {
-                $to = $active.prevAll('.o_mention_proposition').first();
-            }
-            if ($to.length) {
-                $active.removeClass('active');
-                $to.addClass('active');
-            }
-        }
-    },
-
     /**
      * Detects if the user is currently typing a mention word
      * @return the search string if it is, false otherwise
@@ -286,6 +268,32 @@ var MentionManager = Widget.extend({
         }
         return result;
     },
+    /**
+     * @private
+     * @param {integer} keycode
+     */
+    _propositionNavigation: function (keycode) {
+        var $active = this.$('.o_mention_proposition.active');
+        if (keycode === $.ui.keyCode.ENTER) { // selecting proposition
+            $active.click();
+        } else { // navigation in propositions
+            var $to;
+            if (keycode === $.ui.keyCode.DOWN) {
+                $to = $active.nextAll('.o_mention_proposition').first();
+            } else if (keycode === $.ui.keyCode.UP) {
+                $to = $active.prevAll('.o_mention_proposition').first();
+            } else if (keycode === $.ui.keyCode.TAB) {
+                $to = $active.nextAll('.o_mention_proposition').first();
+                if (!$to.length) {
+                    $to = $active.prevAll('.o_mention_proposition').last();
+                }
+            }
+            if ($to && $to.length) {
+                $active.removeClass('active');
+                $to.addClass('active');
+            }
+        }
+    },
     _render_suggestions: function () {
         var suggestions = [];
         if (_.find(this.get('mention_suggestions'), _.isArray)) {
@@ -381,7 +389,7 @@ var BasicComposer = Widget.extend(chat_mixin, {
         // Attachments
         this.AttachmentDataSet = new data.DataSetSearch(this, 'ir.attachment', this.context);
         this.fileupload_id = _.uniqueId('o_chat_fileupload');
-        this.set('attachment_ids', []);
+        this.set('attachment_ids', options.attachment_ids || []);
 
         // Mention
         this.mention_manager = new MentionManager(this);
@@ -441,6 +449,7 @@ var BasicComposer = Widget.extend(chat_mixin, {
         dom.autoresize(this.$input, {parent: this, min_height: this.options.input_min_height});
 
         // Attachments
+        this.render_attachments();
         $(window).on(this.fileupload_id, this.on_attachment_loaded);
         this.on("change:attachment_ids", this, this.render_attachments);
 
@@ -506,6 +515,9 @@ var BasicComposer = Widget.extend(chat_mixin, {
     on_click_add_attachment: function () {
         this.$('input.o_input_file').click();
         this.$input.focus();
+        // set ignoreEscape to avoid escape_pressed event when file selector dialog is opened
+        // when user press escape to cancel file selector dialog then escape_pressed event should not be trigerred
+        this.ignoreEscape = true;
     },
 
     setState: function (state) {
@@ -522,9 +534,10 @@ var BasicComposer = Widget.extend(chat_mixin, {
 
     on_keydown: function (event) {
         switch(event.which) {
-            // UP, DOWN: prevent moving cursor if navigation in mention propositions
+            // UP, DOWN, TAB: prevent moving cursor if navigation in mention propositions
             case $.ui.keyCode.UP:
             case $.ui.keyCode.DOWN:
+            case $.ui.keyCode.TAB:
                 if (this.mention_manager.is_open()) {
                     event.preventDefault();
                 }
@@ -556,16 +569,19 @@ var BasicComposer = Widget.extend(chat_mixin, {
                 if (this.mention_manager.is_open()) {
                     event.stopPropagation();
                     this.mention_manager.reset_suggestions();
+                } else if (this.ignoreEscape) {
+                    this.ignoreEscape = false;
                 } else {
                     this.trigger_up("escape_pressed");
                 }
                 break;
-            // ENTER, UP, DOWN: check if navigation in mention propositions
+            // ENTER, UP, DOWN, TAB: check if navigation in mention propositions
             case $.ui.keyCode.ENTER:
             case $.ui.keyCode.UP:
             case $.ui.keyCode.DOWN:
+            case $.ui.keyCode.TAB:
                 if (this.mention_manager.is_open()) {
-                    this.mention_manager.proposition_navigation(event.which);
+                    this.mention_manager._propositionNavigation(event.which);
                 }
                 break;
             // Otherwise, check if a mention is typed
@@ -644,6 +660,7 @@ var BasicComposer = Widget.extend(chat_mixin, {
                 }
             });
             this.set('attachment_ids', attachments);
+            this.$('input.o_input_file').val('');
         }
     },
     do_check_attachment_upload: function () {
@@ -779,6 +796,7 @@ var BasicComposer = Widget.extend(chat_mixin, {
      * @param {MouseEvent} event
      */
     _onAttachmentView: function (event) {
+        event.stopPropagation();
         var activeAttachmentID = $(event.currentTarget).data('id');
         var attachments = this.get('attachment_ids');
         if (activeAttachmentID) {
@@ -814,7 +832,9 @@ var BasicComposer = Widget.extend(chat_mixin, {
      * @private
      */
     _onEmojiButtonFocusout: function () {
-        this._hideEmojisTimeout = setTimeout(this._hideEmojis.bind(this), 0);
+        if (this.$emojisContainer) {
+            this._hideEmojisTimeout = setTimeout(this._hideEmojis.bind(this), 0);
+        }
     },
     /**
      * Called when an emoji is focused -> @see _onEmojiButtonFocusout

@@ -4,6 +4,7 @@ odoo.define('web_editor.widget', function (require) {
 var core = require('web.core');
 var Dialog = require('web.Dialog');
 var Widget = require('web.Widget');
+var utils = require('web.utils');
 var weContext = require("web_editor.context");
 
 var QWeb = core.qweb;
@@ -110,7 +111,8 @@ var ImageDialog = Widget.extend({
         'change input.url': "change_input",
         'keyup input.url': "change_input",
         'click .existing-attachments [data-src]': 'select_existing',
-        'dblclick .existing-attachments [data-src]': function () {
+        'dblclick .existing-attachments [data-src]': function (e) {
+            this.select_existing(e, true);
             this.getParent().save();
         },
         'click .o_existing_attachment_remove': 'try_remove',
@@ -120,7 +122,15 @@ var ImageDialog = Widget.extend({
         this._super.apply(this, arguments);
         this.options = options || {};
         this.accept = this.options.accept || this.options.document ? "*/*" : "image/*";
-        this.domain = this.options.domain || ['|', ['mimetype', '=', false], ['mimetype', this.options.document ? 'not in' : 'in', ['image/gif', 'image/jpe', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png']]];
+        if (options.domain) {
+            this.domain = typeof options.domain === 'function' ? options.domain() : options.domain;
+        } else if (options.res_id) {
+            this.domain = ['|',
+                '&', ['res_model', '=', options.res_model], ['res_id', '=', options.res_id],
+                ['res_model', '=', 'ir.ui.view']];
+        } else {
+            this.domain = [['res_model', '=', 'ir.ui.view']];
+        }
         this.parent = parent;
         this.old_media = media;
         this.media = media;
@@ -158,11 +168,13 @@ var ImageDialog = Widget.extend({
         });
         return res;
     },
-    push: function (attachment) {
+    push: function (attachment, force_select) {
         if (this.options.select_images) {
             var img = _.select(this.images, function (v) { return v.id === attachment.id; });
             if (img.length) {
-                this.images.splice(this.images.indexOf(img[0]),1);
+                if (!force_select) {
+                  this.images.splice(this.images.indexOf(img[0]),1);
+                }
             } else {
                 this.images.push(attachment);
             }
@@ -171,44 +183,70 @@ var ImageDialog = Widget.extend({
         }
     },
     save: function () {
+        var self = this;
         if (this.options.select_images) {
             return this.images;
         }
 
         var img = this.images[0];
         if (!img) {
-            var id = this.$(".existing-attachments [data-src]:first").data('id');
-            img = _.find(this.images, function (img) { return img.id === id;});
+            return this.media;
         }
 
-        var media;
-        if (!img.is_document) {
-            if (this.media.tagName !== "IMG" || !this.old_media) {
-                this.add_class = "pull-left";
-                this.style = {"width": "100%"};
-            }
-            if (this.media.tagName !== "IMG") {
-                media = document.createElement('img');
-                $(this.media).replaceWith(media);
-                this.media = media;
-            }
-            this.media.setAttribute('src', img.src);
-        } else {
-            if (this.media.tagName !== "A") {
-                $('.note-control-selection').hide();
-                media = document.createElement('a');
-                $(this.media).replaceWith(media);
-                this.media = media;
-            }
-            this.media.setAttribute('href', '/web/content/' + img.id + '?unique=' + img.checksum + '&download=true');
-            $(this.media).addClass('o_image').attr('title', img.name).attr('data-mimetype', img.mimetype);
+        var def = $.when();
+        if (!img.access_token) {
+            def = this._rpc({
+                model: 'ir.attachment',
+                method: 'generate_access_token',
+                args: [[img.id]]
+            }).then(function (access_token) {
+                img.access_token = access_token[0];
+            });
         }
 
-        $(this.media).attr('alt', img.alt);
-        var style = this.style;
-        if (style) { $(this.media).css(style); }
+        return def.then(function () {
+            var media;
+            if (!img.is_document) {
+                if (img.access_token && self.options.res_model !== 'ir.ui.view') {
+                    img.src += _.str.sprintf('?access_token=%s', img.access_token);
+                }
+                if (self.media.tagName !== "IMG" || !self.old_media) {
+                    self.add_class = "pull-left";
+                    self.style = {"width": "100%"};
+                }
+                if (self.media.tagName !== "IMG") {
+                    media = document.createElement('img');
+                    $(self.media).replaceWith(media);
+                    self.media = media;
+                }
+                self.media.setAttribute('src', img.src);
+            } else {
+                if (self.media.tagName !== "A") {
+                    $('.note-control-selection').hide();
+                    media = document.createElement('a');
+                    $(self.media).replaceWith(media);
+                    self.media = media;
+                }
+                var href = '/web/content/' + img.id + '?';
+                if (img.access_token && self.options.res_model !== 'ir.ui.view') {
+                    href += _.str.sprintf('access_token=%s&', img.access_token);
+                }
+                href += 'unique=' + img.checksum + '&download=true';
+                self.media.setAttribute('href', href);
+                $(self.media).addClass('o_image').attr('title', img.name).attr('data-mimetype', img.mimetype);
+            }
 
-        return this.media;
+            $(self.media).attr('alt', img.alt);
+            var style = self.style;
+            if (style) { $(self.media).css(style); }
+
+            if (self.options.onUpload) {
+                // We consider that when selecting an image it is as if we upload it in the html content.
+                self.options.onUpload([img]);
+            }
+
+            return self.media;
+        });
     },
     clear: function () {
         this.media.className = this.media.className.replace(/(^|\s+)((img(\s|$)|img-(?!circle|rounded|thumbnail))[^\s]*)/g, ' ');
@@ -248,7 +286,7 @@ var ImageDialog = Widget.extend({
             $form.find('.well > span').remove();
             $form.find('.well > div').show();
             _.each(attachments, function (record) {
-                record.src = record.url || '/web/image/' + record.id;
+                record.src = record.url || _.str.sprintf('/web/image/%s/%s', record.id, encodeURI(record.name)); // Name is added for SEO purposes
                 record.is_document = !(/gif|jpe|jpg|png/.test(record.mimetype));
             });
             if (error || !attachments.length) {
@@ -257,6 +295,10 @@ var ImageDialog = Widget.extend({
             self.images = attachments;
             for (var i=0; i<attachments.length; i++) {
                 self.file_selected(attachments[i], error);
+            }
+
+            if (self.options.onUpload) {
+                self.options.onUpload(attachments);
             }
         };
     },
@@ -282,7 +324,7 @@ var ImageDialog = Widget.extend({
         }
     },
     fetch_existing: function (needle) {
-        var domain = [['res_model', '=', 'ir.ui.view']].concat(this.domain);
+        var domain = this.domain.concat(['|', ['mimetype', '=', false], ['mimetype', this.options.document ? 'not in' : 'in', ['image/gif', 'image/jpe', 'image/jpeg', 'image/jpg', 'image/gif', 'image/png']]]);
         if (needle && needle.length) {
             domain.push('|', ['datas_fname', 'ilike', needle], ['name', 'ilike', needle]);
         }
@@ -292,7 +334,7 @@ var ImageDialog = Widget.extend({
             args: [],
             kwargs: {
                 domain: domain,
-                fields: ['name', 'mimetype', 'checksum', 'url', 'type'],
+                fields: ['name', 'mimetype', 'checksum', 'url', 'type', 'res_id', 'res_model', 'access_token'],
                 order: [{name: 'id', asc: false}],
                 context: weContext.get(),
             }
@@ -305,7 +347,7 @@ var ImageDialog = Widget.extend({
             return (r.url || r.id);
         });
         _.each(this.records, function (record) {
-            record.src = record.url || _.str.sprintf('/web/image/%s/%s', record.id, record.name); // Name is added for SEO purposes
+            record.src = record.url || _.str.sprintf('/web/image/%s/%s', record.id, encodeURI(record.name)); // Name is added for SEO purposes
             record.is_document = !(/gif|jpe|jpg|png/.test(record.mimetype));
         });
         this.display_attachments();
@@ -339,10 +381,10 @@ var ImageDialog = Widget.extend({
         });
         this.selected_existing();
     },
-    select_existing: function (e) {
+    select_existing: function (e, force_select) {
         var $img = $(e.currentTarget);
         var attachment = _.find(this.records, function (record) { return record.id === $img.data('id'); });
-        this.push(attachment);
+        this.push(attachment, force_select);
         this.selected_existing();
     },
     selected_existing: function () {
@@ -407,16 +449,12 @@ var getCssSelectors = function (filter) {
     var sheets = document.styleSheets;
     for (var i = 0; i < sheets.length; i++) {
         var rules;
-        if (sheets[i].rules) {
-            rules = sheets[i].rules;
-        } else {
-            //try...catch because Firefox not able to enumerate document.styleSheets[].cssRules[] for cross-domain stylesheets.
-            try {
-                rules = sheets[i].cssRules;
-            } catch (e) {
-                console.warn("Can't read the css rules of: " + sheets[i].href, e);
-                continue;
-            }
+        // try...catch because browser may not able to enumerate rules for cross-domain stylesheets
+        try {
+            rules = sheets[i].rules || sheets[i].cssRules;
+        } catch(e) {
+            console.warn("Can't read the css rules of: " + sheets[i].href, e);
+            continue;
         }
         if (rules) {
             for (var r = 0; r < rules.length; r++) {
@@ -469,7 +507,7 @@ var fontIconsDialog = Widget.extend({
             e.stopPropagation();
 
             this.$('#fa-icon').val(e.target.getAttribute('data-id'));
-            $(".font-icons-icon").removeClass("o_selected");
+            this.$(".font-icons-icon").removeClass("o_selected");
             $(e.target).addClass("o_selected");
         },
         'dblclick .font-icons-icon': function () {
@@ -595,7 +633,7 @@ var fontIconsDialog = Widget.extend({
                     continue;
                 case '': continue;
                 default:
-                    $(".font-icons-icon").removeClass("o_selected").filter("[data-alias*=',"+cls+",']").addClass("o_selected");
+                    this.$(".font-icons-icon").removeClass("o_selected").filter("[data-alias*=',"+cls+",']").addClass("o_selected");
                     if (this.alias.indexOf(cls) !== -1) {
                         this.$('#fa-icon').val(cls);
                     }
@@ -654,7 +692,7 @@ var VideoDialog = Widget.extend({
 
         var $media = $(this.media);
         if ($media.hasClass('media_iframe_video')) {
-            var src = $media.data('src') || '';
+            var src = $media.data('oe-expression') || $media.data('src') || '';
             this.$('textarea#o_video_text').val(src);
 
             this.$('input#o_video_autoplay').prop('checked', src.indexOf('autoplay=1') >= 0);
@@ -782,6 +820,9 @@ var VideoDialog = Widget.extend({
             return {errorCode: 1};
         }
 
+        if (ytMatch) {
+            $video.attr('src', $video.attr('src') + '&rel=0');
+        }
         if (options.loop && (ytMatch || vimMatch)) {
             $video.attr('src', $video.attr('src') + '&loop=1');
         }
@@ -945,10 +986,14 @@ var MediaDialog = Dialog.extend({
 
         this.$modal.addClass('note-image-dialog');
         this.$modal.find('.modal-dialog').addClass('o_select_media_dialog');
-
+        // DO NOT FORWARD PORT
+        this.mailCompose = this.options.res_model === "mail.compose.message";
         this.only_images = this.options.only_images || this.options.select_images || (this.media && ($(this.media).parent().data("oe-field") === "image" || $(this.media).parent().data("oe-type") === "image"));
+        if (this.only_images || this.mailCompose) {
+            this.$('[href="#editor-media-video"]').addClass('hidden');
+        }
         if (this.only_images) {
-            this.$('[href="#editor-media-document"], [href="#editor-media-video"], [href="#editor-media-icon"]').addClass('hidden');
+            this.$('[href="#editor-media-document"], [href="#editor-media-icon"]').addClass('hidden');
         }
 
         this.opened((function () {
@@ -975,8 +1020,10 @@ var MediaDialog = Dialog.extend({
         if (!this.only_images) {
             this.iconDialog = new fontIconsDialog(this, this.media, this.options);
             this.iconDialog.appendTo(this.$("#editor-media-icon"));
-            this.videoDialog = new VideoDialog(this, this.media, this.options);
-            this.videoDialog.appendTo(this.$("#editor-media-video"));
+            if (!this.mailCompose) {
+                this.videoDialog = new VideoDialog(this, this.media, this.options);
+                this.videoDialog.appendTo(this.$("#editor-media-video"));
+            }
         }
 
         this.active = this.imageDialog;
@@ -1001,18 +1048,21 @@ var MediaDialog = Dialog.extend({
         return this._super.apply(this, arguments);
     },
     save: function () {
+        var self = this;
+        var args = arguments;
+        var _super = this._super;
         if (this.options.select_images) {
-            this.final_data = this.active.save();
-            this._super.apply(this, arguments);
-            return;
+            return $.when(this.active.save()).then(function (data) {
+                self.final_data = data;
+                return _super.apply(self, args);
+            });
         }
         if (this.rte) {
             this.range.select();
             this.rte.historyRecordUndo(this.media);
         }
 
-        var self = this;
-        if (self.media) {
+        if (this.media) {
             this.media.innerHTML = "";
             if (this.active !== this.imageDialog && this.active !== this.documentDialog) {
                 this.imageDialog.clear();
@@ -1029,27 +1079,27 @@ var MediaDialog = Dialog.extend({
             this.range.insertNode(this.media, true);
             this.active.media = this.media;
         }
-        this.active.save();
 
-        if (this.active.add_class) {
-            $(this.active.media).addClass(this.active.add_class);
-        }
-        var media = this.active.media;
+        return $.when(this.active.save()).then(function () {
+            if (self.active.add_class) {
+                $(self.active.media).addClass(self.active.add_class);
+            }
+            var media = self.active.media;
 
-        this.final_data = [media, self.old_media];
-        $(document.body).trigger("media-saved", this.final_data);
-        $(self.old_media).trigger("save", this.final_data);
-        $(this.final_data).trigger('input');
+            self.final_data = [media, self.old_media];
+            $(document.body).trigger("media-saved", self.final_data);
+            $(self.old_media).trigger("save", self.final_data);
+            $(self.final_data).trigger('input');
 
-        // Update editor bar after image edition (in case the image change to icon or other)
-        _.defer(function () {
-            if (!media.parentNode) return;
-            range.createFromNode(media).select();
-            click_event(media, "mousedown");
-            click_event(media, "mouseup");
+            // Update editor bar after image edition (in case the image change to icon or other)
+            _.defer(function () {
+                if (!media.parentNode) return;
+                range.createFromNode(media).select();
+                click_event(media, "mousedown");
+                click_event(media, "mouseup");
+            });
+            return _super.apply(self, args);
         });
-
-        this._super.apply(this, arguments);
     },
     searchTimer: null,
     search: function () {
@@ -1154,6 +1204,8 @@ var LinkDialog = Dialog.extend({
                     if (dom.ancestor(nodes[i], dom.isImg)) {
                         this.data.images.push(dom.ancestor(nodes[i], dom.isImg));
                         text += '[IMG]';
+                    } else if (!is_link && nodes[i].nodeType === 1) {
+                        // just use text nodes from listBetween
                     } else if (!is_link && i===0) {
                         text += nodes[i].textContent.slice(so, Infinity);
                     } else if (!is_link && i===nodes.length-1) {
@@ -1181,6 +1233,7 @@ var LinkDialog = Dialog.extend({
         if (!$e.length) {
             $e = this.$('input.url-source:first');
         }
+        $e.closest('.form-group').removeClass('has-error');
         var val = $e.val();
         var label = this.$('#o_link_dialog_label_input').val() || val;
 
@@ -1201,8 +1254,7 @@ var LinkDialog = Dialog.extend({
         var size = this.$("select.link-style").val() || '';
         var classes = (this.data.className || "") + (style && style.length ? " btn " : "") + style + " " + size;
         var isNewWindow = this.$('input.window-new').prop('checked');
-
-        if ($e.hasClass('email-address') && $e.val().indexOf("@") !== -1) {
+        if ($e.hasClass('email-address') && (_.str.startsWith(val, 'mailto:') || (val.indexOf("@") !== -1 && !_.str.startsWith(val, 'http') && !_.str.startsWith(val, 'www')))) {
             self.get_data_buy_mail(def, $e, isNewWindow, label, classes, test);
         } else {
             self.get_data_buy_url(def, $e, isNewWindow, label, classes, test);
@@ -1211,7 +1263,13 @@ var LinkDialog = Dialog.extend({
     },
     get_data_buy_mail: function (def, $e, isNewWindow, label, classes, test) {
         var val = $e.val();
-        def.resolve(val.indexOf("mailto:") === 0 ? val : 'mailto:' + val, isNewWindow, label, classes);
+        if (utils.is_email(val, true)) {
+            def.resolve(val.indexOf("mailto:") === 0 ? val : 'mailto:' + val, isNewWindow, label, classes);
+        } else {
+            $e.closest('.form-group').addClass('has-error');
+            $e.focus();
+            def.reject();
+        }
     },
     get_data_buy_url: function (def, $e, isNewWindow, label, classes, test) {
         def.resolve($e.val(), isNewWindow, label, classes);
@@ -1259,6 +1317,7 @@ var LinkDialog = Dialog.extend({
                 this.$('input.email-address').val(match = /mailto:(.+)/.exec(href) ? match[1] : '');
             } else {
                 this.$('input.url').val(href);
+                this.$('input.window-new').closest("div").show();
             }
         }
         this.preview();
@@ -1295,5 +1354,9 @@ return {
     getCssSelectors: getCssSelectors,
     fontIcons: fontIcons,
     computeFonts: computeFonts,
+    click_event: click_event,
+    fontIconsDialog: fontIconsDialog,
+    ImageDialog: ImageDialog,
+    VideoDialog: VideoDialog,
 };
 });

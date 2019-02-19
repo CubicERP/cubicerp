@@ -4,21 +4,22 @@
 # 
 # Translators:
 # Hamed Mohammadi <hamed@dehongi.com>, 2017
-# Hamid Darabi <hamid.darabi@gmail.com>, 2017
-# Martin Trigaux <mat@odoo.com>, 2017
+# Hamid Darabi, 2017
+# Martin Trigaux, 2017
+# Arash Sardari <arashss77@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
-"Last-Translator: Martin Trigaux <mat@odoo.com>, 2017\n"
+"Last-Translator: Arash Sardari <arashss77@gmail.com>, 2018\n"
 "Language-Team: Persian (https://www.transifex.com/odoo/teams/41243/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: rating
 #: model:ir.ui.view,arch_db:rating.rating_external_page_submit
@@ -88,12 +89,12 @@ msgstr "سند"
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating_res_model
 msgid "Document Model"
-msgstr ""
+msgstr "مدل سند"
 
 #. module: rating
 #: model:ir.model,name:rating.model_mail_thread
 msgid "Email Thread"
-msgstr ""
+msgstr "موضوع ایمیل"
 
 #. module: rating
 #: model:ir.model.fields,help:rating.field_rating_rating_consumed
@@ -237,7 +238,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:rating.rating_rating_view_search
 #: model:ir.ui.view,arch_db:rating.rating_rating_view_tree
 msgid "Rating"
-msgstr ""
+msgstr "رتبه دهی"
 
 #. module: rating
 #: model:ir.ui.view,arch_db:rating.rating_rating_view_graph
@@ -346,7 +347,7 @@ msgstr ""
 #. module: rating
 #: model:ir.model.fields,field_description:rating.field_rating_rating_access_token
 msgid "Security Token"
-msgstr ""
+msgstr "توکن امنیتی"
 
 #. module: rating
 #: model:ir.ui.view,arch_db:rating.rating_external_page_submit

@@ -44,7 +44,7 @@
             <form string="Leads Form">
                 <header>
                     <button name="%(crm.action_crm_lead2opportunity_partner)d" string="Convert to Opportunity" type="action"
-                            help="Convert to Opportunity" class="oe_highlight"/>
+                            help="Convert to Opportunity" class="oe_highlight" attrs="{'invisible': [('type', '=', 'opportunity')]}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -251,8 +251,6 @@
                             <group>
                                 <field name="name" string="Opportunity Title" placeholder="e.g. Customer Deal"/>
                                 <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer': 1}"/>
-                                <field name="email_from" invisible="1"/>
-                                <field name="phone" invisible="1"/>
                                 <label for="planned_revenue"/>
                                 <div class="o_row">
                                     <field name="planned_revenue"/>
@@ -266,6 +264,20 @@
                             <button string="Create &amp; Edit" name="edit_dialog" type="object" class="btn-primary"/>
                             <button string="Discard" class="btn-default" special="cancel"/>
                         </footer>
+                        <field name="partner_name" invisible="1"/>
+                        <field name="contact_name" invisible="1"/>
+                        <field name="title" invisible="1"/>
+                        <field name="street" invisible="1"/>
+                        <field name="street2" invisible="1"/>
+                        <field name="city" invisible="1"/>
+                        <field name="state_id" invisible="1"/>
+                        <field name="country_id" invisible="1"/>
+                        <field name="email_from" invisible="1"/>
+                        <field name="phone" invisible="1"/>
+                        <field name="mobile" invisible="1"/>
+                        <field name="zip" invisible="1"/>
+                        <field name="function" invisible="1"/>
+                        <field name="website" invisible="1"/>
                     </sheet>
                 </form>
             </field>
@@ -384,7 +396,7 @@
                             domain="[('activity_ids.user_id', '=', uid)]"/>
                     <separator/>
                     <filter string="Late Activities" name="activities_overdue"
-                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
+                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
                             help="Show all records which has next action date is before today"/>
                     <filter string="Today Activities" name="activities_today"
                             domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
@@ -418,7 +430,7 @@
             <field name="arch" type="xml">
                 <form string="Opportunities" class="o_opportunity_form">
                     <header>
-                        <button name="action_set_won" string="Mark Won"
+                        <button name="action_set_won_rainbowman" string="Mark Won"
                                 type="object" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('active','=',False), ('probability', '=', 100)]}"/>
                         <button name="%(crm.crm_lead_lost_action)d" string="Mark Lost"
@@ -629,7 +641,7 @@
                             domain="[('activity_ids.user_id', '=', uid)]"/>
                     <separator/>
                     <filter string="Late Activities" name="activities_overdue"
-                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('date_closed', '=', False)]"
+                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
                             help="Show all opportunities for which the next action date is before today"/>
                     <filter string="Today Activities" name="activities_today"
                             domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
@@ -733,6 +745,34 @@ if record:
         </record>
 
         <!--
+            'Mark Late Activities as Done' in action dropdown
+        -->
+        <record id="action_mark_late_activities_done" model="ir.actions.server">
+            <field name="name">Mark Late Activities as Done</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="binding_model_id" ref="crm.model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">
+for rec in records:
+    rec.activity_ids.filtered(lambda a: a.state == 'overdue').action_feedback(feedback='Closed automatically in batch')
+            </field>
+        </record>
+
+        <!--
+            'Mark All Activities as Done' in action dropdown
+        -->
+        <record id="action_mark_activities_done" model="ir.actions.server">
+            <field name="name">Mark All Activities as Done</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="binding_model_id" ref="crm.model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">
+for rec in records:
+    rec.activity_ids.action_feedback(feedback='Closed automatically in batch')
+            </field>
+        </record>
+
+        <!--
             Menu Actions
         -->
         <menuitem
@@ -793,7 +833,6 @@ if record:
             <field name="domain">[('type','=','opportunity')]</field>
             <field name="context">{
                     'default_type': 'opportunity',
-                    'default_user_id': uid
                 }
             </field>
             <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
@@ -844,7 +883,6 @@ if record:
             <field name="domain">[('type','=','opportunity')]</field>
             <field name="context">{
                     'default_type': 'opportunity',
-                    'default_user_id': uid,
                     'search_default_assigned_to_me': 1,
             }</field>
             <field name="view_ids"

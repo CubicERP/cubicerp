@@ -96,14 +96,24 @@ return Widget.extend({
         }
         var user_context = this.getSession().user_context;
         var search = this.searchview.build_search_data();
-        var view_manager = this.findAncestor(function (a) {
-                // HORRIBLE HACK. PLEASE SAVE ME FROM MYSELF (BUT IN A PAINLESS WAY IF POSSIBLE)
-                return 'active_view' in a;
-            });
-        var view_context = view_manager ? view_manager.active_view.controller.getContext() : {};
+        // DO NOT FORWARDPORT THIS
+        var controllerContext;
+        this.trigger_up('get_controller_context', {
+            callback: function (ctx) {
+                if (ctx && ctx.orderedBy) {
+                    var sort = _.map(ctx.orderedBy, function (obj) {
+                        var order = obj.asc ? 'ASC' : 'DESC';
+                        return obj.name + ' ' + order;
+                    });
+                    self.searchview.dataset.set_sort(sort);
+                }
+                controllerContext = _.omit(ctx, ['orderedBy']);
+            },
+        });
+
         var results = pyeval.eval_domains_and_contexts({
                 domains: search.domains,
-                contexts: [user_context].concat(search.contexts.concat(view_context || [])),
+                contexts: [user_context].concat(search.contexts.concat(controllerContext || [])),
                 group_by_seq: search.groupbys || [],
             });
         if (!_.isEmpty(results.group_by)) {
@@ -180,7 +190,22 @@ return Widget.extend({
             category: _t("Custom Filter"),
             icon: 'fa-star',
             field: {
-                get_context: function () { return filter.context; },
+                get_context: function () {
+                    var filterContext = filter.context;
+                    if (typeof filter.context === 'string') {
+                        filterContext = pyeval.eval('context', filter.context);
+                    }
+                    var sortParsed = JSON.parse(filter.sort || "[]");
+                    var orderedBy = [];
+                    _.each(sortParsed, function (sort) {
+                        orderedBy.push({
+                            name: sort[0] === '-' ? sort.slice(1) : sort,
+                            asc: sort[0] === '-' ? false : true,
+                        });
+                    });
+
+                return _.defaults({}, filterContext, {orderedBy : orderedBy});
+                },
                 get_groupby: function () { return [filter.context]; },
                 get_domain: function () { return filter.domain; }
             },

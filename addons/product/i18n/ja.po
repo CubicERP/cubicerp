@@ -3,20 +3,22 @@
 # * product
 # 
 # Translators:
-# Martin Trigaux <mat@odoo.com>, 2017
-# Yoshi Tashiro <tashiro@roomsfor.hk>, 2017
-# Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2017
 # 高木正勝 <masakatsu.takagi@pro-spire.co.jp>, 2017
 # Manami Hashi <manami@roomsfor.hk>, 2017
-# SHIMIZU Taku <shimizu.taku@gmail.com>, 2017
 # NOKA Shigekazu <shigekazu.noka@gmail.com>, 2017
+# SHIMIZU Taku <shimizu.taku@gmail.com>, 2017
+# Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2017
+# 城谷 龍弥 <tatsuya.shirotani@pro-spire.co.jp>, 2018
+# Martin Trigaux, 2018
+# Yoshi Tashiro <tashiro@roomsfor.hk>, 2019
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 11:26+0000\n"
-"PO-Revision-Date: 2017-10-02 11:26+0000\n"
-"Last-Translator: NOKA Shigekazu <shigekazu.noka@gmail.com>, 2017\n"
+"POT-Creation-Date: 2019-01-03 15:07+0000\n"
+"PO-Revision-Date: 2017-09-20 10:22+0000\n"
+"Last-Translator: Yoshi Tashiro <tashiro@roomsfor.hk>, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +55,7 @@ msgid "%s %% discount and %s surcharge"
 msgstr "%s %% 値引と %s サーチャージ"
 
 #. module: product
-#: code:addons/product/models/product_template.py:324
+#: code:addons/product/models/product_template.py:333
 #, python-format
 msgid "%s (copy)"
 msgstr "%s (コピー)"
@@ -155,7 +157,7 @@ msgstr "<span>kg</span>"
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_variant_easy_edit_view
 msgid "<span>m³</span>"
-msgstr ""
+msgstr "<span>m³</span>"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.report_pricelist
@@ -200,7 +202,7 @@ msgid ""
 "A description of the Product that you want to communicate to your customers."
 " This description will be copied to every Sales Order, Delivery Order and "
 "Customer Invoice/Credit Note"
-msgstr ""
+msgstr "顧客に見せたいプロダクトの説明。この説明は販売オーダ、配送オーダ、顧客請求書/クレジットノートにコピーされます。"
 
 #. module: product
 #: model:ir.model.fields,help:product.field_product_product_description_purchase
@@ -648,7 +650,7 @@ msgstr "クリックして価格表を作成"
 #: model:ir.actions.act_window,help:product.product_template_action_all
 #: model:ir.actions.act_window,help:product.product_variant_action
 msgid "Click to define a new product."
-msgstr "クリックして新製品を定義してください。"
+msgstr "クリックしてプロダクトを新規作成してください。"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_variant_easy_edit_view
@@ -732,9 +734,7 @@ msgid "Computer SC234"
 msgstr "Computer SC234"
 
 #. module: product
-#: code:addons/product/models/product_template.py:50
 #: selection:product.template,type:0
-#, python-format
 msgid "Consumable"
 msgstr "消耗品"
 
@@ -939,6 +939,11 @@ msgid "Description for Customers"
 msgstr "顧客用説明"
 
 #. module: product
+#: model:ir.ui.view,arch_db:product.product_template_form_view
+msgid "Description for Internal"
+msgstr ""
+
+#. module: product
 #: model:product.product,website_description:product.product_product_11
 #: model:product.product,website_description:product.product_product_11b
 #: model:product.template,website_description:product.product_product_11_product_template
@@ -1020,19 +1025,19 @@ msgid "Ending valid for the pricelist item validation"
 msgstr "価格リスト項目の検証のための有効な終了法"
 
 #. module: product
-#: code:addons/product/models/product.py:53
+#: code:addons/product/models/product.py:56
 #, python-format
 msgid "Error ! You cannot create recursive categories."
 msgstr "エラー: 再帰カテゴリを作成することはできません。"
 
 #. module: product
-#: code:addons/product/models/product_attribute.py:101
+#: code:addons/product/models/product_attribute.py:102
 #, python-format
 msgid "Error ! You cannot use this attribute with the following value."
 msgstr "エラー！次の値でこの属性を使用することはできません。"
 
 #. module: product
-#: code:addons/product/models/product.py:283
+#: code:addons/product/models/product.py:293
 #, python-format
 msgid ""
 "Error! It is not allowed to choose more than one value for a given "
@@ -1054,7 +1059,7 @@ msgid ""
 msgstr "エラー！ メイン価格表を価格一覧表の他の価格表に割り当てることはできません！"
 
 #. module: product
-#: code:addons/product/models/product_template.py:274
+#: code:addons/product/models/product_template.py:283
 #, python-format
 msgid ""
 "Error: The default Unit of Measure and the purchase Unit of Measure must be "
@@ -1202,6 +1207,11 @@ msgstr ""
 #: model:product.template,website_description:product.product_product_8_product_template
 msgid "Friendly to the environment."
 msgstr "環境にやさしい"
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Future Activities"
+msgstr "将来の活動"
 
 #. module: product
 #: model:product.product,name:product.product_product_1
@@ -1426,7 +1436,7 @@ msgstr "真に生き生きとした色を個別に較正。"
 #. module: product
 #: model:ir.model,name:product.model_product_supplierinfo
 msgid "Information about a product vendor"
-msgstr "製品ベンダー情報"
+msgstr "プロダクト仕入先情報"
 
 #. module: product
 #: model:product.product,website_description:product.product_product_7
@@ -1466,6 +1476,16 @@ msgstr "製品識別に使用する国際物品番号。"
 #: model:ir.ui.view,arch_db:product.product_template_form_view
 msgid "Inventory"
 msgstr "在庫"
+
+#. module: product
+#: model:ir.model.fields,field_description:product.field_product_product_is_product_variant
+msgid "Is Product Variant"
+msgstr ""
+
+#. module: product
+#: model:ir.model.fields,field_description:product.field_product_template_is_product_variant
+msgid "Is a product variant"
+msgstr ""
 
 #. module: product
 #: model:product.product,website_description:product.product_product_7
@@ -1548,6 +1568,11 @@ msgstr "最終更新者"
 #: model:ir.model.fields,field_description:product.field_product_uom_write_date
 msgid "Last Updated on"
 msgstr "最終更新日"
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Late Activities"
+msgstr "遅れた活動"
 
 #. module: product
 #: model:ir.model.fields,help:product.field_product_supplierinfo_delay
@@ -2061,18 +2086,18 @@ msgstr "プロダクトバリアント"
 #: model:ir.model.fields,field_description:product.field_product_template_product_variant_ids
 #: model:ir.ui.view,arch_db:product.product_template_search_view
 msgid "Products"
-msgstr "製品"
+msgstr "プロダクト"
 
 #. module: product
 #: model:ir.actions.report,name:product.report_product_label
 #: model:ir.actions.report,name:product.report_product_template_label
 msgid "Products Labels"
-msgstr "製品ラベル"
+msgstr "プロダクトラベル"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_pricelist_view_search
 msgid "Products Price"
-msgstr "製品価格"
+msgstr "プロダクト価格"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_pricelist_view
@@ -2086,7 +2111,7 @@ msgid "Products Price Search"
 msgstr "プロダクト価格検索"
 
 #. module: product
-#: code:addons/product/models/product.py:448
+#: code:addons/product/models/product.py:464
 #, python-format
 msgid "Products: "
 msgstr "プロダクト:"
@@ -2096,6 +2121,11 @@ msgstr "プロダクト:"
 #: selection:product.pricelist.item,base:0
 msgid "Public Price"
 msgstr "公開価格"
+
+#. module: product
+#: model:product.pricelist,name:product.list0
+msgid "Public Pricelist"
+msgstr "公開価格リスト"
 
 #. module: product
 #: model:ir.model.fields,field_description:product.field_product_product_description_purchase
@@ -2170,7 +2200,7 @@ msgstr "パワー、ボリューム、トラックシークのリモートコン
 #: model:product.product,name:product.product_product_6c
 #: model:product.template,name:product.product_product_6c_product_template
 msgid "Repair"
-msgstr ""
+msgstr "修理"
 
 #. module: product
 #: model:ir.model.fields,field_description:product.field_product_category_parent_right
@@ -2319,9 +2349,7 @@ msgid "Server"
 msgstr "サーバ"
 
 #. module: product
-#: code:addons/product/models/product_template.py:51
 #: selection:product.template,type:0
-#, python-format
 msgid "Service"
 msgstr "サービス"
 
@@ -2357,6 +2385,11 @@ msgstr ""
 "インスタンスに定義されているすべての企業にあなたのパートナーを共有します。\n"
 " * チェック：パートナーは、同社がパートナーに定義されている場合でも、すべての企業で閲覧できます。\n"
 " *　未チェック：各企業が唯一のパートナー(会社が定義されているパートナーを)見ることができます。会社に関係のないパートナーは、すべての企業に閲覧できます。"
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Show all records which has next action date is before today"
+msgstr "次のアクションの日付が今日より前のすべてのレコードを表示する"
 
 #. module: product
 #: model:ir.model.fields,field_description:product.field_res_config_settings_group_product_pricelist
@@ -2642,7 +2675,7 @@ msgid ""
 msgstr "このカテゴリ下の製品数(子カテゴリを考慮しません)"
 
 #. module: product
-#: code:addons/product/models/product_attribute.py:74
+#: code:addons/product/models/product_attribute.py:75
 #, python-format
 msgid ""
 "The operation cannot be completed:\n"
@@ -2808,8 +2841,13 @@ msgstr "すべての属性の追加料金の合計です。"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_template_form_view
-msgid "This note will show up on sales orders."
+msgid "This note is only for internal purposes."
 msgstr ""
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_form_view
+msgid "This note will show up on sales orders."
+msgstr "このノートは販売オーダに表示されます。"
 
 #. module: product
 #: model:ir.model.fields,help:product.field_res_partner_property_product_pricelist
@@ -2834,6 +2872,11 @@ msgid ""
 msgstr "見積依頼を印刷する場合、このベンダーの製品名が使用されます。内部のものをを使用する場合は空白のままにします。"
 
 #. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Today Activities"
+msgstr "本日の活動"
+
+#. module: product
 #: model:product.product,website_description:product.product_product_7
 #: model:product.template,website_description:product.product_product_7_product_template
 msgid "Two is better than one."
@@ -2851,11 +2894,6 @@ msgid ""
 "USB port allows for software update to ensure ongoing Bluetooth device "
 "compatibility"
 msgstr "USBポートによりソフトウェアのアップデートが可能で、Bluetoothデバイスとの互換性を確保"
-
-#. module: product
-#: model:product.pricelist,name:product.list0
-msgid "USD"
-msgstr "USD"
 
 #. module: product
 #: model:product.product,website_description:product.product_product_6
@@ -2997,7 +3035,7 @@ msgstr "バリアント価格"
 #: model:ir.model.fields,field_description:product.field_product_product_variant_seller_ids
 #: model:ir.model.fields,field_description:product.field_product_template_variant_seller_ids
 msgid "Variant Seller"
-msgstr ""
+msgstr "バリアント仕入先"
 
 #. module: product
 #: model:ir.actions.act_window,name:product.product_attribute_value_action

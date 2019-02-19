@@ -16,6 +16,7 @@
                 </header>
                 <sheet>
                     <field name='product_variant_count' invisible='1'/>
+                    <field name='is_product_variant' invisible='1'/>
                     <field name="id" invisible="True"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="toggle_active" type="object"
@@ -47,10 +48,10 @@
                                     <field name="categ_id" string="Category"/>
                                 </group>
                                 <group name="group_standard_price">
-                                    <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                    <label for="standard_price" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
-                                    <div name="standard_price_uom" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}">
-                                        <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="list_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                    <label for="standard_price" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                                    <div name="standard_price_uom" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                                        <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                     </div>
                                     <field name="company_id" groups="base.group_multi_company"
                                         options="{'no_create': True}"/>
@@ -89,6 +90,11 @@
                             </group>
                         </page>
                         <page string="Notes" name="notes">
+                            <group name="description_internal">
+                                <group string="Description for Internal">
+                                    <field name="description" nolabel="1" placeholder="This note is only for internal purposes."/>
+                                </group>
+                            </group>
                             <group name="description">
                                 <group string="Description for Customers" attrs="{'invisible': [('sale_ok','=',False)]}">
                                     <field name="description_sale" nolabel="1" placeholder="This note will show up on sales orders."/>
@@ -116,7 +122,7 @@
         <field name="arch" type="xml">
             <search string="Product">
                 <field name="name" string="Product" filter_domain="['|','|',('default_code','ilike',self),('name','ilike',self),('barcode','ilike',self)]"/>
-                <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
+                <field name="categ_id" filter_domain="[('categ_id', 'child_of', raw_value)]"/>
                 <separator/>
                 <filter string="Services" name="services" domain="[('type','=','service')]"/>
                 <filter string="Products" name="consumable" domain="[('type', 'in', ['consu', 'product'])]"/>
@@ -127,6 +133,15 @@
                 <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
                 <field string="Attributes" name="attribute_line_ids" groups="product.group_product_variant"/>
                 <field name="pricelist_id" widget="selection" context="{'pricelist': self}" filter_domain="[]" groups="product.group_sale_pricelist"/> <!-- Keep widget=selection on this field to pass numeric `self` value, which is not the case for regular m2o widgets! -->
+                <separator/>
+                <filter string="Late Activities" name="activities_overdue"
+                    domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                    help="Show all records which has next action date is before today"/>
+                <filter string="Today Activities" name="activities_today"
+                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Future Activities" name="activities_upcoming_all"
+                    domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                    ]"/>
             </search>
         </field>
     </record>
@@ -213,8 +228,8 @@
                         <group>
                             <group name="pricing" string="Pricing">
                                 <field name="product_variant_count" invisible="1"/>
-                                <field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
-                                <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="lst_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}" attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
+                                <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                                 <field name="currency_id" invisible='1'/>
                             </group>
                             <group name="weight">
@@ -330,7 +345,8 @@
                     </field>
                 </field>
                 <xpath expr="//div[hasclass('oe_title')]" position="inside">
-                    <field name="attribute_value_ids" widget="many2many_tags" groups="product.group_product_variant"/>
+                    <field name="attribute_value_ids" widget="many2many_tags" readonly="1"
+                        groups="product.group_product_variant"/>
                 </xpath>
             </field>
         </record>
@@ -509,7 +525,7 @@
                     <group>
                         <group string="Vendor">
                             <field name="product_variant_count" invisible="1"/>
-                            <field name="product_id" groups="product.group_product_variant" domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
+                            <field name="product_id" groups="product.group_product_variant" domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create_edit': True}"/>
                             <field name="name" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
                             <field name="product_name"/>
                             <field name="product_code"/>
@@ -564,7 +580,7 @@
                 <tree string="Vendor Information">
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
-                    <field name="product_id" invisible="context.get('product_template_invisible_variant', False)"/>
+                    <field name="product_id" invisible="context.get('product_template_invisible_variant', False)" groups="product.group_product_variant"/>
                     <field name="product_tmpl_id" string="Product" invisible="context.get('visible_product_tmpl_id', True)"/>
                     <field name="min_qty"/>
                     <field name="price" string="Price"/>

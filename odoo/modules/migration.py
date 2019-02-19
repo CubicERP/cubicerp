@@ -21,7 +21,8 @@ if pycompat.PY2:
         fp, fname = tools.file_open(path, pathinfo=True)
         fp2 = None
 
-        if not isinstance(fp, file):    # pylint: disable=file-builtin
+        # pylint: disable=file-builtin,undefined-variable
+        if not isinstance(fp, file):
             # imp.load_source need a real file object, so we create
             # one from the file-like object we get from file_open
             fp2 = os.tmpfile()
@@ -55,8 +56,8 @@ class MigrationManager(object):
         function. Theses files must respect a directory tree structure: A 'migrations' folder
         which containt a folder by version. Version can be 'module' version or 'server.module'
         version (in this case, the files will only be processed by this version of the server).
-        Python file names must start by `pre` or `post` and will be executed, respectively,
-        before and after the module initialisation. `end` scripts are run after all modules have
+        Python file names must start by `pre-` or `post-` and will be executed, respectively,
+        before and after the module initialisation. `end-` scripts are run after all modules have
         been updated.
         Example:
             <moduledir>
@@ -145,7 +146,8 @@ class MigrationManager(object):
             lst.sort()
             return lst
 
-        parsed_installed_version = parse_version(getattr(pkg, 'load_version', pkg.installed_version) or '')
+        installed_version = getattr(pkg, 'load_version', pkg.installed_version) or ''
+        parsed_installed_version = parse_version(installed_version)
         current_version = parse_version(convert_version(pkg.data['version']))
 
         versions = _get_migration_versions(pkg)
@@ -173,7 +175,7 @@ class MigrationManager(object):
                     except AttributeError:
                         _logger.error('module %(addon)s: Each %(stage)s-migration file must have a "migrate(cr, installed_version)" function' % strfmt)
                     else:
-                        migrate(self.cr, pkg.installed_version)
+                        migrate(self.cr, installed_version)
                     finally:
                         if mod:
                             del mod

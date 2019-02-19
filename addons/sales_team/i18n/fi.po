@@ -3,7 +3,7 @@
 # * sales_team
 # 
 # Translators:
-# Martin Trigaux <mat@odoo.com>, 2017
+# Martin Trigaux, 2017
 # Jussi Lehto <jussi@gulfeo.com>, 2017
 # Veikko Väätäjä <veikko.vaataja@gmail.com>, 2017
 # Kari Lindgren <kari.lindgren@emsystems.fi>, 2017
@@ -11,13 +11,14 @@
 # Tuomo Aura <tuomo.aura@web-veistamo.fi>, 2017
 # Miku Laitinen <miku.laitinen@gmail.com>, 2017
 # Svante Suominen <svante.suominen@web-veistamo.fi>, 2017
+# Jukka Paulin <jukka.paulin@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
-"Last-Translator: Svante Suominen <svante.suominen@web-veistamo.fi>, 2017\n"
+"Last-Translator: Jukka Paulin <jukka.paulin@gmail.com>, 2017\n"
 "Language-Team: Finnish (https://www.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr "<span>Uusi</span>"
 #. module: sales_team
 #: model:ir.ui.view,arch_db:sales_team.crm_team_salesteams_view_kanban
 msgid "<span>Reporting</span>"
-msgstr ""
+msgstr "<span>Raportointi</span>"
 
 #. module: sales_team
 #: model:ir.ui.view,arch_db:sales_team.crm_team_salesteams_view_kanban
@@ -48,12 +49,12 @@ msgstr "Aktiivinen"
 #. module: sales_team
 #: model:ir.actions.act_window,name:sales_team.mail_activity_type_action_config_sales
 msgid "Activity Types"
-msgstr ""
+msgstr "Toimenpiteiden tyypit"
 
 #. module: sales_team
 #: model:crm.team,name:sales_team.crm_team_1
 msgid "America"
-msgstr ""
+msgstr "Amerikka"
 
 #. module: sales_team
 #: model:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
@@ -74,17 +75,17 @@ msgstr ""
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_user_id
 msgid "Channel Leader"
-msgstr ""
+msgstr "Kanavan vastuuhenkilö"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_member_ids
 msgid "Channel Members"
-msgstr ""
+msgstr "Kanavan jäsenet"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_team_type
 msgid "Channel Type"
-msgstr ""
+msgstr "Kanavatyyppi"
 
 #. module: sales_team
 #: model:ir.actions.act_window,help:sales_team.crm_team_salesteams_act
@@ -160,7 +161,7 @@ msgstr "Näyttönimi"
 #. module: sales_team
 #: model:crm.team,name:sales_team.team_sales_department
 msgid "Europe"
-msgstr ""
+msgstr "Eurooppa"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_favorite_user_ids
@@ -195,12 +196,12 @@ msgstr "Ryhmittele.."
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_dashboard_graph_group
 msgid "Group by"
-msgstr ""
+msgstr "Luokittele"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team_dashboard_graph_group
 msgid "How this channel's dashboard graph will group the results."
-msgstr ""
+msgstr "Kuinka tämän kanavan työpöydän tilastot luokittelevat tulokset."
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_id
@@ -281,7 +282,7 @@ msgstr "Omat suosikkini"
 #: code:addons/sales_team/models/crm_team.py:255
 #, python-format
 msgid "Not Defined"
-msgstr ""
+msgstr "Ei asetettu"
 
 #. module: sales_team
 #: selection:crm.team,dashboard_graph_model:0
@@ -312,7 +313,7 @@ msgstr "Myynti"
 #: model:ir.ui.view,arch_db:sales_team.crm_team_view_form
 #: model:ir.ui.view,arch_db:sales_team.crm_team_view_tree
 msgid "Sales Channel"
-msgstr ""
+msgstr "Myyntikanava"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_res_users_sale_team_id
@@ -325,7 +326,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:sales_team.crm_team_salesteams_act
 #: model:ir.actions.act_window,name:sales_team.sales_team_config_action
 msgid "Sales Channels"
-msgstr ""
+msgstr "Myyntikanavat"
 
 #. module: sales_team
 #: selection:crm.team,dashboard_graph_group:0
@@ -345,7 +346,7 @@ msgstr "Myyntitiimien haku"
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_dashboard_graph_period
 msgid "Scale"
-msgstr "Vaaka"
+msgstr "Skaala"
 
 #. module: sales_team
 #: model:ir.ui.view,arch_db:sales_team.crm_team_salesteams_view_kanban
@@ -355,7 +356,7 @@ msgstr "Asetukset"
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team_is_favorite
 msgid "Show on dashboard"
-msgstr ""
+msgstr "Näytä työpöydällä"
 
 #. module: sales_team
 #: model:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
@@ -370,7 +371,7 @@ msgstr "Tiimin jäsenet"
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team_color
 msgid "The color of the channel"
-msgstr ""
+msgstr "Kanavan väri"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team_reply_to

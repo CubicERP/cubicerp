@@ -2,23 +2,30 @@
 # This file contains the translation of the following modules:
 # * utm
 # 
+# Translators:
+# Yihya Hugirat <hugirat@gmail.com>, 2017
+# Martin Trigaux, 2018
+# Mor Kir <morki@013.net.il>, 2018
+# ilan kl <ilan@qaroads.co.il>, 2018
+# ExcaliberX <excaliberx@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
+"Last-Translator: ExcaliberX <excaliberx@gmail.com>, 2018\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_medium_active
 msgid "Active"
-msgstr ""
+msgstr "פעיל"
 
 #. module: utm
 #: model:ir.model,name:utm.model_utm_campaign
@@ -31,34 +38,34 @@ msgstr ""
 #: model:ir.ui.view,arch_db:utm.utm_campaign_form
 #: model:ir.ui.view,arch_db:utm.utm_campaign_tree
 msgid "Campaign"
-msgstr ""
+msgstr "קמפיין"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_name
 msgid "Campaign Name"
-msgstr ""
+msgstr "שם קמפיין"
 
 #. module: utm
 #: model:ir.actions.act_window,name:utm.utm_campaign_act
 #: model:ir.ui.menu,name:utm.menu_utm_campaign_act
 msgid "Campaigns"
-msgstr ""
+msgstr "קמפיינים"
 
 #. module: utm
 #: model:ir.ui.view,arch_db:utm.utm_medium_view_form
 #: model:ir.ui.view,arch_db:utm.utm_source_view_form
 msgid "Channel"
-msgstr ""
+msgstr "ערוץ"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_medium_name
 msgid "Channel Name"
-msgstr ""
+msgstr "שם ערוץ"
 
 #. module: utm
 #: model:ir.model,name:utm.model_utm_medium
 msgid "Channels"
-msgstr ""
+msgstr "ערוצים"
 
 #. module: utm
 #: model:utm.campaign,name:utm.utm_campaign_christmas_special
@@ -80,14 +87,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:utm.field_utm_medium_create_uid
 #: model:ir.model.fields,field_description:utm.field_utm_source_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "נוצר על ידי"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_create_date
 #: model:ir.model.fields,field_description:utm.field_utm_medium_create_date
 #: model:ir.model.fields,field_description:utm.field_utm_source_create_date
 msgid "Created on"
-msgstr ""
+msgstr "נוצר ב-"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_display_name
@@ -95,7 +102,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:utm.field_utm_mixin_display_name
 #: model:ir.model.fields,field_description:utm.field_utm_source_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "השם המוצג"
 
 #. module: utm
 #: model:utm.campaign,name:utm.utm_campaign_email_campaign_products
@@ -115,7 +122,7 @@ msgstr ""
 #. module: utm
 #: model:ir.model,name:utm.model_ir_http
 msgid "HTTP routing"
-msgstr ""
+msgstr "ניתוב HTTP"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_id
@@ -123,7 +130,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:utm.field_utm_mixin_id
 #: model:ir.model.fields,field_description:utm.field_utm_source_id
 msgid "ID"
-msgstr ""
+msgstr "מזהה"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign___last_update
@@ -131,21 +138,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:utm.field_utm_mixin___last_update
 #: model:ir.model.fields,field_description:utm.field_utm_source___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "תאריך שינוי אחרון"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_write_uid
 #: model:ir.model.fields,field_description:utm.field_utm_medium_write_uid
 #: model:ir.model.fields,field_description:utm.field_utm_source_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "עודכן לאחרונה על ידי"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_campaign_write_date
 #: model:ir.model.fields,field_description:utm.field_utm_medium_write_date
 #: model:ir.model.fields,field_description:utm.field_utm_source_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "תאריך עדכון אחרון"
 
 #. module: utm
 #: model:ir.ui.menu,name:utm.menu_link_tracker_root
@@ -169,7 +176,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:utm.utm_medium_view_tree
 #: model:ir.ui.view,arch_db:utm.utm_source_view_tree
 msgid "Medium"
-msgstr ""
+msgstr "בינוני"
 
 #. module: utm
 #: model:utm.source,name:utm.utm_source_newsletter
@@ -179,7 +186,7 @@ msgstr ""
 #. module: utm
 #: model:utm.campaign,name:utm.utm_campaign_fall_drive
 msgid "Sale"
-msgstr ""
+msgstr "מכירה"
 
 #. module: utm
 #: model:utm.source,name:utm.utm_source_search_engine
@@ -195,12 +202,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:utm.field_sale_order_source_id
 #: model:ir.model.fields,field_description:utm.field_utm_mixin_source_id
 msgid "Source"
-msgstr ""
+msgstr "מקור"
 
 #. module: utm
 #: model:ir.model.fields,field_description:utm.field_utm_source_name
 msgid "Source Name"
-msgstr ""
+msgstr "שם מקור"
 
 #. module: utm
 #: model:ir.actions.act_window,name:utm.utm_source_action
@@ -217,7 +224,7 @@ msgstr ""
 #: model:ir.model.fields,help:utm.field_utm_mixin_campaign_id
 msgid ""
 "This is a name that helps you keep track of your different campaign efforts,"
-" i.e. Fall_Drive, Christmas_Special"
+" e.g. Fall_Drive, Christmas_Special"
 msgstr ""
 
 #. module: utm
@@ -227,7 +234,7 @@ msgstr ""
 #: model:ir.model.fields,help:utm.field_link_tracker_medium_id
 #: model:ir.model.fields,help:utm.field_sale_order_medium_id
 #: model:ir.model.fields,help:utm.field_utm_mixin_medium_id
-msgid "This is the method of delivery, i.e. Postcard, Email, or Banner Ad"
+msgid "This is the method of delivery, e.g. Postcard, Email, or Banner Ad"
 msgstr ""
 
 #. module: utm
@@ -238,7 +245,7 @@ msgstr ""
 #: model:ir.model.fields,help:utm.field_sale_order_source_id
 #: model:ir.model.fields,help:utm.field_utm_mixin_source_id
 msgid ""
-"This is the source of the link, i.e. Search Engine, another domain, or name "
+"This is the source of the link, e.g. Search Engine, another domain, or name "
 "of email list"
 msgstr ""
 

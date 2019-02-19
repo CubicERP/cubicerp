@@ -2,23 +2,28 @@
 # This file contains the translation of the following modules:
 # * hr_recruitment_survey
 # 
+# Translators:
+# Yihya Hugirat <hugirat@gmail.com>, 2017
+# Martin Trigaux, 2018
+# ExcaliberX <excaliberx@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-20 09:53+0000\n"
 "PO-Revision-Date: 2017-09-20 09:53+0000\n"
+"Last-Translator: ExcaliberX <excaliberx@gmail.com>, 2018\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. module: hr_recruitment_survey
 #: model:survey.label,value:hr_recruitment_survey.recruitment_1_3_1
 msgid "0-15"
-msgstr ""
+msgstr "0-15"
 
 #. module: hr_recruitment_survey
 #: model:survey.label,value:hr_recruitment_survey.recruitment_1_3_2
@@ -72,7 +77,7 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:survey.question,question:hr_recruitment_survey.recruitment_2_4
 msgid "Activities"
-msgstr ""
+msgstr "פעילויות"
 
 #. module: hr_recruitment_survey
 #: model:ir.ui.view,arch_db:hr_recruitment_survey.crm_case_form_view_job_inherit
@@ -183,7 +188,7 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:survey.label,value:hr_recruitment_survey.rcol_3_1_3
 msgid "Important"
-msgstr ""
+msgstr "חשובה"
 
 #. module: hr_recruitment_survey
 #: model:ir.model.fields,field_description:hr_recruitment_survey.field_hr_job_survey_id
@@ -199,12 +204,12 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:ir.model,name:hr_recruitment_survey.model_hr_job
 msgid "Job Position"
-msgstr ""
+msgstr "תפקיד"
 
 #. module: hr_recruitment_survey
 #: model:survey.question,question:hr_recruitment_survey.recruitment_2_1
 msgid "Knowledge"
-msgstr ""
+msgstr "ידע"
 
 #. module: hr_recruitment_survey
 #: model:survey.label,value:hr_recruitment_survey.recruitment_1_2_1
@@ -284,7 +289,7 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:ir.model.fields,field_description:hr_recruitment_survey.field_hr_applicant_survey_id
 msgid "Survey"
-msgstr ""
+msgstr "סקר"
 
 #. module: hr_recruitment_survey
 #: model:survey.question,validation_error_msg:hr_recruitment_survey.recruitment_1_1
@@ -319,7 +324,7 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:survey.label,value:hr_recruitment_survey.rcol_3_1_4
 msgid "Very important"
-msgstr ""
+msgstr "חשובה מאוד"
 
 #. module: hr_recruitment_survey
 #: model:survey.question,question:hr_recruitment_survey.recruitment_1_3

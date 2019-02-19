@@ -5,8 +5,10 @@ import werkzeug
 
 from odoo import exceptions, fields, http, _
 from odoo.http import request
-from odoo.addons.portal.controllers.portal import CustomerPortal, get_records_pager
+from odoo.addons.portal.controllers.portal import get_records_pager
+from odoo.addons.sale.controllers.portal import CustomerPortal
 from odoo.addons.portal.controllers.mail import _message_post_helper
+from odoo.osv import expression
 
 
 class CustomerPortal(CustomerPortal):
@@ -45,10 +47,10 @@ class sale_quote(http.Controller):
         else:
             Order = request.env['sale.order'].search([('id', '=', order_id)])
         # Log only once a day
-        if Order and request.session.get('view_quote') != now and request.env.user.share:
-            request.session['view_quote'] = now
+        if Order and request.session.get('view_quote_%s' % Order.id) != now and request.env.user.share:
+            request.session['view_quote_%s' % Order.id] = now
             body = _('Quotation viewed by customer')
-            _message_post_helper(res_model='sale.order', res_id=Order.id, message=body, token=token, message_type='notification', subtype="mail.mt_note", partner_ids=Order.user_id.sudo().partner_id.ids)
+            _message_post_helper(res_model='sale.order', res_id=Order.id, message=body, token=Order.access_token, message_type='notification', subtype="mail.mt_note", partner_ids=Order.user_id.sudo().partner_id.ids)
         if not Order:
             return request.render('website.404')
 
@@ -79,6 +81,7 @@ class sale_quote(http.Controller):
             'tx_id': Transaction.id if Transaction else False,
             'tx_state': Transaction.state if Transaction else False,
             'tx_post_msg': Transaction.acquirer_id.post_msg if Transaction else False,
+            'payment_tx': Transaction,
             'need_payment': order_sudo.invoice_status == 'to invoice' and Transaction.state in ['draft', 'cancel', 'error'],
             'token': token,
             'return_url': '/shop/payment/validate',
@@ -87,7 +90,11 @@ class sale_quote(http.Controller):
         }
 
         if order_sudo.require_payment or values['need_payment']:
-            acquirers = request.env['payment.acquirer'].sudo().search([('website_published', '=', True), ('company_id', '=', order_sudo.company_id.id)])
+            domain = expression.AND([
+                ['&', ('website_published', '=', True), ('company_id', '=', order_sudo.company_id.id)],
+                ['|', ('specific_countries', '=', False), ('country_ids', 'in', [order_sudo.partner_id.country_id.id])]
+            ])
+            acquirers = request.env['payment.acquirer'].sudo().search(domain)
 
             values['form_acquirers'] = [acq for acq in acquirers if acq.payment_flow == 'form' and acq.view_template_id]
             values['s2s_acquirers'] = [acq for acq in acquirers if acq.payment_flow == 's2s' and acq.registration_view_template_id]

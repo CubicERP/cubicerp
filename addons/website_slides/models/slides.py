@@ -16,6 +16,8 @@ from odoo.addons.http_routing.models.ir_http import slug
 from odoo.tools import image
 from odoo.tools.translate import html_translate
 from odoo.exceptions import Warning
+from odoo.http import request
+from odoo.addons.http_routing.models.ir_http import url_for
 
 
 class Channel(models.Model):
@@ -102,7 +104,8 @@ class Channel(models.Model):
         string='Channel Groups', help="Groups allowed to see presentations in this channel")
     access_error_msg = fields.Html(
         'Error Message', help="Message to display when not accessible due to access rights",
-        default="<p>This channel is private and its content is restricted to some users.</p>", translate=html_translate, sanitize_attributes=False)
+        default=lambda s: _("<p>This channel is private and its content is restricted to some users.</p>"),
+        translate=html_translate, sanitize_attributes=False)
     upload_group_ids = fields.Many2many(
         'res.groups', 'rel_upload_groups', 'channel_id', 'group_id',
         string='Upload Groups', help="Groups allowed to upload presentations in this channel. If void, every user can upload.")
@@ -281,7 +284,7 @@ class Slide(models.Model):
     category_id = fields.Many2one('slide.category', string="Category", domain="[('channel_id', '=', channel_id)]")
     tag_ids = fields.Many2many('slide.tag', 'rel_slide_tag', 'slide_id', 'tag_id', string='Tags')
     download_security = fields.Selection(
-        [('none', 'No One'), ('user', 'Authentified Users Only'), ('public', 'Everyone')],
+        [('none', 'No One'), ('user', 'Authenticated Users Only'), ('public', 'Everyone')],
         string='Download Security',
         required=True, default='user')
     image = fields.Binary('Image', attachment=True)
@@ -344,10 +347,13 @@ class Slide(models.Model):
     embed_code = fields.Text('Embed Code', readonly=True, compute='_get_embed_code')
 
     def _get_embed_code(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        base_url = request and request.httprequest.url_root or self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
         for record in self:
             if record.datas and (not record.document_id or record.slide_type in ['document', 'presentation']):
-                record.embed_code = '<iframe src="%s/slides/embed/%s?page=1" allowFullScreen="true" height="%s" width="%s" frameborder="0"></iframe>' % (base_url, record.id, 315, 420)
+                slide_url = base_url + url_for('/slides/embed/%s?page=1' % record.id)
+                record.embed_code = '<iframe src="%s" class="o_wslides_iframe_viewer" allowFullScreen="true" height="%s" width="%s" frameborder="0"></iframe>' % (slide_url, 315, 420)
             elif record.slide_type == 'video' and record.document_id:
                 if not record.mime_type:
                     # embed youtube video

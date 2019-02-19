@@ -99,14 +99,15 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def write(self, values):
-        lines = False
+        lines = self.env['sale.order.line']
         if 'product_uom_qty' in values:
             precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
             lines = self.filtered(
                 lambda r: r.state == 'sale' and float_compare(r.product_uom_qty, values['product_uom_qty'], precision_digits=precision) == -1)
+        previous_product_uom_qty = {line.id: line.product_uom_qty for line in lines}
         res = super(SaleOrderLine, self).write(values)
         if lines:
-            lines._action_launch_procurement_rule()
+            lines.with_context(previous_product_uom_qty=previous_product_uom_qty)._action_launch_procurement_rule()
         return res
     
 
@@ -129,7 +130,7 @@ class SaleOrderLine(models.Model):
     @api.depends('move_ids')
     def _compute_product_updatable(self):
         for line in self:
-            if not line.move_ids:
+            if not line.move_ids.filtered(lambda m: m.state != 'cancel'):
                 super(SaleOrderLine, line)._compute_product_updatable()
             else:
                 line.product_updatable = False
@@ -137,13 +138,9 @@ class SaleOrderLine(models.Model):
     @api.multi
     @api.depends('product_id')
     def _compute_qty_delivered_updateable(self):
-        # prefetch field before filtering
-        self.mapped('product_id')
-        # on consumable or stockable products, qty_delivered_updateable defaults
-        # to False; on other lines use the original computation
-        lines = self.filtered(lambda line: line.product_id.type not in ('consu', 'product'))
-        lines = lines.with_prefetch(self._prefetch)
-        super(SaleOrderLine, lines)._compute_qty_delivered_updateable()
+        for line in self:
+            if line.product_id.type not in ('consu', 'product'):
+                super(SaleOrderLine, line)._compute_qty_delivered_updateable()
 
     @api.onchange('product_id')
     def _onchange_product_id_set_customer_lead(self):
@@ -167,7 +164,10 @@ class SaleOrderLine(models.Model):
             return {}
         if self.product_id.type == 'product':
             precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            product = self.product_id.with_context(warehouse=self.order_id.warehouse_id.id)
+            product = self.product_id.with_context(
+                warehouse=self.order_id.warehouse_id.id,
+                lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
+            )
             product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
             if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing()
@@ -188,7 +188,14 @@ class SaleOrderLine(models.Model):
 
     @api.onchange('product_uom_qty')
     def _onchange_product_uom_qty(self):
-        if self.state == 'sale' and self.product_id.type in ['product', 'consu'] and self.product_uom_qty < self._origin.product_uom_qty:
+        # When modifying a one2many, _origin doesn't guarantee that its values will be the ones
+        # in database. Hence, we need to explicitly read them from there.
+        if self._origin:
+            product_uom_qty_origin = self._origin.read(["product_uom_qty"])[0]["product_uom_qty"]
+        else:
+            product_uom_qty_origin = 0
+
+        if self.state == 'sale' and self.product_id.type in ['product', 'consu'] and self.product_uom_qty < product_uom_qty_origin:
             # Do not display this warning if the new quantity is below the delivered
             # one; the `write` will raise an `UserError` anyway.
             if self.product_uom_qty < self.qty_delivered:
@@ -221,6 +228,16 @@ class SaleOrderLine(models.Model):
         })
         return values
 
+    def _get_qty_procurement(self):
+        self.ensure_one()
+        qty = 0.0
+        for move in self.move_ids.filtered(lambda r: r.state != 'cancel'):
+            if move.picking_code == 'outgoing':
+                qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
+            elif move.picking_code == 'incoming':
+                qty -= move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method='HALF-UP')
+        return qty
+
     @api.multi
     def _action_launch_procurement_rule(self):
         """
@@ -233,22 +250,41 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.state != 'sale' or not line.product_id.type in ('consu','product'):
                 continue
-            qty = 0.0
-            for move in line.move_ids.filtered(lambda r: r.state != 'cancel'):
-                qty += move.product_qty
+            qty = line._get_qty_procurement()
             if float_compare(qty, line.product_uom_qty, precision_digits=precision) >= 0:
                 continue
 
-            if not line.order_id.procurement_group_id:
-                line.order_id.procurement_group_id = self.env['procurement.group'].create({
+            group_id = line.order_id.procurement_group_id
+            if not group_id:
+                group_id = self.env['procurement.group'].create({
                     'name': line.order_id.name, 'move_type': line.order_id.picking_policy,
                     'sale_id': line.order_id.id,
                     'partner_id': line.order_id.partner_shipping_id.id,
                 })
-            values = line._prepare_procurement_values(group_id=line.order_id.procurement_group_id)
+                line.order_id.procurement_group_id = group_id
+            else:
+                # In case the procurement group is already created and the order was
+                # cancelled, we need to update certain values of the group.
+                updated_vals = {}
+                if group_id.partner_id != line.order_id.partner_shipping_id:
+                    updated_vals.update({'partner_id': line.order_id.partner_shipping_id.id})
+                if group_id.move_type != line.order_id.picking_policy:
+                    updated_vals.update({'move_type': line.order_id.picking_policy})
+                if updated_vals:
+                    group_id.write(updated_vals)
+
+            values = line._prepare_procurement_values(group_id=group_id)
             product_qty = line.product_uom_qty - qty
+
+            procurement_uom = line.product_uom
+            quant_uom = line.product_id.uom_id
+            get_param = self.env['ir.config_parameter'].sudo().get_param
+            if procurement_uom.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
+                product_qty = line.product_uom._compute_quantity(product_qty, quant_uom, rounding_method='HALF-UP')
+                procurement_uom = quant_uom
+
             try:
-                self.env['procurement.group'].run(line._get_product_id(), product_qty, line.product_uom, line.order_id.partner_shipping_id.property_stock_customer, line.name, line.order_id.name, values)
+                self.env['procurement.group'].run(line._get_product_id(), product_qty, procurement_uom, line.order_id.partner_shipping_id.property_stock_customer, line.name, line.order_id.name, values)
             except UserError as error:
                 errors.append(error.name)
         if errors:
@@ -266,7 +302,7 @@ class SaleOrderLine(models.Model):
         qty = 0.0
         for move in self.move_ids.filtered(lambda r: r.state == 'done' and not r.scrapped):
             if move.location_dest_id.usage == "customer":
-                if not move.origin_returned_move_id:
+                if not move.origin_returned_move_id or (move.origin_returned_move_id and move.to_refund):
                     qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom)
             elif move.location_dest_id.usage != "customer" and move.to_refund:
                 qty -= move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom)
@@ -322,12 +358,13 @@ class SaleOrderLine(models.Model):
         return is_available
 
     def _update_line_quantity(self, values):
-        if self.mapped('qty_delivered') and values['product_uom_qty'] < max(self.mapped('qty_delivered')):
+        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        if self.mapped('qty_delivered') and float_compare(values['product_uom_qty'], max(self.mapped('qty_delivered')), precision_digits=precision) == -1:
             raise UserError('You cannot decrease the ordered quantity below the delivered quantity.\n'
                             'Create a return first.')
         for line in self:
-            pickings = self.order_id.picking_ids.filtered(lambda p: p.state not in ('done', 'cancel'))
+            pickings = line.order_id.picking_ids.filtered(lambda p: p.state not in ('done', 'cancel'))
             for picking in pickings:
                 picking.message_post("The quantity of %s has been updated from %d to %d in %s" %
-                                      (line.product_id.name, line.product_uom_qty, values['product_uom_qty'], self.order_id.name))
+                                      (line.product_id.display_name, line.product_uom_qty, values['product_uom_qty'], line.order_id.name))
         super(SaleOrderLine, self)._update_line_quantity(values)

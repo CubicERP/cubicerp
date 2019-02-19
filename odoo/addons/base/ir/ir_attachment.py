@@ -8,9 +8,10 @@ import mimetypes
 import os
 import re
 from collections import defaultdict
+import uuid
 
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
 from odoo.tools import config, human_size, ustr, html_escape
 from odoo.tools.mimetypes import guess_mimetype
 
@@ -262,6 +263,15 @@ class IrAttachment(models.Model):
                 index_content = b"\n".join(words).decode('ascii')
         return index_content
 
+    @api.model
+    def get_serving_groups(self):
+        """ An ir.attachment record may be used as a fallback in the
+        http dispatch if its type field is set to "binary" and its url
+        field is set as the request's url. Only the groups returned by
+        this method are allowed to create and write on such records.
+        """
+        return ['base.group_system']
+
     name = fields.Char('Attachment Name', required=True)
     datas_fname = fields.Char('File Name')
     description = fields.Text('Description')
@@ -280,7 +290,7 @@ class IrAttachment(models.Model):
     public = fields.Boolean('Is public document')
 
     # for external access
-    access_token = fields.Char('Access Token')
+    access_token = fields.Char('Access Token', groups="base.group_user")
 
     # the field 'datas' is computed and may use the other fields below
     datas = fields.Binary(string='File Content', compute='_compute_datas', inverse='_inverse_datas')
@@ -297,6 +307,18 @@ class IrAttachment(models.Model):
         tools.create_index(self._cr, 'ir_attachment_res_idx',
                            self._table, ['res_model', 'res_id'])
         return res
+
+    @api.one
+    @api.constrains('type', 'url')
+    def _check_serving_attachments(self):
+        # restrict writing on attachments that could be served by the
+        # ir.http's dispatch exception handling
+        if self.env.user._is_superuser():
+            return
+        if self.type == 'binary' and self.url:
+            has_group = self.env.user.has_group
+            if not any([has_group(g) for g in self.get_serving_groups()]):
+                raise ValidationError("Sorry, you are not allowed to write on this document")
 
     @api.model
     def check(self, mode, values=None):
@@ -327,6 +349,11 @@ class IrAttachment(models.Model):
             # was not)
             if res_model not in self.env:
                 require_employee = True
+                continue
+            elif res_model == 'res.users' and len(res_ids) == 1 and self._uid == list(res_ids)[0]:
+                # by default a user cannot write on itself, despite the list of writeable fields
+                # e.g. in the case of a user inserting an image into his image signature
+                # we need to bypass this check which would needlessly throw us away
                 continue
             records = self.env[res_model].browse(res_ids).exists()
             if len(records) < len(res_ids):
@@ -437,6 +464,14 @@ class IrAttachment(models.Model):
         values = self._check_contents(values)
         self.browse().check('write', values=values)
         return super(IrAttachment, self).create(values)
+
+    @api.one
+    def generate_access_token(self):
+        if self.access_token:
+            return self.access_token
+        access_token = str(uuid.uuid4())
+        self.write({'access_token': access_token})
+        return access_token
 
     @api.model
     def action_get(self):

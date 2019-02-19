@@ -71,7 +71,10 @@ def _initialize_db(id, db_name, demo, lang, user_password, login='admin', countr
             if country_code:
                 countries = env['res.country'].search([('code', 'ilike', country_code)])
                 if countries:
-                    env['res.company'].browse(1).country_id = countries[0]
+                    comp_local = {'country_id': countries[0].id}
+                    if countries[0].currency_id:
+                        comp_local['currency_id'] = countries[0].currency_id.id
+                    env['res.company'].browse(1).write(comp_local)
 
             # update admin's password and lang and login
             values = {'password': user_password, 'lang': lang}
@@ -231,9 +234,13 @@ def dump_db(db_name, stream, backup_format='zip'):
 
 @check_db_management_enabled
 def exp_restore(db_name, data, copy=False):
+    def chunks(d, n=8192):
+        for i in range(0, len(d), n):
+            yield d[i:i+n]
     data_file = tempfile.NamedTemporaryFile(delete=False)
     try:
-        data_file.write(base64.b64decode(data))
+        for chunk in chunks(data):
+            data_file.write(base64.b64decode(chunk))
         data_file.close()
         restore_db(db_name, data_file.name, copy=copy)
     finally:
@@ -401,6 +408,7 @@ def list_db_incompatible(databases):
                         incompatible_databases.append(database_name)
             else:
                 incompatible_databases.append(database_name)
+    for database_name in incompatible_databases:
         # release connection
         odoo.sql_db.close_db(database_name)
     return incompatible_databases

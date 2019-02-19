@@ -208,6 +208,8 @@ class AccountAccount(models.Model):
     def onchange_internal_type(self):
         if self.internal_type in ('receivable', 'payable'):
             self.reconcile = True
+        if self.internal_type == 'liquidity':
+            self.reconcile = False
 
     @api.onchange('code')
     def onchange_code(self):
@@ -270,6 +272,12 @@ class AccountAccount(models.Model):
             move_lines = self.env['account.move.line'].search([('account_id', 'in', self.ids)], limit=1)
             if len(move_lines):
                 raise UserError(_('You cannot change the value of the reconciliation on this account as it already has some moves'))
+
+        if vals.get('currency_id'):
+            for account in self:
+                if self.env['account.move.line'].search_count([('account_id', '=', account.id), ('currency_id', 'not in', (False, vals['currency_id']))]):
+                    raise UserError(_('You cannot set a currency on this account as it already has some journal entries having a different foreign currency.'))
+
         return super(AccountAccount, self).write(vals)
 
     @api.multi
@@ -427,7 +435,7 @@ class AccountJournal(models.Model):
     belongs_to_company = fields.Boolean('Belong to the user\'s current company', compute="_belong_to_company", search="_search_company_journals",)
 
     # Bank journals fields
-    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", ondelete='restrict', copy=False, domain="[('partner_id','=', company_id)]")
+    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", ondelete='restrict', copy=False)
     bank_statements_source = fields.Selection([('undefined', 'Undefined Yet'),('manual', 'Record Manually')], string='Bank Feeds', default='undefined')
     bank_acc_number = fields.Char(related='bank_account_id.acc_number')
     bank_id = fields.Many2one('res.bank', related='bank_account_id.bank_id')
@@ -458,7 +466,7 @@ class AccountJournal(models.Model):
         for journal in self:
             if journal.sequence_id and journal.sequence_number_next:
                 sequence = journal.sequence_id._get_current_sequence()
-                sequence.number_next = journal.sequence_number_next
+                sequence.sudo().number_next = journal.sequence_number_next
 
     # @api.multi
     # # do not depend on 'refund_sequence_id.date_range_ids', because
@@ -488,6 +496,8 @@ class AccountJournal(models.Model):
     @api.constrains('currency_id', 'default_credit_account_id', 'default_debit_account_id')
     def _check_currency(self):
         if self.currency_id:
+            if self.currency_id == self.company_id.currency_id:
+                raise ValidationError(_("Currency field should only be set if the journal's currency is different from the company's. Leave the field blank to use company currency."))
             if self.default_credit_account_id and not self.default_credit_account_id.currency_id.id == self.currency_id.id:
                 raise ValidationError(_('Configuration error!\nThe currency of the journal should be the same than the default credit account.'))
             if self.default_debit_account_id and not self.default_debit_account_id.currency_id.id == self.currency_id.id:
@@ -544,9 +554,16 @@ class AccountJournal(models.Model):
     @api.multi
     def write(self, vals):
         for journal in self:
+            company = journal.company_id
             if ('company_id' in vals and journal.company_id.id != vals['company_id']):
                 if self.env['account.move'].search([('journal_id', 'in', self.ids)], limit=1):
                     raise UserError(_('This journal already contains items, therefore you cannot modify its company.'))
+                company = self.env['res.company'].browse(vals['company_id'])
+                if self.bank_account_id.company_id and self.bank_account_id.company_id != company:
+                    self.bank_account_id.write({
+                        'company_id': company.id,
+                        'partner_id': company.partner_id.id,
+                    })
             if ('code' in vals and journal.code != vals['code']):
                 if self.env['account.move'].search([('journal_id', 'in', self.ids)], limit=1):
                     raise UserError(_('This journal already contains items, therefore you cannot modify its short name.'))
@@ -560,8 +577,16 @@ class AccountJournal(models.Model):
                     self.default_debit_account_id.currency_id = vals['currency_id']
                 if not 'default_credit_account_id' in vals and self.default_credit_account_id:
                     self.default_credit_account_id.currency_id = vals['currency_id']
-            if 'bank_account_id' in vals and not vals.get('bank_account_id'):
-                raise UserError(_('You cannot empty the bank account once set.'))
+                if self.bank_account_id:
+                    self.bank_account_id.currency_id = vals['currency_id']
+            if 'bank_account_id' in vals:
+                if not vals.get('bank_account_id'):
+                    raise UserError(_('You cannot empty the bank account once set.'))
+                else:
+                    bank_account = self.env['res.partner.bank'].browse(vals['bank_account_id'])
+                    if bank_account.partner_id != company.partner_id:
+                        raise UserError(_("The partners of the journal's company and the related bank account mismatch."))
+
         result = super(AccountJournal, self).write(vals)
 
         # Create the bank_account_id if necessary
@@ -781,7 +806,7 @@ class AccountTaxGroup(models.Model):
 class AccountTax(models.Model):
     _name = 'account.tax'
     _description = 'Tax'
-    _order = 'sequence'
+    _order = 'sequence,id'
 
     @api.model
     def _default_tax_group(self):
@@ -812,7 +837,7 @@ class AccountTax(models.Model):
     tag_ids = fields.Many2many('account.account.tag', 'account_tax_account_tag', string='Tags', help="Optional tags you may want to assign for custom reporting")
     tax_group_id = fields.Many2one('account.tax.group', string="Tax Group", default=_default_tax_group, required=True)
     # Technical field to make the 'tax_exigibility' field invisible if the same named field is set to false in 'res.company' model
-    hide_tax_exigibility = fields.Boolean(string='Hide Use Cash Basis Option', related='company_id.tax_exigibility')
+    hide_tax_exigibility = fields.Boolean(string='Hide Use Cash Basis Option', related='company_id.tax_exigibility', readonly=True)
     tax_exigibility = fields.Selection(
         [('on_invoice', 'Based on Invoice'),
          ('on_payment', 'Based on Payment'),
@@ -888,6 +913,11 @@ class AccountTax(models.Model):
     def onchange_amount(self):
         if self.amount_type in ('percent', 'division') and self.amount != 0.0 and not self.description:
             self.description = "{0:.4g}%".format(self.amount)
+
+    @api.onchange('amount_type')
+    def onchange_amount_type(self):
+        if self.amount_type is not 'group':
+            self.children_tax_ids = [(5,)]
 
     @api.onchange('account_id')
     def onchange_account_id(self):
@@ -1038,6 +1068,8 @@ class AccountTax(models.Model):
                 'account_id': tax.account_id.id,
                 'refund_account_id': tax.refund_account_id.id,
                 'analytic': tax.analytic,
+                'price_include': tax.price_include,
+                'tax_exigibility': tax.tax_exigibility,
             })
 
         return {

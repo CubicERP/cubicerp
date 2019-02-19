@@ -3,18 +3,20 @@
 # * product
 # 
 # Translators:
-# Martin Trigaux <mat@odoo.com>, 2017
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2017
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2017
-# Cas Vissers <casvissers@brahoo.nl>, 2017
 # Eric Geens <ericgeens@yahoo.com>, 2017
+# Melroy van den Berg <webmaster1989@gmail.com>, 2018
+# Cas Vissers <casvissers@brahoo.nl>, 2018
+# Martin Trigaux, 2018
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2018
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2019
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 11:26+0000\n"
-"PO-Revision-Date: 2017-10-02 11:26+0000\n"
-"Last-Translator: Eric Geens <ericgeens@yahoo.com>, 2017\n"
+"POT-Creation-Date: 2019-01-03 15:07+0000\n"
+"PO-Revision-Date: 2017-09-20 10:22+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +53,7 @@ msgid "%s %% discount and %s surcharge"
 msgstr "%s %% korting en %s toeslag"
 
 #. module: product
-#: code:addons/product/models/product_template.py:324
+#: code:addons/product/models/product_template.py:333
 #, python-format
 msgid "%s (copy)"
 msgstr "%s (kopie)"
@@ -745,9 +747,7 @@ msgid "Computer SC234"
 msgstr "Computer SC234"
 
 #. module: product
-#: code:addons/product/models/product_template.py:50
 #: selection:product.template,type:0
-#, python-format
 msgid "Consumable"
 msgstr "Verbruiksartikel"
 
@@ -790,6 +790,10 @@ msgid ""
 "in average/fifo. Also used as a base price for pricelists. Expressed in the "
 "default unit of measure of the product."
 msgstr ""
+"Kosten die gebruikt worden voor voorraadwaardering in standaardprijs en als "
+"een beginprijs om in gemiddelde / FIFO in te stellen. Wordt tevens gebruikt "
+"als basisprijs voor prijslijsten. Uitgedrukt in de standaard meeteenheid van"
+" het product."
 
 #. module: product
 #: model:ir.model.fields,help:product.field_product_template_standard_price
@@ -798,6 +802,10 @@ msgid ""
 "in average/fifo. Also used as a base price for pricelists. Expressed in the "
 "default unit of measure of the product. "
 msgstr ""
+"Kosten die gebruikt worden voor voorraadwaardering in standaardprijs en als "
+"een beginprijs om in gemiddelde / FIFO in te stellen. Wordt tevens gebruikt "
+"als basisprijs voor prijslijsten. Uitgedrukt in de standaard meeteenheid van"
+" het product."
 
 #. module: product
 #: model:product.product,name:product.service_delivery
@@ -960,6 +968,11 @@ msgid "Description for Customers"
 msgstr "Omschrijving voor klanten"
 
 #. module: product
+#: model:ir.ui.view,arch_db:product.product_template_form_view
+msgid "Description for Internal"
+msgstr "Interne omschrijving"
+
+#. module: product
 #: model:product.product,website_description:product.product_product_11
 #: model:product.product,website_description:product.product_product_11b
 #: model:product.template,website_description:product.product_product_11_product_template
@@ -1042,19 +1055,19 @@ msgid "Ending valid for the pricelist item validation"
 msgstr "Eindigend geldig voor de prijslijst item bevestiging"
 
 #. module: product
-#: code:addons/product/models/product.py:53
+#: code:addons/product/models/product.py:56
 #, python-format
 msgid "Error ! You cannot create recursive categories."
 msgstr "Fout! het is niet mogelijk recursieve categorieën te maken!"
 
 #. module: product
-#: code:addons/product/models/product_attribute.py:101
+#: code:addons/product/models/product_attribute.py:102
 #, python-format
 msgid "Error ! You cannot use this attribute with the following value."
 msgstr "Fout ! U kunt dit attribuut niet gebruiken met de volgende waarde "
 
 #. module: product
-#: code:addons/product/models/product.py:283
+#: code:addons/product/models/product.py:293
 #, python-format
 msgid ""
 "Error! It is not allowed to choose more than one value for a given "
@@ -1080,7 +1093,7 @@ msgstr ""
 " prijslijst item."
 
 #. module: product
-#: code:addons/product/models/product_template.py:274
+#: code:addons/product/models/product_template.py:283
 #, python-format
 msgid ""
 "Error: The default Unit of Measure and the purchase Unit of Measure must be "
@@ -1232,6 +1245,11 @@ msgstr ""
 #: model:product.template,website_description:product.product_product_8_product_template
 msgid "Friendly to the environment."
 msgstr "Vriendelijk voor het milieu."
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Future Activities"
+msgstr "Toekomstige activiteiten"
 
 #. module: product
 #: model:product.product,name:product.product_product_1
@@ -1517,6 +1535,16 @@ msgid "Inventory"
 msgstr "Voorraad"
 
 #. module: product
+#: model:ir.model.fields,field_description:product.field_product_product_is_product_variant
+msgid "Is Product Variant"
+msgstr "Is productvariant"
+
+#. module: product
+#: model:ir.model.fields,field_description:product.field_product_template_is_product_variant
+msgid "Is a product variant"
+msgstr "Is een product variant"
+
+#. module: product
 #: model:product.product,website_description:product.product_product_7
 #: model:product.template,website_description:product.product_product_7_product_template
 msgid "Keep it clean."
@@ -1597,6 +1625,11 @@ msgstr "Laatst bijgewerkt door"
 #: model:ir.model.fields,field_description:product.field_product_uom_write_date
 msgid "Last Updated on"
 msgstr "Laatst bijgewerkt op"
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Late Activities"
+msgstr "Te late activiteiten"
 
 #. module: product
 #: model:ir.model.fields,help:product.field_product_supplierinfo_delay
@@ -1723,7 +1756,7 @@ msgstr "Meer features."
 #: model:product.product,name:product.product_product_20
 #: model:product.template,name:product.product_product_20_product_template
 msgid "Motherboard I9P57"
-msgstr "Moedermoord I9P57"
+msgstr "Moederbord I9P57"
 
 #. module: product
 #: model:product.product,name:product.product_product_10
@@ -2142,7 +2175,7 @@ msgid "Products Price Search"
 msgstr "Prijzen van producten zoeken"
 
 #. module: product
-#: code:addons/product/models/product.py:448
+#: code:addons/product/models/product.py:464
 #, python-format
 msgid "Products: "
 msgstr "Producten: "
@@ -2152,6 +2185,11 @@ msgstr "Producten: "
 #: selection:product.pricelist.item,base:0
 msgid "Public Price"
 msgstr "Verkoopprijs"
+
+#. module: product
+#: model:product.pricelist,name:product.list0
+msgid "Public Pricelist"
+msgstr "Verkoopprijslijst"
 
 #. module: product
 #: model:ir.model.fields,field_description:product.field_product_product_description_purchase
@@ -2374,9 +2412,7 @@ msgid "Server"
 msgstr "Server"
 
 #. module: product
-#: code:addons/product/models/product_template.py:51
 #: selection:product.template,type:0
-#, python-format
 msgid "Service"
 msgstr "Dienst"
 
@@ -2412,6 +2448,11 @@ msgstr ""
 "Deel al uw relaties met alle bedrijven die binnen uw structuur zijn gedefinieerd.\n"
 " * Aangevinkt : Relaties zijn zichtbaar voor alle bedrijven, zelfs indien het bedrijf bij de relatie aangeduid is.\n"
 " * Niet aangevinkt : Elk bedrijf kan enkel de eigen relaties zien (relaties waarbij het bedrijf werd aangeduid). Relaties waarbij het bedrijf niet werd aangeduid zijn zichtbaar voor alle bedrijven."
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Show all records which has next action date is before today"
+msgstr "Toon alle records welke een actiedatum voor vandaag hebben"
 
 #. module: product
 #: model:ir.model.fields,field_description:product.field_res_config_settings_group_product_pricelist
@@ -2718,7 +2759,7 @@ msgstr ""
 "Het aantal producten in deze categorie (zonder de onderliggende categorieën)"
 
 #. module: product
-#: code:addons/product/models/product_attribute.py:74
+#: code:addons/product/models/product_attribute.py:75
 #, python-format
 msgid ""
 "The operation cannot be completed:\n"
@@ -2875,7 +2916,7 @@ msgid ""
 " 1024x1024px."
 msgstr ""
 "Dit veld bevat de afbeelding die gebruikt wordt voor de product variant, "
-"gelimiteerd tot 1024x2014px."
+"beperkt tot 1024x2014px."
 
 #. module: product
 #: model:ir.model.fields,help:product.field_product_template_image
@@ -2893,8 +2934,13 @@ msgstr "Dit is de som van de extra prijs van alle kenmerken"
 
 #. module: product
 #: model:ir.ui.view,arch_db:product.product_template_form_view
+msgid "This note is only for internal purposes."
+msgstr "Deze notitie is enkel voor interne doeleinden."
+
+#. module: product
+#: model:ir.ui.view,arch_db:product.product_template_form_view
 msgid "This note will show up on sales orders."
-msgstr "Deze opmerking wordt afgebeeld op verkooporders."
+msgstr "Deze opmerking wordt getoond op verkooporders."
 
 #. module: product
 #: model:ir.model.fields,help:product.field_res_partner_property_product_pricelist
@@ -2925,6 +2971,11 @@ msgstr ""
 "offerte aanvraag. Laat dit leeg om een interne productcode te gebruiken."
 
 #. module: product
+#: model:ir.ui.view,arch_db:product.product_template_search_view
+msgid "Today Activities"
+msgstr "Activiteiten van vandaag"
+
+#. module: product
 #: model:product.product,website_description:product.product_product_7
 #: model:product.template,website_description:product.product_product_7_product_template
 msgid "Two is better than one."
@@ -2944,11 +2995,6 @@ msgid ""
 msgstr ""
 "USB poorten staan u toe veilige software updates te doen om te zorgen voor "
 "voortdurende toestelcompatibiliteit"
-
-#. module: product
-#: model:product.pricelist,name:product.list0
-msgid "USD"
-msgstr "USD"
 
 #. module: product
 #: model:product.product,website_description:product.product_product_6
@@ -3260,7 +3306,7 @@ msgstr "U moet een logo of lay-out instellen voor uw bedrijf."
 #: code:addons/product/wizard/product_price_list.py:28
 #, python-format
 msgid "You have to set your reports's header and footer layout."
-msgstr "U moet uw rapporten hun hoofding en footer lay-out instellen."
+msgstr "U dienst u kop- en voettekst van uw documenten in te stellen."
 
 #. module: product
 #: model:ir.actions.act_window,help:product.product_uom_form_action
@@ -3301,7 +3347,7 @@ msgid ""
 "You must define at least one product category in order to be able to create "
 "products."
 msgstr ""
-"U dient tenminste één product categorie aan te maken, voordat u een product "
+"U dient tenminste één productcategorie aan te maken, voordat u een product "
 "kunt aanmaken."
 
 #. module: product

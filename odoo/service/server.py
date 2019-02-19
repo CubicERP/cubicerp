@@ -59,6 +59,14 @@ def memory_info(process):
     pmem = (getattr(process, 'memory_info', None) or process.get_memory_info)()
     return (pmem.rss, pmem.vms)
 
+def empty_pipe(fd):
+    try:
+        while os.read(fd, 1):
+            pass
+    except OSError as e:
+        if e.errno not in [errno.EAGAIN]:
+            raise
+
 #----------------------------------------------------------
 # Werkzeug WSGI servers patched
 #----------------------------------------------------------
@@ -92,9 +100,6 @@ class RequestHandler(werkzeug.serving.WSGIRequestHandler):
         me = threading.currentThread()
         me.name = 'odoo.service.http.request.%s' % (me.ident,)
 
-# _reexec() should set LISTEN_* to avoid connection refused during reload time. It
-# should also work with systemd socket activation. This is currently untested
-# and not yet used.
 
 class ThreadedWSGIServerReloadable(LoggingBaseWSGIServerMixIn, werkzeug.serving.ThreadedWSGIServer):
     """ werkzeug Threaded WSGI Server patched to allow reusing a listen socket
@@ -106,14 +111,15 @@ class ThreadedWSGIServerReloadable(LoggingBaseWSGIServerMixIn, werkzeug.serving.
                                                            handler=RequestHandler)
 
     def server_bind(self):
-        envfd = os.environ.get('LISTEN_FDS')
-        if envfd and os.environ.get('LISTEN_PID') == str(os.getpid()):
+        SD_LISTEN_FDS_START = 3
+        if os.environ.get('LISTEN_FDS') == '1' and os.environ.get('LISTEN_PID') == str(os.getpid()):
             self.reload_socket = True
-            self.socket = socket.fromfd(int(envfd), socket.AF_INET, socket.SOCK_STREAM)
-            # should we os.close(int(envfd)) ? it seem python duplicate the fd.
+            self.socket = socket.fromfd(SD_LISTEN_FDS_START, socket.AF_INET, socket.SOCK_STREAM)
+            _logger.info('HTTP service (werkzeug) running through socket activation')
         else:
             self.reload_socket = False
             super(ThreadedWSGIServerReloadable, self).server_bind()
+            _logger.info('HTTP service (werkzeug) running on %s:%s', self.server_name, self.server_port)
 
     def server_activate(self):
         if not self.reload_socket:
@@ -133,15 +139,18 @@ class FSWatcher(object):
         if isinstance(event, (FileCreatedEvent, FileModifiedEvent, FileMovedEvent)):
             if not event.is_directory:
                 path = getattr(event, 'dest_path', event.src_path)
-                if path.endswith('.py'):
+                if path.endswith('.py') and not os.path.basename(path).startswith('.~'):
                     try:
                         source = open(path, 'rb').read() + b'\n'
                         compile(source, path, 'exec')
+                    except FileNotFoundError:
+                        _logger.error('autoreload: python code change detected, FileNotFound for %s', path)
                     except SyntaxError:
                         _logger.error('autoreload: python code change detected, SyntaxError in %s', path)
                     else:
-                        _logger.info('autoreload: python code updated, autoreload activated')
-                        restart()
+                        if not getattr(odoo, 'phoenix', False):
+                            _logger.info('autoreload: python code updated, autoreload activated')
+                            restart()
 
     def start(self):
         self.observer.start()
@@ -256,7 +265,6 @@ class ThreadedServer(CommonServer):
         t = threading.Thread(target=self.http_thread, name="odoo.service.httpd")
         t.setDaemon(True)
         t.start()
-        _logger.info('HTTP service (werkzeug) running on %s:%s', self.interface, self.port)
 
     def start(self, stop=False):
         _logger.debug("Setting signal handlers")
@@ -362,7 +370,10 @@ class GeventServer(CommonServer):
 
     def start(self):
         import gevent
-        from gevent.wsgi import WSGIServer
+        try:
+            from gevent.pywsgi import WSGIServer
+        except ImportError:
+            from gevent.wsgi import WSGIServer
 
 
         if os.name == 'posix':
@@ -552,13 +563,7 @@ class PreforkServer(CommonServer):
             for fd in ready[0]:
                 if fd in fds:
                     fds[fd].watchdog_time = time.time()
-                try:
-                    # empty pipe
-                    while os.read(fd, 1):
-                        pass
-                except OSError as e:
-                    if e.errno not in [errno.EAGAIN]:
-                        raise
+                empty_pipe(fd)
         except select.error as e:
             if e.args[0] not in [errno.EINTR]:
                 raise
@@ -649,6 +654,7 @@ class Worker(object):
         self.watchdog_time = time.time()
         self.watchdog_pipe = multi.pipe_new()
         self.eintr_pipe = multi.pipe_new()
+        self.wakeup_fd_r, self.wakeup_fd_w = self.eintr_pipe
         # Can be set to None if no watchdog is desired.
         self.watchdog_timeout = multi.timeout
         self.ppid = os.getpid()
@@ -672,13 +678,14 @@ class Worker(object):
 
     def sleep(self):
         try:
-            wakeup_fd = self.eintr_pipe[0]
-            select.select([self.multi.socket, wakeup_fd], [], [], self.multi.beat)
+            select.select([self.multi.socket, self.wakeup_fd_r], [], [], self.multi.beat)
+            # clear wakeup pipe if we were interrupted
+            empty_pipe(self.wakeup_fd_r)
         except select.error as e:
             if e.args[0] not in [errno.EINTR]:
                 raise
 
-    def process_limit(self):
+    def check_limits(self):
         # If our parent changed sucide
         if self.ppid != os.getppid():
             _logger.info("Worker (%s) Parent changed", self.pid)
@@ -697,6 +704,7 @@ class Worker(object):
         soft, hard = resource.getrlimit(resource.RLIMIT_AS)
         resource.setrlimit(resource.RLIMIT_AS, (config['limit_memory_hard'], hard))
 
+    def set_limits(self):
         # SIGXCPU (exceeded CPU time) signal handler will raise an exception.
         r = resource.getrusage(resource.RUSAGE_SELF)
         cpu_time = r.ru_utime + r.ru_stime
@@ -727,7 +735,9 @@ class Worker(object):
         signal.signal(signal.SIGINT, self.signal_handler)
         signal.signal(signal.SIGTERM, signal.SIG_DFL)
         signal.signal(signal.SIGCHLD, signal.SIG_DFL)
-        signal.set_wakeup_fd(self.eintr_pipe[1])
+        signal.set_wakeup_fd(self.wakeup_fd_w)
+
+        self.set_limits()
 
     def stop(self):
         pass
@@ -735,11 +745,10 @@ class Worker(object):
     def run(self):
         try:
             self.start()
-            while self.alive:
-                self.process_limit()
-                self.multi.pipe_ping(self.watchdog_pipe)
-                self.sleep()
-                self.process_work()
+            t = threading.Thread(name="Worker %s (%s) workthread" % (self.__class__.__name__, self.pid), target=self._runloop)
+            t.daemon = True
+            t.start()
+            t.join()
             _logger.info("Worker (%s) exiting. request_count: %s, registry count: %s.",
                          self.pid, self.request_count,
                          len(odoo.modules.registry.Registry.registries))
@@ -747,6 +756,17 @@ class Worker(object):
         except Exception:
             _logger.exception("Worker (%s) Exception occured, exiting..." % self.pid)
             # should we use 3 to abort everything ?
+            sys.exit(1)
+
+    def _runloop(self):
+        try:
+            while self.alive:
+                self.multi.pipe_ping(self.watchdog_pipe)
+                self.sleep()
+                self.process_work()
+                self.check_limits()
+        except:
+            _logger.exception("Worker %s (%s) Exception occured, exiting...", self.__class__.__name__, self.pid)
             sys.exit(1)
 
 class WorkerHTTP(Worker):
@@ -799,8 +819,9 @@ class WorkerCron(Worker):
 
             # simulate interruptible sleep with select(wakeup_fd, timeout)
             try:
-                wakeup_fd = self.eintr_pipe[0]
-                select.select([wakeup_fd], [], [], interval)
+                select.select([self.wakeup_fd_r], [], [], interval)
+                # clear wakeup pipe if we were interrupted
+                empty_pipe(self.wakeup_fd_r)
             except select.error as e:
                 if e.args[0] != errno.EINTR:
                     raise
@@ -827,7 +848,6 @@ class WorkerCron(Worker):
 
             from odoo.addons import base
             base.ir.ir_cron.ir_cron._acquire_job(db_name)
-            odoo.modules.registry.Registry.delete(db_name)
 
             # dont keep cursors in multi database mode
             if len(db_names) > 1:
@@ -882,7 +902,8 @@ def _reexec(updated_modules=None):
         args += ["-u", ','.join(updated_modules)]
     if not args or args[0] != exe:
         args.insert(0, exe)
-    os.execv(sys.executable, args)
+    # We should keep the LISTEN_* environment variabled in order to support socket activation on reexec
+    os.execve(sys.executable, args, os.environ)
 
 def load_test_file_yml(registry, test_file):
     with registry.cursor() as cr:

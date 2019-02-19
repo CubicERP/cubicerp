@@ -2,12 +2,18 @@
 # This file contains the translation of the following modules:
 # * stock_picking_batch
 # 
+# Translators:
+# matjaz k <matjaz@mentis.si>, 2018
+# Martin Trigaux, 2018
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2018
+# Vida Potočnik <vida.potocnik@mentis.si>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.saas~18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 11:26+0000\n"
 "PO-Revision-Date: 2017-10-02 11:26+0000\n"
+"Last-Translator: Vida Potočnik <vida.potocnik@mentis.si>, 2018\n"
 "Language-Team: Slovenian (https://www.transifex.com/odoo/teams/41243/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +41,7 @@ msgstr ""
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.view_picking_internal_search_inherit_stock_picking_batch
 msgid "Batch"
-msgstr ""
+msgstr "Batch"
 
 #. module: stock_picking_batch
 #: code:addons/stock_picking_batch/models/stock_picking_batch.py:64
@@ -72,17 +78,17 @@ msgstr ""
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_to_batch_form
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 msgid "Cancel picking"
-msgstr ""
+msgstr "Preklic zbiranja"
 
 #. module: stock_picking_batch
 #: selection:stock.picking.batch,state:0
 msgid "Cancelled"
-msgstr ""
+msgstr "Preklicano"
 
 #. module: stock_picking_batch
 #: model:ir.actions.act_window,help:stock_picking_batch.stock_picking_batch_action
@@ -92,58 +98,58 @@ msgstr ""
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 msgid "Confirm"
-msgstr ""
+msgstr "Potrdi"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 msgid "Confirm picking"
-msgstr ""
+msgstr "Potrdi zbirnik"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_create_uid
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Ustvaril"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_create_date
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Ustvarjeno"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_display_name
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Prikazni naziv"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 #: selection:stock.picking.batch,state:0
 msgid "Done"
-msgstr ""
+msgstr "Opravljeno"
 
 #. module: stock_picking_batch
 #: selection:stock.picking.batch,state:0
 msgid "Draft"
-msgstr ""
+msgstr "Osnutek"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_filter
 msgid "Group By"
-msgstr ""
+msgstr "Združi po"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_id
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: stock_picking_batch
 #: model:product.product,name:stock_picking_batch.product_product_ice_cream_choco
 #: model:product.template,name:stock_picking_batch.product_product_ice_cream_choco_product_template
 msgid "Ice Cream Chocolate"
-msgstr ""
+msgstr "Čokoladni sladoled"
 
 #. module: stock_picking_batch
 #: model:product.product,description_sale:stock_picking_batch.product_product_ice_cream_choco
@@ -157,7 +163,7 @@ msgstr ""
 #: model:product.template,description_sale:stock_picking_batch.product_product_ice_cream_vani_product_template
 #: model:product.template,name:stock_picking_batch.product_product_ice_cream_vani_product_template
 msgid "Ice Cream Vanilla"
-msgstr ""
+msgstr "Vaniljev sladoled"
 
 #. module: stock_picking_batch
 #: model:ir.model,name:stock_picking_batch.model_stock_immediate_transfer
@@ -173,25 +179,25 @@ msgstr ""
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_filter
 msgid "In Progress"
-msgstr ""
+msgstr "V teku"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch___last_update
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Zadnjič spremenjeno"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_write_uid
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Zadnjič posodobil"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_write_date
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_to_batch_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Zadnjič posodobljeno"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,help:stock_picking_batch.field_stock_picking_batch_picking_ids
@@ -207,7 +213,7 @@ msgstr ""
 #: code:addons/stock_picking_batch/models/stock_picking_batch.py:52
 #, python-format
 msgid "Nothing to print."
-msgstr ""
+msgstr "Ničesar za izpis."
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,help:stock_picking_batch.field_stock_picking_batch_user_id
@@ -228,22 +234,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_picking_ids
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 msgid "Pickings"
-msgstr ""
+msgstr "Zbirniki"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
 msgid "Print"
-msgstr ""
+msgstr "Tiskanje"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_user_id
 msgid "Responsible"
-msgstr ""
+msgstr "Odgovoren"
 
 #. module: stock_picking_batch
 #: selection:stock.picking.batch,state:0
 msgid "Running"
-msgstr ""
+msgstr "V teku"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_filter
@@ -275,25 +281,25 @@ msgstr ""
 #: model:product.product,name:stock_picking_batch.product_product_dry_specu
 #: model:product.template,name:stock_picking_batch.product_product_dry_specu_product_template
 msgid "Speculoos"
-msgstr ""
+msgstr "Speculoos piškoti"
 
 #. module: stock_picking_batch
 #: model:product.product,description_sale:stock_picking_batch.product_product_dry_specu
 #: model:product.template,description_sale:stock_picking_batch.product_product_dry_specu_product_template
 msgid "Speculoos - A belgian speciality"
-msgstr ""
+msgstr "Speculoos piškoti - belgijska specialiteta"
 
 #. module: stock_picking_batch
 #: model:mail.message.subtype,description:stock_picking_batch.mt_batch_state
 #: model:mail.message.subtype,name:stock_picking_batch.mt_batch_state
 msgid "Stage Changed"
-msgstr ""
+msgstr "Faza spremenjena"
 
 #. module: stock_picking_batch
 #: model:ir.model.fields,field_description:stock_picking_batch.field_stock_picking_batch_state
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_filter
 msgid "State"
-msgstr ""
+msgstr "Regija"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_form
@@ -313,15 +319,15 @@ msgstr ""
 #. module: stock_picking_batch
 #: model:ir.model,name:stock_picking_batch.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: stock_picking_batch
 #: code:addons/stock_picking_batch/models/stock_picking_batch.py:63
 #, python-format
 msgid "Transferred by"
-msgstr ""
+msgstr "Premestil"
 
 #. module: stock_picking_batch
 #: model:ir.ui.view,arch_db:stock_picking_batch.stock_picking_batch_filter
 msgid "User"
-msgstr ""
+msgstr "Uporabnik"

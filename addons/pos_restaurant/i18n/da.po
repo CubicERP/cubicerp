@@ -3,21 +3,23 @@
 # * pos_restaurant
 # 
 # Translators:
-# Pernille Kristensen <pernillekristensen1994@gmail.com>, 2017
 # Ejner Sønniksen <ejner@vkdata.dk>, 2017
-# Morten Schou <ms@msteknik.dk>, 2017
-# Martin Trigaux <mat@odoo.com>, 2017
-# jonas jensen <j.jensen@tcomp.dk>, 2017
-# Sanne Kristensen <sanne@vkdata.dk>, 2017
 # Per Rasmussen <perhgrasmussen@gmail.com>, 2017
+# jonas jensen <j.jensen@tcomp.dk>, 2017
 # Jesper Carstensen <jc@danodoo.dk>, 2017
+# Morten Schou <ms@msteknik.dk>, 2017
+# Pernille Kristensen <pernillekristensen1994@gmail.com>, 2017
+# Martin Trigaux, 2017
+# Sanne Kristensen <sanne@vkdata.dk>, 2017
+# lhmflexerp <lhm@flexerp.dk>, 2017
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.saas~18\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-20 09:52+0000\n"
-"PO-Revision-Date: 2017-09-20 09:52+0000\n"
-"Last-Translator: Jesper Carstensen <jc@danodoo.dk>, 2017\n"
+"POT-Creation-Date: 2019-01-03 15:06+0000\n"
+"PO-Revision-Date: 2017-09-20 10:21+0000\n"
+"Last-Translator: lhmflexerp <lhm@flexerp.dk>, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/odoo/teams/41243/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,14 +28,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: pos_restaurant
-#: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_floor_kanban
-msgid "<strong>Floor Name: </strong>"
+#: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
+msgid "<span class=\"fa fa-lg fa-cutlery\" title=\"For bars and restaurants\"/>"
 msgstr ""
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_floor_kanban
+msgid "<strong>Floor Name: </strong>"
+msgstr "<strong>Navn på Område: </strong>"
+
+#. module: pos_restaurant
+#: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_floor_kanban
 msgid "<strong>Point of Sale: </strong>"
-msgstr ""
+msgstr "<strong>Kasse: </strong>"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_floor_background_image
@@ -41,6 +48,8 @@ msgid ""
 "A background image used to display a floor layout in the point of sale "
 "interface"
 msgstr ""
+"Et baggrundsbillede som anvendes til at vise layoutet på et restaurantområde"
+" kassens brugerflade"
 
 #. module: pos_restaurant
 #: model:ir.actions.act_window,help:pos_restaurant.action_restaurant_floor_form
@@ -48,11 +57,15 @@ msgid ""
 "A restaurant floor represents the place where customers are served, this is where you can\n"
 "                define and position the tables."
 msgstr ""
+"Et restaurantområde repræsenterer et sted hvor kunder betjenes, det er her du kan\n"
+"                opsætte og placere bordene."
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Accept customer tips or convert their change to a tip"
 msgstr ""
+"Acceptér drikkepenge fra kunder eller konvertér deres byttepenge til "
+"drikkepenge"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_table_active
@@ -69,7 +82,7 @@ msgstr "Tilføj note"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Add notes to orderlines"
-msgstr ""
+msgstr "Tilføj noter til ordrelinjer"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_pos_config_iface_orderline_notes
@@ -99,7 +112,7 @@ msgstr "En intern identifikation af printeren"
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_floor_name
 msgid "An internal identification of the restaurant floor"
-msgstr ""
+msgstr "En interne identifikation på restaurantområdet"
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_table_form
@@ -178,7 +191,7 @@ msgstr "Klik for at tilføje en etage i restauranten."
 #. module: pos_restaurant
 #: model:ir.actions.act_window,help:pos_restaurant.action_restaurant_printer_form
 msgid "Click to add a Restaurant Order Printer."
-msgstr ""
+msgstr "Klik for at tilføje en restaurant ordreprinter."
 
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_table_color
@@ -253,7 +266,7 @@ msgstr "Grundplan"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Floors"
-msgstr ""
+msgstr "Restaurantområder"
 
 #. module: pos_restaurant
 #. openerp-web
@@ -389,12 +402,12 @@ msgstr ""
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_pos_config_iface_orderline_notes
 msgid "Orderline Notes"
-msgstr ""
+msgstr "Ordrelinjenoter"
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_printer_form
 msgid "POS Printer"
-msgstr ""
+msgstr "POS Printer"
 
 #. module: pos_restaurant
 #. openerp-web
@@ -423,7 +436,7 @@ msgstr "Udskriv"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Print orders at the kitchen, at the bar, etc."
-msgstr ""
+msgstr "Print ordrer i køkkenet, i baren osv."
 
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_printer_product_categories_ids
@@ -438,12 +451,12 @@ msgstr "Printernavn"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Printers"
-msgstr ""
+msgstr "Printere"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_printer_proxy_ip
 msgid "Proxy IP Address"
-msgstr ""
+msgstr "Proxy IP Adresse"
 
 #. module: pos_restaurant
 #. openerp-web
@@ -466,7 +479,7 @@ msgstr "Restaurant etager"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_printer
 msgid "Restaurant Order Printers"
-msgstr ""
+msgstr "Restaurant Ordreprintere"
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.view_restaurant_table_form
@@ -510,7 +523,7 @@ msgstr "Del"
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Split total or order lines"
-msgstr ""
+msgstr "Opdel total eller ordrelinjer"
 
 #. module: pos_restaurant
 #: selection:restaurant.table,shape:0
@@ -539,7 +552,7 @@ msgstr "Tabel"
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_pos_config_is_table_management
 msgid "Table Management"
-msgstr ""
+msgstr "Bord Administration"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,field_description:pos_restaurant.field_restaurant_table_name
@@ -582,11 +595,13 @@ msgid ""
 "The background color of the floor layout, (must be specified in a html-"
 "compatible format)"
 msgstr ""
+"Baggrundsfarven på layoutet på restaurantområdet (skal være angivet i en "
+"html-kompatibel format)"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_table_seats
 msgid "The default number of customer served at this table."
-msgstr ""
+msgstr "Standardantallet af kunder betjent ved dette bord."
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_floor_table_ids
@@ -596,7 +611,7 @@ msgstr "Listen af borde på denne etage "
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_pos_config_floor_ids
 msgid "The restaurant floors served by this point of sale."
-msgstr ""
+msgstr "Restaurantområderne som betjenes i dennes kasse."
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_pos_order_table_id
@@ -612,7 +627,7 @@ msgstr ""
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_table_height
 msgid "The table's height in pixels"
-msgstr ""
+msgstr "Bordets højde i pixels"
 
 #. module: pos_restaurant
 #: model:ir.model.fields,help:pos_restaurant.field_restaurant_table_position_h
@@ -647,12 +662,12 @@ msgstr ""
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Tip Product"
-msgstr ""
+msgstr "Tillæg af drikkepenge"
 
 #. module: pos_restaurant
 #: model:ir.ui.view,arch_db:pos_restaurant.pos_config_view_form_inherit_restaurant
 msgid "Tips"
-msgstr ""
+msgstr "Drikkepenge"
 
 #. module: pos_restaurant
 #. openerp-web
@@ -729,7 +744,7 @@ msgstr "pos.config"
 #. module: pos_restaurant
 #: model:ir.model,name:pos_restaurant.model_restaurant_floor
 msgid "restaurant.floor"
-msgstr ""
+msgstr "restaurant.floor"
 
 #. module: pos_restaurant
 #: model:ir.model,name:pos_restaurant.model_restaurant_printer

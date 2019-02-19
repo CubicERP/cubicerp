@@ -137,6 +137,9 @@ class Partner(models.Model):
     def _default_company(self):
         return self.env['res.company']._company_default_get('res.partner')
 
+    def _split_street_with_params(self, street_raw, street_format):
+        return {'street': street_raw}
+
     name = fields.Char(index=True)
     display_name = fields.Char(compute='_compute_display_name', store=True, index=True)
     date = fields.Date(index=True)
@@ -179,7 +182,9 @@ class Partner(models.Model):
         [('contact', 'Contact'),
          ('invoice', 'Invoice address'),
          ('delivery', 'Shipping address'),
-         ('other', 'Other address')], string='Address Type',
+         ('other', 'Other address'),
+         ("private", "Private Address"),
+        ], string='Address Type',
         default='contact',
         help="Used to select automatically the right address according to the context in sales and purchases documents.")
     street = fields.Char()
@@ -213,7 +218,8 @@ class Partner(models.Model):
     # technical field used for managing commercial fields
     commercial_partner_id = fields.Many2one('res.partner', compute='_compute_commercial_partner',
                                              string='Commercial Entity', store=True, index=True)
-    commercial_partner_country_id = fields.Many2one('res.country', related='commercial_partner_id.country_id', store=True)
+    commercial_partner_country_id = fields.Many2one('res.country', related='commercial_partner_id.country_id', store=True,
+        string="Commercial Entity's Country")
     commercial_company_name = fields.Char('Company Name Entity', compute='_compute_commercial_company_name',
                                           store=True)
     company_name = fields.Char('Company Name')
@@ -322,7 +328,9 @@ class Partner(models.Model):
     @api.multi
     def copy(self, default=None):
         self.ensure_one()
-        default = dict(default or {}, name=_('%s (copy)') % self.name)
+        chosen_name = default.get('name') if default else ''
+        new_name = chosen_name or _('%s (copy)') % self.name
+        default = dict(default or {}, name=new_name)
         return super(Partner, self).copy(default)
 
     @api.onchange('parent_id')
@@ -448,7 +456,7 @@ class Partner(models.Model):
         """ Sync commercial fields and address fields from company and to children after create/update,
         just as if those were all modeled as fields.related to the parent """
         # 1. From UPSTREAM: sync from parent
-        if values.get('parent_id') or values.get('type', 'contact'):
+        if values.get('parent_id') or values.get('type') == 'contact':
             # 1a. Commercial fields: sync if parent changed
             if values.get('parent_id'):
                 self._commercial_sync_from_company()
@@ -516,7 +524,7 @@ class Partner(models.Model):
         result = True
         # To write in SUPERUSER on field is_company and avoid access rights problems.
         if 'is_company' in vals and self.user_has_groups('base.group_partner_manager') and not self.env.uid == SUPERUSER_ID:
-            result = super(Partner, self).sudo().write({'is_company': vals.get('is_company')})
+            result = super(Partner, self.sudo()).write({'is_company': vals.get('is_company')})
             del vals['is_company']
         result = result and super(Partner, self).write(vals)
         for partner in self:
@@ -546,7 +554,7 @@ class Partner(models.Model):
         self.ensure_one()
         if self.company_name:
             # Create parent company
-            values = dict(name=self.company_name, is_company=True)
+            values = dict(name=self.company_name, is_company=True, vat=self.vat)
             values.update(self._update_fields_values(self._address_fields()))
             new_company = self.create(values)
             # Set new company as my parent
@@ -654,6 +662,7 @@ class Partner(models.Model):
             where_query = self._where_calc(args)
             self._apply_ir_rules(where_query, 'read')
             from_clause, where_clause, where_clause_params = where_query.get_sql()
+            from_str = from_clause if from_clause else 'res_partner'
             where_str = where_clause and (" WHERE %s AND " % where_clause) or ' WHERE '
 
             # search on the name of the contacts and of its company
@@ -665,8 +674,8 @@ class Partner(models.Model):
 
             unaccent = get_unaccent_wrapper(self.env.cr)
 
-            query = """SELECT id
-                         FROM res_partner
+            query = """SELECT res_partner.id
+                         FROM {from_str}
                       {where} ({email} {operator} {percent}
                            OR {display_name} {operator} {percent}
                            OR {reference} {operator} {percent}
@@ -674,13 +683,14 @@ class Partner(models.Model):
                            -- don't panic, trust postgres bitmap
                      ORDER BY {display_name} {operator} {percent} desc,
                               {display_name}
-                    """.format(where=where_str,
+                    """.format(from_str=from_str,
+                               where=where_str,
                                operator=operator,
-                               email=unaccent('email'),
-                               display_name=unaccent('display_name'),
-                               reference=unaccent('ref'),
+                               email=unaccent('res_partner.email'),
+                               display_name=unaccent('res_partner.display_name'),
+                               reference=unaccent('res_partner.ref'),
                                percent=unaccent('%s'),
-                               vat=unaccent('vat'),)
+                               vat=unaccent('res_partner.vat'),)
 
             where_clause_params += [search_name]*5
             if limit:
@@ -717,6 +727,8 @@ class Partner(models.Model):
             if res.status_code != requests.codes.ok:
                 return False
         except requests.exceptions.ConnectionError as e:
+            return False
+        except requests.exceptions.Timeout as e:
             return False
         return base64.b64encode(res.content)
 

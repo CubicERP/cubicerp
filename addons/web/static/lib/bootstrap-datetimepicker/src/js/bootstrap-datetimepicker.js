@@ -479,8 +479,12 @@
             },
 
             notifyEvent = function (e) {
-                if (e.type === 'dp.change' && ((e.date && e.date.isSame(e.oldDate)) || (!e.date && !e.oldDate))) {
-                    return;
+                if (e.type === 'dp.change') {
+                    // check _isUTC flag to ensure that we are not comparing apples and oranges
+                    var bothUTC = e.date && e.oldDate && e.date._isUTC === e.oldDate._isUTC; 
+                    if ((bothUTC && e.date.isSame(e.oldDate)) || (!e.date && !e.oldDate)) {
+                        return;
+                    }
                 }
                 element.trigger(e);
             },
@@ -719,6 +723,9 @@
                 }
 
                 currentDate = viewDate.clone().startOf('M').startOf('w').startOf('d');
+                // !! ODOO FIX START !!
+                var now = getMoment();
+                // !! ODOO FIX END !!
 
                 for (i = 0; i < 42; i++) { //always display 42 days (should show 6 weeks)
                     if (currentDate.weekday() === 0) {
@@ -741,7 +748,9 @@
                     if (!isValid(currentDate, 'd')) {
                         clsNames.push('disabled');
                     }
-                    if (currentDate.isSame(getMoment(), 'd')) {
+                    // !! ODOO FIX START !!
+                    if (currentDate.date() === now.date() && currentDate.month() === now.month() && currentDate.year() === now.year()) {
+                    // !! ODOO FIX END !!
                         clsNames.push('today');
                     }
                     if (currentDate.day() === 0 || currentDate.day() === 6) {

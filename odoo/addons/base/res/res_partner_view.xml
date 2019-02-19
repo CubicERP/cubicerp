@@ -225,7 +225,6 @@
                     <group>
                         <group>
                             <field name="type" attrs="{'invisible': [('parent_id','=', False)]}" groups="base.group_no_one"/>
-                            <field name="vat" placeholder="e.g. BE0477472701"/>
                             <label for="street" string="Address"/>
                             <div class="o_address_format">
                                 <div class="oe_edit_only">

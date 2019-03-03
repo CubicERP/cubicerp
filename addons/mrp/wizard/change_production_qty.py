@@ -36,6 +36,9 @@ class ChangeProductionQty(models.TransientModel):
             production_move = production.move_finished_ids.filtered(lambda x : x.state not in ('done', 'cancel') and production.product_id.id == x.product_id.id)
             production_move.write({'product_uom_qty': qty})
 
+        if production_move.move_dest_ids:
+            production_move.move_dest_ids.write({'product_uom_qty': qty})
+
     @api.multi
     def change_prod_qty(self):
         precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')

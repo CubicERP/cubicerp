@@ -171,7 +171,7 @@ class SaleOrderLine(models.Model):
             product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
             if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing()
-                if not is_available:
+                if not is_available and self._context.get('warning-available-stock',True):
                     message =  _('You plan to sell %s %s but you only have %s %s available in %s warehouse.') % \
                             (self.product_uom_qty, self.product_uom.name, product.virtual_available, product.uom_id.name, self.order_id.warehouse_id.name)
                     # We check if some products are available in other warehouses.
@@ -277,7 +277,7 @@ class SaleOrderLine(models.Model):
             product_qty = line.product_uom_qty - qty
 
             procurement_uom = line.product_uom
-            quant_uom = line.product_id.uom_id
+            quant_uom = line._get_product_id().uom_id
             get_param = self.env['ir.config_parameter'].sudo().get_param
             if procurement_uom.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
                 product_qty = line.product_uom._compute_quantity(product_qty, quant_uom, rounding_method='HALF-UP')

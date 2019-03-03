@@ -19,5 +19,7 @@ class ChangeProductionQty(models.TransientModel):
                 qty1 = sub_product_line.product_qty
                 qty1 *= product_uom_factor / prod.bom_id.product_qty
                 move[0].write({'product_uom_qty': qty1})
+                if move.move_dest_ids:
+                    move.move_dest_ids.write({'product_uom_qty': qty1})
             else:
                 prod._create_byproduct_move(sub_product_line)

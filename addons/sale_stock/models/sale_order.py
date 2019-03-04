@@ -178,7 +178,10 @@ class SaleOrderLine(models.Model):
                     if float_compare(product.virtual_available, self.product_id.virtual_available, precision_digits=precision) == -1:
                         message += _('\nThere are %s %s available accross all warehouses.') % \
                                 (self.product_id.virtual_available, product.uom_id.name)
-
+                    for warehouse in self.env['stock.warehouse'].search([('id','!=',self.order_id.warehouse_id.id)]):
+                        product = self.product_id.with_context(warehouse=warehouse.id,
+                                                               lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US')
+                        message += _('\n - %s : %s %s') % (warehouse.name, product.virtual_available, product.uom_id.name)
                     warning_mess = {
                         'title': _('Not enough inventory!'),
                         'message' : message

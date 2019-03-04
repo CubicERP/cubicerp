@@ -46,12 +46,15 @@ class account_abstract_payment(models.AbstractModel):
     amount = fields.Monetary(string='Payment Amount', required=True)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True, default=lambda self: self.env.user.company_id.currency_id)
     payment_date = fields.Date(string='Payment Date', default=fields.Date.context_today, required=True, copy=False)
+    payment_date_due = fields.Date(string='Date Due', copy=False)
     communication = fields.Char(string='Memo')
     journal_id = fields.Many2one('account.journal', string='Payment Journal', required=True, domain=[('type', 'in', ('bank', 'cash'))])
     company_id = fields.Many2one('res.company', related='journal_id.company_id', string='Company', readonly=True)
 
     hide_payment_method = fields.Boolean(compute='_compute_hide_payment_method',
         help="Technical field used to hide the payment method if the selected journal has only one available which is 'manual'")
+    hide_date_due = fields.Boolean(compute='_compute_hide_payment_method',
+                                   help="Technical field used to hide the date due if hte selected journal has checked has date due")
 
     @api.one
     @api.constrains('amount')
@@ -65,11 +68,13 @@ class account_abstract_payment(models.AbstractModel):
         for payment in self:
             if not payment.journal_id:
                 payment.hide_payment_method = True
+                payment.hide_date_due = True
                 continue
             journal_payment_methods = payment.payment_type == 'inbound'\
                 and payment.journal_id.inbound_payment_method_ids\
                 or payment.journal_id.outbound_payment_method_ids
             payment.hide_payment_method = len(journal_payment_methods) == 1 and journal_payment_methods[0].code == 'manual'
+            payment.hide_date_due = not payment.journal_id.has_date_due or payment.journal_id.type != 'cash'
 
     @api.onchange('journal_id')
     def _onchange_journal(self):
@@ -738,5 +743,7 @@ class account_payment(models.Model):
                 'amount_currency': amount_currency,
                 'currency_id': self.journal_id.currency_id.id,
             })
+        if not self.hide_date_due and self.payment_date_due:
+            vals['date_maturity'] = self.payment_date_due
 
         return vals

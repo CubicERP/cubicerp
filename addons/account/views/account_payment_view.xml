@@ -159,6 +159,8 @@
                             </group>
                             <group>
                                 <field name="payment_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="hide_date_due" invisible="1"/>
+                                <field name="payment_date_due" attrs="{'invisible':[('hide_date_due','=',True)],'required':[('hide_date_due','=',False)],'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="communication" attrs="{'invisible': [('state', '!=', 'draft'), ('communication', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                             </group>
                         </group>

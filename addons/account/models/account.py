@@ -394,6 +394,7 @@ class AccountJournal(models.Model):
         help="Check this box if you want to allow the cancellation the entries related to this journal or of the invoice related to this journal")
     group_invoice_lines = fields.Boolean(string='Group Invoice Lines',
         help="If this box is checked, the system will try to group the accounting lines when generating them from invoices.")
+    has_date_due = fields.Boolean(help="If this box is checked, the payments related to this journal, must require a due date")
     sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence',
         help="This field contains the information related to the numbering of the journal entries of this journal.", required=True, copy=False)
     refund_sequence_id = fields.Many2one('ir.sequence', string='Credit Note Entry Sequence',

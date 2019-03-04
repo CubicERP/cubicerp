@@ -283,6 +283,7 @@
                                 <field name="type"/>
                             </group>
                             <group>
+                                <field name="has_date_due" attrs="{'invisible':[('type','!=','cash')]}"/>
                                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                             </group>
                         </group>

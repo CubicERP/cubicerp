@@ -51,6 +51,7 @@
                             <field name="package_id" string="Source Package" groups="product.group_stock_packaging"/>
                             <field name="result_package_id" string="Destination Package" groups="stock.group_tracking_lot"/>
                             <field name="owner_id" string="Owner" groups="stock.group_tracking_owner"/>
+                            <field name="move_id" groups="base.group_no_one"/>
                         </group>
                     </group>
                 </sheet>

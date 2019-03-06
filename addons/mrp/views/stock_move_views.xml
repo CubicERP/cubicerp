@@ -100,4 +100,16 @@
             action="stock.action_stock_scrap"
             sequence="25"/>
 
+    <record id="stock_move_mrp" model="ir.ui.view">
+        <field name="name">stock.move.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='origin_grp']" position="inside">
+                <field name="production_id" attrs="{'invisible':[('production_id','=',False)]}" groups="base.group_no_one"/>
+                <field name="raw_material_production_id" attrs="{'invisible':[('raw_material_production_id','=',False)]}" groups="base.group_no_one"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

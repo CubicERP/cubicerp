@@ -240,6 +240,7 @@
                             <field name="origin"/>
                             <field name="group_id"/>
                             <field name="procure_method" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="stock.group_adv_location"/>
+                            <field name="picking_id" attrs="{'invisible':[('picking_id','=',False)]}" groups="base.group_no_one"/>
                         </group>
                         <group name="linked_group" string="Linked Moves" groups="base.group_no_one" colspan="2">
                             <field name="move_orig_ids" string="Origin Moves" readonly="1">
@@ -260,6 +261,9 @@
                                     <field name="state"/>
                                 </tree>
                             </field>
+                        </group>
+                        <group colspan="2" groups="base.group_no_one">
+                            <field name="move_line_ids"/>
                         </group>
                     </group>
                 </sheet>

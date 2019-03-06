@@ -370,10 +370,13 @@ class StockMove(models.Model):
     def name_get(self):
         res = []
         for move in self:
-            res.append((move.id, '%s%s%s>%s' % (
+            lot_ids = [l.lot_id.name for l in move.move_line_ids if l.lot_id]
+            res.append((move.id, '%s%s%s>%s (%s %s)%s' % (
                 move.picking_id.origin and '%s/' % move.picking_id.origin or '',
                 move.product_id.code and '%s: ' % move.product_id.code or '%s: '%move.product_id.name,
-                move.location_id.name, move.location_dest_id.name)))
+                move.location_id.name, move.location_dest_id.name,
+                move.product_uom_qty, move.product_uom.name,
+                lot_ids and ' %s'%str(lot_ids).replace("'",'').replace('"','') or '')))
         return res
 
     @api.model

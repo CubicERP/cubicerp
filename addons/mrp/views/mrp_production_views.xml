@@ -40,6 +40,7 @@
                     <button name="button_mark_done" attrs="{'invisible': ['|', ('check_to_done', '=', False), ('consumed_less_than_planned', '=', False)]}" string="Mark as Done" type="object" class="oe_highlight" confirm="You have consumed less material than what was planned. Are you sure you want to close this MO?"/>
                     <button name="action_assign" attrs="{'invisible': ['|', ('availability', 'in', ('assigned', 'none')), ('is_locked', '=', False)]}" string="Check availability" type="object" class="oe_highlight"/>
                     <button name="button_plan" attrs="{'invisible': ['|', '|', ('state', '!=', 'confirmed'), ('routing_id', '=', False), ('is_locked', '=', False)]}" type="object" string="Create Workorders" class="oe_highlight"/>
+                    <button name="open_produce_product" attrs="{'invisible': ['|', '|', '|', '|', ('is_locked', '=', False), ('check_to_done', '=', False), ('availability', 'not in', ['partially_available', 'assigned']), ('state', 'not in', ('confirmed','progress')), ('routing_id', '!=', False)]}" string="Produce" type="object"/>
                     <button name="open_produce_product" attrs="{'invisible': ['|', '|', '|', '|', ('is_locked', '=', False), ('check_to_done', '=', True), ('availability', 'not in', ['partially_available', 'assigned']), ('state', 'not in', ('confirmed','progress')), ('routing_id', '!=', False)]}" string="Produce" type="object" class="oe_highlight"/>
                     <button name="open_produce_product" attrs="{'invisible': ['|', '|', '|', '|', ('is_locked', '=', False), ('check_to_done', '=', True), ('availability', '!=', 'waiting'), ('state', 'not in', ('confirmed','progress')), ('routing_id', '!=', False)]}" string="Produce" type="object"/>
                     <button name="post_inventory" string="Post Inventory" type="object" attrs="{'invisible': [('post_visible', '=', False)]}" groups="base.group_no_one"/>
@@ -157,6 +158,7 @@
                                 </group>
                                 <group>
                                     <field name="availability" groups="base.group_no_one"/>
+                                    <field name="procurement_group_id" groups="base.group_no_one"/>
                                 </group>
                                 <group name="rates">
                                     <label for="inefficiency_percent"/>

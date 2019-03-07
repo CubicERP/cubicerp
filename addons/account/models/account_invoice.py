@@ -235,6 +235,11 @@ class AccountInvoice(models.Model):
             payment_lines.update(line.mapped('matched_debit_ids.debit_move_id.id'))
         self.payment_move_line_ids = self.env['account.move.line'].browse(list(payment_lines)).sorted()
 
+    @api.depends('date_due')
+    def _due_days(self):
+        for invoice in self.filtered(lambda i: i.date_due and i.date_due < fields.Date.today()):
+            invoice.due_days = (fields.Date.from_string(invoice.date_due) - fields.Date.from_string(fields.Date.today())).days * -1
+
     name = fields.Char(string='Reference/Description', index=True,
         readonly=True, states={'draft': [('readonly', False)]}, copy=False, help='The name that will be used on account move lines')
 
@@ -288,6 +293,7 @@ class AccountInvoice(models.Model):
              "now and 50% in one month, but if you want to force a due date, make sure that the payment "
              "term is not set on the invoice. If you keep the Payment terms and the due date empty, it "
              "means direct payment.")
+    due_days = fields.Integer(compute=_due_days)
     partner_id = fields.Many2one('res.partner', string='Partner', change_default=True,
         required=True, readonly=True, states={'draft': [('readonly', False)]},
         track_visibility='always')

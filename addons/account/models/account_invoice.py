@@ -237,7 +237,7 @@ class AccountInvoice(models.Model):
 
     @api.depends('date_due')
     def _due_days(self):
-        for invoice in self.filtered(lambda i: i.date_due and i.date_due < fields.Date.today()):
+        for invoice in self.filtered(lambda i: i.date_due):
             invoice.due_days = (fields.Date.from_string(invoice.date_due) - fields.Date.from_string(fields.Date.today())).days * -1
 
     name = fields.Char(string='Reference/Description', index=True,

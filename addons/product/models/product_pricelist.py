@@ -204,13 +204,7 @@ class Pricelist(models.Model):
                     if not cat:
                         continue
 
-                if rule.base == 'pricelist' and rule.base_pricelist_id:
-                    price_tmp = rule.base_pricelist_id._compute_price_rule([(product, qty, partner)])[product.id][0]  # TDE: 0 = price, 1 = rule
-                    price = rule.base_pricelist_id.currency_id.compute(price_tmp, self.currency_id, round=False)
-                else:
-                    # if base option is public price take sale price else cost price of product
-                    # price_compute returns the price in the context UoM, i.e. qty_uom_id
-                    price = product.price_compute(rule.base)[product.id]
+                price = self._get_price_base_rule(price, rule, product, qty, partner)
 
                 convert_to_price_uom = (lambda price: product.uom_id._compute_price(price, price_uom))
 
@@ -246,6 +240,18 @@ class Pricelist(models.Model):
             results[product.id] = (price, suitable_rule and suitable_rule.id or False)
 
         return results
+
+    def _get_price_base_rule(self, price, rule, product, qty, partner):
+        self.ensure_one()
+        if rule.base == 'pricelist' and rule.base_pricelist_id:
+            price_tmp = rule.base_pricelist_id._compute_price_rule([(product, qty, partner)])[product.id][
+                0]  # TDE: 0 = price, 1 = rule
+            price = rule.base_pricelist_id.currency_id.compute(price_tmp, self.currency_id, round=False)
+        else:
+            # if base option is public price take sale price else cost price of product
+            # price_compute returns the price in the context UoM, i.e. qty_uom_id
+            price = product.price_compute(rule.base)[product.id]
+        return price
 
     # New methods: product based
     def get_products_price(self, products, quantities, partners, date=False, uom_id=False):

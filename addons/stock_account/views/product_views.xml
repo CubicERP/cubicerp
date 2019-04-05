@@ -16,11 +16,9 @@
                     </group>
                 </group>
                 <group name="account_property" position="before">
-                    <group>
-                        <group string="Inventory Valuation">
-                            <field name="property_cost_method"/>
-                            <field name="property_valuation" groups="account.group_account_user"/>
-                        </group>
+                    <group string="Inventory Valuation">
+                        <field name="property_cost_method"/>
+                        <field name="property_valuation" groups="account.group_account_user"/>
                     </group>
                 </group>
             </field>

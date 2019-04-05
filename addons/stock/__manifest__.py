@@ -66,7 +66,7 @@
 
         'data/default_barcode_patterns.xml',
         'data/stock_data.xml',
-        'data/stock_data.yml',
+        #'data/stock_data.yml',
         'data/stock_incoterms_data.xml',
         'data/stock_sequence_data.xml',
         'data/web_planner_data.xml',

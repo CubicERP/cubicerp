@@ -3,11 +3,13 @@
 
 from collections import defaultdict
 import math
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import AccessError, UserError
-from odoo.tools import float_compare
+from odoo.tools import float_compare, DEFAULT_SERVER_DATETIME_FORMAT
 
 class MrpProduction(models.Model):
     """ Manufacturing Orders """
@@ -49,6 +51,14 @@ class MrpProduction(models.Model):
             except (AttributeError, AccessError):
                 location = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1).lot_stock_id
         return location and location.id or False
+
+    @api.depends('workorder_ids.date_planned_start', 'workorder_ids.date_planned_finished')
+    def _date_scheduled(self):
+        for production in self:
+            workorders = production.workorder_ids.filtered('date_planned_start').sorted('date_planned_start')
+            production.date_scheduled_start = workorders and workorders[0].date_planned_start or False
+            workorders = production.workorder_ids.filtered('date_planned_finished').sorted('date_planned_finished')
+            production.date_scheduled_end = workorders and workorders[-1].date_planned_start or False
 
     name = fields.Char(
         'Reference', copy=False, readonly=True, default=lambda x: _('New'))
@@ -94,6 +104,8 @@ class MrpProduction(models.Model):
         'Deadline End', copy=False, default=fields.Datetime.now,
         index=True, 
         states={'confirmed': [('readonly', False)]})
+    date_scheduled_start = fields.Datetime(compute=_date_scheduled, store=True)
+    date_scheduled_end = fields.Datetime(compute=_date_scheduled, store=True)
     date_start = fields.Datetime('Start Date', copy=False, index=True, readonly=True)
     date_finished = fields.Datetime('End Date', copy=False, index=True, readonly=True)
     bom_id = fields.Many2one(
@@ -489,7 +501,51 @@ class MrpProduction(models.Model):
             quantity = order.product_uom_id._compute_quantity(order.product_qty, order.bom_id.product_uom_id) / order.bom_id.product_qty
             boms, lines = order.bom_id.explode(order.product_id, quantity, picking_type=order.bom_id.picking_type_id)
             order._generate_workorders(boms)
-        return orders_to_plan.write({'state': 'planned'})
+        orders_to_plan.write({'state': 'planned'})
+
+        self.filtered(lambda x: x.state == 'planned').mapped('workorder_ids').write({'date_planned_start': False, 'date_planned_finished': False})
+
+        for order in self:
+            start_date = fields.Datetime.now()
+            init_date_set = False
+            for workorder in order.workorder_ids:
+                init_date = fields.Datetime.from_string(start_date)
+                init_date_str = start_date
+                intervals = workorder.workcenter_id.resource_calendar_id.attendance_ids and workorder.workcenter_id.resource_calendar_id._schedule_hours(workorder.duration_expected / 60.0, init_date)
+                if intervals:
+                    end_date = intervals[-1][1]
+                    if not init_date_set:
+                        init_date = intervals[0][0]
+                        init_date_set = True
+                else:
+                    end_date = init_date + relativedelta(minutes=workorder.duration_expected)
+                end_date_str = fields.Datetime.to_string(end_date)
+
+                for wo in self.env['mrp.workorder'].search([('workcenter_id', '=', workorder.workcenter_id.id),
+                                        ('state', 'in', ('ready', 'pending', 'progress')),
+                                        ('date_planned_finished', '>=', start_date)],
+                                       order='date_planned_start'):
+                    if init_date_str < wo.date_planned_finished and end_date_str > wo.date_planned_start:
+                        init_date = fields.Datetime.from_string(wo.date_planned_finished)
+                        if workorder.workcenter_id.resource_calendar_id.attendance_ids:
+                            end_date = workorder.workcenter_id.resource_calendar_id.plan_hours(workorder.duration_expected / 60.0, init_date)
+                        if not end_date:
+                            end_date = init_date + relativedelta(minutes=workorder.duration_expected)
+                workorder.write({'date_planned_start': fields.Datetime.to_string(init_date),
+                                 'date_planned_finished': fields.Datetime.to_string(end_date)})
+
+                if workorder.qty_production <= workorder.operation_id.batch_size or workorder.operation_id.batch == 'no':
+                    start_date = fields.Datetime.to_string(end_date)
+                else:
+                    time_span = workorder.workcenter_id.time_start + math.ceil(min(workorder.operation_id.batch_size, workorder.qty_production) / workorder.production_id.product_qty / workorder.workcenter_id.capacity) * workorder.operation_id.time_cycle * 100.0 / workorder.workcenter_id.time_efficiency
+                    end_date = workorder.workcenter_id.resource_calendar_id.attendance_ids and workorder.workcenter_id.resource_calendar_id.plan_hours(time_span / 60.0, init_date)
+                    if not end_date:
+                        start_date = fields.Datetime.to_string(init_date + relativedelta(minutes=time_span))
+        return True
+
+    @api.multi
+    def button_unplan(self):
+        self.mapped('workorder_ids').write({'date_planned_start': False, 'date_planned_finished': False})
 
     @api.multi
     def _generate_workorders(self, exploded_boms):

@@ -58,11 +58,12 @@
                     <group col="6" attrs="{'invisible':[('compute_price', '!=', 'formula')]}">
                         <field name="base" colspan="6"/>
 
-                        <label string="New Price ="/>
+                        <label string="New Price =" name="new_price"/>
                         <div>
                             <span attrs="{'invisible':[('base', '!=', 'list_price')]}">Public Price  -  </span>
                             <span attrs="{'invisible':[('base', '!=', 'standard_price')]}">Cost  -  </span>
                             <span attrs="{'invisible':[('base', '!=', 'pricelist')]}">Other Pricelist  -  </span>
+                            <span attrs="{'invisible':[('base', '!=', 'bom_price')]}">BOM Cost  -  </span>
                         </div>
                         <label for="price_discount"/>
                         <div class="o_row">

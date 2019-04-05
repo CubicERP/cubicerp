@@ -34,6 +34,6 @@ Including the following data in the Accounting Standards for Business Enterprise
         'data/account.account.template.csv',
         'data/account_tax_templates.xml',
         'data/account_chart_template_data.xml',
-        'data/account_chart_template_data.yml',
+        #'data/account_chart_template_data.yml',
     ],
 }

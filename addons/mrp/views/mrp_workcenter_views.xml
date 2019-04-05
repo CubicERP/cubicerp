@@ -7,7 +7,7 @@
             <field name="res_model">mrp.production</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,gantt</field>
-            <field name="domain">[('routing_id', '!=', False),('routing_id.operation_ids.workcenter_id','=', active_id)]</field>
+            <field name="domain">[('routing_id', '!=', False), ('routing_id.operation_ids.workcenter_id','=', active_id), ('date_scheduled_start', '=', False), ('date_scheduled_end', '=', False)]</field>
         </record>
 
         <record id="action_work_orders" model="ir.actions.act_window">

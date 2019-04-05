@@ -19,6 +19,18 @@
             parent="menu_mrp_root"
             sequence="15"/>
 
+        <menuitem id="mrp_planning_production_menu"
+            name="Manufacturing Orders"
+            parent="mrp_planning_menu_root"
+            sequence="100"
+            groups="group_mrp_routings"/>
+
+        <menuitem id="mrp_planning_workorder_menu"
+            name="Work Orders"
+            parent="mrp_planning_menu_root"
+            sequence="200"
+            groups="group_mrp_routings"/>
+
         <menuitem id="menu_mrp_bom"
             name="Master Data"
             parent="menu_mrp_root"

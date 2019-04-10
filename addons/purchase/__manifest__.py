@@ -15,7 +15,7 @@
         'security/ir.model.access.csv',
         'views/account_invoice_views.xml',
         'data/purchase_data.xml',
-        #'data/purchase_data.yml',
+        'data/purchase_data.yml',
         'report/purchase_reports.xml',
         'views/purchase_views.xml',
         'views/stock_views.xml',

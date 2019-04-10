@@ -10,6 +10,10 @@ import types
 
 from lxml import etree
 import yaml
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 import odoo
 from . import assertion_report, pycompat, yaml_tag
@@ -791,7 +795,7 @@ class YamlInterpreter(object):
         yaml_tag.add_constructors()
 
         is_preceded_by_comment = False
-        for node in yaml.load(yaml_string):
+        for node in yaml.load(yaml_string, Loader=Loader):
             is_preceded_by_comment = self._log_node(node, is_preceded_by_comment)
             try:
                 self._process_node(node)

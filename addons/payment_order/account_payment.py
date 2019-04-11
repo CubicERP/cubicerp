@@ -51,13 +51,13 @@ class payment_order(osv.osv):
         return res
 
     _columns = {
-        'date_scheduled': fields.date('Scheduled Date', required=True, states={'done':[('readonly', True)]},
+        'date_scheduled': fields.date('Scheduled Date', required=True, readonly=True, states={'draft': [('readonly', False)]},
                                       help='Select a date if you have chosen Preferred Date to be fixed.'),
-        'name': fields.char('Number', required=1, states={'done': [('readonly', True)]}, copy=False),
+        'name': fields.char('Number', required=1, readonly=True, states={'draft': [('readonly', False)]}, copy=False),
         'type': fields.selection([('request','Funds Request'),
-                                  ('payment','Payment Order')], 'Type', required=True, states={'done': [('readonly', True)]}),
-        'reference': fields.char('Reference', states={'done': [('readonly', True)]}),
-        'mode': fields.many2one('payment.mode', 'Payment Mode', select=True, required=1, states={'done': [('readonly', True)]}, help='Select the Payment Mode to be applied.'),
+                                  ('payment','Payment Order')], 'Type', required=True, readonly=True, states={'draft': [('readonly', False)]}),
+        'reference': fields.char('Reference', readonly=True, states={'draft': [('readonly', False)]}),
+        'mode': fields.many2one('payment.mode', 'Payment Mode', select=True, required=1, readonly=True, states={'draft': [('readonly', False)]}, help='Select the Payment Mode to be applied.'),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('cancel', 'Cancelled'),
@@ -65,21 +65,21 @@ class payment_order(osv.osv):
             ('approve', 'Approved'),
             ('done', 'Done')], 'Status', select=True, copy=False, track_visibility='onchange',
             help='When an order is placed the status is \'Draft\'.\n Once the bank is confirmed the status is set to \'Confirmed\'.\n Then the order is paid the status is \'Done\'.'),
-        'line_ids': fields.one2many('payment.line', 'order_id', 'Payment lines', states={'done': [('readonly', True)]}),
+        'line_ids': fields.one2many('payment.line', 'order_id', 'Payment lines', readonly=True, states={'draft': [('readonly', False)]}),
         'total': fields.function(_total, string="Total", type='float'),
-        'user_id': fields.many2one('res.users', 'Responsible', required=True, states={'done': [('readonly', True)]}),
+        'user_id': fields.many2one('res.users', 'Responsible', required=True, readonly=True, states={'draft': [('readonly', False)]}),
         'approve_user_id': fields.many2one('res.users', 'Approve User', readonly=True),
         'done_user_id': fields.many2one('res.users', 'Done User', readonly=True),
         'date_prefered': fields.selection([
             ('now', 'Directly'),
             ('due', 'Due date'),
             ('fixed', 'Fixed date')
-            ], "Preferred Date", change_default=True, required=True, states={'done': [('readonly', True)]}, help="Choose an option for the Payment Order:'Fixed' stands for a date specified by you.'Directly' stands for the direct execution.'Due date' stands for the scheduled date of execution."),
+            ], "Preferred Date", change_default=True, required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Choose an option for the Payment Order:'Fixed' stands for a date specified by you.'Directly' stands for the direct execution.'Due date' stands for the scheduled date of execution."),
         'date_created': fields.datetime('Creation Date', readonly=True),
         'date_approve': fields.datetime('Approve Date', readonly=True),
         'date_done': fields.datetime('Execution Date', readonly=True),
         'company_id': fields.related('mode', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
-        'period_id': fields.many2one('account.period', 'Force Period', states={'done': [('readonly', True)]}),
+        'period_id': fields.many2one('account.period', 'Force Period', readonly=True, states={'draft': [('readonly', False)]}),
         'move_id': fields.many2one('account.move', 'Account Move', readonly=True),
     }
 

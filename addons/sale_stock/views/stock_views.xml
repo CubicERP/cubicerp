@@ -45,5 +45,17 @@
                 </button>
             </field>
         </record>
+
+        <record id="procurement_group_form_view" model="ir.ui.view">
+            <field name="name">procurement.group.inherit.form</field>
+            <field name="inherit_id" ref="stock.procurement_group_form_view"/>
+            <field name="model">procurement.group</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="%(do_view_sale_order)d" string="Sale Orders" type="action" class="oe_stat_button" icon="fa-file-text-o"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

@@ -13,5 +13,18 @@
             </field>
         </record>
 
+        <record id="procurement_group_form_view" model="ir.ui.view">
+            <field name="name">procurement.group.inherit.form</field>
+            <field name="inherit_id" ref="stock.procurement_group_form_view"/>
+            <field name="model">procurement.group</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="production_count" invisible="1"/>
+                    <button name="%(do_view_mrp_production)d"  attrs="{'invisible':[('production_count','=',0)]}"
+                            string="Manufacturing Orders" type="action" class="oe_stat_button" icon="fa-cogs"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

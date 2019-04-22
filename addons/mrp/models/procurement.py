@@ -65,3 +65,14 @@ class ProcurementRule(models.Model):
         date_planned = format_date_planned - relativedelta(days=product_id.produce_delay or 0.0)
         date_planned = date_planned - relativedelta(days=values['company_id'].manufacturing_lead)
         return date_planned
+
+
+class ProcurementGroup(models.Model):
+    _inherit = "procurement.group"
+
+    def _production_count(self):
+        for procurement in self:
+            procurement.production_count = len(procurement.production_ids)
+
+    production_count = fields.Float(compute=_production_count)
+    production_ids = fields.One2many("mrp.production", 'procurement_group_id')

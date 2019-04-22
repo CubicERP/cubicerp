@@ -633,4 +633,13 @@
                 </field>
             </field>
         </record>
+
+        <record id="do_view_purchase_order" model="ir.actions.act_window">
+            <field name="name">Purchase Order for Groups</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('group_id','=',active_id)]</field>
+        </record>
+
 </odoo>

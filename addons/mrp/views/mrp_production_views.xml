@@ -447,5 +447,14 @@
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
     </record>
+
+        <record id="do_view_mrp_production" model="ir.actions.act_window">
+            <field name="name">Manufacture Order for Groups</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('procurement_group_id','=',active_id)]</field>
+        </record>
+
     </data>
 </odoo>

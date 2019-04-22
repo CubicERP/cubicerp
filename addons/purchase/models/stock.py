@@ -197,3 +197,14 @@ class PushedFlow(models.Model):
         res = super(PushedFlow, self)._prepare_move_copy_values(move_to_copy, new_date)
         res['purchase_line_id'] = None
         return res
+
+
+class ProcurementGroup(models.Model):
+    _inherit = "procurement.group"
+
+    def _purchase_count(self):
+        for procurement in self:
+            procurement.purchase_count = len(procurement.purchase_ids)
+
+    purchase_count = fields.Float(compute=_purchase_count)
+    purchase_ids = fields.One2many("purchase.order", 'group_id')

@@ -506,7 +506,7 @@ class MrpProduction(models.Model):
         self.filtered(lambda x: x.state == 'planned').mapped('workorder_ids').write({'date_planned_start': False, 'date_planned_finished': False})
 
         for order in self:
-            start_date = fields.Datetime.now()
+            start_date = self._context.get('force_start_date',fields.Datetime.now())
             init_date_set = False
             for workorder in order.workorder_ids:
                 init_date = fields.Datetime.from_string(start_date)

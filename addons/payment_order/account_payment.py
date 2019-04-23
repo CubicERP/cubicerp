@@ -61,7 +61,8 @@ class payment_order(osv.osv):
         'state': fields.selection([
             ('draft', 'Draft'),
             ('cancel', 'Cancelled'),
-            ('open', 'Confirmed'),
+            ('confirm', 'Confirmed'),
+            ('open', 'Verified'),
             ('approve', 'Approved'),
             ('done', 'Done')], 'Status', select=True, copy=False, track_visibility='onchange',
             help='When an order is placed the status is \'Draft\'.\n Once the bank is confirmed the status is set to \'Confirmed\'.\n Then the order is paid the status is \'Done\'.'),
@@ -76,6 +77,7 @@ class payment_order(osv.osv):
             ('fixed', 'Fixed date')
             ], "Preferred Date", change_default=True, required=True, readonly=True, states={'draft': [('readonly', False)]}, help="Choose an option for the Payment Order:'Fixed' stands for a date specified by you.'Directly' stands for the direct execution.'Due date' stands for the scheduled date of execution."),
         'date_created': fields.datetime('Creation Date', readonly=True),
+        'date_verified': fields.datetime('Verified Date', readonly=True),
         'date_approve': fields.datetime('Approve Date', readonly=True),
         'date_done': fields.datetime('Execution Date', readonly=True),
         'company_id': fields.related('mode', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
@@ -103,8 +105,11 @@ class payment_order(osv.osv):
         self.create_workflow(cr, uid, ids)
         return True
 
-    def action_open(self, cr, uid, ids, context=None):
+    def action_confirm(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'date_created': fields.datetime.now()})
+
+    def action_open(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'date_verified': fields.datetime.now()})
 
     def action_approve(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'approve_user_id': uid, 'date_approve': fields.datetime.now()}, context=context)

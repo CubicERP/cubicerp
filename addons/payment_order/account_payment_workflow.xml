@@ -14,6 +14,13 @@
             <field name="action">write({'state':'draft'})</field>
             <field name="kind">function</field>
         </record>
+        <record id="act_confirm" model="workflow.activity">
+            <field name="name">confirm</field>
+            <field name="wkf_id" ref="wkf_payment_order"/>
+            <field name="action">action_confirm()
+write({'state':'confirm'})</field>
+            <field name="kind">function</field>
+        </record>
         <record id="act_open" model="workflow.activity">
             <field name="name">open</field>
             <field name="wkf_id" ref="wkf_payment_order"/>
@@ -43,6 +50,16 @@ write({'state':'approve'})</field>
         </record>
 
         <!-- Transition -->
+        <record id="trans_draft_confirm" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_confirm"/>
+            <field name="signal">confirm</field>
+        </record>
+        <record id="trans_confirm_open" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_open"/>
+            <field name="signal">open</field>
+        </record>
         <record id="trans_draft_open" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_open"/>
@@ -63,6 +80,11 @@ write({'state':'approve'})</field>
         </record>
         <record id="trans_draft_cancel" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+        <record id="trans_confirm_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
             <field name="act_to" ref="act_cancel"/>
             <field name="signal">cancel</field>
         </record>

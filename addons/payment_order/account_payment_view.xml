@@ -10,16 +10,19 @@
             <field name="arch" type="xml">
                 <form string="Payment Order">
                 <header>
-                    <button name="open" states="draft" string="Confirm Payments" class="oe_highlight"/>
+                    <button name="confirm" states="draft" string="Confirm Payments" class="oe_highlight"
+                            groups="payment_order.group_account_payment_confirm"/>
+                    <button name="open" states="confirm" string="Verify Payments" class="oe_highlight"
+                            groups="payment_order.group_account_payment_open"/>
                     <button name="approve" states="open" string="Approve Payments" class="oe_highlight"
                             groups="payment_order.group_account_payment_approve"/>
                     <button name="done" states="approve" string="Make Payments" class="oe_highlight"
                             groups="payment_order.group_account_payment_done"/>
                     <button name="set_to_draft" states="cancel" string="Set to draft" type="object"/>
-                    <button name="cancel" states="draft,open,approve" string="Cancel Payments"/>
+                    <button name="cancel" states="draft,confirm,open,approve" string="Cancel Payments"/>
                     <button name="cancel" states="done" string="Cancel Payments"
                             groups="payment_order.group_manager_payment"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,approve,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="confirm,open,approve,done"/>
                 </header>
                 <sheet string="Payment order">
                     <div class="oe_title">
@@ -130,6 +133,7 @@
                                 </group>
                                 <group string="Others">
                                     <field name="date_created"/>
+                                    <field name="date_verified"/>
                                     <field name="approve_user_id"/>
                                     <field name="date_approve"/>
                                     <field name="done_user_id"/>

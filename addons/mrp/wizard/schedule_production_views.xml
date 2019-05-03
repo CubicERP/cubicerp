@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!--  Change Product Quantity -->
+        <record id="view_schedule_production_wizard" model="ir.ui.view">
+            <field name="name">Schedule Production Orders</field>
+            <field name="model">mrp.production.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Schedule Production Orders">
+                    <group>
+                        <field name="type"/>
+                        <field name="start_date" attrs="{'invisible':[('type','!=','spec')],'required':[('type','=','spec')]}"/>
+                    </group>
+                    <footer>
+                        <button name="button_plan" string="Schedule Orders" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--record id="action_change_production_qty" model="ir.actions.act_window">
+            <field name="name">Change Quantity To Produce</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">change.production.qty</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record-->
+       
+    </data>
+</odoo>    

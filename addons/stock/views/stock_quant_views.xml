@@ -86,10 +86,11 @@
                 <field name="quantity" string="On Hand"/>
                 <field name="product_uom_id" groups="product.group_uom"/>
                 <field name='company_id' groups="base.group_multi_company"/>
+                <field name='location_usage ' invisible="1"/>
+                <button name="action_transfer" attrs="{'invisible': [('location_usage ', '!=', 'internal')]}" string="Transfer" type="object" icon="fa fa-exchange text-warning"/>
             </tree>
         </field>
     </record>
-
 
     <record model="ir.ui.view" id="view_stock_quant_pivot">
         <field name="name">stock.quant.pivot</field>

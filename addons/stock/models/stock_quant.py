@@ -33,6 +33,7 @@ class StockQuant(models.Model):
     location_id = fields.Many2one(
         'stock.location', 'Location',
         auto_join=True, ondelete='restrict', readonly=True, required=True)
+    location_usage = fields.Selection(related="location_id.usage", readonly=True)
     lot_id = fields.Many2one(
         'stock.production.lot', 'Lot/Serial Number',
         ondelete='restrict', readonly=True)
@@ -66,6 +67,11 @@ class StockQuant(models.Model):
                 ('package_id', '=', self.package_id.id),
                 ('result_package_id', '=', self.package_id.id),
         ]
+        return action
+
+    def action_transfer(self):
+        self.ensure_one()
+        action = self.env.ref('stock.stock_move_line_action').read()[0]
         return action
 
     @api.constrains('product_id')

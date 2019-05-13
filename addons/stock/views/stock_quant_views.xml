@@ -87,7 +87,9 @@
                 <field name="product_uom_id" groups="product.group_uom"/>
                 <field name='company_id' groups="base.group_multi_company"/>
                 <field name='location_usage' invisible="1"/>
-                <button name="action_transfer" attrs="{'invisible': [('location_usage', '!=', 'internal')]}" string="Transfer" type="object" icon="fa fa-exchange text-warning"/>
+                <button name="stock.action_quick_transfer" string="Transfer" type="action"
+                        attrs="{'invisible': [('location_usage', '!=', 'internal')]}" icon="fa fa-exchange text-warning"
+                        context="{'default_location_id':location_id,'default_product_id':product_id,'default_lot_id':lot_id,'default_package_id':package_id,'default_quantity_done':quantity - reserved_quantity}"/>
             </tree>
         </field>
     </record>

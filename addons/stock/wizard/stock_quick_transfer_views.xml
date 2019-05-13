@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_quick_transfer" model="ir.ui.view">
+        <field name="name">stock.quick.transfer.view.form</field>
+        <field name="model">stock.quick.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Quick transfer">
+                <group>
+                    <group>
+                        <field name="location_id"/>
+                        <field name="location_dest_id"/>
+                        <label for="quantity_done"/>
+                        <div>
+                            <field name="quantity_done" class="oe_inline"/>
+                            <field name="product_uom_id" class="oe_inline oe_no_button"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="origin"/>
+                        <field name="picking_type_id"/>
+                        <field name="product_id" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="process" string="_Transfer" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quick_transfer" model="ir.actions.act_window">
+        <field name="name">Quick Transfer</field>
+        <field name="res_model">stock.quick.transfer</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

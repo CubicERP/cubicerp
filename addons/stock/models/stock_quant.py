@@ -69,11 +69,6 @@ class StockQuant(models.Model):
         ]
         return action
 
-    def action_transfer(self):
-        self.ensure_one()
-        action = self.env.ref('stock.stock_move_line_action').read()[0]
-        return action
-
     @api.constrains('product_id')
     def check_product_id(self):
         if any(elem.product_id.type != 'product' for elem in self):

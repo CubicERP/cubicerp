@@ -551,6 +551,7 @@ class MrpProduction(models.Model):
 
     @api.multi
     def button_unplan(self):
+        self.write({'state': 'confirmed'})
         self.mapped('workorder_ids').write({'date_planned_start': False, 'date_planned_finished': False})
 
     @api.multi
@@ -583,7 +584,7 @@ class MrpProduction(models.Model):
             quantity = self.product_qty - sum(self.move_finished_ids.mapped('quantity_done'))
             quantity = quantity if (quantity > 0) else 0
 
-        for operation in bom.routing_id.operation_ids:
+        for operation in bom.routing_id.operation_ids - self.workorder_ids.mapped('operation_id'):
             # create workorder
             cycle_number = math.ceil(bom_qty / operation.workcenter_id.capacity)  # TODO: float_round UP
             duration_expected = (operation.workcenter_id.time_start +

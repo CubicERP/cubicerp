@@ -356,24 +356,24 @@ class MrpWorkorder(models.Model):
         if not self.next_work_order_id:
             production_move = self.production_id.move_finished_ids.filtered(
                                 lambda x: (x.product_id.id == self.production_id.product_id.id) and (x.state not in ('done', 'cancel')))
-            if production_move.product_id.tracking != 'none':
-                move_line = production_move.move_line_ids.filtered(lambda x: x.lot_id.id == self.final_lot_id.id)
+            if production_move and self.production_id.product_id.tracking != 'none':
+                move_line = production_move.mapped('move_line_ids').filtered(lambda x: x.lot_id.id == self.final_lot_id.id)
                 if move_line:
-                    move_line.product_uom_qty += self.qty_producing
-                    move_line.qty_done += self.qty_producing
+                    move_line[0].product_uom_qty += self.qty_producing
+                    move_line[0].qty_done += self.qty_producing
                 else:
-                    move_line.create({'move_id': production_move.id,
-                             'product_id': production_move.product_id.id,
+                    move_line.create({'move_id': production_move[0].id,
+                             'product_id': self.production_id.product_id.id,
                              'lot_id': self.final_lot_id.id,
                              'product_uom_qty': self.qty_producing,
-                             'product_uom_id': production_move.product_uom.id,
+                             'product_uom_id': production_move[0].product_uom.id,
                              'qty_done': self.qty_producing,
                              'workorder_id': self.id,
-                             'location_id': production_move.location_id.id,
-                             'location_dest_id': production_move.location_dest_id.id,
+                             'location_id': production_move[0].location_id.id,
+                             'location_dest_id': production_move[0].location_dest_id.id,
                     })
-            else:
-                production_move.quantity_done += self.qty_producing
+            elif production_move:
+                production_move[0].quantity_done += self.qty_producing
 
         if not self.next_work_order_id:
             for by_product_move in self.production_id.move_finished_ids.filtered(lambda x: (x.product_id.id != self.production_id.product_id.id) and (x.state not in ('done', 'cancel'))):

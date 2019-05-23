@@ -16,6 +16,8 @@ class MrpBom(models.Model):
     _order = "sequence"
 
     def _get_default_product_uom_id(self):
+        if 'default_product_tmpl_id' in self._context:
+            return self.env['product.template'].browse(self._context.get('default_product_tmpl_id')).uom_id.id
         return self.env['product.uom'].search([], limit=1, order='id').id
 
     code = fields.Char('Reference')

@@ -36,7 +36,8 @@ class ChangeProductionQty(models.TransientModel):
             production_move = production.move_finished_ids.filtered(lambda x : x.state not in ('done', 'cancel') and production.product_id.id == x.product_id.id)
             production_move.write({'product_uom_qty': qty})
 
-        production_move.mapped('move_dest_ids').write({'product_uom_qty': qty})
+        if not self._context.get('no_change_finished_move_dest'):
+            production_move.mapped('move_dest_ids').write({'product_uom_qty': qty})
 
     @api.multi
     def change_prod_qty(self):

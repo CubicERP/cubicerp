@@ -18,6 +18,7 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from openerp import SUPERUSER_ID
 import urllib
 import urllib2
 from lxml import etree
@@ -88,6 +89,18 @@ class res_partner(osv.Model):
             return (s, captcha_val.upper())
 
     def get_company_details(self, cr, uid, ruc, context=None):
+        details = requests.get('%s/partner' % (self.pool['ir.config_parameter'].get_param(cr, SUPERUSER_ID,
+                                                                                         'pe_api.url') or "http://api.cubicerp.com/pe"),
+                               headers={'Content-Type': 'application/json'},
+                               data='{"params":{"doc_type":"6","doc_number":"%s","vat":"%s","dbid":"%s"}}' % (
+                                   ruc, self.pool['res.users'].browse(cr, uid, uid, context=context).company_id.vat,
+                                   self.pool['ir.config_parameter'].get_param(cr, SUPERUSER_ID, 'database.uui'))
+                               ).json().get('result', {})
+        if details:
+            details['country_id'] = self.pool['res.country'].search(cr, uid, [('code', '=', details['country_id'])], limit=1)[0]
+            details['state_id'] = self.pool['res.country.state'].search(cr, uid, [('code', '=', details['state_id'])], limit=1)[0]
+            return details
+
         res = {}
         if not ruc or not self.pool.get('res.company').browse(cr, uid, self.pool.get('res.users')._get_company(cr, uid, context=context), context=context).sunat_search_vat:
             return res
@@ -201,6 +214,38 @@ class res_partner(osv.Model):
         return res
 
     def get_partner_details(self, cr, uid, dni, context=None):
+        details = requests.get('%s/partner' % (self.pool['ir.config_parameter'].get_param(cr, SUPERUSER_ID, 'pe_api.url') or "http://api.cubicerp.com/pe"),
+                               headers={'Content-Type': 'application/json'},
+                               data='{"params":{"doc_type":"1","doc_number":"%s","vat":"%s","dbid":"%s"}}' % (
+                                   dni, self.pool['res.users'].browse(cr, uid, uid, context=context).company_id.vat,
+                                   self.pool['ir.config_parameter'].get_param(cr, SUPERUSER_ID, 'database.uui'))
+                               ).json().get('result', {})
+        if details:
+            details['country_id'] = self.pool['res.country'].search(cr, uid, [('code', '=', details['country_id'])], limit=1)[0]
+            names = filter(None, details.get('name').split(' '))
+            if len(names) > 2:
+                i = 0
+                while i < len(names):
+                    if names[i].lower() in ('de', 'del'):
+                        if i + 1 < len(names):
+                            if names[i + 1].lower() in ('la'):
+                                if i + 2 < len(names):
+                                    names[i] = names[i] + ' ' + names.pop(i + 1) + ' ' + names.pop(i + 1)
+                            else:
+                                names[i] = names[i] + ' ' + names.pop(i + 1)
+                    i += 1
+            if len(names) > 0:
+                details['surname'] = names[0]
+            if len(names) > 1:
+                details['first_name'] = names[1]
+            if len(names) == 3:
+                details['mother_name'] = names[2]
+            if len(names) == 4:
+                details['middle_name'] = names[3]
+                details['first_name'] = names[2]
+                details['mother_name'] = names[1]
+            return details
+
         res={}
         for i in range(10):
             consuta, captcha_val= self.get_captcha('dni')

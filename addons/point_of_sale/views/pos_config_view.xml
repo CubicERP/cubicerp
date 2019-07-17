@@ -438,6 +438,10 @@
                                         <field name="invoice_journal_id"
                                                attrs="{'required': [('iface_invoicing', '=', True)]}"/>
                                     </div>
+                                    <div class="row mt16">
+                                        <label string="Download Invoice PDF" for="invoice_download" class="col-md-3 o_light_label"/>
+                                        <field name="invoice_download"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -159,6 +159,21 @@ class AccountBankStatement(models.Model):
     cashbox_end_id = fields.Many2one('account.bank.statement.cashbox', string="Ending Cashbox")
     is_difference_zero = fields.Boolean(compute='_is_difference_zero', string='Is zero', help="Check if difference is zero.")
 
+    def name_get(self):
+        res = []
+        full_name = self.env.context.get("statement_full_name", False)
+        for statement in self:
+            name = full_name and "%s (%s %s)"%(statement.name or statement.journal_id.name, statement.journal_id.code,statement.date) or statement.name or "%s %s"%(statement.journal_id.name, statement.date)
+            res.append((statement.id, name))
+        return res
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = ['|', '|', ('journal_id.code', operator, name), ('name', operator, name), ('journal_id.name', operator, name)]
+        recs = self.search(domain + args, limit=limit)
+        return recs.name_get()
+
     @api.onchange('journal_id')
     def onchange_journal_id(self):
         self._set_opening_balance(self.journal_id.id)

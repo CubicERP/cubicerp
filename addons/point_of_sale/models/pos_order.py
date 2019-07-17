@@ -164,8 +164,8 @@ class PosOrder(models.Model):
         """
         invoice_type = 'out_invoice' if self.amount_total >= 0 else 'out_refund'
         return {
-            'name': self.name,
-            'origin': self.name,
+            #'name': self.name,
+            'origin': self.pos_reference,
             'account_id': self.partner_id.property_account_receivable_id.id,
             'journal_id': self.session_id.config_id.invoice_journal_id.id,
             'company_id': self.company_id.id,
@@ -561,6 +561,7 @@ class PosOrder(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
+    tax_regime_selection = fields.Boolean(related="session_id.config_id.tax_regime_selection")
 
     @api.depends('statement_ids', 'lines.price_subtotal_incl', 'lines.discount')
     def _compute_amount_all(self):
@@ -605,11 +606,13 @@ class PosOrder(models.Model):
         if values.get('session_id'):
             # set name based on the sequence specified on the config
             session = self.env['pos.session'].browse(values['session_id'])
-            values['name'] = session.config_id.sequence_id._next()
+            if values['name'] == '/':
+                values['name'] = session.config_id.sequence_id._next()
             values.setdefault('pricelist_id', session.config_id.pricelist_id.id)
         else:
             # fallback on any pos.order sequence
-            values['name'] = self.env['ir.sequence'].next_by_code('pos.order')
+            if values['name'] == '/':
+                values['name'] = self.env['ir.sequence'].next_by_code('pos.order')
         return super(PosOrder, self).create(values)
 
     @api.multi
@@ -716,7 +719,9 @@ class PosOrder(models.Model):
             if to_invoice:
                 pos_order.action_pos_order_invoice()
                 pos_order.invoice_id.sudo().action_invoice_open()
-                pos_order.account_move = pos_order.invoice_id.move_id
+                pos_order.name = pos_order.invoice_id.number
+            else:
+                pos_order.name = pos_order.session_id.config_id.sequence_id._next()
         return order_ids
 
     def test_paid(self):

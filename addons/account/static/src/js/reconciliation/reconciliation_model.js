@@ -392,7 +392,7 @@ var StatementModel = BasicModel.extend({
                     };
                 });
             });
-        var domainReconcile = [];
+        var domainReconcile = [['type','=','reconcile']];
         if (context && context.company_ids) {
             domainReconcile.push(['company_id', 'in', context.company_ids]);
         }

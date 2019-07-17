@@ -216,6 +216,9 @@ var PosDB = core.Class.extend({
         if(partner.address){
             str += '|' + partner.address;
         }
+        if(partner.vat){
+            str += '|' + partner.vat;
+        }
         if(partner.phone){
             str += '|' + partner.phone.split(' ').join('');
         }
@@ -273,6 +276,7 @@ var PosDB = core.Class.extend({
                     this.partner_by_barcode[partner.barcode] = partner;
                 }
                 partner.address = (partner.street || '') +', '+ 
+                                  (partner.street2 || '')+', '+
                                   (partner.zip || '')    +' '+
                                   (partner.city || '')   +', '+ 
                                   (partner.country_id[1] || '');

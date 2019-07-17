@@ -103,6 +103,7 @@ class PosSession(models.Model):
         readonly=True,
         string='Available Payment Methods')
     order_ids = fields.One2many('pos.order', 'session_id',  string='Orders')
+    order_count = fields.Integer(compute='_compute_picking_count')
     statement_ids = fields.One2many('account.bank.statement', 'pos_session_id', string='Bank Statement', readonly=True)
     picking_count = fields.Integer(compute='_compute_picking_count')
     rescue = fields.Boolean(string='Recovery Session',
@@ -117,6 +118,7 @@ class PosSession(models.Model):
         for pos in self:
             pickings = pos.order_ids.mapped('picking_id').filtered(lambda x: x.state != 'done')
             pos.picking_count = len(pickings.ids)
+            pos.order_count = len(pos.order_ids.ids)
 
     @api.multi
     def action_stock_picking(self):
@@ -125,6 +127,14 @@ class PosSession(models.Model):
         action = action_picking.read()[0]
         action['context'] = {}
         action['domain'] = [('id', 'in', pickings.ids)]
+        return action
+
+    @api.multi
+    def action_pos_order(self):
+        action_order = self.env.ref('point_of_sale.action_pos_pos_form2')
+        action = action_order.read()[0]
+        action['context'] = {}
+        action['domain'] = [('id', 'in', self.order_ids.ids)]
         return action
 
     @api.depends('config_id', 'statement_ids')

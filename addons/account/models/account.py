@@ -469,29 +469,29 @@ class AccountJournal(models.Model):
                 sequence = journal.sequence_id._get_current_sequence()
                 sequence.sudo().number_next = journal.sequence_number_next
 
-    # @api.multi
-    # # do not depend on 'refund_sequence_id.date_range_ids', because
-    # # refund_sequence_id._get_current_sequence() may invalidate it!
-    # @api.depends('refund_sequence_id.use_date_range', 'refund_sequence_id.number_next_actual')
-    # def _compute_refund_seq_number_next(self):
-    #     '''Compute 'sequence_number_next' according to the current sequence in use,
-    #     an ir.sequence or an ir.sequence.date_range.
-    #     '''
-    #     for journal in self:
-    #         if journal.refund_sequence_id and journal.refund_sequence:
-    #             sequence = journal.refund_sequence_id._get_current_sequence()
-    #             journal.refund_sequence_number_next = sequence.number_next_actual
-    #         else:
-    #             journal.refund_sequence_number_next = 1
+    @api.multi
+    # do not depend on 'refund_sequence_id.date_range_ids', because
+    # refund_sequence_id._get_current_sequence() may invalidate it!
+    @api.depends('refund_sequence_id.use_date_range', 'refund_sequence_id.number_next_actual')
+    def _compute_refund_seq_number_next(self):
+        '''Compute 'sequence_number_next' according to the current sequence in use,
+        an ir.sequence or an ir.sequence.date_range.
+        '''
+        for journal in self:
+            if journal.refund_sequence_id and journal.refund_sequence:
+                sequence = journal.refund_sequence_id._get_current_sequence()
+                journal.refund_sequence_number_next = sequence.number_next_actual
+            else:
+                journal.refund_sequence_number_next = 1
 
-    # @api.multi
-    # def _inverse_refund_seq_number_next(self):
-    #     '''Inverse 'refund_sequence_number_next' to edit the current sequence next number.
-    #     '''
-    #     for journal in self:
-    #         if journal.refund_sequence_id and journal.refund_sequence and journal.refund_sequence_number_next:
-    #             sequence = journal.refund_sequence_id._get_current_sequence()
-    #             sequence.number_next = journal.refund_sequence_number_next
+    @api.multi
+    def _inverse_refund_seq_number_next(self):
+        '''Inverse 'refund_sequence_number_next' to edit the current sequence next number.
+        '''
+        for journal in self:
+            if journal.refund_sequence_id and journal.refund_sequence and journal.refund_sequence_number_next:
+                sequence = journal.refund_sequence_id._get_current_sequence()
+                sequence.number_next = journal.refund_sequence_number_next
 
     @api.one
     @api.constrains('currency_id', 'default_credit_account_id', 'default_debit_account_id')

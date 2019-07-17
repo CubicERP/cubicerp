@@ -3,7 +3,7 @@
 <template id="index" name="POS Index">&lt;!DOCTYPE html&gt;
 <html>
     <head>
-        <title>Odoo POS</title>
+        <title>POS Cubic ERP</title>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
         <meta http-equiv="content-type" content="text/html, charset=utf-8" />

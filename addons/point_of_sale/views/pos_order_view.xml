@@ -22,12 +22,16 @@
                         attrs="{'invisible':[('state','!=','invoiced')]}">
                     </button>
                 </div>
+                <h1 class="oe_title">
+                    <label for="name" attrs="{'invisible': [('name','=','/')]}" class="oe_edit_only"/>
+                    <field name="name" attrs="{'invisible': [('name','=','/')]}"/>
+                </h1>
                 <group col="4" colspan="4" name="order_fields">
-                    <field name="name"/>
+                    <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer':1}" attrs="{'readonly': [('state','=','invoiced')]}"/>
                     <field name="date_order"/>
                     <field name="session_id" />
-                    <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer':1}" attrs="{'readonly': [('state','=','invoiced')]}"/>
-                    <field name="fiscal_position_id" options="{'no_create': True}"/>
+                    <field name="tax_regime_selection" invisible="1"/>
+                    <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'readonly':[('state','!=','draft')],'invisible':[('tax_regime_selection','=',False)]}"/>
                 </group>
                 <notebook colspan="4">
                     <page string="Products">
@@ -180,6 +184,32 @@
                 <field name="session_id" />
             </tree>
         </field>
+    </record>
+
+    <record id="view_pos_order_tree2" model="ir.ui.view">
+        <field name="name">pos.order.tree2</field>
+        <field name="model">pos.order</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <tree string="POS Orders" decoration-info="state == 'draft'" decoration-muted="state in ('done','cancel')" create="0">
+                <field name="name"/>
+                <field name="pos_reference"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="user_id"/>
+                <field name="amount_total" widget="monetary"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_pos_pos_form2" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="point_of_sale.view_pos_order_tree2"/>
+        <field name="domain">[]</field>
     </record>
 
     <record id="view_pos_order_search" model="ir.ui.view">

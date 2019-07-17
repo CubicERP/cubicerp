@@ -65,6 +65,9 @@
                         <button class="oe_stat_button" name="action_stock_picking" type="object" icon="fa-arrows-v" attrs="{'invisible':[('picking_count', '=', 0)]}">
                             <field name="picking_count" widget="statinfo" string="Picking Errors"/>
                         </button>
+                        <button class="oe_stat_button" name="action_pos_order" type="object" icon="fa-shopping-cart" attrs="{'invisible':[('order_count', '=', 0)]}">
+                            <field name="order_count" widget="statinfo" string="POS Orders"/>
+                        </button>
                     </div>
                     <h1 class="oe_title">
                         Session:

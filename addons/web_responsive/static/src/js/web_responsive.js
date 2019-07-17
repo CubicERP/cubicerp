@@ -122,17 +122,19 @@ odoo.define('web_responsive', function(require) {
             this.initialized = true;
 
             var container = self.$el.find('.drawer-nav')[0];
-            var clientWidth = $(container).context.clientWidth;
-            var clientHeight = $(container).context.clientHeight;
+            if (container) {
+                var clientWidth = $(container).context.clientWidth;
+                var clientHeight = $(container).context.clientHeight;
 
-            var ds = new Data.DataSet(self, 'res.config.settings');
-            ds.call('get_random_background', [clientWidth, clientHeight]).done(function (result) {
-                if(result) {
-                    var url =  "url('" + result + "')";
-                    container.style.setProperty('background-image', url, 'important');
-                    self.handleWindowResize();
-                }
-            });
+                var ds = new Data.DataSet(self, 'res.config.settings');
+                ds.call('get_random_background', [clientWidth, clientHeight]).done(function (result) {
+                    if(result) {
+                        var url =  "url('" + result + "')";
+                        container.style.setProperty('background-image', url, 'important');
+                        self.handleWindowResize();
+                    }
+                });
+            };
         },
 
         // It provides handlers to hide drawer when "unfocused"

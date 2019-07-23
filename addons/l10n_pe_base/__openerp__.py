@@ -40,6 +40,7 @@ Profile and basics to peruvian general localization
         "company_view.xml",
         "partner_view.xml",
         "stock_view.xml",
+        "currency_view.xml",
 	],
     "demo_xml": [
 	],

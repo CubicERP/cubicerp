@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="currency_form_view">
+            <field name="name">res.currency.form.inherit.pe</field>
+            <field name="model">res.currency</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <data>
+					<xpath expr="//field[@name='name']/.." position="before">
+						<header>
+							<button name="pe_update" string="Update Rates" type="object"
+									attrs="{'invisible': [('name', '!=', 'PEN')]}"/>
+						</header>
+					</xpath>
+                    <xpath expr="//field[@name='base']" position="before">
+                        <field name="pe_update_all" attrs="{'invisible': [('name', '!=', 'PEN')]}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record forcecreate="True" id="scheduler_moneda_action" model="ir.cron">
+            <field name="name">Tipo de Cambio PEN: USD</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.currency'" name="model"/>
+            <field eval="'pe_update_usd'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+	</data>
+</openerp>

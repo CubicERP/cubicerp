@@ -407,6 +407,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="logo_printing">
+                            <div class="o_setting_left_pane">
+                                <field name="iface_print_logo"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="iface_print_logo"/>
+                                <div class="text-muted">
+                                    Print receipts with company logo. By default print the company name.
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-xs-12 col-md-6 o_setting_box" attrs="{'invisible': [('iface_print_via_proxy','=',False)]}">
                             <div class="o_setting_left_pane">
                                 <field name='module_pos_reprint'/>

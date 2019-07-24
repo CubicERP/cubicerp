@@ -92,6 +92,8 @@ class PosConfig(models.Model):
     iface_scan_via_proxy = fields.Boolean(string='Scan via Proxy', help="Enable barcode scanning with a remotely connected barcode scanner.")
     iface_invoicing = fields.Boolean(string='Invoicing', help='Enables invoice generation from the Point of Sale.')
     iface_big_scrollbars = fields.Boolean('Large Scrollbars', help='For imprecise industrial touchscreens.')
+    iface_print_logo = fields.Boolean(string='Logo Printing', default=False,
+        help='The receipt will be printed with the company logo.')
     iface_print_auto = fields.Boolean(string='Automatic Receipt Printing', default=False,
         help='The receipt will automatically be printed at the end of each order.')
     iface_print_skip_screen = fields.Boolean(string='Skip Preview Screen', default=True,

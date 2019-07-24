@@ -1445,23 +1445,26 @@
 
     <t t-name="PosTicket">
         <div class="pos-sale-ticket">
-            
-            <div class="pos-center-align"><t t-esc="order.formatted_validation_date"/> <t t-esc="order.name"/></div>
-            <br />
-            <t t-esc="widget.pos.company.name"/><br />
-            <div class="receipt-phone">
-                Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
+            <div style='text-align:center'>
+                <t t-if='widget.pos.config.iface_print_logo'>
+                    <img t-att-src='receipt.company.logo' />
+                </t>
+                <t t-if='!widget.pos.config.iface_print_logo'>
+                    <h2><t t-esc='receipt.company.name' /></h2>
+                </t>
             </div>
-            <div class="receipt-user">
-                User: <t t-esc="widget.pos.get_cashier().name"/><br />
-            </div>
-            <br />
             <t t-if="receipt.header">
                 <div style='text-align:center'>
                     <t t-esc="receipt.header" />
                 </div>
-                <br />
             </t>
+            <div class="pos-center-align"><t t-esc="order.name"/> <t t-esc="order.formatted_validation_date"/></div>
+            <t t-if="order.get_client()">
+                <div class="receipt-customer">
+                    Customer: <t t-esc="order.get_client().name || ''"/><br />
+                </div>
+            </t>
+            <br />
             <table class='receipt-orderlines'>
                 <colgroup>
                     <col width='50%' />
@@ -1541,6 +1544,10 @@
                     <t t-esc="receipt.footer" />
                 </div>
             </t>
+            <br />
+            <div class="receipt-user">
+                User: <t t-esc="widget.pos.get_cashier().name"/><br />
+            </div>
         </div>
     </t>
 

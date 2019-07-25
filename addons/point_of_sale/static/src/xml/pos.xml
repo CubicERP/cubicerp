@@ -850,7 +850,7 @@
                 <right><value t-att-value-decimals='pos.currency.decimals'><t t-esc='receipt.change' /></value></right>
             </line>
             <br/>
-            
+
             <!-- Extra Payment Info -->
 
             <t t-if='receipt.total_discount'>
@@ -1462,6 +1462,9 @@
             <t t-if="order.get_client()">
                 <div class="receipt-customer">
                     Customer: <t t-esc="order.get_client().name || ''"/><br />
+                    <t t-if="widget.pos.config.iface_print_address &amp;&amp; order.get_client().street">
+                        Address: <t t-esc="order.get_client().address || ''"/><br />
+                    </t>
                 </div>
             </t>
             <br />
@@ -1519,25 +1522,27 @@
                     </td>
                 </tr>
             </table>
-            <br />
-            <table class='receipt-paymentlines'>
-                <t t-foreach="paymentlines" t-as="line">
-                  <tr>
-                      <td>
-                          <t t-esc="line.name"/>
-                      </td>
-                      <td class="pos-right-align">
-                          <t t-esc="widget.format_currency(line.get_amount())"/>
-                      </td>
-                  </tr>
-                </t>
-            </table>
-            <br />
-            <table class='receipt-change'>
-                <tr><td>Change:</td><td class="pos-right-align">
-                    <t t-esc="widget.format_currency(order.get_change())"/>
-                    </td></tr>
-            </table>
+            <t t-if="widget.pos.config.iface_print_payment">
+                <br />
+                <table class='receipt-paymentlines'>
+                    <t t-foreach="paymentlines" t-as="line">
+                      <tr>
+                          <td>
+                              <t t-esc="line.name"/>
+                          </td>
+                          <td class="pos-right-align">
+                              <t t-esc="widget.format_currency(line.get_amount())"/>
+                          </td>
+                      </tr>
+                    </t>
+                </table>
+                <br />
+                <table class='receipt-change'>
+                    <tr><td>Change:</td><td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_change())"/>
+                        </td></tr>
+                </table>
+            </t>
             <t t-if="receipt.footer">
                 <br />
                 <div style='text-align:center'>

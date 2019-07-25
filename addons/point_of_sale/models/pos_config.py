@@ -94,6 +94,10 @@ class PosConfig(models.Model):
     iface_big_scrollbars = fields.Boolean('Large Scrollbars', help='For imprecise industrial touchscreens.')
     iface_print_logo = fields.Boolean(string='Logo Printing', default=False,
         help='The receipt will be printed with the company logo.')
+    iface_print_address = fields.Boolean(string='Address Printing', default=False,
+        help='The receipt will be printed with the customer address.')
+    iface_print_payment = fields.Boolean(string='Payment Printing', default=True,
+        help='The receipt will be printed with the payment details.')
     iface_print_auto = fields.Boolean(string='Automatic Receipt Printing', default=False,
         help='The receipt will automatically be printed at the end of each order.')
     iface_print_skip_screen = fields.Boolean(string='Skip Preview Screen', default=True,

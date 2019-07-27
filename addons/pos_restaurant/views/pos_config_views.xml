@@ -106,7 +106,14 @@
                         <div class="text-muted">
                             Add notes to orderlines
                         </div>
+
+                        <div class="row mt16" attrs="{'invisible': [('iface_orderline_notes', '=', False)]}">
+                            <label string="Receipt print notes" for="iface_notes_print" class="col-md-3 o_light_label"/>
+                            <field name="iface_notes_print"/>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </field>

@@ -19,7 +19,7 @@
 
     <t t-extend="PosTicket">
         <t t-jquery=".line-description-append" t-operation="after">
-            <t t-if="orderline.get_note()">
+            <t t-if="widget.pos.config.iface_notes_print &amp;&amp; orderline.get_note()">
                 <div class="info orderline-note">
                     <t t-esc="orderline.get_note()" />
                 </div>

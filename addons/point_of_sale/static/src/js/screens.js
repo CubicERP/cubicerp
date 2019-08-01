@@ -408,6 +408,14 @@ var NumpadWidget = PosBaseWidget.extend({
         return this.state.deleteLastChar();
     },
     clickSwitchSign: function() {
+        if (this.state.get('buffer') === '0') {
+            if (this.state.get('mode')  === 'quantity' && this.pos.get_order().selected_orderline.quantity) {
+                this.state.set({buffer: this.pos.get_order().selected_orderline.quantity.toString()})
+            }
+            else if (this.state.get('mode')  === 'price' && this.pos.get_order().selected_orderline.price) {
+                this.state.set({buffer: this.pos.get_order().selected_orderline.price.toString()})
+            }
+        }
         return this.state.switchSign();
     },
     clickAppendNewChar: function(event) {

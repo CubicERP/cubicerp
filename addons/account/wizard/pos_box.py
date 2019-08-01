@@ -8,6 +8,8 @@ class CashBox(models.TransientModel):
     # Attention, we don't set a domain, because there is a journal_type key 
     # in the context of the action
     amount = fields.Float(string='Amount', digits=0, required=True)
+    dest_journal_id = fields.Many2one("account.journal", string="Destinity", domain=[('type','in',['cash','bank'])])
+    src_journal_id = fields.Many2one("account.journal", string="Source", domain=[('type','in',['cash','bank'])])
 
     @api.multi
     def run(self):
@@ -35,6 +37,41 @@ class CashBox(models.TransientModel):
         if record.state == 'confirm':
             raise UserError(_("You cannot put/take money in/out for a bank statement which is closed."))
         values = self._calculate_values_for_statement_line(record)
+        move = False
+        if self.dest_journal_id:
+            move = self.env['account.move'].create({'journal_id': self.dest_journal_id.id,
+                                             'date': record.date,
+                                             'ref': values.get('ref', record.name),
+                                             'line_ids': [(0, False,{
+                                                              'account_id': self.dest_journal_id.default_debit_account_id.id,
+                                                              'name': self.name,
+                                                              'debit': self.amount if self.amount > 0 else 0.0,
+                                                              'credit': 0.0 if self.amount > 0 else -self.amount,
+                                                          }),
+                                                          (0, False,{
+                                                              'account_id': values['account_id'],
+                                                              'name': self.name,
+                                                              'debit': 0.0 if self.amount > 0 else -self.amount,
+                                                              'credit': self.amount if self.amount > 0 else 0.0,
+                                                          })]})
+        elif self.src_journal_id:
+            move = self.env['account.move'].create({'journal_id': self.src_journal_id.id,
+                                             'date': record.date,
+                                             'ref': values.get('ref', record.name),
+                                             'line_ids': [(0, False,{
+                                                              'account_id': values['account_id'],
+                                                              'name': self.name,
+                                                              'debit': self.amount if self.amount > 0 else 0.0,
+                                                              'credit': 0.0 if self.amount > 0 else -self.amount,
+                                                          }),
+                                                          (0, False,{
+                                                              'account_id': self.src_journal_id.default_credit_account_id.id,
+                                                              'name': self.name,
+                                                              'debit': 0.0 if self.amount > 0 else -self.amount,
+                                                              'credit': self.amount if self.amount > 0 else 0.0,
+                                                          })]})
+        if move:
+            move.post()
         return record.write({'line_ids': [(0, False, values)]})
 
 
@@ -52,7 +89,7 @@ class CashBoxIn(CashBox):
             'statement_id': record.id,
             'journal_id': record.journal_id.id,
             'amount': self.amount or 0.0,
-            'account_id': record.journal_id.company_id.transfer_account_id.id,
+            'account_id': record.journal_id.transfer_account_id.id or record.journal_id.company_id.transfer_account_id.id,
             'ref': '%s' % (self.ref or ''),
             'name': self.name,
         }
@@ -71,6 +108,6 @@ class CashBoxOut(CashBox):
             'statement_id': record.id,
             'journal_id': record.journal_id.id,
             'amount': -amount if amount > 0.0 else amount,
-            'account_id': record.journal_id.company_id.transfer_account_id.id,
+            'account_id': record.journal_id.transfer_account_id.id or record.journal_id.company_id.transfer_account_id.id,
             'name': self.name,
         }

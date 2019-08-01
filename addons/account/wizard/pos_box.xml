@@ -6,10 +6,11 @@
             <field name="model">cash.box.in</field>
             <field name="arch" type="xml">
                 <form string="Put Money In">
-                    <separator string="Fill in this form if you put money in the cash register:" colspan="4" />
+                    <separator string="Fill in this form if you put money in the cash register:"/>
                     <group>
                         <field name="name" class="oe_inline"/>
                         <field name="amount" class="oe_inline"/>
+                        <field name="src_journal_id" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                     <footer>
                         <button name="run" string="Put Money In" type="object" class="btn-primary"/>
@@ -37,6 +38,7 @@
                     <group>
                         <field name="name" class="oe_inline"/>
                         <field name="amount" class="oe_inline"/>
+                        <field name="dest_journal_id" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
                     </group>
 
                     <footer>

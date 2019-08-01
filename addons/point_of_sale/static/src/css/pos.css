@@ -2167,6 +2167,9 @@ td {
     flex: auto;
     margin: 0 20px 80px;
 }
+.pos .modal-dialog .popup-textinput input{
+    align-self: center;
+}
 .pos .popup .title {
     background: rgba(255,255,255,0.5);
     margin: 0;

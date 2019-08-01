@@ -7,8 +7,8 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='order_fields']" position="inside">
-                <field name="table_id"/>
-                <field name="customer_count"/>
+                <field name="table_id" attrs="{'readonly':[('session_state','=','closed')]}"/>
+                <field name="customer_count" attrs="{'readonly':[('session_state','=','closed')]}"/>
             </xpath>
         </field>
     </record>

@@ -26,11 +26,11 @@
                     <label for="name" attrs="{'invisible': [('name','=','/')]}" class="oe_edit_only"/>
                     <field name="name" attrs="{'invisible': [('name','=','/')]}"/>
                 </h1>
+                <field name="session_state" invisible="1"/><field name="tax_regime_selection" invisible="1"/>
                 <group col="4" colspan="4" name="order_fields">
-                    <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer':1}" attrs="{'readonly': [('state','=','invoiced')]}"/>
+                    <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer':1}" attrs="{'readonly': ['|',('state','=','invoiced'),('session_state','=','closed')]}"/>
                     <field name="date_order"/>
                     <field name="session_id" />
-                    <field name="tax_regime_selection" invisible="1"/>
                     <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'readonly':[('state','!=','draft')],'invisible':[('tax_regime_selection','=',False)]}"/>
                 </group>
                 <notebook colspan="4">

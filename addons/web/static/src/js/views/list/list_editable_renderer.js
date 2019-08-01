@@ -142,7 +142,7 @@ ListRenderer.include({
             currentRowID = this.state.data[this.currentRow].id;
             currentWidget = this.allFieldWidgets[currentRowID][this.currentFieldIndex];
             focusedElement = currentWidget.getFocusableElement().get(0);
-            if (currentWidget.formatType !== 'boolean') {
+            if (focusedElement && currentWidget.formatType !== 'boolean') {
                 selectionRange = dom.getSelectionRange(focusedElement);
             }
         }

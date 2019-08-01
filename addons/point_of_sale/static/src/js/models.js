@@ -2020,7 +2020,7 @@ exports.Order = Backbone.Model.extend({
     init_from_JSON: function(json) {
         var client;
         this.sequence_number = json.sequence_number;
-        this.pos.pos_session.sequence_number = Math.max(this.sequence_number+1,this.pos.pos_session.sequence_number);
+        this.pos.pos_session.sequence_number = Math.max((this.sequence_number || 0)+1,this.pos.pos_session.sequence_number);
         this.session_id = json.pos_session_id;
         this.uid = json.uid;
         this.name = _t("Order ") + this.uid;
@@ -2057,7 +2057,7 @@ exports.Order = Backbone.Model.extend({
         this.set_client(client);
 
         this.temporary = false;     // FIXME
-        this.to_invoice = false;    // FIXME
+        this.to_invoice = json.to_invoice;
 
         var orderlines = json.lines;
         for (var i = 0; i < orderlines.length; i++) {
@@ -2101,7 +2101,8 @@ exports.Order = Backbone.Model.extend({
             uid: this.uid,
             sequence_number: this.sequence_number,
             creation_date: this.validation_date || this.creation_date, // todo: rename creation_date in master
-            fiscal_position_id: this.fiscal_position ? this.fiscal_position.id : false
+            fiscal_position_id: this.fiscal_position ? this.fiscal_position.id : false,
+            to_invoice: this.to_invoice,
         };
     },
     export_for_printing: function(){
@@ -2606,6 +2607,7 @@ exports.Order = Backbone.Model.extend({
     set_to_invoice: function(to_invoice) {
         this.assert_editable();
         this.to_invoice = to_invoice;
+        this.save_to_db();
     },
     is_to_invoice: function(){
         return this.to_invoice;

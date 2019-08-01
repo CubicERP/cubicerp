@@ -119,7 +119,8 @@ class PosOrder(models.Model):
             if not float_is_zero(payments[2]['amount'], precision_digits=prec_acc):
                 order.add_payment(self._payment_fields(payments[2]))
             journal_ids.add(payments[2]['journal_id'])
-
+        if pos_order['sequence_number'] is None:
+            pos_order['sequence_number'] = pos_session.sequence_number
         if pos_session.sequence_number <= pos_order['sequence_number']:
             pos_session.write({'sequence_number': pos_order['sequence_number'] + 1})
             pos_session.refresh()
@@ -214,16 +215,21 @@ class PosOrder(models.Model):
                     values.get('currency_id'))
         return False
 
-    def _action_create_invoice_line(self, line=False, invoice_id=False):
-        InvoiceLine = self.env['account.invoice.line']
+    def _invoice_line_fields(self, invoice_id, line):
         inv_name = line.product_id.name_get()[0][1]
-        inv_line = {
+        return {
             'invoice_id': invoice_id,
             'product_id': line.product_id.id,
             'quantity': line.qty if self.amount_total >= 0 else -line.qty,
             'account_analytic_id': self._prepare_analytic_account(line),
             'name': inv_name,
         }
+
+
+    def _action_create_invoice_line(self, line=False, invoice_id=False):
+        InvoiceLine = self.env['account.invoice.line']
+        inv_name = line.product_id.name_get()[0][1]
+        inv_line = self._invoice_line_fields(invoice_id, line)
         # Oldlin trick
         invoice_line = InvoiceLine.sudo().new(inv_line)
         invoice_line._onchange_product_id()
@@ -536,6 +542,7 @@ class PosOrder(models.Model):
         'pos.session', string='Session', required=True, index=True,
         domain="[('state', '=', 'opened')]", states={'draft': [('readonly', False)]},
         readonly=True, default=_default_session)
+    session_state = fields.Selection(related="session_id.state", readonly=True)
     config_id = fields.Many2one('pos.config', related='session_id.config_id', string="Point of Sale")
     state = fields.Selection(
         [('draft', 'New'), ('cancel', 'Cancelled'), ('paid', 'Paid'), ('done', 'Posted'), ('invoiced', 'Invoiced')],
@@ -735,6 +742,19 @@ class PosOrder(models.Model):
                 return False
         return True
 
+    def _get_move_vals(self, line, order_picking, return_picking, return_pick_type, picking_type, location_id, destination_id):
+        return {
+            'name': line.name,
+            'product_uom': line.product_id.uom_id.id,
+            'picking_id': order_picking.id if line.qty >= 0 else return_picking.id,
+            'picking_type_id': picking_type.id if line.qty >= 0 else return_pick_type.id,
+            'product_id': line.product_id.id,
+            'product_uom_qty': abs(line.qty),
+            'state': 'draft',
+            'location_id': location_id if line.qty >= 0 else destination_id,
+            'location_dest_id': destination_id if line.qty >= 0 else return_pick_type != picking_type and return_pick_type.default_location_dest_id.id or location_id,
+        }
+
     def create_picking(self):
         """Create a picking for each order and validate it."""
         Picking = self.env['stock.picking']
@@ -788,17 +808,7 @@ class PosOrder(models.Model):
                     return_picking.message_post(body=message)
 
             for line in order.lines.filtered(lambda l: l.product_id.type in ['product', 'consu'] and not float_is_zero(l.qty, precision_rounding=l.product_id.uom_id.rounding)):
-                moves |= Move.create({
-                    'name': line.name,
-                    'product_uom': line.product_id.uom_id.id,
-                    'picking_id': order_picking.id if line.qty >= 0 else return_picking.id,
-                    'picking_type_id': picking_type.id if line.qty >= 0 else return_pick_type.id,
-                    'product_id': line.product_id.id,
-                    'product_uom_qty': abs(line.qty),
-                    'state': 'draft',
-                    'location_id': location_id if line.qty >= 0 else destination_id,
-                    'location_dest_id': destination_id if line.qty >= 0 else return_pick_type != picking_type and return_pick_type.default_location_dest_id.id or location_id,
-                })
+                moves |= Move.create(order._get_move_vals(line, order_picking, return_picking, return_pick_type, picking_type, location_id, destination_id))
 
             # prefer associating the regular order picking, not the return
             order.write({'picking_id': order_picking.id or return_picking.id})

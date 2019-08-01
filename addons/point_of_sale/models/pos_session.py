@@ -45,6 +45,7 @@ class PosSession(models.Model):
         'pos.config', string='Point of Sale',
         help="The physical point of sale you will use.",
         required=True,
+        states={'closed': [('readonly', True)]},
         index=True)
     name = fields.Char(string='Session ID', required=True, readonly=True, default='/')
     user_id = fields.Many2one(

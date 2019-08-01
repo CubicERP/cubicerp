@@ -16,9 +16,14 @@ class PosBox(CashBox):
         active_ids = self.env.context.get('active_ids', [])
 
         if active_model == 'pos.session':
-            bank_statements = [session.cash_register_id for session in self.env[active_model].browse(active_ids) if session.cash_register_id]
+            session = self.env[active_model].browse(active_ids)
+            bank_statements = session.cash_register_id
             if not bank_statements:
-                raise UserError(_("There is no cash register for this PoS Session"))
+                bank_statements = session.statement_ids.filtered(lambda s: s.journal_id.type == 'cash')
+                if bank_statements:
+                    bank_statements = bank_statements[0]
+                else:
+                    raise UserError(_("There is no cash register for this PoS Session"))
             return self._run(bank_statements)
         else:
             return super(PosBox, self).run()

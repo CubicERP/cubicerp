@@ -5,6 +5,7 @@ import datetime
 import itertools
 import logging
 import hmac
+import re
 
 from collections import defaultdict
 from itertools import chain, repeat
@@ -315,8 +316,8 @@ class Users(models.Model):
     @api.constrains('password')
     def _check_password_enforce(self):
         for user in self:
-            if len(user.password) < 8:
-                raise ValidationError(_('The password should be a combination of letters, special chars, numbers, and minimum length of 8!'))
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})', user.password):
+                raise ValidationError(_('The password should be a combination of letters upper, lower, special chars, numbers, and minimum length of 8!'))
 
     @api.multi
     def read(self, fields=None, load='_classic_read'):

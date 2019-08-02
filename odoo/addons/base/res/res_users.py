@@ -238,7 +238,7 @@ class Users(models.Model):
     state = fields.Selection([('new', 'Never Connected'),
                             ('active', 'Confirmed'),
                             ('supended','Suspended'),
-                            ('bloked','Bloked')], default='new', string='Status')
+                            ('bloked','Blocked')], default='new', string='Status', copy=False)
 
     _sql_constraints = [
         ('login_key', 'UNIQUE (login)',  'You can not have two users with the same login !')
@@ -481,16 +481,20 @@ class Users(models.Model):
         try:
             with cls.pool.cursor() as cr:
                 self = api.Environment(cr, SUPERUSER_ID, {})[cls._name]
-                user = self.search([('login', '=', login),('state','in',['new','active'])])
-                if user:
+                user = self.search([('login', '=', login)])
+                if user and user.state in ['new','active']:
                     user_id = user.id
                     user.sudo(user_id).check_credentials(password)
                     user.filtered(lambda u: u.state == 'new').write({'state': 'active'})
                     user.sudo(user_id)._update_last_login()
+                elif user and user.state == 'supended':
+                    user_id = -1
+                elif user and user.state == 'bloked':
+                    user_id = -2
         except AccessDenied:
             user_id = False
 
-        status = "successful" if user_id else "failed"
+        status = "successful" if (user_id and user_id > 0) else "failed"
         ip = request.httprequest.environ['REMOTE_ADDR'] if request else 'n/a'
         _logger.info("Login %s for db:%s login:%s from %s", status, db, login, ip)
 
@@ -520,6 +524,9 @@ class Users(models.Model):
                             ICP.set_param('web.base.url', base)
                 except Exception:
                     _logger.exception("Failed to update web.base.url configuration parameter")
+        if uid and uid < 0:
+            user_agent_env['_uid'] = uid
+            uid = False
         return uid
 
     @classmethod

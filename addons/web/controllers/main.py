@@ -484,11 +484,16 @@ class Home(http.Controller):
         if request.httprequest.method == 'POST':
             old_uid = request.uid
             uid = request.session.authenticate(request.session.db, request.params['login'], request.params['password'])
-            if uid is not False:
+            error_msg = _("Wrong login/password")
+            if uid and uid > 0:
                 request.params['login_success'] = True
                 return http.redirect_with_hash(self._login_redirect(uid, redirect=redirect))
+            elif uid and uid == -1:
+                error_msg = _("User suspended. Contact to administrator!")
+            elif uid and uid == -2:
+                error_msg = _("User blocked. Contact to administrator!")
             request.uid = old_uid
-            values['error'] = _("Wrong login/password")
+            values['error'] = error_msg
         else:
             if 'error' in request.params and request.params.get('error') == 'access':
                 values['error'] = _('Only employee can access this database. Please contact the administrator.')

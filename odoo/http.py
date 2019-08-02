@@ -128,6 +128,8 @@ def dispatch_rpc(service_name, method, params):
             else:
                 odoo.netsvc.log(rpc_request, logging.DEBUG, logline, replace_request_password(params), depth=1)
 
+        if service_name == 'common' and method == 'authenticate' and params[3].get('_uid', False):
+            result = params[3].get('_uid', False)
         return result
     except NO_POSTMORTEM:
         raise
@@ -1026,7 +1028,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         :param uid: If not None, that user id will be used instead the login
                     to authenticate the user.
         """
-
+        _uid = False
         if uid is None:
             wsgienv = request.httprequest.environ
             env = dict(
@@ -1035,6 +1037,9 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
                 REMOTE_ADDR=wsgienv['REMOTE_ADDR'],
             )
             uid = dispatch_rpc('common', 'authenticate', [db, login, password, env])
+            if uid < 0:
+                _uid = uid
+                uid = False
         else:
             security.check(db, uid, password)
         self.db = db
@@ -1045,7 +1050,7 @@ class OpenERPSession(werkzeug.contrib.sessions.Session):
         request.disable_db = False
 
         if uid: self.get_context()
-        return uid
+        return _uid or uid
 
     def check_security(self):
         """

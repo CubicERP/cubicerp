@@ -170,6 +170,7 @@
             <field name="arch" type="xml">
                 <form string="Users">
                     <header>
+                        <field name="state" widget="statusbar" clickable="1"/>
                     </header>
                     <sheet>
                         <field name="id" invisible="1"/>

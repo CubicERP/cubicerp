@@ -17,14 +17,6 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    state = fields.Selection(compute='_compute_state', string='Status',
-                 selection=[('new', 'Never Connected'), ('active', 'Confirmed')])
-
-    @api.multi
-    def _compute_state(self):
-        for user in self:
-            user.state = 'active' if user.login_date else 'new'
-
     @api.model
     def signup(self, values, token=None):
         """ signup a user, to either:

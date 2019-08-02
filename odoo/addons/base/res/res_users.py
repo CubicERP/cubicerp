@@ -233,6 +233,10 @@ class Users(models.Model):
     # access to the user but not its corresponding partner
     name = fields.Char(related='partner_id.name', inherited=True)
     email = fields.Char(related='partner_id.email', inherited=True)
+    state = fields.Selection([('new', 'Never Connected'),
+                            ('active', 'Confirmed'),
+                            ('supended','Suspended'),
+                            ('bloked','Bloked')], default='new', string='Status')
 
     _sql_constraints = [
         ('login_key', 'UNIQUE (login)',  'You can not have two users with the same login !')
@@ -457,6 +461,7 @@ class Users(models.Model):
 
     @api.model
     def _update_last_login(self):
+        self.filtered(lambda u: u.state == 'new').write({'state': 'active'})
         # only create new records to avoid any side-effect on concurrent transactions
         # extra records will be deleted by the periodical garbage collection
         self.env['res.users.log'].create({}) # populated by defaults
@@ -469,7 +474,7 @@ class Users(models.Model):
         try:
             with cls.pool.cursor() as cr:
                 self = api.Environment(cr, SUPERUSER_ID, {})[cls._name]
-                user = self.search([('login', '=', login)])
+                user = self.search([('login', '=', login),('state','in',['new','active'])])
                 if user:
                     user_id = user.id
                     user.sudo(user_id).check_credentials(password)

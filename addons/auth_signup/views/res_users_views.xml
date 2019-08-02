@@ -14,7 +14,6 @@
                     <button string="Send an Invitation Email"
                                 type="object" name="action_reset_password" context="{'create_user': 1}"
                                 attrs="{'invisible': [('state', '!=', 'new')]}"/>
-                    <field name="state" widget="statusbar"/>
                 </xpath>
 
                 <xpath expr="//sheet/div[@name='button_box']" position="after">

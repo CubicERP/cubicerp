@@ -461,7 +461,6 @@ class Users(models.Model):
 
     @api.model
     def _update_last_login(self):
-        self.filtered(lambda u: u.state == 'new').sudo().write({'state': 'active'})
         # only create new records to avoid any side-effect on concurrent transactions
         # extra records will be deleted by the periodical garbage collection
         self.env['res.users.log'].create({}) # populated by defaults
@@ -478,6 +477,7 @@ class Users(models.Model):
                 if user:
                     user_id = user.id
                     user.sudo(user_id).check_credentials(password)
+                    user.filtered(lambda u: u.state == 'new').write({'state': 'active'})
                     user.sudo(user_id)._update_last_login()
         except AccessDenied:
             user_id = False

@@ -312,6 +312,12 @@ class Users(models.Model):
         if action_open_website and any(user.action_id.id == action_open_website.id for user in self):
             raise ValidationError(_('The "App Switcher" action cannot be selected as home action.'))
 
+    @api.constrains('password')
+    def _check_password_enforce(self):
+        for user in self:
+            if len(user.password) < 8:
+                raise ValidationError(_('The password should be a combination of letters, special chars, numbers, and minimum length of 8!'))
+
     @api.multi
     def read(self, fields=None, load='_classic_read'):
         if fields and self == self.env.user:

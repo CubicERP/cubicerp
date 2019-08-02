@@ -461,7 +461,7 @@ class Users(models.Model):
 
     @api.model
     def _update_last_login(self):
-        self.filtered(lambda u: u.state == 'new').sudo()write({'state': 'active'})
+        self.filtered(lambda u: u.state == 'new').sudo().write({'state': 'active'})
         # only create new records to avoid any side-effect on concurrent transactions
         # extra records will be deleted by the periodical garbage collection
         self.env['res.users.log'].create({}) # populated by defaults

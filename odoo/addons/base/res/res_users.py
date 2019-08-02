@@ -81,6 +81,7 @@ class Groups(models.Model):
     rule_groups = fields.Many2many('ir.rule', 'rule_group_rel',
         'group_id', 'rule_group_id', string='Rules', domain=[('global', '=', False)])
     menu_access = fields.Many2many('ir.ui.menu', 'ir_ui_menu_group_rel', 'gid', 'menu_id', string='Access Menu')
+    menu_hidden = fields.Many2many('ir.ui.menu', 'ir_ui_menu_hide_group_rel', 'gid', 'menu_id', 'Hidden Menu')
     view_access = fields.Many2many('ir.ui.view', 'ir_ui_view_group_rel', 'group_id', 'view_id', string='Views')
     comment = fields.Text(translate=True)
     category_id = fields.Many2one('ir.module.category', string='Application', index=True)

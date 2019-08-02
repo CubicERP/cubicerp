@@ -73,6 +73,9 @@
                         <page string="Menus">
                             <field name="menu_access"/>
                         </page>
+                        <page string="Hidden Menus">
+                            <field name="menu_hidden"/>
+                        </page>
                         <page string="Views">
                             <field name="view_access"/>
                         </page>

@@ -35,6 +35,9 @@ class IrUiMenu(models.Model):
                                  'menu_id', 'gid', string='Groups',
                                  help="If you have groups, the visibility of this menu will be based on these groups. "\
                                       "If this field is empty, CubicERP will compute visibility based on the related object's read access.")
+    hidden_groups_id = fields.Many2many('res.groups', 'ir_ui_menu_hide_group_rel',
+                                         'menu_id', 'gid', string='Hidden Groups',
+                                         help="This menu will be hidden on these groups")
     complete_name = fields.Char(compute='_compute_complete_name', string='Full Path')
     web_icon = fields.Char(string='Web Icon File')
     action = fields.Reference(selection=[('ir.actions.report', 'ir.actions.report'),
@@ -94,6 +97,7 @@ class IrUiMenu(models.Model):
         action_menus = menus.filtered(lambda m: m.action and m.action.exists())
         folder_menus = menus - action_menus
         visible = self.browse()
+        invisible = self.browse()
 
         # process action menus, check whether their action is allowed
         access = self.env['ir.model.access']
@@ -102,6 +106,20 @@ class IrUiMenu(models.Model):
             'ir.actions.report': lambda action: action.model,
             'ir.actions.server': lambda action: action.model_id.model,
         }
+        for menu in menus:
+            if menu.hidden_groups_id:
+                hidden_to_groups = [g.id for g in menu.hidden_groups_id]
+                if hidden_to_groups:
+                    invisible += menu
+                    child_menus = [c for c in menu.child_id]
+                    while child_menus:
+                        for child_menu in child_menus:
+                            invisible += child_menu
+                        child_child_menus = []
+                        for child in child_menus:
+                            child_child_menus += [c for c in child.child_id]
+                        child_menus = child_child_menus
+        action_menus = action_menus - invisible
         for menu in action_menus:
             get_model = MODEL_GETTER.get(menu.action._name)
             if not get_model or not get_model(menu.action) or \

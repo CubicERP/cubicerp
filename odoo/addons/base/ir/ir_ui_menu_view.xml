@@ -23,6 +23,9 @@
                         <page string="Access Rights">
                             <field name="groups_id"/>
                         </page>
+                        <page string="Hidden Groups">
+                            <field name="hidden_groups_id"/>
+                        </page>
                         <page string="Submenus" groups="base.group_no_one">
                             <!-- Note: make sure you have 'ir.ui.menu.full_list'
                                  in the context to see all submenus! -->

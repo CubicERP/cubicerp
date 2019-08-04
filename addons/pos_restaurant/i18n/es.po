@@ -156,7 +156,7 @@ msgstr "Imagen de fondo"
 #: code:addons/pos_restaurant/static/src/xml/printbill.xml:31
 #, python-format
 msgid "Bill"
-msgstr "Factura"
+msgstr "La Cuenta"
 
 #. module: pos_restaurant
 #. openerp-web

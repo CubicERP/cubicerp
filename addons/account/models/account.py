@@ -416,7 +416,7 @@ class AccountJournal(models.Model):
 
     refund_sequence = fields.Boolean(string='Dedicated Credit Note Sequence', help="Check this box if you don't want to share the same sequence for invoices and credit notes made from this journal", default=False)
     related_journal = fields.Boolean("Require Related Document", help="Check this box if you require a related document to this journal entries")
-    related_journal_id = fields.Many2one("account.journal", "Related Journal")
+    related_journal_id = fields.Many2many("account.journal", 'account_journal_related_rel', 'journal_id', 'related_id', string="Related Journal")
 
     inbound_payment_method_ids = fields.Many2many('account.payment.method', 'account_journal_inbound_payment_method_rel', 'journal_id', 'inbound_payment_method',
         domain=[('payment_type', '=', 'inbound')], string='Debit Methods', default=lambda self: self._default_inbound_payment_methods(),
@@ -668,11 +668,13 @@ class AccountJournal(models.Model):
                 'company_id': company.id,
         }
 
-    @api.returns('account.journal')
     def get_related_journal(self):
         self.ensure_one()
-        journal = self.env['account.journal'].search([('related_journal_id', '=', self.id),('type','in',['sale_refund','purchase_refund'])])
-        return journal and journal[0] or False
+        journal_obj = self.env['account.journal']
+        journal = journal_obj.search([('related_journal_id', 'in', self.id),
+                                      ('related_journal','=',True),
+                                      ('type','in',['sale_refund','purchase_refund'])])
+        return journal and journal[0] or journal_obj
 
     @api.model
     def create(self, vals):

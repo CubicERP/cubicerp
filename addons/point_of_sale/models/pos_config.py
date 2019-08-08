@@ -83,6 +83,7 @@ class PosConfig(models.Model):
         default=_default_invoice_journal)
     invoice_download = fields.Boolean()
     currency_id = fields.Many2one('res.currency', compute='_compute_currency', string="Currency")
+    iface_discount_amount = fields.Boolean(string='Price Unit Discount', help="Discount per amount apply on price unit. Default is percentage discount.")
     iface_cashdrawer = fields.Boolean(string='Cashdrawer', help="Automatically open the cashdrawer.")
     iface_payment_terminal = fields.Boolean(string='Payment Terminal', help="Enables Payment Terminal integration.")
     iface_electronic_scale = fields.Boolean(string='Electronic Scale', help="Enables Electronic Scale integration.")

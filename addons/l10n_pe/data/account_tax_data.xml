@@ -21,6 +21,7 @@
       <field name="description">IGV 18% Venta</field>
       <field name="amount">18</field>
       <field name="amount_type">percent</field>
+      <field name="price_include" eval="True"/>
       <field name="type_tax_use">sale</field>
       <field name="account_id" ref="401110"/>
       <field name="refund_account_id" ref="401110"/>
@@ -34,6 +35,7 @@
       <field name="description">IGV 18% Compra</field>
       <field name="amount">18</field>
       <field name="amount_type">percent</field>
+        <field name="price_include" eval="True"/>
       <field name="type_tax_use">purchase</field>
       <field name="account_id" ref="401110"/>
       <field name="refund_account_id" ref="401110"/>

@@ -17,9 +17,11 @@ class PosOrder(models.Model):
         order_fields['customer_count'] = ui_order.get('customer_count', 0)
         if self.env['pos.session'].browse(ui_order['pos_session_id']).config_id.iface_notes_print:
             notes = ""
-            for note, product_id in [(l[2]['note'], l[2]['product_id']) for l in ui_order['lines']]:
-                if note:
-                    notes += "- %s: %s\n"%(self.env['product.product'].browse(product_id).name, note)
+            for line in ui_order['lines']:
+                if line[2].get('note'):
+                    notes += "- %s: %s\n"%(self.env['product.product'].browse(line[2].get('product_id')).name, line[2].get('note'))
+                line[2].pop('note')
+                line[2].pop('mp_skip')
             if notes:
                 order_fields['note'] = notes
         return order_fields

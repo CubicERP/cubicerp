@@ -362,7 +362,7 @@ exports.PosModel = Backbone.Model.extend({
         model:  'product.product',
         // todo remove list_price in master, it is unused
         fields: ['display_name', 'list_price', 'lst_price', 'standard_price', 'categ_id', 'pos_categ_id', 'taxes_id',
-                 'barcode', 'default_code', 'to_weight', 'uom_id', 'description_sale', 'description',
+                 'barcode', 'default_code', 'to_weight', 'uom_id', 'description_sale', 'description', 'supplier_taxes_id',
                  'product_tmpl_id','tracking'],
         order:  _.map(['sequence','default_code','name'], function (name) { return {name: name}; }),
         domain: [['sale_ok','=',true],['available_in_pos','=',true]],
@@ -1353,7 +1353,7 @@ exports.Orderline = Backbone.Model.extend({
         this.set_product_lot(this.product);
         this.set_quantity(1);
         this.discount = 0;
-        this.discountStr = '0';
+        this.discountStr = '0%';
         this.type = 'unit';
         this.selected = false;
         this.id = orderline_id++;
@@ -1409,7 +1409,7 @@ exports.Orderline = Backbone.Model.extend({
     set_discount: function(discount){
         var disc = Math.min(Math.max(parseFloat(discount) || 0, 0),100);
         this.discount = disc;
-        this.discountStr = '' + disc;
+        this.discountStr = (disc && this.pos.config.iface_discount_amount && (this.pos.currency.symbol+' ') || '') + disc + (disc && !this.pos.config.iface_discount_amount && '%' || '');
         this.trigger('change',this);
     },
     // returns the discount [0,100]%
@@ -1644,9 +1644,23 @@ exports.Orderline = Backbone.Model.extend({
             return this.get_unit_price();
         }
     },
+    get_unit_price_w_discount: function(){
+        if (!this.pos.config.iface_discount_amount) {
+            return this.get_unit_price() * (1.0 - (this.get_discount() / 100.0));
+        } else {
+            return this.get_unit_price() - this.get_discount();
+        }
+    },
+    get_unit_discount: function(){
+        if (!this.pos.config.iface_discount_amount) {
+            return this.get_unit_price() * (this.get_discount()/100);
+        } else {
+            return this.get_unit_price() - this.get_discount();
+        }
+    },
     get_base_price:    function(){
         var rounding = this.pos.currency.rounding;
-        return round_pr(this.get_unit_price() * this.get_quantity() * (1 - this.get_discount()/100), rounding);
+        return round_pr(this.get_unit_price_w_discount() * this.get_quantity(), rounding);
     },
     get_display_price: function(){
         if (this.pos.config.iface_tax_included === 'total') {
@@ -1654,6 +1668,9 @@ exports.Orderline = Backbone.Model.extend({
         } else {
             return this.get_base_price();
         }
+    },
+    get_display_price_print: function(){
+        return this.get_display_price();
     },
     get_price_without_tax: function(){
         return this.get_all_prices().priceWithoutTax;
@@ -1668,7 +1685,7 @@ exports.Orderline = Backbone.Model.extend({
         var i;
         // Shenaningans because we need
         // to keep the taxes ordering.
-        var ptaxes_ids = this.get_product().taxes_id;
+        var ptaxes_ids = this.order.select_invoice_journal.type === 'purchase' ? this.get_product().supplier_taxes_id : this.get_product().taxes_id;
         var ptaxes_set = {};
         for (i = 0; i < ptaxes_ids.length; i++) {
             ptaxes_set[ptaxes_ids[i]] = true;
@@ -1779,11 +1796,11 @@ exports.Orderline = Backbone.Model.extend({
         };
     },
     get_all_prices: function(){
-        var price_unit = this.get_unit_price() * (1.0 - (this.get_discount() / 100.0));
+        var price_unit = this.get_unit_price_w_discount();
         var taxtotal = 0;
 
         var product =  this.get_product();
-        var taxes_ids = product.taxes_id;
+        var taxes_ids = this.order.select_invoice_journal.type === 'purchase' ? product.supplier_taxes_id : product.taxes_id;
         var taxes =  this.pos.taxes;
         var taxdetail = {};
         var product_taxes = [];
@@ -2471,6 +2488,9 @@ exports.Order = Backbone.Model.extend({
     get_total_with_tax: function() {
         return this.get_total_without_tax() + this.get_total_tax();
     },
+    get_total_with_tax_print: function() {
+        return this.get_total_with_tax();
+    },
     get_total_without_tax: function() {
         return round_pr(this.orderlines.reduce((function(sum, orderLine) {
             return sum + orderLine.get_price_without_tax();
@@ -2478,8 +2498,11 @@ exports.Order = Backbone.Model.extend({
     },
     get_total_discount: function() {
         return round_pr(this.orderlines.reduce((function(sum, orderLine) {
-            return sum + (orderLine.get_unit_price() * (orderLine.get_discount()/100) * orderLine.get_quantity());
+            return sum + (orderLine.get_unit_discount() * orderLine.get_quantity());
         }), 0), this.pos.currency.rounding);
+    },
+    get_total_discount_print: function() {
+        return this.get_total_discount();
     },
     get_total_tax: function() {
         return round_pr(this.orderlines.reduce((function(sum, orderLine) {

@@ -2020,6 +2020,13 @@ var PaymentScreenWidget = ScreenWidget.extend({
             });
             return false;
         }
+        if (order.paymentlines.length === 0) {
+            this.gui.show_popup('error',{
+                'title': _t('Empty Payments'),
+                'body':  _t('There must be at least one payment line in your order before it can be validated'),
+            });
+            return false;
+        }
 
         if (!order.is_paid() || this.invoicing) {
             return false;

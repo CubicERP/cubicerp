@@ -46,7 +46,7 @@ msgstr "# de Orden de Compra"
 #: code:addons/point_of_sale/static/src/xml/pos.xml:1283
 #, python-format
 msgid "% discount"
-msgstr "% descuento"
+msgstr "de descuento"
 
 #. module: point_of_sale
 #. openerp-web
@@ -4161,7 +4161,7 @@ msgstr "eliminar"
 #: code:addons/point_of_sale/static/src/xml/pos.xml:1107
 #, python-format
 msgid "discount"
-msgstr "descuento"
+msgstr "de descuento"
 
 #. module: point_of_sale
 #. openerp-web

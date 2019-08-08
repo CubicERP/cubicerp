@@ -91,7 +91,7 @@ msgstr "$ 8.50"
 #: code:addons/point_of_sale/static/src/xml/pos.xml:1474
 #, python-format
 msgid "% discount"
-msgstr "% discount"
+msgstr "de descuento"
 
 #. module: point_of_sale
 #. openerp-web
@@ -4258,7 +4258,7 @@ msgstr ""
 #: code:addons/point_of_sale/static/src/xml/pos.xml:1473
 #, python-format
 msgid "With a"
-msgstr "Con un/una"
+msgstr "Con"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.view_report_pos_order_search
@@ -4524,7 +4524,7 @@ msgstr "eliminar"
 #: code:addons/point_of_sale/static/src/xml/pos.xml:1292
 #, python-format
 msgid "discount"
-msgstr "descuento"
+msgstr "de descuento"
 
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.pos_config_view_form

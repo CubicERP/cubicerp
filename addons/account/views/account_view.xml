@@ -302,6 +302,7 @@
                                                attrs="{'invisible': [('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])]}"
                                                groups="base.group_no_one"/>
                                         <field name="related_journal_id"
+                                               widget="many2many_tags"
                                                attrs="{'invisible': ['|',('related_journal','=',False),('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])],'required':[('related_journal','=',True)]}"
                                                domain="[('type','in',['sale','purchase'])]"
                                                groups="base.group_no_one"/>

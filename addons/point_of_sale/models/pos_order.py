@@ -217,10 +217,13 @@ class PosOrder(models.Model):
 
     def _invoice_line_fields(self, invoice_id, line):
         inv_name = line.product_id.name_get()[0][1]
+        qty = line.qty
+        if qty > 0 and line.price_unit < 0:
+            qty = -qty
         return {
             'invoice_id': invoice_id,
             'product_id': line.product_id.id,
-            'quantity': line.qty if self.amount_total >= 0 else -line.qty,
+            'quantity': qty if self.amount_total >= 0 else -qty,
             'account_analytic_id': self._prepare_analytic_account(line),
             'name': inv_name,
         }
@@ -241,7 +244,7 @@ class PosOrder(models.Model):
         # We convert a new id object back to a dictionary to write to
         # bridge between old and new api
         inv_line = invoice_line._convert_to_write({name: invoice_line[name] for name in invoice_line._cache})
-        inv_line.update(price_unit=line.price_unit, discount=line.discount, name=inv_name)
+        inv_line.update(price_unit=abs(line.price_unit), discount=line.discount, name=inv_name)
         return InvoiceLine.sudo().create(inv_line)
 
     def _create_account_move_line(self, session=None, move=None):
@@ -611,15 +614,8 @@ class PosOrder(models.Model):
     @api.model
     def create(self, values):
         if values.get('session_id'):
-            # set name based on the sequence specified on the config
             session = self.env['pos.session'].browse(values['session_id'])
-            if values['name'] == '/':
-                values['name'] = session.config_id.sequence_id._next()
             values.setdefault('pricelist_id', session.config_id.pricelist_id.id)
-        else:
-            # fallback on any pos.order sequence
-            if values['name'] == '/':
-                values['name'] = self.env['ir.sequence'].next_by_code('pos.order')
         return super(PosOrder, self).create(values)
 
     @api.multi
@@ -634,8 +630,19 @@ class PosOrder(models.Model):
             'res_id': self.invoice_id.id,
         }
 
+    def _get_order_sequence(self):
+        self.ensure_one()
+        if self.session_id.config_id.sequence_id:
+            name = self.session_id.config_id.sequence_id._next()
+        else:
+            name = self.env['ir.sequence'].next_by_code('pos.order')
+        return name
+
     @api.multi
     def action_pos_order_paid(self):
+        for order in self.filtered(lambda o: o.name == '/'):
+            order.name = order._get_order_sequence()
+
         if not self.test_paid():
             raise UserError(_("Order is not paid."))
         self.write({'state': 'paid'})
@@ -670,7 +677,7 @@ class PosOrder(models.Model):
                 self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
 
             new_invoice.with_context(local_context).sudo().compute_taxes()
-            order.sudo().write({'state': 'invoiced'})
+            #order.sudo().write({'state': 'invoiced'})
 
         if not Invoice:
             return {}
@@ -755,6 +762,9 @@ class PosOrder(models.Model):
             'location_dest_id': destination_id if line.qty >= 0 else return_pick_type != picking_type and return_pick_type.default_location_dest_id.id or location_id,
         }
 
+    def _get_return_vals(self, return_vals):
+        return return_vals
+
     def create_picking(self):
         """Create a picking for each order and validate it."""
         Picking = self.env['stock.picking']
@@ -804,7 +814,7 @@ class PosOrder(models.Model):
                         'location_dest_id': return_pick_type != picking_type and return_pick_type.default_location_dest_id.id or location_id,
                         'picking_type_id': return_pick_type.id
                     })
-                    return_picking = Picking.create(return_vals)
+                    return_picking = Picking.create(order._get_return_vals(return_vals))
                     return_picking.message_post(body=message)
 
             for line in order.lines.filtered(lambda l: l.product_id.type in ['product', 'consu'] and not float_is_zero(l.qty, precision_rounding=l.product_id.uom_id.rounding)):
@@ -941,6 +951,28 @@ class PosOrder(models.Model):
         self.env['account.bank.statement.line'].with_context(context).create(args)
         return args.get('statement_id', False)
 
+    def _refund_order_vals(self, current_session):
+        return {
+                'name': '/',
+                'note': self.note and  '\n' + self.name + _('_REFUND') or self.name + _('_REFUND'),
+                'session_id': current_session.id,
+                'date_order': fields.Datetime.now(),
+                'pos_reference': self.pos_reference,
+                'lines': False,
+            }
+
+    def _refund_clone_line_vals(self, line):
+        qty = line.qty
+        if line.qty > 0 and line.price_unit < 0:
+            qty = -qty
+        return {
+                # required=True, copy=False
+                'name': line.name + _(' REFUND'),
+                'order_id': self.id,
+                'qty': -qty,
+                'price_unit': abs(line.price_unit),
+            }
+
     @api.multi
     def refund(self):
         """Create a copy of order  for refund order"""
@@ -949,21 +981,9 @@ class PosOrder(models.Model):
         if not current_session:
             raise UserError(_('To return product(s), you need to open a session that will be used to register the refund.'))
         for order in self:
-            clone = order.copy({
-                # ot used, name forced by create
-                'name': order.name + _(' REFUND'),
-                'session_id': current_session.id,
-                'date_order': fields.Datetime.now(),
-                'pos_reference': order.pos_reference,
-                'lines': False,
-            })
+            clone = order.copy(order._refund_order_vals(current_session))
             for line in order.lines:
-                clone_line = line.copy({
-                    # required=True, copy=False
-                    'name': line.name + _(' REFUND'),
-                    'order_id': clone.id,
-                    'qty': -line.qty,
-                })
+                line.copy(clone._refund_clone_line_vals(line))
             PosOrder += clone
 
         return {
@@ -997,6 +1017,9 @@ class PosOrderLine(models.Model):
         if line and 'tax_ids' not in line[2]:
             product = self.env['product.product'].browse(line[2]['product_id'])
             line[2]['tax_ids'] = [(6, 0, [x.id for x in product.taxes_id])]
+        if line[2]['qty'] > 0 and line[2]['price_unit'] < 0:
+            line[2]['qty'] = -line[2]['qty']
+        line[2]['price_unit'] = abs(line[2]['price_unit'])
         return line
 
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)

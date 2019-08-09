@@ -92,7 +92,7 @@
         </div>
     </t>
 
-        <t t-name="ClientScreenWidget">
+    <t t-name="ClientScreenWidget">
         <div class="oe_status">
             <span class="oe_customer_display_text"></span>
             <div class="js_warning oe_icon oe_orange oe_hidden">
@@ -525,7 +525,40 @@
             </div>
         </div>
     </t>
+    
+    <t t-name="ProformaScreenWidget">
+        <div class='receipt-screen screen'>
+            <div class='screen-content'>
+                <div class='top-content'>
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <h1>Proforma Printing</h1>
+                    <span class='button next'>
+                        Send to Cashier
+                        <i class='fa fa-angle-double-right'></i>
+                    </span>
+                </div>
+                <div class="centered-content">
+                    <div class="button print">
+                        <i class='fa fa-print'></i> Print 
+                    </div>
+                    <div class="pos-receipt-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
 
+    <t t-name="PrintProformaButton">
+        <span class="control-button order-printproforma">
+            Proforma
+            <i class="fa fa-receipt"></i>
+            <i class="fa fa-angle-double-right"></i>
+        </span>
+    </t>
+    
     <t t-name="PaymentScreen-Paymentlines">
         <t t-if="!paymentlines.length">
             <div class='paymentlines-empty'>

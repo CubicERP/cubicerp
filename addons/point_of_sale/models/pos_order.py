@@ -630,6 +630,17 @@ class PosOrder(models.Model):
             'res_id': self.invoice_id.id,
         }
 
+    def action_view_picking(self):
+        return {
+            'name': _('POS Picking'),
+            'view_mode': 'form',
+            'view_id': self.env.ref('stock.view_picking_form').id,
+            'res_model': 'stock.picking',
+            'context': "{'contact_display': 'partner_address',}",
+            'type': 'ir.actions.act_window',
+            'res_id': self.picking_id.id,
+        }
+
     def _get_order_sequence(self):
         self.ensure_one()
         if self.session_id.config_id.sequence_id:
@@ -677,7 +688,7 @@ class PosOrder(models.Model):
                 self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
 
             new_invoice.with_context(local_context).sudo().compute_taxes()
-            #order.sudo().write({'state': 'invoiced'})
+            new_invoice.action_invoice_open()
 
         if not Invoice:
             return {}
@@ -721,7 +732,8 @@ class PosOrder(models.Model):
                 self._match_payment_to_invoice(order)
             pos_order = self._process_order(order)
             order_ids.append(pos_order.id)
-
+            if not any(order['statement_ids']) and pos_order.config_id.iface_statement_empty:
+                continue
             try:
                 pos_order.action_pos_order_paid()
             except psycopg2.OperationalError:
@@ -735,7 +747,7 @@ class PosOrder(models.Model):
                 pos_order.invoice_id.sudo().action_invoice_open()
                 pos_order.name = pos_order.invoice_id.number
             else:
-                pos_order.name = pos_order.session_id.config_id.sequence_id._next()
+                pos_order.name = pos_order.config_id.sequence_id._next()
         return order_ids
 
     def test_paid(self):
@@ -792,7 +804,7 @@ class PosOrder(models.Model):
             if picking_type:
                 message = _("This transfer has been created from the point of sale session: <a href=# data-oe-model=pos.order data-oe-id=%d>%s</a>") % (order.id, order.name)
                 picking_vals = {
-                    'origin': order.name,
+                    'origin': order.pos_reference or order.name,
                     'partner_id': address.get('delivery', False),
                     'date_done': order.date_order,
                     'picking_type_id': picking_type.id,
@@ -823,16 +835,17 @@ class PosOrder(models.Model):
             # prefer associating the regular order picking, not the return
             order.write({'picking_id': order_picking.id or return_picking.id})
 
-            if return_picking:
-                order._force_picking_done(return_picking)
-            if order_picking:
-                order._force_picking_done(order_picking)
+            if order.config_id.iface_stock_done:
+                if return_picking:
+                    order._force_picking_done(return_picking)
+                if order_picking:
+                    order._force_picking_done(order_picking)
 
-            # when the pos.config has no picking_type_id set only the moves will be created
-            if moves and not return_picking and not order_picking:
-                moves._action_assign()
-                moves.filtered(lambda m: m.state in ['confirmed', 'waiting'])._force_assign()
-                moves.filtered(lambda m: m.product_id.tracking == 'none')._action_done()
+                # when the pos.config has no picking_type_id set only the moves will be created
+                if moves and not return_picking and not order_picking:
+                    moves._action_assign()
+                    moves.filtered(lambda m: m.state in ['confirmed', 'waiting'])._force_assign()
+                    moves.filtered(lambda m: m.product_id.tracking == 'none')._action_done()
 
         return True
 

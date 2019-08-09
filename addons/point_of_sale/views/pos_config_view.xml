@@ -338,6 +338,17 @@
                         </div>
                         <div class="col-xs-12 col-md-6 o_setting_box">
                             <div class="o_setting_left_pane">
+                                <field name="iface_statement_empty"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="iface_statement_empty" string="Allow Statement Empty"/>
+                                <div class="text-muted">
+                                    Allow to confirm orders with empty statement lines
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
                                 <field name="cash_control"/>
                             </div>
                             <div class="o_setting_right_pane">
@@ -511,6 +522,17 @@
                                 </div>
                                 <div>
                                     <field name="stock_location_id"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="iface_stock_done"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="iface_stock_done" string="Auto Picking Done"/>
+                                <div class="text-muted">
+                                    The stock moves be automatically set to done state.
                                 </div>
                             </div>
                         </div>

@@ -21,6 +21,13 @@
                         icon="fa-pencil-square-o"
                         attrs="{'invisible':[('state','!=','invoiced')]}">
                     </button>
+                    <button name="action_view_picking"
+                        string="Picking"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck-loading"
+                        attrs="{'invisible':[('state','in',['draft','cancel'])]}">
+                    </button>
                 </div>
                 <h1 class="oe_title">
                     <label for="name" attrs="{'invisible': [('name','=','/')]}" class="oe_edit_only"/>
@@ -91,7 +98,7 @@
                                 <field name="location_id" widget="selection" groups="stock.group_stock_multi_locations"/>
                                 <field name="user_id"/>
                                 <field name="pricelist_id" groups="product.group_sale_pricelist"/>
-                                <field name="picking_id" readonly="1"/>
+                                <field name="picking_id" readonly="1" invisible="1"/>
                                 <field name="pos_reference"/>
                             </group>
                             <group string="Accounting Information" name="account_group">

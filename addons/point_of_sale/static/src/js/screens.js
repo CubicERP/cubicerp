@@ -1663,6 +1663,67 @@ var ReceiptScreenWidget = ScreenWidget.extend({
 gui.define_screen({name:'receipt', widget: ReceiptScreenWidget});
 
 /*--------------------------------------*\
+ |         THE PROFORMA SCREEN           |
+\*======================================*/
+
+// The proforma screen displays the order's
+// preview and allow to send it to cashier
+
+var ProformaScreenWidget = ReceiptScreenWidget.extend({
+    template: 'ProformaScreenWidget',
+    click_next: function(){
+        this.send_proforma();
+    },
+    click_back: function(){
+        this.gui.show_screen('products');
+    },
+    render_receipt: function(){
+        this._super();
+        this.$('.receipt-paymentlines').remove();
+        this.$('.receipt-change').remove();
+    },
+    print_web: function(){
+        window.print();
+    },
+    send_proforma: function() {
+        var self = this;
+        var order = this.pos.get_order();
+
+        if (order.get_orderlines().length === 0) {
+            this.gui.show_popup('error',{
+                'title': _t('Empty Order'),
+                'body':  _t('There must be at least one product in your order before it can be validated'),
+            });
+            return false;
+        }
+
+        order.initialize_validation_date();
+        order.finalized = true;
+
+        this.pos.push_order(order);
+        this.gui.show_screen('receipt');
+
+    },
+});
+
+gui.define_screen({name:'proforma', widget: ProformaScreenWidget});
+
+var PrintProformaButton = ActionButtonWidget.extend({
+    template: 'PrintProformaButton',
+    button_click: function(){
+        this.gui.show_screen('proforma');
+    },
+});
+
+define_action_button({
+    'name': 'print_proforma',
+    'widget': PrintProformaButton,
+    'condition': function(){
+        return this.pos.config.iface_statement_empty;
+    },
+});
+
+/*--------------------------------------*\
  |         THE PAYMENT SCREEN           |
 \*======================================*/
 

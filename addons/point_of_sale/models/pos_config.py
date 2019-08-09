@@ -66,11 +66,14 @@ class PosConfig(models.Model):
         'account.journal', 'pos_config_journal_rel',
         'pos_config_id', 'journal_id', string='Available Payment Methods',
         domain="[('journal_user', '=', True ), ('type', 'in', ['bank', 'cash'])]",)
+    iface_statement_empty = fields.Boolean("Allow Proforma Invoice", help="Allowed make proforma invoice from point of sale and confirm orders with empty statement lines")
     picking_type_id = fields.Many2one('stock.picking.type', string='Operation Type')
     use_existing_lots = fields.Boolean(related='picking_type_id.use_existing_lots')
     stock_location_id = fields.Many2one(
         'stock.location', string='Stock Location',
         domain=[('usage', '=', 'internal')], required=True, default=_get_default_location)
+    iface_stock_done = fields.Boolean("Auto Picking Done", default=True,
+                                      help="The stock moves be automatically set to done state.")
     journal_id = fields.Many2one(
         'account.journal', string='Sales Journal',
         domain=[('type', '=', 'sale')],

@@ -551,7 +551,7 @@
         </ul>
     </div>
     <div class="btn-group btn-group-sm">
-        <button class="btn btn-default fa fa-expand o_pivot_flip_button" title="Flip axis"/>
+        <button class="btn btn-default fa fa-exchange-alt o_pivot_flip_button" title="Flip axis"/>
         <button class="btn btn-default fa fa-arrows-alt o_pivot_expand_button" title="Expand all"/>
         <button class="btn btn-default fa fa-download o_pivot_download" title="Download xls"/>
     </div>

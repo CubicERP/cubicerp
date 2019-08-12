@@ -20,8 +20,10 @@ class PosOrder(models.Model):
             for line in ui_order['lines']:
                 if line[2].get('note'):
                     notes += "- %s: %s\n"%(self.env['product.product'].browse(line[2].get('product_id')).name, line[2].get('note'))
-                line[2].pop('note')
-                line[2].pop('mp_skip')
+                if 'note' in line[2]:
+                    line[2].pop('note')
+                if 'mp_skip' in line[2]:
+                    line[2].pop('mp_skip')
             if notes:
                 order_fields['note'] = notes
         return order_fields

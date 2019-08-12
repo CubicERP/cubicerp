@@ -553,8 +553,8 @@
 
     <t t-name="PrintProformaButton">
         <span class="control-button order-printproforma">
-            Proforma
             <i class="fa fa-receipt"></i>
+            Proforma
             <i class="fa fa-angle-double-right"></i>
         </span>
     </t>

@@ -1800,7 +1800,7 @@ exports.Orderline = Backbone.Model.extend({
         var taxtotal = 0;
 
         var product =  this.get_product();
-        var taxes_ids = this.order.select_invoice_journal.type === 'purchase' ? product.supplier_taxes_id : product.taxes_id;
+        var taxes_ids = (this.order && this.order.select_invoice_journal && this.order.select_invoice_journal.type === 'purchase') ? product.supplier_taxes_id : product.taxes_id;
         var taxes =  this.pos.taxes;
         var taxdetail = {};
         var product_taxes = [];

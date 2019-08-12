@@ -1685,7 +1685,7 @@ exports.Orderline = Backbone.Model.extend({
         var i;
         // Shenaningans because we need
         // to keep the taxes ordering.
-        var ptaxes_ids = this.order.select_invoice_journal.type === 'purchase' ? this.get_product().supplier_taxes_id : this.get_product().taxes_id;
+        var ptaxes_ids = (this.order && this.order.select_invoice_journal && this.order.select_invoice_journal.type === 'purchase') ? this.get_product().supplier_taxes_id : this.get_product().taxes_id;
         var ptaxes_set = {};
         for (i = 0; i < ptaxes_ids.length; i++) {
             ptaxes_set[ptaxes_ids[i]] = true;

@@ -341,9 +341,9 @@
                                 <field name="iface_statement_empty"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label for="iface_statement_empty" string="Allow Statement Empty"/>
+                                <label for="iface_statement_empty" string="Allow Proforma Invoice"/>
                                 <div class="text-muted">
-                                    Allow to confirm orders with empty statement lines
+                                    Allowed make proforma invoice from point of sale and confirm orders with empty statement lines
                                 </div>
                             </div>
                         </div>

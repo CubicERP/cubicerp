@@ -9,7 +9,7 @@
                 <t t-set="hide_mark_as_done" t-value="True"/>
                 <div class="o_planner_intro">
                     <p>
-                        This guide will help you get started with Odoo Accounting.
+                        This guide will help you get started with Accounting.
                         Once you're done, you'll benefit from:
                     </p>
                     <ul>
@@ -28,12 +28,11 @@
                         <li>Your Trial Balance (list of accounts and their balances).</li>
                         <li>Your outstanding invoices, payments, and undeposited funds.</li>
                     </ul>
-                    <p>Enjoy your Odoo experience,</p>
+                    <p>Enjoy your  experience,</p>
                     <div class="mt32">
                         <img class="signature mb8" src="/web_planner/static/src/img/fabien_signature.png"/>
                         <address>
-                            For the Odoo Team,<br/>
-                            Fabien Pinckaers, Founder
+                            For the  Team,<br/>
                         </address>
                     </div>
                 </div>
@@ -116,7 +115,7 @@
                     <br/>
                     <div class="alert alert-info info_icon" role="alert">
                         <span class="fa fa-lightbulb-o fa-lg"/>
-                        <p> Odoo can manage multiple companies, but we suggest to setup everything for your first company before configuring the other ones.</p>
+                        <p> Can manage multiple companies, but we suggest to setup everything for your first company before configuring the other ones.</p>
                     </div>
                 </t>
                 <t t-call="web_planner.page">
@@ -394,7 +393,7 @@
                 <t t-call="web_planner.page">
                     <t t-set="page_title">Extra Features</t>
                     <p class="text-muted">
-                        Odoo Accounting has many extra-features:
+                         Accounting has many extra-features:
                     </p>
                     <div class="row o_planner_row_apps">
                         <div class="text-center col-md-4">

@@ -1467,7 +1467,7 @@
         <record id="PEN" model="res.currency">
             <field name="name">PEN</field>
             <field name="symbol">S/</field>
-            <field name="rounding">0.001</field>
+            <field name="rounding">0.01</field>
             <field name="active" eval="False"/>
             <field name="position">before</field>
             <field name="currency_unit_label">Soles</field>

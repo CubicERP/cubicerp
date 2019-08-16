@@ -69,7 +69,7 @@ msgid ""
 "                              Buy now, get in 2 days"
 msgstr ""
 "Garantía de devolución 30 días<br/>\n"
-"                              Envío gratuito en España<br/>\n"
+"                              Envío gratuito<br/>\n"
 "                              Compre ahora, recíbalo en 2 días."
 
 #. module: website_sale

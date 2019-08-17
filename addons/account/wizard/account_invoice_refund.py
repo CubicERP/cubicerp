@@ -114,9 +114,7 @@ class AccountInvoiceRefund(models.TransientModel):
                 refund.message_post(body=body, subject=subject)
         if xml_id:
             result = self.env.ref('account.%s' % (xml_id)).read()[0]
-            invoice_domain = safe_eval(result['domain'])
-            invoice_domain.append(('id', 'in', created_inv))
-            result['domain'] = invoice_domain
+            result['domain'] = [('id', 'in', created_inv)]
             return result
         return True
 

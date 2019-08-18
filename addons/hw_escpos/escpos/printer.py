@@ -211,7 +211,7 @@ class Network(Escpos):
 
 
     def _raw(self, msg):
-        self.device.send(msg)
+        self.device.send(type(msg) is str and msg.encode('utf-8') or msg)
 
 
     def __del__(self):

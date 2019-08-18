@@ -15,7 +15,18 @@ var Printer = core.Class.extend(mixins.PropertiesMixin,{
         this.setParent(parent);
         options = options || {};
         var url = options.url || 'http://localhost:8069';
-        this.connection = new Session(undefined,url, { use_cors: true});
+        var _url = url;
+        if (parent.config.proxy_ip && !parent.config.is_posbox) {
+            _url = parent.config.proxy_ip;
+            if(_url.indexOf('//') < 0){
+                _url = 'http://'+ _url;
+            }
+            if(_url.indexOf(':', _url.indexOf('//')+2) < 0){
+                _url = _url+':8069';
+            }
+            url = url.split('://')[1];
+        }
+        this.connection = new Session(undefined,_url, { use_cors: true});
         this.host       = url;
         this.receipt_queue = [];
     },
@@ -28,7 +39,7 @@ var Printer = core.Class.extend(mixins.PropertiesMixin,{
             if(self.receipt_queue.length > 0){
                 var r = self.receipt_queue.shift();
                 var options = {shadow: true, timeout: 5000};
-                self.connection.rpc('/hw_proxy/print_xml_receipt', {receipt: r}, options)
+                self.connection.rpc('/hw_proxy/print_xml_receipt', {receipt: r, ip_printer: self.host}, options)
                     .then(function(){
                         send_printing_job();
                     },function(error, event){

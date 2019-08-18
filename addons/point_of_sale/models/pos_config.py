@@ -303,7 +303,7 @@ class PosConfig(models.Model):
     @api.onchange('is_posbox')
     def _onchange_is_posbox(self):
         if not self.is_posbox:
-            self.proxy_ip = False
+            #self.proxy_ip = False
             self.iface_scan_via_proxy = False
             self.iface_electronic_scale = False
             self.iface_cashdrawer = False

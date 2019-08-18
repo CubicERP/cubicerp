@@ -24,6 +24,8 @@ class PosOrder(models.Model):
                     line[2].pop('note')
                 if 'mp_skip' in line[2]:
                     line[2].pop('mp_skip')
+                if 'mp_dirty' in line[2]:
+                    line[2].pop('mp_dirty')
             if notes:
                 order_fields['note'] = notes
         return order_fields

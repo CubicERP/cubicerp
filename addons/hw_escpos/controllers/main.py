@@ -14,7 +14,7 @@ import traceback
 try: 
     from .. escpos import *
     from .. escpos.exceptions import *
-    from .. escpos.printer import Usb
+    from .. escpos.printer import Usb, Network
 except ImportError:
     escpos = printer = None
 
@@ -98,13 +98,24 @@ class EscposDriver(Thread):
     def lockedstart(self):
         with self.lock:
             if not self.isAlive():
-                self.daemon = True
+                if not self.isDaemon():
+                    self.setDaemon(True)
                 self.start()
     
-    def get_escpos_printer(self):
+    def get_escpos_printer(self, host=False):
   
         printers = self.connected_usb_devices()
-        if len(printers) > 0:
+        if host:
+            port = '9100'
+            if len(host.split(':')) > 1:
+                host, port = host.split(':')
+            print_dev = Network(host, int(port))
+            self.set_status(
+                'connected',
+                "Connected to %s:%s" % (host,port)
+            )
+            return print_dev
+        elif len(printers) > 0:
             print_dev = Usb(printers[0]['vendor'], printers[0]['product'])
             self.set_status(
                 'connected',
@@ -124,7 +135,7 @@ class EscposDriver(Thread):
         printer.cashdraw(5)
 
     def set_status(self, status, message = None):
-        _logger.info(status+' : '+ (message or 'no message'))
+        _logger.info(status+' : '+ str(message or 'no message'))
         if status == self.status['status']:
             if message != None and (len(self.status['messages']) == 0 or message != self.status['messages'][-1]):
                 self.status['messages'].append(message)
@@ -149,8 +160,12 @@ class EscposDriver(Thread):
             try:
                 error = True
                 timestamp, task, data = self.queue.get(True)
-
-                printer = self.get_escpos_printer()
+                host = False
+                if len(task.split('://')) > 1:
+                    task, host = task.split('://')
+                    printer = self.get_escpos_printer(host=host)
+                else:
+                    printer = self.get_escpos_printer()
 
                 if printer == None:
                     if task != 'status':
@@ -184,11 +199,11 @@ class EscposDriver(Thread):
                 print("Impossible to get the status of the printer %s" % e)
             except Exception as e:
                 self.set_status('error', e)
-                _logger.exception()
+                #_logger.exception(str(e))
             finally:
                 if error:
                     self.queue.put((timestamp, task, data))
-                if printer:
+                if printer and not host:
                     printer.close()
 
     def push_task(self,task, data = None):
@@ -382,6 +397,6 @@ class EscposProxy(hw_proxy.Proxy):
         driver.push_task('receipt',receipt)
 
     @http.route('/hw_proxy/print_xml_receipt', type='json', auth='none', cors='*')
-    def print_xml_receipt(self, receipt):
-        _logger.info('ESC/POS: PRINT XML RECEIPT') 
-        driver.push_task('xml_receipt',receipt)
+    def print_xml_receipt(self, receipt, ip_printer=False):
+        _logger.info('ESC/POS: PRINT XML RECEIPT%s'%(ip_printer and ' %s'%ip_printer or ''))
+        driver.push_task('xml_receipt%s'%(ip_printer and '://%s'%ip_printer or ''),receipt)

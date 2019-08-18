@@ -122,7 +122,7 @@ exports.PosModel = Backbone.Model.extend({
                 self.proxy.stop_searching();
             });
         this.proxy.autoconnect({
-                force_ip: self.config.proxy_ip || undefined,
+                force_ip: self.config.is_posbox && self.config.proxy_ip || undefined,
                 progress: function(prog){
                     self.chrome.loading_progress(prog);
                 },

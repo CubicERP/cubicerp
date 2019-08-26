@@ -199,7 +199,7 @@ class account_register_payments(models.TransientModel):
         '''
         amount = self._compute_payment_amount(invoices) if self.multi else self.amount
         payment_type = ('inbound' if amount > 0 else 'outbound') if self.multi else self.payment_type
-        return {
+        res = {
             'journal_id': self.journal_id.id,
             'payment_method_id': self.payment_method_id.id,
             'payment_date': self.payment_date,
@@ -211,6 +211,9 @@ class account_register_payments(models.TransientModel):
             'partner_id': invoices[0].commercial_partner_id.id,
             'partner_type': MAP_INVOICE_TYPE_PARTNER_TYPE[invoices[0].type],
         }
+        if not self.hide_date_due:
+            res['payment_date_due'] = self.payment_date_due
+        return res
 
     @api.multi
     def get_payments_vals(self):

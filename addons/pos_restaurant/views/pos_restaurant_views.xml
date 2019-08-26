@@ -109,7 +109,7 @@
                     <sheet>
                         <group>
                             <field name="name" />
-                            <field name="proxy_ip" placeholder="<hosname>:<port>"/>
+                            <field name="proxy_ip" placeholder="hosname:port"/>
                             <field name="product_categories_ids" />
                         </group>
                     </sheet>

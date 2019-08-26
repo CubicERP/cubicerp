@@ -31,7 +31,6 @@ class AccountEntriesReport(models.Model):
     _rec_name = 'date_effective'
     
     date_effective = fields.Date('Effective Date', readonly=True)
-    date_created = fields.Date('Date Created', readonly=True)
     date_maturity = fields.Date('Date Maturity', readonly=True)
     ref = fields.Char('Reference', readonly=True)
     note = fields.Char('Detail', readonly=True)
@@ -39,6 +38,7 @@ class AccountEntriesReport(models.Model):
     debit = fields.Float('Debit', readonly=True)
     credit = fields.Float('Credit', readonly=True)
     balance = fields.Float('Balance', readonly=True)
+    move_id = fields.Many2one("account.move", "Journal Entry", readonly=True)
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
     amount_currency = fields.Float('Amount Currency', digits=dp.get_precision('Account'), readonly=True)
     account_id = fields.Many2one('account.account', 'Account', readonly=True)
@@ -84,6 +84,7 @@ class AccountEntriesReport(models.Model):
                 l.date_maturity as date_maturity,
                 coalesce(am.ref,am.name) as ref,
                 l.name as note,
+                l.move_id as move_id,
                 am.state as move_state,
                 l.full_reconcile_id as reconcile_id,
                 l.partner_id as partner_id,

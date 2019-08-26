@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <tree colors="blue:move_state == 'draft';black:move_state == 'posted'" create="false" string="Entries Analysis">
                 <field name="date_effective" invisible="1"/>
-                <field name="date_created" invisible="1"/>
                 <field name="date_maturity" invisible="1"/>
                 <field name="ref" invisible="1"/>
                 <field name="nbr" sum="# of Entries "/>
@@ -59,7 +58,6 @@
         <field name="arch" type="xml">
             <search string="Entries Analysis">
                 <field name="date_effective"/>
-                <field name="date_created"/>
                 <field name="date_maturity"/>
                 <filter string="This F.Year" name="thisyear" domain="['|', ('date_effective', '=', False), '&amp;',('date_effective','&lt;=', time.strftime('%%Y-12-31')),('date_effective','&gt;=',time.strftime('%%Y-01-01'))]" help="Journal Entries with period in current year"/>
                 <filter string="This Month" name="period" domain="[('date_effective','&gt;=',time.strftime('%%Y-%%m-01'))]" help="Journal Entries with month in current month"/>

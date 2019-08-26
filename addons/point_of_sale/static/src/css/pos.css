@@ -1678,7 +1678,15 @@ td {
     margin-left: 16px;
     color: rgb(128,128,128);
     cursor: pointer;
-    font-size: 36px;
+    font-size: 18px;
+    border: solid 1px rgb(209, 209, 209);
+    border-radius: 3px;
+    padding: 3px 13px;
+    background: rgb(230, 230, 230);
+
+}
+.pos .clientlist-screen .edit-buttons .button:hover{
+    background: #efefef;
 }
 .pos .clientlist-screen .client-details-box{
     position: relative;
@@ -1737,6 +1745,7 @@ td {
 .pos .clientlist-screen .button.new-customer {
     left: 50%;
     margin-left: 120px;
+    font-size: 14px;
 }
 
 

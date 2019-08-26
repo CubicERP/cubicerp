@@ -496,6 +496,9 @@ class PosOrder(models.Model):
             aml = aml.filtered(lambda r: not r.reconciled and r.account_id.internal_type == 'receivable' and r.partner_id == order.partner_id.commercial_partner_id)
 
             try:
+                if len(aml.mapped('account_id')) > 1:
+                    account_id = aml.filtered(lambda l: l.journal_id.type not in ('cash', 'bank')).mapped('account_id').id
+                    aml = aml.filtered(lambda l: l.account_id.id==account_id)
                 # Cash returns will be well reconciled
                 # Whereas freight returns won't be
                 # "c'est la vie..."

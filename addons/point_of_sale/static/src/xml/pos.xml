@@ -339,8 +339,8 @@
             </div>
             <input class='detail client-name' name='name' t-att-value='partner.name' placeholder='Name'></input>
             <div class='edit-buttons'>
-                <div class='button undo'><i class='fa fa-undo' /></div>
-                <div class='button save'><i class='fa fa-floppy-o' /></div>
+                <div class='button undo'><i class='fa fa-undo' /> Discard</div>
+                <div class='button save'><i class='fa fa-floppy-o' /> Save</div>
             </div>
             <div class='client-details-box clearfix'>
                 <div class='client-details-left'>
@@ -407,7 +407,10 @@
             </div>
             <div class='client-name'><t t-esc='partner.name' /></div>
             <div class='edit-buttons'>
-                <div class='button edit'><i class='fa fa-pencil-square' /></div>
+                <div class='button edit'>
+                    <i class='fa fa-pencil-square' />
+                    Edit
+                </div>
             </div>
             <div class='client-details-box clearfix'>
                 <div class='client-details-left'>
@@ -488,6 +491,7 @@
                     <span class='button new-customer'>
                         <i class='fa fa-user'></i>
                         <i class='fa fa-plus'></i>
+                        New Customer
                     </span>
                     <span class='button next oe_hidden highlight'>
                         Select Customer

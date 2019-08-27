@@ -11,9 +11,9 @@ import types
 from lxml import etree
 import yaml
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
     from yaml import Loader, Dumper
+except ImportError:
+    from yaml import CLoader as Loader, CDumper as Dumper
 
 import odoo
 from . import assertion_report, pycompat, yaml_tag

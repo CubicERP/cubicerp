@@ -751,6 +751,7 @@ class PosOrder(models.Model):
                 pos_order.name = pos_order.invoice_id.number
             else:
                 pos_order.name = pos_order.config_id.sequence_id._next()
+            pos_order.statement_ids.write({'name': pos_order.name})
         return order_ids
 
     def test_paid(self):
@@ -954,7 +955,7 @@ class PosOrder(models.Model):
             'statement_id': statement_id,
             'pos_statement_id': self.id,
             'journal_id': journal_id,
-            'ref': self.session_id.name,
+            'ref': self.name + ': ' + (data.get('payment_name', '') or ''),
         })
 
         return args

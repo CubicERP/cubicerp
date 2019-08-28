@@ -163,7 +163,7 @@ class AccountBankStatement(models.Model):
         res = []
         full_name = self.env.context.get("statement_full_name", False)
         for statement in self:
-            name = full_name and "%s (%s %s)"%(statement.name or statement.journal_id.name, statement.journal_id.code,statement.date) or statement.name or "%s %s"%(statement.journal_id.name, statement.date)
+            name = full_name and "[%s] %s%s (%s)"%(statement.journal_id.code, statement.journal_id.name, statement.name and ' - %s'%statement.name or '', statement.date) or statement.name or "%s %s"%(statement.journal_id.name, statement.date)
             res.append((statement.id, name))
         return res
 

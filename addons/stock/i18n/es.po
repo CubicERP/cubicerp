@@ -146,7 +146,7 @@ msgstr ", si los módulos de contabilidad o de compras están instalados"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "- The Odoo Team"
-msgstr "- El equipo de Odoo"
+msgstr "- El equipo"
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_form_view
@@ -3609,7 +3609,7 @@ msgid ""
 "Like with the sales flow, Odoo inventory management is\n"
 "                        fully integrated with the purchase app."
 msgstr ""
-"Al igual que con el flujo de ventas, la gestión de inventario de Odoo está "
+"Al igual que con el flujo de ventas, la gestión de inventario está "
 "completamente integrada con la aplicación de compras."
 
 #. module: stock

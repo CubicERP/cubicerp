@@ -1733,7 +1733,7 @@ msgid ""
 "remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
-"Estas preguntas se refieren a la ergonomía y facilidad de uso de Odoo. Trate "
+"Estas preguntas se refieren a la ergonomía y facilidad de uso. Trate "
 "de recordar a sus primeros días en Odoo y \n"
 "cuáles han sido sus dificultades."
 
@@ -1978,7 +1978,7 @@ msgid ""
 "What do you think about the process views of Odoo, available in the web "
 "client ?"
 msgstr ""
-"Qué piensa acerca de las vistas de proceso de Odoo, disponibles en el "
+"Qué piensa acerca de las vistas de proceso, disponibles en el "
 "cliente web?"
 
 #. module: survey
@@ -2025,7 +2025,7 @@ msgstr "Sí, uso la versión 7.0, instalado localmente"
 #. module: survey
 #: model:survey.label,value:survey.choice_1_1_3
 msgid "Yes, I use the online version of Odoo"
-msgstr "Sí, uso la versión en línea de Odoo"
+msgstr "Sí, uso la versión en línea"
 
 #. module: survey
 #: model:ir.actions.act_window,help:survey.action_survey_form

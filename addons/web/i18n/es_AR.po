@@ -1619,7 +1619,7 @@ msgstr ""
 #. module: web
 #: model:ir.ui.view,arch_db:web.qunit_suite
 msgid "Odoo Web Tests"
-msgstr "Tests web de Odoo"
+msgstr "Tests web"
 
 #. module: web
 #. openerp-web

@@ -517,7 +517,7 @@ msgstr "Hoe een website module ontwikkelen."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track4
 msgid "How to develop automated tests in the Odoo web client."
-msgstr "Hoe automatische testen ontwikkelen in de Odoo web client."
+msgstr "Hoe automatische testen ontwikkelen in web client."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track3
@@ -787,7 +787,7 @@ msgstr "Het verhogen van kwalitatieve inzichten met de enquête app"
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track21
 msgid "Recruiting high skilled talents with Odoo HR apps"
-msgstr "Werf hoog opgeleide talenten met de Odoo personeelsbeheer module"
+msgstr "Werf hoog opgeleide talenten met personeelsbeheer module"
 
 #. module: website_event_track
 #: selection:event.track,kanban_state:0
@@ -987,7 +987,7 @@ msgstr "De nieuwe verkoopstrategie."
 msgid ""
 "The new way to promote your modules in the Apps platform and Odoo website."
 msgstr ""
-"De nieuwe manier om uw modules te promoten in het Apps platform en de Odoo "
+"De nieuwe manier om uw modules te promoten in het Apps platform en "
 "website"
 
 #. module: website_event_track

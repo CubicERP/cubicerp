@@ -110,7 +110,7 @@ msgstr "si los módulos de contabilidad o compras están instalados"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "- The Odoo Team"
-msgstr "El equipo de Odoo"
+msgstr "El equipo"
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.stock_warn_insufficient_qty_form_view
@@ -3291,7 +3291,7 @@ msgstr ""
 "También es posible importar el inventario inicial de un archivo Excel o "
 "CSV.\n"
 "                        Si desea hacerlo, comuníquese con su Gerente de "
-"proyecto de Odoo."
+"proyecto."
 
 #. module: stock
 #: code:addons/stock/models/stock_quant.py:244
@@ -3525,7 +3525,7 @@ msgid ""
 "Like with the sales flow, Odoo inventory management is\n"
 "                        fully integrated with the purchase app."
 msgstr ""
-"Como con el flujo de ventas, gestión de inventario de Odoo está totalmente "
+"Como con el flujo de ventas, gestión de inventario está totalmente "
 "integrado con la aplicación de la compra."
 
 #. module: stock
@@ -4139,7 +4139,7 @@ msgid ""
 "initial\n"
 "                        quotation to the delivery and the final invoice."
 msgstr ""
-"Gestión de inventario de Odoo está totalmente integrado con el proceso de "
+"Gestión de inventario está totalmente integrado con el proceso de "
 "ventas y facturación. Todo automatizado desde el presupuesto inicial para la "
 "entrega y la factura final."
 
@@ -6502,7 +6502,7 @@ msgid ""
 "This guide helps getting started with Odoo Inventory.\n"
 "                        Once you are done, you will benefit from:"
 msgstr ""
-"Esta guía de ayuda para empezar con el inventario de Odoo.\n"
+"Esta guía de ayuda para empezar con el inventario.\n"
 "Una vez que haya terminado, usted se beneficiará de:"
 
 #. module: stock

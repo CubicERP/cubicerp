@@ -2082,7 +2082,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Módulo que lanza avisos en los objetos de Odoo.\n"
+"Módulo que lanza avisos en los objetos.\n"
 "=========================================\n"
 "\n"
 "Se pueden mostrar mensajes de aviso para objetos tales como notas de pedido, "
@@ -12239,7 +12239,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_im_odoo_support
 msgid "Odoo Live Support"
-msgstr "Soporte de Odoo en vivo"
+msgstr "Soporte en vivo"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_settings_dashboard
@@ -13023,7 +13023,7 @@ msgid ""
 msgstr ""
 "Los miembros del portal tienen derechos de acceso específicos (tales como "
 "reglas de registro y menús restringidos).\n"
-"Normalmente no pertenecen a los grupos habituales de Odoo."
+"Normalmente no pertenecen a los grupos habituales."
 
 #. module: base
 #: model:res.country,name:base.pt
@@ -13223,7 +13223,7 @@ msgid ""
 msgstr ""
 "Los usuarios anónimos tienen permisos específicos (tales como reglas de "
 "registro y menús restringidos). Normalmente no pertenecen a los grupos "
-"usuales de Odoo."
+"usuales."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_membership
@@ -14914,7 +14914,7 @@ msgid ""
 "                                for uploading to Odoo's translation platform,"
 msgstr ""
 "Formato TGZ: archivo comprimido que contiene un archivo PO, adecuado para "
-"subirlo directamente a la plataforma de traducción de Odoo."
+"subirlo directamente a la plataforma de traducción."
 
 #. module: base
 #: code:addons/base/res/res_company.py:217
@@ -15188,7 +15188,7 @@ msgid ""
 "choose to restart some wizards manually from this menu."
 msgstr ""
 "Los asistentes de configuración se usan para ayudarle a configurar una nueva "
-"instancia de Odoo. Son lanzados durante la instalación de nuevos módulos, "
+"instancia. Son lanzados durante la instalación de nuevos módulos, "
 "pero puede escoger reiniciar alguno de ellos manualmente desde este menú."
 
 #. module: base
@@ -16805,7 +16805,7 @@ msgstr ""
 "existente, sino que añade nuevos. Si es imprescindible modificar un nudo o "
 "flecha, puede cambiar sólo campos que estén vacíos o en el valor por "
 "defecto. Si no hace eso, su personalización será sobrescrita en la próxima "
-"actualización o migración a una versión futura de Odoo."
+"actualización o migración a una versión futura."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_act_server_sequence
@@ -18134,7 +18134,7 @@ msgstr ""
 #~ "\n"
 #~ "En lugar de un ajuste manual de los estados de cuenta bancarios "
 #~ "generados, también puede\n"
-#~ "reimportación del CODA después de actualizar la base de datos de Odoo con "
+#~ "reimportación del CODA después de actualizar la base de datos con "
 #~ "la información que\n"
 #~ "faltaba para permitir la conciliación automática.\n"
 #~ "\n"

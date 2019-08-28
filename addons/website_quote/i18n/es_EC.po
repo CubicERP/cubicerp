@@ -918,9 +918,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Aprenda directamente de nuestro equipo y red de expertos de Odoo. Escoja "
+"Aprenda directamente de nuestro equipo y red de expertos. Escoja "
 "entre las sesiones de formación disponible para una mejor comprensión "
-"funcional de Odoo"
+"funcional"
 
 #. module: website_quote
 #: model:product.product,description_sale:website_quote.product_product_quote_2
@@ -930,9 +930,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Aprenda directamente de nuestro equipo y red de expertos de Odoo. Escoja "
+"Aprenda directamente de nuestro equipo y red de expertos. Escoja "
 "entre las sesiones de formación disponible para una mejor comprensión "
-"técnica de Odoo"
+"técnica"
 
 #. module: website_quote
 #: model:ir.model.fields,field_description:website_quote.field_sale_order_option_line_id

@@ -408,7 +408,7 @@ msgid ""
 "Access to an Account Manager at Odoo SA to discuss strategic, sales and "
 "service issues"
 msgstr ""
-"Acceda a un gestor de cuentas de Odoo SA para hablar de la estrategia, las "
+"Acceda a un gestor de cuentas SA para hablar de la estrategia, las "
 "ventas y el servicio"
 
 #. module: website_quote
@@ -455,7 +455,7 @@ msgstr "Importe antes del descuento"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "An Odoo official partner commits to:"
-msgstr "Todo socio oficial de Odoo se compromete a:"
+msgstr "Todo socio oficial se compromete a:"
 
 #. module: website_quote
 #: model:ir.ui.view,arch_db:website_quote.view_sale_quote_template_search
@@ -509,14 +509,14 @@ msgid ""
 "Be the first level of support for his Odoo customers and use Odoo SA for the"
 " second level of support (mostly for bug fixes)"
 msgstr ""
-"Sea el primer contacto para los clientes de Odoo siempre que necesiten ayuda"
+"Sea el primer contacto para los clientes siempre que necesiten ayuda"
 " y utilice a Odoo SA como contacto secundario (esencialmente para corregir "
 "errores)"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Become a Certified Odoo Partner"
-msgstr "Obtenga la categoría de socio autorizado de Odoo"
+msgstr "Obtenga la categoría de socio autorizado"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -830,13 +830,13 @@ msgstr ""
 msgid ""
 "Has access to Odoo Enterprise source code on Github and latest bug fixes"
 msgstr ""
-"Tiene acceso al código fuente de Odoo Enterprise a través de Github y a las "
+"Tiene acceso al código fuente Enterprise a través de Github y a las "
 "últimas resoluciones de errores"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Have dedicated resources assigned to Odoo projects"
-msgstr "Cuente con recursos dedicados en exclusiva a los proyectos de Odoo"
+msgstr "Cuente con recursos dedicados en exclusiva a los proyectos"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -990,9 +990,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Aprenda directamente de nuestro equipo y red de expertos de Odoo. Escoja "
+"Aprenda directamente de nuestro equipo y red de expertos. Escoja "
 "entre las sesiones de formación disponible para una mejor comprensión "
-"funcional de Odoo"
+"funcional"
 
 #. module: website_quote
 #: model:product.product,description_sale:website_quote.product_product_quote_2
@@ -1002,9 +1002,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Aprenda directamente de nuestro equipo y red de expertos de Odoo. Escoja "
+"Aprenda directamente de nuestro equipo y red de expertos. Escoja "
 "entre las sesiones de formación disponible para una mejor comprensión "
-"técnica de Odoo"
+"técnica"
 
 #. module: website_quote
 #: model:ir.model.fields,field_description:website_quote.field_sale_order_option_line_id
@@ -1083,7 +1083,7 @@ msgstr ""
 #: model:product.template,quote_description:website_quote.product_template_quote_2
 #: model:sale.quote.line,website_description:website_quote.website_sale_order_line_2
 msgid "Odoo Official Website"
-msgstr "Página Web Oficial de Odoo "
+msgstr "Página Web Oficial "
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1091,17 +1091,17 @@ msgstr "Página Web Oficial de Odoo "
 #: model:product.template,quote_description:website_quote.product_template_quote_2
 #: model:sale.quote.line,website_description:website_quote.website_sale_order_line_2
 msgid "Odoo Web Client"
-msgstr "Cliente Web de Odoo"
+msgstr "Cliente Web"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Odoo official partners will benefit from:"
-msgstr "Los socios oficiales de Odoo tendrán:"
+msgstr "Los socios oficiales tendrán:"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Odoo sales training session"
-msgstr "Sesión formativa de ventas de Odoo"
+msgstr "Sesión formativa de ventas"
 
 #. module: website_quote
 #: selection:sale.order,require_payment:0
@@ -1501,7 +1501,7 @@ msgstr ""
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "The Odoo Enterprise GitHub repositories for all his developers"
-msgstr "Repositorios GitHub de Odoo Enterprise para todos sus desarrolladores"
+msgstr "Repositorios GitHub Enterprise para todos sus desarrolladores"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -1511,11 +1511,11 @@ msgid ""
 "guarantee that, the Odoo Partner Program ensures that official partners have"
 " the resources and knowledge required to offer Odoo implementation services."
 msgstr ""
-"El sistema ECO de Odoo está pensado para ofrecer la mejor experiencia a los "
+"El sistema ECO está pensado para ofrecer la mejor experiencia a los "
 "usuarios, desde el producto hasta los servicios de implementación. Para "
-"ello, el programa de socios de Odoo garantiza que todos los socios oficiales"
+"ello, el programa de socios garantiza que todos los socios oficiales"
 " tienen los recursos y conocimientos necesarios para ofrecer servicios de "
-"implementación de Odoo."
+"implementación."
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -1609,7 +1609,7 @@ msgstr "Precio total"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Train their staff by following Odoo training sessions"
-msgstr "Forme a su personal con las sesiones formativas de Odoo"
+msgstr "Forme a su personal con las sesiones formativas"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1657,7 +1657,7 @@ msgid ""
 "Up to 20% commission on Odoo Enterprise sales, depending on the partnership "
 "level"
 msgstr ""
-"Hasta un 20 % de comisión en ventas de Odoo Enterprise según el nivel de "
+"Hasta un 20 % de comisión en ventas Enterprise según el nivel de "
 "socio"
 
 #. module: website_quote
@@ -1698,7 +1698,7 @@ msgid ""
 "Visibility and recognition, by being listed as an official partner on "
 "Odoo.com Partners page"
 msgstr ""
-"Visibilidad y reconocimiento al aparecer en la página Socios de Odoo.com "
+"Visibilidad y reconocimiento al aparecer en la página Socios.com "
 "como socio oficial "
 
 #. module: website_quote

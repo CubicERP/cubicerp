@@ -398,7 +398,7 @@ msgstr ""
 "La funcionalidad de seguimiento de tiempo tiene como objetivo gestionar las "
 "asistencias de los empleados a través de acciones de Inicio/Cierre de "
 "sesión. También puede vincular esta función a un dispositivo de asistencia "
-"utilizando las funciones de servicio web de Odoo."
+"utilizando las funciones de servicio web."
 
 #. module: hr_attendance
 #: model:ir.ui.view,arch_db:hr_attendance.view_hr_attendance_filter

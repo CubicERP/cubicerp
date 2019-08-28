@@ -16407,7 +16407,7 @@ msgstr ""
 "necessari modificar un node o direcció, només podeu canviar els camps que "
 "són buits o posar-los al seu valor per defecte. Si no ho fa, la vostra "
 "personalització serà sobreescrita en la següent actualització de les futures "
-"versions de Odoo."
+"versions."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_act_server_sequence

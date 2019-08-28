@@ -71,9 +71,6 @@
                                 <div>
                                     <a type="object" name="open_action" context="{'action_name': 'action_account_moves_all_a'}" groups="base.group_no_one">Journal Items</a>
                                 </div>
-                                <div>
-                                    <a type="object" name="open_action_with_context" context="{'action_name': 'action_account_moves_all_a', 'journal_account_domain':True}" groups="base.group_no_one">Pending Journal Items</a>
-                                </div>
                             </div>
 
                              <div class="col-xs-4 o_kanban_card_manage_section o_kanban_manage_new">

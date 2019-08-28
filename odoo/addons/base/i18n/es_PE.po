@@ -17613,7 +17613,7 @@ msgstr ""
 #~ msgstr "Mongolian / монгол"
 
 #~ msgid "Odoo VOIP"
-#~ msgstr "VOIP de Odoo"
+#~ msgstr "VOIP"
 
 #~ msgid "Persian / فارس"
 #~ msgstr "Persian / فارس"

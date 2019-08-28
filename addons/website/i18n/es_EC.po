@@ -129,7 +129,7 @@ msgstr ", actualizado:"
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
 msgid "- The Odoo Team"
-msgstr "- El Equipo de Odoo"
+msgstr "- El Equipo"
 
 #. module: website
 #. openerp-web
@@ -649,7 +649,7 @@ msgid ""
 "                                We like to hear from people using Odoo to "
 "build their website. Tweet us"
 msgstr ""
-"<strong> Sea anunciado en la cuenta de Twitter de Odoo </ strong> <br/> Nos "
+"<strong> Sea anunciado en la cuenta de Twitter </ strong> <br/> Nos "
 "gustaría escuchar de personas que utilizan Odoo para construir su sitio web. "
 "Envíenos un Tweet"
 
@@ -2808,7 +2808,7 @@ msgstr "CMS Odoo - Ejemplo de imagen flotante"
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "Odoo Version"
-msgstr "Versión de Odoo"
+msgstr "Versión"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_image_text
@@ -4659,7 +4659,7 @@ msgstr ""
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "instance of Odoo, the"
-msgstr "instancia de Odoo, el"
+msgstr "instancia, el"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

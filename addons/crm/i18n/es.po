@@ -204,7 +204,7 @@ msgstr ""
 "                            <p dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;\">\n"
 "                                <span>Estaremos encantados de ayudarle en el camino. Contáctanos a través de nuestro\n"
 "                                <a href=\"https://www.odoo.com/help\">formulario de soporte</a> si tienes cualquier inquietud.\n"
-"                                También puede descubrir cómo obtener lo mejor de Odoo CRM con nuestro </span>\n"
+"                                También puede descubrir cómo obtener lo mejor CRM con nuestro </span>\n"
 "                                <a target=\"_blank\" href=\"https://www.odoo.com/documentation/user/10.0/crm.html\">\n"
 "                                <span style=\"text-decoration:underline;\">Documentación de Usuario</span></a>\n"
 "                                </span><span> or with our </span>\n"
@@ -873,7 +873,7 @@ msgid ""
 "                                apps of Odoo:"
 msgstr ""
 "<strong>Entrenamientos</strong><br/>\n"
-"Para crear un buen programa de entrenamiento, puede utilizar las siguientes apps de Odoo:"
+"Para crear un buen programa de entrenamiento, puede utilizar las siguientes apps:"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -2289,7 +2289,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Happy Selling!<br/>- The CubicERP Team"
-msgstr "¡Feliz venta!<br/>- El equipo de Odoo"
+msgstr "¡Feliz venta!<br/>- El equipo"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -4185,7 +4185,7 @@ msgid ""
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
-"El modelo (Tipo de documento de Odoo) al que corresponde este seudónimo. "
+"El modelo (Tipo de documento) al que corresponde este seudónimo. "
 "Cualquier correo entrante que no sea respuesta a un registro existente, "
 "causará la creación de un nuevo registro de este modelo (por ejemplo, una "
 "tarea de proyecto)."

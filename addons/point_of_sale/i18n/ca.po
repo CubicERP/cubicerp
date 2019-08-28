@@ -4715,7 +4715,7 @@ msgstr "on els duplicats de les comandes existents"
 #~ msgstr "Resum de Sessió: "
 
 #~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Comparteix o incrusta qualsevol pantalla de Odoo."
+#~ msgstr "Comparteix o incrusta qualsevol pantalla."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Compartir socis per a totes les empreses"

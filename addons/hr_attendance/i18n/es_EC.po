@@ -392,7 +392,7 @@ msgstr ""
 "La funcionalidad de seguimiento de tiempos permite gestionar las asistencias "
 "de los empleados desde las acciones de Fichar entrada / Fichar salida. Puede "
 "enlazar esta característica con un dispositivo de asistencia usando los "
-"servicios web de Odoo."
+"servicios web."
 
 #. module: hr_attendance
 #: model:ir.ui.view,arch_db:hr_attendance.view_hr_attendance_filter

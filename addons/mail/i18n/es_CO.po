@@ -2259,7 +2259,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Si tiene un dominio de correo electrónico general redireccionado a un "
-"servidor de Odoo, ponga el nombre del dominio aquí."
+"servidor, ponga el nombre del dominio aquí."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141
@@ -4204,7 +4204,7 @@ msgid ""
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"El modelo (Tipo de Documento de Odoo) al que corresponde este alias. "
+"El modelo (Tipo de Documento) al que corresponde este alias. "
 "Cualquier correo entrante que no sea respuesta a un registro existente, "
 "causará la creación de un nuevo registro de este modelo (ej. una Tarea de "
 "Proyecto)"

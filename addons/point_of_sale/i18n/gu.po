@@ -1503,7 +1503,7 @@ msgstr "ID (identificación)"
 #: code:addons/point_of_sale/static/src/js/popups.js:113
 #, python-format
 msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
-msgstr "IMPORTANTE: Reporte de Error del Punto de Venta de Odoo"
+msgstr "IMPORTANTE: Reporte de Error del Punto de Venta"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config_proxy_ip
@@ -2036,7 +2036,7 @@ msgstr "Número de copias"
 #. module: point_of_sale
 #: model:ir.ui.view,arch_db:point_of_sale.index
 msgid "CubicERP POS"
-msgstr "TPV de Odoo"
+msgstr "TPV"
 
 #. module: point_of_sale
 #. openerp-web
@@ -4568,7 +4568,7 @@ msgstr "eran duplicados de órdenes existentes"
 #~ "enter the domain name here."
 #~ msgstr ""
 #~ "Si tiene un dominio de correo electrónico general redireccionado a un "
-#~ "servidor de Odoo, ponga el nombre del dominio aquí."
+#~ "servidor, ponga el nombre del dominio aquí."
 
 #~ msgid "Implementation References"
 #~ msgstr "Referencia de implementación"
@@ -4703,7 +4703,7 @@ msgstr "eran duplicados de órdenes existentes"
 #~ msgstr "Resumen de sesión:"
 
 #~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Comparta o incruste cualquier pantalla de Odoo."
+#~ msgstr "Comparta o incruste cualquier pantalla."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Compartir empresas para todas las compañías"

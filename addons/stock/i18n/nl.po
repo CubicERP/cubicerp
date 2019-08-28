@@ -3585,7 +3585,7 @@ msgid ""
 "Like with the sales flow, Odoo inventory management is\n"
 "                        fully integrated with the purchase app."
 msgstr ""
-"Net als de verkoop flow, de Odoo Voorraad Management is\n"
+"Net als de verkoop flow, Voorraad Management is\n"
 "volledig geïntegreerd met de Inkoop app."
 
 #. module: stock
@@ -7921,7 +7921,7 @@ msgid ""
 "them with the Odoo Barcode app, or let Odoo do it automatically while "
 "validating"
 msgstr ""
-"door de gedane hoeveelheid handmatig te updaten of scan ze met de Odoo "
+"door de gedane hoeveelheid handmatig te updaten of scan ze met "
 "barcode app, of laat Odoo het automatisch doen tijdens het bevestigen"
 
 #. module: stock

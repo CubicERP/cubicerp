@@ -200,7 +200,7 @@ msgid ""
 msgstr ""
 "El ID del último calendario ha sido sincronizado. Si se cambia, se "
 "eliminarán todos los enlaces entre el ID de Google y el ID de Google interno"
-" de Odoo"
+""
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_google_calendar___last_update
@@ -215,12 +215,12 @@ msgstr "Fecha de la última sincronización"
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_attendee_oe_synchro_date
 msgid "CubicERP Synchro Date"
-msgstr "Fecha de la sincronización de Odoo"
+msgstr "Fecha de la sincronización"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_event_oe_update_date
 msgid "CubicERP Update Date"
-msgstr "Fecha de actualización de Odoo"
+msgstr "Fecha de actualización"
 
 #. module: google_calendar
 #. openerp-web

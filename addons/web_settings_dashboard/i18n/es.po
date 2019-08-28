@@ -148,7 +148,7 @@ msgstr "¡Obtenga más funcionalidades con la Edición Enterprise!"
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:140
 #, python-format
 msgid "Help us spread the word: Share Odoo's awesomeness with your friends!"
-msgstr "Ayúdenos a difundir: ¡Comparta las maravillas de Odoo con sus amigos!"
+msgstr "Ayúdenos a difundir: ¡Comparta las maravillas con sus amigos!"
 
 #. module: web_settings_dashboard
 #. openerp-web

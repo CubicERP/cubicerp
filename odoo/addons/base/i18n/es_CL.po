@@ -13082,7 +13082,7 @@ msgstr ""
 #. module: base
 #: model:ir.actions.act_window,help:base.grant_menu_access
 msgid "Manage and customize the items available and displayed in your Cubic ERP system menu. You can delete an item by clicking on the box at the beginning of each line and then delete it through the button that appeared. Items can be assigned to specific groups in order to make them accessible to some users within the system."
-msgstr "Gestione y personalice los elementos disponibles y mostrados en su menú de Odoo. Puede borrar un elemento pulsando en la caja al inicio de cada línea y entonces borrarlo a través del botón que aparece. Los elementos pueden ser asignados a grupos específicos para hacerlos accesibles sólo a algunos usuarios del sistema."
+msgstr "Gestione y personalice los elementos disponibles y mostrados en su menú. Puede borrar un elemento pulsando en la caja al inicio de cada línea y entonces borrarlo a través del botón que aparece. Los elementos pueden ser asignados a grupos específicos para hacerlos accesibles sólo a algunos usuarios del sistema."
 
 #. module: base
 #: model:ir.actions.act_window,help:base.action_res_bank_form
@@ -18989,7 +18989,7 @@ msgstr "Archivo TGZ"
 msgid ""
 "TGZ format: this is a compressed archive containing a PO file, directly suitable\n"
 "                                for uploading to Cubic ERP's translation platform,"
-msgstr "Formato TGZ: archivo comprimido que contiene un archivo PO, adecuado para subirlo directamente a la plataforma de traducción de Odoo."
+msgstr "Formato TGZ: archivo comprimido que contiene un archivo PO, adecuado para subirlo directamente a la plataforma de traducción."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company_vat
@@ -20360,7 +20360,7 @@ msgstr "Vistas"
 #. module: base
 #: model:ir.actions.act_window,help:base.action_ui_view
 msgid "Views allows you to personalize each view of Cubic ERP. You can add new fields, move fields, rename them or delete the ones that you do not need."
-msgstr "La entrada 'Vistas' le permiten personalizar cada vista de Odoo. Puede añadir nuevos campos, moverlos, renombrarlos o borrar los que no necesite"
+msgstr "La entrada 'Vistas' le permiten personalizar cada vista. Puede añadir nuevos campos, moverlos, renombrarlos o borrar los que no necesite"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_ui_view_inherit_children_ids

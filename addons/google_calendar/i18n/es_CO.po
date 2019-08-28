@@ -291,12 +291,12 @@ msgstr "Fecha de la última sincronización"
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_attendee_oe_synchro_date
 msgid "CubicERP Synchro Date"
-msgstr "Fecha de la Sincronización de Odoo"
+msgstr "Fecha de la Sincronización"
 
 #. module: google_calendar
 #: model:ir.model.fields,field_description:google_calendar.field_calendar_event_oe_update_date
 msgid "CubicERP Update Date"
-msgstr "Fecha de Actualización de Odoo"
+msgstr "Fecha de Actualización"
 
 #. module: google_calendar
 #: model:ir.ui.view,arch_db:google_calendar.view_calendar_config_settings

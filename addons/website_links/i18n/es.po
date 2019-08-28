@@ -209,7 +209,7 @@ msgid ""
 " or in Odoo reports to track opportunities and related revenues."
 msgstr ""
 "Es posible usar tales rastreadores en Google Analytics para realizar un "
-"seguimiento de clics y visitas, así como también en informes de Odoo con el "
+"seguimiento de clics y visitas, así como también en informes con el "
 "fin de supervisar oportunidades e ingresos relacionados."
 
 #. module: website_links

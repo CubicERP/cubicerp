@@ -518,7 +518,7 @@ msgid ""
 "                        application to Odoo?"
 msgstr ""
 "Comment exporter/importer différentes tables d'une\\n\n"
-"                        application SQL de Odoo?"
+"                        application SQL?"
 
 #. module: base_import
 #. openerp-web
@@ -1157,7 +1157,7 @@ msgid ""
 msgstr ""
 "Pour gérer les relations entre les tables, vous pouvez utiliser la fonction"
 "\\n\n"
-"                        \"Iidentifiant externe\" de Odoo. L'\"Identifiant "
+"                        \"Iidentifiant externe\". L'\"Identifiant "
 "externe\" d'un enregistrement\\n\n"
 "                        est l'identifiant unique de ce document dans une "
 "autre application. Cet\\n\n"

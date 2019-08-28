@@ -4357,7 +4357,7 @@ msgstr ""
 #~ msgstr "San Pellegrino 1L"
 
 #~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Comparta o incruste cualquier pantalla de Odoo."
+#~ msgstr "Comparta o incruste cualquier pantalla."
 
 #~ msgid "Stella Artois 50cl"
 #~ msgstr "Stella Artois 50cl"

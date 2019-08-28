@@ -121,7 +121,7 @@ msgid ""
 "A technical explanation of Odoo as a CMS and a eCommerce platform for "
 "version 8."
 msgstr ""
-"A explicação técnica de Odoo como um CMS e uma plataforma de comércio "
+"A explicação técnica como um CMS e uma plataforma de comércio "
 "eletrónico para a versão 8."
 
 #. module: website_event_track

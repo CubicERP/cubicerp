@@ -130,7 +130,7 @@ msgid ""
 "A technical explanation of Odoo as a CMS and a eCommerce platform for "
 "version 8."
 msgstr ""
-"Una explicación técnica de Odoo como un CMS y una plataforma de Comercio "
+"Una explicación técnica como un CMS y una plataforma de Comercio "
 "Electrónico para la versión 8."
 
 #. module: website_event_track
@@ -314,14 +314,14 @@ msgstr ""
 msgid ""
 "Discover Odoo CRM: How to optimize your sales, from leads to sales orders."
 msgstr ""
-"Descubra el CRM de Odoo: Cómo optimizar sus ventas, desde iniciativas a las "
+"Descubra el CRM: Cómo optimizar sus ventas, desde iniciativas a las "
 "órdenes de venta."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track11
 msgid "Discover Odoo Point-of-Sale: Your shop ready to use in 30 minutes."
 msgstr ""
-"Descubra el Punto de Venta de Odoo: Su tienda lista para usar en 30 minutos."
+"Descubra el Punto de Venta: Su tienda lista para usar en 30 minutos."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor_display_name
@@ -494,7 +494,7 @@ msgstr "Cómo desarrollar un módulo para el sitio web."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track4
 msgid "How to develop automated tests in the Odoo web client."
-msgstr "Cómo desarrollar pruebas automáticas en el cliente web de Odoo."
+msgstr "Cómo desarrollar pruebas automáticas en el cliente web."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track3
@@ -506,7 +506,7 @@ msgstr ""
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track2
 msgid "How to integrate hardware materials with the Odoo point of sale."
-msgstr "Cómo integrar materiales hardware en su punto de venta de Odoo."
+msgstr "Cómo integrar materiales hardware en su punto de venta."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track9
@@ -612,7 +612,7 @@ msgstr "Almuerzo"
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track22
 msgid "Manage your KPIs (recomended to openERP partners)."
-msgstr "Gestione sus KPIs (recomendado para Partners de Odoo)."
+msgstr "Gestione sus KPIs (recomendado para Partners)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
@@ -696,7 +696,7 @@ msgstr "Odoo Móvil para Notas, Reuniones y Mensajes."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track28
 msgid "Odoo Status & Strategy 2014"
-msgstr "Estado y Estrategia de Odoo 2014"
+msgstr "Estado y Estrategia 2014"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track16
@@ -767,7 +767,7 @@ msgstr ""
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track21
 msgid "Recruiting high skilled talents with Odoo HR apps"
-msgstr "Contratando grandes talentos con las aplicaciones de RRHH de Odoo"
+msgstr "Contratando grandes talentos con las aplicaciones de RRHH"
 
 #. module: website_event_track
 #: selection:event.track,kanban_state:0
@@ -955,7 +955,7 @@ msgstr "Gracias por su propuesta."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track17
 msgid "The Art of Making an Odoo Demo."
-msgstr "El Arte de Hacer un Demo de Odoo."
+msgstr "El Arte de Hacer un Demo."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track29
@@ -968,7 +968,7 @@ msgid ""
 "The new way to promote your modules in the Apps platform and Odoo website."
 msgstr ""
 "La nueva forma de promover sus módulos en la plataforma de Apps y el sitio "
-"web de Odoo."
+"web."
 
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.event_track_proposal

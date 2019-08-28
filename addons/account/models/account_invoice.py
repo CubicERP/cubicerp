@@ -1165,6 +1165,7 @@ class AccountInvoice(models.Model):
             # Pass invoice in context in method post: used if you want to get the same
             # account move reference when creating the same invoice after a cancelled one:
             move.post()
+            move.line_ids.filtered(lambda l: l.name == '/').write({'name': move.name})
             # make the invoice point to that move
             vals = {
                 'move_id': move.id,

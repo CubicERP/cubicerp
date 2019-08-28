@@ -3467,7 +3467,7 @@ msgstr ""
 msgid ""
 "To do so, take the most out of Odoo's <strong>pricing options</strong>:<br/>"
 msgstr ""
-"Para ello, aproveche al máximo las <strong>opciones de precios de Odoo "
+"Para ello, aproveche al máximo las <strong>opciones de precios "
 "</strong>: <br/>"
 
 #. module: website_sale
@@ -3862,7 +3862,7 @@ msgstr "términos &amp; condiciones"
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
 msgid "use Odoo API to import through scripts"
-msgstr "utiliza l'API de Odoo para importar a través de scripts"
+msgstr "utiliza l'API para importar a través de scripts"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_pricelist_website_id

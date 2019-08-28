@@ -226,7 +226,7 @@ msgstr ""
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid "- The Odoo Team"
-msgstr "- El Equipo de Odoo"
+msgstr "- El Equipo"
 
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
@@ -639,7 +639,7 @@ msgid ""
 "Tasks and Issues and is extremely useful for several cases."
 msgstr ""
 "<strong>\n"
-"Una gran característica de Odoo es la integración de una Libreta "
+"Una gran característica es la integración de una Libreta "
 "Colaborativa llamada Etherpad.</strong><br/>\n"
 "Esta sustituye la Descripción estándar en las Tareas e Incidencias y es "
 "extremadamente útil para varios casos."
@@ -712,7 +712,7 @@ msgid ""
 "including internal employees, external users or customers."
 msgstr ""
 "<strong>Tenga cuidado con los mensajes que envíe</strong><br/>\n"
-"El envío de un mensaje a través de Odoo enviará automáticamente un correo "
+"El envío de un mensaje a través enviará automáticamente un correo "
 "electrónico a todos los seguidores incluidos los empleados internos, y "
 "usuarios o clientes externos."
 
@@ -2567,7 +2567,7 @@ msgid ""
 "notified in Odoo's Inbox."
 msgstr ""
 "Las notas internas son mensajes que aparecerán en el Chatter pero no será "
-"notificado en el Inbox de Odoo."
+"notificado en el Inbox."
 
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
@@ -2846,7 +2846,7 @@ msgstr ""
 "riesgo de no enterarse de información crítica, y con muchas será "
 "sobrecargado de información innecesaria. El truco es encontrar el equilibrio "
 "perfecto entre los proyectos, etapas y tareas de las que quiere ser "
-"informado. Afortunadamente, los Proyectos de Odoo tiene muchos niveles de "
+"informado. Afortunadamente, los Proyectos tiene muchos niveles de "
 "notificaciones y mensajes de donde usted puede escoger."
 
 #. module: project
@@ -2998,7 +2998,7 @@ msgid ""
 "Odoo's project management allows you to manage the pipeline of your tasks "
 "efficiently. You can track progress, discuss on tasks, attach documents, etc."
 msgstr ""
-"La administración de proyectos de Odoo le permite manejar el canal de "
+"La administración de proyectos le permite manejar el canal de "
 "trabajo de sus tareas eficientemente. Usted puede hacer seguimiento del "
 "progreso, comentarios, documentos adjuntos, etc."
 
@@ -3470,7 +3470,7 @@ msgstr "Responsable"
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid "Runs outside Odoo, always available"
-msgstr "Se ejecuta fuera de Odoo, siempre disponible"
+msgstr "Se ejecuta fuera, siempre disponible"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_config_settings_module_sale_service
@@ -3915,7 +3915,7 @@ msgid ""
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"El modelo (Tipo de Documento de Odoo) al que corresponde este alias. "
+"El modelo (Tipo de Documento) al que corresponde este alias. "
 "Cualquier correo entrante que no sea respuesta a un registro existente, "
 "causará la creación de un nuevo registro de este modelo (ej. una Tarea de "
 "Proyecto)"

@@ -808,7 +808,7 @@ msgstr "Heeft een directe relatie met Odoo SA om issues te escaleren"
 msgid ""
 "Has access to Odoo Enterprise source code on Github and latest bug fixes"
 msgstr ""
-"Heeft toegang tot de Odoo enterprise broncode op Github en de laatste "
+"Heeft toegang tot enterprise broncode op Github en de laatste "
 "bugfixes"
 
 #. module: website_quote
@@ -1633,7 +1633,7 @@ msgid ""
 "Up to 20% commission on Odoo Enterprise sales, depending on the partnership "
 "level"
 msgstr ""
-"Tot 20% commissie op de Odoo Enterprise verkoop, afhankelijk van uw "
+"Tot 20% commissie op Enterprise verkoop, afhankelijk van uw "
 "partnership niveau."
 
 #. module: website_quote
@@ -1675,7 +1675,7 @@ msgid ""
 "Odoo.com Partners page"
 msgstr ""
 "Zichtbaarheid en erkenning, doordat u als officiële partner wordt "
-"weergegeven op de Odoo.com partner pagina"
+"weergegeven op.com partner pagina"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_default

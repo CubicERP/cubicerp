@@ -464,7 +464,7 @@ msgstr "<span>Ver</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-El equipo de Odoo</strong>"
+msgstr "<strong>-El equipo</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -4864,7 +4864,7 @@ msgid ""
 "                        that have not been paid or payments that have not "
 "been reconciled."
 msgstr ""
-"Si quiere enviar extractos a sus clientes desde Odoo,\n"
+"Si quiere enviar extractos a sus clientes,\n"
 " primero necesita grabar todas las transacciones pendientes\n"
 "en las cuentas pendientes de pago. Son tanto facturas\n"
 "que no han sido pagadas como pagos que no han sido reconciliados."

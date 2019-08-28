@@ -620,7 +620,7 @@ msgstr ""
 "\n"
 "Más detalles en https://www.odoo.com/page/manufacturing-features\n"
 "\n"
-"Descubra MRP de Odoo: https://www.odoo.com/page/manufacturing"
+"Descubra MRP: https://www.odoo.com/page/manufacturing"
 
 #. module: website_slides
 #: model:slide.slide,description:website_slides.slide_1
@@ -694,7 +694,7 @@ msgid ""
 "Chrome: http://bit.ly/2613LcY\n"
 "iOS: http://bit.ly/1ZUZsZD"
 msgstr ""
-"¡Descargue Awesome Timesheet de Odoo y descubra lo fácil que puede ser la gestión de horarios y empleados! \n"
+"¡Descargue Awesome Timesheet y descubra lo fácil que puede ser la gestión de horarios y empleados! \n"
 "\n"
 "Chrome: http://bit.ly/2613LcY\n"
 "iOS: http://bit.ly/1ZUZsZD"
@@ -1020,43 +1020,43 @@ msgstr "Número de videos"
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_2
 msgid "Odoo All-in-One Software Demonstration"
-msgstr "Demostración del software todo en uno de Odoo"
+msgstr "Demostración del software todo en uno"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_1
 msgid "Odoo CRM"
-msgstr "CRM de Odoo"
+msgstr "CRM"
 
 #. module: website_slides
 #: model:slide.category,name:website_slides.category_2
 #: model:slide.tag,name:website_slides.tag5
 msgid "Odoo Days"
-msgstr "Jornadas de Odoo"
+msgstr "Jornadas"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_7
 msgid "Odoo Inventory"
-msgstr "Inventario de Odoo"
+msgstr "Inventario"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_0
 msgid "Odoo MRP"
-msgstr "MRP de Odoo"
+msgstr "MRP"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_6
 msgid "Odoo Marketing"
-msgstr "Marketing de Odoo"
+msgstr "Marketing"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_8
 msgid "Odoo Sales"
-msgstr "Ventas de Odoo"
+msgstr "Ventas"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_3
 msgid "Odoo Sign Demonstration"
-msgstr "Demostración de Odoo Sign"
+msgstr "Demostración Sign"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_9
@@ -1501,7 +1501,7 @@ msgid ""
 msgstr ""
 "Software de gestión de almacenes para el siglo XXI.\n"
 "\n"
-"Descubra Inventario de Odoo: https://www.odoo.com/page/warehouse"
+"Descubra Inventario: https://www.odoo.com/page/warehouse"
 
 #. module: website_slides
 #: model:ir.ui.view,arch_db:website_slides.view_slide_slide_form

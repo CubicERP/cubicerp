@@ -83,10 +83,10 @@ msgid ""
 "                    enterprise to compete at a level of functionality and\n"
 "                    performance previously reserved for the big IT investors.\""
 msgstr ""
-"\"El nuevo lanzamiento de Odoo permitirá a un negocio\n"
+"\"El nuevo lanzamiento permitirá a un negocio\n"
 "                    partir de cero y empezar a operar en línea en menos tiempo que nunca\",\n"
 "                    explica Stuart Mackintosh, director de marketing de OpusVL, una empresa\n"
-"                    especialista en software libre y que es, a su vez, socio de integraciones de Odoo. \"La inversión\n"
+"                    especialista en software libre y que es, a su vez, socio de integraciones. \"La inversión\n"
 "                    necesaria para poner en marcha un sistema de negocio plenamente automatizado\n"
 "                    se ha visto drásticamente reducida, lo cual permite\n"
 "                    a las pequeñas y medianas empresas competir a un nivel\n"
@@ -101,7 +101,7 @@ msgid ""
 "                    that their 'solutions' can still compete.\""
 msgstr ""
 "\"Se trata, por tanto, de otro movimiento inteligente y altamente disruptivo\n"
-"                    por parte de Odoo, que obliga de esta manera a otros proveedores de servicios\n"
+"                    por parte, que obliga de esta manera a otros proveedores de servicios\n"
 "                    a considerar el valor de lo que ofertan\n"
 "                    para asegurarse de que sus soluciones siguen siendo competentes\"."
 
@@ -548,7 +548,7 @@ msgstr "Agrupar Por"
 #: model:blog.post,content:website_blog.blog_post_1
 msgid "Here are the ideas behind the Odoo communication tools:"
 msgstr ""
-"Estas son las ideas que manejan las herramientas de comunicación de Odoo:"
+"Estas son las ideas que manejan las herramientas de comunicación:"
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.website_blog
@@ -580,7 +580,7 @@ msgstr "ID"
 #. module: website_blog
 #: model:blog.post,subtitle:website_blog.blog_post_1
 msgid "Ideas behind the Odoo communication tools."
-msgstr "Conceptos de las herramientas de comunicación de Odoo."
+msgstr "Conceptos de las herramientas de comunicación."
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.latest_blogs
@@ -981,7 +981,7 @@ msgstr "Técnico"
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_1
 msgid "The Communication Mechanism of Odoo"
-msgstr "El mecanismo de comunicación de Odoo"
+msgstr "El mecanismo de comunicación"
 
 #. module: website_blog
 #: model:blog.post,name:website_blog.blog_post_1
@@ -1031,7 +1031,7 @@ msgid ""
 "                available from today, 31st January 2014."
 msgstr ""
 "Como añadido al ya de por sí amplio conjunto de funciones\n"
-"                de Odoo, hemos desarrollado un sistema de gestión de contenidos web (CMS o WMS) cuya versión\n"
+"               , hemos desarrollado un sistema de gestión de contenidos web (CMS o WMS) cuya versión\n"
 "                beta está disponible a partir de hoy, 31 de enero de 2014."
 
 #. module: website_blog

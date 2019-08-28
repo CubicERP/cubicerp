@@ -323,7 +323,7 @@ msgstr "Sin respuesta del servidor (¿está conectado a la red?)"
 #: code:addons/pos_mercury/static/src/js/pos_mercury.js:577
 #, python-format
 msgid "Odoo error while processing transaction."
-msgstr "Error de Odoo al momento de procesar la transacción."
+msgstr "Error al momento de procesar la transacción."
 
 #. module: pos_mercury
 #. openerp-web

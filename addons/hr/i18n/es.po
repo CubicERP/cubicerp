@@ -357,7 +357,7 @@ msgstr "Define una estrategia de comunicación clara"
 #. module: hr
 #: model:hr.job,website_description:hr.job_consultant
 msgid "Deliver generic CubicERP functional training sessions"
-msgstr "Impartir sesiones genéricas funcionales de Odoo"
+msgstr "Impartir sesiones genéricas funcionales"
 
 #. module: hr
 #: model:ir.model.fields,field_description:hr.field_hr_employee_department_id
@@ -1332,7 +1332,7 @@ msgid ""
 "                can easily find all the information you need for each person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Con un rápido vistazo a la pantalla de empleados de Odoo\n"
+"Con un rápido vistazo a la pantalla de empleados\n"
 "podrá encontrar fácilmente toda la información que necesite\n"
 "sobre cada persona: información de contacto, puesto de trabajo,\n"
 "disponibilidad, etc..."

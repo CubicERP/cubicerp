@@ -2009,7 +2009,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Si tiene un dominio de correo electrónico general redireccionado a un "
-"servidor de Odoo, ponga el nombre del dominio aquí."
+"servidor, ponga el nombre del dominio aquí."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141

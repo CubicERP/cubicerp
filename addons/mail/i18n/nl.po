@@ -4288,7 +4288,7 @@ msgid ""
 msgstr ""
 "Beleid hoe om te gaan met chatter berichten:\n"
 "- E-mails: berichten worden verstuurt als e-mail\n"
-"- Odoo: berichten verschijnen in de Odoo inbox"
+"- Odoo: berichten verschijnen in inbox"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_alias_alias_contact

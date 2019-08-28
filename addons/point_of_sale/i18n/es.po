@@ -1678,7 +1678,7 @@ msgstr "ID"
 #: code:addons/point_of_sale/static/src/js/popups.js:115
 #, python-format
 msgid "IMPORTANT: Bug Report From CubicERP Point Of Sale"
-msgstr "IMPORTANTE: Reporte de Error del Punto de Venta de Odoo"
+msgstr "IMPORTANTE: Reporte de Error del Punto de Venta"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config_proxy_ip

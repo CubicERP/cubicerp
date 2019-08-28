@@ -135,7 +135,7 @@ msgstr "GNU LGPL licentie"
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:187
 #, python-format
 msgid "Get more features with the Enterprise Edition!"
-msgstr "Krijg meer opties met de Odoo Enterprise editie!"
+msgstr "Krijg meer opties met Enterprise editie!"
 
 #. module: web_settings_dashboard
 #. openerp-web

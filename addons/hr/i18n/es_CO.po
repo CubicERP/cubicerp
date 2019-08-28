@@ -351,7 +351,7 @@ msgstr "Definir el calendario de recursos"
 #. module: hr
 #: model:hr.job,website_description:hr.job_consultant
 msgid "Deliver generic CubicERP functional training sessions"
-msgstr "Ofrecer sesiones genéricas de entrenamiento funcional de Odoo"
+msgstr "Ofrecer sesiones genéricas de entrenamiento funcional"
 
 #. module: hr
 #: model:ir.model,name:hr.model_hr_department

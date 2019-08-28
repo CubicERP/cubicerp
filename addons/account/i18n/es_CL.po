@@ -454,7 +454,7 @@ msgstr "<span>Ver</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-El equipo de Odoo</strong>"
+msgstr "<strong>-El equipo</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner

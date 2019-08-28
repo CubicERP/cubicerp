@@ -3910,7 +3910,7 @@ msgstr "algemene voorwaarden"
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
 msgid "use Odoo API to import through scripts"
-msgstr "gebruik de Odoo API om te importeren via scripts"
+msgstr "gebruik API om te importeren via scripts"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_product_pricelist_website_id

@@ -258,7 +258,7 @@ msgstr "Acceso portal"
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_base_config_settings_module_share
 msgid "Share or embbed any screen of Odoo."
-msgstr "Comparta o incruste cualquier pantalla de Odoo."
+msgstr "Comparta o incruste cualquier pantalla."
 
 #. module: base_setup
 #: model:ir.model.fields,field_description:base_setup.field_base_config_settings_company_share_partner

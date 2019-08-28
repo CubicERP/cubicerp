@@ -4171,7 +4171,7 @@ msgid ""
 "                        invoicing process. Everything is automated from the initial\n"
 "                        quotation to the delivery and the final invoice."
 msgstr ""
-"La gestion de stock de Odoo avec les ventes et le processus de facturation. "
+"La gestion de stock avec les ventes et le processus de facturation. "
 "Tout est automatisé depuis le devis jusqu'à la livraison et la facture "
 "finale."
 

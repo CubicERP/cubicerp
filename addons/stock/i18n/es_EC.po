@@ -241,7 +241,7 @@ msgstr "si los módulos de contabilidad o compras están instalados"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "- The Odoo Team"
-msgstr "El equipo de Odoo"
+msgstr "El equipo"
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
@@ -4126,7 +4126,7 @@ msgid ""
 "initial\n"
 "                        quotation to the delivery and the final invoice."
 msgstr ""
-"La administración de inventarios de Odoo está completamente integrada con "
+"La administración de inventarios está completamente integrada con "
 "ventas\n"
 "y el proceso de facturación. Cada actividad está automatizada: desde la "
 "cotización, el envío y la factura final."

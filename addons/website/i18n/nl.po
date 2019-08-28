@@ -724,7 +724,7 @@ msgid ""
 "<strong>Be announced on the Odoo Twitter account</strong><br/>\n"
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
-"<strong>Wordt bekend gemaakt op de Odoo Twitter account</strong><br/>\n"
+"<strong>Wordt bekend gemaakt op Twitter account</strong><br/>\n"
 "Wij horen graag van mensen die Odoo gebruiken om hun website te bouwen. Tweet ons"
 
 #. module: website

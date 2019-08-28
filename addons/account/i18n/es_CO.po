@@ -497,7 +497,7 @@ msgstr "<span>Ver</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-El equipo de Odoo</strong>"
+msgstr "<strong>-El equipo</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -4894,7 +4894,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "If you want to be able to send customer statements from Odoo, you must:"
-msgstr "Si quiere enviar estados de cuenta clientes desde Odoo, usted debe:"
+msgstr "Si quiere enviar estados de cuenta clientes, usted debe:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -4907,7 +4907,7 @@ msgid ""
 "                        that have not been paid or payments that have not "
 "been reconciled."
 msgstr ""
-"Si quiere enviar estado de cuenta clientes desde Odoo,\n"
+"Si quiere enviar estado de cuenta clientes,\n"
 "primero necesita grabar todas las transacciones pendientes\n"
 "en las cuentas pendientes de pago. Son tanto facturas\n"
 "que no han sido pagadas como pagos que no han sido reconciliados."
@@ -9999,7 +9999,7 @@ msgid ""
 msgstr ""
 "Podemos realizar el proceso de importación\n"
 "por usted: simplemente envíe a su gerente\n"
-"de proyecto de Odoo, un archivo CSV  con\n"
+"de proyecto, un archivo CSV  con\n"
 "todos sus datos."
 
 #. module: account
@@ -10014,7 +10014,7 @@ msgid ""
 msgstr ""
 "Podemos realizar el proceso de importación\n"
 "por usted: simplemente envíe a su gerente\n"
-"de proyecto de Odoo, un archivo CSV  con\n"
+"de proyecto, un archivo CSV  con\n"
 "todos sus productos."
 
 #. module: account

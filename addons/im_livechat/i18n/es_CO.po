@@ -316,7 +316,7 @@ msgid ""
 "Then go to Settings &gt; Website Settings and select the Website Live Chat "
 "Channel you want to add on your website."
 msgstr ""
-"Para sitios web construidos con el CMS de Odoo, por favor instale el módulo "
+"Para sitios web construidos con el CMS, por favor instale el módulo "
 "website_livechat. Luego vaya a Administración &gt;  Admin Sitio y seleccione "
 "el Canal de Chat del Sitio wn Vivo que quiere añadir en su sitio web."
 

@@ -161,7 +161,7 @@ msgstr ", actualizado:"
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
 msgid "- The Odoo Team"
-msgstr "- El equipo de Odoo"
+msgstr "- El equipo"
 
 #. module: website
 #. openerp-web
@@ -742,7 +742,7 @@ msgid ""
 "<strong>Be announced on the Odoo Twitter account</strong><br/>\n"
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
-"<strong>Sea anunciado en la cuenta de Twitter de Odoo </strong><br/>\n"
+"<strong>Sea anunciado en la cuenta de Twitter </strong><br/>\n"
 "                                Nos gusta escuchar de personas usando Odoo para construir su Sitio Web. Escribe sobre nosotros en Twitter"
 
 #. module: website
@@ -2657,7 +2657,7 @@ msgid ""
 "href=\"%s\">the classic Odoo interface</a>"
 msgstr ""
 "Es posible editar los elementos más relevantes o solucionar el problema en "
-"<a href=\"%s\">la interfaz clásica de Odoo</a>"
+"<a href=\"%s\">la interfaz clásica</a>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -3162,12 +3162,12 @@ msgstr "Odoo CMS- Imagen simple flotante"
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "Odoo Version"
-msgstr "Versión de Odoo"
+msgstr "Versión"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_image_text
 msgid "Odoo image and text block"
-msgstr "Imagen de Odoo y bloque de texto"
+msgstr "Imagen y bloque de texto"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_parallax_slider
@@ -3181,7 +3181,7 @@ msgstr ""
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_text_image
 msgid "Odoo text and image block"
-msgstr "Texto de Odoo y bloque de imagen"
+msgstr "Texto y bloque de imagen"
 
 #. module: website
 #. openerp-web
@@ -3886,7 +3886,7 @@ msgstr "Simple y obvio"
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_banner
 msgid "Slider Odoo Image"
-msgstr "Imagen de Odoo para control deslizante"
+msgstr "Imagen para control deslizante"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.snippet_options
@@ -5118,7 +5118,7 @@ msgstr "en sus metadatos SEO, incluyendo etiquetas, título y descripción."
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "instance of Odoo, the"
-msgstr "instancia de Odoo, el"
+msgstr "instancia, el"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

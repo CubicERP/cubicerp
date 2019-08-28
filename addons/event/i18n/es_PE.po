@@ -1242,14 +1242,14 @@ msgstr ""
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
 msgid "CubicERP Official Website"
-msgstr "Sitio Web Oficial de Odoo"
+msgstr "Sitio Web Oficial"
 
 #. module: event
 #: model:event.event,description:event.event_0
 #: model:event.event,description:event.event_1
 #: model:event.event,description:event.event_3
 msgid "CubicERP Web Client"
-msgstr "Cliente Web de Odoo"
+msgstr "Cliente Web"
 
 #. module: event
 #: model:ir.actions.act_window,help:event.action_event_view

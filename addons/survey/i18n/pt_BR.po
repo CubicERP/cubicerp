@@ -1783,7 +1783,7 @@ msgid ""
 "These questions relate to the ergonomy and ease of use of Odoo. Try to remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
-"<p>Essas questões dizem respeito à ergonomia e facilidade de uso de Odoo. Tente lembrar seus primeiros dias no Odoo e\n"
+"<p>Essas questões dizem respeito à ergonomia e facilidade de uso. Tente lembrar seus primeiros dias no Odoo e\n"
 "Quais foram suas dificuldades.</p>"
 
 #. module: survey

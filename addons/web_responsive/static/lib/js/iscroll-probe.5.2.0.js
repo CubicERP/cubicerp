@@ -516,6 +516,12 @@ IScroll.prototype = {
 		this.pointX    = point.pageX;
 		this.pointY    = point.pageY;
 
+		if (!this.hasVerticalScroll) {
+		    this.scrollerHeight = this.scroller.clientHeight;
+		    this.maxScrollY = this.wrapperHeight - this.scroller.clientHeight
+		    this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
+		}
+
 		this._execEvent('beforeScrollStart');
 	},
 

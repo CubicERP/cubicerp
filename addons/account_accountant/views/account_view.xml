@@ -26,7 +26,7 @@
                   parent="account.menu_treasury_actions" sequence="10"/>
 
         <!--Accounting  Master Data-->
-        <menuitem id="menu_accounting_master_data" name="Master Data" parent=" 	account.menu_finance_entries" sequence="50"/>
+        <menuitem id="menu_accounting_master_data" name="Master Data" parent="account.menu_finance_entries" sequence="50"/>
             <menuitem id="tre_menu_account_customer" name="Customers"
                 parent="menu_accounting_master_data"
                 action="base.action_partner_customer_form" sequence="100"/>

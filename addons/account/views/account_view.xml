@@ -166,6 +166,8 @@
             </field>
         </record>
         <menuitem action="action_account_form" id="menu_action_account_form" parent="account_account_menu" groups="account.group_account_user" sequence="0"/>
+        <menuitem action="action_account_form" id="inv_menu_action_account_form" parent="inv_account_account_menu" groups="account.group_account_user" sequence="0"/>
+        <menuitem action="action_account_form" id="tre_menu_action_account_form" parent="tre_account_account_menu" groups="account.group_account_user" sequence="0"/>
 
         <act_window
             id="account.action_all_partner_invoices"
@@ -255,11 +257,63 @@
             <field name="arch" type="xml">
                 <search string="Search Account Journal">
                     <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Journal"/>
+                    <separator/>
                     <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <separator/>
                     <filter domain="[('type', 'in', ['sale', 'sale_refund'])]" string="Sales"/>
                     <filter domain="[('type', 'in', ['purchase', 'purchase_refund'])]" string="Purchases"/>
                     <filter domain="['|', ('type', '=', 'cash'), ('type', '=', 'bank')]" string="Liquidity"/>
                     <filter domain="[('type', 'not in', ['sale', 'sale_refund', 'purchase', 'purchase_refund', 'cash', 'bank'])]" string="Miscellaneous"/>
+                    <separator/>
+                    <filter name="dashboard" string="Favorites" domain="[('show_on_dashboard', '=', True)]"/>
+                </search>
+            </field>
+        </record>
+        <record id="inv_view_account_journal_search" model="ir.ui.view">
+            <field name="name">account.journal.invoicing.search</field>
+            <field name="model">account.journal</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Journal">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Journal"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter domain="[('type', 'in', ['sale', 'sale_refund'])]" string="Sales"/>
+                    <filter domain="[('type', 'in', ['purchase', 'purchase_refund'])]" string="Purchases"/>
+                    <separator/>
+                    <filter name="dashboard" string="Favorites" domain="[('show_on_dashboard', '=', True)]"/>
+                </search>
+            </field>
+        </record>
+        <record id="tre_view_account_journal_search" model="ir.ui.view">
+            <field name="name">account.journal.treasury.search</field>
+            <field name="model">account.journal</field>
+            <field name="priority">30</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Journal">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Journal"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter domain="['|', ('type', '=', 'cash'), ('type', '=', 'bank')]" string="Liquidity"/>
+                    <separator/>
+                    <filter name="dashboard" string="Favorites" domain="[('show_on_dashboard', '=', True)]"/>
+                </search>
+            </field>
+        </record>
+        <record id="acc_view_account_journal_search" model="ir.ui.view">
+            <field name="name">account.journal.accounting.search</field>
+            <field name="model">account.journal</field>
+            <field name="priority">40</field>
+            <field name="arch" type="xml">
+                <search string="Search Account Journal">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Journal"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter domain="[('type', 'not in', ['sale', 'sale_refund', 'purchase', 'purchase_refund', 'cash', 'bank'])]" string="Miscellaneous"/>
+                    <separator/>
                     <filter name="dashboard" string="Favorites" domain="[('show_on_dashboard', '=', True)]"/>
                 </search>
             </field>
@@ -457,6 +511,7 @@
             </field>
         </record>
         <menuitem action="action_account_bank_journal_form" id="menu_action_account_bank_journal_form" parent="account_account_menu" groups="account.group_account_manager" sequence="8"/>
+        <menuitem action="action_account_bank_journal_form" id="tre_menu_action_account_bank_journal_form" parent="tre_account_account_menu" groups="account.group_account_manager" sequence="8"/>
 
         <record id="action_account_journal_form" model="ir.actions.act_window">
             <field name="name">Journals</field>
@@ -481,6 +536,54 @@
             </field>
         </record>
         <menuitem action="action_account_journal_form" id="menu_action_account_journal_form" parent="account_account_menu" groups="account.group_account_manager"/>
+        <record id="inv_action_account_journal_form" model="ir.actions.act_window">
+            <field name="name">Journals</field>
+            <field name="res_model">account.journal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_account_journal_tree')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('account_journal_view_kanban')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_account_journal_form')})]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a journal.
+              </p><p>
+                A journal is used to record transactions of all accounting data
+                related to the day-to-day business.
+              </p><p>
+                A typical company may use one journal per payment method (cash,
+                bank accounts, checks), one purchase journal, one sales journal
+                and one for miscellaneous information.
+              </p>
+            </field>
+            <field name="domain">[('type', 'in', ['sale','sale_refund','purchase','purchase_refund'])]</field>
+        </record>
+        <menuitem action="inv_action_account_journal_form" id="inv_menu_action_account_journal_form" parent="inv_account_account_menu" groups="account.group_account_manager"/>
+        <record id="tre_action_account_journal_form" model="ir.actions.act_window">
+            <field name="name">Journals</field>
+            <field name="res_model">account.journal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_account_journal_tree')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('account_journal_view_kanban')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_account_journal_form')})]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a journal.
+              </p><p>
+                A journal is used to record transactions of all accounting data
+                related to the day-to-day business.
+              </p><p>
+                A typical company may use one journal per payment method (cash,
+                bank accounts, checks), one purchase journal, one sales journal
+                and one for miscellaneous information.
+              </p>
+            </field>
+            <field name="domain">[('type', 'in', ['cash','bank'])]</field>
+        </record>
+        <menuitem action="tre_action_account_journal_form" id="tre_menu_action_account_journal_form" parent="tre_account_account_menu" groups="account.group_account_manager"/>
 
         <act_window
            id="act_account_journal_2_account_bank_statement"
@@ -1146,6 +1249,7 @@
             <field name="view_id" ref="view_tax_tree"/>
         </record>
         <menuitem action="action_tax_form" id="menu_action_tax_form" parent="account_account_menu" sequence="1"/>
+        <menuitem action="action_tax_form" id="inv_menu_action_tax_form" parent="inv_account_account_menu" sequence="1"/>
 
         <!-- Journal Items -->
         <record id="view_move_line_form" model="ir.ui.view">
@@ -1708,6 +1812,8 @@
 
         <menuitem action="action_payment_term_form"
             id="menu_action_payment_term_form" parent="account_management_menu" sequence="1"/>
+        <menuitem action="action_payment_term_form"
+            id="inv_menu_action_payment_term_form" parent="inv_account_management_menu" sequence="1"/>
 
         <!-- Account Templates -->
 

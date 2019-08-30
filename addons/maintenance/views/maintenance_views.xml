@@ -930,7 +930,7 @@
     <menuitem
         id="menu_maintenance_title"
         name="Maintenance"
-        web_icon="maintenance,static/description/icon.png"
+        web_icon="fas fa-hammer faa-wrench > color:#666054;"
         sequence="110"/>
 
     <menuitem

@@ -306,7 +306,7 @@
             name="Leaves"
             id="menu_hr_holidays_root"
             sequence="95"
-            web_icon="hr_holidays,static/description/icon.png"
+            web_icon="fas fa-user-injured faa-pulse > color:#c0bf00;"
             groups="base.group_user"/>
 
         <menuitem

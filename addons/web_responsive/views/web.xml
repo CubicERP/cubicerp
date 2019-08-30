@@ -44,7 +44,7 @@
                                accesskey="A"
                                >
                                 <span class="sr-only">Toggle App Drawer</span>
-                                <i class="fa fa-th fa-lg app-drawer-icon-open"
+                                <i class="fa fa-th fa-lg app-drawer-icon-open faa-tada animated-hover"
                                    t-translation="off"
                                    aria-hidden="true"
                                    />
@@ -54,7 +54,7 @@
                                     class="app-drawer-toggle drawer-toggle pull-left navbar-toggle collapsed"
                                     >
                                 <span class="sr-only">Toggle App Drawer</span>
-                                <div class="fa fa-th fa-lg app-drawer-icon-open" />
+                                <div class="fa fa-th fa-lg app-drawer-icon-open faa-tada animated-hover" />
                             </button>
 
                             <button type="button"
@@ -176,16 +176,24 @@
 
         <xpath expr="//a" position="attributes">
             <attribute name="t-att-data-menu-name">menu['name']</attribute>
+            <attribute name="t-att-class">"oe_menu_toggler faa-parent animated-hover"</attribute>
         </xpath>
 
         <xpath expr="//span[hasclass('oe_menu_text')]" position="replace">
             <t t-if="display_images">
-                <img t-attf-src="/web/image/ir.ui.menu/{{ menu['id'] }}/web_icon_data"
+                <img t-if="menu['web_icon'].split('>')[0].find(',') >= 0"
+                     t-attf-src="/web/image/ir.ui.menu/{{ menu['id'] }}/web_icon_data"
                      class="app-drawer-icon-app img-rounded"
                      t-att-alt="menu['name']"
                      t-att-title="menu['name']"
                      />
+                <i t-if="menu['web_icon'].split('>')[0].find(',') == -1"
+                   t-attf-class="app-drawer-icon-app img-rounded fa-6x #{menu['web_icon'].split('>')[0].find(',') == -1 and menu['web_icon'].split('>')[0] or 'fas fa-question faa-shake'}"
+                   t-attf-style="#{len(menu['web_icon'].split('>')) > 1 and menu['web_icon'].split('>')[1] or ''}"
+                   t-att-alt="menu['name']"
+                   t-att-title="menu['name']"/>
                 <p class="app-drawer-title text-center">
+
                     <t t-esc="menu['name']" />
                 </p>
             </t>
@@ -214,7 +222,7 @@
                     <div class="col-xs-6">
                         <h4 class="app-drawer-panel-title pull-left">
                             <a class="app-drawer-icon-close drawer-toggle">
-                                <i class="fa fa-lg fa-chevron-left"
+                                <i class="fa fa-lg fa-chevron-left faa-horizontal animated"
                                    t-translation="off"
                                    aria-hidden="true"
                                    />

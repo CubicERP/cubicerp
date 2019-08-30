@@ -271,7 +271,7 @@ msgstr "Configurar los datos de la compañía"
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:138
 #, python-format
 msgid "Share the Love"
-msgstr "Compartir amor"
+msgstr "Compartir"
 
 #. module: web_settings_dashboard
 #. openerp-web

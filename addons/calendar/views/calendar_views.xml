@@ -348,7 +348,7 @@
         name="Calendar"
         sequence="2"
         action="action_calendar_event"
-        web_icon="calendar,static/description/icon.png"
+        web_icon="far fa-calendar-alt faa-ring > color:#4f8e2fd6;"
         groups="base.group_user"/>
 
     <menuitem

@@ -136,12 +136,16 @@
 }
 .btn-icon {
   .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+  color: #000;
+  background-color: #f5f5f5;
 }
 .btn-link {
     font-weight: @btn-font-weight;
 
     &.btn-default {
         .o-btn-link-variant(@text-color, @headings-color);
+        color: initial;
+        background-color: #f5f5f5;
     }
     &.btn-success, &.text-success {
         .o-btn-link-variant(@text-color, @brand-success);

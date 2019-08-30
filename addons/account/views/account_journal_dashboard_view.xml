@@ -331,9 +331,10 @@
         <field name="view_type">form</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_id" ref="account_journal_dashboard_kanban_view"/>
+        <field name="search_view_id" ref="account.acc_view_account_journal_search"/>
         <field name="usage">menu</field>
         <field name="context">{'search_default_dashboard':1}</field>
-        <field name="domain">[('belongs_to_company', '=', True)]</field>
+        <field name="domain">[('belongs_to_company', '=', True),('type','not in',['sale','purchase','sale_refund','purchase_refund','bank','cash'])]</field>
         <field name="help" type="html">
             <p>
                 This is the accounting dashboard. If you have not yet
@@ -343,5 +344,47 @@
         </field>
     </record>
 
-    <menuitem id="menu_board_journal_1" name="Dashboard" action="open_account_journal_dashboard_kanban" parent="menu_finance" sequence="1" groups="account.group_account_user"/>
+    <menuitem id="menu_board_journal_1" name="Dashboard" action="open_account_journal_dashboard_kanban" parent="menu_accounting" sequence="1" groups="account.group_account_user"/>
+
+    <record id="inv_open_account_journal_dashboard_kanban" model="ir.actions.act_window">
+        <field name="name">Invoicing Dashboard</field>
+        <field name="res_model">account.journal</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="account_journal_dashboard_kanban_view"/>
+        <field name="search_view_id" ref="account.inv_view_account_journal_search"/>
+        <field name="usage">menu</field>
+        <field name="context">{'search_default_dashboard':1}</field>
+        <field name="domain">[('belongs_to_company', '=', True),('type','in',['sale','purchase','sale_refund','purchase_refund'])]</field>
+        <field name="help" type="html">
+            <p>
+                This is the accounting dashboard. If you have not yet
+                installed a chart of account, please install one first.
+               <a type="action" name="%(open_account_charts_modules)d">Browse available countries.</a>
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="inv_menu_board_journal_1" name="Dashboard" action="inv_open_account_journal_dashboard_kanban" parent="menu_finance" sequence="1" groups="account.group_account_user"/>
+
+    <record id="tre_open_account_journal_dashboard_kanban" model="ir.actions.act_window">
+        <field name="name">Treasury Dashboard</field>
+        <field name="res_model">account.journal</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="account_journal_dashboard_kanban_view"/>
+        <field name="search_view_id" ref="account.tre_view_account_journal_search"/>
+        <field name="usage">menu</field>
+        <field name="context">{'search_default_dashboard':1}</field>
+        <field name="domain">[('belongs_to_company', '=', True),('type','in',['bank','cash'])]</field>
+        <field name="help" type="html">
+            <p>
+                This is the accounting dashboard. If you have not yet
+                installed a chart of account, please install one first.
+               <a type="action" name="%(open_account_charts_modules)d">Browse available countries.</a>
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tre_menu_board_journal_1" name="Dashboard" action="tre_open_account_journal_dashboard_kanban" parent="menu_treasury" sequence="1" groups="account.group_account_user"/>
 </odoo>

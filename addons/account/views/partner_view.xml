@@ -172,6 +172,10 @@
             action="action_account_fiscal_position_form"
             id="menu_action_account_fiscal_position_form"
             parent="account_account_menu" sequence="3"/>
+        <menuitem
+            action="action_account_fiscal_position_form"
+            id="inv_menu_action_account_fiscal_position_form"
+            parent="inv_account_account_menu" sequence="3"/>
 
         <!--
         Partners Extension

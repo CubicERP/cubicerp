@@ -75,6 +75,9 @@
         <menuitem action="analytic.action_account_analytic_account_form" id="account_analytic_def_account"
             parent="menu_analytic_accounting"
             groups="analytic.group_analytic_accounting" sequence="0"/>
+        <menuitem action="analytic.action_account_analytic_account_form" id="inv_account_analytic_def_account"
+            parent="inv_menu_analytic_accounting"
+            groups="analytic.group_analytic_accounting" sequence="0"/>
 
 
         <record model="ir.actions.act_window" id="analytic_line_reporting_pivot">
@@ -93,11 +96,24 @@
             id="menu_action_analytic_lines_reporting"
             sequence="19"
             groups="analytic.group_analytic_accounting"/>
+        <menuitem
+            name="Analytic Entries"
+            parent="account.inv_account_reports_management_menu"
+            action="analytic_line_reporting_pivot"
+            id="inv_menu_action_analytic_lines_reporting"
+            sequence="19"
+            groups="analytic.group_analytic_accounting"/>
 
         <menuitem
             id="account_analytic_tag_menu"
             name="Analytic Tags"
             parent="menu_analytic_accounting"
+            action="analytic.account_analytic_tag_action"
+            groups="analytic.group_analytic_accounting"/>
+        <menuitem
+            id="inv_account_analytic_tag_menu"
+            name="Analytic Tags"
+            parent="inv_menu_analytic_accounting"
             action="analytic.account_analytic_tag_action"
             groups="analytic.group_analytic_accounting"/>
 

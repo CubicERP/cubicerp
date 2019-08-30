@@ -6,7 +6,7 @@
             name="Manufacturing"
             groups="group_mrp_user,group_mrp_manager"
             icon="fa-wrench"
-            web_icon="mrp,static/description/icon.png"
+            web_icon="fas fa-industry faa-pulse > color:#d04a06;"
             sequence="35"/>
 
         <menuitem id="menu_mrp_manufacturing"

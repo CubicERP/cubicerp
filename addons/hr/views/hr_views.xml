@@ -7,7 +7,7 @@
             id="menu_hr_root"
             name="Employees"
             groups="group_hr_manager,group_hr_user,base.group_user"
-            web_icon="hr,static/description/icon.png"
+            web_icon="fas fa-user-tie faa-pulse > color:#2b3e40;"
             sequence="75"/>
 
         <menuitem

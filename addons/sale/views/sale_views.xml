@@ -5,7 +5,7 @@
 
         <menuitem id="sale_menu_root"
             name="Sales"
-            web_icon="sale,static/description/icon.png"
+            web_icon="fas fa-chart-line faa-tada > color:#ffa653;"
             active="False"
             sequence="7"/>
 

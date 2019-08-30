@@ -49,6 +49,10 @@
       $parent
         .toggleClass('open')
         .trigger('shown.bs.dropdown', relatedTarget)
+
+      if ($parent.children.length > 1) {
+        $($parent[0].children[1]).attr('style', 'max-height:' + (document.body.clientHeight - 46) + 'px;')
+      }
     }
 
     return false

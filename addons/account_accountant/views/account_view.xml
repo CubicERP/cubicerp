@@ -2,6 +2,39 @@
 <odoo>
     <data>
 
+        <!--Treasury Money-->
+        <menuitem action="account.action_view_bank_statement_tree"
+                  id="menu_treasury_money_cash"
+                  parent="account.menu_treasury_money" sequence="10"/>
+        <menuitem action="account.action_bank_statement_tree"
+                  id="menu_treasury_money_bank"
+                  parent="account.menu_treasury_money" sequence="20"/>
+
+        <!--Treasury Payments-->
+        <menuitem action="account.action_account_payments"
+                  name="Customer Payment"
+                  id="tre_menu_action_account_payments_receivable"
+                  parent="account.menu_treasury_payments" sequence="10"/>
+        <menuitem action="account.action_account_payments_payable"
+                  name="Supplier Payment"
+                  id="tre_menu_action_account_payments_payable"
+                  parent="account.menu_treasury_payments" sequence="20"/>
+
+        <!--Treasury Actions-->
+        <menuitem action="account.action_manual_reconciliation"
+                  id="menu_actions_manual_reconciliation"
+                  parent="account.menu_treasury_actions" sequence="10"/>
+
+        <!--Accounting  Master Data-->
+        <menuitem id="menu_accounting_master_data" name="Master Data" parent=" 	account.menu_finance_entries" sequence="50"/>
+            <menuitem id="tre_menu_account_customer" name="Customers"
+                parent="menu_accounting_master_data"
+                action="base.action_partner_customer_form" sequence="100"/>
+            <menuitem id="tre_menu_account_supplier" name="Vendors"
+                parent="menu_accounting_master_data"
+                action="base.action_partner_supplier_form" sequence="200"/>
+
+        <!--Accounting Configuration-->
         <menuitem action="account.action_account_type_form" id="menu_action_account_type_form" parent="account.account_account_menu" groups="account.group_account_user" sequence="0"/>
 
     </data>

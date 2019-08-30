@@ -227,7 +227,7 @@
       name="Notes"
       sequence="3"
       action="note.action_note_note"
-      web_icon="note,static/description/icon.png"/>
+      web_icon="fas fa-pen-square faa-shake > color:#2A313F;"/>
 
     <menuitem
       id="menu_note_configuration"

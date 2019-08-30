@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
       <!-- Top menu item -->
-          <menuitem id="menu_board_root" name="Dashboards" sequence="305" web_icon="base,static/description/board.png" groups="base.group_user"/>
+          <menuitem id="menu_board_root" name="Dashboards" sequence="305" web_icon="fas fa-tachometer-alt faa-float > color:#901B18;" groups="base.group_user"/>
           <menuitem id="menu_reporting_dashboard" name="Dashboards" parent="menu_board_root" sequence="0"/>
           <menuitem id="menu_reporting_config" name="Configuration" parent="menu_board_root" sequence="100" groups="base.group_system"/>
 
       <!-- Top menu item -->
       <menuitem name="Settings"
           id="menu_administration"
-          web_icon="base,static/description/settings.png"
+          web_icon="fas fa-tools faa-wrench > color:#ab1919"
           sequence="500"
           groups="base.group_erp_manager"/>
           <menuitem id="menu_management" name="Apps" sequence="310" web_icon="base,static/description/modules.png" groups="base.group_system"/>

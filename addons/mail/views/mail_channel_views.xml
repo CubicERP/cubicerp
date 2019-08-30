@@ -187,7 +187,7 @@
         id="mail.mail_channel_menu_root_chat"
         name="Discuss"
         action="mail_channel_action_client_chat"
-        web_icon="mail,static/description/icon.png"
+        web_icon="fas fa-comments faa-shake > color:#666;"
         groups="base.group_user"
         sequence="1"/>
 

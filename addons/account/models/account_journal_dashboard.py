@@ -353,6 +353,9 @@ class account_journal(models.Model):
             'bank': 'bank',
             'cash': 'cash',
             'general': 'general',
+            'opening': 'general',
+            'closing': 'general',
+            'stock': 'general',
         }
         invoice_type = _journal_invoice_type_map[self.type]
 

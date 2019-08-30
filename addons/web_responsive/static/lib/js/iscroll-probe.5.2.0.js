@@ -1168,6 +1168,12 @@ IScroll.prototype = {
 
 		e.preventDefault();
 
+		if (!this.hasVerticalScroll) {
+		    this.scrollerHeight = this.scroller.clientHeight;
+		    this.maxScrollY = this.wrapperHeight - this.scroller.clientHeight
+		    this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
+		}
+
 		var wheelDeltaX, wheelDeltaY,
 			newX, newY,
 			that = this;

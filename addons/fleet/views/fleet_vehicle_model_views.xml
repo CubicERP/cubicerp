@@ -82,7 +82,7 @@
         </field>
     </record>
 
-    <menuitem name="Fleet" id="menu_root" sequence="115" groups="fleet_group_user" web_icon="fleet,static/description/icon.png"/>
+    <menuitem name="Fleet" id="menu_root" sequence="115" groups="fleet_group_user" web_icon="fas fa-car faa-wrench > color:#53166d;"/>
     <menuitem name="Configuration" parent="menu_root" id="fleet_configuration" sequence="100" groups="fleet_group_manager"/>
     <menuitem action="fleet_vehicle_model_action" parent="fleet_configuration" id="fleet_vehicle_model_menu" sequence="1"/>
 

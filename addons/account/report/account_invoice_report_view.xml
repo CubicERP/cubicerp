@@ -18,7 +18,8 @@
          <field name="model">account.invoice.report</field>
          <field name="arch" type="xml">
              <graph string="Invoices Analysis">
-                 <field name="categ_id"/>
+                 <field name="categ_id" type="col"/>
+                 <field name="date" interval="quarter" type="col"/>
                  <field name="price_total" type="measure"/>
              </graph>
          </field>
@@ -121,6 +122,7 @@
     </record>
 
     <menuitem name="Invoices" action="action_account_invoice_report_all" id="menu_action_account_invoice_report_all" parent="account.account_reports_management_menu" sequence="18"/>
+    <menuitem name="Invoices" action="action_account_invoice_report_all" id="inv_menu_action_account_invoice_report_all" parent="account.inv_account_reports_management_menu" sequence="18"/>
 
     <act_window
         id="act_account_invoice_partner_relation"

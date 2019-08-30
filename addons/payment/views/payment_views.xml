@@ -3,7 +3,7 @@
     <data>
 
         <!-- Payment menu in settings -->
-        <menuitem name='Collect Payment' id='main_payment_menu' sequence="50" web_icon="payment,static/description/icon.png"/>
+        <menuitem name='Collect Payment' id='main_payment_menu' sequence="50" web_icon="fas fa-donate faa-vertical > color:#484040;"/>
         <menuitem name="Configuration" id="configuration_menu" parent="main_payment_menu"/>
         <menuitem name='Payments' id='root_payment_menu' parent='main_payment_menu'/>
         <menuitem parent="configuration_menu" id="payment_bank_menu" action="base.action_res_bank_form" sequence="20"/>

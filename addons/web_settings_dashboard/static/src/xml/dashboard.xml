@@ -44,10 +44,6 @@
             <div>
                 <a class="btn btn-primary btn-block o_browse_apps" role="button"><strong>Browse Apps</strong></a>
             </div>
-            <div class="o_web_settings_dashboard_pills">
-                <a href="https://www.odoo.com/apps/modules" target="_blank" class="pull-left"><i class="fa fa-rocket fa-2x text-muted"/>Odoo App store</a>
-                <a href="https://www.odoo.com/apps/themes" target="_blank" class="pull-right"><i class="fa fa-picture-o fa-2x text-muted"/>Odoo Theme store</a>
-            </div>
             <div class="clearfix"/>
         </div>
     </t>
@@ -135,7 +131,7 @@
     <t t-name="DashboardShare">
         <div class="text-center o_web_settings_dashboard_share">
             <i class="fa fa-share-alt fa-4x text-muted"/>
-            <div class="o_web_settings_dashboard_header">Share the Love</div>
+            <div class="o_web_settings_dashboard_header">Share</div>
             <div>
                 <small class="text-muted text-center o_web_settings_dashboard_compact_subtitle">
                     Help us spread the word: Share Cubic ERP's awesomeness with your friends!
@@ -159,7 +155,7 @@
                     <div>
                         <div class="tab-content">
                             <div id="settings" class="tab-pane active text-muted text-center o_web_settings_dashboard_compact_subtitle">
-                                <small>Copyright © 2017 <a target="_blank" href="https://www.cubicerp.com" style="text-decoration: underline;">Cubic ERP S.A.C.</a> <a target="_blank" href="http://www.gnu.org/licenses/agpl.html" style="text-decoration: underline;">GNU AGPL Licensed</a></small>
+                                <small>Copyright © 2019 <a target="_blank" href="https://www.cubicerp.com" style="text-decoration: underline;">Cubic ERP S.A.C.</a> <a target="_blank" href="http://www.gnu.org/licenses/lgpl.html" style="text-decoration: underline;">GNU LGPL Licensed</a></small>
                             </div>
                         </div>
                     </div>

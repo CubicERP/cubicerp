@@ -569,7 +569,7 @@
     <menuitem
         name="Recruitment"
         id="menu_hr_recruitment_root"
-        web_icon="hr_recruitment,static/description/icon.png"
+        web_icon="fab fa-black-tie faa-horizontal > color:#9E3D96;"
         groups="hr_recruitment.group_hr_recruitment_user"
         sequence="80"/>
 

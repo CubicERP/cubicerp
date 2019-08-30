@@ -6,7 +6,7 @@
             id="menu_website_configuration"
             sequence="9"
             groups="base.group_user"
-            web_icon="website,static/description/icon.png"/>
+            web_icon="fas fa-globe faa-spin > color:#4f8597;"/>
 
         <!-- website views -->
         <record id="view_website_form" model="ir.ui.view">

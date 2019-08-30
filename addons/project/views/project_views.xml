@@ -5,7 +5,7 @@
         <menuitem name="Project"
             id="menu_main_pm"
             groups="group_project_manager,group_project_user"
-            web_icon="project,static/description/icon.png"
+            web_icon="fas fa-business-time faa-ring > color:#7C79B8;"
             sequence="50"/>
 
         <menuitem name="Search"

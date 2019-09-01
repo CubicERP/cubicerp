@@ -22,8 +22,9 @@ class PosController(http.Controller):
             return werkzeug.utils.redirect('/web#action=point_of_sale.action_client_pos_menu')
         pos_sessions.login()
         context = {
-            'session_info': json.dumps(request.env['ir.http'].session_info())
+            'session_info': json.dumps(request.env['ir.http'].session_info()),
         }
+        request.params['head-content'] = '<meta name="viewport" content=" %s"/>' % (getattr(pos_sessions.config_id, 'viewport', 'width=1024, user-scalable=no') or '')
         return request.render('point_of_sale.index', qcontext=context)
 
     @http.route('/pos/sale_details_report', type='http', auth='user')

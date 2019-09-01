@@ -319,8 +319,8 @@
 
     <t t-name="ClientLine">
         <tr class='client-line' t-att-data-id='partner.id'>
-            <td><t t-esc='partner.name' /></td>
-            <td><t t-esc='partner.address' /></td>
+            <td><p style="line-height: 1;"><t t-esc='partner.name' /></p></td>
+            <td><p style="line-height: 1;"><t t-esc='partner.address' /></p></td>
             <td><t t-esc='partner.vat or ""' /></td>
             <td><t t-esc='partner.phone or partner.mobile or ""' /></td>
         </tr>
@@ -670,7 +670,7 @@
         <div class='paymentmethods'>
             <t t-foreach="widget.pos.cashregisters" t-as="cashregister">
                 <div class="button paymentmethod" t-att-data-id="cashregister.journal_id[0]">
-                    <t t-esc="cashregister.journal.name" />
+                    <p style="line-height: 1;"><t t-esc="cashregister.journal.name" /></p>
                 </div>
             </t>
         </div>
@@ -710,7 +710,7 @@
                             <i class='fa fa-user' /> 
                             <span class='js_customer_name'> 
                                 <t t-if="widget.pos.get_client()">
-                                    <t t-esc="widget.pos.get_client().name" />
+                                    <p style="line-height: 1;"><t t-esc="widget.pos.get_client().name" /></p>
                                 </t>
                                 <t t-if="!widget.pos.get_client()">
                                     Customer

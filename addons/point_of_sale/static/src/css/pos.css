@@ -1352,7 +1352,7 @@ td {
     font-size: 16px;
     padding: 0px 8px;
     border: solid 1px rgb(200,200,200);
-    border-top-width: 0;
+    /*border-top-width: 0;*/
     cursor: pointer;
     text-align: center;
     position: relative;
@@ -1955,7 +1955,7 @@ td {
     line-height: 74px;
     font-size: 16px;
     border: solid 1px rgb(202, 202, 202);
-    border-top-width: 0px;
+    /*border-top-width: 0px;*/
     cursor: pointer;
     text-align: center;
 }

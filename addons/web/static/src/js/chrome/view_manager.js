@@ -528,7 +528,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
             this.env.currentId = state.id;
             stateChanged = true;
         }
-        if (state.view_type && state.view_type !== this.active_view.type) {
+        if (this.active_view && state.view_type && state.view_type !== this.active_view.type) {
             stateChanged = true;
         }
         if (stateChanged) {

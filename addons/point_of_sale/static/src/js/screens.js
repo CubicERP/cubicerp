@@ -680,7 +680,7 @@ var ProductCategoriesWidget = PosBaseWidget.extend({
 
         var search_timeout  = null;
         this.search_handler = function(event){
-            if(event.type == "keypress" || event.keyCode === 46 || event.keyCode === 8){
+            if(event.type == "keypress" || event.type == "keyup" || event.keyCode === 46 || event.keyCode === 8){
                 clearTimeout(search_timeout);
 
                 var searchbox = this;
@@ -789,7 +789,7 @@ var ProductCategoriesWidget = PosBaseWidget.extend({
 
         this.el.querySelector('.searchbox input').addEventListener('keypress',this.search_handler);
 
-        this.el.querySelector('.searchbox input').addEventListener('keydown',this.search_handler);
+        this.el.querySelector('.searchbox input').addEventListener('keyup',this.search_handler);
 
         this.el.querySelector('.search-clear').addEventListener('click',this.clear_search_handler);
 

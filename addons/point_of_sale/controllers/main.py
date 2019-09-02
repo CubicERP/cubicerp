@@ -24,7 +24,7 @@ class PosController(http.Controller):
         context = {
             'session_info': json.dumps(request.env['ir.http'].session_info()),
         }
-        request.params['head-content'] = '<meta name="viewport" content=" %s"/>' % (getattr(pos_sessions.config_id, 'viewport', 'width=1024, user-scalable=no') or '')
+        request.params.update(pos_sessions.request_params())
         return request.render('point_of_sale.index', qcontext=context)
 
     @http.route('/pos/sale_details_report', type='http', auth='user')

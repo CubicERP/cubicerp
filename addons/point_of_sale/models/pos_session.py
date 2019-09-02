@@ -344,3 +344,6 @@ class PosSession(models.Model):
             action['res_id'] = cashbox_id
 
         return action
+
+    def request_params(self):
+        return {'head-content': '<meta name="viewport" content=" width=1024, user-scalable=no"/>'}

@@ -1,24 +1,46 @@
 # Translation of CubicERP Server.
 # This file contains the translation of the following modules:
-#	* account_accountant
+# 	* account_accountant
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: CubicERP Server 2019.0\n"
+"Project-Id-Version: CubicERP Server 2020.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-08 21:28+0000\n"
-"PO-Revision-Date: 2019-02-08 21:28+0000\n"
+"POT-Creation-Date: 2019-09-09 17:25+0000\n"
+"PO-Revision-Date: 2019-09-09 12:33-0500\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: account_accountant
 #: model:ir.ui.menu,name:account_accountant.menu_action_account_type_form
 msgid "Account Types"
 msgstr "Tipos de cuenta"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.menu_treasury_money_bank
+msgid "Bank Statements"
+msgstr "Extractos Bancarios"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.menu_treasury_money_cash
+msgid "Cash Registers"
+msgstr "Cajas Registradoras"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.tre_menu_action_account_payments_receivable
+msgid "Customer Payment"
+msgstr "Pagos a Clientes"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.tre_menu_account_customer
+msgid "Customers"
+msgstr "Clientes"
 
 #. module: account_accountant
 #. openerp-web
@@ -28,11 +50,26 @@ msgid "Let's start with a new customer invoice."
 msgstr "Empecemos con una nueva factura de cliente."
 
 #. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.menu_actions_manual_reconciliation
+msgid "Manual Reconciliation"
+msgstr "Conciliación Manual"
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.menu_accounting_master_data
+msgid "Master Data"
+msgstr "Datos Principales"
+
+#. module: account_accountant
 #. openerp-web
 #: code:addons/account_accountant/static/src/js/tour.js:13
 #, python-format
 msgid "Ready to discover your new favorite <b>accounting app</b>? Get started by clicking here."
 msgstr "Listo para descubrir su nueva <b>aplicación de contabilidad</b> favorita? Comience haciendo clic aquí."
+
+#. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.tre_menu_action_account_payments_payable
+msgid "Supplier Payment"
+msgstr "Pagos a Proveedores"
 
 #. module: account_accountant
 #. openerp-web
@@ -42,9 +79,13 @@ msgid "Use the path to quickly click back to <b>previous screens</b>, without re
 msgstr "Use la ruta para regresar rápidamente a<b>pantallas anteriores</b>, sin recargar la página."
 
 #. module: account_accountant
+#: model:ir.ui.menu,name:account_accountant.tre_menu_account_supplier
+msgid "Vendors"
+msgstr "Proveedores"
+
+#. module: account_accountant
 #. openerp-web
 #: code:addons/account_accountant/static/src/js/tour.js:27
 #, python-format
 msgid "Your reports are available in real time. <i>No need to close a fiscal year to get a Profit &amp; Loss statement or view the Balance Sheet.</i>"
 msgstr "Tus informes están disponibles en tiempo real. <i>No es necesario cerrar el año fiscal para obtener un saldo de cuenta de Ganancias &amp; Pérdidas o visualizar el Balance Financiero.</i>"
-

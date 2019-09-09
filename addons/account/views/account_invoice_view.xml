@@ -489,7 +489,7 @@
                                     <field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>
                                     <field name="origin" groups="base.group_user" attrs="{'invisible': [('origin', '=', False)],'readonly':[('state','!=','draft')]}"/>
                                     <field name="name"/>
-                                    <field name="move_name" invisible="1"/>
+                                    <field name="move_name" groups="base.group_no_one"/>
                                     <field name="user_id" groups="base.group_user"/>
                                 </group>
                             </group>

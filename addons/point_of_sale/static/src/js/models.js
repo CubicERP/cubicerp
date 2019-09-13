@@ -368,6 +368,7 @@ exports.PosModel = Backbone.Model.extend({
         domain: [['sale_ok','=',true],['available_in_pos','=',true]],
         context: function(self){ return { display_default_code: false }; },
         loaded: function(self, products){
+            products = self._filter_products(self, products);
             var using_company_currency = self.config.currency_id[0] === self.company.currency_id[0];
             var conversion_rate = self.currency.rate / self.company_currency.rate;
             self.db.add_products(_.map(products, function (product) {
@@ -625,6 +626,11 @@ exports.PosModel = Backbone.Model.extend({
                 }
             }, function(type,err){ def.reject(); });
         return def;
+    },
+
+    // apply custom filters on products
+    _filter_products: function(self, products){
+        return products;
     },
 
     // this is called when an order is removed from the order collection. It ensures that there is always an existing

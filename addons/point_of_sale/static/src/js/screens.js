@@ -1091,9 +1091,11 @@ var ClientListScreenWidget = ScreenWidget.extend({
         });
 
         this.$('.new-customer').click(function(){
+            var value = $('.searchbox input')[1].value;
             self.display_client_details('edit',{
                 'country_id': self.pos.company.country_id,
-            });
+                });
+            self.new_customer_post(value);
         });
 
         var partners = this.pos.db.get_partners_sorted(1000);
@@ -1246,6 +1248,10 @@ var ClientListScreenWidget = ScreenWidget.extend({
     },
     partner_icon_url: function(id){
         return '/web/image?model=res.partner&id='+id+'&field=image_small';
+    },
+
+    new_customer_post: function(value) {
+        return true;
     },
 
     // ui handle for the 'edit selected customer' action

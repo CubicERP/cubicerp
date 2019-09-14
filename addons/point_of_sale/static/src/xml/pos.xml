@@ -51,14 +51,14 @@
     <t t-name="SynchNotificationWidget">
         <div class="oe_status js_synch">
             <span class='js_msg oe_hidden'>0</span>
-            <div class="js_connected oe_icon oe_green">
-                <i class='fa fa-fw fa-wifi'></i>
+            <div class="js_connected oe_icon oe_white">
+                <i class='fa fa-fw fa-signal'></i>
             </div>
             <div class="js_connecting oe_icon oe_hidden">
                 <i class='fa fa-fw fa-spin fa-spinner'></i>
             </div>
             <div class="js_disconnected oe_icon oe_red oe_hidden">
-                <i class='fa fa-fw fa-wifi'></i>
+                <i class='fa fa-fw fa-signal'></i>
             </div>
             <div class="js_error oe_icon oe_red oe_hidden">
                 <i class='fa fa-fw fa-warning'></i>
@@ -69,7 +69,7 @@
     <t t-name="ProxyStatusWidget">
         <div class="oe_status js_proxy">
             <span class='js_msg oe_orange oe_hidden'></span>
-            <div class="js_connected oe_icon oe_green">
+            <div class="js_connected oe_icon oe_white">
                 <i class='fa fa-fw fa-sitemap'></i>
             </div>
             <div class="js_connecting oe_icon oe_hidden">
@@ -101,7 +101,7 @@
              <div class="js_disconnected oe_icon oe_red">
                 <i class='fa fa-fw fa-desktop'></i>
             </div>
-            <div class="js_connected oe_icon oe_green oe_hidden">
+            <div class="js_connected oe_icon oe_white oe_hidden">
                 <i class='fa fa-fw fa-desktop'></i>
             </div>
         </div>
@@ -204,7 +204,7 @@
             <div class="breadcrumbs">
                 <span class="breadcrumb">
                     <span class=" breadcrumb-button breadcrumb-home js-category-switch">
-                        <i class='fa fa-home'></i>
+                        <i class='fa fa-stream'></i>
                     </span>
                 </span>
                 <t t-foreach="widget.breadcrumb" t-as="category">
@@ -1344,7 +1344,7 @@
                 <div class="order">
                     <t t-if="orderlines.length === 0" >
                         <div class='order-empty'>
-                            <i class='fa fa-shopping-cart' />
+                            <i class='fa fa-shopping-bag' />
                             <h1>Your shopping cart is empty</h1>
                         </div>
                     </t>

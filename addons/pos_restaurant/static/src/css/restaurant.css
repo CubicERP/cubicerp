@@ -281,7 +281,8 @@
 /* ------ FLOOR BUTTON IN THE ORDER SELECTOR ------- */
 
 .pos .order-button.floor-button {
-    background: #6EC89B;
+    background: white;
+    color: #808080;
     font-weight: bold;
     font-size: 16px;
     min-width: 128px;

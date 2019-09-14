@@ -95,7 +95,7 @@ td {
 }
 .pos textarea:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 3px #6EC89B;
+    box-shadow: 0px 0px 0px 3px #e06600;
 }
 
 
@@ -131,7 +131,7 @@ td {
 /*  ********* The black loading screen ********* */
 
 .pos .loader{
-    background-color: #222;
+    background-color: #580000;
     position:absolute;
     left:0px;
     top:0px;
@@ -140,7 +140,7 @@ td {
     z-index: 999;
     text-align: center;
     font-family: Lato;
-    color: #555555;
+    color: #DDD;
 }
 
 .pos .loader-feedback{
@@ -311,7 +311,7 @@ td {
     margin:0;
     padding:0;
     color: gray;
-    background: #393939;
+    background: #8f0000;
 }
 
 /*  a) The left part of the top-bar */
@@ -338,7 +338,7 @@ td {
 } 
 .pos .pos-branding .username{
     float:right;
-    color:#DDD;
+    color:whitesmoke;
     font-size:16px;
     margin-right:32px;
     line-height: 48px;
@@ -358,11 +358,11 @@ td {
     display: flex;
 }
 .pos .pos-rightheader > * {
-    border-right: 1px solid #292929;
+    border-right: 1px solid #510808;
 }
 
 .pos .order-button{
-    color: #f0f0f0;
+    color: #f7f7f7;
     display: inline-block;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -416,8 +416,8 @@ td {
 
 .pos .order-button.square{
     margin-left:1px;
-    background: #5c5c5c;
-    color: rgb(160,160,160);
+    background: #a38b8b;
+    color: #f7eded;
     font-size: 18px;
     line-height: 45px;
 }
@@ -456,8 +456,8 @@ td {
     height: 48px;
     padding-left: 16px;
     padding-right: 16px;
-    border-right: 1px solid #292929;
-    border-left: 1px solid #292929;
+    border-right: 1px solid #510808;
+    border-left: 1px solid #510808;
     color: #DDD;
     line-height: 48px;
     text-align: center;
@@ -475,7 +475,7 @@ td {
     color:#EEE;
 }
 .pos .pos-rightheader .header-button.confirm {
-    background: #359766;
+    background: #e06600;
     color: white;
     font-weight: bold;
 }
@@ -503,11 +503,15 @@ td {
 }
 .pos .oe_status .oe_red,
 .pos .oe_icon.oe_red {
-    color: rgb(197, 52, 0);
+    color: red;
 }
 .pos .oe_statu .oe_green,
 .pos .oe_icon.oe_green {
     color: rgb(94, 185, 55);
+}
+.pos .oe_statu .oe_white,
+.pos .oe_icon.oe_white {
+    color: #f7eded;
 }
 .pos .oe_status .oe_orange,
 .pos .oe_icon.oe_orange {
@@ -544,7 +548,7 @@ td {
 }
 
 .pos .leftpane .pads {
-    border-top: solid 3px rgb(110, 200, 155);
+    border-top: solid 3px #717171;
 }
 
 /*  ********* The control buttons ********* */
@@ -603,9 +607,13 @@ td {
 
 .pos .control-button.highlight,
 .pos .button.highlight {
-    background: #6EC89B !important;
-    border: solid 1px #64AF8A !important; 
+    background: #e06600 !important;
+    border: solid 1px #9F4900;
     color: white !important;
+}
+.pos .control-button.highlight:hover,
+.pos .button.highlight:hover {
+    background: #f46f00 !important;
 }
 .pos .control-button.altlight,
 .pos .button.altlight {
@@ -680,12 +688,15 @@ td {
     font-size: 32px;
     line-height: 54px;
     padding-top: 6px;
-    background: rgb(86, 86, 86);
+    background: #a20000;
     color: white;
     width: 60px;
     margin: auto;
     border-radius: 30px;
     margin-bottom: 10px;
+}
+.pos .actionpad .button.pay .pay-circle:hover {
+    background: #780000;
 }
 .pos .actionpad .button.pay .pay-circle .fa {
     position: relative;
@@ -765,11 +776,11 @@ td {
 }
 .pos .mode-button.selected-mode {
     color: white;
-    background: #6EC89B;
+    background: #a20000;
     border-color: transparent;
 }
 .pos .mode-button.selected-mode:hover {
-    background: #6EC89B;
+    background: #780000;
     color: white;
     border-color: transparent;
 }
@@ -795,7 +806,7 @@ td {
     padding: 0;
     height: 48px;
     border-bottom: 1px solid #c7c7c7;
-    background: #d3d3d3;
+    background: #eee;
     text-align: center;
 }
 
@@ -890,8 +901,8 @@ td {
 }
 .pos .searchbox input:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 2px rgb(153, 153, 255) inset;
-    color: rgb(153, 153, 255);
+    box-shadow: 0px 0px 0px 2px #f46f00 inset;
+    color: #999999;
 }
 .pos .search-clear {
     position: absolute;
@@ -906,7 +917,7 @@ td {
 
 .pos .categories {
     position: relative;
-    border-bottom: solid 3px rgb(110, 200, 155);
+    border-bottom: solid 3px #717171;
 }
 .pos .categories h4 {
     display: inline-block;
@@ -929,12 +940,12 @@ td {
 .pos .category-list {
     text-align: left;
     padding: 10px;
-    background: rgb(229, 229, 229);
+    background: #717171;
     border-bottom: 1px solid #cecece;
 }
 .pos .category-list.simple {
     padding: 0px;
-    background: #cecece;
+    background: #717171;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-flow: row wrap;
@@ -971,7 +982,8 @@ td {
     flex-grow: 1;
     -webkit-flex-grow: 1;
     cursor: pointer;
-    background: #e2e2e2;
+    background: #969696;
+    color: white;
 }
 .pos .category-simple-button:active{
     color: white;
@@ -1164,12 +1176,12 @@ td {
     color: white;
 }
 .screen .top-content .button.highlight {
-    background: rgb(110,200,155);
+    background: #e06600;
     color: white;
-    border: solid 1px rgb(110,200,155);
+    border: solid 1px #9F4900;
 }
 .screen .top-content .button.highlight:hover {
-    background: rgb(120,210,165);
+    background: #f46f00;
 }
 .screen .top-content .button.back {
     left: 0px;
@@ -1304,14 +1316,14 @@ td {
 }
 .pos .paymentline.selected {
     font-size: 22px;
-    background: #6EC89B;
+    background: #e06600;
     color: white;
 }
 .pos .paymentline.selected .edit {
     background: white;
-    color: #6EC89B;
+    color: #e06600;
     outline: 3px blue;
-    box-shadow: 0px 0px 0px 3px #6EC89B;
+    box-shadow: 0px 0px 0px 3px #9F4900;
     position: relative;
     border-radius: 3px;
 }
@@ -1329,7 +1341,7 @@ td {
     font-weight: bold;
 }
 .pos .paymentline .col-change.highlight {
-    background: rgb(184, 152, 204);
+    background: #4a8cc4;
 }
 .pos .paymentline .col-name {
     font-size: 16px;
@@ -1407,7 +1419,7 @@ td {
     text-align: center;
     padding: 24px 0px 18px;
     font-size: 64px;
-    color: #43996E;
+    color: #8F0000;
     text-shadow: 0px 2px white, 0px 2px 2px rgba(0, 0, 0, 0.27);
 }
 .payment-screen .paymentlines-empty .message {
@@ -1614,7 +1626,7 @@ td {
 }
 .pos .clientlist-screen .client-list tr.highlight{
     transition: all 150ms linear;
-    background: rgb(110,200,155) !important;
+    background: #e06600;
     color: white;
 }
 .pos .clientlist-screen .client-list tr.lowlight{
@@ -1627,7 +1639,7 @@ td {
 }
 .pos .clientlist-screen .client-details{
     padding: 16px;
-    border-bottom: solid 5px rgb(110,200,155);
+    border-bottom: solid 5px #717171;
 }
 .pos .clientlist-screen .client-picture{
     height: 64px;
@@ -1828,7 +1840,7 @@ td {
     position: absolute;
     left: 20px;
     padding: 10px;
-    color: #6EC89B;
+    color: #e06600;
     background: rgba(110, 200, 155, 0.17);
     border-radius: 3px;
 }
@@ -1909,7 +1921,7 @@ td {
     margin-bottom:20px;
     padding: 20px 0px;
     font-size: 64px;
-    color: #43996E;
+    color: #8F0000;
     text-shadow: 0px 2px white, 0px 2px 2px rgba(0, 0, 0, 0.27);
     border-bottom: dashed 1px rgb(215,215,215);
 }
@@ -1929,7 +1941,7 @@ td {
     -webkit-transform: translate3d(0,0,0);
 }
 .splitbill-screen .order .orderline.selected{
-    background: rgb(110,200,155);
+    background: #e06600;
     color: white;
     -webkit-transition: background 250ms ease-in-out;
        -moz-transition: background 250ms ease-in-out;
@@ -1974,9 +1986,9 @@ td {
     color: white;
 }
 .paymentmethod .button.active {
-    background: #6EC89B;
+    background: #e06600;
     color: white;
-    border-color: #6EC89B;
+    border-color: #9F4900;
 }
 
 
@@ -2294,7 +2306,7 @@ td {
 .pos .popup input:focus,
 .pos .popup-input.active {
     outline: none;
-    box-shadow: 0px 0px 0px 3px #6EC89B;
+    box-shadow: 0px 0px 0px 3px #e06600;
 }
 .pos .popup.popup-error {
     background-color: #F3BBBB;
@@ -2326,7 +2338,8 @@ td {
     background: rgb(247,247,247);
 }
 .pos .popup.popup-selection .selection-item.selected {
-    background: #6EC89B;
+    background: #e06600;
+    color: wheat;
 }
 .pos .popup.popup-number {
     width: 300px;

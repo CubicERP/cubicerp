@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: CubicERP Server 2020.0alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-19 21:47+0000\n"
-"PO-Revision-Date: 2019-09-19 18:42-0500\n"
+"PO-Revision-Date: 2019-09-20 12:11-0500\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -334,7 +334,7 @@ msgstr "Monto Pagado"
 #. module: payment
 #: model:ir.ui.view,arch_db:payment.transaction
 msgid "Aquirer"
-msgstr "Adquiridor"
+msgstr "Pasarela de Pago"
 
 #. module: payment
 #: model:ir.model.fields,field_description:payment.field_payment_acquirer_authorize_implemented
@@ -480,7 +480,7 @@ msgstr "Haga clic para crear un icono de pago."
 #. module: payment
 #: model:ir.ui.menu,name:payment.main_payment_menu
 msgid "Collect Payment"
-msgstr "Cobrar Pago"
+msgstr "Recaudación"
 
 #. module: payment
 #: model:payment.acquirer,post_msg:payment.payment_acquirer_custom
@@ -1640,7 +1640,7 @@ msgstr ""
 #. module: payment
 #: model:payment.acquirer,pre_msg:payment.payment_acquirer_transfer
 msgid "Transfer information will be provided after choosing the payment aquirer."
-msgstr "La información de transferencia se proporcionará después de elegir el adquirente de pago."
+msgstr "La información de transferencia se proporcionará después de elegir la pasarela de pago."
 
 #. module: payment
 #: model:ir.model.fields,field_description:payment.field_payment_transaction_type

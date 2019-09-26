@@ -7563,7 +7563,7 @@ msgid ""
 msgstr ""
 "No se han escrito las cantidades a procesar. Si usted presiona <i>Aplicar</"
 "i>,\n"
-"Odoo procesará todas las cantidades del movimiento."
+"se procesará todas las cantidades del movimiento."
 
 #. module: stock
 #: code:addons/stock/wizard/stock_return_picking.py:48

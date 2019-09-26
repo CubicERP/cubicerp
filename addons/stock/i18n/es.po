@@ -7870,10 +7870,10 @@ msgstr "Debes establecer un nombre para esta ubicación."
 #: model:ir.ui.view,arch_db:stock.view_immediate_transfer
 msgid ""
 "You haven't entered <i>done</i> quantities, by clicking on <i>apply</i>\n"
-"                        Odoo will process all the <i>reserved</i> quantities."
+"                         will process all the <i>reserved</i> quantities."
 msgstr ""
 "No ha ingresado cantidades <i>hechas</ i>, haciendo clic en <i>aplicar</ i>\n"
-"                         Odoo procesará todas las cantidades <i>reservadas</ i>."
+"                         se procesará todas las cantidades <i>reservadas</ i>."
 
 #. module: stock
 #: code:addons/stock/wizard/stock_picking_return.py:44

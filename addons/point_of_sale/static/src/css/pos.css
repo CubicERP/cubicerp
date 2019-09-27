@@ -1544,8 +1544,8 @@ td {
         margin-left: auto !important;
         margin-right: auto !important;
         border: none !important;
-        font-size: 13px !important;
-        width: 266px !important;
+        font-size: 12px !important;
+        width: 250px !important;
     }
     .o_debug_manager {
         display: none !important;

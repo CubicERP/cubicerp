@@ -1524,6 +1524,7 @@
                     </td>
                     <td class="pos-right-align">
                         <t t-esc="orderline.get_quantity_str_with_unit()"/>
+                        x <t t-esc="orderline.get_unit_price_w_discount()"/>
                     </td>
                     <td class="pos-right-align">
                         <t t-esc="widget.format_currency(orderline.get_display_price_print())"/>

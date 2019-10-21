@@ -260,7 +260,7 @@ class AccountInvoice(models.Model):
     related_invoice = fields.Boolean("Require Related Invoice", related="journal_id.related_journal")
     refund_invoice_id = fields.Many2one('account.invoice', string="Related Invoice",
                                         help="Invoice for which this invoice is their credit note")
-    number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False)
+    number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False, index=True)
     move_name = fields.Char(string='Journal Entry Name', readonly=False,
         default=False, copy=False,
         help="Technical field holding the number given to the invoice, automatically set when the invoice is validated then stored to set the same number again if the invoice is cancelled, set to draft and re-validated.")
@@ -343,7 +343,7 @@ class AccountInvoice(models.Model):
         default=_default_journal,
         domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]")
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
-        required=True, readonly=True, states={'draft': [('readonly', False)]},
+        required=True, readonly=True, states={'draft': [('readonly', False)]}, index=True,
         default=lambda self: self.env['res.company']._company_default_get('account.invoice'))
 
     reconciled = fields.Boolean(string='Paid/Reconciled', store=True, readonly=True, compute='_compute_residual',

@@ -566,7 +566,7 @@ class PosOrder(models.Model):
     )
     note = fields.Text(string='Internal Notes')
     nb_print = fields.Integer(string='Number of Print', readonly=True, copy=False, default=0)
-    pos_reference = fields.Char(string='Receipt Ref', readonly=True, copy=False)
+    pos_reference = fields.Char(string='Receipt Ref', readonly=True, copy=False, index=True)
     sale_journal = fields.Many2one('account.journal', related='session_id.config_id.journal_id', string='Sales Journal', store=True, readonly=True)
     fiscal_position_id = fields.Many2one(
         comodel_name='account.fiscal.position', string='Fiscal Position',
@@ -681,11 +681,11 @@ class PosOrder(models.Model):
             invoice.fiscal_position_id = order.fiscal_position_id
 
             inv = invoice._convert_to_write({name: invoice[name] for name in invoice._cache})
-            new_invoice = Invoice.with_context(local_context).sudo().create(inv)
+            new_invoice = self.env['account.invoice'].with_context(local_context).sudo().create(inv)
             message = _("This invoice has been created from the point of sale session: <a href=# data-oe-model=pos.order data-oe-id=%d>%s</a>") % (order.id, order.name)
             new_invoice.message_post(body=message)
             order.write({'invoice_id': new_invoice.id, 'state': 'invoiced'})
-            Invoice += new_invoice
+            Invoice |= new_invoice
 
             for line in order.lines:
                 self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
@@ -726,7 +726,7 @@ class PosOrder(models.Model):
         existing_orders = pos_order.read(['pos_reference'])
         existing_references = set([o['pos_reference'] for o in existing_orders])
         orders_to_save = [o for o in orders if o['data']['name'] not in existing_references]
-        order_ids = []
+        order_ids = [o.id for o in pos_order]
 
         for tmp_order in orders_to_save:
             to_invoice = tmp_order['to_invoice']

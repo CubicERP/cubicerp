@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models, _
+from odoo import fields, models, _, api
 
 
 class StockImmediateTransfer(models.TransientModel):
@@ -33,20 +33,37 @@ class StockImmediateTransfer(models.TransientModel):
     product_id = fields.Many2one("product.product", required=True)
     product_uom_id = fields.Many2one("product.uom", related="product_id.uom_id", readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot/Serial Number')
-    package_id = fields.Many2one('stock.quant.package', 'Package')
+    package_id = fields.Many2one('stock.quant.package', 'Destinity Package')
     quantity_done = fields.Float("Quantity")
 
     def process(self):
-        picking = self.env['stock.picking'].create({'location_id': self.location_id.id,
-                                          'location_dest_id': self.location_dest_id.id,
-                                          'origin': self.origin,
-                                          'picking_type_id': self.picking_type_id.id,
-                                          'move_lines': [(0,False,{'product_id': self.product_id.id,
-                                                                   'name': self.product_id.name,
-                                                                   'product_uom': self.product_uom_id.id,
-                                                                   'quantity_done': self.quantity_done,
-                                                                   'product_uom_qty': self.quantity_done,
-                                                                   })]
-                                          })
+        quant = self.env['stock.quant'].browse(self._context.get('active_ids')[0])
+
+        vals = self.env['stock.picking'].default_get(list(self.env['stock.picking']._fields.keys()))
+        vals.update({
+            'location_id': self.location_id.id,
+            'location_dest_id': self.location_dest_id.id,
+            'origin': self.origin,
+            'picking_type_id': self.picking_type_id.id,
+            'move_lines': [(0, False, {
+                'name': quant.product_id.name,
+                'product_id': quant.product_id.id,
+                'product_uom': quant.product_id.uom_id.id,
+                'product_uom_qty': self.quantity_done,
+                'quantity_done': self.quantity_done,
+            })]
+        })
+        picking = self.env['stock.picking'].create(vals)
+        picking.move_lines.move_line_ids.write({
+            'lot_id': quant.lot_id.id,
+            'package_id': quant.package_id.id,
+            'result_package_id': self.package_id.id,
+        })
         picking.button_validate()
-        return False
+        return picking.id
+
+    @api.onchange("picking_type_id", "location_dest_id")
+    def onchange_picking_type(self):
+        if self.picking_type_id:
+            self.location_dest_id = self.picking_type_id.default_location_dest_id
+            return {'domain': {'package_id': ['|',('location_id', '=', False),('location_id', '=', self.location_dest_id.id)]}}

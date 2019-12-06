@@ -7,17 +7,19 @@
             <form string="Quick transfer">
                 <group>
                     <group>
-                        <field name="location_id"/>
-                        <field name="location_dest_id"/>
+                        <field name="picking_type_id" domain="[('code','=','internal')]"/>
                         <label for="quantity_done"/>
                         <div>
                             <field name="quantity_done" class="oe_inline"/>
                             <field name="product_uom_id" class="oe_inline oe_no_button"/>
                         </div>
+                        <field name="lot_id"/>
+                        <field name="package_id"/>
                     </group>
                     <group>
+                        <field name="location_id"/>
+                        <field name="location_dest_id"/>
                         <field name="origin"/>
-                        <field name="picking_type_id"/>
                         <field name="product_id" invisible="1"/>
                     </group>
                 </group>

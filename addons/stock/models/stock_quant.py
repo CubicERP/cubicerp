@@ -256,7 +256,12 @@ class StockQuant(models.Model):
         """
         self = self.sudo()
         rounding = product_id.uom_id.rounding
-        quants = self._gather(product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict)
+        quants = False
+        if self._context.get("force_reserved_quants", False):
+            quants = self._context["force_reserved_quants"].filtered(lambda q: q.product_id == product_id and q.location_id == location_id)
+        if not quants:
+            quants = self._gather(product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=strict)
+
         reserved_quants = []
 
         if float_compare(quantity, 0, precision_rounding=rounding) > 0:

@@ -37,6 +37,7 @@ class MrpProductProduce(models.TransientModel):
                 res['product_qty'] = todo_quantity
             if 'produce_line_ids' in fields:
                 lines = []
+                qty_done_rate = self._context.get("force_qty_done_rate", 0.0)
                 for move in production.move_raw_ids.filtered(lambda x: (x.product_id.tracking != 'none') and x.state not in ('done', 'cancel') and x.bom_line_id):
                     qty_to_consume = float_round(todo_quantity / move.bom_line_id.bom_id.product_qty * move.bom_line_id.product_qty,
                                                  precision_rounding=move.product_uom.rounding, rounding_method="UP")
@@ -49,7 +50,7 @@ class MrpProductProduce(models.TransientModel):
                         lines.append({
                             'move_id': move.id,
                             'qty_to_consume': to_consume_in_line,
-                            'qty_done': 0.0,
+                            'qty_done': to_consume_in_line * qty_done_rate,
                             'lot_id': move_line.lot_id.id,
                             'product_uom_id': move.product_uom.id,
                             'product_id': move.product_id.id,

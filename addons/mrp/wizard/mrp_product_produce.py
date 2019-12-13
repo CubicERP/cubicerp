@@ -38,6 +38,7 @@ class MrpProductProduce(models.TransientModel):
             if 'produce_line_ids' in fields:
                 lines = []
                 qty_done_rate = self._context.get("force_qty_done_rate", 0.0)
+                todo_quantity = production.product_qty * self._context.get("force_todo_quantity_rate", 1.0)
                 for move in production.move_raw_ids.filtered(lambda x: (x.product_id.tracking != 'none') and x.state not in ('done', 'cancel') and x.bom_line_id):
                     qty_to_consume = float_round(todo_quantity / move.bom_line_id.bom_id.product_qty * move.bom_line_id.product_qty,
                                                  precision_rounding=move.product_uom.rounding, rounding_method="UP")
@@ -110,9 +111,9 @@ class MrpProductProduce(models.TransientModel):
                 rounding = move.product_uom.rounding
                 if move.product_id.id == self.production_id.product_id.id:
                     move.quantity_done += float_round(quantity, precision_rounding=rounding)
-                elif move.unit_factor:
+                elif move.subproduct_id: #unit_factor:
                     # byproducts handling
-                    move.quantity_done += float_round(quantity * move.unit_factor, precision_rounding=rounding)
+                    move.quantity_done = self._compute_quantity_done(move, quantity, rounding)
         self.check_finished_move_lots()
         if self.production_id.state == 'confirmed':
             self.production_id.write({
@@ -120,6 +121,9 @@ class MrpProductProduce(models.TransientModel):
                 'date_start': datetime.now(),
             })
         return {'type': 'ir.actions.act_window_close'}
+
+    def _compute_quantity_done(self, move, quantity, rounding):
+        return move.quantity_done + float_round(quantity * move.unit_factor, precision_rounding=rounding)
 
     @api.multi
     def check_finished_move_lots(self):

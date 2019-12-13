@@ -167,11 +167,12 @@ class MrpProduction(models.Model):
         default=lambda self: self.env['res.company']._company_default_get('mrp.production'),
         required=True)
 
-    check_to_done = fields.Boolean(compute="_get_produced_qty", string="Check Produced Qty", 
+    check_to_done = fields.Boolean(compute="_get_produced_qty", string="Check Produced Qty", store=True,
         help="Technical Field to see if we can show 'Mark as Done' button")
     qty_produced = fields.Float(compute="_get_produced_qty", digits=dp.get_precision('Product Unit of Measure'),
-                                string="Quantity Produced", help="Quantity Produced")
-    inefficiency_percent = fields.Float(compute="_get_produced_qty", string="Inefficency", help="Inefficiency percent (1 - quantity produced / quantity ordered %)")
+                                string="Quantity Produced", help="Quantity Produced", store=True)
+    inefficiency_percent = fields.Float(compute="_get_produced_qty", string="Inefficency", store=True,
+                                        help="Inefficiency percent (1 - quantity produced / quantity ordered %)")
     procurement_group_id = fields.Many2one(
         'procurement.group', 'Procurement Group',
         copy=False)
@@ -270,7 +271,8 @@ class MrpProduction(models.Model):
             )
 
     @api.multi
-    @api.depends('workorder_ids.state', 'move_finished_ids', 'is_locked')
+    @api.depends('workorder_ids.state', 'finished_move_line_ids.qty_done', 'move_finished_ids.state',
+                 'move_finished_ids.product_id', 'is_locked', 'product_qty', 'state')
     def _get_produced_qty(self):
         for production in self:
             done_moves = production.move_finished_ids.filtered(lambda x: x.state != 'cancel' and x.product_id.id == production.product_id.id)

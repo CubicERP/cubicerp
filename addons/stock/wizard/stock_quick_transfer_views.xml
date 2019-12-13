@@ -13,11 +13,11 @@
                             <field name="quantity_done" class="oe_inline"/>
                             <field name="product_uom_id" class="oe_inline oe_no_button"/>
                         </div>
-                        <field name="lot_id"/>
+                        <field name="lot_id"  readonly="1" force_save="1"/>
                         <field name="package_id"/>
                     </group>
                     <group>
-                        <field name="location_id"/>
+                        <field name="location_id" readonly="1" force_save="1"/>
                         <field name="location_dest_id"/>
                         <field name="origin"/>
                         <field name="product_id" invisible="1"/>

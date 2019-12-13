@@ -494,6 +494,8 @@ class AccountInvoice(models.Model):
         pre_reconciled = self - pre_not_reconciled
         res = super(AccountInvoice, self)._write(vals)
         reconciled = self.filtered(lambda invoice: invoice.reconciled)
+        if self._context.get("reconciled_verify_amount_total", False):
+            reconciled = reconciled.filtered("amount_total")
         not_reconciled = self - reconciled
         (reconciled & pre_reconciled).filtered(lambda invoice: invoice.state == 'open').action_invoice_paid()
         (not_reconciled & pre_not_reconciled).filtered(lambda invoice: invoice.state == 'paid').action_invoice_re_open()

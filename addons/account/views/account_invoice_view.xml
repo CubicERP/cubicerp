@@ -809,5 +809,18 @@
            res_model="account.invoice"
            src_model="account.journal"/>
 
+
+        <!-- Action reopen invoices with balance 0.0 -->
+        <record id="action_account_reopen_void_invoice" model="ir.actions.server">
+            <field name="name">ReOpen Void Invoice</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="binding_model_id" ref="account.model_account_invoice"/>
+            <field name="code">
+records.filtered(lambda i: i.state=='paid' and i.amount_total==0.0).with_context(reconciled_verify_amount_total=True).action_invoice_re_open()
+            </field>
+        </record>
+
     </data>
 </odoo>

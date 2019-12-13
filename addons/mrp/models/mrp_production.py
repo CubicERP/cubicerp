@@ -271,7 +271,7 @@ class MrpProduction(models.Model):
             )
 
     @api.multi
-    @api.depends('workorder_ids.state', 'finished_move_line_ids.qty_done', 'move_finished_ids.state',
+    @api.depends('workorder_ids.state', 'move_finished_ids.move_line_ids.qty_done', 'move_finished_ids.state',
                  'move_finished_ids.product_id', 'is_locked', 'product_qty', 'state')
     def _get_produced_qty(self):
         for production in self:

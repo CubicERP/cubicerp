@@ -9,30 +9,25 @@
                     <div class="oe_structure"/>
                     <div class="row">
                         <div class="col-xs-8">
-                            <table class="table table-condensed" style="border-bottom: 0px solid white !important;">
-                                <thead>
-                                    <tr>
-                                        <th>Lot/Serial Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong>Lot/Serial Number</strong>
+                                    </td>
                                     <td>
                                         <span t-field="o.name"/>
                                     </td>
-                                </tbody>
-                            </table>
-                            <table class="table table-condensed" style="border-bottom: 0px solid white !important;">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                </tr>
+                                <tr>
                                     <td>
-                                       <span  t-field="o.product_id.name"/>
+                                        <strong>Product</strong>
                                     </td>
-                                </tbody>
+                                    <td>
+                                        <span t-field="o.product_id.name"/>
+                                    </td>
+                                </tr>
                             </table>
+
                         </div>
                         <div class="col-xs-4">
                             <img class="image" t-att-src="'data:image/png;base64,%s' % to_text(res_company.logo)" style="border:auto;"/>
@@ -40,9 +35,8 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 mt32 text-center">
-                            <table class="table table-condensed" style="border-bottom: 3px solid black !important;"><thead><th> </th></thead></table>
                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px"/>
-                            <p class="text-center" t-field="o.name"></p>
+                            <p class="text-center" t-field="o.name"/>
                         </div>
                     </div>
                 </div>

@@ -41,6 +41,15 @@ class StockProductionLot(models.Model):
                     res[field] = fields.Datetime.to_string(date)
         return res
 
+    def name_get(self):
+        if self.env.context.get("lot_with_expiry", False):
+            res = []
+            for lot in self:
+                name = "L:%s%s"%(lot.name,lot.life_date and " - FV:%s"%lot.life_date[0:10] or "")
+                res.append((lot.id,name))
+            return res
+        return super(StockProductionLot, self).name_get()
+
     # Assign dates according to products data
     @api.model
     def create(self, vals):

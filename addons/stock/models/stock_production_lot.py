@@ -24,6 +24,7 @@ class ProductionLot(models.Model):
     create_date = fields.Datetime('Creation Date')
     product_qty = fields.Float('Quantity', compute='_product_qty')
 
+    _order = "id desc"
     _sql_constraints = [
         ('name_ref_uniq', 'unique (name, product_id)', 'The combination of serial number and product must be unique !'),
     ]

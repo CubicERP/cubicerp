@@ -7767,7 +7767,7 @@ msgid ""
 "                        Odoo will process all the <i>reserved</i> quantities."
 msgstr ""
 "U heeft geen hoeveelheden ingesteld op <i>Verwerkt</i>, wanneer u klikt op <i>Toepassen</i>, dan \n"
-"zal Odoo alle hoeveelheden welke <i>gereserveerd </i>zijn uitleveren."
+"zal  alle hoeveelheden welke <i>gereserveerd </i>zijn uitleveren."
 
 #. module: stock
 #: code:addons/stock/wizard/stock_picking_return.py:44

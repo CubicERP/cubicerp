@@ -60,5 +60,25 @@
             file="stock.report_lot_barcode"
             print_report_name="'Lot-Serial - %s' % object.name"
         />
+
+        <record id="paperformat_barcode" model="report.paperformat">
+          <field name="name">Barcode Tag</field>
+          <field name="default" eval="True"/>
+          <field name="format">custom</field>
+          <field name="page_height">105</field>
+          <field name="page_width">74</field>
+          <field name="orientation">Landscape</field>
+          <field name="margin_top">5</field>
+          <field name="margin_bottom">5</field>
+          <field name="margin_left">5</field>
+          <field name="margin_right">5</field>
+          <field name="header_line" eval="False"/>
+          <field name="header_spacing">0</field>
+          <field name="dpi">80</field>
+        </record>
+        <record id="action_report_lot_barcode" model="ir.actions.report">
+          <field name="paperformat_id" ref="paperformat_barcode" />
+          <field name="attachment_use" eval="False" />
+        </record>
     </data>
 </odoo>

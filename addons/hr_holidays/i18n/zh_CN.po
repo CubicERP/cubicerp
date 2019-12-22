@@ -1405,7 +1405,7 @@ msgstr "选中后，这种类型的分配和休假申请需经二次验证才能
 #. module: hr_holidays
 #: model:ir.actions.act_window,help:hr_holidays.hr_holidays_leaves_assign_legal
 msgid ""
-"You can assign remaining Legal Leaves for each employee, Odoo\n"
+"You can assign remaining Legal Leaves for each employee, Cubic ERP\n"
 "               will automatically create and validate allocation requests."
 msgstr "你可以为每个雇员设置法定休假，Odoo会自动的创建和批准配置需求"
 

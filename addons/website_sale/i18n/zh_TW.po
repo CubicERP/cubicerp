@@ -680,7 +680,7 @@ msgstr ""
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
-msgid "<strong>See it in action in Odoo</strong><br/>"
+msgid "<strong>See it in action in Cubic ERP</strong><br/>"
 msgstr "<strong>在 Odoo 中查看操作畫面</strong><br/>"
 
 #. module: website_sale

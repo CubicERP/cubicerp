@@ -1435,10 +1435,10 @@ msgstr ""
 #. module: hr_holidays
 #: model:ir.actions.act_window,help:hr_holidays.hr_holidays_leaves_assign_legal
 msgid ""
-"You can assign remaining Legal Leaves for each employee, Odoo\n"
+"You can assign remaining Legal Leaves for each employee, Cubic ERP\n"
 "               will automatically create and validate allocation requests."
 msgstr ""
-"Você pode atribuir as Licenças Legais restantes para cada funcionário, Odoo\n"
+"Você pode atribuir as Licenças Legais restantes para cada funcionário, Cubic ERP\n"
 "criará e validará automaticamente os pedidos de atribuição."
 
 #. module: hr_holidays

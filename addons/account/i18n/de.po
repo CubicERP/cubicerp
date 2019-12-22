@@ -285,7 +285,7 @@ msgid ""
 "    </tr>\n"
 "    <tr>\n"
 "        <td align=\"center\">\n"
-"            Powered by <a target=\"_blank\" href=\"https://www.odoo.com\">Odoo</a>.\n"
+"            Powered by <a target=\"_blank\" href=\"https://www.cubicerp.com\">Cubic ERP</a>.\n"
 "        </td>\n"
 "    </tr>\n"
 "</tbody>\n"
@@ -547,8 +547,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Saldo in Odoo\">Saldo in Odoo</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Saldo in Cubic ERP\">Saldo in Cubic ERP</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -719,7 +719,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"<strong>Create the bill in Odoo</strong><br/> with a proper due date, and "
+"<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and "
 "create the vendor if it doesnt' exist yet."
 msgstr ""
 "<strong> Erstellen Sie die Rechnung in CubicERP </strong> <br/> mit einem "

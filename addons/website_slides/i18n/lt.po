@@ -414,7 +414,7 @@ msgstr "Tik patvirtinti vartotojai"
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_5
 msgid "Awesome Timesheet by Odoo"
-msgstr "Puikus \"Odoo\" darbo laiko apskaitos žiniaraštis"
+msgstr "Puikus \"Cubic ERP\" darbo laiko apskaitos žiniaraštis"
 
 #. module: website_slides
 #: model:slide.tag,name:website_slides.tag1
@@ -595,7 +595,7 @@ msgstr "Atmesti"
 #. module: website_slides
 #: model:slide.slide,description:website_slides.slide_6
 msgid "Discover how easy marketing your business can be with Odoo"
-msgstr "Su \"Odoo\" atrasite, kaip gali būti paprasta reklamuoti savo verslą"
+msgstr "Su \"Cubic ERP\" atrasite, kaip gali būti paprasta reklamuoti savo verslą"
 
 #. module: website_slides
 #: model:slide.slide,description:website_slides.slide_0
@@ -610,7 +610,7 @@ msgstr ""
 "\n"
 "Daugiau apie šias funkcijas skaitykite: https://www.odoo.com/page/manufacturing-features\n"
 "\n"
-"Atraskite \"Odoo\" MRP: https://www.odoo.com/page/manufacturing"
+"Atraskite \"Cubic ERP\" MRP: https://www.odoo.com/page/manufacturing"
 
 #. module: website_slides
 #: model:slide.slide,description:website_slides.slide_1
@@ -684,7 +684,7 @@ msgid ""
 "Chrome: http://bit.ly/2613LcY\n"
 "iOS: http://bit.ly/1ZUZsZD"
 msgstr ""
-"Atsisiųskite puikų \"Odoo\" darbo laiko apskaitos žiniaraštį ir sužinokite, koks gali būti paprastas laiko sekimas ir darbuotojų valdymas!\n"
+"Atsisiųskite puikų \"Cubic ERP\" darbo laiko apskaitos žiniaraštį ir sužinokite, koks gali būti paprastas laiko sekimas ir darbuotojų valdymas!\n"
 "\n"
 "Chrome: http://bit.ly/2613LcY\n"
 "iOS: http://bit.ly/1ZUZsZD"
@@ -1005,7 +1005,7 @@ msgstr "VIdeo skaičius"
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_2
 msgid "Odoo All-in-One Software Demonstration"
-msgstr "\"Odoo\" visko viename programinės įrangos demonstracija"
+msgstr "\"Cubic ERP\" visko viename programinės įrangos demonstracija"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_1
@@ -1021,7 +1021,7 @@ msgstr "Odoo dienos"
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_7
 msgid "Odoo Inventory"
-msgstr "\"Odoo\" inventorius"
+msgstr "\"Cubic ERP\" inventorius"
 
 #. module: website_slides
 #: model:slide.slide,name:website_slides.slide_0
@@ -1485,7 +1485,7 @@ msgid ""
 msgstr ""
 "21 amžiaus sandėlio valdymo programinė įranga.\n"
 "\n"
-"Atraskite \"Odoo\" inventorių: https://www.odoo.com/page/warehouse"
+"Atraskite \"Cubic ERP\" inventorių: https://www.odoo.com/page/warehouse"
 
 #. module: website_slides
 #: model:ir.ui.view,arch_db:website_slides.view_slide_slide_form

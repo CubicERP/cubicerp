@@ -648,8 +648,8 @@ msgstr ""
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
-msgid "<strong>See it in action in Odoo</strong><br/>"
-msgstr "<strong>Veure-ho en acció en Odoo</strong><br/>"
+msgid "<strong>See it in action in Cubic ERP</strong><br/>"
+msgstr "<strong>Veure-ho en acció en Cubic ERP</strong><br/>"
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
@@ -3412,7 +3412,7 @@ msgid ""
 "To do so, take the most out of Odoo's <strong>pricing options</strong>:<br/>"
 msgstr ""
 "Per a fer-ho, aprofiti al màxim les <strong>opcions de preus "
-"d'Odoo</strong>:<br/>"
+"d'Cubic ERP</strong>:<br/>"
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.report_shop_saleorder_document

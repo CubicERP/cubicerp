@@ -218,7 +218,7 @@ msgstr ""
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>El Equipo Odoo<br/>PS: La gente ama Odoo, mira </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">lo que la gente dice.</span></a></span>\n"
+"                <span><br/>-- <br/>El Equipo Cubic ERP<br/>PS: La gente ama Odoo, mira </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">lo que la gente dice.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 

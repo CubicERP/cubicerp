@@ -243,7 +243,7 @@ msgstr "<span class=\"oe_logo_edit\">تعديل بيانات الشركة</span>
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
 msgstr "<span>أودو</span>"
 
 #. module: web
@@ -1989,7 +1989,7 @@ msgstr "مدعوم بواسطة"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
 msgstr "مدعوم من<span>أودو</span>"
 
 #. module: web

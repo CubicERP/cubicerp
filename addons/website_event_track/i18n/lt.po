@@ -149,7 +149,7 @@ msgid ""
 "A technical explanation of Odoo as a CMS and a eCommerce platform for "
 "version 8."
 msgstr ""
-"Techninis \"Odoo\" TVS ir e-komercijos platformos paaiškinimas 8 versijai."
+"Techninis \"Cubic ERP\" TVS ir e-komercijos platformos paaiškinimas 8 versijai."
 
 #. module: website_event_track
 #: model:ir.model.fields,help:website_event_track.field_event_track_kanban_state
@@ -183,7 +183,7 @@ msgstr "Aktyvus"
 #: model:event.track,name:website_event_track.event_track19
 msgid "Advanced lead management with Odoo: tips and tricks from the fields"
 msgstr ""
-"Šaltųjų kontaktų valdymas su \"Odoo\" pažengusiems: patarimai iš įvairių "
+"Šaltųjų kontaktų valdymas su \"Cubic ERP\" pažengusiems: patarimai iš įvairių "
 "sričių"
 
 #. module: website_event_track
@@ -336,14 +336,14 @@ msgstr ""
 msgid ""
 "Discover Odoo CRM: How to optimize your sales, from leads to sales orders."
 msgstr ""
-"Atraskite \"Odoo\" CRM: Kaip optimizuoti savo pardavimus, nuo šaltųjų "
+"Atraskite \"Cubic ERP\" CRM: Kaip optimizuoti savo pardavimus, nuo šaltųjų "
 "kontaktų iki pardavimų užsakymų."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track11
 msgid "Discover Odoo Point-of-Sale: Your shop ready to use in 30 minutes."
 msgstr ""
-"Atraskite \"Odoo\" pardavimo tašką: Paruoškite savo parduotuvę naudojimui "
+"Atraskite \"Cubic ERP\" pardavimo tašką: Paruoškite savo parduotuvę naudojimui "
 "per 30 minučių."
 
 #. module: website_event_track
@@ -509,7 +509,7 @@ msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
 "with Odoo."
 msgstr ""
-"Kaip su \"Odoo\" sukurti savo rinkodaros strategiją, generuojančią "
+"Kaip su \"Cubic ERP\" sukurti savo rinkodaros strategiją, generuojančią "
 "šaltuosius kontaktus."
 
 #. module: website_event_track
@@ -520,7 +520,7 @@ msgstr "Kaip sukurti svetainės modulį."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track4
 msgid "How to develop automated tests in the Odoo web client."
-msgstr "Kaip kurti automatizuotus testus \"Odoo\" internetinės svetainės kliente."
+msgstr "Kaip kurti automatizuotus testus \"Cubic ERP\" internetinės svetainės kliente."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track3
@@ -532,7 +532,7 @@ msgstr ""
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track2
 msgid "How to integrate hardware materials with the Odoo point of sale."
-msgstr "Kaip integruoti techninę įrangą su \"Odoo\" pardavimų tašku."
+msgstr "Kaip integruoti techninę įrangą su \"Cubic ERP\" pardavimų tašku."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track9
@@ -540,7 +540,7 @@ msgid ""
 "How to use Odoo for your HR process: recruitment, leaves management, "
 "appraisals, expenses, etc."
 msgstr ""
-"Kaip naudoti \"Odoo\" savo žmogiškųjų išteklių procesuose: įdarbinimas, "
+"Kaip naudoti \"Cubic ERP\" savo žmogiškųjų išteklių procesuose: įdarbinimas, "
 "laisvadienių valdymas, įvertinimai, išlaidos ir t.t."
 
 #. module: website_event_track
@@ -580,7 +580,7 @@ msgstr "Kanban būsena"
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
 msgid "Key Success factors selling Odoo."
-msgstr "\"Odoo\" pardavimo sėkmės faktoriai."
+msgstr "\"Cubic ERP\" pardavimo sėkmės faktoriai."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -645,7 +645,7 @@ msgstr "Valdykite savo KPI (rekomenduojama openERP partneriams)"
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
 msgid "Manage your events with Odoo, the new training modules."
-msgstr "Valdykite savo įvykius su naujais \"Odoo\" mokymo moduliais."
+msgstr "Valdykite savo įvykius su naujais \"Cubic ERP\" mokymo moduliais."
 
 #. module: website_event_track
 #: selection:event.track,priority:0
@@ -722,17 +722,17 @@ msgstr "\"Odoo Mobile\" užrašams, susitikimams ir pranešimams."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track28
 msgid "Odoo Status & Strategy 2014"
-msgstr "\"Odoo\" padėtis ir strategija 2014"
+msgstr "\"Cubic ERP\" padėtis ir strategija 2014"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track16
 msgid "Odoo as your Enterprise Social Network."
-msgstr "\"Odoo\" kaip jūsų įmonės socialinis tinklas."
+msgstr "\"Cubic ERP\" kaip jūsų įmonės socialinis tinklas."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track27
 msgid "Odoo in 2014"
-msgstr "\"Odoo\" 2014-aisiais"
+msgstr "\"Cubic ERP\" 2014-aisiais"
 
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.event_sponsor
@@ -982,7 +982,7 @@ msgstr "Dėkojame už pasiūlymą."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track17
 msgid "The Art of Making an Odoo Demo."
-msgstr "\"Odoo\" demonstracijos kūrimo menas."
+msgstr "\"Cubic ERP\" demonstracijos kūrimo menas."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track29
@@ -994,7 +994,7 @@ msgstr "Nauja rinkodaros strategija."
 msgid ""
 "The new way to promote your modules in the Apps platform and Odoo website."
 msgstr ""
-"Naujas būdas reklamuoti savo modulius programų platformoje ir \"Odoo\" "
+"Naujas būdas reklamuoti savo modulius programų platformoje ir \"Cubic ERP\" "
 "svetainėje."
 
 #. module: website_event_track

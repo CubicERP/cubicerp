@@ -685,7 +685,7 @@ msgstr ""
 "                        buoni consigli per la personaliszzazione delle "
 "schermate \n"
 "                        e si adatta ai vostri processi di vendita.<strong>Le "
-"personalizzazioni sono realizzabili dagli Esperti di Odoo</strong>"
+"personalizzazioni sono realizzabili dagli Esperti di Cubic ERP</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner

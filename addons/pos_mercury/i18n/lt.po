@@ -314,7 +314,7 @@ msgstr "Jokio atsakymo iš serverio (prisijungta prie tinklo?)"
 #: code:addons/pos_mercury/static/src/js/pos_mercury.js:577
 #, python-format
 msgid "Odoo error while processing transaction."
-msgstr "Apdorojant operaciją įvyko \"Odoo\" klaida."
+msgstr "Apdorojant operaciją įvyko \"Cubic ERP\" klaida."
 
 #. module: pos_mercury
 #. openerp-web

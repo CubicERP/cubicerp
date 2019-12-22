@@ -778,7 +778,7 @@ msgstr ""
 
 #. module: im_livechat
 #: model:ir.ui.view,arch_db:im_livechat.support_page
-msgid "Website Live Chat Powered by <strong>Odoo</strong>."
+msgid "Website Live Chat Powered by <strong>Cubic ERP</strong>."
 msgstr ""
 
 #. module: im_livechat

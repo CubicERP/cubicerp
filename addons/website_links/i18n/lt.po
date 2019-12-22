@@ -203,7 +203,7 @@ msgid ""
 " or in Odoo reports to track opportunities and related revenues."
 msgstr ""
 "Šis sekimas gali būti panaudojamas \"Google Analytics\", taip sekant "
-"paspaudimus ir lankytojus, arba \"Odoo\" ataskaitose, taip sekant galimybes "
+"paspaudimus ir lankytojus, arba \"Cubic ERP\" ataskaitose, taip sekant galimybes "
 "ir susijusias pajamas."
 
 #. module: website_links

@@ -818,8 +818,8 @@ msgstr "Kanály živého chatu webstránky"
 
 #. module: im_livechat
 #: model:ir.ui.view,arch_db:im_livechat.support_page
-msgid "Website Live Chat Powered by <strong>Odoo</strong>."
-msgstr "Živý chat webstránky poháňa <strong>Odoo</strong>."
+msgid "Website Live Chat Powered by <strong>Cubic ERP</strong>."
+msgstr "Živý chat webstránky poháňa <strong>Cubic ERP</strong>."
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_default_message

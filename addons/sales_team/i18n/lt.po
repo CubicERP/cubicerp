@@ -386,7 +386,7 @@ msgid ""
 "The email address put in the 'Reply-To' of all emails sent by Odoo about "
 "cases in this sales channel"
 msgstr ""
-"El. pašto adresas, kuriam atsakoma į visus \"Odoo\" išsiųstus laiškus apie "
+"El. pašto adresas, kuriam atsakoma į visus \"Cubic ERP\" išsiųstus laiškus apie "
 "šio pardavimų kanalo įvykius."
 
 #. module: sales_team

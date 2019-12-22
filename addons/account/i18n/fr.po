@@ -312,7 +312,7 @@ msgid ""
 "    </tr>\n"
 "    <tr>\n"
 "        <td align=\"center\">\n"
-"            Powered by <a target=\"_blank\" href=\"https://www.odoo.com\">Odoo</a>.\n"
+"            Powered by <a target=\"_blank\" href=\"https://www.cubicerp.com\">Cubic ERP</a>.\n"
 "        </td>\n"
 "    </tr>\n"
 "</tbody>\n"
@@ -572,8 +572,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\">Solde en GL</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Balance in Cubic ERP\">Solde en GL</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -638,7 +638,7 @@ msgstr "<span>Vue</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-L'équipe Odoo</strong>"
+msgstr "<strong>-L'équipe Cubic ERP</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -744,10 +744,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"<strong>Create the bill in Odoo</strong><br/> with a proper due date, and "
+"<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and "
 "create the vendor if it doesnt' exist yet."
 msgstr ""
-"<strong>Créer la facture dans Odoo</strong><br/> avec la bonne date "
+"<strong>Créer la facture dans Cubic ERP</strong><br/> avec la bonne date "
 "d'échéance, et créer le fournisseur s'il n'existe pas encore."
 
 #. module: account
@@ -11508,7 +11508,7 @@ msgid ""
 "                                        data."
 msgstr ""
 "Nous pouvons gérer le processus complet d'importation\n"
-"pour vous : envoyez simplement à votre gestionnaire de projet Odoo\n"
+"pour vous : envoyez simplement à votre gestionnaire de projet Cubic ERP\n"
 "un fichier au format CSV contenant toutes vos\n"
 "données."
 
@@ -11521,7 +11521,7 @@ msgid ""
 "                                        products."
 msgstr ""
 "Nous pouvons nous occuper de tout le processus d'import\n"
-"pour vous: envoyez simplement à votre Project Manager Odoo\n"
+"pour vous: envoyez simplement à votre Project Manager Cubic ERP\n"
 "un fichier CSV contenant tous les\n"
 "produits."
 

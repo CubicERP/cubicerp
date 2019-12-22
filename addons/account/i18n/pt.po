@@ -427,8 +427,8 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 #, fuzzy
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\">Balance no Odoo</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Balance in Cubic ERP\">Balance no Cubic ERP</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -493,7 +493,7 @@ msgstr "<span>Ver</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-A Equipa da Odoo</strong>"
+msgstr "<strong>-A Equipa da Cubic ERP</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -597,10 +597,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"<strong>Create the bill in Odoo</strong><br/> with a proper due date, and "
+"<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and "
 "create the vendor if it doesnt' exist yet."
 msgstr ""
-"<strong>Crie uma despesa no Odoo</strong><br/> com a data de vencimento, e "
+"<strong>Crie uma despesa no Cubic ERP</strong><br/> com a data de vencimento, e "
 "crie o fornecedor, caso não exista."
 
 #. module: account

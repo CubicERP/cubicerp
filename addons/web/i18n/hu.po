@@ -229,8 +229,8 @@ msgstr "<span class=\"oe_logo_edit\">Vállalat adatainak szerkesztése</span>"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
-msgstr "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
+msgstr "<span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web
@@ -1980,8 +1980,8 @@ msgstr "Támogatja"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "Támogatja az <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "Támogatja az <span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web

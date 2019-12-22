@@ -4131,7 +4131,7 @@ msgid ""
 "Odoo handles <strong>advanced push/pull routes configuration</strong>, for "
 "example:"
 msgstr ""
-"Odoo<strong> gelişmiş itme / çekme rota yapılandırması </strong>, örneğin:"
+"Cubic ERP<strong> gelişmiş itme / çekme rota yapılandırması </strong>, örneğin:"
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner

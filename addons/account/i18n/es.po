@@ -600,8 +600,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\">Balance en PG</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Balance in Cubic ERP\">Balance en PG</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -764,8 +764,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "<strong>Create the bill in Odoo</strong><br/> with a proper due date, and create the vendor if it doesnt' exist yet."
-msgstr "<strong>Crear la factura en Odoo</strong><br/> con la fecha de vencimiento adecuada y crear el proveedor si todavía no existe."
+msgid "<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and create the vendor if it doesnt' exist yet."
+msgstr "<strong>Crear la factura en Cubic ERP</strong><br/> con la fecha de vencimiento adecuada y crear el proveedor si todavía no existe."
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.portal_invoice_report

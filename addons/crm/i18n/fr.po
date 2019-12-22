@@ -4548,7 +4548,7 @@ msgid ""
 "                                        data."
 msgstr ""
 "Nous pouvons gérer le processus complet d'importation\n"
-"pour vous : envoyez simplement à votre gestionnaire de projet Odoo\n"
+"pour vous : envoyez simplement à votre gestionnaire de projet Cubic ERP\n"
 "un fichier au format CSV contenant toutes vos\n"
 "données."
 

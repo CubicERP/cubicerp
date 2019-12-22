@@ -4451,7 +4451,7 @@ msgid ""
 "                      is not just a tool, we want it to have a major impact on your\n"
 "                      sales performance. That's our mission, and we are serious about it."
 msgstr ""
-"Ми розробили Odoo, аби допомагати розвивати ваш бізнес. CRM система Odoo\n"
+"Ми розробили Odoo, аби допомагати розвивати ваш бізнес. CRM система Cubic ERP\n"
 "                      це не лише інструмент, ми хочемо, щоб вона впливала на ефективність\n"
 "                      ваших продажів. Це наша місія і ми ставимось до цього відповідально."
 

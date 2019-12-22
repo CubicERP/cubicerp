@@ -233,8 +233,8 @@ msgstr "<span class=\"oe_logo_edit\">会社データを編集</span>"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
-msgstr "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
+msgstr "<span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web
@@ -1972,8 +1972,8 @@ msgstr "Powered by"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "Powered by <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "Powered by <span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web

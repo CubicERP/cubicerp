@@ -2632,7 +2632,7 @@ msgid ""
 "href=\"%s\">the classic Odoo interface</a>"
 msgstr ""
 "Можливо, можна буде редагувати відповідні елементи або виправити проблему в "
-"<a href=\"%s\">класичному інтерфейсі Odoo</a>"
+"<a href=\"%s\">класичному інтерфейсі Cubic ERP</a>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner

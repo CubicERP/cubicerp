@@ -237,8 +237,8 @@ msgstr "<span class=\"oe_logo_edit\">编辑公司数据</span>"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
-msgstr "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
+msgstr "<span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web
@@ -1973,8 +1973,8 @@ msgstr "官方技术支持"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "由<span>Odoo</span>提供技术支持"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "由<span>Cubic ERP</span>提供技术支持"
 
 #. module: web
 #. openerp-web
@@ -2816,7 +2816,7 @@ msgid ""
 "You need to start OpenERP with at least two \n"
 "workers to print a pdf version of the reports."
 msgstr ""
-"你需要至少使用两个workers启动Odoo\n"
+"你需要至少使用两个workers启动Cubic ERP\n"
 "来打印pdf报表。"
 
 #. module: web

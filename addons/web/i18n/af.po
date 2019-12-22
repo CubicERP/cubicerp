@@ -231,7 +231,7 @@ msgstr "<span class=\"oe_logo_edit\">Wysig Maatskappy</span>"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
 msgstr ""
 
 #. module: web
@@ -1778,8 +1778,8 @@ msgstr "Aangedryf deur"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "Aangedryf deur <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "Aangedryf deur <span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web

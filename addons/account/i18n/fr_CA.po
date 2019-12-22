@@ -405,8 +405,8 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 #, fuzzy
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\">Balance Odoo</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Balance in Cubic ERP\">Balance Cubic ERP</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -471,7 +471,7 @@ msgstr "<span>Vues</span>"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "<strong>-The CubicERP Team</strong>"
-msgstr "<strong>-L'équipe Odoo</strong>"
+msgstr "<strong>-L'équipe Cubic ERP</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -584,10 +584,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"<strong>Create the bill in Odoo</strong><br/> with a proper due date, and "
+"<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and "
 "create the vendor if it doesnt' exist yet."
 msgstr ""
-"<strong>Créer une facture dans Odoo</strong><br/> avec une date d'échéance "
+"<strong>Créer une facture dans Cubic ERP</strong><br/> avec une date d'échéance "
 "appropriée, et créer le vendeur s'il n'existe pas déjà."
 
 #. module: account
@@ -863,7 +863,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "<strong>There are three different levels of access rights in Odoo:</strong>"
-msgstr "<strong>Il existe trois niveaux d'accès différents dans Odoo</strong>"
+msgstr "<strong>Il existe trois niveaux d'accès différents dans Cubic ERP</strong>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.report_overdue_document

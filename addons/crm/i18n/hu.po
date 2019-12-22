@@ -4456,7 +4456,7 @@ msgid ""
 "                                        data."
 msgstr ""
 "Kezelni tudjuk a teljes import műveletet\n"
-"                                        Önnek: egyszerűen csak küldje el az Odoo\n"
+"                                        Önnek: egyszerűen csak küldje el az Cubic ERP\n"
 "                                        rendszergazda a CSV fájlt az összes \n"
 "                                        adatával."
 

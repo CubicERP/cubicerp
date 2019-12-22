@@ -634,8 +634,8 @@ msgstr ""
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner
-msgid "<strong>See it in action in Odoo</strong><br/>"
-msgstr "<strong>Pogledajte u akciji u Odoo</strong><br/>"
+msgid "<strong>See it in action in Cubic ERP</strong><br/>"
+msgstr "<strong>Pogledajte u akciji u Cubic ERP</strong><br/>"
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner

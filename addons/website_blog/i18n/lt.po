@@ -51,7 +51,7 @@ msgid ""
 "                    compete at this level due to the technology currently\n"
 "                    employed by most industry providers.\""
 msgstr ""
-"\"Odoo\" šiuo metu varžosi keliuose frontuose, kur\n"
+"\"Cubic ERP\" šiuo metu varžosi keliuose frontuose, kur\n"
 "nėra stiprių varžovų, kurie galėtų išstumti juos iš\n"
 "lyderiaujančių pozicijų. Integruotų CMS ir e-komercijos\n"
 "sistemų paleidimas tik pakelia jų pozicijas atviro\n"
@@ -64,17 +64,17 @@ msgstr ""
 msgid ""
 "\"Odoo's latest launch will allow a business to go from\n"
 "                    zero to trading online quicker than ever before,” Stuart\n"
-"                    Mackintosh, MD of Open Source specialist and Odoo\n"
+"                    Mackintosh, MD of Open Source specialist and Cubic ERP\n"
 "                    integration partner, OpusVL, explains. “The investment\n"
 "                    required to have a fully automated business system is\n"
 "                    dramatically reduced, enabling the small and medium\n"
 "                    enterprise to compete at a level of functionality and\n"
 "                    performance previously reserved for the big IT investors.\""
 msgstr ""
-"\"Paskutinis \"Odoo\" atnaujinimas leis verslui nuo\n"
+"\"Paskutinis \"Cubic ERP\" atnaujinimas leis verslui nuo\n"
 "nulio pradėti prekiauti internetu greičiau nei bet kada\n"
 "anksčiau\", sako Stuart Mackintosh, atviro kodo specialistas\n"
-"ir \"Odoo\" integracijos partneris. \"Investicija, kurios reikia\n"
+"ir \"Cubic ERP\" integracijos partneris. \"Investicija, kurios reikia\n"
 "norint turėti visapusiškai integruotą ir automatizuotą\n"
 "verslo sistemą, gerokai sumažėjo. Tai leidžia mažoms\n"
 "ir vidutinio dydžio kompanijoms efektyvumu konkuruoti\n"
@@ -90,7 +90,7 @@ msgid ""
 "                    that their 'solutions' can still compete.\""
 msgstr ""
 "Tai dar vienas labai gudrus ir revoliucingas\n"
-"\"Odoo\" žingsnis, kuris privers kitus technologijų\n"
+"\"Cubic ERP\" žingsnis, kuris privers kitus technologijų\n"
 "tiekėjus peržiūrėti savo teikiamas vertes, kad\n"
 "būtų užtikrintas jų sprendimų konkurencingumas."
 
@@ -173,7 +173,7 @@ msgid ""
 msgstr ""
 "Traukimo ir stūmimo rinkinys. Šiandien\n"
 "žmonės tampa aukomis to, ką kiti nusprendžia\n"
-"jiems stumti. \"Odoo\" yra kitoks:"
+"jiems stumti. \"Cubic ERP\" yra kitoks:"
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.blog_post_template_new_post
@@ -236,7 +236,7 @@ msgid ""
 "                    the biggest wastes of time in companies, we have to fix\n"
 "                    this."
 msgstr ""
-"\"Odoo\" mes kuriame įrankius, kurie didina\n"
+"\"Cubic ERP\" mes kuriame įrankius, kurie didina\n"
 "produktyvumą verslui. Kadangi el. paštas ir informacijos srautai yra\n"
 "vienos iš daugiausiai laiko iššvaistančių veiklų įmonėse, mes turime\n"
 "jas pakeisti."
@@ -497,7 +497,7 @@ msgid ""
 msgstr ""
 "Aplankai ir gavėjų sąrašai taip pat yra geri įrankiai,\n"
 "tačiau tradicinėse el. pašto programose jie sudėtingi.\n"
-"\"Odoo\" kontaktų grupė, kuri dalyvauja diskusijoje, gali\n"
+"\"Cubic ERP\" kontaktų grupė, kuri dalyvauja diskusijoje, gali\n"
 "būti sukuriama vienu paspaudimu. Kiekviena grupė turėtų\n"
 "turėti savo el. pašto adresą."
 
@@ -539,7 +539,7 @@ msgstr "Grupuoti pagal"
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_1
 msgid "Here are the ideas behind the Odoo communication tools:"
-msgstr "Idėjos, kuriomis pagrįsti \"Odoo\" komunikacijos įrankiai:"
+msgstr "Idėjos, kuriomis pagrįsti \"Cubic ERP\" komunikacijos įrankiai:"
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.website_blog
@@ -571,7 +571,7 @@ msgstr "ID"
 #. module: website_blog
 #: model:blog.post,subtitle:website_blog.blog_post_1
 msgid "Ideas behind the Odoo communication tools."
-msgstr "Idėjos, kuriomis pagrįsti \"Odoo\" komunikacijos įrankiai."
+msgstr "Idėjos, kuriomis pagrįsti \"Cubic ERP\" komunikacijos įrankiai."
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.latest_blogs
@@ -634,7 +634,7 @@ msgid ""
 "                    content in-line, enabling you to see exactly what you are\n"
 "                    changing and ensure your changes suit the context."
 msgstr ""
-"Kaip daugelis modernių svetainių redaktorių, \"Odoo\" jums\n"
+"Kaip daugelis modernių svetainių redaktorių, \"Cubic ERP\" jums\n"
 "leidžia turinį redaguoti tiesiogiai, todėl galite matyti, ką keičiate\n"
 "ir užtikrinti, kad jūsų pokyčiai tinka kontekste."
 
@@ -750,14 +750,14 @@ msgid ""
 "                    building your company's website and selling your products\n"
 "                    online easy'. So how true is this statement?"
 msgstr ""
-"\"Odoo\" teigia, kad yra \"Atviro kodo programinė įranga, kuri\n"
+"\"Cubic ERP\" teigia, kad yra \"Atviro kodo programinė įranga, kuri\n"
 "leidžia lengvai susikurti įmonės svetainę ir pardavinėti\n"
 "produktus internetu\". Kiek teisingas yra šis teiginys?"
 
 #. module: website_blog
 #: model:blog.post,website_meta_keywords:website_blog.blog_post_1
 msgid "Odoo, email"
-msgstr "\"Odoo\", el. paštas"
+msgstr "\"Cubic ERP\", el. paštas"
 
 #. module: website_blog
 #. openerp-web
@@ -971,7 +971,7 @@ msgstr "Techninis"
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_1
 msgid "The Communication Mechanism of Odoo"
-msgstr "\"Odoo\" komunikacijos mechanizmas"
+msgstr "\"Cubic ERP\" komunikacijos mechanizmas"
 
 #. module: website_blog
 #: model:blog.post,name:website_blog.blog_post_1
@@ -1016,11 +1016,11 @@ msgstr "Antraštė"
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_2
 msgid ""
-"To add to an already comprehensive set of Odoo\n"
+"To add to an already comprehensive set of Cubic ERP\n"
 "                features, a website content management system (CMS or WMS) has been developed and a beta release is\n"
 "                available from today, 31st January 2014."
 msgstr ""
-"Prie plataus \"Odoo\" funkcijų sąrašo\n"
+"Prie plataus \"Cubic ERP\" funkcijų sąrašo\n"
 "buvo pridėta svetainės turinio valdymo sistema (TVS arba CMS) ir jos beta versija\n"
 "yra pasiekiama nuo šiandien, 2014 sausio 31 d."
 

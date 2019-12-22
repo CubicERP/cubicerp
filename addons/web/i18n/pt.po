@@ -232,7 +232,7 @@ msgstr ""
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
 msgstr ""
 
 #. module: web
@@ -1797,8 +1797,8 @@ msgstr ""
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "Powered by <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "Powered by <span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web

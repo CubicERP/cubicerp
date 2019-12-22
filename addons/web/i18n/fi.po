@@ -237,8 +237,8 @@ msgstr "<span class=\"oe_logo_edit\">Muokkaa yrityksen tietoja</span>"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.menu_secondary
-msgid "<span>Odoo</span>"
-msgstr "<span>Odoo</span>"
+msgid "<span>Cubic ERP</span>"
+msgstr "<span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web
@@ -1986,8 +1986,8 @@ msgstr "Järjestelmää pyörittää"
 
 #. module: web
 #: model:ir.ui.view,arch_db:web.login_layout
-msgid "Powered by <span>Odoo</span>"
-msgstr "Järjestelmää pyörittää <span>Odoo</span>"
+msgid "Powered by <span>Cubic ERP</span>"
+msgstr "Järjestelmää pyörittää <span>Cubic ERP</span>"
 
 #. module: web
 #. openerp-web

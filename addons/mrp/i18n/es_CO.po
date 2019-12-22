@@ -663,7 +663,7 @@ msgstr "Unidad de Medida por defecto"
 #: model:ir.actions.act_window,help:mrp.mrp_property_group_action
 msgid ""
 "Define specific property groups that can be assigned to your\n"
-"                bill of materials and sales orders. Properties allows Odoo\n"
+"                bill of materials and sales orders. Properties allows Cubic ERP\n"
 "                to automatically select the right bill of materials "
 "according\n"
 "                to properties selected in the sales order by salesperson."

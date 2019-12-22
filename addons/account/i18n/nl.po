@@ -267,7 +267,7 @@ msgid ""
 "    </tr>\n"
 "    <tr>\n"
 "        <td align=\"center\">\n"
-"            Powered by <a target=\"_blank\" href=\"https://www.odoo.com\">Odoo</a>.\n"
+"            Powered by <a target=\"_blank\" href=\"https://www.cubicerp.com\">Cubic ERP</a>.\n"
 "        </td>\n"
 "    </tr>\n"
 "</tbody>\n"
@@ -333,7 +333,7 @@ msgstr ""
 "    </tr>\n"
 "    <tr>\n"
 "        <td align=\"center\">\n"
-"            Powered by <a target=\"_blank\" href=\"https://www.odoo.com\">Odoo</a>.\n"
+"            Powered by <a target=\"_blank\" href=\"https://www.cubicerp.com\">Cubic ERP</a>.\n"
 "        </td>\n"
 "    </tr>\n"
 "</tbody>\n"
@@ -636,8 +636,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
-msgid "<span title=\"Balance in Odoo\">Balance in GL</span>"
-msgstr "<span title=\"Balance in Odoo\">Saldo in GB</span>"
+msgid "<span title=\"Balance in Cubic ERP\">Balance in GL</span>"
+msgstr "<span title=\"Balance in Cubic ERP\">Saldo in GB</span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
@@ -807,10 +807,10 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"<strong>Create the bill in Odoo</strong><br/> with a proper due date, and "
+"<strong>Create the bill in Cubic ERP</strong><br/> with a proper due date, and "
 "create the vendor if it doesnt' exist yet."
 msgstr ""
-"<strong>Maak de factuur aan in Odoo</strong><br/> met een correcte "
+"<strong>Maak de factuur aan in Cubic ERP</strong><br/> met een correcte "
 "vervaldatum, en maak de leverancier aan als die nog niet bestaat."
 
 #. module: account
@@ -6856,7 +6856,7 @@ msgid ""
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
 msgstr ""
 "Handmatig: Betaal met contant geld of een andere methode buiten Odoo om\n"
-"Cheque: Betaal rekening per cheque en druk deze af in Odoo\n"
+"Cheque: Betaal rekening per cheque en druk deze af in Cubic ERP\n"
 "SEPA Overboeking: Betaal factuur via een SEPA-bestand dat u bij uw bank indient. Schakel deze optie in bij de instellingen."
 
 #. module: account

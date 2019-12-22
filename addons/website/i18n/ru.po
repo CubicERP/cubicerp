@@ -2093,7 +2093,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"От лица команды Odoo<br/>\n"
+"От лица команды Cubic ERP<br/>\n"
 "Fabien Pinckaers, Основатель"
 
 #. module: website

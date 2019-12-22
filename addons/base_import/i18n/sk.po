@@ -650,7 +650,7 @@ msgstr ""
 "Ak nenastavíte všetky polia vášho CVS súboru,\n"
 "CubicERP pridelí prevolenú hodnotu pre každé \n"
 "nezadefinované pole. Ale ak\n"
-"nastavíte polia s prázdnymi hodnotami vo vašom CVS súbore, Odoo\n"
+"nastavíte polia s prázdnymi hodnotami vo vašom CVS súbore, Cubic ERP\n"
 "nastaví hodnotu PRÁZDNE v poli, namiesto\n"
 "pridelenia predvolenej hodnoty."
 

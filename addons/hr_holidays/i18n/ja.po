@@ -1405,7 +1405,7 @@ msgstr "これを選択すると、このタイプの割当/退出要求では�
 #. module: hr_holidays
 #: model:ir.actions.act_window,help:hr_holidays.hr_holidays_leaves_assign_legal
 msgid ""
-"You can assign remaining Legal Leaves for each employee, Odoo\n"
+"You can assign remaining Legal Leaves for each employee, Cubic ERP\n"
 "               will automatically create and validate allocation requests."
 msgstr "各従業員に残りの法定休暇を割り当てることができます.Oudooは割り当て要求を自動的に作成し、検証します。"
 

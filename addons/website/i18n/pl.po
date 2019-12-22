@@ -721,7 +721,7 @@ msgid ""
 "<strong>Be announced on the Odoo Twitter account</strong><br/>\n"
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
-"<strong>Ogłoś się na Twitterze Odoo</strong><br/>\n"
+"<strong>Ogłoś się na Twitterze Cubic ERP</strong><br/>\n"
 "                                Chętnie nawiązujemy kontakt z osobami budującymi strony w oparciu o Odoo. Tweetnij do nas."
 
 #. module: website
@@ -2624,7 +2624,7 @@ msgid ""
 "href=\"%s\">the classic Odoo interface</a>"
 msgstr ""
 "Może być możliwe edytowanie odpowiednich elementów lub naprawienie problemu "
-"w <a href=\"%s\">klasycznym interfejsie Odoo</a>"
+"w <a href=\"%s\">klasycznym interfejsie Cubic ERP</a>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner

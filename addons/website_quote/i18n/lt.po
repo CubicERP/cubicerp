@@ -74,7 +74,7 @@ msgid ""
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
 "                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.cubicerp.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Cubic ERP</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -123,7 +123,7 @@ msgstr ""
 "                <p style=\"font-size: 11px;\"><strong>Išsiųsta\n"
 "                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> naudojant<a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>\"Odoo\"</strong></a>\n"
+"                </a> naudojant<a href=\"www.cubicerp.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>\"Cubic ERP\"</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -439,7 +439,7 @@ msgstr "Suma prieš nuolaidą"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "An Odoo official partner commits to:"
-msgstr "\"Odoo\" oficialus partneris įsipareigoja:"
+msgstr "\"Cubic ERP\" oficialus partneris įsipareigoja:"
 
 #. module: website_quote
 #: model:ir.ui.view,arch_db:website_quote.view_sale_quote_template_search
@@ -493,13 +493,13 @@ msgid ""
 "Be the first level of support for his Odoo customers and use Odoo SA for the"
 " second level of support (mostly for bug fixes)"
 msgstr ""
-"Būkite pirmasis palaikymo lygis \"Odoo\" klientams ir naudokite \"Odoo SA\" "
+"Būkite pirmasis palaikymo lygis \"Cubic ERP\" klientams ir naudokite \"Odoo SA\" "
 "antrojo lygmens palaikymui (dažniausiai, klaidų taisymui)"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Become a Certified Odoo Partner"
-msgstr "Tapkite sertifikuotu \"Odoo\" partneriu"
+msgstr "Tapkite sertifikuotu \"Cubic ERP\" partneriu"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -815,7 +815,7 @@ msgstr ""
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Have dedicated resources assigned to Odoo projects"
-msgstr "Turi išteklių, priskirtų \"Odoo\" projektams"
+msgstr "Turi išteklių, priskirtų \"Cubic ERP\" projektams"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -931,7 +931,7 @@ msgstr "Įvadas į QWeb"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Is fully trained on Odoo"
-msgstr "Yra pasiruošęs darbui \"Odoo\""
+msgstr "Yra pasiruošęs darbui \"Cubic ERP\""
 
 #. module: website_quote
 #: model:ir.model.fields,field_description:website_quote.field_sale_order_option___last_update
@@ -968,8 +968,8 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Tiesiogiai mokykitės iš mūsų komandos ir \"Odoo\" ekspertų tinklo. Norėdami "
-"geriau suprasti funkcinę \"Odoo\" dalį, pasirinkite vieną iš galimų mokymų "
+"Tiesiogiai mokykitės iš mūsų komandos ir \"Cubic ERP\" ekspertų tinklo. Norėdami "
+"geriau suprasti funkcinę \"Cubic ERP\" dalį, pasirinkite vieną iš galimų mokymų "
 "sesijų"
 
 #. module: website_quote
@@ -980,8 +980,8 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Tiesiogiai mokykitės iš mūsų komandos ir \"Odoo\" ekspertų tinklo. Norėdami "
-"geriau suprasti techninę \"Odoo\" dalį, pasirinkite vieną iš galimų mokymų "
+"Tiesiogiai mokykitės iš mūsų komandos ir \"Cubic ERP\" ekspertų tinklo. Norėdami "
+"geriau suprasti techninę \"Cubic ERP\" dalį, pasirinkite vieną iš galimų mokymų "
 "sesijų"
 
 #. module: website_quote
@@ -1060,7 +1060,7 @@ msgstr "Dienų skaičius komercinio pasiūlymo galiojimo trukmės skaičiavimui"
 #: model:product.template,quote_description:website_quote.product_template_quote_2
 #: model:sale.quote.line,website_description:website_quote.website_sale_order_line_2
 msgid "Odoo Official Website"
-msgstr "Oficiali \"Odoo\" svetainė"
+msgstr "Oficiali \"Cubic ERP\" svetainė"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1068,17 +1068,17 @@ msgstr "Oficiali \"Odoo\" svetainė"
 #: model:product.template,quote_description:website_quote.product_template_quote_2
 #: model:sale.quote.line,website_description:website_quote.website_sale_order_line_2
 msgid "Odoo Web Client"
-msgstr "\"Odoo\" internetinis klientas"
+msgstr "\"Cubic ERP\" internetinis klientas"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Odoo official partners will benefit from:"
-msgstr "Oficialūs \"Odoo\" partneriai gaus naudos:"
+msgstr "Oficialūs \"Cubic ERP\" partneriai gaus naudos:"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Odoo sales training session"
-msgstr "\"Odoo\" pardavimų mokymų sesija"
+msgstr "\"Cubic ERP\" pardavimų mokymų sesija"
 
 #. module: website_quote
 #: selection:sale.order,require_payment:0
@@ -1489,11 +1489,11 @@ msgid ""
 "guarantee that, the Odoo Partner Program ensures that official partners have"
 " the resources and knowledge required to offer Odoo implementation services."
 msgstr ""
-"\"Odoo\" ekosistema yra sukurta tam, kad galėtų pasiūlyti geriausią "
-"vartotojo patirtį \"Odoo\" vartotojams, nuo produkto iki įdiegimo paslaugų. "
-"Norėdami tai garantuoti, \"Odoo\" partnerių programa užtikrina, kad "
+"\"Cubic ERP\" ekosistema yra sukurta tam, kad galėtų pasiūlyti geriausią "
+"vartotojo patirtį \"Cubic ERP\" vartotojams, nuo produkto iki įdiegimo paslaugų. "
+"Norėdami tai garantuoti, \"Cubic ERP\" partnerių programa užtikrina, kad "
 "oficialūs partneriai turėtų išteklius ir žinias, kurių reikia siūlant "
-"\"Odoo\" diegimo paslaugas."
+"\"Cubic ERP\" diegimo paslaugas."
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -1501,7 +1501,7 @@ msgid ""
 "The ability to report bugs to be fixed by Odoo on behalf of his customer "
 "(Enterprise contracts only)"
 msgstr ""
-"Galimybė pranešti apie klaidas \"Odoo\" kliento vardu (tik Enterprise "
+"Galimybė pranešti apie klaidas \"Cubic ERP\" kliento vardu (tik Enterprise "
 "sutartys)"
 
 #. module: website_quote
@@ -1588,7 +1588,7 @@ msgstr "Bendra kaina"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid "Train their staff by following Odoo training sessions"
-msgstr "Apmoko savo darbuotojus pagal \"Odoo\" mokymų sesijas"
+msgstr "Apmoko savo darbuotojus pagal \"Cubic ERP\" mokymų sesijas"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1739,7 +1739,7 @@ msgid ""
 "                        on the left is generated automatically using the styles you\n"
 "                        used in your description (heading 1, heading 2, ...)"
 msgstr ""
-"Galite nustatyti <strong>aprašymą produktui </strong>. \"Odoo\" \n"
+"Galite nustatyti <strong>aprašymą produktui </strong>. \"Cubic ERP\" \n"
 "automatiškai sukurs komercinį pasiūlymą pagal visų\n"
 "produktų aprašymus pasiūlyme. Turinys kairėje yra\n"
 "sugeneruojamas automatiškai, naudojant stilius,\n"

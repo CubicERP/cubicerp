@@ -2626,7 +2626,7 @@ msgid ""
 "    questions related to Odoo."
 msgstr ""
 "Šio puslapio tikslas yra sukurti aktualią žinių bazę, kuri atsakytų \n"
-"    į klausimus, susijusius su \"Odoo\"."
+"    į klausimus, susijusius su \"Cubic ERP\"."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -3209,7 +3209,7 @@ msgstr "čia"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "how to configure or customize Odoo to specific business needs,"
-msgstr "kaip konfigūruoti ar pritaikyti \"Odoo\" konkretiems verslo poreikiams,"
+msgstr "kaip konfigūruoti ar pritaikyti \"Cubic ERP\" konkretiems verslo poreikiams,"
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
@@ -3219,7 +3219,7 @@ msgstr "kaip kurti modulius savo reikmėms,"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "how to install Odoo on a specific infrastructure,"
-msgstr "kaip diegti \"Odoo\" konkrečioje infrastruktūroje,"
+msgstr "kaip diegti \"Cubic ERP\" konkrečioje infrastruktūroje,"
 
 #. module: website_forum
 #. openerp-web
@@ -3336,7 +3336,7 @@ msgstr "brukalas ar reklama"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "specific questions about Odoo service offers, etc."
-msgstr "specifiniai klausimai apie \"Odoo\" paslaugų pasiūlymus ir t. t. "
+msgstr "specifiniai klausimai apie \"Cubic ERP\" paslaugų pasiūlymus ir t. t. "
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
@@ -3412,7 +3412,7 @@ msgstr "svetainė"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "what's the best way to use Odoo for a specific business need,"
-msgstr "koks geriausias būdas naudoti \"Odoo\" specifiniam verslo poreikiui?"
+msgstr "koks geriausias būdas naudoti \"Cubic ERP\" specifiniam verslo poreikiui?"
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help

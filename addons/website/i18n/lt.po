@@ -694,7 +694,7 @@ msgstr ""
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_button
 msgid "<strong>50,000+ companies run Odoo to grow their businesses.</strong>"
-msgstr "<strong>50,000+ įmonių naudoja \"Odoo\" savo verslo augimui.</strong>"
+msgstr "<strong>50,000+ įmonių naudoja \"Cubic ERP\" savo verslo augimui.</strong>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -726,8 +726,8 @@ msgid ""
 "<strong>Be announced on the Odoo Twitter account</strong><br/>\n"
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
-"<strong>Būkite matomi \"Odoo\" \"Twitter\" paskyroje</strong><br/>\n"
-"                                Mums patinka gauti žinių iš žmonių, kurie naudoja \"Odoo\" savo svetainės kūrimui. Parašykite mums"
+"<strong>Būkite matomi \"Cubic ERP\" \"Twitter\" paskyroje</strong><br/>\n"
+"                                Mums patinka gauti žinių iš žmonių, kurie naudoja \"Cubic ERP\" savo svetainės kūrimui. Parašykite mums"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -2634,7 +2634,7 @@ msgid ""
 "href=\"%s\">the classic Odoo interface</a>"
 msgstr ""
 "Redaguoti susijusius įrašus ar ištaisyti klaidas gali pavykti <a "
-"href=\"%s\">klasikinėje \"Odoo\" sąsajoje</a>"
+"href=\"%s\">klasikinėje \"Cubic ERP\" sąsajoje</a>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -3132,22 +3132,22 @@ msgstr "Odoo - Pavyzdys 3 trims stulpeliams"
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_big_picture
 msgid "Odoo CMS - a big picture"
-msgstr "\"Odoo\" CMS - platus vaizdas"
+msgstr "\"Cubic ERP\" CMS - platus vaizdas"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_image_floating
 msgid "Odoo CMS- Sample image floating"
-msgstr "\"Odoo\" TVS - pavyzdinė paveikslėlio pozicija"
+msgstr "\"Cubic ERP\" TVS - pavyzdinė paveikslėlio pozicija"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "Odoo Version"
-msgstr "\"Odoo\" versija"
+msgstr "\"Cubic ERP\" versija"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_image_text
 msgid "Odoo image and text block"
-msgstr "\"Odoo\" teksto ir paveikslėlio blokas"
+msgstr "\"Cubic ERP\" teksto ir paveikslėlio blokas"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_parallax_slider
@@ -3155,13 +3155,13 @@ msgid ""
 "Odoo provides essential platform for our project management.\n"
 "                                                Things are better organized and more visible with it."
 msgstr ""
-"\"Odoo\" suteikia esminę platformą mūsų projektų valdymui.\n"
+"\"Cubic ERP\" suteikia esminę platformą mūsų projektų valdymui.\n"
 "Su juo veiksmai yra geriau matomi ir organizuojami."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_text_image
 msgid "Odoo text and image block"
-msgstr "\"Odoo\" teksto ir paveikslėlio blokas"
+msgstr "\"Cubic ERP\" teksto ir paveikslėlio blokas"
 
 #. module: website
 #. openerp-web
@@ -3870,7 +3870,7 @@ msgstr "Paprasta ir akivaizdu"
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_banner
 msgid "Slider Odoo Image"
-msgstr "\"Odoo\" skaidrių paveikslėlis"
+msgstr "\"Cubic ERP\" skaidrių paveikslėlis"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.snippet_options
@@ -5095,7 +5095,7 @@ msgstr "savo SEO metaduomenyse, įskaitant žymas, pavadinimą ir aprašymą."
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
 msgid "instance of Odoo, the"
-msgstr "\"Odoo\" atvejis"
+msgstr "\"Cubic ERP\" atvejis"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

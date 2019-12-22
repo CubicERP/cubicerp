@@ -124,7 +124,7 @@ msgstr "Įveskite el. pašto adresus (po vieną eilutėje)"
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
 msgid "Follow these implementation guides to get the most out of Odoo."
-msgstr "Sekite šiuos pritaikymo gidus ir iš \"Odoo\" išgausite viską, ką įmanoma."
+msgstr "Sekite šiuos pritaikymo gidus ir iš \"Cubic ERP\" išgausite viską, ką įmanoma."
 
 #. module: web_settings_dashboard
 #. openerp-web
@@ -146,7 +146,7 @@ msgstr "Gaukite daugiau funkcijų su Enterprise Edition!"
 #, python-format
 msgid "Help us spread the word: Share Odoo's awesomeness with your friends!"
 msgstr ""
-"Padėkite mums skleisti žinią apie \"Odoo\": pasidalinkite juo su savo "
+"Padėkite mums skleisti žinią apie \"Cubic ERP\": pasidalinkite juo su savo "
 "draugais!"
 
 #. module: web_settings_dashboard

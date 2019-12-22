@@ -115,7 +115,11 @@ class IrActionsReport(models.Model):
         if not action_ref or len(self.report_name.split('.')) < 2:
             return False
         action_data = action_ref.read()[0]
-        action_data['domain'] = [('name', 'ilike', self.report_name.split('.')[1]), ('type', '=', 'qweb')]
+        views = self.env['ir.ui.view'].search([('name', 'ilike', self.report_name.split('.')[1]), ('type', '=', 'qweb')])
+        view_ids = views.filtered(lambda v: v.model_data_id.module == self.report_name.split('.')[0]).ids
+        if not view_ids:
+            view_ids = views.ids
+        action_data['domain'] = [('id', 'in', view_ids)]
         return action_data
 
     @api.multi

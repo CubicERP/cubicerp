@@ -206,7 +206,7 @@ msgid ""
 msgstr ""
 "Тези тракери могат да се използват в Google Analytics, за да проследяват "
 "натисканията на бутоните и посетителите или пък да проследяват възможностите"
-" и свързаните приходи в отчетите на Odoo."
+" и свързаните приходи в отчетите на Cubic ERP."
 
 #. module: website_links
 #: model:ir.ui.view,arch_db:website_links.create_shorten_url

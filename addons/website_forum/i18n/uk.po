@@ -2623,10 +2623,10 @@ msgstr "Позначена черга порожня."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Мета цього сайту - створити відповідну базу знань, яка відповідатиме на\n"
-"питання, пов'язані з Odoo."
+"питання, пов'язані з Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue

@@ -119,8 +119,8 @@ msgstr "أدخل عناوين البريد الإلكتروني (واحد في �
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
-msgstr "اتبع أدلة التنفيذ للحصول على أقصى استفادة من Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
+msgstr "اتبع أدلة التنفيذ للحصول على أقصى استفادة من Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web

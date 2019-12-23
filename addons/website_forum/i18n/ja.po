@@ -2570,7 +2570,7 @@ msgstr "フラグが設定されたキューは空です。"
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr "このサイトの目的は、Odooに関する質問に答える関連ナレッジベースを作成することです。"
 
 #. module: website_forum

@@ -482,9 +482,9 @@ msgstr "La Más Alta"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
-"Cómo construir su estrategia de marketing para generar iniciativas con Odoo."
+"Cómo construir su estrategia de marketing para generar iniciativas con Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -551,8 +551,8 @@ msgstr ""
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Factores Clave de éxito vendiendo Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Factores Clave de éxito vendiendo Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -616,8 +616,8 @@ msgstr "Gestione sus KPIs (recomendado para Partners)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Gestione sus eventos con Odoo, los nuevos módulos de capacitación."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Gestione sus eventos con Cubic ERP, los nuevos módulos de capacitación."
 
 #. module: website_event_track
 #: selection:event.track,priority:0

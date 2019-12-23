@@ -481,7 +481,7 @@ msgstr "Korkein"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Kuinka luoda markkinointistrategia liidien generoimiseksi Odoon kautta."
 
@@ -550,7 +550,7 @@ msgstr "Kanban tila"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "Avaintekijät Odoon myymisen onnistumiseen."
 
 #. module: website_event_track
@@ -615,7 +615,7 @@ msgstr "Hallinnoi KPI-tunnuslukuja (suositellaan Odoo-partnereille)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr "Hallinnoi tapahtumia Odoolla, uudet koulutuksenhallintamoduulit."
 
 #. module: website_event_track

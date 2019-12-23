@@ -2623,7 +2623,7 @@ msgstr "Pažymėtų įrašų eilė yra tuščia."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Šio puslapio tikslas yra sukurti aktualią žinių bazę, kuri atsakytų \n"
 "    į klausimus, susijusius su \"Cubic ERP\"."

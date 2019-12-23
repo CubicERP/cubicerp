@@ -1594,8 +1594,8 @@ msgstr "Nach oben"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:1323
 #, python-format
-msgid "My Odoo.com account"
-msgstr "Mein Odoo.com Konto"
+msgid "My Cubic ERP.com account"
+msgstr "Mein Cubic ERP.com Konto"
 
 #. module: web
 #. openerp-web

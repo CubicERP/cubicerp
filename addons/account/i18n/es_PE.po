@@ -4013,8 +4013,8 @@ msgstr "Fecha en la que se ha publicado la entrada de apertura de la contabilida
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_financial_year_op_opening_date
-msgid "Date from which the accounting is managed in Odoo. It is the date of the opening entry."
-msgstr "Fecha a partir de la cual se administra la contabilidad en Odoo. Es la fecha de la entrada de apertura."
+msgid "Date from which the accounting is managed in Cubic ERP. It is the date of the opening entry."
+msgstr "Fecha a partir de la cual se administra la contabilidad en Cubic ERP. Es la fecha de la entrada de apertura."
 
 #. module: account
 #. openerp-web
@@ -5368,18 +5368,18 @@ msgstr "Si utiliza los términos de pago, la fecha de vencimiento se calculará 
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr "Si quiere enviar extractos de clientes desde CubicERP debe:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding transactions \n"
+"                        from Cubic ERP, you first need to record all outstanding transactions \n"
 "                        in the payable and receivable accounts. These would be invoices \n"
 "                        that have not been paid or payments that have not been reconciled."
 msgstr ""
-"Si quiere enviar extractos a sus clientes desde Odoo,\n"
+"Si quiere enviar extractos a sus clientes desde Cubic ERP,\n"
 " primero necesita grabar todas las transacciones pendientes\n"
 "en las cuentas pendientes de pago. Son tanto facturas\n"
 "que no han sido pagadas como pagos que no han sido reconciliados."
@@ -5461,7 +5461,7 @@ msgstr "Importe sus extractos mediante un formato de archivo soportado (QIF, OFX
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
+msgid "In Cubic ERP,"
 msgstr "En CubicERP,"
 
 #. module: account
@@ -6629,9 +6629,9 @@ msgstr "Conciliación manual"
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_inbound_payment_method_ids
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
 msgstr ""
 "Manual: Reciba pagos en efectivo, cheque o cualquier otro método fuera de CubicERP.\n"
 "Electrónico: Se le paga automáticamente a través de un adquirente de pago solicitando una transacción en una tarjeta guardada por el cliente al comprar o suscribirse en línea (token de pago).\n"
@@ -6642,23 +6642,23 @@ msgstr ""
 #: model:ir.model.fields,help:account.field_account_payment_payment_method_id
 #: model:ir.model.fields,help:account.field_account_register_payments_payment_method_id
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Check: Pay bill by check and print it from Odoo.\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
+"Check: Pay bill by check and print it from Cubic ERP.\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed "
 msgstr ""
 "Manual: Reciba pagos en efectivo, cheque o cualquier otro método fuera de CubicERP.\n"
 "Electrónico: Se le paga automáticamente a través de un adquirente de pago solicitando una transacción en una tarjeta guardada por el cliente al comprar o suscribirse en línea (token de pago).\n"
-"Cheque: Pague la factura con cheque e imprímala desde Odoo.\n"
+"Cheque: Pague la factura con cheque e imprímala desde Cubic ERP.\n"
 "Depósito por lotes: Envuelva varios cheques de clientes a la vez generando un depósito por lotes para enviar a su banco. Al codificar el extracto bancario en CubicERP, se le sugiere que concilie la transacción con el depósito por lotes. Para habilitar el depósito por lotes, se debe instalar el módulo account_batch_deposit.\n"
 "Transferencia de crédito SEPA: Pague la factura de un archivo de transferencia de crédito SEPA que envíe a su banco. Para habilitar la transferencia de crédito sepa, se debe instalar el módulo account_sepa"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_outbound_payment_method_ids
 msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
+"Manual:Pay bill by cash or any other method outside of Cubic ERP.\n"
+"Check:Pay bill by check and print it from Cubic ERP.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
 msgstr ""
 "Manual: Pague la factura en efectivo o cualquier otro método fuera de CubicERP.\n"
@@ -10059,7 +10059,7 @@ msgstr "Este campo se usa para guardar el nombre de un tercero cuando se importa
 msgid ""
 "This guide will help you get started with Accounting.\n"
 "                        Once you're done, you'll benefit from:"
-msgstr "Esta guía le ayudará a empezar con la contabilidad en Odoo. Una vez termine se verá beneficiado con:"
+msgstr "Esta guía le ayudará a empezar con la contabilidad en Cubic ERP. Una vez termine se verá beneficiado con:"
 
 #. module: account
 #: model:ir.actions.act_window,help:account.inv_open_account_journal_dashboard_kanban

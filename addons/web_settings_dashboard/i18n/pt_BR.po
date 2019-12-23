@@ -118,9 +118,9 @@ msgstr "Digite os endereços de e-mail (um por linha)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
-"Siga estas guias de implementação para obter o máximo proveito do Odoo."
+"Siga estas guias de implementação para obter o máximo proveito do Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web

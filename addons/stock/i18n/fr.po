@@ -2414,7 +2414,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De la part de l'équipe Odoo,<br/>\n"
+"De la part de l'équipe Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fondateur"
 
 #. module: stock
@@ -2927,7 +2927,7 @@ msgstr "Importer en utilisant le bouton en haut à gauche"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
@@ -3310,7 +3310,7 @@ msgid ""
 "                        If you want to do that, contact  your CubicERP project manager."
 msgstr ""
 "Il est aussi possible d'importer votre inventaire de départ depuis un fichier Excel ou CSV.\n"
-"Si vous voulez faire cela, contactez votre gestionnaire de projet Odoo."
+"Si vous voulez faire cela, contactez votre gestionnaire de projet Cubic ERP."
 
 #. module: stock
 #: code:addons/stock/models/stock_quant.py:244
@@ -6559,7 +6559,7 @@ msgid ""
 "This guide helps getting started with Odoo Inventory.\n"
 "                        Once you are done, you will benefit from:"
 msgstr ""
-"Ce guide vous aidera a débuter avec l'Inventaire Odoo.\n"
+"Ce guide vous aidera a débuter avec l'Inventaire Cubic ERP.\n"
 "Une fois que c'est fait, vous bénéficierez de:"
 
 #. module: stock
@@ -7279,7 +7279,7 @@ msgstr ""
 "Nous pouvons gérer le processus d'import\n"
 "pour vous : envoyez simplement un fichier CSV \n"
 "contenant toutes vos données à votre gestionnaire de\n"
-"projet Odoo."
+"projet Cubic ERP."
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
@@ -7292,7 +7292,7 @@ msgstr ""
 "Nous pouvons gérer le processus d'import\n"
 "pour vous : envoyez simplement un fichier CSV \n"
 "contenant tous vos produits à votre gestionnaire de\n"
-"projet Odoo."
+"projet Cubic ERP."
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
@@ -7855,7 +7855,7 @@ msgid ""
 "validating"
 msgstr ""
 "soit par une mise à jour manuelle de la quantité terminée sur les lignes de "
-"produit, soit en le scannant à l'aide de l'application code-barres d'Odoo, "
+"produit, soit en le scannant à l'aide de l'application code-barres d'Cubic ERP, "
 "soit en laissant Odoo le faire automatiquement quand vous validez"
 
 #. module: stock

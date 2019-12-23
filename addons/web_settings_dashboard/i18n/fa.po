@@ -120,7 +120,7 @@ msgstr "نشانی های ایمیل را وارد کنید (هر نشانی د�
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
 "این راهنماهای پیاده سازی را انجام دهید تا بیشترین استفاده را از قابلیت های "
 "اودو ببرید."

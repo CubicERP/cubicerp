@@ -121,8 +121,8 @@ msgstr "Inserire indirizzi e-mail (uno per riga)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
-msgstr "Segui queste guide di configurazione per ottenere il massimo da Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
+msgstr "Segui queste guide di configurazione per ottenere il massimo da Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web
@@ -144,7 +144,7 @@ msgstr "Ottieni funzionalità aggiuntive con Odoo Enterprise."
 #, python-format
 msgid "Help us spread the word: Share Odoo's awesomeness with your friends!"
 msgstr ""
-"Aiutaci a diffondere Odoo. Condividi questa fantastica esperienza con gli "
+"Aiutaci a diffondere Cubic ERP. Condividi questa fantastica esperienza con gli "
 "amici!"
 
 #. module: web_settings_dashboard

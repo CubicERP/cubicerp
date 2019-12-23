@@ -117,9 +117,9 @@ msgstr "Εισάγετε τις διευθύνσεις e-mail (μία σε κά�
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
-"Ακολουθήστε αυτές τις οδηγίες υλοποίησης για την μέγιστη απόδοση του Odoo."
+"Ακολουθήστε αυτές τις οδηγίες υλοποίησης για την μέγιστη απόδοση του Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web

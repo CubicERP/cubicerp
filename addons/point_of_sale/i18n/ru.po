@@ -3943,7 +3943,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"Эта последовательность автоматически создается Odoo, но вы можете изменить "
+"Эта последовательность автоматически создается Cubic ERP, но вы можете изменить "
 "ее, чтобы настроить ссылочные номера ваших заказов."
 
 #. module: point_of_sale

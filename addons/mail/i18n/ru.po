@@ -2418,7 +2418,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Если у вас установлен всеохватывающие почтовый домен, перенаправляющий на "
-"сервер Odoo, введите здесь имя домена."
+"сервер Cubic ERP, введите здесь имя домена."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141
@@ -3783,7 +3783,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/client_action.xml:11
 #, python-format
 msgid "CubicERP needs your permission to"
-msgstr "Odoo, требуется ваше разрешение для"
+msgstr "Cubic ERP, требуется ваше разрешение для"
 
 #. module: mail
 #. openerp-web

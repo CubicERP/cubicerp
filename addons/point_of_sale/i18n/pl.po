@@ -3860,7 +3860,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"Ta numeracja jest automatycznie tworzona przez Odoo, ale możesz ją zmienić "
+"Ta numeracja jest automatycznie tworzona przez Cubic ERP, ale możesz ją zmienić "
 "wg swoich potrzeb."
 
 #. module: point_of_sale

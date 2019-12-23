@@ -2058,7 +2058,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Si heu configurat un domini de correu \"agafa-ho tot\" re-dirigit a un "
-"servidor Odoo, entreu el nom del domini aquí."
+"servidor Cubic ERP, entreu el nom del domini aquí."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141

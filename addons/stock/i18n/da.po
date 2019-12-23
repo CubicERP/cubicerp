@@ -2836,11 +2836,11 @@ msgstr "Importer ved brug af den øverste venstre knap i"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
-"I Odoo, anvendes <strong>genbestillingsregler</strong> til at genopfylde din produkter.\n"
+"I Cubic ERP, anvendes <strong>genbestillingsregler</strong> til at genopfylde din produkter.\n"
 "                        Odoo vil automatisk foreslå et indkøb hvis din lagerbeholdning\n"
 "                        er ved at være lav."
 

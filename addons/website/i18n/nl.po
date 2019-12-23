@@ -5087,8 +5087,8 @@ msgstr "in the SEO metadata, inclusief tags, titel en omschrijving."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "instantie van Odoo, de"
+msgid "instance of Cubic ERP, the"
+msgstr "instantie van Cubic ERP, de"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

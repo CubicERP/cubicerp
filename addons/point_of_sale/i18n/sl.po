@@ -4774,8 +4774,8 @@ msgstr ""
 #~ msgid "Session Summary:"
 #~ msgstr "Povzetek seje:"
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Souporaba ali vgradnja kateregakoli zaslona Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Souporaba ali vgradnja kateregakoli zaslona Cubic ERP."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Souporaba partnerjev z vsemi družbami"

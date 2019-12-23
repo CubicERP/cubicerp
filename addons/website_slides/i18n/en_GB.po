@@ -411,7 +411,7 @@ msgstr ""
 #. module: website_slides
 #: model:slide.slide,description:website_slides.slide_1
 msgid ""
-"Create a beautiful and professional eCommerce on your website with Odoo. \n"
+"Create a beautiful and professional eCommerce on your website with Cubic ERP. \n"
 "\n"
 "Find out more at https://www.odoo.com/page/e-commerce"
 msgstr ""

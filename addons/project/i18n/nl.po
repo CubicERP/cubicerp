@@ -124,7 +124,7 @@ msgid ""
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The Odoo Team<br/>PS: People love Odoo, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
+"                <span><br/>-- <br/>The Odoo Team<br/>PS: People love Cubic ERP, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 msgstr ""
@@ -226,7 +226,7 @@ msgstr ""
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>Het Odoo Team<br/>PS: Mensen houden van Odoo, bekijk </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">wat ze over Odoo zeggen.</span></a></span>\n"
+"                <span><br/>-- <br/>Het Odoo Team<br/>PS: Mensen houden van Cubic ERP, bekijk </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">wat ze over Odoo zeggen.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 
@@ -734,7 +734,7 @@ msgstr "<strong>Neem contact op:</strong><br/>"
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
 "<strong>Create tasks by email</strong><br/>\n"
-"                                In Odoo, every project has an email alias. If you send an email to this alias, it will automatically create a task in the first stage of the project, with all the email recipients as its default followers."
+"                                In Cubic ERP, every project has an email alias. If you send an email to this alias, it will automatically create a task in the first stage of the project, with all the email recipients as its default followers."
 msgstr ""
 "<strong>Maak taken via e-mail</strong><br/>\n"
 "In Odoo heeft elk project een e-mail alias. Als u een e-mail verstuurt naar deze alias wordt er automatisch een taak aangemaakt in de eerste fase van het project, met alle e-mail ontvangers als standaard volgers."
@@ -1068,7 +1068,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
 "A project usually involves many stakeholders, be it the project's sponsor, resources, customers or external contractors. But the most important person in a project is usually the Project Manager.<br/>\n"
-"                    In Odoo, the Project Managers have the responsibility of managing the Kanban view: they ensure smooth progression of the projects, minimal downtime between stages and optimal work distribution between resources."
+"                    In Cubic ERP, the Project Managers have the responsibility of managing the Kanban view: they ensure smooth progression of the projects, minimal downtime between stages and optimal work distribution between resources."
 msgstr ""
 "Een project bevat vaak veel belanghebbenden zoals de project sponsor, hulpbronnen, klanten of externe contractanten. Maar de belangrijkste persoon in een project is vaak de projectleider.<br/>\n"
 "In Odoo hebben de projectleiders de verantwoordelijk om de Kanban weergave te beheren: ze verzekeren een vlotte voortgang van het project, minimale wachttijd tussen fases en optimale werkverdelingen tussen taken."
@@ -1678,7 +1678,7 @@ msgstr "Aangemaakt op"
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
 "Creating Tasks is the next step in managing your Projects.<br/>\n"
-"                        In Odoo, it is pretty straightforward, but here are some explanations you may find useful."
+"                        In Cubic ERP, it is pretty straightforward, but here are some explanations you may find useful."
 msgstr ""
 "Het aanmaken van taken  is de volgende stap in het beheren van projecten.<br/>\n"
 "In Odoo ligt dit voor de hand, maar hier wat uitleg die u mogelijk handig vind."
@@ -1829,11 +1829,11 @@ msgstr "Verwijderen"
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
 "Depending on what you need and how you want to operate, there are several "
-"ways to work with Odoo. First, decide if you want to think in terms of "
+"ways to work with Cubic ERP. First, decide if you want to think in terms of "
 "tasks. Then, activate the Timesheets app if you need it."
 msgstr ""
 "Afhankelijk van wat u nodig heeft en hoe u wilt werken zijn er een paar "
-"mogelijke manieren om te werken met Odoo. Beslis eerst of u wilt denken in "
+"mogelijke manieren om te werken met Cubic ERP. Beslis eerst of u wilt denken in "
 "taken. Activeer vervolgens de Urenstaten app als u deze nodig heeft."
 
 #. module: project
@@ -2023,7 +2023,7 @@ msgstr ""
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
-"Even if there is no specific field in Odoo, it's important to define a person responsible for each stage of your Project.<br/>\n"
+"Even if there is no specific field in Cubic ERP, it's important to define a person responsible for each stage of your Project.<br/>\n"
 "                        This person will have the responsibility for validating each stage and ensuring that the requirements to move to the next stage are met."
 msgstr ""
 "Zelfs als er geen specifiek veld is in Odoo is het belangrijk om elke persoon zijn verantwoordelijk te definiëren voor elke fase van uw project.<br/>\n"
@@ -2538,10 +2538,10 @@ msgstr ""
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
 msgid ""
-"It is time to think about how you will transform your activities into real projects in Odoo.<br/>\n"
+"It is time to think about how you will transform your activities into real projects in Cubic ERP.<br/>\n"
 "                        For that, the most important part is defining the stages of your projects. Stages are the different steps a task can go through, from its creation to its ending. They will appear in what we call the 'Kanban' view of your projects."
 msgstr ""
-"Het is tijd om na te denken over hoe u uw activiteiten wilt omvormen naar echte projecten in Odoo.<br/>\n"
+"Het is tijd om na te denken over hoe u uw activiteiten wilt omvormen naar echte projecten in Cubic ERP.<br/>\n"
 "Het belangrijkste deel is om de fases te definiëren voor uw projecten. Fases zijn de verschillende stappen die een taak kan doorgaan, van begin tot einde. Deze worden getoond bij projecten in wat wij de 'Kanban' weergave noemen."
 
 #. module: project
@@ -3404,8 +3404,8 @@ msgstr "Verantwoordelijkheid"
 
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner
-msgid "Runs outside Odoo, always available"
-msgstr "Draait buiten Odoo, altijd beschikbaar"
+msgid "Runs outside Cubic ERP, always available"
+msgstr "Draait buiten Cubic ERP, altijd beschikbaar"
 
 #. module: project
 #: model:ir.ui.view,arch_db:project.project_planner

@@ -392,7 +392,7 @@ msgid ""
 msgstr ""
 "Funkcia časového sledovania sa zameriava na správu dochádzky zamestnancov od "
 "prihlásenia sa / odhlánia sa akcie. Môžete tiež prepojiť túto funkciu k "
-"prezenčnému zariadeniu pomocou funkcií webových služieb Odoo."
+"prezenčnému zariadeniu pomocou funkcií webových služieb Cubic ERP."
 
 #. module: hr_attendance
 #: model:ir.ui.view,arch_db:hr_attendance.view_hr_attendance_filter

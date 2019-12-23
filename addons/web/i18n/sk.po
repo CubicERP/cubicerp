@@ -1413,8 +1413,8 @@ msgstr "Posunúť hore"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:87
 #, python-format
-msgid "My Odoo.com account"
-msgstr "Môj Odoo.com účet"
+msgid "My Cubic ERP.com account"
+msgstr "Môj Cubic ERP.com účet"
 
 #. module: web
 #. openerp-web
@@ -1634,8 +1634,8 @@ msgstr "Odoo je ochrannou značkou"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:119
 #, python-format
-msgid "Odoo.com"
-msgstr "Odoo.com"
+msgid "Cubic ERP.com"
+msgstr "Cubic ERP.com"
 
 #. module: web
 #. openerp-web

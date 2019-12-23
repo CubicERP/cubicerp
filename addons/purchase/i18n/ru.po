@@ -2141,12 +2141,12 @@ msgid ""
 "Vendors bills can be pre-generated based on purchase\n"
 "                    orders or receipts. This allows you to control bills\n"
 "                    you receive from your vendor according to the draft\n"
-"                    document in Odoo."
+"                    document in Cubic ERP."
 msgstr ""
 "Счета поставщиков могут быть предварительно сгенерированы на основе заказов\n"
 "                   на покупку или приходов. Это позволяет контролировать счета,\n"
 "                   которые вы получаете от вашего поставщика согласно черновым\n"
-"                   документам в Odoo."
+"                   документам в Cubic ERP."
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_volume

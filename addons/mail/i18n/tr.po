@@ -5661,7 +5661,7 @@ msgstr "değiştirildi"
 #. module: mail
 #: model:ir.ui.view,arch_db:mail.res_config_settings_view_form
 msgid "mycompany.odoo.com"
-msgstr "mycompany.Odoo.com"
+msgstr "mycompany.Cubic ERP.com"
 
 #. module: mail
 #. openerp-web

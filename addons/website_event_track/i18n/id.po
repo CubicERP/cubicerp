@@ -471,10 +471,10 @@ msgstr "Tertinggi"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Bagaimana membangun strategi pemasaran Anda untuk menghasilkan memimpin "
-"dengan Odoo."
+"dengan Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -541,8 +541,8 @@ msgstr "Kanban State"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Faktor-faktor kunci sukses menjual Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Faktor-faktor kunci sukses menjual Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -606,8 +606,8 @@ msgstr "Mengelola Anda KPI (direkomendasikan kepada mitra openERP)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Mengelola acara Anda dengan Odoo, modul pelatihan yang baru."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Mengelola acara Anda dengan Cubic ERP, modul pelatihan yang baru."
 
 #. module: website_event_track
 #: selection:event.track,priority:0
@@ -939,7 +939,7 @@ msgstr "Terima kasih atas usulan Anda."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track17
 msgid "The Art of Making an Odoo Demo."
-msgstr "Seni membuat Demo Odoo."
+msgstr "Seni membuat Demo Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track29
@@ -952,7 +952,7 @@ msgid ""
 "The new way to promote your modules in the Apps platform and Odoo website."
 msgstr ""
 "Cara baru untuk mempromosikan Anda modul dalam platform aplikasi dan situs "
-"web Odoo."
+"web Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.event_track_proposal

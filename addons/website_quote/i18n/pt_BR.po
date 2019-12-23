@@ -900,9 +900,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Aprenda diretamente com nossa equipe e rede de peritos Odoo. Escolha entre "
+"Aprenda diretamente com nossa equipe e rede de peritos Cubic ERP. Escolha entre "
 "as sessões de treinamento disponíveis para uma melhor compreensão funcional "
-"do Odoo."
+"do Cubic ERP."
 
 #. module: website_quote
 #: model:product.product,description_sale:website_quote.product_product_quote_2
@@ -912,9 +912,9 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Aprenda diretamente com nossa equipe e rede de peritos Odoo. Escolha entre "
+"Aprenda diretamente com nossa equipe e rede de peritos Cubic ERP. Escolha entre "
 "as sessões de treinamento disponíveis para uma melhor compreensão técnica do"
-" Odoo."
+" Cubic ERP."
 
 #. module: website_quote
 #: model:ir.model.fields,field_description:website_quote.field_sale_order_option_line_id
@@ -1180,7 +1180,7 @@ msgstr ""
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
 msgstr ""
 
 #. module: website_quote
@@ -1584,7 +1584,7 @@ msgstr "Vídeos com demonstrações detalhadas"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 
 #. module: website_quote

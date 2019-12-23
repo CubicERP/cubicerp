@@ -3991,7 +3991,7 @@ msgstr "Chiusura di cassa"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Godetevi la vostra esperienza con Odoo,"
+msgstr "Godetevi la vostra esperienza con Cubic ERP,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -4334,7 +4334,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"A nome del Team Odoo,<br/>\n"
+"A nome del Team Cubic ERP,<br/>\n"
 "                            Fabien Pinckaers, Fondatore"
 
 #. module: account
@@ -4876,21 +4876,21 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
-msgstr "Se si vuole inviare il rendiconto cliente da Odoo, è necessario:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
+msgstr "Se si vuole inviare il rendiconto cliente da Cubic ERP, è necessario:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding "
+"                        from Cubic ERP, you first need to record all outstanding "
 "transactions \n"
 "                        in the payable and receivable accounts. These would "
 "be invoices \n"
 "                        that have not been paid or payments that have not "
 "been reconciled."
 msgstr ""
-"Se si vuole inviare i report ai clienti da Odoo, è necessario registrare "
+"Se si vuole inviare i report ai clienti da Cubic ERP, è necessario registrare "
 "tutte le operazioni sospese nei conti di debito e credito. Questo significa, "
 "fatture che non sono state pagate o pagamenti che non sono stati "
 "riconciliati."
@@ -4929,8 +4929,8 @@ msgstr "Importa estratti conto nei formati supportati  (QIF, OFX, CODA o CSV)"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
-msgstr "In Odoo,"
+msgid "In Cubic ERP,"
+msgstr "In Cubic ERP,"
 
 #. module: account
 #: code:addons/account/models/account_bank_statement.py:414
@@ -7081,7 +7081,7 @@ msgstr ""
 "Un conto Paypal (email) per ricevere pagamenti online (carta di credito, "
 "ecc.).\n"
 "Se selezionato, il cliente potrà pagare le fatture o i preventivo con un "
-"tasto \"Paga con Paypal\" in email automatiche o tramite il portale Odoo."
+"tasto \"Paga con Paypal\" in email automatiche o tramite il portale Cubic ERP."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_res_company_paypal_account
@@ -9224,7 +9224,7 @@ msgid ""
 "This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
-"Questa quida permette di cominciare con la contabilità in Odoo. Una volta "
+"Questa quida permette di cominciare con la contabilità in Cubic ERP. Una volta "
 "finito, permetterà di:"
 
 #. module: account

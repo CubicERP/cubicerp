@@ -120,7 +120,7 @@ msgstr "Введите адреса эл. почты (по 1 на строку)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr "Следуйте этим советам по реализации чтобы добиться максимума от Odoo"
 
 #. module: web_settings_dashboard

@@ -4668,7 +4668,7 @@ msgstr ""
 #~ msgid "Sales by user monthly"
 #~ msgstr "Борлуулалт хэрэглэгчээр сараар"
 
-#~ msgid "Share or embbed any screen of Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
 #~ msgstr "Odoo-н дурын дэлгэцийг хуваалцах юмуу өөр вебэд шигтгэнэ."
 
 #~ msgid "Template user for new users created through signup"

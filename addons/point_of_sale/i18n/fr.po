@@ -3985,7 +3985,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"Cette séquence est créée automatiquement par Odoo, mais vous pouvez la "
+"Cette séquence est créée automatiquement par Cubic ERP, mais vous pouvez la "
 "changer pour personnaliser les références de vos commandes."
 
 #. module: point_of_sale

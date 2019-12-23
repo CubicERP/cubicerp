@@ -1734,7 +1734,7 @@ msgid ""
 "Thanks to the different filters, CubicERP can only print the effective\n"
 "          costs, sort them by type and by vehicle."
 msgstr ""
-"Odoo, çeşitli süzgeçleri sayesinde, yalnızca etkili maliyetleri "
+"Cubic ERP, çeşitli süzgeçleri sayesinde, yalnızca etkili maliyetleri "
 "yazdırabilir, onları türüne göre ve araca göre sıralayabilirsiniz."
 
 #. module: fleet

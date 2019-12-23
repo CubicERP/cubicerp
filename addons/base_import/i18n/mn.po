@@ -960,7 +960,7 @@ msgstr "%d болон %d дугаар мөрүүдийн хооронд"
 #: code:addons/base_import/static/src/xml/import.xml:69
 #, python-format
 msgid ""
-"column in Odoo. When you\n"
+"column in Cubic ERP. When you\n"
 "                        import an other record that links to the first\n"
 "                        one, use"
 msgstr ""

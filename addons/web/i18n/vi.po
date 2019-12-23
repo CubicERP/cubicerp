@@ -1576,8 +1576,8 @@ msgstr "Chuyển lên"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:1323
 #, python-format
-msgid "My Odoo.com account"
-msgstr "Tài khoản Odoo.com"
+msgid "My Cubic ERP.com account"
+msgstr "Tài khoản Cubic ERP.com"
 
 #. module: web
 #. openerp-web

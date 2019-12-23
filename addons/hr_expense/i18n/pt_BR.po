@@ -573,7 +573,7 @@ msgstr "Fim"
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Aproveite a sua experiência Odoo,"
+msgstr "Aproveite a sua experiência Cubic ERP,"
 
 #. module: hr_expense
 #: model:ir.model,name:hr_expense.model_hr_expense
@@ -842,7 +842,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"Para o Time Odoo,<br/>\n"
+"Para o Time Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: hr_expense

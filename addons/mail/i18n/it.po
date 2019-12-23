@@ -2039,7 +2039,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Se un dominio catch-all è stato configurato per essere reindirizzato su "
-"Odoo, inserire il dominio qui."
+"Cubic ERP, inserire il dominio qui."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141

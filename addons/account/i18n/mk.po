@@ -4834,14 +4834,14 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
-msgstr "Ако сакате да испраќате клиентски изводи од Odoo, морате:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
+msgstr "Ако сакате да испраќате клиентски изводи од Cubic ERP, морате:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding "
+"                        from Cubic ERP, you first need to record all outstanding "
 "transactions \n"
 "                        in the payable and receivable accounts. These would "
 "be invoices \n"
@@ -4849,7 +4849,7 @@ msgid ""
 "been reconciled."
 msgstr ""
 "Доколку сакате да ги испраќате вашите изводи кон вашите клиенти преку "
-"Odoo, \n"
+"Cubic ERP, \n"
 "прво треба да ги запишете сите неподмирени трансакции \n"
 "во задолжувачките и побарувачките сметки. Ова би биле фактури кои\n"
 " што сеуште не ви се платени или плаќања кои што не ви биле порамнети."
@@ -4890,8 +4890,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
-msgstr "Во Odoo,"
+msgid "In Cubic ERP,"
+msgstr "Во Cubic ERP,"
 
 #. module: account
 #: code:addons/account/models/account_bank_statement.py:414

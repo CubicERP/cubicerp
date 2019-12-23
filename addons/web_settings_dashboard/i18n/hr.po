@@ -122,7 +122,7 @@ msgstr "Unesite e-mail adresu (jednu po retku)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
 "Slijedite vodič za implementaciju kako biste dobili najviše iz Odoo-a."
 

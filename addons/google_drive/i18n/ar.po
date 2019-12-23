@@ -171,7 +171,7 @@ msgstr "آخر تحديث في"
 #. module: google_drive
 #: model:ir.actions.act_window,help:google_drive.action_google_drive_users_config
 msgid ""
-"Link your own google drive templates to any record of Odoo. If you have "
+"Link your own google drive templates to any record of Cubic ERP. If you have "
 "really specific documents you want your collaborator fill in, e.g. Use a "
 "spreadsheet to control the quality of your product or review the delivery "
 "checklist for each order in a foreign country, ... Its very easy to manage "

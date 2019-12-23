@@ -463,8 +463,8 @@ msgstr "Høyeste"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
-msgstr "Hvordan bygge markedsføringsstrategi for å generere leads med Odoo."
+"with Cubic ERP."
+msgstr "Hvordan bygge markedsføringsstrategi for å generere leads med Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -529,8 +529,8 @@ msgstr "Kanban-status"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Nøkkelsuksessfaktorer for å selge Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Nøkkelsuksessfaktorer for å selge Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -594,8 +594,8 @@ msgstr ""
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Administrer arrangementene dine med Odoo, de nye opplæringsmodulene."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Administrer arrangementene dine med Cubic ERP, de nye opplæringsmodulene."
 
 #. module: website_event_track
 #: selection:event.track,priority:0

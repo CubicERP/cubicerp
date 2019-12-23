@@ -254,8 +254,8 @@ msgstr "Accès au Portail"
 
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_base_config_settings_module_share
-msgid "Share or embbed any screen of Odoo."
-msgstr "Partager ou intégrer n'importe quel écran Odoo."
+msgid "Share or embbed any screen of Cubic ERP."
+msgstr "Partager ou intégrer n'importe quel écran Cubic ERP."
 
 #. module: base_setup
 #: model:ir.model.fields,field_description:base_setup.field_base_config_settings_company_share_partner

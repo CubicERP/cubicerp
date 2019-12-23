@@ -70,7 +70,7 @@ msgid ""
 "highest customer lead time of products. With this option, you can set a "
 "specific delivery date on orders rather than setting lead times on products."
 msgstr ""
-"Varsayılan olarak, Odoo, beklenen teslimat tarihini şu şekilde hesaplar: \n"
+"Varsayılan olarak, Cubic ERP, beklenen teslimat tarihini şu şekilde hesaplar: \n"
 "sipariş tarihi + ürünlerin teslimat için güvenli tampon süreleri.\n"
 "Bu seçenekle, ürünler üzerinde güvenli teslimat tampon süreleri ayarlamak yerine siparişlerde net bir teslim tarihi belirleyebilirsiniz."
 

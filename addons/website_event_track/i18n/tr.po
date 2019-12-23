@@ -482,7 +482,7 @@ msgstr "En yüksek"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Üretme amacı Odoo ile yol için pazarlama stratejisi oluşturmak için nasıl."
 
@@ -552,7 +552,7 @@ msgstr "Kanban Durumu"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "Odoo satan Anahtar Başarı Faktörleri."
 
 #. module: website_event_track
@@ -617,8 +617,8 @@ msgstr "(OpenERP ortaklarına önerilen) KPI larınızı yönetin."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Sizin olaylara Odoo, yeni eğitim modülleri ile yönetin."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Sizin olaylara Cubic ERP, yeni eğitim modülleri ile yönetin."
 
 #. module: website_event_track
 #: selection:event.track,priority:0
@@ -700,7 +700,7 @@ msgstr "Odoo Durumu ve 2015 Stratejisi"
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track16
 msgid "Odoo as your Enterprise Social Network."
-msgstr "Senin Kurumsal Sosyal Ağ olarak Odoo."
+msgstr "Senin Kurumsal Sosyal Ağ olarak Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track27

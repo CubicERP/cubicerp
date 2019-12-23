@@ -2455,7 +2455,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De parte del equipo Odoo,<br/>\n"
+"De parte del equipo Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: stock
@@ -2981,11 +2981,11 @@ msgstr "Importe usando el botón superior izquierda en"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
-"En Odoo, las <strong>Reglas de Aprovisionamiento</strong> se usan para reponer sus productos.\n"
+"En Cubic ERP, las <strong>Reglas de Aprovisionamiento</strong> se usan para reponer sus productos.\n"
 "                        Odoo propondrá automáticamente una compra para comprar nuevos productos \n"
 "                        si está agotado."
 
@@ -3373,7 +3373,7 @@ msgid ""
 "                        If you want to do that, contact  your CubicERP project manager."
 msgstr ""
 "También es posible importar su inventario inicial desde un archivo Excel o "
-"CSV. Si desea realizarlo, contacte con su gestor de proyecto Odoo."
+"CSV. Si desea realizarlo, contacte con su gestor de proyecto Cubic ERP."
 
 #. module: stock
 #: code:addons/stock/models/stock_quant.py:244
@@ -8027,7 +8027,7 @@ msgid ""
 "validating"
 msgstr ""
 "ya sea mediante la actualización manual de la cantidad Hecho en las líneas "
-"de productos, o escanearlas con la aplicación de código de barras Odoo, o "
+"de productos, o escanearlas con la aplicación de código de barras Cubic ERP, o "
 "dejar que Odoo lo haga automáticamente al validar"
 
 #. module: stock

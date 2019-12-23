@@ -4788,8 +4788,8 @@ msgstr "v jejich SEO metadatech, včetně značek, názvu a popisu."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "instance Odoo,"
+msgid "instance of Cubic ERP, the"
+msgstr "instance Cubic ERP,"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

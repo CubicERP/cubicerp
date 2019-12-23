@@ -2566,7 +2566,7 @@ msgstr "标记的队列是空的。"
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr "这个网站的目的是建立一个回复与Odoo问题相关的知识库。"
 
 #. module: website_forum

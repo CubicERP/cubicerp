@@ -1269,8 +1269,8 @@ msgstr "Odoo Enterprise bei dessen Kunden bewerben"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
-msgstr "Veröffentlicht Referenzen direkt auf Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
+msgstr "Veröffentlicht Referenzen direkt auf Cubic ERP.com"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1691,10 +1691,10 @@ msgstr "Videos mit detaillierten Demos"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 "Sie erhalten als offizieller Partner Sichtbarkeit und Anerkennung auf der "
-"Partnerseite von Odoo.com."
+"Partnerseite von Cubic ERP.com."
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_default

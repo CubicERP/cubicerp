@@ -203,7 +203,7 @@ msgid ""
 " or in Odoo reports to track opportunities and related revenues."
 msgstr ""
 "Ці відстеження можна використовувати в Google Analytics для відстеження "
-"кліків і відвідувачів, а також у звітах Odoo, щоб відстежувати можливості та"
+"кліків і відвідувачів, а також у звітах Cubic ERP, щоб відстежувати можливості та"
 " пов'язані з ними доходи."
 
 #. module: website_links

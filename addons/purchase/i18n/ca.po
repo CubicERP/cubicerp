@@ -2106,11 +2106,11 @@ msgid ""
 "Vendors bills can be pre-generated based on purchase\n"
 "                    orders or receipts. This allows you to control bills\n"
 "                    you receive from your vendor according to the draft\n"
-"                    document in Odoo."
+"                    document in Cubic ERP."
 msgstr ""
 "Les factures de proveïdor pregenerades basades en comandes de compra o "
 "rebuts. Això permet controlar les factures que rep d'un venedor d'acord amb "
-"el document esborrany en Odoo."
+"el document esborrany en Cubic ERP."
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_volume

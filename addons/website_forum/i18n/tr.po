@@ -2525,7 +2525,7 @@ msgstr "İşaretli sıra boş"
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Bu sitenin amacı Odoo ile ilgili sorulara cevap verebilecek alakalı bilgi "
 "deposu oluşturmak"

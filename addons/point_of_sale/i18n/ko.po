@@ -4401,7 +4401,7 @@ msgstr ""
 #~ msgid "Session Summary:"
 #~ msgstr "세션 요약 :"
 
-#~ msgid "Share or embbed any screen of Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
 #~ msgstr "CubicERP 화면 공유 또는 첨부."
 
 #~ msgid "Statement Details:"

@@ -466,10 +466,10 @@ msgstr "Највисоко"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Како да ја изградите вашата маркетинг стратегија со цел на генерирање на "
-"траги преку Odoo."
+"траги преку Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -535,8 +535,8 @@ msgstr "Kanban состојба"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Клучни фактори на успех за продажба на Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Клучни фактори на успех за продажба на Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -600,8 +600,8 @@ msgstr "Управувајте со KPI (препорачано за openERP п�
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Менаџирајте ги вашите настани со Odoo, новите тренинг модули."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Менаџирајте ги вашите настани со Cubic ERP, новите тренинг модули."
 
 #. module: website_event_track
 #: selection:event.track,priority:0

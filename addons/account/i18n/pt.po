@@ -3969,7 +3969,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Aproveite a sua experiência Odoo,"
+msgstr "Aproveite a sua experiência Cubic ERP,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -4854,15 +4854,15 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr ""
-"Se quer ser capaz de enviar declarações de clientes a partir do Odoo, deve:"
+"Se quer ser capaz de enviar declarações de clientes a partir do Cubic ERP, deve:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding "
+"                        from Cubic ERP, you first need to record all outstanding "
 "transactions \n"
 "                        in the payable and receivable accounts. These would "
 "be invoices \n"
@@ -4907,8 +4907,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
-msgstr "No Odoo,"
+msgid "In Cubic ERP,"
+msgstr "No Cubic ERP,"
 
 #. module: account
 #: code:addons/account/models/account_bank_statement.py:414
@@ -7052,7 +7052,7 @@ msgstr ""
 "ou\n"
 "cotações com o botão \"Pagar com o Paypal\" nos e-mails automáticos ou "
 "através do portal\n"
-"do Odoo."
+"do Cubic ERP."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_res_company_paypal_account
@@ -9201,7 +9201,7 @@ msgid ""
 "This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
-"Este guia vai ajudar você a começar com a Contabilidade do Odoo.\n"
+"Este guia vai ajudar você a começar com a Contabilidade do Cubic ERP.\n"
 "Assim que estiver pronto, você vai beneficiar de:"
 
 #. module: account

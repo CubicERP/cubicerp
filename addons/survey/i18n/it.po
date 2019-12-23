@@ -764,7 +764,7 @@ msgstr ""
 
 #. module: survey
 #: model:survey.page,description:survey.feedback_4
-msgid "If you do not contribute or develop in Odoo, skip this page."
+msgid "If you do not contribute or develop in Cubic ERP, skip this page."
 msgstr ""
 
 #. module: survey
@@ -1690,7 +1690,7 @@ msgstr ""
 #. module: survey
 #: model:survey.page,description:survey.feedback_2
 msgid ""
-"These questions relate to the ergonomy and ease of use of Odoo. Try to "
+"These questions relate to the ergonomy and ease of use of Cubic ERP. Try to "
 "remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
@@ -1926,7 +1926,7 @@ msgstr ""
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_2
 msgid ""
-"What do you think about the process views of Odoo, available in the web "
+"What do you think about the process views of Cubic ERP, available in the web "
 "client ?"
 msgstr ""
 

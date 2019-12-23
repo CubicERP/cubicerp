@@ -710,7 +710,7 @@ msgid ""
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
 "<strong>Sigui anunciat amb un compte d'Odoo Twitter</strong><br/> Ens agrada"
-" escoltar les persones que estan construint la seva pagina web amb Odoo. "
+" escoltar les persones que estan construint la seva pagina web amb Cubic ERP. "
 "Tweeteja'ns"
 
 #. module: website
@@ -2077,7 +2077,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De part del equip Odoo,<br/>\n"
+"De part del equip Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: website
@@ -5025,8 +5025,8 @@ msgstr "a les seves metadades SEO, incloent-hi etiquetes, títol i descripció."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "instancia d'Odoo, el"
+msgid "instance of Cubic ERP, the"
+msgstr "instancia d'Cubic ERP, el"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

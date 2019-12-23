@@ -681,7 +681,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website.s_button
 msgid "<strong>50,000+ companies run Odoo to grow their businesses.</strong>"
 msgstr ""
-"<strong>50,000+ компаниите пускат Odoo, за да развиват бизнеса си.</strong>"
+"<strong>50,000+ компаниите пускат Cubic ERP, за да развиват бизнеса си.</strong>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -714,7 +714,7 @@ msgid ""
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
 "<strong>Обявете се в профила на Odoo Twitter</strong><br/>\n"
-"                                Ние обичаме да чуваме от хората, които използват Odoo, че изграждат своя уебсайт. Обадете ни се в Tweeter "
+"                                Ние обичаме да чуваме от хората, които използват Cubic ERP, че изграждат своя уебсайт. Обадете ни се в Tweeter "
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -5050,8 +5050,8 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "пример на Odoo, "
+msgid "instance of Cubic ERP, the"
+msgstr "пример на Cubic ERP, "
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

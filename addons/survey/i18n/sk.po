@@ -791,8 +791,8 @@ msgstr "Ak iné, konkrétne:"
 
 #. module: survey
 #: model:survey.page,description:survey.feedback_4
-msgid "If you do not contribute or develop in Odoo, skip this page."
-msgstr "Ak neprispievate alebo nevyvíjate v Odoo, preskočte túto stránku."
+msgid "If you do not contribute or develop in Cubic ERP, skip this page."
+msgstr "Ak neprispievate alebo nevyvíjate v Cubic ERP, preskočte túto stránku."
 
 #. module: survey
 #: model:ir.ui.view,arch_db:survey.sfinished
@@ -1727,11 +1727,11 @@ msgstr "Príliš veľa menu ponúk, je to komplexné na pochopenie"
 #. module: survey
 #: model:survey.page,description:survey.feedback_2
 msgid ""
-"These questions relate to the ergonomy and ease of use of Odoo. Try to "
+"These questions relate to the ergonomy and ease of use of Cubic ERP. Try to "
 "remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
-"Tieto otázky sa týkajú ergonómie a jednoduchosti používania Odoo. Skúste si "
+"Tieto otázky sa týkajú ergonómie a jednoduchosti používania Cubic ERP. Skúste si "
 "spomenúť na svoje prvé dni na Odoo a\n"
 "čo vám robilo problémy."
 
@@ -1973,10 +1973,10 @@ msgstr "Čo si myslíte o skupinách používateľov?"
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_2
 msgid ""
-"What do you think about the process views of Odoo, available in the web "
+"What do you think about the process views of Cubic ERP, available in the web "
 "client ?"
 msgstr ""
-"Čo si myslíte o procesných zobrazeniach Odoo, dostupných vo webovom kliente?"
+"Čo si myslíte o procesných zobrazeniach Cubic ERP, dostupných vo webovom kliente?"
 
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_4

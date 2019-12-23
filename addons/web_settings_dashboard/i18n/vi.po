@@ -120,7 +120,7 @@ msgstr "Nhập địa chỉ email (mỗi địa chỉ một dòng)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
 "Theo sát các hướng dẫn triển khai này để đạt sự ứng dụng tối đa với Odoo"
 

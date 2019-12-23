@@ -2048,7 +2048,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"Για την Ομάδα Odoo,<br/>\n"
+"Για την Ομάδα Cubic ERP,<br/>\n"
 "                            Fabien Pinckaers, Ιδρυτής"
 
 #. module: website
@@ -4948,7 +4948,7 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr "παράδειγμα του odoo, το"
 
 #. module: website

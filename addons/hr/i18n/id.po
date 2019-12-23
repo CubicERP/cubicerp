@@ -1316,7 +1316,7 @@ msgid ""
 "                can easily find all the information you need for each person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Dengan hanya sekilas pada layar karyawan Odoo, Anda dapat dengan mudah menemukan semua informasi yang Anda butuhkan untuk setiap orang;\n"
+"Dengan hanya sekilas pada layar karyawan Cubic ERP, Anda dapat dengan mudah menemukan semua informasi yang Anda butuhkan untuk setiap orang;\n"
 "                data kontak, lowongan kerja, ketersediaan, dll."
 
 #. module: hr

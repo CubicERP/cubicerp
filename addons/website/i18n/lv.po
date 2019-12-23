@@ -4974,8 +4974,8 @@ msgstr "in their SEO metadata, including tags, title and description."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
+msgstr "instance of Cubic ERP, the"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

@@ -119,7 +119,7 @@ msgstr "E-mail címek megadása (soronként egyet)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
 "Kövesse a bevezetési segédletek lépéseit és hozza ki a legtöbbet az Odoo "
 "rendszerből."

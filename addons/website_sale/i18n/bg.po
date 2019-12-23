@@ -1848,7 +1848,7 @@ msgid ""
 "related connector in Odoo to compute accurate costs and print labels."
 msgstr ""
 "Ако търгувате с голям спедитор (UPS, FedEx, DHL и т.н.), активирайте "
-"съответния конектор в Odoo, за да изчислите точните разходи и да "
+"съответния конектор в Cubic ERP, за да изчислите точните разходи и да "
 "разпечатвате етикети."
 
 #. module: website_sale
@@ -3858,7 +3858,7 @@ msgstr "срокове &amp; условия"
 #: model:ir.ui.view,arch_db:website_sale.website_planner
 msgid "use Odoo API to import through scripts"
 msgstr ""
-"използвайте Програмния приложен интерфейс - API на Odoo, за да въвеждате "
+"използвайте Програмния приложен интерфейс - API на Cubic ERP, за да въвеждате "
 "през скриптове"
 
 #. module: website_sale

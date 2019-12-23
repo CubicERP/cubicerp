@@ -4580,7 +4580,7 @@ msgstr "on els duplicats de les comandes existents"
 #~ "enter the domain name here."
 #~ msgstr ""
 #~ "Si heu configurat un domini de correu \"agafa-ho tot\" re-dirigit a un "
-#~ "servidor Odoo, entreu el nom del domini aquí."
+#~ "servidor Cubic ERP, entreu el nom del domini aquí."
 
 #~ msgid "Implementation References"
 #~ msgstr "Referències d'implementació"
@@ -4714,7 +4714,7 @@ msgstr "on els duplicats de les comandes existents"
 #~ msgid "Session Summary:"
 #~ msgstr "Resum de Sessió: "
 
-#~ msgid "Share or embbed any screen of Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
 #~ msgstr "Comparteix o incrusta qualsevol pantalla."
 
 #~ msgid "Share partners to all companies"

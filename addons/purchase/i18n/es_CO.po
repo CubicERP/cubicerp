@@ -1039,7 +1039,7 @@ msgid ""
 "Most propositions of purchase orders are created automatically\n"
 "                by Odoo based on inventory needs."
 msgstr ""
-"La mayor parte de la ordenes de compra son creadas automáticamente por Odoo, "
+"La mayor parte de la ordenes de compra son creadas automáticamente por Cubic ERP, "
 "basado en las necesidades de inventario."
 
 #. module: purchase
@@ -2091,12 +2091,12 @@ msgid ""
 "Vendors bills can be pre-generated based on purchase\n"
 "                    orders or receipts. This allows you to control bills\n"
 "                    you receive from your vendor according to the draft\n"
-"                    document in Odoo."
+"                    document in Cubic ERP."
 msgstr ""
 "La facturas del proveedor pueden ser pre-generadas basadas en las\n"
 "ordenes de compra o las recepciones. Esto permite que usted controle\n"
 "las facturas que usted recibe de su proveedor acorde al documento en\n"
-"borrador en Odoo."
+"borrador en Cubic ERP."
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_volume

@@ -727,7 +727,7 @@ msgid ""
 "prospects\n"
 "                                that filled a form on the Odoo website and "
 "wanted to\n"
-"                                use Odoo. The right partner to fulfill the "
+"                                use Cubic ERP. The right partner to fulfill the "
 "customer\n"
 "                                request is selected based on the customer "
 "localization\n"
@@ -743,7 +743,7 @@ msgid ""
 "prospects\n"
 "                        that filled a form on the Odoo website and wanted "
 "to\n"
-"                        use Odoo. The right partner to fulfill the customer\n"
+"                        use Cubic ERP. The right partner to fulfill the customer\n"
 "                        request is selected based on the customer "
 "localization\n"
 "                        (nearest partner) and the grade of the partner."
@@ -899,7 +899,7 @@ msgstr ""
 
 #. module: website_quote
 #: model:sale.quote.option,website_description:website_quote.website_sale_option_line_1
-msgid "Install and administer Odoo."
+msgid "Install and administer Cubic ERP."
 msgstr ""
 
 #. module: website_quote
@@ -1718,7 +1718,7 @@ msgstr ""
 
 #. module: website_quote
 #: model:sale.quote.option,website_description:website_quote.website_sale_option_line_1
-msgid "Understand the functional concepts, business processes by Odoo."
+msgid "Understand the functional concepts, business processes by Cubic ERP."
 msgstr ""
 
 #. module: website_quote

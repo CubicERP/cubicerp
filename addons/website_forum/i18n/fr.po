@@ -2638,10 +2638,10 @@ msgstr "La file d'attente des messages signalés est vide."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Le but de ce site est de créer une base de connaissance des questions et "
-"réponses relatives à Odoo."
+"réponses relatives à Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -3351,7 +3351,7 @@ msgstr "spam ou publicité"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "specific questions about Odoo service offers, etc."
-msgstr "questions spécifiques sur les services, offres,... d'Odoo."
+msgstr "questions spécifiques sur les services, offres,... d'Cubic ERP."
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help

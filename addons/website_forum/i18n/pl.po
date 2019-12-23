@@ -2634,10 +2634,10 @@ msgstr "Oznaczona kolejka jest pusta."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Celem tej witryny jest stworzenie odpowiedniej bazy wiedzy, która odpowie na\n"
-"    pytania związane z Odoo."
+"    pytania związane z Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue

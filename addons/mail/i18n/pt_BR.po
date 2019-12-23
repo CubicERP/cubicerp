@@ -2386,7 +2386,7 @@ msgid ""
 "enter the domain name here."
 msgstr ""
 "Se você tiver uma configuração de e-mail 'catch-all' redirecionado para o "
-"servidor Odoo, digite o nome do domínio aqui."
+"servidor Cubic ERP, digite o nome do domínio aqui."
 
 #. module: mail
 #: code:addons/mail/models/mail_alias.py:141

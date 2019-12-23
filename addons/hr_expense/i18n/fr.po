@@ -613,7 +613,7 @@ msgstr "Fin"
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Profitez de votre expérience Odoo,"
+msgstr "Profitez de votre expérience Cubic ERP,"
 
 #. module: hr_expense
 #: model:ir.model,name:hr_expense.model_hr_expense
@@ -884,7 +884,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De la part de l'équipe Odoo,<br/>\n"
+"De la part de l'équipe Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fondateur"
 
 #. module: hr_expense
@@ -1623,7 +1623,7 @@ msgstr "Les étapes pour enregistrer vos dépenses sont: "
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid "This guide helps you start with CubicERP Expenses."
-msgstr "Ce guide vous aidera à démarre avec Notes de Frais Odoo."
+msgstr "Ce guide vous aidera à démarre avec Notes de Frais Cubic ERP."
 
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form

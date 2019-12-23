@@ -70,7 +70,7 @@ msgstr ""
 "\"Одноразовий запуск Odoo дозволить підприємству почати від\n"
 "                     нуля, щоб торгувати онлайн швидше, ніж будь-коли раніше \", пояснює Стюарт\n"
 "                     Макінтош, доктор медичних наук, спеціаліст із відкритого програмного забезпечення та \n"
-"                     Інтеграційний партнер Odoo, OpusVL. \"Необхідні\n"
+"                     Інтеграційний партнер Cubic ERP, OpusVL. \"Необхідні\n"
 "                     інвестиції, щоби повністю автоматизована бізнес-система\n"
 "                     різко зменшилась, що дозволяє малим та середнім\n"
 "                     підприємствам конкурувати на рівні функціональності і\n"
@@ -80,12 +80,12 @@ msgstr ""
 #: model:blog.post,content:website_blog.blog_post_2
 msgid ""
 "\"This is another clever and highly disruptive move by\n"
-"                    Odoo,which will force other technology providers to\n"
+"                    Cubic ERP,which will force other technology providers to\n"
 "                    take another look at the value they are providing to ensure\n"
 "                    that their 'solutions' can still compete.\""
 msgstr ""
 "\"Це ще один розумний і дуже підривний крок\n"
-"                     Odoo, що змусить інших постачальників технологій\n"
+"                     Cubic ERP, що змусить інших постачальників технологій\n"
 "                     ще раз поглянути на цінність, яку вони забезпечують,\n"
 "                     адже їх \"рішення\" все-таки може конкурувати \"."
 
@@ -225,7 +225,7 @@ msgstr ""
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_1
 msgid ""
-"At Odoo, we build tools to bring productivity to\n"
+"At Cubic ERP, we build tools to bring productivity to\n"
 "                    enterprises. As emails and information flows are one of\n"
 "                    the biggest wastes of time in companies, we have to fix\n"
 "                    this."
@@ -480,13 +480,13 @@ msgstr ""
 #: model:blog.post,content:website_blog.blog_post_1
 msgid ""
 "Folders and mailing lists are great tools but too\n"
-"                        complex in traditional email clients. In Odoo, a\n"
+"                        complex in traditional email clients. In Cubic ERP, a\n"
 "                        group of contacts that share a discussion can be\n"
 "                        created with one click. Every group should have it's\n"
 "                        own email address."
 msgstr ""
 "Папки та списки розсилки - це чудові інструменти, але й\n"
-"                         комплекс в традиційній електронній пошті клієнта. В Odoo,\n"
+"                         комплекс в традиційній електронній пошті клієнта. В Cubic ERP,\n"
 "                         група контактів, яка обмінюється дискусією, може бути\n"
 "                         створена в один клік. Кожна група повинна мати її\n"
 "                         власну адресу електронної пошти."
@@ -561,7 +561,7 @@ msgstr "ID"
 #. module: website_blog
 #: model:blog.post,subtitle:website_blog.blog_post_1
 msgid "Ideas behind the Odoo communication tools."
-msgstr "Ідеї, що стоять за інструментами спілкування Odoo."
+msgstr "Ідеї, що стоять за інструментами спілкування Cubic ERP."
 
 #. module: website_blog
 #: model:ir.ui.view,arch_db:website_blog.latest_blogs
@@ -745,8 +745,8 @@ msgstr ""
 
 #. module: website_blog
 #: model:blog.post,website_meta_keywords:website_blog.blog_post_1
-msgid "Odoo, email"
-msgstr "Odoo, e-mail"
+msgid "Cubic ERP, email"
+msgstr "Cubic ERP, e-mail"
 
 #. module: website_blog
 #. openerp-web
@@ -1008,7 +1008,7 @@ msgid ""
 "                features, a website content management system (CMS or WMS) has been developed and a beta release is\n"
 "                available from today, 31st January 2014."
 msgstr ""
-"Щоб додати до вже всеосяжного набору функцій Odoo,\n"
+"Щоб додати до вже всеосяжного набору функцій Cubic ERP,\n"
 "                  розроблена система управління контентом веб-сайту (CMS або WMS), а також є бета-версія\n"
 "                 доступна сьогодні, з 31 січня 2014 року."
 

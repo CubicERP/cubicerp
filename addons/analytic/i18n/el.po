@@ -242,11 +242,11 @@ msgstr ""
 #: model:ir.actions.act_window,help:analytic.account_analytic_line_action
 #: model:ir.actions.act_window,help:analytic.account_analytic_line_action_entries
 msgid ""
-"In Odoo, sales orders and projects are implemented using\n"
+"In Cubic ERP, sales orders and projects are implemented using\n"
 "                analytic accounts. You can track costs and revenues to analyse\n"
 "                your margins easily."
 msgstr ""
-"Στην Odoo, οι εντολές πωλήσεων και τα έργα υλοποιούνται χρησιμοποιώντας\n"
+"Στην Cubic ERP, οι εντολές πωλήσεων και τα έργα υλοποιούνται χρησιμοποιώντας\n"
 "                αναλυτικούς λογαριασμούς. Μπορείτε να παρακολουθείτε τα κόστη και τα έσοδα για να \n"
 "                αναλύσετε τα περιθώρια σας εύκολα.  "
 

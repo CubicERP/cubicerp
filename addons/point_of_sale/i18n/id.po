@@ -3370,7 +3370,7 @@ msgstr "Tampilkan daftar harga untuk pelanggan"
 #, python-format
 msgid "Skip"
 msgstr ""
-"<p>Jika Anda tidak memberikan kontribusi atau mengembangkan di Odoo, "
+"<p>Jika Anda tidak memberikan kontribusi atau mengembangkan di Cubic ERP, "
 "melewati halaman ini.</p>"
 
 #. module: point_of_sale

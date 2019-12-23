@@ -475,10 +475,10 @@ msgstr "Najvyššia"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Ako postaviť svoju marketingovú stratégiu za účelom vytvárania iniciatív s "
-"Odoo."
+"Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -544,8 +544,8 @@ msgstr "Kanban stav"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Kľúčové faktory úspechu predaja Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Kľúčové faktory úspechu predaja Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -609,8 +609,8 @@ msgstr "Spravujte svoje KPI (odporúčané openERP partnerom)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Spravujte vaše udalosti s Odoo, nové tréningové moduly."
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Spravujte vaše udalosti s Cubic ERP, nové tréningové moduly."
 
 #. module: website_event_track
 #: selection:event.track,priority:0

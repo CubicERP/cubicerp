@@ -2908,12 +2908,12 @@ msgstr "Sol üstteki tuşu kullanarak içe aktarın"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
 "Odoo'da, ürünlerinizi tedarik etmek için <strong>İhtiyaç Kuralları </strong> kullanılır.\n"
-"                        Odoo, ürünlerinizin stokları tükenmeye başladıkça yeni ürünler satın almak için otomatik olarak bir\n"
+"                        Cubic ERP, ürünlerinizin stokları tükenmeye başladıkça yeni ürünler satın almak için otomatik olarak bir\n"
 "                        satınalma önerecektir."
 
 #. module: stock
@@ -4136,7 +4136,7 @@ msgstr ""
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "Odoo has preconfigured <strong>one Warehouse</strong> for you."
-msgstr "Odoo, sizin için<strong>bir depoyu</strong> önceden yapılandırdı."
+msgstr "Cubic ERP, sizin için<strong>bir depoyu</strong> önceden yapılandırdı."
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
@@ -4154,7 +4154,7 @@ msgid ""
 "Odoo is able to run advanced traceability by using Product Lots and Serial\n"
 "                        Numbers, usually identified by bar codes stuck on the products."
 msgstr ""
-"Odoo, Ürün Lotları ve Seri'yi kullanarak gelişmiş izlenebilirlik sağlayabiliyor\n"
+"Cubic ERP, Ürün Lotları ve Seri'yi kullanarak gelişmiş izlenebilirlik sağlayabiliyor\n"
 "                        Sayılar, genellikle ürünler üzerinde barkodlarla tanımlanır."
 
 #. module: stock

@@ -2129,7 +2129,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De parte del equipo Odoo,<br/>\n"
+"De parte del equipo Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: website
@@ -5117,7 +5117,7 @@ msgstr "en sus metadatos SEO, incluyendo etiquetas, título y descripción."
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr "instancia, el"
 
 #. module: website

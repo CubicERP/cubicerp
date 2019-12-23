@@ -255,8 +255,8 @@ msgstr "Пристап до порталот"
 
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_base_config_settings_module_share
-msgid "Share or embbed any screen of Odoo."
-msgstr "Сподели или вметни било кој екран од Odoo."
+msgid "Share or embbed any screen of Cubic ERP."
+msgstr "Сподели или вметни било кој екран од Cubic ERP."
 
 #. module: base_setup
 #: model:ir.model.fields,field_description:base_setup.field_base_config_settings_company_share_partner

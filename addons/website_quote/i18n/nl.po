@@ -969,7 +969,7 @@ msgid ""
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
 "Leer direct van ons team en netwerk van Odoo experts. Kies uit de "
-"beschikbare trainingsessies voor een betere functionele kennis van Odoo."
+"beschikbare trainingsessies voor een betere functionele kennis van Cubic ERP."
 
 #. module: website_quote
 #: model:product.product,description_sale:website_quote.product_product_quote_2
@@ -980,7 +980,7 @@ msgid ""
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
 "Leer direct van ons team en netwerk van Odoo experts. Kies uit de "
-"beschikbare trainingsessies voor een betere functionele kennis van Odoo."
+"beschikbare trainingsessies voor een betere functionele kennis van Cubic ERP."
 
 #. module: website_quote
 #: model:ir.model.fields,field_description:website_quote.field_sale_order_option_line_id
@@ -1248,8 +1248,8 @@ msgstr "Promote Odoo Enterprise bij haar klanten"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
-msgstr "Publiceer referenties rechtstreeks op Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
+msgstr "Publiceer referenties rechtstreeks op Cubic ERP.com"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1672,7 +1672,7 @@ msgstr "Video's met gedetailleerde demo's"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 "Zichtbaarheid en erkenning, doordat u als officiële partner wordt "
 "weergegeven op.com partner pagina"

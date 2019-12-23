@@ -971,7 +971,7 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Ucz się bezpośrednio od naszego zespołu i sieci ekspertów Odoo. Wybierz "
+"Ucz się bezpośrednio od naszego zespołu i sieci ekspertów Cubic ERP. Wybierz "
 "spośród dostępnych sesji szkoleniowych, aby uzyskać lepsze zrozumienie "
 "funkcjonalne Odoo"
 
@@ -983,7 +983,7 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Ucz się bezpośrednio od naszego zespołu i sieci ekspertów Odoo. Wybieraj "
+"Ucz się bezpośrednio od naszego zespołu i sieci ekspertów Cubic ERP. Wybieraj "
 "spośród dostępnych sesji szkoleniowych, aby uzyskać lepsze zrozumienie "
 "techniczne Odoo"
 
@@ -1253,8 +1253,8 @@ msgstr "Promuj Odoo Enterprise dla swoich klientów"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
-msgstr "Publikuje odniesienia bezpośrednio na Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
+msgstr "Publikuje odniesienia bezpośrednio na Cubic ERP.com"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1492,9 +1492,9 @@ msgid ""
 " the resources and knowledge required to offer Odoo implementation services."
 msgstr ""
 "System Odoo eco został zaprojektowany tak, aby oferować najlepsze wrażenia "
-"klientom Odoo, od produktu po usługi wdrożeniowe. Aby to zagwarantować, "
+"klientom Cubic ERP, od produktu po usługi wdrożeniowe. Aby to zagwarantować, "
 "program partnerski Odoo zapewnia, że oficjalni partnerzy dysponują zasobami "
-"i wiedzą wymaganą do oferowania usług wdrożeniowych Odoo."
+"i wiedzą wymaganą do oferowania usług wdrożeniowych Cubic ERP."
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
@@ -1677,10 +1677,10 @@ msgstr "Filmy ze szczegółowymi prezentacjami"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 "Widoczność i uznanie, będąc wymienionym jako oficjalny partner na stronie "
-"partnerów Odoo.com"
+"partnerów Cubic ERP.com"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_default

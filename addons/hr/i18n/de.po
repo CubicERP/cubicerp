@@ -1329,7 +1329,7 @@ msgid ""
 "                can easily find all the information you need for each person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Mit einem kurzen Blick auf die Mitarbeiterseite in Odoo, können\n"
+"Mit einem kurzen Blick auf die Mitarbeiterseite in Cubic ERP, können\n"
 "Sie einfach alle Informationen zu allen Personen, mit Ihren Kontaktdaten,\n"
 "Stellenbezeichnungen, Verfügbarkeiten, Ausbildung etc. einsehen."
 

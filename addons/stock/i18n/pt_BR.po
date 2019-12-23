@@ -2363,7 +2363,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"Para o Time Odoo,<br/>\n"
+"Para o Time Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: stock
@@ -2876,11 +2876,11 @@ msgstr "Importar usando o botão superior esquerdo em"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
-"No Odoo, <strong>Regras de Reordenamento</strong> são usadas para reabastecer seus produtos.\n"
+"No Cubic ERP, <strong>Regras de Reordenamento</strong> são usadas para reabastecer seus produtos.\n"
 "Odoo proporá automaticamente um contrato para comprar novos produtos, se você está\n"
 "trabalhando sem estoque."
 
@@ -3266,7 +3266,7 @@ msgid ""
 "                        If you want to do that, contact  your CubicERP project manager."
 msgstr ""
 "Também é possível importar seu estoque inicial de um arquivo Excel ou CSV.\n"
-"Se você quiser fazer isso, entre em contato com seu gerente de projeto Odoo."
+"Se você quiser fazer isso, entre em contato com seu gerente de projeto Cubic ERP."
 
 #. module: stock
 #: code:addons/stock/models/stock_quant.py:244
@@ -6491,7 +6491,7 @@ msgid ""
 "This guide helps getting started with Odoo Inventory.\n"
 "                        Once you are done, you will benefit from:"
 msgstr ""
-"Este guia ajuda a começar com o Inventário Odoo.\n"
+"Este guia ajuda a começar com o Inventário Cubic ERP.\n"
 "Assim que estiver pronto, você vai se beneficiar de:"
 
 #. module: stock
@@ -7216,7 +7216,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "We hope this guide helped you implement Odoo Inventory."
 msgstr ""
-"Esperamos que este guia tenha ajudado a implementar o Inventário Odoo."
+"Esperamos que este guia tenha ajudado a implementar o Inventário Cubic ERP."
 
 #. module: stock
 #: code:addons/stock/models/barcode.py:11
@@ -7765,7 +7765,7 @@ msgid ""
 "validating"
 msgstr ""
 "ou atualizar manualmente a quantidade Feita nas linhas de produtos, ou "
-"digitalizá-las com o aplicativo de Código de Barras Odoo, ou deixar Odoo "
+"digitalizá-las com o aplicativo de Código de Barras Cubic ERP, ou deixar Odoo "
 "fazê-lo automaticamente ao validar"
 
 #. module: stock

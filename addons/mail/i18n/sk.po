@@ -2086,7 +2086,7 @@ msgid ""
 "If you have setup a catch-all email domain redirected to the CubicERP server, "
 "enter the domain name here."
 msgstr ""
-"Ak máte nastavenú catch-all emailovú doménu presmerovanú na server Odoo, tu "
+"Ak máte nastavenú catch-all emailovú doménu presmerovanú na server Cubic ERP, tu "
 "zadajte názov domény."
 
 #. module: mail

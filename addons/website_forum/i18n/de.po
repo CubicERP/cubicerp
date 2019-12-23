@@ -2640,7 +2640,7 @@ msgstr "Die Warteschlange der markierten Beiträge ist leer."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Ziel hier ist die Schaffung einer fundierten Wissenbasis um\n"
 "Fragen zu Odoo zu beantworten."

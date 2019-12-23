@@ -2620,7 +2620,7 @@ msgstr "A megjelölt forrás üres."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Ennek az oldalnak a célja lényeges ismeret forrás létrehozása, melyekből válaszokat kaphatnak\n"
 "    az Odoo rendszerrel kapcsolatos kérdésekre."

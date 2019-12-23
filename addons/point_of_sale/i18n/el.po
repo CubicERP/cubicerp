@@ -4841,8 +4841,8 @@ msgstr ""
 #~ msgid "Session Summary:"
 #~ msgstr "Περίληψη Συνεδρίας:"
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Διαμοιρασμός ή ενσωμάτωση οποιαδήποτε οθόνης του Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Διαμοιρασμός ή ενσωμάτωση οποιαδήποτε οθόνης του Cubic ERP."
 
 #~ msgid "Show Tutorial"
 #~ msgstr "Εμφάνιση Εκμάθησης"

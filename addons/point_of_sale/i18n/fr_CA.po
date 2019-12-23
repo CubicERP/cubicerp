@@ -4126,8 +4126,8 @@ msgstr ""
 #~ msgid "Reference"
 #~ msgstr "Référence"
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Partager ou intégrer n'importe quel écran Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Partager ou intégrer n'importe quel écran Cubic ERP."
 
 #~ msgid "The URL to generate the authorization code from Google"
 #~ msgstr "L''hyperlien pour générer le code d'autorisation de Google"

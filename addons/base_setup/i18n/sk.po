@@ -253,7 +253,7 @@ msgstr "Portálový prístup"
 
 #. module: base_setup
 #: model:ir.model.fields,help:base_setup.field_base_config_settings_module_share
-msgid "Share or embbed any screen of Odoo."
+msgid "Share or embbed any screen of Cubic ERP."
 msgstr "Zdielať alebo vloźiť ktorúkoľvek CubicERP obrazovku."
 
 #. module: base_setup

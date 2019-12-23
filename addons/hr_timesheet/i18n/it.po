@@ -355,11 +355,11 @@ msgstr ""
 #: model:ir.actions.act_window,help:hr_timesheet.action_define_analytic_structure
 msgid ""
 "You should create an analytic account structure depending on your needs to "
-"analyse costs and revenues. In Odoo, analytic accounts are also used to "
+"analyse costs and revenues. In Cubic ERP, analytic accounts are also used to "
 "track customer contracts."
 msgstr ""
 "Crea una struttura dei conti analitici in base alle tue necessità di analisi "
-"dei costi e dei ricavi. In Odoo, i conti analitici si usano anche per "
+"dei costi e dei ricavi. In Cubic ERP, i conti analitici si usano anche per "
 "gestire i contratti con i clienti."
 
 #. module: hr_timesheet

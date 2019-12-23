@@ -813,8 +813,8 @@ msgstr "Se outro, por favor especifique:"
 
 #. module: survey
 #: model:survey.page,description:survey.feedback_4
-msgid "If you do not contribute or develop in Odoo, skip this page."
-msgstr "Se você não contribui ou se desenvolve em Odoo, pule esta página."
+msgid "If you do not contribute or develop in Cubic ERP, skip this page."
+msgstr "Se você não contribui ou se desenvolve em Cubic ERP, pule esta página."
 
 #. module: survey
 #: model:ir.ui.view,arch_db:survey.sfinished
@@ -1780,7 +1780,7 @@ msgstr "Existem muito menus, é complexo compreender"
 #. module: survey
 #: model:survey.page,description:survey.feedback_2
 msgid ""
-"These questions relate to the ergonomy and ease of use of Odoo. Try to remind your firsts days on Odoo and\n"
+"These questions relate to the ergonomy and ease of use of Cubic ERP. Try to remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
 "<p>Essas questões dizem respeito à ergonomia e facilidade de uso. Tente lembrar seus primeiros dias no Odoo e\n"
@@ -2049,10 +2049,10 @@ msgstr "O que você acha dos grupos de usuários?"
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_2
 msgid ""
-"What do you think about the process views of Odoo, available in the web "
+"What do you think about the process views of Cubic ERP, available in the web "
 "client ?"
 msgstr ""
-"O que você acha dos processo de vista do Odoo, disponiveis no cliente web?"
+"O que você acha dos processo de vista do Cubic ERP, disponiveis no cliente web?"
 
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_4

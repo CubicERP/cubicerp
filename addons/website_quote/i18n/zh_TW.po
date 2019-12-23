@@ -1205,8 +1205,8 @@ msgstr "向客戶推廣 Odoo 企業版"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
-msgstr "直接在 Odoo.com 上發佈參考"
+msgid "Publishes references directly on Cubic ERP.com"
+msgstr "直接在 Cubic ERP.com 上發佈參考"
 
 #. module: website_quote
 #: model:product.product,quote_description:website_quote.product_product_quote_2
@@ -1609,8 +1609,8 @@ msgstr "視頻詳細的演示"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
-msgstr "通過在 Odoo.com 合作夥伴頁面上被列為官方合作夥伴提高知名度和認可度"
+"Cubic ERP.com Partners page"
+msgstr "通過在 Cubic ERP.com 合作夥伴頁面上被列為官方合作夥伴提高知名度和認可度"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_default

@@ -582,7 +582,7 @@ msgstr "Конец"
 #. module: hr_expense
 #: model:ir.ui.view,arch_db:hr_expense.hr_expense_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Наслаждайтесь  Odoo,"
+msgstr "Наслаждайтесь  Cubic ERP,"
 
 #. module: hr_expense
 #: model:ir.model,name:hr_expense.model_hr_expense

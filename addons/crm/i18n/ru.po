@@ -132,7 +132,7 @@ msgid ""
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Cubic ERP, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 msgstr ""
@@ -547,7 +547,7 @@ msgstr ""
 "<strong>Каждый бизнес имеет отличия.</strong> CubicERP позволяет\n"
 "                        настроить все приложения и хорошим началом будет\n"
 "                        настройка экрана в соответствии с этапами продаж.\n"
-"                        <strong>Настройки сделаны экспертами Odoo.</strong>"
+"                        <strong>Настройки сделаны экспертами Cubic ERP.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -2018,7 +2018,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                          Fabien Pinckaers, Founder"
 msgstr ""
-"Для команды Odoo,<br/>\n"
+"Для команды Cubic ERP,<br/>\n"
 "Fabien Pinckaers, основатель"
 
 #. module: crm
@@ -2287,7 +2287,7 @@ msgstr "Улучшение среднего дохода по продавцу"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "In Odoo, there are 3 different ways to manage your prices.<br/>"
+msgid "In Cubic ERP, there are 3 different ways to manage your prices.<br/>"
 msgstr "В CubicERP есть 3 различных способа управления вашими ценами.<br>"
 
 #. module: crm
@@ -4086,7 +4086,7 @@ msgstr ""
 msgid ""
 "There are several ways for your company to generate leads with CubicERP CRM.\n"
 "                        One of them is using your company's generic email address as a trigger\n"
-"                        to create a new lead in the system. In Odoo, each one of your sales channels\n"
+"                        to create a new lead in the system. In Cubic ERP, each one of your sales channels\n"
 "                        is linked to its own email address from which prospects can reach them.\n"
 "                        For example, if the personal email address of your Direct team is\n"
 "                        direct@mycompany.example.com, every email sent when a new prospect\n"
@@ -4462,7 +4462,7 @@ msgid ""
 "                      is not just a tool, we want it to have a major impact on your\n"
 "                      sales performance. That's our mission, and we are serious about it."
 msgstr ""
-"Мы разработали Odoo, чтобы помочь вам развивать ваш бизнес. CubicERP CRM\n"
+"Мы разработали Cubic ERP, чтобы помочь вам развивать ваш бизнес. CubicERP CRM\n"
 "                    -это не просто инструмент, мы хотим иметь существенное влияние на вашу\n"
 "                    производительность продаж. Это наша миссия, и мы серьезны в этом."
 

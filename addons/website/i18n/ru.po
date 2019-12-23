@@ -724,7 +724,7 @@ msgid ""
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
 "<strong>будет объявлено на аккаунте Odoo Twitter</strong><br/>\n"
-"                              Мы хотели бы услышать от людей, использующих Odoo, чтобы построить их веб-сайт. Tweet нас"
+"                              Мы хотели бы услышать от людей, использующих Cubic ERP, чтобы построить их веб-сайт. Tweet нас"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -5048,8 +5048,8 @@ msgstr "в их SEO метаданных, включая теги, назван�
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "экземпляр Odoo, это"
+msgid "instance of Cubic ERP, the"
+msgstr "экземпляр Cubic ERP, это"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

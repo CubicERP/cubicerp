@@ -3033,7 +3033,7 @@ msgid ""
 "Odoo provides essential platform for our project management.\n"
 "                                                Things are better organized and more visible with it."
 msgstr ""
-"Odoo, proje yönetimimiz için önemli bir platform sağlar. İşler Odoo ile daha"
+"Cubic ERP, proje yönetimimiz için önemli bir platform sağlar. İşler Odoo ile daha"
 " organize ve daha görünür olur."
 
 #. module: website
@@ -4939,8 +4939,8 @@ msgstr "SEO üst verilerinde etiketler, başlık ve açıklama dahil olmak üzer
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "Odoo, örneği"
+msgid "instance of Cubic ERP, the"
+msgstr "Cubic ERP, örneği"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

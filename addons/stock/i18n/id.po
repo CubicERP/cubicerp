@@ -2415,7 +2415,7 @@ msgstr "Grup Pengadaan Tetap"
 msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
-msgstr "Untuk tim Odoo,<br/>Fabien Pinckaers, pendiri"
+msgstr "Untuk tim Cubic ERP,<br/>Fabien Pinckaers, pendiri"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_category_removal_strategy_id
@@ -2942,11 +2942,11 @@ msgstr "Impor menggunakan tombol kiri atas di"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""
-"Di Odoo, <strong>Aturan Order Ulang</strong> digunakan untuk mengisi stok produk Anda.\n"
+"Di Cubic ERP, <strong>Aturan Order Ulang</strong> digunakan untuk mengisi stok produk Anda.\n"
 "                        Odoo secara otomatis akan menawarkan pengadaan untuk membeli produk baru jika Anda kehabisan stok."
 
 #. module: stock
@@ -6608,7 +6608,7 @@ msgid ""
 "This guide helps getting started with Odoo Inventory.\n"
 "                        Once you are done, you will benefit from:"
 msgstr ""
-"Panduan ini membantu Anda memulai dengan Persediaan Odoo.\n"
+"Panduan ini membantu Anda memulai dengan Persediaan Cubic ERP.\n"
 "                        Setelah Anda selesai, Anda akan dapat:"
 
 #. module: stock
@@ -7349,7 +7349,7 @@ msgstr ""
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid "We hope this guide helped you implement Odoo Inventory."
-msgstr "Semoga panduan ini membantu Anda dalam penggunaan Persediaan Odoo."
+msgstr "Semoga panduan ini membantu Anda dalam penggunaan Persediaan Cubic ERP."
 
 #. module: stock
 #: code:addons/stock/models/barcode.py:11

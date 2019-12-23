@@ -4075,10 +4075,10 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,help:account.field_account_financial_year_op_opening_date
 msgid ""
-"Date from which the accounting is managed in Odoo. It is the date of the "
+"Date from which the accounting is managed in Cubic ERP. It is the date of the "
 "opening entry."
 msgstr ""
-"Tanggal di mana akuntansi dikelola di Odoo. Ini adalah tanggal ayat "
+"Tanggal di mana akuntansi dikelola di Cubic ERP. Ini adalah tanggal ayat "
 "pembukaan."
 
 #. module: account
@@ -4652,7 +4652,7 @@ msgstr "Tutup Kotak uang"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Menikmati pengalaman Odoo,"
+msgstr "Menikmati pengalaman Cubic ERP,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -4996,7 +4996,7 @@ msgstr "Untuk persen masukkan rasio antara 0-100."
 msgid ""
 "For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
-msgstr "Untuk tim Odoo,<br/>Fabien Pinckaers, pendiri"
+msgstr "Untuk tim Cubic ERP,<br/>Fabien Pinckaers, pendiri"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_account_currency_id
@@ -5496,20 +5496,20 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"If you want to be able to send customer statements from Odoo, you must:"
+"If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr ""
-"Jika Anda ingin dapat mengirimkan pelanggan Anda laporan dari Odoo, Anda "
+"Jika Anda ingin dapat mengirimkan pelanggan Anda laporan dari Cubic ERP, Anda "
 "harus:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding transactions \n"
+"                        from Cubic ERP, you first need to record all outstanding transactions \n"
 "                        in the payable and receivable accounts. These would be invoices \n"
 "                        that have not been paid or payments that have not been reconciled."
 msgstr ""
-"Jika Anda ingin dapat mengirimkan pelanggan Anda laporan mereka dari Odoo, "
+"Jika Anda ingin dapat mengirimkan pelanggan Anda laporan mereka dari Cubic ERP, "
 "pertama Anda harus merekam semua transaksi belum selesai dalam akun hutang "
 "dan piutang. Ini akan menjadi faktur yang belum dibayar atau pembayaran yang"
 " belum direkonsiliasi."
@@ -5612,8 +5612,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
-msgstr "Di Odoo,"
+msgid "In Cubic ERP,"
+msgstr "Di Cubic ERP,"
 
 #. module: account
 #: code:addons/account/models/account_bank_statement.py:409
@@ -6819,9 +6819,9 @@ msgstr "Rekonsiliasi Manual"
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_inbound_payment_method_ids
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
 msgstr ""
 
 #. module: account
@@ -6829,22 +6829,22 @@ msgstr ""
 #: model:ir.model.fields,help:account.field_account_payment_payment_method_id
 #: model:ir.model.fields,help:account.field_account_register_payments_payment_method_id
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Check: Pay bill by check and print it from Odoo.\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
+"Check: Pay bill by check and print it from Cubic ERP.\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed "
 msgstr ""
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_outbound_payment_method_ids
 msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
+"Manual:Pay bill by cash or any other method outside of Cubic ERP.\n"
+"Check:Pay bill by check and print it from Cubic ERP.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
 msgstr ""
-"Manual: Dibayar dengan kas, cek atau semua cara lain di luar Odoo.\n"
-"Cek: Bayar tagihan dengan cek dan cetak dari Odoo.\n"
+"Manual: Dibayar dengan kas, cek atau semua cara lain di luar Cubic ERP.\n"
+"Cek: Bayar tagihan dengan cek dan cetak dari Cubic ERP.\n"
 "SEPA Credit Transfer: Bayar tagihan Anda dari file SEPA Credit Transfer yang Anda serahkan ke bank Anda. Aktifkan pilihan ini dari pengaturan."
 
 #. module: account

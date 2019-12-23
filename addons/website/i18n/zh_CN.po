@@ -4956,7 +4956,7 @@ msgstr "在 SEO 元数据中进行，包含标签、标题和描述。"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr "Odoo实例，"
 
 #. module: website

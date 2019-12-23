@@ -2584,10 +2584,10 @@ msgstr "La cola de marcado está vacía"
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "El objetivo de este sitio es crear una base de conocimiento pertinente que "
-"responder a las preguntas relacionadas con Odoo."
+"responder a las preguntas relacionadas con Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -3290,7 +3290,7 @@ msgstr "spam o publicidad"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "specific questions about Odoo service offers, etc."
-msgstr "preguntas específicas acerca de las ofertas de servicios Odoo, etc."
+msgstr "preguntas específicas acerca de las ofertas de servicios Cubic ERP, etc."
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help

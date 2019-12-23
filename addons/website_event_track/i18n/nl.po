@@ -504,10 +504,10 @@ msgstr "Hoogste"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Hoe kunt u uw marketing strategie opbouwen met het oog op het genereren van "
-"leads met Odoo."
+"leads met Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -574,7 +574,7 @@ msgstr "Kanban Status"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "Belangrijkste factoren bij de verkoop van Odoo"
 
 #. module: website_event_track
@@ -639,8 +639,8 @@ msgstr "Beheer uw KPI's (aanbevolen aan Odoo partners)"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
-msgstr "Beheer uw evenementen met Odoo, de nieuwe training modules"
+msgid "Manage your events with Cubic ERP, the new training modules."
+msgstr "Beheer uw evenementen met Cubic ERP, de nieuwe training modules"
 
 #. module: website_event_track
 #: selection:event.track,priority:0

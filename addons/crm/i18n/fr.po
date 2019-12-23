@@ -166,7 +166,7 @@ msgid ""
 "                </tbody>\n"
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Cubic ERP, check </span><a target=\"_blank\" href=\"https://twitter.com/odoo/favorites\"><span style=\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
 "        </div>"
 msgstr ""
@@ -611,7 +611,7 @@ msgstr ""
 "<strong>Chaque activité est différente.</strong> CubicERP permet de\n"
 "                        personnaliser chaque application et il est généralement de bon\n"
 "                        conseil de personnaliser vos écrans afin qu'ils correspondent à votre processus de vente.\n"
-"                        <strong>Les personnalisations sont effectuées par des experts Odoo.</strong>"
+"                        <strong>Les personnalisations sont effectuées par des experts Cubic ERP.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -860,7 +860,7 @@ msgid ""
 "                    be a goods, consumable or services. Choose how you want to\n"
 "                    create your products:"
 msgstr ""
-"Dans Odoo, un article est quelque chose que vous vendez ou achetez. Cela peut\n"
+"Dans Cubic ERP, un article est quelque chose que vous vendez ou achetez. Cela peut\n"
 "être des biens, des consommables ou des services. Choisissez comment vous voulez créer vos articles :"
 
 #. module: crm
@@ -2089,7 +2089,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                          Fabien Pinckaers, Founder"
 msgstr ""
-"Pour l'équipe Odoo,<br/>\n"
+"Pour l'équipe Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fondateur"
 
 #. module: crm
@@ -2362,8 +2362,8 @@ msgstr "Améliorer le chiffre d'affaire moyen par vendeur"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "In Odoo, there are 3 different ways to manage your prices.<br/>"
-msgstr "Il existe 3 manières différentes de gérer vos prix dans Odoo."
+msgid "In Cubic ERP, there are 3 different ways to manage your prices.<br/>"
+msgstr "Il existe 3 manières différentes de gérer vos prix dans Cubic ERP."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_lost_reason_view_search
@@ -3030,7 +3030,7 @@ msgstr "Nombre d'opportunité ouverte"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "CubicERP Default"
-msgstr "Odoo, Défaut"
+msgstr "Cubic ERP, Défaut"
 
 #. module: crm
 #: model:ir.actions.act_window,help:crm.crm_case_form_view_salesteams_opportunity
@@ -4184,7 +4184,7 @@ msgstr ""
 msgid ""
 "There are several ways for your company to generate leads with CubicERP CRM.\n"
 "                        One of them is using your company's generic email address as a trigger\n"
-"                        to create a new lead in the system. In Odoo, each one of your sales channels\n"
+"                        to create a new lead in the system. In Cubic ERP, each one of your sales channels\n"
 "                        is linked to its own email address from which prospects can reach them.\n"
 "                        For example, if the personal email address of your Direct team is\n"
 "                        direct@mycompany.example.com, every email sent when a new prospect\n"
@@ -4194,13 +4194,13 @@ msgid ""
 msgstr ""
 "Voici différentes manière de générer des leads avec CubicERP CRM.\n"
 "La première est d'utiliser votre adressse mail générique comme déclencheur\n"
-"pour créer un nouveau lead dans le système. Dans Odoo, chacune de vos équipes de ventes\n"
+"pour créer un nouveau lead dans le système. Dans Cubic ERP, chacune de vos équipes de ventes\n"
 "est liée à sa propre adresse email depuis lesquelles les prospects pourront les joindre.\n"
 "Par exemple, si l'adresse de votre équipe de vente est \n"
 "direct@monentreprise.exemple.com, tous les emails envoyés lorsqu'un nouveau contact\n"
 "envoi un email, créera automatiquement une nouvelle opportunité dans le pipeline de l'équipe de vente.\n"
 "\n"
-"C'est la manière la plus simple d'intégrer d'autres solutions à Odoo."
+"C'est la manière la plus simple d'intégrer d'autres solutions à Cubic ERP."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.base_partner_merge_automatic_wizard_form

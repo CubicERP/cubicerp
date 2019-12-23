@@ -1579,8 +1579,8 @@ msgstr ""
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:1323
 #, python-format
-msgid "My Odoo.com account"
-msgstr "اکانت من در Odoo.com"
+msgid "My Cubic ERP.com account"
+msgstr "اکانت من در Cubic ERP.com"
 
 #. module: web
 #. openerp-web

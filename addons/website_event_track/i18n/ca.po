@@ -460,7 +460,7 @@ msgstr "El més alt"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 
 #. module: website_event_track
@@ -524,7 +524,7 @@ msgstr "Estat kanban"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr ""
 
 #. module: website_event_track
@@ -589,7 +589,7 @@ msgstr ""
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr ""
 
 #. module: website_event_track

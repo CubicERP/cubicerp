@@ -4879,8 +4879,8 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "istanza di Odoo, il"
+msgid "instance of Cubic ERP, the"
+msgstr "istanza di Cubic ERP, il"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

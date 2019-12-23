@@ -1982,7 +1982,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"Para a Equipa Odoo,<br/>\n"
+"Para a Equipa Cubic ERP,<br/>\n"
 "                            Fabien Pinckaers, Fundador"
 
 #. module: website
@@ -4832,8 +4832,8 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "instância do Odoo, o"
+msgid "instance of Cubic ERP, the"
+msgstr "instância do Cubic ERP, o"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

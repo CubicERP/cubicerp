@@ -511,10 +511,10 @@ msgstr "Najwyższy"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Jak zbudować strategię marketingową w celu generowania potencjalnych "
-"klientów za pomocą Odoo."
+"klientów za pomocą Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track1
@@ -524,7 +524,7 @@ msgstr "Jak opracować moduł strony internetowej."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track4
 msgid "How to develop automated tests in the Odoo web client."
-msgstr "Jak opracować testy automatyczne w kliencie sieciowym Odoo."
+msgstr "Jak opracować testy automatyczne w kliencie sieciowym Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track3
@@ -536,7 +536,7 @@ msgstr ""
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track2
 msgid "How to integrate hardware materials with the Odoo point of sale."
-msgstr "Jak zintegrować materiały sprzętowe z punktem sprzedaży Odoo."
+msgstr "Jak zintegrować materiały sprzętowe z punktem sprzedaży Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track9
@@ -583,8 +583,8 @@ msgstr "Stan Kanban"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
-msgstr "Kluczowe czynniki sukcesu sprzedaży Odoo."
+msgid "Key Success factors selling Cubic ERP."
+msgstr "Kluczowe czynniki sukcesu sprzedaży Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.model.fields,field_description:website_event_track.field_event_sponsor___last_update
@@ -648,9 +648,9 @@ msgstr "Zarządzaj KPI (zalecane dla partnerów openERP)."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr ""
-"Zarządzaj swoimi wydarzeniami dzięki Odoo, nowym modułom szkoleniowym."
+"Zarządzaj swoimi wydarzeniami dzięki Cubic ERP, nowym modułom szkoleniowym."
 
 #. module: website_event_track
 #: selection:event.track,priority:0
@@ -987,7 +987,7 @@ msgstr "Dziękuję za twoją propozycję."
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track17
 msgid "The Art of Making an Odoo Demo."
-msgstr "Sztuka tworzenia demo Odoo."
+msgstr "Sztuka tworzenia demo Cubic ERP."
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track29
@@ -999,7 +999,7 @@ msgstr "Nowa strategia marketingowa."
 msgid ""
 "The new way to promote your modules in the Apps platform and Odoo website."
 msgstr ""
-"Nowy sposób promowania swoich modułów na platformie Apps i stronie Odoo."
+"Nowy sposób promowania swoich modułów na platformie Apps i stronie Cubic ERP."
 
 #. module: website_event_track
 #: model:ir.ui.view,arch_db:website_event_track.event_track_proposal

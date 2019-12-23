@@ -121,7 +121,7 @@ msgstr "ここにEメールアドレスを記入 (1行に1つ)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr "これら導入ガイドを使い、Odoo導入効果を最大化しましょう。"
 
 #. module: web_settings_dashboard

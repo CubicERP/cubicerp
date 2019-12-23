@@ -4536,8 +4536,8 @@ msgstr ""
 #~ msgid "Session Summary:"
 #~ msgstr "Резиме на сесија:"
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Сподели или вметни било кој екран од Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Сподели или вметни било кој екран од Cubic ERP."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Сподели партнери со сите компании"

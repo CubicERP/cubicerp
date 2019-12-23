@@ -1969,7 +1969,7 @@ msgstr ""
 msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
-msgstr "Untuk tim Odoo,<br/>Fabien Pinckaers, pendiri"
+msgstr "Untuk tim Cubic ERP,<br/>Fabien Pinckaers, pendiri"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.bs_debug_page_ir_ui_view
@@ -4809,8 +4809,8 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "contoh Odoo,"
+msgid "instance of Cubic ERP, the"
+msgstr "contoh Cubic ERP,"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

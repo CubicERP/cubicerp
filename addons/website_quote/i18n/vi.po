@@ -1226,7 +1226,7 @@ msgstr "Quảng bá Hệ thống với các khách hàng"
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
 msgstr "Xuất bản tài liệu tham khảo trực tiếp trên Hệ thống"
 
 #. module: website_quote
@@ -1632,7 +1632,7 @@ msgstr "Video với demo chi tiết"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 
 #. module: website_quote

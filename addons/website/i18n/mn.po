@@ -5020,7 +5020,7 @@ msgstr "өөрсдийн SEO метадатанд шошго, гарчиг, т�
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr "Odoo тусгал,"
 
 #. module: website

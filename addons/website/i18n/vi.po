@@ -4939,7 +4939,7 @@ msgstr "trong metadata SEO của họ, bao gồm thẻ, tiêu đề và mô tả
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr ""
 
 #. module: website

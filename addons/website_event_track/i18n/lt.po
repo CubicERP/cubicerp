@@ -507,7 +507,7 @@ msgstr "Aukščiausias"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Kaip su \"Cubic ERP\" sukurti savo rinkodaros strategiją, generuojančią "
 "šaltuosius kontaktus."
@@ -579,7 +579,7 @@ msgstr "Kanban būsena"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "\"Cubic ERP\" pardavimo sėkmės faktoriai."
 
 #. module: website_event_track
@@ -644,7 +644,7 @@ msgstr "Valdykite savo KPI (rekomenduojama openERP partneriams)"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr "Valdykite savo įvykius su naujais \"Cubic ERP\" mokymo moduliais."
 
 #. module: website_event_track

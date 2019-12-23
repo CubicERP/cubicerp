@@ -117,9 +117,9 @@ msgstr "Внеси емаил адреси (една по ред)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
 msgstr ""
-"Следи ги овие имплементациски водичи за да искористете највеќе од Odoo."
+"Следи ги овие имплементациски водичи за да искористете највеќе од Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web

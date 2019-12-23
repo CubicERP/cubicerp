@@ -4210,8 +4210,8 @@ msgstr ""
 #~ msgid "Sales Lines"
 #~ msgstr "Salgs linjer."
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Del eller Integrer hvilken som helst skjermbilde av Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Del eller Integrer hvilken som helst skjermbilde av Cubic ERP."
 
 #~ msgid "This installs the module google_calendar."
 #~ msgstr "Dette installerer modulen google_calendar."

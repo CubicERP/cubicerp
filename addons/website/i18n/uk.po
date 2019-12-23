@@ -696,7 +696,7 @@ msgstr "<strong>3. Ваші нижні колонтитули</strong> та 4. �
 #. module: website
 #: model:ir.ui.view,arch_db:website.s_button
 msgid "<strong>50,000+ companies run Odoo to grow their businesses.</strong>"
-msgstr "<strong>50,000+ компаній розвивають свій бізнес з Odoo.</strong>"
+msgstr "<strong>50,000+ компаній розвивають свій бізнес з Cubic ERP.</strong>"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
@@ -2108,7 +2108,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"Від команди Odoo,<br/>\n"
+"Від команди Cubic ERP,<br/>\n"
 "                            Fabien Pinckaers, засновник"
 
 #. module: website
@@ -5091,8 +5091,8 @@ msgstr "в їх метаданих SEO, включаючи теги, назву 
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
-msgstr "зразок від Odoo, "
+msgid "instance of Cubic ERP, the"
+msgstr "зразок від Cubic ERP, "
 
 #. module: website
 #: model:ir.model,name:website.model_ir_actions_server

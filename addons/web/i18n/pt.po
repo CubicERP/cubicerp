@@ -1417,8 +1417,8 @@ msgstr "Mover para cima"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:87
 #, python-format
-msgid "My Odoo.com account"
-msgstr "Minha conta no Odoo.com"
+msgid "My Cubic ERP.com account"
+msgstr "Minha conta no Cubic ERP.com"
 
 #. module: web
 #. openerp-web
@@ -1638,8 +1638,8 @@ msgstr "Odoo é marca de "
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:119
 #, python-format
-msgid "Odoo.com"
-msgstr "Odoo.com"
+msgid "Cubic ERP.com"
+msgstr "Cubic ERP.com"
 
 #. module: web
 #. openerp-web

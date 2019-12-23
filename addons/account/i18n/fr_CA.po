@@ -856,7 +856,7 @@ msgid ""
 "<strong>Test the following three scenarios in order to assist you in "
 "familiarizing yourself with Odoo:</strong>"
 msgstr ""
-"<strong>Essayez ces trois scénarios afin de vous familiariser avec Odoo.</"
+"<strong>Essayez ces trois scénarios afin de vous familiariser avec Cubic ERP.</"
 "strong>"
 
 #. module: account
@@ -4679,14 +4679,14 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding "
+"                        from Cubic ERP, you first need to record all outstanding "
 "transactions \n"
 "                        in the payable and receivable accounts. These would "
 "be invoices \n"
@@ -4728,7 +4728,7 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
+msgid "In Cubic ERP,"
 msgstr ""
 
 #. module: account

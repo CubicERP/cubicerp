@@ -3964,7 +3964,7 @@ msgstr "Efectivo final en caja"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid "Enjoy  your CubicERP experience,"
-msgstr "Disfrute de su experiencia Odoo,"
+msgstr "Disfrute de su experiencia Cubic ERP,"
 
 #. module: account
 #: model:ir.actions.act_window,name:account.action_move_line_form
@@ -4309,7 +4309,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"De parte del equipo Odoo,<br/>\n"
+"De parte del equipo Cubic ERP,<br/>\n"
 "Fabien Pinckaers, Fundador"
 
 #. module: account
@@ -4850,14 +4850,14 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "If you want to be able to send customer statements from Odoo, you must:"
+msgid "If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr "Si quiere enviar extractos de clientes desde CubicERP debe:"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding "
+"                        from Cubic ERP, you first need to record all outstanding "
 "transactions \n"
 "                        in the payable and receivable accounts. These would "
 "be invoices \n"
@@ -4906,8 +4906,8 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
-msgstr "En Odoo, "
+msgid "In Cubic ERP,"
+msgstr "En Cubic ERP, "
 
 #. module: account
 #: code:addons/account/models/account_bank_statement.py:414
@@ -7059,7 +7059,7 @@ msgstr ""
 "Si configura una cuenta Paypal el cliente podrá pagar sus facturas o "
 "presupuestos\n"
 "pulsando el botón \"Pago con Paypal\" a través de correos automáticos o del "
-"portal Odoo."
+"portal Cubic ERP."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_res_company_paypal_account
@@ -9202,7 +9202,7 @@ msgid ""
 "This guide will help you get started with CubicERP Accounting.\n"
 "                        Once you're done, you'll benefit from:"
 msgstr ""
-"Esta guía le ayudará a empezar con la contabilidad en Odoo. Una vez termine "
+"Esta guía le ayudará a empezar con la contabilidad en Cubic ERP. Una vez termine "
 "se verá beneficiado con:"
 
 #. module: account

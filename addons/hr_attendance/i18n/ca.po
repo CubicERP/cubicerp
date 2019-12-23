@@ -381,7 +381,7 @@ msgstr ""
 "La funcionalitat de seguiment de temps permeten gestionar les assistències "
 "dels empleats des de les accions de Fixar entrada/ Fixar sortida. Pot "
 "enllaçar aquesta característica amb un dispositiu d'assistència utilitzant "
-"els serveis web d'Odoo."
+"els serveis web d'Cubic ERP."
 
 #. module: hr_attendance
 #: model:ir.ui.view,arch_db:hr_attendance.view_hr_attendance_filter

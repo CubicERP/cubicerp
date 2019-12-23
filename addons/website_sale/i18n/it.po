@@ -265,7 +265,7 @@ msgid ""
 "                                Everything is editable in your Odoo website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page."
 msgstr ""
 "<span class=\"fa fa-lightbulb-o fa-2x\"/>\n"
-"                                Tutto può essere modificato nel tuo website Odoo. Modifica qualsiasi titolo, qualsiasi nome di tasto o di campo. Clicca semplicemente su *Modifica* nell'angolo superiore destro per iniziare la modifica della pagina. "
+"                                Tutto può essere modificato nel tuo website Cubic ERP. Modifica qualsiasi titolo, qualsiasi nome di tasto o di campo. Clicca semplicemente su *Modifica* nell'angolo superiore destro per iniziare la modifica della pagina. "
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner

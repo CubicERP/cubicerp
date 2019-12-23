@@ -1959,7 +1959,7 @@ msgid ""
 "homepage title so that potential\n"
 "                                    customers near your location will find "
 "your website easily.\n"
-"                                    WIth Odoo, this can be done easily by "
+"                                    WIth Cubic ERP, this can be done easily by "
 "using the Promote menu."
 msgstr ""
 
@@ -2197,7 +2197,7 @@ msgid ""
 "to focus\n"
 "                            on the main six pages and make all secondary "
 "pages accessible from a footer. You can\n"
-"                            have a look at the Odoo.com website, it's a "
+"                            have a look at the Cubic ERP.com website, it's a "
 "great example of this type of structure."
 msgstr ""
 
@@ -3740,7 +3740,7 @@ msgstr ""
 msgid ""
 "Translating your website into other languages is the best way to broaden its "
 "audience.\n"
-"                        In Odoo, you can either manually translate your "
+"                        In Cubic ERP, you can either manually translate your "
 "pages as they are displayed, use an\n"
 "                        automatic machine translation service for free or "
 "pay professional translators to do\n"
@@ -4167,7 +4167,7 @@ msgstr ""
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner
 msgid ""
-"With Odoo, you can automatically check which keywords are ranked best for a\n"
+"With Cubic ERP, you can automatically check which keywords are ranked best for a\n"
 "                                    specific query, then add them in the "
 "content of your page."
 msgstr ""
@@ -4535,7 +4535,7 @@ msgstr ""
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.show_website_info
-msgid "instance of Odoo, the"
+msgid "instance of Cubic ERP, the"
 msgstr ""
 
 #. module: website

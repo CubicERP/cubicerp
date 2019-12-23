@@ -463,12 +463,12 @@ msgstr "Shfaq ditarin ne panel"
 #. module: account_bank_statement_import
 #: model:ir.ui.view,arch_db:account_bank_statement_import.account_bank_statement_import_journal_creation_view
 msgid ""
-"The account of the statement you are importing is not yet recorded in Odoo. "
+"The account of the statement you are importing is not yet recorded in Cubic ERP. "
 "In order to proceed with the import, you need to create a bank journal for "
 "this account."
 msgstr ""
 "Llogaria e Deklarates qe jeni duke importuar nuk eshte regjistruar akoma ne "
-"Odoo. Ne menyre qe te procedosh me importin, ju duhet te krijoni nje ditar "
+"Cubic ERP. Ne menyre qe te procedosh me importin, ju duhet te krijoni nje ditar "
 "bankar per kete llogari."
 
 #. module: account_bank_statement_import

@@ -3623,7 +3623,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"La secuencia es creada automáticamente por Odoo, pero puede cambiarla para "
+"La secuencia es creada automáticamente por Cubic ERP, pero puede cambiarla para "
 "personalizar los números de referencia de sus pedidos."
 
 #. module: point_of_sale
@@ -4705,7 +4705,7 @@ msgstr "eran duplicados de órdenes existentes"
 #~ msgid "Session Summary:"
 #~ msgstr "Resumen de sesión:"
 
-#~ msgid "Share or embbed any screen of Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
 #~ msgstr "Comparta o incruste cualquier pantalla."
 
 #~ msgid "Share partners to all companies"

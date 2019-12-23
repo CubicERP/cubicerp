@@ -799,7 +799,7 @@ msgstr "如果是其它，请指定"
 
 #. module: survey
 #: model:survey.page,description:survey.feedback_4
-msgid "If you do not contribute or develop in Odoo, skip this page."
+msgid "If you do not contribute or develop in Cubic ERP, skip this page."
 msgstr "如果你不打算贡献并开发Odoo，可以跳过这一页"
 
 #. module: survey
@@ -1753,7 +1753,7 @@ msgstr "有太多的菜单,理解起来比较复杂"
 #. module: survey
 #: model:survey.page,description:survey.feedback_2
 msgid ""
-"These questions relate to the ergonomy and ease of use of Odoo. Try to remind your firsts days on Odoo and\n"
+"These questions relate to the ergonomy and ease of use of Cubic ERP. Try to remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
 
@@ -2012,7 +2012,7 @@ msgstr "你怎么看待用户群组?"
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_2
 msgid ""
-"What do you think about the process views of Odoo, available in the web "
+"What do you think about the process views of Cubic ERP, available in the web "
 "client ?"
 msgstr "你怎么看待Odoo的流程视图,在web客户端是否匹配?"
 

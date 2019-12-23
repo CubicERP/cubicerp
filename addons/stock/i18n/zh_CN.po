@@ -2753,7 +2753,7 @@ msgstr "使用顶部的左键导入"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr "在Odoo中，<strong>订货规则</strong>被用来补货，Odoo自动的创建补货单"

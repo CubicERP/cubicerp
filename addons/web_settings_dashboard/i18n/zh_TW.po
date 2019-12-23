@@ -117,8 +117,8 @@ msgstr "輸入信件地址(每行一個)"
 #. openerp-web
 #: code:addons/web_settings_dashboard/static/src/xml/dashboard.xml:100
 #, python-format
-msgid "Follow these implementation guides to get the most out of Odoo."
-msgstr "按照這些實施指導來有效利用Odoo."
+msgid "Follow these implementation guides to get the most out of Cubic ERP."
+msgstr "按照這些實施指導來有效利用Cubic ERP."
 
 #. module: web_settings_dashboard
 #. openerp-web

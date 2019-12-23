@@ -955,7 +955,7 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better functional understanding of Odoo"
 msgstr ""
-"Учитесь непосредственно у нашей команды и сети экспертов Odoo. Выбирайте из "
+"Учитесь непосредственно у нашей команды и сети экспертов Cubic ERP. Выбирайте из "
 "доступных учебных занятий для лучшего функционального понимания Odoo"
 
 #. module: website_quote
@@ -966,7 +966,7 @@ msgid ""
 "Learn directly from our team and network of Odoo experts. Choose from the "
 "available training sessions for a better technical understanding of Odoo"
 msgstr ""
-"Учитесь непосредственно у нашей команды и сети экспертов Odoo. Выбирайте из "
+"Учитесь непосредственно у нашей команды и сети экспертов Cubic ERP. Выбирайте из "
 "доступных учебных занятий для лучшего технического понимания Odoo"
 
 #. module: website_quote
@@ -1235,7 +1235,7 @@ msgstr ""
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
 msgstr ""
 
 #. module: website_quote
@@ -1649,7 +1649,7 @@ msgstr "Видео с подробной демо"
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
 "Visibility and recognition, by being listed as an official partner on "
-"Odoo.com Partners page"
+"Cubic ERP.com Partners page"
 msgstr ""
 
 #. module: website_quote

@@ -1744,7 +1744,7 @@ msgid ""
 msgstr ""
 "Yaşlandırılmış İş Ortağı Bakiyesi, alacaklarınızın periyotlara göre bölünmüş"
 " ayrıntılı bir raporudur. CubicERP başlangıç tarihine göre bir alacak bakiyesi "
-"tablosu hesaplar. Örneğin 30 günlük bir periyotta rapor aldığınızda, Odoo, "
+"tablosu hesaplar. Örneğin 30 günlük bir periyotta rapor aldığınızda, Cubic ERP, "
 "son bir ay, son iki ay gibi periyotlar için bir alacak analizi üretir."
 
 #. module: account
@@ -3937,7 +3937,7 @@ msgstr ""
 #. module: account
 #: model:ir.model.fields,help:account.field_account_financial_year_op_opening_date
 msgid ""
-"Date from which the accounting is managed in Odoo. It is the date of the "
+"Date from which the accounting is managed in Cubic ERP. It is the date of the "
 "opening entry."
 msgstr ""
 
@@ -5340,7 +5340,7 @@ msgstr ""
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
-"If you want to be able to send customer statements from Odoo, you must:"
+"If you want to be able to send customer statements from Cubic ERP, you must:"
 msgstr ""
 "Odoo'dan müşteri hesap özeti bildirimleri gönderebilmek istiyorsanız, "
 "şunları yapmanız gerekir:"
@@ -5349,7 +5349,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.account_planner
 msgid ""
 "If you want to be able to send your customers their statements \n"
-"                        from Odoo, you first need to record all outstanding transactions \n"
+"                        from Cubic ERP, you first need to record all outstanding transactions \n"
 "                        in the payable and receivable accounts. These would be invoices \n"
 "                        that have not been paid or payments that have not been reconciled."
 msgstr ""
@@ -5452,7 +5452,7 @@ msgstr ""
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
-msgid "In Odoo,"
+msgid "In Cubic ERP,"
 msgstr "Odoo'da"
 
 #. module: account
@@ -6655,9 +6655,9 @@ msgstr "Manuel Uzlaştırma"
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_inbound_payment_method_ids
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP,you are suggested to reconcile the transaction with the batch deposit. Enable this option from the settings."
 msgstr ""
 
 #. module: account
@@ -6665,18 +6665,18 @@ msgstr ""
 #: model:ir.model.fields,help:account.field_account_payment_payment_method_id
 #: model:ir.model.fields,help:account.field_account_register_payments_payment_method_id
 msgid ""
-"Manual: Get paid by cash, check or any other method outside of Odoo.\n"
+"Manual: Get paid by cash, check or any other method outside of Cubic ERP.\n"
 "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"
-"Check: Pay bill by check and print it from Odoo.\n"
-"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
+"Check: Pay bill by check and print it from Cubic ERP.\n"
+"Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Cubic ERP, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit,module account_batch_deposit must be installed.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed "
 msgstr ""
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal_outbound_payment_method_ids
 msgid ""
-"Manual:Pay bill by cash or any other method outside of Odoo.\n"
-"Check:Pay bill by check and print it from Odoo.\n"
+"Manual:Pay bill by cash or any other method outside of Cubic ERP.\n"
+"Check:Pay bill by check and print it from Cubic ERP.\n"
 "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. Enable this option from the settings."
 msgstr ""
 
@@ -7181,7 +7181,7 @@ msgid ""
 "CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoice(s)."
 msgstr ""
-"Odoo, bir hesap özeti satırı ile ilişkili alım veya satış faturası ile "
+"Cubic ERP, bir hesap özeti satırı ile ilişkili alım veya satış faturası ile "
 "uzlaştırma yapmanızı sağlar."
 
 #. module: account
@@ -7190,7 +7190,7 @@ msgid ""
 "CubicERP allows you to reconcile a statement line directly with\n"
 "                the related sale or puchase invoices."
 msgstr ""
-"Odoo, bir hesap özeti satırı ile ilişkili alım veya satış faturası ile "
+"Cubic ERP, bir hesap özeti satırı ile ilişkili alım veya satış faturası ile "
 "uzlaştırma yapmanızı sağlar."
 
 #. module: account
@@ -7231,7 +7231,7 @@ msgid ""
 " need to review a few of them when a <strong>'Reconcile Items'</strong> "
 "button appears on your Vendor Bills dash."
 msgstr ""
-"Odoo, uzlaştırma işlemlerinin çoğunu otomatik olarak yapar\n"
+"Cubic ERP, uzlaştırma işlemlerinin çoğunu otomatik olarak yapar\n"
 "Bu nedenle Tedarikçi Faturaları panelinde <strong>'Kayıtları Uzlaştır'</strong> butonuna basarak gözden geçirmeniz gereken kayıtları görebilirsiniz."
 
 #. module: account
@@ -10584,7 +10584,7 @@ msgid ""
 " Fiscal Position: they serve to automatically set the right tax and/or "
 "account according to the customer country and state."
 msgstr ""
-"Odoo, bir şirketi fatura ederken uygulanan vergiyi yönetmek için Mali Durum "
+"Cubic ERP, bir şirketi fatura ederken uygulanan vergiyi yönetmek için Mali Durum "
 "kavramını kullanır: müşterinin ülkesine ve eyaletine göre otomatik olarak "
 "doğru vergi ve / veya hesabı ayarlar."
 

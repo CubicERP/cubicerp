@@ -3970,7 +3970,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders lines."
 msgstr ""
-"Deze nummering zal automatisch gegenereerd worden door Odoo, maar u kunt ook"
+"Deze nummering zal automatisch gegenereerd worden door Cubic ERP, maar u kunt ook"
 " uw eigen nummering samenstellen voor uw orderregels."
 
 #. module: point_of_sale
@@ -3979,7 +3979,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"Deze nummering zal automatisch gegenereerd worden door Odoo, maar u kunt ook"
+"Deze nummering zal automatisch gegenereerd worden door Cubic ERP, maar u kunt ook"
 " uw eigen nummering samenstellen."
 
 #. module: point_of_sale

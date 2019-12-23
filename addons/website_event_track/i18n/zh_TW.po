@@ -489,7 +489,7 @@ msgstr "最高"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr "如何生成線索與Odoo的目的建立自己的行銷策略。"
 
 #. module: website_event_track
@@ -553,7 +553,7 @@ msgstr "看板狀態"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "銷售Odoo的關鍵成功因素。"
 
 #. module: website_event_track
@@ -618,7 +618,7 @@ msgstr "管理您的關鍵績效指標（向openERP合作夥伴建議）。"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr "在Odoo上管理您的活動，新的培訓模組。"
 
 #. module: website_event_track

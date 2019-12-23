@@ -767,7 +767,7 @@ msgstr "다른 경우의 정밀도 :"
 
 #. module: survey
 #: model:survey.page,description:survey.feedback_4
-msgid "If you do not contribute or develop in Odoo, skip this page."
+msgid "If you do not contribute or develop in Cubic ERP, skip this page."
 msgstr ""
 
 #. module: survey
@@ -1693,7 +1693,7 @@ msgstr "메뉴가 너무 많습니다. 이해하기가 복잡합니다."
 #. module: survey
 #: model:survey.page,description:survey.feedback_2
 msgid ""
-"These questions relate to the ergonomy and ease of use of Odoo. Try to "
+"These questions relate to the ergonomy and ease of use of Cubic ERP. Try to "
 "remind your firsts days on Odoo and\n"
 "what have been your difficulties."
 msgstr ""
@@ -1931,7 +1931,7 @@ msgstr "사용자 그룹에 대해 어떻게 생각하십니까?"
 #. module: survey
 #: model:survey.question,question:survey.feedback_2_2
 msgid ""
-"What do you think about the process views of Odoo, available in the web "
+"What do you think about the process views of Cubic ERP, available in the web "
 "client ?"
 msgstr ""
 "당신은 웹 클라이언트에서 사용할 수 있는 Odoo의 프로세스 화면에 대해 어떻게 생"

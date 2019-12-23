@@ -2590,10 +2590,10 @@ msgstr "La coda per i messaggi segnalati è vuota"
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "L'obiettivo di questo sito è quello di creare una base di conoscenze rilevanti che risponda\n"
-"    alle domande relative a Odoo. "
+"    alle domande relative a Cubic ERP. "
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -3305,7 +3305,7 @@ msgstr "spam / pubblicità"
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help
 msgid "specific questions about Odoo service offers, etc."
-msgstr "domande specifiche sulle offerte di servizi,... di Odoo."
+msgstr "domande specifiche sulle offerte di servizi,... di Cubic ERP."
 
 #. module: website_forum
 #: model:forum.forum,faq:website_forum.forum_help

@@ -395,7 +395,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:event_sale.view_event_registration_editor_form
 msgid "Skip"
 msgstr ""
-"<p>Jika Anda tidak memberikan kontribusi atau mengembangkan di Odoo, "
+"<p>Jika Anda tidak memberikan kontribusi atau mengembangkan di Cubic ERP, "
 "melewati halaman ini.</p>"
 
 #. module: event_sale

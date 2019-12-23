@@ -2627,10 +2627,10 @@ msgstr "De wachtrij met gevlagde reacties is leeg."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Het doel van deze website is om een relevante kennisbasis te maken die vragen\n"
-"kan beantwoorden gerelateerd aan Odoo."
+"kan beantwoorden gerelateerd aan Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue

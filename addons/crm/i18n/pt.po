@@ -173,7 +173,7 @@ msgid ""
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-"
 "bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, "
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Cubic ERP, "
 "check </span><a href=\"https://twitter.com/odoo/favorites\"><span style="
 "\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
@@ -662,7 +662,7 @@ msgstr ""
 "<strong>Cada empresa é diferente.</strong> O CubicERP permite\n"
 "personalizar qualquer aplicação e é normalmente um bom\n"
 "conselho personalizar ecrãs para corresponderem ao seu processo de vendas.\n"
-"<strong>As personalizações são feitas por peritos do Odoo.</strong>"
+"<strong>As personalizações são feitas por peritos do Cubic ERP.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -2343,9 +2343,9 @@ msgstr "Melhore a receita média por vendedor"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
-"In Odoo, there are 3 different ways to manage your products prices.<br/>"
+"In Cubic ERP, there are 3 different ways to manage your products prices.<br/>"
 msgstr ""
-"No Odoo, existem 3 maneiras diferentes de gerir os preços dos seus produtos."
+"No Cubic ERP, existem 3 maneiras diferentes de gerir os preços dos seus produtos."
 "<br/>"
 
 #. module: crm
@@ -4212,7 +4212,7 @@ msgid ""
 "There are several ways for your company to generate leads with CubicERP CRM. \n"
 "                        One of them is using your company's generic email "
 "address as a trigger \n"
-"                        to create a new lead in the system. In Odoo, each "
+"                        to create a new lead in the system. In Cubic ERP, each "
 "one of your sales teams \n"
 "                        is linked to its own email address from which "
 "prospects can reach them. \n"

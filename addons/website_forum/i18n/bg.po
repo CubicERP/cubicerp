@@ -2630,10 +2630,10 @@ msgstr "Сигнализираната опашка е празна."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Целта на този сайт е да създаде подходяща база от знания, която да отговаря\n"
-"     на въпросите, свързани с Odoo."
+"     на въпросите, свързани с Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue

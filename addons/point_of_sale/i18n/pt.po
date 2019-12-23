@@ -4687,7 +4687,7 @@ msgstr "eram duplicados de ordens existentes"
 #~ msgid "Session Summary:"
 #~ msgstr "Resumo da Sessão:"
 
-#~ msgid "Share or embbed any screen of Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
 #~ msgstr "Partilhar ou embeber qualquer ecrã do Odoo"
 
 #~ msgid "Share partners to all companies"

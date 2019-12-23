@@ -219,7 +219,7 @@ msgid ""
 "                                Everything is editable in  your CubicERP website. Feel free to edit any page title, field or button label. Simply hit *Edit* in upper-right corner to start editing the page."
 msgstr ""
 "<span class=\"fa fa-lightbulb-o fa-2x\"/>\n"
-"                             Все доступно для редактирования на вашем сайте Odoo. Не стесняйтесь редактировать заголовок страницы, поле или кнопку. Просто нажмите *Изменить* в правом верхнем углу, чтобы начать редактирование страницы."
+"                             Все доступно для редактирования на вашем сайте Cubic ERP. Не стесняйтесь редактировать заголовок страницы, поле или кнопку. Просто нажмите *Изменить* в правом верхнем углу, чтобы начать редактирование страницы."
 
 #. module: website_sale
 #: model:ir.ui.view,arch_db:website_sale.website_planner

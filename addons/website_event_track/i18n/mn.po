@@ -483,7 +483,7 @@ msgstr "Хамгийн Өндөр"
 #: model:event.track,name:website_event_track.event_track18
 msgid ""
 "How to build your marketing strategy for the purpose of generating leads "
-"with Odoo."
+"with Cubic ERP."
 msgstr ""
 "Odoo - г ашиглан сэжим дуудах зорилготойгоор хэрхэн маркетингийн бодлогыг "
 "гаргах вэ."
@@ -555,7 +555,7 @@ msgstr "Канбан Төлөв"
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track23
-msgid "Key Success factors selling Odoo."
+msgid "Key Success factors selling Cubic ERP."
 msgstr "Odoo - г борлуулж буй түлхүүр амжилтын хүчин зүйлс."
 
 #. module: website_event_track
@@ -620,7 +620,7 @@ msgstr "KPI - г удирдах (openERP түншүүдэд санал болг�
 
 #. module: website_event_track
 #: model:event.track,name:website_event_track.event_track12
-msgid "Manage your events with Odoo, the new training modules."
+msgid "Manage your events with Cubic ERP, the new training modules."
 msgstr "Арга хэмжээнүүдээ Odoo - г ашиглан удирдах, шинэ сургалтын модулиуд."
 
 #. module: website_event_track

@@ -96,7 +96,7 @@ msgstr ""
 #: model:blog.post,content:website_blog.blog_post_2
 msgid ""
 "\"This is another clever and highly disruptive move by\n"
-"                    Odoo,which will force other technology providers to\n"
+"                    Cubic ERP,which will force other technology providers to\n"
 "                    take another look at the value they are providing to ensure\n"
 "                    that their 'solutions' can still compete.\""
 msgstr ""
@@ -239,12 +239,12 @@ msgstr ""
 #. module: website_blog
 #: model:blog.post,content:website_blog.blog_post_1
 msgid ""
-"At Odoo, we build tools to bring productivity to\n"
+"At Cubic ERP, we build tools to bring productivity to\n"
 "                    enterprises. As emails and information flows are one of\n"
 "                    the biggest wastes of time in companies, we have to fix\n"
 "                    this."
 msgstr ""
-"En Odoo, desarrollamos herramientas para implantar\n"
+"En Cubic ERP, desarrollamos herramientas para implantar\n"
 "                    la productividad en las empresas. Como los correos electrónicos y los flujos de información\n"
 "                    suponen algunas de las mayores pérdidas de tiempo en las empresas,\n"
 "                    debemos encontrar una solución a esto."
@@ -498,13 +498,13 @@ msgstr ""
 #: model:blog.post,content:website_blog.blog_post_1
 msgid ""
 "Folders and mailing lists are great tools but too\n"
-"                        complex in traditional email clients. In Odoo, a\n"
+"                        complex in traditional email clients. In Cubic ERP, a\n"
 "                        group of contacts that share a discussion can be\n"
 "                        created with one click. Every group should have it's\n"
 "                        own email address."
 msgstr ""
 "Las carpetas y las listas de correo son buenas herramientas,\n"
-"                        pero se presentan demasiado complejas en clientes tradicionales de mensajería electrónica. En Odoo, es\n"
+"                        pero se presentan demasiado complejas en clientes tradicionales de mensajería electrónica. En Cubic ERP, es\n"
 "                        posible crear con un solo clic un grupo de contactos\n"
 "                        que compartan un mismo tema de debate. Cada grupo debe tener su\n"
 "                        propia dirección de correo electrónico."
@@ -765,8 +765,8 @@ msgstr ""
 
 #. module: website_blog
 #: model:blog.post,website_meta_keywords:website_blog.blog_post_1
-msgid "Odoo, email"
-msgstr "Odoo, correo electrónico"
+msgid "Cubic ERP, email"
+msgstr "Cubic ERP, correo electrónico"
 
 #. module: website_blog
 #. openerp-web

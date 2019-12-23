@@ -2559,10 +2559,10 @@ msgstr "Fronta označených príspevkov je prázdna."
 #: model:forum.forum,faq:website_forum.forum_help
 msgid ""
 "The goal of this site is create a relevant knowledge base that would answer\n"
-"    questions related to Odoo."
+"    questions related to Cubic ERP."
 msgstr ""
 "Cieľom týchto stránok je vytvoriť relevantnú vedomostnú základňu, ktorá zodpovie\n"
-"otázky týkajúce sa Odoo."
+"otázky týkajúce sa Cubic ERP."
 
 #. module: website_forum
 #: model:ir.ui.view,arch_db:website_forum.moderation_queue

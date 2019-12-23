@@ -1322,7 +1322,7 @@ msgid ""
 "                can easily find all the information you need for each person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Бросив лишь беглый взгляд на экран сотрудников Odoo, Вы \n"
+"Бросив лишь беглый взгляд на экран сотрудников Cubic ERP, Вы \n"
 "                можете легко найти все необходимую информацию по каждому человеку;\n"
 "                контактные данные, должность, наличие и т.д."
 

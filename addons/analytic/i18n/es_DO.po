@@ -239,12 +239,12 @@ msgstr "ID (identificación)"
 #: model:ir.actions.act_window,help:analytic.account_analytic_line_action
 #: model:ir.actions.act_window,help:analytic.account_analytic_line_action_entries
 msgid ""
-"In Odoo, sale orders and projects are implemented using\n"
+"In Cubic ERP, sale orders and projects are implemented using\n"
 "                analytic accounts. You can track costs and revenues to "
 "analyse\n"
 "                your margins easily."
 msgstr ""
-"En Odoo, los pedidos de venta y los proyectos se implementan usando cuentas "
+"En Cubic ERP, los pedidos de venta y los proyectos se implementan usando cuentas "
 "analíticas. Puede realizar seguimiento de los costes e ingresos para "
 "analizar sus márgenes fácilmente."
 

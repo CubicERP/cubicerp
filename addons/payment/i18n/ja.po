@@ -354,7 +354,7 @@ msgstr "トランザクションをキャプチャする"
 
 #. module: payment
 #: model:ir.model.fields,help:payment.field_payment_acquirer_capture_manually
-msgid "Capture the amount from Odoo, when the delivery is completed."
+msgid "Capture the amount from Cubic ERP, when the delivery is completed."
 msgstr ""
 
 #. module: payment

@@ -387,7 +387,7 @@ msgid ""
 "cases in this sales channel"
 msgstr ""
 "Адреса електронної пошти у \"Відповідь\" всіх електронних листів, надісланих"
-" Odoo, про випадки на цьому каналі продажів"
+" Cubic ERP, про випадки на цьому каналі продажів"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team_dashboard_graph_model

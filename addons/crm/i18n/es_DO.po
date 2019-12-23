@@ -180,7 +180,7 @@ msgid ""
 "            </table>\n"
 "            <div dir=\"ltr\" style=\"font-size:13px;margin-top:0pt;margin-"
 "bottom:8pt;color:grey\">\n"
-"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Odoo, "
+"                <span><br/>-- <br/>The CubicERP Team<br/>PS: People love Cubic ERP, "
 "check </span><a href=\"https://twitter.com/odoo/favorites\"><span style="
 "\"text-decoration:underline;\">what they say about it.</span></a></span>\n"
 "            </div>\n"
@@ -611,7 +611,7 @@ msgstr ""
 "aplicación y usualmente es una buena práctica ajustar cada pantalla a su "
 "proceso de ventas.\n"
 "                        <strong>Las personalizaciones son hechas por "
-"expertos en Odoo.</strong>"
+"expertos en Cubic ERP.</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -2093,7 +2093,7 @@ msgid ""
 "For the CubicERP Team,<br/>\n"
 "                          Fabien Pinckaers, Founder"
 msgstr ""
-"Para el Equipo Odoo,<br/>\n"
+"Para el Equipo Cubic ERP,<br/>\n"
 "                          Fabien Pinckaers, Fundador"
 
 #. module: crm
@@ -2360,7 +2360,7 @@ msgstr "Mejorar el ingreso promedio por vendedor"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
-msgid "In Odoo, there are 3 different ways to manage your prices.<br/>"
+msgid "In Cubic ERP, there are 3 different ways to manage your prices.<br/>"
 msgstr ""
 
 #. module: crm
@@ -4142,7 +4142,7 @@ msgid ""
 "There are several ways for your company to generate leads with CubicERP CRM. \n"
 "                        One of them is using your company's generic email "
 "address as a trigger\n"
-"                        to create a new lead in the system. In Odoo, each "
+"                        to create a new lead in the system. In Cubic ERP, each "
 "one of your sales channels\n"
 "                        is linked to its own email address from which "
 "prospects can reach them.\n"
@@ -4528,7 +4528,7 @@ msgstr ""
 "Nosotros podemos realizar todo el proceso de importación \n"
 "por usted: simplemente envíe un archivo CSV \n"
 "con todos sus datos a su asesor de \n"
-"Odoo."
+"Cubic ERP."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -4543,7 +4543,7 @@ msgstr ""
 "Nosotros podemos realizar todo el proceso de importación \n"
 "por usted: simplemente envíe un archivo CSV \n"
 "con todos sus datos a su asesor de \n"
-"Odoo."
+"Cubic ERP."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner

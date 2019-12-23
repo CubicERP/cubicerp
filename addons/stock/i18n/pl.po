@@ -2262,7 +2262,7 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                            Fabien Pinckaers, Founder"
 msgstr ""
-"W imieniu zespołu Odoo,<br/>\n"
+"W imieniu zespołu Cubic ERP,<br/>\n"
 "                            Fabien Pinckaers, Założyciel"
 
 #. module: stock
@@ -2741,7 +2741,7 @@ msgstr "Importuj używając przycisku w lewym górnym rogu"
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.inventory_planner
 msgid ""
-"In Odoo, <strong>Reordering Rules</strong> are used to replenish your products.\n"
+"In Cubic ERP, <strong>Reordering Rules</strong> are used to replenish your products.\n"
 "                        Odoo will automatically propose a procurement to buy new products if you are\n"
 "                        running out of stock."
 msgstr ""

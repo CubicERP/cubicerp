@@ -1205,7 +1205,7 @@ msgstr ""
 
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
-msgid "Publishes references directly on Odoo.com"
+msgid "Publishes references directly on Cubic ERP.com"
 msgstr ""
 
 #. module: website_quote
@@ -1611,7 +1611,7 @@ msgstr "Vídeos con demostraciones detalladas"
 #. module: website_quote
 #: model:sale.quote.template,website_description:website_quote.website_quote_template_1
 msgid ""
-"Visibility and recognition, by being listed as an official partner on Odoo."
+"Visibility and recognition, by being listed as an official partner on Cubic ERP."
 "com Partners page"
 msgstr ""
 

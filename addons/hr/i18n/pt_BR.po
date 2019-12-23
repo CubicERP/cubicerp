@@ -1318,7 +1318,7 @@ msgid ""
 "                can easily find all the information you need for each person;\n"
 "                contact data, job position, availability, etc."
 msgstr ""
-"Com apenas uma rápida olhada na tela de funcionários do Odoo, você\n"
+"Com apenas uma rápida olhada na tela de funcionários do Cubic ERP, você\n"
 "pode facilmente encontrar todas as informações que você precisa para cada pessoa;\n"
 "dados de contato, cargo, disponibilidade, etc."
 

@@ -3544,7 +3544,7 @@ msgid ""
 "This sequence is automatically created by CubicERP but you can change it to "
 "customize the reference numbers of your orders."
 msgstr ""
-"La sequenza viene automaticamente creata da Odoo, ma è possibile modificarla "
+"La sequenza viene automaticamente creata da Cubic ERP, ma è possibile modificarla "
 "per personalizzare i numeri di riferimento all'interno degli ordini."
 
 #. module: point_of_sale
@@ -4453,7 +4453,7 @@ msgstr ""
 #~ "enter the domain name here."
 #~ msgstr ""
 #~ "Se un dominio catch-all è stato configurato per essere reindirizzato su "
-#~ "Odoo, inserire il dominio qui."
+#~ "Cubic ERP, inserire il dominio qui."
 
 #~ msgid "Implementation References"
 #~ msgstr "Riferimenti dell'implementazione"
@@ -4578,8 +4578,8 @@ msgstr ""
 #~ msgid "Session Summary:"
 #~ msgstr "Sommario Sessione:"
 
-#~ msgid "Share or embbed any screen of Odoo."
-#~ msgstr "Condividi o fai embed qualunque schermata di Odoo."
+#~ msgid "Share or embbed any screen of Cubic ERP."
+#~ msgstr "Condividi o fai embed qualunque schermata di Cubic ERP."
 
 #~ msgid "Share partners to all companies"
 #~ msgstr "Condividi i partners con tutte le aziende"

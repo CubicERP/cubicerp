@@ -89,6 +89,12 @@ class SaleOrder(models.Model):
             default['validity_date'] = fields.Date.to_string(datetime.now() + timedelta(self.template_id.number_of_days))
         return super(SaleOrder, self).copy(default=default)
 
+    def _prepare_invoice(self):
+        res = super(SaleOrder, self)._prepare_invoice()
+        if self.template_id.journal_id:
+            res['journal_id'] = self.template_id.journal_id.id
+        return res
+
     @api.one
     def _compute_amount_undiscounted(self):
         total = 0.0

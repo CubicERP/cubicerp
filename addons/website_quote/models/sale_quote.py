@@ -28,6 +28,7 @@ class SaleQuoteTemplate(models.Model):
         domain=[('model', '=', 'sale.order')],
         help="This e-mail template will be sent on confirmation. Leave empty to send nothing.")
     active = fields.Boolean(default=True, help="If unchecked, it will allow you to hide the quotation template without removing it.")
+    journal_id = fields.Many2one("account.journal", "Forced Journal", help="Force to this journal when create a invoice from a sale order")
     
     @api.multi
     def open_template(self):

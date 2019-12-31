@@ -35,6 +35,9 @@
                                    <field name="number_of_days" class="oe_inline"/> days
                                </div>
                             </group>
+                            <group>
+                                <field name="journal_id" domain="[('type','=','sale')]"/>
+                            </group>
                         </group>
                         <notebook>
                             <page string="Lines">

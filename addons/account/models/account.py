@@ -622,7 +622,7 @@ class AccountJournal(models.Model):
             'prefix': prefix,
             'padding': 6,
             'number_increment': 1,
-            'use_date_range': True,
+            'use_date_range': False,
         }
         if 'company_id' in vals:
             seq['company_id'] = vals['company_id']

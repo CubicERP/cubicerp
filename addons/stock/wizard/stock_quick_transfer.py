@@ -36,31 +36,49 @@ class StockImmediateTransfer(models.TransientModel):
     package_id = fields.Many2one('stock.quant.package', 'Destinity Package')
     quantity_done = fields.Float("Quantity")
 
-    def process(self):
-        quant = self.env['stock.quant'].browse(self._context.get('active_ids')[0])
+    @api.model
+    def default_get(self, fields):
+        res = super(StockImmediateTransfer, self).default_get(fields)
+        if self._context.get('active_ids'):
+            quant = self.env['stock.quant'].browse(self._context.get('active_ids')).filtered(lambda q: q.location_id.usage == 'internal')
+            if quant:
+                quant = quant[0]
+                res['location_id'] = quant.location_id.id
+                res['lot_id'] = quant.lot_id.id
+                res['package_id'] = quant.package_id.id
+                res['product_id'] = quant.product_id.id
+                res['quantity_done'] = quant.quantity - quant.reserved_quantity
+        return res
 
-        vals = self.env['stock.picking'].default_get(list(self.env['stock.picking']._fields.keys()))
-        vals.update({
-            'location_id': self.location_id.id,
-            'location_dest_id': self.location_dest_id.id,
-            'origin': self.origin,
-            'picking_type_id': self.picking_type_id.id,
-            'move_lines': [(0, False, {
-                'name': quant.product_id.name,
-                'product_id': quant.product_id.id,
-                'product_uom': quant.product_id.uom_id.id,
-                'product_uom_qty': self.quantity_done,
-                'quantity_done': self.quantity_done,
-            })]
-        })
-        picking = self.env['stock.picking'].create(vals)
-        picking.move_lines.move_line_ids.write({
-            'lot_id': quant.lot_id.id,
-            'package_id': quant.package_id.id,
-            'result_package_id': self.package_id.id,
-        })
-        picking.button_validate()
-        return picking.id
+    def process(self):
+        picking_id = False
+        quants = self.env['stock.quant'].browse(self._context.get('active_ids')).filtered(lambda q: q.quantity > q.reserved_quantity)
+        alone = len(self._context.get('active_ids',[])) <= 1
+        for quant in quants.filtered(lambda q: q.location_id == self.location_id):
+            vals = self.env['stock.picking'].default_get(list(self.env['stock.picking']._fields.keys()))
+            quantity = self.quantity_done if alone else quant.quantity - quant.reserved_quantity
+            vals.update({
+                'location_id': self.location_id.id,
+                'location_dest_id': self.location_dest_id.id,
+                'origin': self.origin,
+                'picking_type_id': self.picking_type_id.id,
+                'move_lines': [(0, False, {
+                    'name': quant.product_id.name,
+                    'product_id': quant.product_id.id,
+                    'product_uom': quant.product_id.uom_id.id,
+                    'product_uom_qty': quantity,
+                    'quantity_done': quantity,
+                })]
+            })
+            picking = self.env['stock.picking'].create(vals)
+            picking.move_lines.move_line_ids.write({
+                'lot_id': quant.lot_id.id,
+                'package_id': quant.package_id.id,
+                'result_package_id': self.package_id.id,
+            })
+            picking.button_validate()
+            picking_id = picking.id
+        return picking_id
 
     @api.onchange("picking_type_id", "location_dest_id")
     def onchange_picking_type(self):

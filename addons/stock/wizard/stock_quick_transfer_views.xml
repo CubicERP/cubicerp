@@ -8,12 +8,12 @@
                 <group>
                     <group>
                         <field name="picking_type_id" domain="[('code','=','internal')]"/>
-                        <label for="quantity_done"/>
-                        <div>
-                            <field name="quantity_done" class="oe_inline"/>
-                            <field name="product_uom_id" class="oe_inline oe_no_button"/>
+                        <label for="quantity_done" invisible="len(context.get('active_ids',[]))>1"/>
+                        <div invisible="len(context.get('active_ids',[]))>1">
+                            <field name="quantity_done" class="oe_inline" invisible="len(context.get('active_ids',[]))>1"/>
+                            <field name="product_uom_id" class="oe_inline oe_no_button" invisible="len(context.get('active_ids',[]))>1"/>
                         </div>
-                        <field name="lot_id"  readonly="1" force_save="1"/>
+                        <field name="lot_id"  readonly="1" force_save="1" invisible="len(context.get('active_ids',[]))>1"/>
                         <field name="package_id"/>
                     </group>
                     <group>
@@ -38,4 +38,12 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
+
+    <act_window id="action_quick_transfer_multi"
+        name="Quick Transfer"
+        src_model="stock.quant"
+        res_model="stock.quick.transfer"
+        view_type="form" view_mode="form"
+        key2="client_action_multi" target="new"/>
+
 </odoo>

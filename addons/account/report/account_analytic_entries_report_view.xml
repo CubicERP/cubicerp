@@ -10,6 +10,7 @@
                 <filter string="My Entries" domain="[('user_id','=',uid)]" help="My Entries"/>
                 <field name="account_id" groups="analytic.group_analytic_accounting"/>
                 <field name="product_id" />
+                <field name="general_account_id"/>
                 <field name="user_id"/>
                 <group expand="0" string="Group By">
                     <filter string="Partner" context="{'group_by':'partner_id'}"/>
@@ -19,6 +20,7 @@
                     <filter string="Company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
                     <separator/>
                     <filter string="Month" name="Month" context="{'group_by':'date:month'}"/>
+                    <filter string="Day" name="day" context="{'group_by':'date:day'}"/>
                 </group>
             </search>
         </field>

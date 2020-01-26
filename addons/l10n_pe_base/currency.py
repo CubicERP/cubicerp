@@ -47,7 +47,7 @@ class res_currency(models.Model):
                         currency.set_pe_rate(rate)
                 currency.pe_update_all = False
             else:
-                self.set_pe_rate(self.get_pe_rate())
+                currency.set_pe_rate(self.get_pe_rate())
 
     def set_pe_rate(self, rate):
         res = False

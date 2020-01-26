@@ -198,6 +198,8 @@
                     <filter string="My Entries" domain="[('user_id','=',uid)]"/>
                     <field name="account_id"/>
                     <field name="user_id"/>
+                    <field name="journal_id"/>
+                    <field name="general_account_id"/>
                     <group string="Group By" expand="0">
                         <filter string="Analytic Account" context="{'group_by':'account_id'}"/>
                         <filter string="Fin. Account" context="{'group_by':'general_account_id'}"/>

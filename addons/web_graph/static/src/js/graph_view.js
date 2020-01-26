@@ -69,6 +69,18 @@ instance.web_graph.GraphView = instance.web.View.extend({
                 self.widget_config.row_groupby.push(field_name);
             }
         });
+        if (self.dataset.context.group_by) {
+            self.widget_config.row_groupby = self.dataset.context.group_by;
+        }
+        if (self.dataset.context.col_group_by) {
+            self.widget_config.col_groupby = self.dataset.context.col_group_by;
+        }
+        if (self.dataset.context.measures) {
+            self.widget_config.measures = self.dataset.context.measures;
+        }
+        if (self.dataset.context.graph_mode) {
+            self.widget_config.mode = self.dataset.context.graph_mode;
+        }
         if (self.widget_config.measures.length === 0) {
             self.widget_config.measures.push('__count');
         }

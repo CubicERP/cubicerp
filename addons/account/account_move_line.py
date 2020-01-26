@@ -482,7 +482,7 @@ class account_move_line(osv.osv):
         'name': fields.char('Name', required=True),
         'quantity': fields.float('Quantity', digits=(16,2), help="The optional quantity expressed by this line, eg: number of product sold. The quantity is not a legal requirement but is very useful for some reports."),
         'product_uom_id': fields.many2one('product.uom', 'Unit of Measure'),
-        'product_id': fields.many2one('product.product', 'Product'),
+        'product_id': fields.many2one('product.product', 'Product', select=2),
         'debit': fields.float('Debit', digits_compute=dp.get_precision('Account')),
         'credit': fields.float('Credit', digits_compute=dp.get_precision('Account')),
         'account_id': fields.many2one('account.account', 'Account', required=True, ondelete="cascade", domain=[('type','<>','view'), ('type', '<>', 'closed')], select=2),
@@ -524,9 +524,9 @@ class account_move_line(osv.osv):
         'invoice': fields.function(_invoice, string='Invoice',
             type='many2one', relation='account.invoice', fnct_search=_invoice_search),
         'account_tax_id':fields.many2one('account.tax', 'Tax', copy=False),
-        'analytic_account_id': fields.many2one('account.analytic.account', 'Analytic Account'),
+        'analytic_account_id': fields.many2one('account.analytic.account', 'Analytic Account', select=2),
         'company_id': fields.related('account_id', 'company_id', type='many2one', relation='res.company',
-                            string='Company', store=True, readonly=True)
+                            string='Company', store=True, readonly=True, select=2)
     }
 
     def _get_date(self, cr, uid, context=None):

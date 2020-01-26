@@ -73,6 +73,7 @@
                 <filter string="Unreconciled" domain="[('reconcile_id','=',False), ('account_id.reconcile','=',True)]" help = "Unreconciled entries"/>
                 <filter string="Reconciled" domain="[('reconcile_id','!=',False)]" help = "Reconciled entries"/>
                 <field name="account_id"/>
+                <field name="analytic_account_id"/>
                 <field name="journal_id"/>
                 <field name="period_id"/>
                 <group expand="0" string="Extended Filters...">

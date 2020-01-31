@@ -195,7 +195,7 @@
                     <filter name="purchases" string="Purchases" domain="[('journal_id.type','=','purchase')]" help="Analytic Journal Items related to a purchase journal."/>
                     <filter name="others" string="Others" domain="[('journal_id.type','in',('cash','general','situation'))]"/>
                     <separator/>
-                    <filter string="My Entries" domain="[('user_id','=',uid)]"/>
+                    <filter string="My Entries" domain="[('user_id','=',uid)]" name="my_entries"/>
                     <field name="account_id"/>
                     <field name="user_id"/>
                     <field name="journal_id"/>

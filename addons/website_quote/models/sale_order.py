@@ -149,8 +149,9 @@ class SaleOrder(models.Model):
                 data.update(self.env['sale.order.line']._get_purchase_price(self.pricelist_id, line.product_id, line.product_uom_id, fields.Date.context_today(self)))
             order_lines.append((0, 0, data))
 
-        self.order_line = order_lines
-        self.order_line._compute_tax_id()
+        if order_lines != [(5, 0, 0)]:
+            self.order_line = order_lines
+            self.order_line._compute_tax_id()
 
         option_lines = []
         for option in template.options:
@@ -169,7 +170,8 @@ class SaleOrder(models.Model):
                 'website_description': option.website_description,
             }
             option_lines.append((0, 0, data))
-        self.options = option_lines
+        if option_lines:
+            self.options = option_lines
 
         if template.number_of_days > 0:
             self.validity_date = fields.Date.to_string(datetime.now() + timedelta(template.number_of_days))

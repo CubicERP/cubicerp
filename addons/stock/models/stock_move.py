@@ -690,13 +690,16 @@ class StockMove(models.Model):
         Picking = self.env['stock.picking']
         for move in self:
             recompute = False
-            picking = Picking.search([
-                ('group_id', '=', move.group_id.id),
-                ('location_id', '=', move.location_id.id),
-                ('location_dest_id', '=', move.location_dest_id.id),
-                ('picking_type_id', '=', move.picking_type_id.id),
-                ('printed', '=', False),
-                ('state', 'in', ['draft', 'confirmed', 'waiting', 'partially_available', 'assigned'])], limit=1)
+            picking_domain = [
+                    ('group_id', '=', move.group_id.id),
+                    ('location_id', '=', move.location_id.id),
+                    ('location_dest_id', '=', move.location_dest_id.id),
+                    ('picking_type_id', '=', move.picking_type_id.id),
+                    ('printed', '=', False),
+                    ('state', 'in', ['draft', 'confirmed', 'waiting', 'partially_available', 'assigned'])]
+            if self._context.get("check_date_expected", False):
+                picking_domain.append(('scheduled_date','=',move.date_expected))
+            picking = Picking.search(picking_domain, limit=1)
             if picking:
                 if picking.partner_id.id != move.partner_id.id or picking.origin != move.origin:
                     # If a picking is found, we'll append `move` to its move list and thus its

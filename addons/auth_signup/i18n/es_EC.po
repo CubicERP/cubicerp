@@ -117,7 +117,7 @@ msgstr ""
 #. module: auth_signup
 #: model:mail.template,subject:auth_signup.set_password_email
 msgid "${object.company_id.name} invitation to connect on Odoo"
-msgstr "Invitación de ${object.company_id.name} para conectar a Odoo"
+msgstr "Invitación de ${object.company_id.name} para conectar a Cubic ERP"
 
 #. module: auth_signup
 #: model:ir.ui.view,arch_db:auth_signup.res_users_form_view

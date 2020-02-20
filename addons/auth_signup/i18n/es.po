@@ -143,14 +143,14 @@ msgstr ""
 "<div style=\"padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777\">\n"
 "    ${user.signature | safe}\n"
 "    <p style=\"font-size: 11px; margin-top: 10px;\">\n"
-"        <strong>Enviado por ${user.company_id.name} usando <a href=\"www.cubicerp.com\" style=\"text-decoration:none; color: #875A7B;\">Cubic ERP</a></strong>\n"
+"        <strong>Enviado por ${user.company_id.name} usando <a href=\"http://www.cubicerp.com\" style=\"text-decoration:none; color: #875A7B;\">Cubic ERP</a></strong>\n"
 "    </p>\n"
 "</div>"
 
 #. module: auth_signup
 #: model:mail.template,subject:auth_signup.set_password_email
 msgid "${object.company_id.name} invitation to connect on Odoo"
-msgstr "Invitación de ${object.company_id.name} para conectar a Odoo"
+msgstr "Invitación de ${object.company_id.name} para conectar a Cubic ERP"
 
 #. module: auth_signup
 #: model:mail.template,body_html:auth_signup.mail_template_user_signup_account_created

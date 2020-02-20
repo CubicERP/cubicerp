@@ -743,7 +743,7 @@ msgid ""
 "                                We like to hear from people using Odoo to build their website. Tweet us"
 msgstr ""
 "<strong>Sea anunciado en la cuenta de Twitter </strong><br/>\n"
-"                                Nos gusta escuchar de personas usando Odoo para construir su Sitio Web. Escribe sobre nosotros en Twitter"
+"                                Nos gusta escuchar de personas usando CubicERP para construir su Sitio Web. Escribe sobre nosotros en Twitter"
 
 #. module: website
 #: model:ir.ui.view,arch_db:website.website_planner

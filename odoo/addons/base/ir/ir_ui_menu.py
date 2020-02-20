@@ -108,7 +108,7 @@ class IrUiMenu(models.Model):
         }
         for menu in menus:
             if menu.hidden_groups_id:
-                hidden_to_groups = [g.id for g in menu.hidden_groups_id]
+                hidden_to_groups = (menu.hidden_groups_id & groups)
                 if hidden_to_groups:
                     invisible += menu
                     child_menus = [c for c in menu.child_id]

@@ -46,7 +46,7 @@
 <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
     ${user.signature | safe}
     <p style="font-size: 11px; margin-top: 10px;">
-        <strong>Sent by ${user.company_id.name} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
+        <strong>Sent by ${user.company_id.name} using <a href="http://www.cubicerp.com" style="text-decoration:none; color: #875A7B;">CubicERP</a></strong>
     </p>
 </div>]]></field>
             <field name="user_signature" eval="False"/>
@@ -85,7 +85,7 @@
 <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
     ${user.signature | safe}
     <p style="font-size: 11px; margin-top: 10px;">
-        <strong>Sent by ${user.company_id.name} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
+        <strong>Sent by ${user.company_id.name} using <a href="http://cubicerp.com" style="text-decoration:none; color: #875A7B;">CubicERP</a></strong>
     </p>
 </div>]]></field>
             <field name="user_signature" eval="False"/>
@@ -128,7 +128,7 @@
 <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
     ${user.signature | safe}
     <p style="font-size: 11px; margin-top: 10px;">
-        <strong>Sent by ${user.company_id.name} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
+        <strong>Sent by ${user.company_id.name} using <a href="http://cubicerp.com" style="text-decoration:none; color: #875A7B;">CubicERP</a></strong>
     </p>
 </div></field>
             <field name="user_signature" eval="False"/>

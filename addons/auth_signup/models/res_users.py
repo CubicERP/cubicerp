@@ -31,7 +31,6 @@ class ResUsers(models.Model):
             # signup with a token: find the corresponding partner id
             partner = self.env['res.partner']._signup_retrieve_partner(token, check_validity=True, raise_exception=True)
             # invalidate signup token
-            partner.write({'signup_token': False, 'signup_type': False, 'signup_expiration': False})
 
             partner_user = partner.user_ids and partner.user_ids[0] or False
 
@@ -47,6 +46,7 @@ class ResUsers(models.Model):
                 values.pop('login', None)
                 values.pop('name', None)
                 partner_user.write(values)
+                partner_user.write({'signup_token': False, 'signup_type': False, 'signup_expiration': False})
                 return (self.env.cr.dbname, partner_user.login, values.get('password'))
             else:
                 # user does not exist: sign up invited user
@@ -64,6 +64,7 @@ class ResUsers(models.Model):
             values['email'] = values.get('email') or values.get('login')
             self._signup_create_user(values)
 
+        partner_user.write({'signup_token': False, 'signup_type': False, 'signup_expiration': False})
         return (self.env.cr.dbname, values.get('login'), values.get('password'))
 
     @api.model
@@ -137,7 +138,8 @@ class ResUsers(models.Model):
             if not user.email:
                 raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
             with self.env.cr.savepoint():
-                template.with_context(lang=user.lang).send_mail(user.id, force_send=True, raise_exception=True)
+                #template.with_context(lang=user.lang).send_mail(user.id, force_send=True, raise_exception=True)
+                template.with_context(lang=user.lang).send_mail(user.id, force_send=False, raise_exception=False)
             _logger.info("Password reset email sent for user <%s> to <%s>", user.login, user.email)
 
     @api.model

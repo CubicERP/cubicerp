@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE_LGPL file for full copyright and licensing details.
 import logging
 import werkzeug
+import re
 
 from odoo import http, _
 from odoo.addons.auth_signup.models.res_users import SignupError
@@ -77,7 +78,7 @@ class AuthSignupHome(Home):
                         login, request.env.user.login, request.httprequest.remote_addr)
                     request.env['res.users'].sudo().reset_password(login)
                     qcontext['message'] = _("An email has been sent with credentials to reset your password")
-            except UserError as e:
+            except (UserError, ValidationError) as e:
                 qcontext['error'] = e.name or e.value
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
@@ -122,6 +123,11 @@ class AuthSignupHome(Home):
             raise UserError(_("The form was not properly filled in."))
         if values.get('password') != qcontext.get('confirm_password'):
             raise UserError(_("Passwords do not match; please retype them."))
+        if values.get('password') != qcontext.get('confirm_password'):
+            raise UserError(_("Passwords do not match; please retype them."))
+        if values.get('password') and not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})', values['password']):
+            raise ValidationError(_(
+                'The password should be a combination of letters upper, lower, special chars, numbers, and minimum length of 8!'))
         supported_langs = [lang['code'] for lang in request.env['res.lang'].sudo().search_read([], ['code'])]
         if request.lang in supported_langs:
             values['lang'] = request.lang

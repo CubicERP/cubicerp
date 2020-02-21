@@ -153,7 +153,7 @@
     </a>
     % endif
     using
-    <a target="_blank" href="https://www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a>.
+    <a target="_blank" href="https://cubicerp.com" style="text-decoration:none; color: #875A7B;">CubicERP</a>.
 </p>
 </div>]]></field>
         </record>

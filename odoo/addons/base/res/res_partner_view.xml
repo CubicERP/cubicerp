@@ -114,7 +114,7 @@
                                 <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                 <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                             </div>
-                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                            <field name="website" widget="url" placeholder="e.g. www.cubicerp.com"/>
                         </group>
                         <group>
                         </group>

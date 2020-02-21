@@ -69,7 +69,7 @@
                         <div class="row mt16 mb16">
                             <div class="col-md-4">
                                 <span class="fa fa-mortar-board fa-5x"></span>
-                                <p class="text-muted">Is fully trained on Odoo</p>
+                                <p class="text-muted">Is fully trained on CubicERP</p>
                             </div>
                             <div class="col-md-4">
                                 <span class="fa fa-github fa-5x"></span>

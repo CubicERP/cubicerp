@@ -6,7 +6,7 @@ import werkzeug
 from odoo import http, _
 from odoo.addons.auth_signup.models.res_users import SignupError
 from odoo.addons.web.controllers.main import ensure_db, Home
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ class AuthSignupHome(Home):
                             auth_login=werkzeug.url_encode({'auth_login': user_sudo.email}),
                         ).send_mail(user_sudo.id, force_send=True)
                 return super(AuthSignupHome, self).web_login(*args, **kw)
-            except UserError as e:
+            except (UserError, ValidationError) as e:
                 qcontext['error'] = e.name or e.value
             except (SignupError, AssertionError) as e:
                 if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):

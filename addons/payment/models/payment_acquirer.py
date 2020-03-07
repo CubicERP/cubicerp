@@ -807,7 +807,7 @@ class PaymentTransaction(models.Model):
     def action_retry(self):
         for trans in self:
             if not trans.pay_retry:
-                raise exceptions.UserError("The transaction %s is not allowed to retry the payment"%trans.name)
+                raise exceptions.UserError("The transaction %s is not allowed to retry the payment"%trans.reference)
             trans.write({'retries': trans.retries + 1, 'amount_pay': 0.0})
         return self.action_pending()
 

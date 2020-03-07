@@ -138,8 +138,7 @@ class ResUsers(models.Model):
             if not user.email:
                 raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
             with self.env.cr.savepoint():
-                #template.with_context(lang=user.lang).send_mail(user.id, force_send=True, raise_exception=True)
-                template.with_context(lang=user.lang).send_mail(user.id, force_send=False, raise_exception=False)
+                template.with_context(lang=user.lang).send_mail(user.id, force_send=True, raise_exception=True)
             _logger.info("Password reset email sent for user <%s> to <%s>", user.login, user.email)
 
     @api.model

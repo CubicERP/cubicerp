@@ -544,6 +544,8 @@ class Partner(models.Model):
         if not vals.get('image'):
             vals['image'] = self._get_default_image(vals.get('type'), vals.get('is_company'), vals.get('parent_id'))
         tools.image_resize_images(vals)
+        if 'tz' in vals and not vals['tz'] and self.env.user.tz:
+            vals['tz'] = self.env.user.tz
         partner = super(Partner, self).create(vals)
         partner._fields_sync(vals)
         partner._handle_first_contact_creation()

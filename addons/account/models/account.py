@@ -240,7 +240,8 @@ class AccountAccount(models.Model):
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = dict(default or {})
-        default.setdefault('code', _("%s (copy)") % (self.code or ''))
+        if not 'code' in default:
+            default['code'] = _("%s (copy)") % (self.code or '')
         return super(AccountAccount, self).copy(default)
 
     @api.model
@@ -548,9 +549,10 @@ class AccountJournal(models.Model):
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = dict(default or {})
-        default.update(
-            code=_("%s (copy)") % (self.code or ''),
-            name=_("%s (copy)") % (self.name or ''))
+        if not 'code' in default:
+            default['code'] = _("%s (copy)") % (self.code or '')
+        if not 'name' in default:
+            default['name'] = _("%s (copy)") % (self.name or '')
         return super(AccountJournal, self).copy(default)
 
     @api.multi
@@ -880,7 +882,11 @@ class AccountTax(models.Model):
     @api.one
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
-        default = dict(default or {}, name=_("%s (Copy)") % self.name)
+        if default:
+            if not 'name' in default:
+                default['name'] = _("%s (Copy)") % self.name
+        else:
+            default = dict(default or {}, name=_("%s (Copy)") % self.name)
         return super(AccountTax, self).copy(default=default)
 
     @api.model

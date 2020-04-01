@@ -411,7 +411,7 @@ class Website(Home):
         # run it, return only if we got a Response object
         if action:
             if action.state == 'code' and action.website_published:
-                action_res = action.run()
+                action_res = action.with_context(post).run()
                 if isinstance(action_res, werkzeug.wrappers.Response):
                     return action_res
 

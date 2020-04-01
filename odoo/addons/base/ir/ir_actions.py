@@ -506,7 +506,10 @@ class IrActionsServer(models.Model):
         record = None
         records = None
         if self._context.get('active_model') == model_name and self._context.get('active_id'):
-            record = model.browse(self._context['active_id'])
+            active_id = self._context['active_id']
+            if type(active_id) is str:
+                active_id = int(active_id)
+            record = model.browse(active_id)
         if self._context.get('active_model') == model_name and self._context.get('active_ids'):
             records = model.browse(self._context['active_ids'])
         if self._context.get('onchange_self'):

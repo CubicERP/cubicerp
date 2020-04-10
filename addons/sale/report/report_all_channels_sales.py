@@ -37,10 +37,10 @@ class PosSaleReport(models.Model):
                     so.user_id AS user_id,
                     pt.categ_id AS categ_id,
                     so.company_id AS company_id,
-                    sol.price_total / COALESCE(cr.rate, 1.0) AS price_total,
+                    sol.price_total * COALESCE(ccr.rate, 1.0) / COALESCE(cr.rate, 1.0) AS price_total,
                     so.pricelist_id AS pricelist_id,
                     rp.country_id AS country_id,
-                    sol.price_subtotal / COALESCE (cr.rate, 1.0) AS price_subtotal,
+                    sol.price_subtotal * COALESCE(ccr.rate, 1.0) / COALESCE (cr.rate, 1.0) AS price_subtotal,
                     (sol.product_uom_qty / u.factor * u2.factor) as product_qty,
                     so.analytic_account_id AS analytic_account_id,
                     so.team_id AS team_id
@@ -55,6 +55,11 @@ class PosSaleReport(models.Model):
                         cr.company_id = so.company_id AND
                         cr.date_start <= COALESCE(so.date_order, now()) AND
                         (cr.date_end IS NULL OR cr.date_end > COALESCE(so.date_order, now())))
+                    join res_company as cc on (so.company_id = cc.id) 
+                    left join currency_rate ccr on (ccr.currency_id = cc.currency_id and
+                        ccr.company_id = so.company_id and
+                        ccr.date_start <= coalesce(so.date_order, now()) and
+                        (ccr.date_end is null or ccr.date_end > coalesce(so.date_order, now())))
                     LEFT JOIN product_uom u on (u.id=sol.product_uom)
                     LEFT JOIN product_uom u2 on (u2.id=pt.uom_id)
             WHERE so.state != 'cancel'

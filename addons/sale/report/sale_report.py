@@ -56,10 +56,10 @@ class SaleReport(models.Model):
                     sum(l.qty_delivered / u.factor * u2.factor) as qty_delivered,
                     sum(l.qty_invoiced / u.factor * u2.factor) as qty_invoiced,
                     sum(l.qty_to_invoice / u.factor * u2.factor) as qty_to_invoice,
-                    sum(l.price_total / COALESCE(NULLIF(cr.rate, 0), 1.0)) as price_total,
-                    sum(l.price_subtotal / COALESCE(NULLIF(cr.rate, 0), 1.0)) as price_subtotal,
-                    sum(l.amt_to_invoice / COALESCE(NULLIF(cr.rate, 0), 1.0)) as amt_to_invoice,
-                    sum(l.amt_invoiced / COALESCE(NULLIF(cr.rate, 0), 1.0)) as amt_invoiced,
+                    sum(l.price_total * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0)) as price_total,
+                    sum(l.price_subtotal * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0)) as price_subtotal,
+                    sum(l.amt_to_invoice * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0)) as amt_to_invoice,
+                    sum(l.amt_invoiced * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0)) as amt_invoiced,
                     count(*) as nbr,
                     s.name as name,
                     s.date_order as date,
@@ -95,6 +95,11 @@ class SaleReport(models.Model):
                         cr.company_id = s.company_id and
                         cr.date_start <= coalesce(s.date_order, now()) and
                         (cr.date_end is null or cr.date_end > coalesce(s.date_order, now())))
+                    join res_company as cc on (s.company_id = cc.id) 
+                    left join currency_rate ccr on (ccr.currency_id = cc.currency_id and
+                        ccr.company_id = s.company_id and
+                        ccr.date_start <= coalesce(s.date_order, now()) and
+                        (ccr.date_end is null or ccr.date_end > coalesce(s.date_order, now())))
         """
         return from_str
 

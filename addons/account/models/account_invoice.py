@@ -258,7 +258,7 @@ class AccountInvoice(models.Model):
         default=_get_default_access_token)
 
     related_invoice = fields.Boolean("Require Related Invoice", related="journal_id.related_journal")
-    refund_invoice_id = fields.Many2one('account.invoice', string="Related Invoice",
+    refund_invoice_id = fields.Many2one('account.invoice', string="Related Invoice", ondelete="restrict",
                                         help="Invoice for which this invoice is their credit note")
     number = fields.Char(related='move_id.name', store=True, readonly=True, copy=False, index=True)
     move_name = fields.Char(string='Journal Entry Name', readonly=False,

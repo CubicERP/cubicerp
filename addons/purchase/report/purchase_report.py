@@ -74,10 +74,10 @@ class PurchaseReport(models.Model):
                     extract(epoch from age(s.date_approve,s.date_order))/(24*60*60)::decimal(16,2) as delay,
                     extract(epoch from age(l.date_planned,s.date_order))/(24*60*60)::decimal(16,2) as delay_pass,
                     count(*) as nbr_lines,
-                    sum(l.price_unit / COALESCE(NULLIF(cr.rate, 0), 1.0) * l.product_qty)::decimal(16,2) as price_total,
-                    avg(100.0 * (l.price_unit / COALESCE(NULLIF(cr.rate, 0),1.0) * l.product_qty) / NULLIF(ip.value_float*l.product_qty/u.factor*u2.factor, 0.0))::decimal(16,2) as negociation,
+                    sum(l.price_unit * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0) * l.product_qty)::decimal(16,2) as price_total,
+                    avg(100.0 * (l.price_unit * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0),1.0) * l.product_qty) / NULLIF(ip.value_float*l.product_qty/u.factor*u2.factor, 0.0))::decimal(16,2) as negociation,
                     sum(ip.value_float*l.product_qty/u.factor*u2.factor)::decimal(16,2) as price_standard,
-                    (sum(l.product_qty * l.price_unit / COALESCE(NULLIF(cr.rate, 0), 1.0))/NULLIF(sum(l.product_qty/u.factor*u2.factor),0.0))::decimal(16,2) as price_average,
+                    (sum(l.product_qty * l.price_unit * COALESCE(NULLIF(ccr.rate, 0), 1.0) / COALESCE(NULLIF(cr.rate, 0), 1.0))/NULLIF(sum(l.product_qty/u.factor*u2.factor),0.0))::decimal(16,2) as price_average,
                     partner.country_id as country_id,
                     partner.commercial_partner_id as commercial_partner_id,
                     analytic_account.id as account_analytic_id,
@@ -97,6 +97,11 @@ class PurchaseReport(models.Model):
                         cr.company_id = s.company_id and
                         cr.date_start <= coalesce(s.date_order, now()) and
                         (cr.date_end is null or cr.date_end > coalesce(s.date_order, now())))
+                    join res_company as cc on (s.company_id = cc.id) 
+                    left join currency_rate ccr on (ccr.currency_id = s.currency_id and
+                        ccr.company_id = s.company_id and
+                        ccr.date_start <= coalesce(s.date_order, now()) and
+                        (ccr.date_end is null or ccr.date_end > coalesce(s.date_order, now())))
                 group by
                     s.company_id,
                     s.create_uid,

@@ -2551,7 +2551,7 @@ class BaseModel(MetaModel('DummyModel', (object,), {'_register': False})):
                     operation, self._uid, self._name, ', '.join(invalid_fields))
                 raise AccessError(_('The requested operation cannot be completed due to security restrictions. '
                                     'Please contact your system administrator.\n\n(Document type: %s, Operation: %s)') % \
-                                  (self._description, operation))
+                                  (self._name, operation))
 
         return fields
 

@@ -4424,7 +4424,7 @@ msgstr "Procesando pedido"
 #: model:ir.model.fields,field_description:stock.field_stock_move_line_ordered_qty
 #: model:ir.model.fields,field_description:stock.field_stock_move_ordered_qty
 msgid "Ordered Quantity"
-msgstr "Quantitat demanada"
+msgstr "Cantidad demanada"
 
 #. module: stock
 #: model:ir.ui.view,arch_db:stock.view_move_search

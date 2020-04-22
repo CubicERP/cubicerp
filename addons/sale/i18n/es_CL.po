@@ -1679,7 +1679,7 @@ msgstr "Ctdad pedida"
 #: model:ir.ui.view,arch_db:sale.view_order_form
 #, python-format
 msgid "Ordered Quantity"
-msgstr "Quantitat demanada"
+msgstr "Cantidad demanada"
 
 #. module: sale
 #: model:ir.model.fields,help:sale.field_product_product_invoice_policy

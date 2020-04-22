@@ -163,30 +163,9 @@ class SaleOrderLine(models.Model):
             self.product_packaging = False
             return {}
         if self.product_id.type == 'product':
-            precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            product = self.product_id.with_context(
-                warehouse=self.order_id.warehouse_id.id,
-                lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
-            )
-            product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
-            if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
-                is_available = self._check_routing()
-                if not is_available and self._context.get('warning-available-stock',True):
-                    message =  _('You plan to sell %s %s but you only have %s %s available in %s warehouse.') % \
-                            (self.product_uom_qty, self.product_uom.name, product.virtual_available, product.uom_id.name, self.order_id.warehouse_id.name)
-                    # We check if some products are available in other warehouses.
-                    if float_compare(product.virtual_available, self.product_id.virtual_available, precision_digits=precision) == -1:
-                        message += _('\nThere are %s %s available accross all warehouses.') % \
-                                (self.product_id.virtual_available, product.uom_id.name)
-                    for warehouse in self.env['stock.warehouse'].search([('id','!=',self.order_id.warehouse_id.id)]):
-                        product = self.product_id.with_context(warehouse=warehouse.id,
-                                                               lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US')
-                        message += _('\n - %s : %s %s') % (warehouse.name, product.virtual_available, product.uom_id.name)
-                    warning_mess = {
-                        'title': _('Not enough inventory!'),
-                        'message' : message
-                    }
-                    return {'warning': warning_mess}
+            warning_mess = self.product_id.stock_message(self.product_uom_qty, self.product_uom, self.order_id.warehouse_id, self.route_id, self.order_id.partner_id.lang)
+            if warning_mess:
+                return {'warning': warning_mess}
         return {}
 
     @api.onchange('product_uom_qty')

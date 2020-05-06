@@ -671,6 +671,16 @@ class Module(models.Model):
         self.env['ir.model.data'].create(module_metadata)
         return new
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if name:
+            recs = self.search(['|',('name', '=', name), ('shortdesc', '=', name)] + args, limit=limit)
+        if not recs:
+            recs = self.search(['|',('name', operator, name),('summary', operator, name)] + args, limit=limit)
+        return recs.name_get()
+
     # update the list of available packages
     @assert_log_admin_access
     @api.model

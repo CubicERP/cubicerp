@@ -34,8 +34,8 @@ conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 #conf['db_user'] = 'cubicerp'
 #conf['db_port'] = 5432
 #conf['db_password'] = ''
-conf['dbfilter']="^%d.*"
-conf['admin_passwd']="admin"
+#conf['dbfilter']="^%d.*"
+#conf['admin_passwd']="admin"
 
 #----------------------------------------------------------
 # Generic WSGI handlers application

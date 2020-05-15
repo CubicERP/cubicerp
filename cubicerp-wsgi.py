@@ -26,16 +26,16 @@ conf = odoo.tools.config
 # Path to the OpenERP Addons repository (comma-separated for
 # multiple locations)
 
-conf['addons_path'] = './addons,../branch,../community,../customize'
+conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 
 # Optional database config if not using local socket
 #conf['db_name'] = 'mycompany'
-conf['db_host'] = 'localhost'
-conf['db_user'] = 'cubicerp'
-conf['db_port'] = 5432
+#conf['db_host'] = 'localhost'
+#conf['db_user'] = 'cubicerp'
+#conf['db_port'] = 5432
 #conf['db_password'] = ''
-conf['dbfilter']="^%d.*"
-conf['admin_passwd']="admin"
+#conf['dbfilter']="^%d.*"
+#conf['admin_passwd']="admin"
 
 #----------------------------------------------------------
 # Generic WSGI handlers application
@@ -50,7 +50,7 @@ odoo.service.server.load_server_wide_modules()
 # Standard OpenERP XML-RPC port is 8069
 bind = '0.0.0.0:8078'
 pidfile = '.gunicorn.pid'
-workers = 5
+workers = 2
 timeout = 600
 max_requests = 1000
 preload_app = True

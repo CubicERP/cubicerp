@@ -500,6 +500,9 @@ class StockMove(models.Model):
                 if move.scrapped:
                     # We may have done move in an open picking in a scrap scenario.
                     continue
+                elif not move.quantity_done:
+                    # Cancel when the quantity is zero
+                    continue
                 else:
                     raise UserError(_('Cannot unreserve a done move'))
             moves_to_unreserve |= move
@@ -1020,7 +1023,7 @@ class StockMove(models.Model):
         self.mapped('picking_id')._check_entire_pack()
 
     def _action_cancel(self):
-        if any(move.state == 'done' for move in self):
+        if any(move.state == 'done' and move.quantity_done for move in self):
             raise UserError(_('You cannot cancel a stock move that has been set to \'Done\'.'))
         for move in self:
             if move.state == 'cancel':

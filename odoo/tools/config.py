@@ -277,6 +277,16 @@ class configmanager(object):
                          help="Absolute path to the GeoIP database file.")
         parser.add_option_group(group)
 
+        # WSGI options
+        group = optparse.OptionGroup(parser, "WSGI options gunicorn")
+        group.add_option('--wsgi-bind', dest='wsgi-bind', type="string", my_default="0.0.0.0:8078")
+        group.add_option('--wsgi-pidfile', dest='wsgi-pidfile', type="string", my_default=".gunicorn.pid")
+        group.add_option('--wsgi-workers', dest='wsgi-workers', type="int", my_default=2)
+        group.add_option('--wsgi-timeout', dest='wsgi-timeout', type="int", my_default=600)
+        group.add_option('--wsgi-max_requests', dest='wsgi-max_requests', type="int", my_default=1000)
+        group.add_option('--wsgi-preload_app', dest='wsgi-preload_app', my_default=True)
+        parser.add_option_group(group)
+
         if os.name == 'posix':
             group = optparse.OptionGroup(parser, "Multiprocessing options")
             # TODO sensible default for the three following limits.
@@ -372,8 +382,8 @@ class configmanager(object):
         if os.name == 'nt':
             rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'cubicerp_server.conf')
         else:
-            rcfilepath = os.path.expanduser('~/.cubicerp_serverrc')
-            old_rcfilepath = os.path.expanduser('~/.odoorc')
+            rcfilepath = os.path.expanduser('../config/cubicerp.conf')
+            old_rcfilepath = os.path.expanduser('.cubicerp_serverrc')
 
             die(os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath),
                 "Found '.odoorc' and '.cubicerp_serverrc' in your path. Please keep only one of "\

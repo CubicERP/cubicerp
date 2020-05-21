@@ -25,9 +25,8 @@ conf = odoo.tools.config
 
 # Path to the OpenERP Addons repository (comma-separated for
 # multiple locations)
-
-conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
-
+#conf.parse_config(['-c','../.cubicerp_serverrc'])
+#conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 # Optional database config if not using local socket
 #conf['db_name'] = 'mycompany'
 #conf['db_host'] = 'localhost'
@@ -36,7 +35,7 @@ conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 #conf['db_password'] = ''
 #conf['dbfilter']="^%d.*"
 #conf['admin_passwd']="admin"
-conf['data_dir']='../data'
+#conf['data_dir']='../data'
 
 #----------------------------------------------------------
 # Generic WSGI handlers application
@@ -49,11 +48,11 @@ odoo.service.server.load_server_wide_modules()
 # Gunicorn
 #----------------------------------------------------------
 # Standard OpenERP XML-RPC port is 8069
-bind = '0.0.0.0:8078'
-pidfile = '.gunicorn.pid'
-workers = 2
-timeout = 600
-max_requests = 1000
-preload_app = True
+bind = conf['wsgi-bind']
+pidfile = conf['wsgi-pidfile']
+workers = conf['wsgi-workers']
+timeout = conf['wsgi-timeout']
+max_requests = conf['wsgi-max_requests']
+preload_app = conf['wsgi-preload_app']
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -36,6 +36,7 @@ conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 #conf['db_password'] = ''
 #conf['dbfilter']="^%d.*"
 #conf['admin_passwd']="admin"
+conf['data_dir']='../data'
 
 #----------------------------------------------------------
 # Generic WSGI handlers application

@@ -290,7 +290,7 @@ class IrActionsReport(models.Model):
         :return: bodies, header, footer, specific_paperformat_args
         '''
         IrConfig = self.env['ir.config_parameter'].sudo()
-        base_url = IrConfig.get_param('report.url') or IrConfig.get_param('web.base.url')
+        base_url = IrConfig.get_param('report.url') or config.get('wkhtmltopdf_report_url') or IrConfig.get_param('web.base.url')
 
         # Return empty dictionary if 'web.minimal_layout' not found.
         layout = self.env.ref('web.minimal_layout', False)

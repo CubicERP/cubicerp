@@ -287,6 +287,12 @@ class configmanager(object):
         group.add_option('--wsgi-preload_app', dest='wsgi-preload_app', my_default=True)
         parser.add_option_group(group)
 
+        # WKHTMLTOPDF options
+        group = optparse.OptionGroup(parser, "WKHTMLTOPDF options")
+        group.add_option('--wkhtmltopdf_report_url', dest='wkhtmltopdf_report_url', type="string",
+                         help="The url used by wkhtmltoped to render the report. Eg. http://127.0.0.1:8069")
+        parser.add_option_group(group)
+
         if os.name == 'posix':
             group = optparse.OptionGroup(parser, "Multiprocessing options")
             # TODO sensible default for the three following limits.

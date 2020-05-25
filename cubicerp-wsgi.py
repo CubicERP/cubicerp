@@ -25,7 +25,7 @@ conf = odoo.tools.config
 
 # Path to the OpenERP Addons repository (comma-separated for
 # multiple locations)
-#conf.parse_config(['-c','../.cubicerp_serverrc'])
+#conf.parse_config(['-c','config/cubicerp.conf'])
 #conf['addons_path'] = './addons,../ebranch,../community,../customize,../themes'
 # Optional database config if not using local socket
 #conf['db_name'] = 'mycompany'
@@ -35,7 +35,7 @@ conf = odoo.tools.config
 #conf['db_password'] = ''
 #conf['dbfilter']="^%d.*"
 #conf['admin_passwd']="admin"
-#conf['data_dir']='../data'
+#conf['data_dir']='./data'
 
 #----------------------------------------------------------
 # Generic WSGI handlers application

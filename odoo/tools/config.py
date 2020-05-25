@@ -388,7 +388,7 @@ class configmanager(object):
         if os.name == 'nt':
             rcfilepath = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), 'cubicerp_server.conf')
         else:
-            rcfilepath = os.path.expanduser('../config/cubicerp.conf')
+            rcfilepath = os.path.expanduser('config/cubicerp.conf')
             old_rcfilepath = os.path.expanduser('.cubicerp_serverrc')
 
             die(os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath),

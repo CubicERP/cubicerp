@@ -392,8 +392,8 @@ class configmanager(object):
             old_rcfilepath = os.path.expanduser('.cubicerp_serverrc')
 
             die(os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath),
-                "Found '.odoorc' and '.cubicerp_serverrc' in your path. Please keep only one of "\
-                "them, preferrably '.cubicerp_serverrc'.")
+                "Found 'config/cubicerp.conf' and '.cubicerp_serverrc' in your path. Please keep only one of "\
+                "them, preferrably 'config/cubicerp.conf'.")
 
             if not os.path.isfile(rcfilepath) and os.path.isfile(old_rcfilepath):
                 rcfilepath = old_rcfilepath

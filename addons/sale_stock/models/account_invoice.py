@@ -11,9 +11,21 @@ class AccountInvoice(models.Model):
         help="Incoterms are series of sales terms. They are used to divide transaction costs and responsibilities between buyer and seller and reflect state-of-the-art transportation practices.",
         readonly=True, states={'draft': [('readonly', False)]})
 
+    def invoice_validate(self):
+        res= super(AccountInvoice,self).invoice_validate()
+        for invoice in self.filtered(lambda i: (i.reference_type=='guide' or not i.reference_type) and i.type=='out_invoice'):
+            pickings = invoice.invoice_line_ids.mapped("stock_move_ids").mapped("picking_id").filtered(lambda p: p.picking_type_id.print_number)
+            if pickings:
+                invoice.write({
+                    'reference_type': 'guide',
+                    'reference': ", ".join([p.get_picking_name() for p in pickings]),
+                })
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
+
+    stock_move_ids = fields.One2many("stock.move", 'invoice_line_id', help="Technical field to intent linking invoices with pickings in order to print picking names in invoices")
 
     def _get_anglo_saxon_price_unit(self):
         price_unit = super(AccountInvoiceLine,self)._get_anglo_saxon_price_unit()

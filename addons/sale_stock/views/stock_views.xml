@@ -7,6 +7,17 @@
             </xpath>
         </template>
 
+        <record model="ir.ui.view" id="view_picking_type_form">
+            <field name="name">stock.picking.type.form.inherit.pharma.pe</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='show_reserved']" position="after">
+                    <field name="print_number" attrs="{'invisible':[('code','!=','outgoing')]}" groups="stock.group_production_lot"/>
+                </xpath>
+            </field>
+        </record>
+
         <menuitem id="menu_aftersale" name="After-Sale"
             groups="sales_team.group_sale_salesman"
             parent="sale.sale_menu_root" sequence="5" />

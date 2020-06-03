@@ -12,6 +12,8 @@ class StockLocationRoute(models.Model):
 class StockMove(models.Model):
     _inherit = "stock.move"
     sale_line_id = fields.Many2one('sale.order.line', 'Sale Line')
+    invoice_line_id = fields.Many2one("account.invoice.line", copy=False,
+                                      help="Technical field to print picking name in invoices")
 
     @api.model
     def _prepare_merge_moves_distinct_fields(self):
@@ -73,6 +75,10 @@ class StockPicking(models.Model):
 
     sale_id = fields.Many2one(related="group_id.sale_id", string="Sales Order", store=True)
 
+    def get_picking_name(self):
+        self.ensure_one()
+        return self.name
+
     def action_fix_sale_line(self):
         group = self.mapped('group_id')
         if len(group) != 1:
@@ -94,3 +100,9 @@ class StockPicking(models.Model):
 
         for line in moves.mapped('sale_line_id').sudo():
             line.qty_delivered = line._get_delivered_qty()
+
+
+class StockPickingType(models.Model):
+    _inherit = "stock.picking.type"
+
+    print_number = fields.Boolean(help="Print picking number in the invoice")

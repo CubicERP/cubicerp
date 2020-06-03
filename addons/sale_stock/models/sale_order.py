@@ -110,6 +110,14 @@ class SaleOrderLine(models.Model):
             lines.with_context(previous_product_uom_qty=previous_product_uom_qty)._action_launch_procurement_rule()
         return res
     
+    def invoice_line_create(self, invoice_id, qty):
+        lines = super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
+        for sline in self.filtered(lambda sl: sl.product_id.type != 'service'):
+            moves = sline.move_ids.filtered(lambda m: not m.invoice_line_id)
+            for iline in (self.invoice_lines & lines):
+                moves.write({'invoice_line_id': iline.id})
+                break
+        return lines
 
     @api.depends('order_id.state')
     def _compute_invoice_status(self):

@@ -13,8 +13,8 @@ class AccountInvoice(models.Model):
 
     def invoice_validate(self):
         res= super(AccountInvoice,self).invoice_validate()
-        for invoice in self.filtered(lambda i: (i.reference_type=='guide' or not i.reference_type) and i.type=='out_invoice'):
-            pickings = invoice.invoice_line_ids.mapped("stock_move_ids").mapped("picking_id").filtered(lambda p: p.picking_type_id.print_number)
+        for invoice in self.filtered(lambda i: (i.reference_type=='guide' or not i.reference_type) and i.type=='out_invoice' and not i.reference):
+            pickings = invoice.invoice_line_ids.mapped("stock_move_ids").mapped("picking_id").filtered(lambda p: p.picking_type_id.print_number and p.state == 'done')
             if pickings:
                 invoice.write({
                     'reference_type': 'guide',

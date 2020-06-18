@@ -58,7 +58,7 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
-            <field name="reference" position="after" >
+            <field name="partner_bank_id" position="before" >
                  <field name="purchase_id" attrs="{'readonly': [('state','not in',['draft'])], 'invisible': ['|', ('state', '=', 'purchase'), ('type', '=', 'in_refund')]}" class="oe_edit_only"
                     options="{'no_create': True}" context="{'show_total_amount': True}"/>
             </field>

@@ -89,6 +89,7 @@ class AccountInvoice(models.Model):
         self.invoice_line_ids += new_lines
         self.payment_term_id = self.purchase_id.payment_term_id
         self.env.context = dict(self.env.context, from_purchase_order_change=True)
+        self.origin = (self.origin and "%s, "%self.origin or '') + self.purchase_id.name
         self.purchase_id = False
         return {}
 

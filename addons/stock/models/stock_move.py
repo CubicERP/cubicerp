@@ -900,6 +900,12 @@ class StockMove(models.Model):
                     self.env['stock.move.line'].create(self._prepare_move_line_vals(quantity=quantity, reserved_quant=reserved_quant))
         return taken_quantity
 
+    def _action_draft(self):
+        if any(move.state != 'cancel' for move in self):
+            raise UserError(_('The stock move must be in \'Cancel\' state to set to draft.'))
+        self.write({'state': 'draft'})
+        return True
+
     def _action_assign(self):
         """ Reserve stock moves by creating their stock move lines. A stock move is
         considered reserved once the sum of `product_qty` for all its move lines is

@@ -113,7 +113,7 @@ class SaleOrderLine(models.Model):
     def invoice_line_create(self, invoice_id, qty):
         lines = super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
         for sline in self.filtered(lambda sl: sl.product_id.type != 'service'):
-            moves = sline.move_ids.filtered(lambda m: not m.invoice_line_id)
+            moves = sline.move_ids.filtered(lambda m: not m.invoice_line_id and m.state=='done')
             for iline in (self.invoice_lines & lines):
                 moves.write({'invoice_line_id': iline.id})
                 break

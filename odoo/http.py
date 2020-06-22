@@ -279,7 +279,8 @@ class WebRequest(object):
     def __exit__(self, exc_type, exc_value, traceback):
         _request_stack.pop()
 
-        if self._cr:
+        #if self._cr:
+        if self._cr and not self._cr._cnx.closed:
             if exc_type is None and not self._failed:
                 self._cr.commit()
                 if self.registry:
@@ -1518,7 +1519,10 @@ def db_filter(dbs, httprequest=None):
     d, _, r = h.partition('.')
     if d == "www" and r:
         d = r.partition('.')[0]
-    if odoo.tools.config['dbfilter']:
+    if odoo.tools.config['session_database_manager'] and httprequest.session.db and httprequest.session.uid == 1:
+        r = "^%s" % httprequest.session.db
+        dbs = [i for i in dbs if re.match(r, i)]
+    elif odoo.tools.config['dbfilter']:
         d, h = re.escape(d), re.escape(h)
         r = odoo.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
         dbs = [i for i in dbs if re.match(r, i)]

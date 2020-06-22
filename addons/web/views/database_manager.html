@@ -43,7 +43,7 @@
 
 {% macro master_input() -%}
   <div class="form-group">
-    {% if insecure %}
+    {% if insecure or session_db %}
       <input type="hidden" name="master_pwd" class="form-control" value="admin"/>
     {% else %}
       <label for="master_pwd" class="control-label">Master Password</label>
@@ -150,15 +150,19 @@
         </div>
         {% if manage %}
         <div class="text-left">
+          {% if not session_db %}
           <button type="button" data-toggle="modal" data-target=".o_database_create" class="btn btn-sm btn-primary">
             Create Database
           </button>
+          {% endif %}
           <button type="button" data-toggle="modal" data-target=".o_database_restore" class="btn btn-sm btn-primary">
             Restore Database
           </button>
+          {% if not session_db %}
           <button type="button" data-toggle="modal" data-target=".o_database_master" class="btn btn-sm btn-primary">
             Set Master Password
           </button>
+          {% endif %}
         </div>
         {% else %}
         <div class="text-center">
@@ -214,7 +218,9 @@
             </div>
             <div class="form-group">
               <label for="name" class="control-label">Database Name</label>
-              <input id="name" type="text" name="name" class="form-control" required="required" pattern="{{ pattern }}" title="Only alphanumerical characters, underscore, hyphen and dot are allowed"/>
+              <input id="name" type="text" name="name" class="form-control" required="required" pattern="{{ pattern }}"
+                     value="{{ session_db_name and '%s_'%session_db_name or '' }}"
+                     title="Only {{ session_db_name and '%s, '%session_db_name or '' }}alphanumerical characters, underscore, hyphen and dot are allowed"/>
             </div>
             <div class="form-group">
                 <label for="copy">This database might have been moved or copied.</label>
@@ -287,7 +293,9 @@
             </div>
             <div class="form-group">
               <label for="new_name" class="control-label">New Name</label>
-              <input id="new_name" type="text" name="new_name" class="form-control" required="required" pattern="{{ pattern }}" title="Only alphanumerical characters, underscore, hyphen and dot are allowed"/>
+              <input id="new_name" type="text" name="new_name" class="form-control" required="required" pattern="{{ pattern }}"
+                     value="{{ session_db_name and '%s_'%session_db_name or '' }}"
+                     title="Only {{ session_db_name and '%s, '%session_db_name or '' }}alphanumerical characters, underscore, hyphen and dot are allowed"/>
             </div>
           </div>
           <div class="modal-footer">

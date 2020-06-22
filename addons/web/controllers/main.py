@@ -668,10 +668,17 @@ class Database(http.Controller):
     def _render_template(self, **d):
         d.setdefault('manage',True)
         d['insecure'] = odoo.tools.config.verify_admin_password('admin')
+        d['session_db'] = False
+        d['session_db_name'] = ''
+        d['pattern'] = DBNAME_PATTERN
+        if odoo.tools.config['session_database_manager'] and request.session.db and request.session.uid == 1:
+            d['insecure'] = False
+            d['session_db'] = True
+            d['session_db_name'] = "%s" % request.session.db
+            d['pattern'] = "^%s[a-zA-Z0-9_.-]+$" % request.session.db
         d['list_db'] = odoo.tools.config['list_db']
         d['langs'] = odoo.service.db.exp_list_lang()
         d['countries'] = odoo.service.db.exp_list_countries()
-        d['pattern'] = DBNAME_PATTERN
         # databases list
         d['databases'] = []
         try:
@@ -712,6 +719,8 @@ class Database(http.Controller):
         try:
             if not re.match(DBNAME_PATTERN, new_name):
                 raise Exception(_('Invalid database name. Only alphanumerical characters, underscore, hyphen and dot are allowed.'))
+            if (request.session.db and new_name.startswith(request.session.db) and request.session.uid and request.session.uid == 1):
+                master_pwd = odoo.tools.config.get('_admin_passwd', odoo.tools.config['admin_passwd'])
             dispatch_rpc('db', 'duplicate_database', [master_pwd, name, new_name])
             return http.local_redirect('/web/database/manager')
         except Exception as e:
@@ -721,6 +730,8 @@ class Database(http.Controller):
     @http.route('/web/database/drop', type='http', auth="none", methods=['POST'], csrf=False)
     def drop(self, master_pwd, name):
         try:
+            if (request.session.db and name.startswith(request.session.db) and request.session.uid and request.session.uid == 1):
+                master_pwd = odoo.tools.config.get('_admin_passwd', odoo.tools.config['admin_passwd'])
             dispatch_rpc('db','drop', [master_pwd, name])
             request._cr = None  # dropping a database leads to an unusable cursor
             return http.local_redirect('/web/database/manager')
@@ -731,7 +742,8 @@ class Database(http.Controller):
     @http.route('/web/database/backup', type='http', auth="none", methods=['POST'], csrf=False)
     def backup(self, master_pwd, name, backup_format = 'zip'):
         try:
-            odoo.service.db.check_super(master_pwd)
+            if not (request.session.db and request.session.db == name and request.session.uid and request.session.uid == 1):
+                odoo.service.db.check_super(master_pwd)
             ts = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
             filename = "%s_%s.%s" % (name, ts, backup_format)
             headers = [
@@ -750,7 +762,8 @@ class Database(http.Controller):
     def restore(self, master_pwd, backup_file, name, copy=False):
         try:
             data_file = None
-            db.check_super(master_pwd)
+            if not (request.session.db and name.startswith(request.session.db) and request.session.uid and request.session.uid == 1):
+                db.check_super(master_pwd)
             with tempfile.NamedTemporaryFile(delete=False) as data_file:
                 backup_file.save(data_file)
             db.restore_db(name, data_file.name, str2bool(copy))

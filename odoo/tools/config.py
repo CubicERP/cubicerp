@@ -293,6 +293,11 @@ class configmanager(object):
                          help="The url used by wkhtmltoped to render the report. Eg. http://127.0.0.1:8069")
         parser.add_option_group(group)
 
+        # Database Manager when the user is logged options
+        group = optparse.OptionGroup(parser, "Session Database Manager options")
+        group.add_option('--session_database_manager', dest='session_database_manager', my_default=False)
+        parser.add_option_group(group)
+
         if os.name == 'posix':
             group = optparse.OptionGroup(parser, "Multiprocessing options")
             # TODO sensible default for the three following limits.
@@ -662,6 +667,7 @@ class configmanager(object):
         if result:
             if updated_hash:
                 self.options['admin_passwd'] = updated_hash
+                self.options['_admin_passwd'] = password
             return True
 
 config = configmanager()

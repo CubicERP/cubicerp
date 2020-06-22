@@ -73,20 +73,6 @@ var UserMenu = Widget.extend({
     /**
      * @private
      */
-    _onMenuDocumentation: function () {
-        window.open('https://www.cubicerp.com/', '_blank');
-    },
-    /**
-     * @private
-     */
-    _onMenuLogout: function () {
-        this.trigger_up('clear_uncommitted_changes', {
-            callback: this.do_action.bind(this, 'logout'),
-        });
-    },
-    /**
-     * @private
-     */
     _onMenuSettings: function () {
         var self = this;
         var session = this.getSession();
@@ -108,9 +94,30 @@ var UserMenu = Widget.extend({
     /**
      * @private
      */
+    _onMenuDocumentation: function () {
+        window.open('https://www.cubicerp.com/', '_blank');
+    },
+    /**
+     * @private
+     */
     _onMenuSupport: function () {
         window.open('https://www.cubicerp.com/help', '_blank');
     },
+    /**
+     * @private
+     */
+    _onMenuDatabase: function () {
+        window.open('/web/database/manager', '_self');
+    },
+    /**
+     * @private
+     */
+    _onMenuLogout: function () {
+        this.trigger_up('clear_uncommitted_changes', {
+            callback: this.do_action.bind(this, 'logout'),
+        });
+    },
+
 });
 
 return UserMenu;

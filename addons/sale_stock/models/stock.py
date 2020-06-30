@@ -87,18 +87,20 @@ class StockPicking(models.Model):
             raise exceptions.ValidationError(
                 _("There isn't a sale order associated to the procurement group %s")%group.name)
         lines = group.sale_id.order_line
-        moves = self.env['stock.move']
+        to_update = self.env['sale.order.line']
         for picking in self.filtered(lambda p: p.state != 'cancel'):
-            for move in picking.move_lines.filtered(lambda m: not m.sale_line_id):
+            for move in picking.move_lines.filtered(lambda m: not m.sale_line_id or m.sale_line_id not in lines):
+                if move.sale_line_id:
+                    to_update |= move.sale_line_id
                 for line in lines.filtered(lambda l: l.product_id == move.product_id):
                     move.write({'sale_line_id': line.id, 'group_id': group.id})
-                    moves |= move
+                    to_update |= line
                     break
                 else:
                     raise exceptions.ValidationError(
                         _("Product %s not found in the sale order %s") % (move.product_id.name, group.sale_id.name))
 
-        for line in moves.mapped('sale_line_id').sudo():
+        for line in to_update.sudo():
             line.qty_delivered = line._get_delivered_qty()
 
 

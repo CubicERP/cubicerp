@@ -71,7 +71,7 @@
 
         <!-- Action fix sale lines according to an unique source document -->
         <record id="action_stock_fix_sale_line" model="ir.actions.server">
-            <field name="name">Fix Sale Lines</field>
+            <field name="name">Fix Procurement Group Move</field>
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
             <field name="model_id" ref="stock.model_stock_picking"/>

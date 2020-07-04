@@ -1,5 +1,5 @@
-Cubic ERP v2020.alpha
-=====================
+Cubic ERP v2020
+===============
 
 Cubic ERP is a suite of open source apps for business and government processes, available on mobile & web devices, based on LGPL license.
 

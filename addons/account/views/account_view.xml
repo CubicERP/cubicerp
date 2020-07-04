@@ -356,12 +356,12 @@
                                         </div>
                                         <field name="related_journal"
                                                attrs="{'invisible': [('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])]}"
-                                               groups="base.group_no_one"/>
+                                               groups="account.group_account_user"/>
                                         <field name="related_journal_id"
                                                widget="many2many_tags"
                                                attrs="{'invisible': ['|',('related_journal','=',False),('type', 'not in', ['sale', 'purchase', 'sale_refund', 'purchase_refund'])],'required':[('related_journal','=',True)]}"
                                                domain="[('type','in',['sale','purchase'])]"
-                                               groups="base.group_no_one"/>
+                                               groups="account.group_account_user"/>
                                         <!--field name="refund_sequence"
                                                attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}"
                                                groups="base.group_no_one"/>

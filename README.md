@@ -10,6 +10,5 @@ Useful Links
 ------------
 * Help to Users: https://cubicerp.com/help
 * New Features & Bugs: https://cubicerp.com/issues
-* Community Forum: https://cubicerp.com/community
 * Mailing List: https://groups.google.com/forum/#!forum/cubicerp
 * Demo: http://demo.cubicerp.com/web - User: demo, Password: demo

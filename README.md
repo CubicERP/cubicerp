@@ -6,8 +6,26 @@ CubicERP Peru S.R.L is the company that lead this project, our experience in ERP
 
 Contact us at http://cubicerp.com.
 
-Useful Links
-------------
+## Quick Start
+
+### Prerequisites
+
+First install Docker from https://docs.docker.com/engine/install/
+
+### Run
+
+    $ docker run --restart=always --name cubicerp-ce \
+        -v cubicerp-ce-base:/var/lib/postgresql \
+        -v cubicerp-ce-data:/home/cubicerp/ecbc/data \
+        -v cubicerp-ce-conf:/home/cubicerp/ecbc/config \
+        -dit -p 8069:8069 cubicerp/cubicerp
+
+### Test
+
+    http://localhost:8069
+
+## Useful Links
+
 * Help to Users: https://cubicerp.com/help
 * New Features & Bugs: https://cubicerp.com/issues
 * Mailing List: https://groups.google.com/forum/#!forum/cubicerp

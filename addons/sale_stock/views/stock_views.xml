@@ -7,6 +7,17 @@
             </xpath>
         </template>
 
+        <record model="ir.ui.view" id="view_move_form">
+            <field name="name">stock.move.form.inherit.sale</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_id']" position="after">
+                    <field name="sale_line_id" attrs="{'invisible':[('sale_line_id','=',False)]}" readonly="1" groups="base.group_no_one"/>
+                </xpath>
+            </field>
+        </record>
+        
         <record model="ir.ui.view" id="view_picking_type_form">
             <field name="name">stock.picking.type.form.inherit.pharma.pe</field>
             <field name="model">stock.picking.type</field>

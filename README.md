@@ -1,5 +1,4 @@
-Cubic ERP CE 2020
-=================
+# Cubic ERP 2020
 
 Cubic ERP Community Edition is a suite of open source apps for business and government processes, available on mobile & web devices, based on LGPL license.
 

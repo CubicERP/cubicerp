@@ -98,7 +98,9 @@ class res_partner(osv.Model):
                                ).json().get('result', {})
         if details:
             details['country_id'] = self.pool['res.country'].search(cr, uid, [('code', '=', details['country_id'])], limit=1)[0]
-            details['state_id'] = self.pool['res.country.state'].search(cr, uid, [('code', '=', details['state_id'])], limit=1)[0]
+            state_ids = self.pool['res.country.state'].search(cr, uid, [('code', '=', details['state_id'])], limit=1)
+            if state_ids:
+                details['state_id'] = state_ids[0]
             return details
 
         res = {}

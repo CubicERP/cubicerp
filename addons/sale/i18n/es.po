@@ -1710,7 +1710,7 @@ msgstr "Pedir"
 #. module: sale
 #: model:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Order #"
-msgstr "Pedido #"
+msgstr "Pedido "
 
 #. module: sale
 #: code:addons/sale/controllers/portal.py:86

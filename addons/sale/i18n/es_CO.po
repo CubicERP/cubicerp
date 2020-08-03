@@ -1923,7 +1923,7 @@ msgstr "Cotización"
 #: model:ir.ui.view,arch_db:sale.portal_my_quotations
 #: model:ir.ui.view,arch_db:sale.report_saleorder_document
 msgid "Quotation #"
-msgstr "Cotización #"
+msgstr "Cotización "
 
 #. module: sale
 #: model:ir.actions.report,name:sale.action_report_saleorder

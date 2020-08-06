@@ -715,7 +715,7 @@ class AccountInvoice(models.Model):
 
     @api.onchange('journal_id')
     def _onchange_journal_id(self):
-        if self.journal_id:
+        if self.journal_id and self.journal_id.currency_id:
             self.currency_id = self.journal_id.currency_id.id or self.journal_id.company_id.currency_id.id
 
     @api.onchange('payment_term_id', 'date_invoice')

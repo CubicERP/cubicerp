@@ -16,6 +16,11 @@
                 <filter string="Done" name="done" domain="[('state','=', 'done')]"/>
                 <filter string="Late" name="late" domain="[('date_planned_start','&lt;=',time.strftime('%%Y-%%m-%%d'))]"/>
                 <separator/>
+                <group expand="0" string="Group By...">
+                    <filter string="WorkCenter" domain="[]" context="{'group_by':'workcenter_id'}"/>
+                    <filter string="Operation" domain="[]" context="{'group_by':'operation_id'}"/>
+                    <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                </group>
             </search>
         </field>
     </record>

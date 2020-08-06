@@ -464,11 +464,8 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals.get('journal_id') and vals.get('type'):
-            vals['journal_id'] = self.with_context(type=vals.get('type'))._default_journal().id
-
         onchanges = {
-            '_onchange_partner_id': ['account_id', 'payment_term_id', 'fiscal_position_id', 'partner_bank_id'],
+            '_onchange_partner_id': ['account_id', 'payment_term_id', 'fiscal_position_id', 'partner_bank_id', 'journal_id'],
             '_onchange_journal_id': ['currency_id'],
         }
         for onchange_method, changed_fields in onchanges.items():
@@ -478,6 +475,8 @@ class AccountInvoice(models.Model):
                 for field in changed_fields:
                     if field not in vals and invoice[field]:
                         vals[field] = invoice._fields[field].convert_to_write(invoice[field], invoice)
+        if not vals.get('journal_id') and vals.get('type'):
+            vals['journal_id'] = self.with_context(type=vals.get('type'))._default_journal().id
         if not vals.get('account_id',False):
             raise UserError(_('Configuration error!\nCould not find any account to create the invoice, are you sure you have a chart of account installed?'))
 

@@ -154,6 +154,7 @@ class StockMove(models.Model):
             return False
         action_data = action_ref.read()[0]
         action_data['domain'] = [('id', 'in', self.account_move_ids.ids)]
+        action_data['context'] = {}
         return action_data
 
     def _get_price_unit(self):

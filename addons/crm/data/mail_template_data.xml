@@ -5,7 +5,7 @@
         <record id="mail_template_data_module_install_crm" model="mail.template">
             <field name="name">Email send after crm installation.</field>
             <field name="subject">Your Cubic ERP CRM application is running smoothly.</field>
-            <field name="email_from">help@odoo.com</field>
+            <field name="email_from">info@cubicerp.com</field>
             <field name="email_to">${user.email|safe}</field>
             <field name="lang">${user.lang}</field>
             <field name="model_id" ref="base.model_ir_module_module"/>

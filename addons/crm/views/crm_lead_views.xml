@@ -247,7 +247,7 @@
             <field name="arch" type="xml">
                 <form string="Create an Opportunity">
                     <sheet>
-                        <group>
+                        <group name="main_group">
                             <group>
                                 <field name="name" string="Opportunity Title" placeholder="e.g. Customer Deal"/>
                                 <field name="partner_id" domain="[('customer', '=', True)]" context="{'search_default_customer': 1}"/>
@@ -517,6 +517,7 @@
                         <notebook colspan="4">
                         <page string="Internal Notes">
                             <field name="description"/>
+                            <group name="internal_group"></group>
                         </page>
                         <page name="lead" string="Contact Information">
                             <group>

@@ -12,7 +12,7 @@
         <record id="mail_template_data_module_install_website_mail" model="mail.template">
             <field name="name">website module install then send email</field>
             <field name="subject">Your business is reachable from anywhere, anytime !</field>
-            <field name="email_from">help@odoo.com</field>
+            <field name="email_from">info@cubicerp.com</field>
             <field name="email_to">${user.email|safe}</field>
             <field name="lang">${user.lang}</field>
             <field name="model_id" ref="base.model_ir_module_module"/>

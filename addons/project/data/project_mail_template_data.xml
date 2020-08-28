@@ -5,7 +5,7 @@
         <record id="mail_template_data_module_install_project" model="mail.template">
             <field name="name">project module install then send email</field>
             <field name="subject">Your Cubic ERP Project application is up and running</field>
-            <field name="email_from">help@odoo.com</field>
+            <field name="email_from">info@cubicerp.com</field>
             <field name="email_to">${user.email|safe}</field>
             <field name="lang">${user.lang}</field>
             <field name="model_id" ref="base.model_ir_module_module"/>

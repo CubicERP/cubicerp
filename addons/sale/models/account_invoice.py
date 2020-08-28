@@ -44,6 +44,14 @@ class AccountInvoice(models.Model):
             self.comment = company.with_context(lang=self.partner_id.lang).sale_note
 
     @api.multi
+    def invoice_validate(self):
+        res= super(AccountInvoice,self).invoice_validate()
+        prepaid_id = eval(self.env['ir.config_parameter'].sudo().get_param('sale.default_deposit_product_id', default='False'))
+        for line in self.mapped('invoice_line_ids').filtered(lambda l: l.product_id.id == prepaid_id):
+            line.sale_line_ids.write({'name': line.invoice_id.number})
+        return res
+
+    @api.multi
     def action_invoice_paid(self):
         res = super(AccountInvoice, self).action_invoice_paid()
         todo = set()

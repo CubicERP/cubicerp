@@ -1046,13 +1046,14 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
-        if self.order_id.pricelist_id.discount_policy == 'with_discount':
-            return product.with_context(pricelist=self.order_id.pricelist_id.id).price
-        product_context = dict(self.env.context, partner_id=self.order_id.partner_id.id, date=self.order_id.date_order, uom=self.product_uom.id)
-        final_price, rule_id = self.order_id.pricelist_id.with_context(product_context).get_product_price_rule(self.product_id, self.product_uom_qty or 1.0, self.order_id.partner_id)
-        base_price, currency_id = self.with_context(product_context)._get_real_price_currency(product, rule_id, self.product_uom_qty, self.product_uom, self.order_id.pricelist_id.id)
-        if currency_id != self.order_id.pricelist_id.currency_id.id:
-            base_price = self.env['res.currency'].browse(currency_id).with_context(product_context).compute(base_price, self.order_id.pricelist_id.currency_id)
+        order_id = self.order_id or self._context.get('order_id', self.order_id)
+        if order_id.pricelist_id.discount_policy == 'with_discount':
+            return product.with_context(pricelist=order_id.pricelist_id.id).price
+        product_context = dict(self.env.context, partner_id=order_id.partner_id.id, date=order_id.date_order, uom=self.product_uom.id)
+        final_price, rule_id = order_id.pricelist_id.with_context(product_context).get_product_price_rule(self.product_id, self.product_uom_qty or 1.0, order_id.partner_id)
+        base_price, currency_id = self.with_context(product_context)._get_real_price_currency(product, rule_id, self.product_uom_qty, self.product_uom, order_id.pricelist_id.id)
+        if currency_id != order_id.pricelist_id.currency_id.id:
+            base_price = self.env['res.currency'].browse(currency_id).with_context(product_context).compute(base_price, order_id.pricelist_id.currency_id)
         # negative discounts (= surcharge) are included in the display price
         return max(base_price, final_price)
 
@@ -1103,16 +1104,18 @@ class SaleOrderLine(models.Model):
         if not self.product_uom or not self.product_id:
             self.price_unit = 0.0
             return
-        if self.order_id.pricelist_id and self.order_id.partner_id:
+        order_id = self.order_id or self._context.get('order_id', self.order_id)
+        if order_id.pricelist_id and order_id.partner_id:
             product = self.product_id.with_context(self._get_sale_product_context())
             self.price_unit = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 
     def _get_sale_product_context(self):
-        return {'lang': self.order_id.partner_id.lang,
-                'partner': self.order_id.partner_id.id,
+        order_id = self.order_id or self._context.get('order_id', self.order_id)
+        return {'lang': order_id.partner_id.lang,
+                'partner': order_id.partner_id.id,
                 'quantity': self.product_uom_qty,
-                'date': self.order_id.date_order,
-                'pricelist': self.order_id.pricelist_id.id,
+                'date': order_id.date_order,
+                'pricelist': order_id.pricelist_id.id,
                 'uom': self.product_uom.id,
                 'fiscal_position': self.env.context.get('fiscal_position')}
 

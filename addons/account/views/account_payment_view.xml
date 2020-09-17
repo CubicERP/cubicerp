@@ -40,6 +40,26 @@
             </field>
         </record>
 
+        <record id="view_account_transfer_payment_tree" model="ir.ui.view">
+            <field name="name">account.transfer.payment.tree</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
+                    <field name="payment_date"/>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="destination_journal_id"/>
+                    <field name="payment_method_id"/>
+                    <field name="partner_id"/>
+                    <field name="amount" sum="Amount"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="partner_type" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="view_account_payment_kanban" model="ir.ui.view">
             <field name="name">account.payment.kanban</field>
             <field name="model">account.payment</field>
@@ -91,6 +111,7 @@
                     <separator/>
                     <field name="partner_id" />
                     <field name="journal_id" />
+                    <field name="destination_journal_id" />
                     <field name="company_id" groups="base.group_multi_company" />
                     <filter string="Payable" name="payable_filter" domain="[('payment_type','=','outbound')]"/>
                     <filter string="Receivable" name="receivable_filter" domain="[('payment_type','=','inbound')]"/>
@@ -145,7 +166,9 @@
                             <group>
                                 <field name="payment_type" widget="radio" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="partner_type" widget="selection" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/>
+                                <field name="require_partner" invisible="1"/>
+                                <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('require_partner', '=', True)], 'invisible': [('require_partner', '=', False)], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/>
+                                <!--field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/-->
                                 <label for="amount"/>
                                 <div name="amount_div" class="o_row">
                                     <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
@@ -209,6 +232,24 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form,graph</field>
             <field name="context">{'default_payment_type': 'outbound', 'default_partner_type': 'supplier', 'search_default_payable_filter': 1}</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_account_supplier_payment_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click to register a payment
+                </p><p>
+                  Payments are used to register liquidity movements (send, collect or transfer money).
+                  You can then process those payments by your own means or by using installed facilities.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_account_payments_transfer" model="ir.actions.act_window">
+            <field name="name">Payments</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,graph</field>
+            <field name="context">{'default_payment_type': 'transfer', 'search_default_transfers_filter': 1}</field>
             <field name="domain">[]</field>
             <field name="view_id" ref="view_account_supplier_payment_tree"/>
             <field name="help" type="html">

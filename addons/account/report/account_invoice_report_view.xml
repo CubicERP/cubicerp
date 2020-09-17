@@ -12,6 +12,18 @@
              </pivot>
          </field>
     </record>
+    <record id="view_account_invoice_unpaid_pivot" model="ir.ui.view">
+         <field name="name">account.invoice.unpaid.pivot</field>
+         <field name="model">account.invoice.report</field>
+         <field name="priority">90</field>
+         <field name="arch" type="xml">
+             <pivot string="Invoices Analysis" disable_linking="True">
+                 <field name="date_due" interval="day" type="col"/>
+                 <field name="partner_id" type="row"/>
+                 <field name="residual" type="measure"/>
+             </pivot>
+         </field>
+    </record>
 
     <record id="view_account_invoice_report_graph" model="ir.ui.view">
          <field name="name">account.invoice.report.graph</field>
@@ -21,6 +33,18 @@
                  <field name="categ_id" type="col"/>
                  <field name="date" interval="quarter" type="col"/>
                  <field name="price_total" type="measure"/>
+             </graph>
+         </field>
+    </record>
+    <record id="view_account_invoice_unpaid_graph" model="ir.ui.view">
+         <field name="name">account.invoice.unpaid.graph</field>
+         <field name="model">account.invoice.report</field>
+         <field name="priority">90</field>
+         <field name="arch" type="xml">
+             <graph string="Invoices Unpaid">
+                 <field name="date_due" interval="day" type="col"/>
+                 <field name="partner_id" type="col"/>
+                 <field name="residual" type="measure"/>
              </graph>
          </field>
     </record>
@@ -74,6 +98,7 @@
                 <separator/>
                 <filter string="To Invoice" domain="[('state','=','draft')]" help = "Draft Invoices"/>
                 <filter string="Invoiced" name="current" domain="[('state','not in', ('draft','cancel'))]"/>
+                <filter string="Unpaid" name="unpaid" domain="[('state','=','open')]"/>
                 <separator/>
                 <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"/>
                 <filter string="Last Month" name="last_month" domain="['&amp;', ('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date', '&lt;', context_today().strftime('%%Y-%%m-01'))]"/>
@@ -120,9 +145,23 @@
         <field name="search_view_id" ref="view_account_invoice_report_search"/>
         <field name="help">From this report, you can have an overview of the amount invoiced to your customers. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
     </record>
+    <record id="action_account_invoice_report_unpaid" model="ir.actions.act_window">
+        <field name="name">Unpaid Invoices</field>
+        <field name="res_model">account.invoice.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'search_default_unpaid':1, 'search_default_customer':1, 'group_by':[], 'group_by_no_leaf':1, 'search_default_year': 1}</field>
+        <field name="view_id" ref="view_account_invoice_unpaid_graph"/>
+        <field name="search_view_id" ref="view_account_invoice_report_search"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('view_account_invoice_unpaid_graph')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_account_invoice_unpaid_pivot')})]"/>
+        <field name="help">From this report, you can have an overview of the unpaid invoices. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record>
 
     <menuitem name="Invoices" action="action_account_invoice_report_all" id="menu_action_account_invoice_report_all" parent="account.account_reports_management_menu" sequence="18"/>
     <menuitem name="Invoices" action="action_account_invoice_report_all" id="inv_menu_action_account_invoice_report_all" parent="account.inv_account_reports_management_menu" sequence="18"/>
+    <menuitem name="Unpaid Invoices" action="action_account_invoice_report_unpaid" id="inv_menu_action_account_invoice_report_unpaid" parent="account.inv_account_reports_management_menu" sequence="19"/>
 
     <act_window
         id="act_account_invoice_partner_relation"

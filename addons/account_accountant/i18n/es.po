@@ -35,7 +35,7 @@ msgstr "Cajas Registradoras"
 #. module: account_accountant
 #: model:ir.ui.menu,name:account_accountant.tre_menu_action_account_payments_receivable
 msgid "Customer Payment"
-msgstr "Pagos a Clientes"
+msgstr "Pagos de Clientes"
 
 #. module: account_accountant
 #: model:ir.ui.menu,name:account_accountant.tre_menu_account_customer

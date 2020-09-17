@@ -19,6 +19,10 @@
                   name="Supplier Payment"
                   id="tre_menu_action_account_payments_payable"
                   parent="account.menu_treasury_payments" sequence="20"/>
+        <menuitem action="account.action_account_payments_transfer"
+                  name="Transfer"
+                  id="tre_menu_action_account_payments_transfer"
+                  parent="account.menu_treasury_payments" sequence="21"/>
 
         <!--Treasury Actions-->
         <menuitem action="account.action_manual_reconciliation"

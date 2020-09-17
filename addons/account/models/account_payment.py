@@ -54,13 +54,18 @@ class account_abstract_payment(models.AbstractModel):
     hide_payment_method = fields.Boolean(compute='_compute_hide_payment_method',
         help="Technical field used to hide the payment method if the selected journal has only one available which is 'manual'")
     hide_date_due = fields.Boolean(compute='_compute_hide_payment_method',
-                                   help="Technical field used to hide the date due if hte selected journal has checked has date due")
+                                   help="Technical field used to hide the date due if the selected journal has checked has date due")
+    require_partner = fields.Boolean(compute='_compute_hide_payment_method',
+                                     help="Technical field used to require partner if the selected journal has checked require partner")
 
     @api.one
     @api.constrains('amount')
     def _check_amount(self):
         if self.amount < 0:
             raise ValidationError(_('The payment amount cannot be negative.'))
+
+    def _get_require_partner(self):
+        return self.payment_type in ('outbound','inbound')
 
     @api.multi
     @api.depends('payment_type', 'journal_id')
@@ -75,11 +80,13 @@ class account_abstract_payment(models.AbstractModel):
                 or payment.journal_id.outbound_payment_method_ids
             payment.hide_payment_method = len(journal_payment_methods) == 1 and journal_payment_methods[0].code == 'manual'
             payment.hide_date_due = not payment.journal_id.has_date_due or payment.journal_id.type != 'cash'
+            payment.require_partner = payment._get_require_partner()
 
     @api.onchange('journal_id')
     def _onchange_journal(self):
         if self.journal_id:
             self.currency_id = self.journal_id.currency_id or self.company_id.currency_id
+            self.require_partner = self._get_require_partner()
             # Set default payment method (we consider the first to be the default one)
             payment_methods = self.payment_type == 'inbound' and self.journal_id.inbound_payment_method_ids or self.journal_id.outbound_payment_method_ids
             self.payment_method_id = payment_methods and payment_methods[0] or False
@@ -312,6 +319,13 @@ class account_payment(models.Model):
     move_line_ids = fields.One2many('account.move.line', 'payment_id', readonly=True, copy=False, ondelete='restrict')
     move_reconciled = fields.Boolean(compute="_get_move_reconciled", readonly=True)
 
+    def _get_require_partner(self):
+        if self.payment_type == 'transfer':
+            require_partner = self.journal_id.require_partner or self.destination_journal_id.require_partner
+        else:
+            require_partner = super(account_payment, self)._get_require_partner()
+        return require_partner
+
     def open_payment_matching_screen(self):
         # Open reconciliation view for customers/suppliers
         move_line_id = False
@@ -409,6 +423,10 @@ class account_payment(models.Model):
         journal_types.update(['bank', 'cash'])
         res['domain']['journal_id'] = jrnl_filters['domain'] + [('type', 'in', list(journal_types))]
         return res
+
+    @api.onchange('destination_journal_id')
+    def _onchange_destination_journal(self):
+        self.require_partner = self._get_require_partner()
 
     @api.model
     def default_get(self, fields):
@@ -690,7 +708,7 @@ class account_payment(models.Model):
         """ Returns values common to both move lines (except for debit, credit and amount_currency which are reversed)
         """
         return {
-            'partner_id': self.payment_type in ('inbound', 'outbound') and self.env['res.partner']._find_accounting_partner(self.partner_id).id or False,
+            'partner_id': self.require_partner and self.env['res.partner']._find_accounting_partner(self.partner_id).id or False,
             'invoice_id': invoice_id and invoice_id.id or False,
             'move_id': move_id,
             'debit': debit,

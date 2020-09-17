@@ -168,7 +168,6 @@
                                 <field name="partner_type" widget="selection" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="require_partner" invisible="1"/>
                                 <field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('require_partner', '=', True)], 'invisible': [('require_partner', '=', False)], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/>
-                                <!--field name="partner_id" attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/-->
                                 <label for="amount"/>
                                 <div name="amount_div" class="o_row">
                                     <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>

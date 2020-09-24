@@ -2284,6 +2284,7 @@
             <field name="model">account.financial.report</field>
             <field name="arch" type="xml">
                 <tree string="Account Report">
+                    <field name="sequence"/>
                     <field name="name"/>
                     <field name="parent_id" invisible="1"/>
                     <field name="type"/>

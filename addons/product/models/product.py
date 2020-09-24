@@ -147,9 +147,11 @@ class ProductProduct(models.Model):
         'product.packaging', 'product_id', 'Product Packages',
         help="Gives the different ways to package the same product.")
 
-    _sql_constraints = [
-        ('barcode_uniq', 'unique(barcode)', "A barcode can only be assigned to one product !"),
-    ]
+    @api.constrains('barcode','company_id')
+    def _check_barcode_company(self):
+        barcode = self.barcode
+        if barcode and self.search_count([('barcode','=',barcode),('company_id','=',self.company_id.id)]) > 1:
+            raise ValidationError(_('A barcode can only be assigned to one product !'))
 
     def _get_invoice_policy(self):
         return False

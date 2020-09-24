@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+    <menuitem name="Product"
+        id="menu_product"
+        sequence="5"
+        web_icon="fa fa-product-hunt faa-spin > color:#4f8597;"
+        groups="base.group_user"/>
+
     <!-- base structure of product.template, common with product.product -->
     <record id="product_template_form_view" model="ir.ui.view">
         <field name="name">product.template.common.form</field>
@@ -159,6 +166,11 @@
             </p>
         </field>
     </record>
+        <menuitem id="menu_product_template"
+            name="Product"
+            action="product_template_action_all"
+            parent="menu_product"
+            sequence="2"/>
 
         <record id="product_search_form_view" model="ir.ui.view">
             <field name="name">product.product.search</field>

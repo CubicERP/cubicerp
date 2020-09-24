@@ -1698,7 +1698,7 @@ msgstr "Mes de Creación"
 #. module: crm
 #: model:ir.actions.server,name:crm.action_your_pipeline
 msgid "Crm: My Pipeline"
-msgstr "Crm: Mi tubería"
+msgstr "Crm: Mi Flujo Ventas"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_company_currency
@@ -2978,7 +2978,7 @@ msgstr "Mis oportunidades"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
 msgid "My Pipeline"
-msgstr "Flujo de ventas"
+msgstr "Mi Flujo de ventas"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_base_partner_merge_automatic_wizard_group_by_name

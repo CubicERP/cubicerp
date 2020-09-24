@@ -1578,7 +1578,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_activity_date_deadline
 msgid "Due Date"
-msgstr "Fecha vencimiento"
+msgstr "Fecha Programada"
 
 #. module: mail
 #. openerp-web

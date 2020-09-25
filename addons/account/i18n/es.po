@@ -10544,7 +10544,7 @@ msgstr "Sin pagar"
 #: model:ir.actions.act_window,name:account.action_account_invoice_report_unpaid
 #: model:ir.ui.menu,name:account.inv_menu_action_account_invoice_report_unpaid
 msgid "Unpaid Invoices"
-msgstr "Facturas por pagar"
+msgstr "Facturas por pagar/Cobrar"
 
 #. module: account
 #: selection:account.move,state:0

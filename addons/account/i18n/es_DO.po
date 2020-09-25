@@ -10890,7 +10890,7 @@ msgstr ""
 #. module: account
 #: model:ir.actions.act_window,name:account.act_account_journal_2_account_invoice_opened
 msgid "Unpaid Invoices"
-msgstr "Facturas por pagar"
+msgstr "Facturas por pagar/Cobrar"
 
 #. module: account
 #: selection:account.move,state:0

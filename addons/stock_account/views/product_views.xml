@@ -53,6 +53,8 @@
                                 domain="[('deprecated', '=', False)]"/>
                             <field name="property_stock_account_output"
                                 domain="[('deprecated', '=', False)]"/>
+                            <field name="property_stock_valuation_account_id"
+                                domain="[('deprecated', '=', False)]"/>
                         </group>
                     </group>
                 </data>

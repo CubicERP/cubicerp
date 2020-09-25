@@ -380,6 +380,14 @@ class StockMove(models.Model):
             move._account_entry_move()
         return res
 
+    def _action_cancel(self):
+        res = super(StockMove, self)._action_cancel()
+        account_moves = self.mapped('account_move_ids').filtered(lambda m:m.journal_id.remove_stock_move)
+        if account_moves:
+            account_moves.button_cancel()
+            account_moves.unlink()
+        return res
+
     @api.multi
     def product_price_update_before_done(self, forced_qty=None):
         tmpl_dict = defaultdict(lambda: 0.0)
@@ -617,7 +625,7 @@ class StockMove(models.Model):
 
         move_lines = self.with_context(forced_ref=ref)._prepare_account_move_line(quantity, abs(self.value), credit_account_id, debit_account_id)
         if move_lines:
-            date = self._context.get('force_period_date', fields.Date.context_today(self))
+            date = self._context.get('force_period_date', self.date_expected or fields.Date.context_today(self))
             new_account_move = AccountMove.sudo().create({
                 'journal_id': journal_id,
                 'line_ids': move_lines,
@@ -666,6 +674,37 @@ class StockMove(models.Model):
                 self.with_context(force_company=self.company_id.id)._create_account_move_line(acc_src, acc_dest, journal_id)
             elif self._is_dropshipped_returned():
                 self.with_context(force_company=self.company_id.id)._create_account_move_line(acc_dest, acc_src, journal_id)
+
+
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
+
+    @api.depends('move_lines','state')
+    def _account_move_count(self):
+        for picking in self:
+            picking.account_move_count = len(self.move_lines.mapped('account_move_ids'))
+
+    account_move_count = fields.Integer(compute=_account_move_count)
+
+    @api.one
+    def _set_scheduled_date(self):
+        res = super(StockPicking, self)._set_scheduled_date()
+        account_moves = self.move_lines.mapped('account_move_ids')
+        if account_moves:
+            account_moves.button_cancel()
+            account_moves.write({'date': self.scheduled_date})
+            account_moves.post()
+        return res
+
+    def action_get_account_moves(self):
+        self.ensure_one()
+        action_ref = self.env.ref('account.action_move_journal_line')
+        if not action_ref:
+            return False
+        action_data = action_ref.read()[0]
+        action_data['domain'] = [('id', 'in', self.move_lines.mapped('account_move_ids').ids)]
+        action_data['context'] = {}
+        return action_data
 
 
 class StockReturnPicking(models.TransientModel):

@@ -7,6 +7,7 @@ class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     type = fields.Selection(selection_add=[('stock','Stock')])
+    remove_stock_move = fields.Boolean("Remove Stock Entries", help="Remove stock entries when the stock move is canceled")
 
 
 class AccountMove(models.Model):

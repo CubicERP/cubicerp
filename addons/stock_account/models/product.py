@@ -38,6 +38,10 @@ class ProductTemplate(models.Model):
         company_dependent=True, domain=[('deprecated', '=', False)],
         help="When doing real-time inventory valuation, counterpart journal items for all outgoing stock moves will be posted in this account, unless "
              "there is a specific valuation account set on the destination location. When not set on the product, the one from the product category is used.")
+    property_stock_valuation_account_id = fields.Many2one(
+        'account.account', 'Stock Valuation Account', company_dependent=True,
+        domain=[('deprecated', '=', False)],
+        help="When real-time inventory valuation is enabled on a product, this account will hold the current value of the products.", )
 
     @api.one
     @api.depends('property_valuation', 'categ_id.property_valuation')
@@ -79,7 +83,7 @@ class ProductTemplate(models.Model):
         accounts.update({
             'stock_input': res['stock_input'] or self.property_stock_account_input or self.categ_id.property_stock_account_input_categ_id,
             'stock_output': res['stock_output'] or self.property_stock_account_output or self.categ_id.property_stock_account_output_categ_id,
-            'stock_valuation': self.categ_id.property_stock_valuation_account_id or False,
+            'stock_valuation': self.property_stock_valuation_account_id or self.categ_id.property_stock_valuation_account_id or False,
         })
         return accounts
 

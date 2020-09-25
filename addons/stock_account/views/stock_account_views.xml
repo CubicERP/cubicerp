@@ -2,6 +2,20 @@
 <odoo>
     <data>
 
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <field name="account_move_count" invisible="1"/>
+                    <button name="action_get_account_moves" icon="fa-usd" class="oe_stat_button"
+                            attrs="{'invisible':[('account_move_count','=',0)]}"
+                            string="Accounting Entries" type="object"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_move_form_inherit" model="ir.ui.view">
             <field name="name">stock.move.form.inherit</field>
             <field name="model">stock.move</field>
@@ -56,6 +70,17 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='product_return_moves']/tree" position="inside">
                     <field name="to_refund"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.stock</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="model">account.journal</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='group_invoice_lines']" position="after">
+                    <field name="remove_stock_move" attrs="{'invisible':[('type','!=','stock')]}"/>
                 </xpath>
             </field>
         </record>

@@ -6672,7 +6672,7 @@ msgstr "Débitos pendientes"
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_account_invoice_filter
 msgid "Overdue"
-msgstr "Vencimiento"
+msgstr "Vencidas"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_company_inherit_form

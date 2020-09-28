@@ -14332,7 +14332,7 @@ msgstr "Invoice Licenses"
 #. module: base
 #: selection:res.partner,type:0
 msgid "Invoice address"
-msgstr "Dirección de facturació:"
+msgstr "Dirección de facturación"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account

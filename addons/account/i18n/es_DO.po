@@ -4393,7 +4393,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account.view_account_invoice_filter
 #, python-format
 msgid "Due Date"
-msgstr "Vencimiento"
+msgstr "Vencidas"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_payment_term_line_form
@@ -4418,7 +4418,7 @@ msgstr "Tipo de vencimiento"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_line_date_maturity
 msgid "Due date"
-msgstr "Vencimiento"
+msgstr "Vencidas"
 
 #. module: account
 #: code:addons/account/models/account_invoice.py:1170
@@ -7508,7 +7508,7 @@ msgstr "Débitos pendientes"
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_account_invoice_filter
 msgid "Overdue"
-msgstr "Vencimiento"
+msgstr "Vencidas"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_res_company_overdue_msg

@@ -249,12 +249,12 @@ class SaleOrder(models.Model):
             })
             return
 
-        addr = self.partner_id.address_get(['delivery', 'invoice'])
+        addr = self.partner_id.address_get(['delivery', 'invoice', 'other'])
         values = {
             'pricelist_id': self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False,
             'payment_term_id': self.partner_id.property_payment_term_id and self.partner_id.property_payment_term_id.id or False,
-            'partner_invoice_id': addr['invoice'],
-            'partner_shipping_id': addr['delivery'],
+            'partner_invoice_id': self.partner_id.type == 'other' and addr['other'] or addr['invoice'],
+            'partner_shipping_id': self.partner_id.type == 'other' and addr['other'] or addr['delivery'],
             'user_id': self.partner_id.user_id.id or self.env.uid,
         }
         if self.env['ir.config_parameter'].sudo().get_param('sale.use_sale_note') and self.env.user.company_id.sale_note:

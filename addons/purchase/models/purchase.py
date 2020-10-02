@@ -1113,7 +1113,7 @@ class ProductProduct(models.Model):
         ]
         PurchaseOrderLines = self.env['purchase.order.line'].search(domain)
         for product in self:
-            product.purchase_count = len(PurchaseOrderLines.filtered(lambda r: r.product_id == product).mapped('order_id'))
+            product.purchase_count = sum(PurchaseOrderLines.filtered(lambda r: r.product_id == product).mapped('product_qty'))
 
     purchase_count = fields.Integer(compute='_purchase_count', string='# Purchases')
 

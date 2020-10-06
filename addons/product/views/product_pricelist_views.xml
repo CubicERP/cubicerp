@@ -201,6 +201,7 @@
               </p>
             </field>
         </record>
+        <menuitem id="menu_product_pricelist" action="product_pricelist_action2" parent="configuration_menu_pricelist" sequence="10"/>
 
     </data>
 </odoo>

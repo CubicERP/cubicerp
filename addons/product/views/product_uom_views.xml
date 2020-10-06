@@ -60,6 +60,7 @@
           </p>
         </field>
     </record>
+    <menuitem id="menu_product_uom" action="product_uom_form_action" parent="configuration_menu_uom" sequence="10"/>
 
     <record id="product_uom_categ_form_view" model="ir.ui.view">
         <field name="name">product.uom.categ.form</field>
@@ -89,4 +90,5 @@
           </p>
         </field>
     </record>
+    <menuitem id="menu_product_uom_categ" action="product_uom_categ_form_action" parent="configuration_menu_uom" sequence="20"/>
 </odoo>

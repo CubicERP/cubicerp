@@ -70,6 +70,7 @@
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
         </record>
+        <menuitem id="menu_product_attribute" action="attribute_action" parent="configuration_menu_attibute" sequence="10"/>
 
         <record id="variants_tree_view" model="ir.ui.view">
             <field name="name">product.attribute.value.tree</field>
@@ -90,6 +91,7 @@
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
         </record>
+        <menuitem id="menu_product_attribute_value" action="variants_action" parent="configuration_menu_attibute" sequence="20"/>
 
     <record id="product_attribute_line_form" model="ir.ui.view">
         <field name="name">product.attribute.line.form</field>

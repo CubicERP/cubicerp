@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="acquirer_form" model="ir.ui.view">
+        <field name="name">acquirer.form.sale</field>
+        <field name="model">payment.acquirer</field>
+        <field name="inherit_id" ref="payment.acquirer_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="acquirer_config"]' position='inside'>
+                <field name="confirm_sale_order"/>
+                <field name="pay_invoice" attrs="{'invisible':[('confirm_sale_order','=',False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
     <record id="payment_transaction_action_pending" model="ir.actions.act_window">
         <field name="name">Pending Payment Transactions</field>
         <field name="res_model">payment.transaction</field>

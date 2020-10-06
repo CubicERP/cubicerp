@@ -9,12 +9,27 @@ from odoo.tools import float_compare
 _logger = logging.getLogger(__name__)
 
 
+class PaymentAcquirer(models.Model):
+    _inherit = "payment.acquirer"
+
+    confirm_sale_order = fields.Boolean(help="Confirm the sale order linked when transaction is done")
+    pay_invoice = fields.Boolean(help="Create and pay the invoice when transaction is done")
+
+
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
     # YTI FIXME: The auto_join seems useless
     sale_order_id = fields.Many2one('sale.order', string='Sales Order', auto_join=True)
     so_state = fields.Selection('sale.order', string='Sale Order State', related='sale_order_id.state')
+
+    def action_done(self):
+        for tx in self:
+            if tx.acquirer_id.confirm_sale_order and tx.sale_order_id:
+                res = tx._confirm_so()
+                if tx.acquirer_id.pay_invoice:
+                    res = tx._generate_and_pay_invoice()
+        return super(PaymentTransaction, self).action_done()
 
     @api.model
     def form_feedback(self, data, acquirer_name):
@@ -61,7 +76,7 @@ class PaymentTransaction(models.Model):
             )
             return 'pay_sale_tx_amount'
 
-        if self.state == 'authorized' and self.acquirer_id.capture_manually:
+        if self.state == 'authorized' and (self.acquirer_id.capture_manually or self.acquirer_id.confirm_sale_order):
             _logger.info('<%s> transaction authorized, auto-confirming order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             if self.sale_order_id.state in ('draft', 'sent'):
                 self.sale_order_id.with_context(send_email=True).action_confirm()

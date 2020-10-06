@@ -181,6 +181,7 @@
                             <page string="Configuration">
                                 <group name="acquirer_config">
                                     <field name="journal_id" context="{'default_type': 'bank'}"/>
+                                    <field name="create_payment"/>
                                     <field name="make_statement"/>
                                     <field name="capture_manually" attrs="{'invisible': [('authorize_implemented', '=', False)]}"/>
                                     <field name="partial_payment"/>
@@ -371,6 +372,13 @@
                                 <group>
                                     <field name="parent_id"/>
                                 </group>
+                            </page>
+                            <page string="Reconciliation" name="reconciliation_page" attrs="{'invisible':[('state','!=','done')]}">
+                                <group>
+                                    <field name="statement_line_id" readonly="1"/>
+                                </group>
+                                <separator string="Account Payments"/>
+                                <field name="account_payment_ids"/>
                             </page>
                             <page string="Details" name="details">
                                 <group>

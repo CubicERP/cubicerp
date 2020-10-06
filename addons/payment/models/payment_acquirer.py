@@ -117,7 +117,8 @@ class PaymentAcquirer(models.Model):
                 the payment journal). Then when you get paid on your bank account by the payment acquirer, you
                 reconcile the bank statement line with this temporary transfer account. Use reconciliation
                 templates to do it in one-click.""")
-    make_statement = fields.Boolean("Make Statement", default=True, help="Make bank statement line automatically")
+    make_statement = fields.Boolean("Create Statement Line", help="Create bank statement line automatically")
+    create_payment = fields.Boolean("Create Account Payment", help="Create an account payment when transaction is done")
     currency_id = fields.Many2one("res.currency", string="Acquirer Currency", compute=_currency_id)
     specific_countries = fields.Boolean(string="Specific Countries",
         help="If you leave it empty, the payment acquirer will be available for all the countries.")
@@ -631,6 +632,7 @@ class PaymentTransaction(models.Model):
                                 states={'draft': [('readonly', False)],'pending': [('readonly', False)],'authorized': [('readonly', False)]})
     statement_line_id = fields.Many2one("account.bank.statement.line", string="Statement Line",
                                         readonly=True, states={'draft': [('readonly', False)]})
+    account_payment_ids = fields.One2many("account.payment", "payment_transaction_id", readonly=True)
     currency_id = fields.Many2one('res.currency', 'Currency', required=True,
                                   readonly=True, states={'draft': [('readonly', False)]})
     reference = fields.Char('Reference', default='new', required=True, help='Internal reference of the TX',
@@ -772,6 +774,20 @@ class PaymentTransaction(models.Model):
                 vals['payment_distribute'] = transaction.acquirer_id.payment_distribute
             if not transaction.date_validate:
                 vals['date_validate'] = fields.Date.today()
+            if transaction.acquirer_id.create_payment and not transaction.account_payment_ids.filtered(lambda p: p.state != 'cancelled'):
+                payment = self.env['account.payment'].create({
+                    'payment_method_id': self.env.ref('account.account_payment_method_manual_in').id,
+                    'payment_type': 'inbound',
+                    'partner_type': 'customer',
+                    'partner_id': transaction.partner_id.id,
+                    'amount': transaction.amount_pay or transaction.amount,
+                    'journal_id': transaction.acquirer_id.journal_id.id,
+                    'currency_id': transaction.acquirer_id.journal_id.currency_id.id or transaction.acquirer_id.journal_id.company_id.currency_id.id,
+                    'payment_date': transaction.date_validate or vals['date_validate'],
+                    'communication': transaction.reference,
+                    'payment_transaction_id': transaction.id,
+                })
+                payment.post()
             if transaction.acquirer_id.make_statement and not transaction.statement_line_id:
                 statement = self.env['account.bank.statement'].search([('journal_id', '=', transaction.acquirer_id.journal_id.id),
                                                                        ('date', '=', transaction.date_validate or vals['date_validate'])])

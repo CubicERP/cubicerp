@@ -94,7 +94,7 @@ class HrPayslip(models.Model):
 
     @api.multi
     def action_payslip_cancel(self):
-        if self.filtered(lambda slip: slip.state == 'done'):
+        if self.filtered(lambda slip: slip.state == 'done' and slip.payslip_run_id and slip.payslip_run_id.state=='close'):
             raise UserError(_("Cannot cancel a payslip that is done."))
         return self.write({'state': 'cancel'})
 
@@ -573,6 +573,12 @@ class HrPayslipRun(models.Model):
     credit_note = fields.Boolean(string='Credit Note', readonly=True,
         states={'draft': [('readonly', False)]},
         help="If its checked, indicates that all payslips generated from here are refund payslips.")
+    struct_id = fields.Many2one('hr.payroll.structure', string='Structure',
+                                readonly=True, states={'draft': [('readonly', False)]},
+                                help='Defines the rules that have to be applied to this payslip, accordingly '
+                                     'to the contract chosen. If you let empty the field contract, this field isn\'t '
+                                     'mandatory anymore and thus the rules applied will be all the rules set on the '
+                                     'structure of all contracts of the employee valid for the chosen period')
 
     @api.multi
     def draft_payslip_run(self):

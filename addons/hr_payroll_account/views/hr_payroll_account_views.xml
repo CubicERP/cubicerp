@@ -59,6 +59,9 @@
                 <filter name='done_filter' position="after">
                     <field name="journal_id"/>
                 </filter>
+                <filter name='struct_group' position="after">
+                    <filter string="Journal" name="journal_group" context="{'group_by':'journal_id'}"/>
+                </filter>
             </field>
         </record>
 

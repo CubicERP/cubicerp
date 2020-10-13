@@ -76,6 +76,7 @@
                 <field name="name"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
+                <field name="amount" sum="1"/>
                 <field name="state"/>
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                 <field name="payslip_run_id" invisible="1"/>
@@ -129,14 +130,18 @@
             <form string="Payslip">
             <header>
                 <button string="Confirm" name="action_payslip_done" type="object" states="draft" class="oe_highlight"/>
-                <button string="Refund" name="refund_sheet" states="confirm,done" type='object' />
+                <button string="Refund" name="refund_sheet" states="confirm,done,paid" type='object' />
                 <button string="Set to Draft" name="action_payslip_draft" type="object" states="cancel"/>
                 <button string="Compute Sheet" name="compute_sheet" type="object" states="draft" class="oe_highlight"/>
                 <button string="Cancel Payslip" name="action_payslip_cancel" type="object" states="draft,hr_check,confirm,verify,done"/>
-                <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
             </header>
             <sheet>
                 <div class="oe_button_box" name="button_box">
+                    <button name="toggle_credit" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-coins">
+                        <field name="credit_note" widget="boolean_button"
+                               options='{"terminology": {"string_true": "Credit (-)", "hover_true": "to positive", "string_false": "Normal (+)", "hover_false": "to negative"}}'/>
+                    </button>
                     <button name="%(act_payslip_lines)d"
                         class="oe_stat_button"
                         icon="fa-money"
@@ -148,16 +153,21 @@
                     <label for="employee_id" class="oe_edit_only"/>
                     <h1><field name="employee_id" placeholder="Employee"/></h1>
                 </div>
-                <group col="4">
-                    <label for="date_from" string="Period"/>
-                    <div>
-                        <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
-                    </div>
-                    <field name="contract_id" domain="[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False)]" context="{'default_employee_id': employee_id}"/>
-                    <field name="number"/>
-                    <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}"/>
-                    <field name="name"/>
-                    <field name="credit_note"/>
+                <group>
+                    <group name="main_group">
+                        <label for="date_from" string="Period"/>
+                        <div>
+                            <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                        </div>
+                        <field name="number"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="contract_id" domain="[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False)]" context="{'default_employee_id': employee_id}"/>
+                        <field name="struct_id" attrs="{'required':[('contract_id','!=',False)]}"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="amount"/>
+                    </group>
                 </group>
                 <notebook>
                     <page string="Worked Days &amp; Inputs">
@@ -247,7 +257,6 @@
                                 <field name="payslip_run_id" domain="[('state','=','draft')]"/>
                             </group>
                             <group name="accounting" string="Accounting">
-                                <field name="paid" readonly="1"/>
                             </group>
                         </group>
                         <div colspan="4">
@@ -329,8 +338,8 @@
                 <field name="name"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
+                <field name="amount" sum="1"/>
                 <field name="struct_id"/>
-                <field name="credit_note"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -381,20 +390,45 @@
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>
-                <label for="name" class="oe_edit_only"/>
-                <h1>
-                    <field name="name"/>
-                </h1>
-                <group col="4">
-                    <label for="date_start" string="Period"/>
-                     <div>
-                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
-                     </div>
-                    <field name="struct_id"/>
-                    <field name="credit_note"/>
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_credit" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-coins"
+                            confirm="All payslip lines will change sign (+/-). Are you sure?">
+                        <field name="credit_note" widget="boolean_button"
+                               options='{"terminology": {"string_true": "Credit (-)", "hover_true": "to positive", "string_false": "Normal (+)", "hover_false": "to negative"}}'/>
+                    </button>
+                </div>
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                <group>
+                    <group name="main_group">
+                        <label for="date_start" string="Period"/>
+                        <div>
+                            <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="amount"/>
+                    </group>
                 </group>
-                <separator string="Payslips"/>
-                <field name="slip_ids"/>
+                <notebook>
+                    <page string="Payslips">
+                        <field name="slip_ids"/>
+                    </page>
+                    <page string="Configuration">
+                        <group>
+                            <group name="one_group">
+                                <field name="struct_id"/>
+                            </group>
+                            <group name="two_group">
+
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
             </sheet>
             </form>
         </field>

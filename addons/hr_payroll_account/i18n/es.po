@@ -56,7 +56,7 @@ msgstr "Cuenta acreedora"
 #. module: hr_payroll_account
 #: model:ir.model.fields,field_description:hr_payroll_account.field_hr_payslip_date
 msgid "Date Account"
-msgstr "Fecha de la Cuenta"
+msgstr "Fecha Contable"
 
 #. module: hr_payroll_account
 #: model:ir.model.fields,field_description:hr_payroll_account.field_hr_payslip_line_account_debit

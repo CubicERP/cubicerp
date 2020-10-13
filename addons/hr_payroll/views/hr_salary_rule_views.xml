@@ -86,6 +86,15 @@
                          </tree>
                       </field>
                      </page>
+                    <page string="Details">
+                        <group>
+                            <field name="sum_rule_ids" widget="many2many_tags"/>
+                        </group>
+                        <separator string="Childrens"/>
+                        <field name="children_ids"/>
+                        <separator string="Description"/>
+                        <field name="note"/>
+                    </page>
                 </notebook>
             </form>
         </field>
@@ -205,15 +214,17 @@
         <field name="model">hr.contribution.register</field>
         <field name="arch" type="xml">
             <form string="Contribution">
-                <group>
-                    <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" class="oe_inline"/>
+                <group name="main_group">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" class="oe_inline"/>
+                    </group>
                 </group>
-                <newline/>
-                <group>
-                <separator string="Description"/><newline/>
-                <field name="note" nolabel="1"/></group>
+                <separator string="Description"/>
+                <field name="note"/>
             </form>
         </field>
     </record>
@@ -302,40 +313,53 @@
         <field name="model">hr.salary.rule</field>
         <field name="arch" type="xml">
             <form string="Salary Rules">
-                <label for="name" class="oe_edit_only"/>
-                <h1><field name="name"/></h1>
-                <label for="category_id" class="oe_edit_only"/>
-                <h2><field name="category_id"/></h2>
-
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                    <button name="toggle_payslip" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-money">
+                        <field name="appears_on_payslip" widget="boolean_button"
+                               options='{"terminology": {"string_true": "Show Payslip", "hover_true": "Not Show", "string_false": "Not Show Payslip"}}'/>
+                    </button>
+                </div>
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name"/></h1>
+                    <label for="category_id" class="oe_edit_only"/>
+                    <h2><field name="category_id"/></h2>
+                </div>
                 <group col="4">
                    <field name="code"/>
                    <field name="sequence" />
-                   <field name="active"/>
-                   <field name="appears_on_payslip"/>
                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                 </group>
                 <notebook colspan="6">
                     <page string="General">
-                        <group col="4">
-                            <separator colspan="4" string="Conditions"/>
-                            <field name="condition_select"/><newline/>
-                            <field name="condition_python" attrs="{'invisible':[('condition_select','!=','python')], 'required': [('condition_select','=','python')]}" colspan="4"/> <newline/>
-                            <field name="condition_range" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
-                            <field name="condition_range_min" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
-                            <field name="condition_range_max" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
-                            <separator colspan="4" string="Computation"/>
-                            <field name="amount_select"/><newline/>
-                            <field name="amount_percentage_base" attrs="{'invisible':[('amount_select','!=','percentage')], 'required': [('amount_select','=','percentage')]}"/><newline/>
-                            <field name="quantity" attrs="{'invisible':[('amount_select','=','code')], 'required':[('amount_select','!=','code')]}"/><newline/>
-                            <field name="amount_fix"  attrs="{'invisible':[('amount_select','!=','fix')], 'required':[('amount_select','=','fix')]}"/><newline/>
-                            <field colspan="4" name="amount_python_compute" attrs="{'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}"/>
+                        <group name="main_group">
+                            <group string="Conditions">
+                            <field name="condition_select"/>
+                            <field name="condition_python" attrs="{'invisible':[('condition_select','!=','python')], 'required': [('condition_select','=','python')]}" colspan="4"/>
+                            <field name="condition_range" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                            <field name="condition_range_min" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                            <field name="condition_range_max" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/>
+                            </group>
+                            <group string="Computation">
+                            <field name="amount_select"/>
+                            <field name="amount_percentage_base" attrs="{'invisible':[('amount_select','!=','percentage')], 'required': [('amount_select','=','percentage')]}"/>
+                            <field name="quantity" attrs="{'invisible':[('amount_select','=','code')], 'required':[('amount_select','!=','code')]}"/>
+                            <field name="amount_fix"  attrs="{'invisible':[('amount_select','!=','fix')], 'required':[('amount_select','=','fix')]}"/>
+                            <field name="amount_python_compute" attrs="{'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}"/>
                             <field name="amount_percentage" attrs="{'invisible':[('amount_select','!=','percentage')], 'required':[('amount_select','=','percentage')]}"/>
-                            <separator colspan="4" string="Company Contribution"/>
+                            </group>
+                            <group string="Company Contribution">
                             <field name="register_id"/>
+                            </group>
                         </group>
                     </page>
                     <page name="rules" string="Child Rules">
-                       <field name="parent_rule_id"/>
+                        <group>
+                            <field name="parent_rule_id"/>
+                        </group>
                        <separator string="Children Definition"/>
                        <field name="child_ids"/>
                     </page>

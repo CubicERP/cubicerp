@@ -17,7 +17,7 @@ class HrPayslip(models.Model):
     _description = 'Pay Slip'
 
     struct_id = fields.Many2one('hr.payroll.structure', string='Structure',
-        readonly=True, states={'draft': [('readonly', False)]},
+        readonly=True, states={'draft': [('readonly', False)]}, ondelete='restrict',
         help='Defines the rules that have to be applied to this payslip, accordingly '
              'to the contract chosen. If you let empty the field contract, this field isn\'t '
              'mandatory anymore and thus the rules applied will be all the rules set on the '
@@ -38,6 +38,7 @@ class HrPayslip(models.Model):
         ('draft', 'Draft'),
         ('verify', 'Waiting'),
         ('done', 'Done'),
+        ('paid', 'Paid'),
         ('cancel', 'Rejected'),
     ], string='Status', index=True, readonly=True, copy=False, default='draft',
         help="""* When the payslip is created the status is \'Draft\'
@@ -54,8 +55,6 @@ class HrPayslip(models.Model):
         states={'draft': [('readonly', False)]})
     input_line_ids = fields.One2many('hr.payslip.input', 'payslip_id', string='Payslip Inputs',
         readonly=True, states={'draft': [('readonly', False)]})
-    paid = fields.Boolean(string='Made Payment Order ? ', readonly=True, copy=False,
-        states={'draft': [('readonly', False)]})
     note = fields.Text(string='Internal Note', readonly=True, states={'draft': [('readonly', False)]})
     contract_id = fields.Many2one('hr.contract', string='Contract', readonly=True,
         states={'draft': [('readonly', False)]})
@@ -67,6 +66,14 @@ class HrPayslip(models.Model):
     payslip_run_id = fields.Many2one('hr.payslip.run', string='Payslip Batches', readonly=True,
         copy=False, states={'draft': [('readonly', False)]})
     payslip_count = fields.Integer(compute='_compute_payslip_count', string="Payslip Computation Details")
+    amount = fields.Monetary(compute="_amount_compute", store=True)
+    currency_id = fields.Many2one("res.currency", related="company_id.currency_id")
+
+    @api.depends("credit_note", "struct_id")
+    def _amount_compute(self):
+        for slip in self:
+            sign = -1 if slip.credit_note else 1.0
+            slip.amount = sum(slip.line_ids.filtered(lambda l: l.salary_rule_id.id in slip.struct_id.sum_rule_ids.ids).mapped('amount')) * sign
 
     @api.multi
     def _compute_details_by_salary_rule_category(self):
@@ -82,6 +89,14 @@ class HrPayslip(models.Model):
     def _check_dates(self):
         if any(self.filtered(lambda payslip: payslip.date_from > payslip.date_to)):
             raise ValidationError(_("Payslip 'Date From' must be before 'Date To'."))
+
+    def toggle_credit(self):
+        self.ensure_one()
+        if self.state == 'draft':
+            self.credit_note = not self.credit_note
+        else:
+            raise ValidationError(_("The payslip must be in draft state to change the sign."))
+        return True
 
     @api.multi
     def action_payslip_draft(self):
@@ -159,6 +174,7 @@ class HrPayslip(models.Model):
                 self.get_contract(payslip.employee_id, payslip.date_from, payslip.date_to)
             lines = [(0, 0, line) for line in self._get_payslip_lines(contract_ids, payslip.id)]
             payslip.write({'line_ids': lines, 'number': number})
+        self._amount_compute()
         return True
 
     @api.model
@@ -331,6 +347,7 @@ class HrPayslip(models.Model):
                 localdict['result'] = None
                 localdict['result_qty'] = 1.0
                 localdict['result_rate'] = 100
+                localdict['rule'] = rule
                 #check if the rule can be applied
                 if rule._satisfy_condition(localdict) and rule.id not in blacklist:
                     #compute the amount of the rule
@@ -579,6 +596,20 @@ class HrPayslipRun(models.Model):
                                      'to the contract chosen. If you let empty the field contract, this field isn\'t '
                                      'mandatory anymore and thus the rules applied will be all the rules set on the '
                                      'structure of all contracts of the employee valid for the chosen period')
+    amount = fields.Float(compute="_amount_compute")
+
+    def _amount_compute(self):
+        for run in self:
+            run.amount = sum(run.slip_ids.mapped('amount'))
+
+    def toggle_credit(self):
+        self.ensure_one()
+        if self.state == 'draft':
+            for slip in self.splip_ids:
+                slip.slip_ids.toggle_credit()
+        else:
+            raise ValidationError(_("The payslip batch must be in draft state to change the sign."))
+        return True
 
     @api.multi
     def draft_payslip_run(self):

@@ -109,6 +109,20 @@ class account_abstract_payment(models.AbstractModel):
                     inv.residual_company_signed, payment_currency)
         return abs(total)
 
+    @api.model
+    def _compute_total_pay_move_line_amount(self):
+        """ Compute the sum of the residual of account entries, expressed in the payment currency """
+        payment_currency = self.currency_id or self.journal_id.currency_id or self.journal_id.company_id.currency_id or self.env.user.company_id.currency_id
+
+        total = 0
+        for line in self.pay_move_line_ids:
+            if not line.currency_id or line.currency_id == payment_currency:
+                total += line.amount_residual
+            else:
+                total += line.company_currency_id.with_context(date=self.payment_date).compute(
+                    line.amount_residual, payment_currency)
+        return abs(total)
+
 
 class account_register_payments(models.TransientModel):
     _name = "account.register.payments"
@@ -281,14 +295,18 @@ class account_payment(models.Model):
             payment.move_reconciled = rec
 
     @api.one
-    @api.depends('invoice_ids', 'amount', 'payment_date', 'currency_id')
+    @api.depends('invoice_ids', 'pay_move_line_ids', 'amount', 'payment_date', 'currency_id')
     def _compute_payment_difference(self):
-        if len(self.invoice_ids) == 0:
-            return
-        if self.invoice_ids[0].type in ['in_invoice', 'out_refund']:
-            self.payment_difference = self.amount - self._compute_total_invoices_amount()
-        else:
-            self.payment_difference = self._compute_total_invoices_amount() - self.amount
+        if self.invoice_ids:
+            if self.invoice_ids[0].type in ['in_invoice', 'out_refund']:
+                self.payment_difference = self.amount - self._compute_total_invoices_amount()
+            else:
+                self.payment_difference = self._compute_total_invoices_amount() - self.amount
+        elif self.pay_move_line_ids:
+            if self.pay_move_line_ids.mapped('account_id')[0].internal_type == 'receivable':
+                self.payment_difference = self.amount - self._compute_total_pay_move_line_amount()
+            else:
+                self.payment_difference = self._compute_total_pay_move_line_amount() - self.amount
 
     company_id = fields.Many2one(store=True)
     name = fields.Char(readonly=True, copy=False) # The name is attributed upon post()
@@ -305,6 +323,7 @@ class account_payment(models.Model):
     # For money transfer, money goes from journal_id to a transfer account, then from the transfer account to destination_journal_id
     destination_journal_id = fields.Many2one('account.journal', string='Transfer To', domain=[('type', 'in', ('bank', 'cash'))])
 
+    pay_move_line_ids = fields.Many2many('account.move.line', 'account_pay_move_line_payment_rel', 'payment_id', 'move_line_id', string="Account Entry to Pay", copy=False, readonly=True)
     invoice_ids = fields.Many2many('account.invoice', 'account_invoice_payment_rel', 'payment_id', 'invoice_id', string="Invoices", copy=False, readonly=True)
     has_invoices = fields.Boolean(compute="_get_has_invoices", help="Technical field used for usability purposes")
     payment_difference = fields.Monetary(compute='_compute_payment_difference', readonly=True)
@@ -382,6 +401,8 @@ class account_payment(models.Model):
     def _compute_destination_account_id(self):
         if self.invoice_ids:
             self.destination_account_id = self.invoice_ids[0].account_id.id
+        elif self.pay_move_line_ids:
+            self.destination_account_id = self.pay_move_line_ids[0].account_id.id
         elif self.payment_type == 'transfer':
             if not self.company_id.transfer_account_id.id:
                 raise UserError(_('Transfer account not defined on the company.'))
@@ -440,6 +461,15 @@ class account_payment(models.Model):
             rec['partner_type'] = MAP_INVOICE_TYPE_PARTNER_TYPE[invoice['type']]
             rec['partner_id'] = invoice['partner_id'][0]
             rec['amount'] = invoice['residual']
+        line_defaults = self.resolve_2many_commands('pay_move_line_ids', rec.get('pay_move_line_ids'))
+        if line_defaults and len(line_defaults) == 1:
+            line = line_defaults[0]
+            rec['communication'] = line['ref'] or line['name']
+            rec['currency_id'] = line['currency_id'] and line['currency_id'][0] or line['company_currency_id'][0]
+            rec['payment_type'] = line['debit'] and 'inbound' or 'outbound'
+            rec['partner_type'] = line['debit'] and 'customer' or 'supplier'
+            rec['partner_id'] = line['partner_id'][0]
+            rec['amount'] = abs(line['amount_residual'])
         return rec
 
     @api.multi
@@ -564,9 +594,14 @@ class account_payment(models.Model):
         It is called by the "validate" button of the popup window
         triggered on invoice form by the "Register Payment" button.
         """
-        if any(len(record.invoice_ids) != 1 for record in self):
-            # For multiple invoices, there is account.register.payments wizard
-            raise UserError(_("This method should only be called to process a single invoice's payment."))
+        if self.mapped('invoice_ids'):
+            if any(len(record.invoice_ids) != 1 for record in self):
+                # For multiple invoices, there is account.register.payments wizard
+                raise UserError(_("This method should only be called to process a single invoice's payment."))
+        else:
+            if any(len(record.pay_move_line_ids) != 1 for record in self):
+                # For multiple entries, there is account.register.payments wizard
+                raise UserError(_("This method should only be called to process a single account entry's payment."))
         return self.post()
 
     def _create_payment_entry(self, amount):
@@ -651,9 +686,11 @@ class account_payment(models.Model):
         #validate the payment
         move.post()
 
-        #reconcile the invoice receivable/payable line(s) with the payment
-        self.invoice_ids.register_payment(counterpart_aml)
-
+        if self.invoice_ids:
+            #reconcile the invoice receivable/payable line(s) with the payment
+            self.invoice_ids.register_payment(counterpart_aml)
+        elif self.pay_move_line_ids:
+            (self.pay_move_line_ids | counterpart_aml).reconcile()
         return move
 
     def _create_transfer_entry(self, amount):
@@ -737,6 +774,11 @@ class account_payment(models.Model):
                 for inv in invoice:
                     if inv.move_id:
                         name += inv.number + ', '
+                name = name[:len(name)-2]
+            elif self.pay_move_line_ids:
+                name += ': '
+                for line in self.pay_move_line_ids:
+                    name += (line.ref or line.name) + ', '
                 name = name[:len(name)-2]
         return {
             'name': name,

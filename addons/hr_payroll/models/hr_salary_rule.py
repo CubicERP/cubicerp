@@ -29,6 +29,8 @@ class HrPayrollStructure(models.Model):
     parent_id = fields.Many2one('hr.payroll.structure', string='Parent', default=_get_parent)
     children_ids = fields.One2many('hr.payroll.structure', 'parent_id', string='Children', copy=True)
     rule_ids = fields.Many2many('hr.salary.rule', 'hr_structure_salary_rule_rel', 'struct_id', 'rule_id', string='Salary Rules')
+    sum_rule_ids = fields.Many2many('hr.salary.rule', 'hr_structure_sum_rule_rel', 'struct_id', 'rule_id',
+                                    string='Sum Rules', help="Sum this salary rules in payslip amount.")
 
     @api.constrains('parent_id')
     def _check_parent_id(self):
@@ -130,6 +132,7 @@ class HrSalaryRule(models.Model):
                     # employee: hr.employee object
                     # contract: hr.contract object
                     # rules: object containing the rules code (previously computed)
+                    # rule: object containing the current rule
                     # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
                     # worked_days: object containing the computed worked days
                     # inputs: object containing the computed inputs
@@ -156,6 +159,7 @@ class HrSalaryRule(models.Model):
                     # employee: hr.employee object
                     # contract: hr.contract object
                     # rules: object containing the rules code (previously computed)
+                    # rule: object containing the current rule
                     # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
                     # worked_days: object containing the computed worked days.
                     # inputs: object containing the computed inputs.
@@ -210,7 +214,7 @@ class HrSalaryRule(models.Model):
             try:
                 safe_eval(self.amount_python_compute, localdict, mode='exec', nocopy=True)
                 return float(localdict['result']), 'result_qty' in localdict and localdict['result_qty'] or 1.0, 'result_rate' in localdict and localdict['result_rate'] or 100.0
-            except:
+            except Exception as e:
                 raise UserError(_('Wrong python code defined for salary rule %s (%s).') % (self.name, self.code))
 
     @api.multi
@@ -235,6 +239,11 @@ class HrSalaryRule(models.Model):
                 return 'result' in localdict and localdict['result'] or False
             except:
                 raise UserError(_('Wrong python condition defined for salary rule %s (%s).') % (self.name, self.code))
+
+    def toggle_payslip(self):
+        self.ensure_one()
+        self.appears_on_payslip = not self.appears_on_payslip
+        return True
 
 
 class HrRuleInput(models.Model):

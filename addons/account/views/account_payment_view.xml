@@ -335,6 +335,7 @@
             <field name="name">Register Payment</field>
             <field name="res_model">account.payment</field>
             <field name="src_model">account.move.line</field>
+            <field name="binding_model_id" ref="account.model_account_move_line" />
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_account_payment_invoice_form"/>

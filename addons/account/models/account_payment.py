@@ -677,11 +677,7 @@ class account_payment(models.Model):
                 else:
                     amount_wo = total_residual_company_signed - total_payment_company_signed
             elif self.pay_move_line_ids:
-                # if self.pay_move_line_ids.mapped('journal_id')[0].type == 'sale_refund':
-                #     amount_wo = total_payment_company_signed + total_residual_company_signed
-                # else:
                 amount_wo = self.currency_id.with_context(date=self.payment_date).compute(self.payment_difference, self.company_id.currency_id)
-                    #amount_wo = total_payment_company_signed - total_residual_company_signed
             # Align the sign of the secondary currency writeoff amount with the sign of the writeoff
             # amount in the company currency
             if amount_wo > 0:

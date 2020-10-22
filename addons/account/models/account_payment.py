@@ -116,8 +116,8 @@ class account_abstract_payment(models.AbstractModel):
 
         total = 0
         for line in self.pay_move_line_ids:
-            if not line.currency_id or line.currency_id == payment_currency:
-                total += line.amount_residual
+            if (line.currency_id or line.company_currency_id) == payment_currency:
+                total += (line.amount_residual_currency or line.amount_residual)
             else:
                 total += line.company_currency_id.with_context(date=self.payment_date).compute(
                     line.amount_residual, payment_currency)
@@ -303,10 +303,12 @@ class account_payment(models.Model):
             else:
                 self.payment_difference = self._compute_total_invoices_amount() - self.amount
         elif self.pay_move_line_ids:
-            if self.pay_move_line_ids.mapped('account_id')[0].internal_type == 'receivable':
+            if self.pay_move_line_ids.mapped('account_id')[0].internal_type == 'payable':
                 self.payment_difference = self.amount - self._compute_total_pay_move_line_amount()
             else:
                 self.payment_difference = self._compute_total_pay_move_line_amount() - self.amount
+        if self.payment_difference and self.journal_id:
+            self.writeoff_account_id = self.journal_id.loss_account_id if self.payment_difference > 0 else self.journal_id.profit_account_id
 
     company_id = fields.Many2one(store=True)
     name = fields.Char(readonly=True, copy=False) # The name is attributed upon post()
@@ -332,7 +334,7 @@ class account_payment(models.Model):
     writeoff_label = fields.Char(
         string='Journal Item Label',
         help='Change label of the counterpart that will hold the payment difference',
-        default='Write-Off')
+        default=_('Write-Off'))
 
     # FIXME: ondelete='restrict' not working (eg. cancel a bank statement reconciliation with a payment)
     move_line_ids = fields.One2many('account.move.line', 'payment_id', readonly=True, copy=False, ondelete='restrict')
@@ -390,7 +392,8 @@ class account_payment(models.Model):
         default_journal_id = self.env.context.get('default_journal_id')
         if not default_journal_id:
             if self.journal_id.type not in journal_types:
-                self.journal_id = self.env['account.journal'].search(domain_on_types, limit=1)
+                domain_currency = [('currency_id','=',False if self.env.user.company_id.currency_id == self.currency_id else self.currency_id.id)]
+                self.journal_id = self.env['account.journal'].search(domain_on_types + domain_currency, limit=1)
         else:
             journal_domain = journal_domain.append(('id', '=', default_journal_id))
 
@@ -461,15 +464,30 @@ class account_payment(models.Model):
             rec['partner_type'] = MAP_INVOICE_TYPE_PARTNER_TYPE[invoice['type']]
             rec['partner_id'] = invoice['partner_id'][0]
             rec['amount'] = invoice['residual']
-        line_defaults = self.resolve_2many_commands('pay_move_line_ids', rec.get('pay_move_line_ids'))
-        if line_defaults and len(line_defaults) == 1:
-            line = line_defaults[0]
-            rec['communication'] = line['ref'] or line['name']
-            rec['currency_id'] = line['currency_id'] and line['currency_id'][0] or line['company_currency_id'][0]
-            rec['payment_type'] = line['debit'] and 'inbound' or 'outbound'
-            rec['partner_type'] = line['debit'] and 'customer' or 'supplier'
-            rec['partner_id'] = line['partner_id'][0]
-            rec['amount'] = abs(line['amount_residual'])
+        elif rec.get('pay_move_line_ids'):
+            if self._context.get('active_model') == 'account.move.line' and len(self._context.get('active_ids',[])) > 1:
+                lines = self.env['account.move.line'].browse(self._context['active_ids']).filtered(lambda l: l.partner_id
+                                                                        and not l.reconciled and not l.full_reconcile_id
+                                                                        and l.account_id.internal_type in ('payable','receivable')
+                                                                        and l.journal_id.type not in ('bank','cash'))
+                if lines:
+                    lines = lines.filtered(lambda l: l.partner_id == lines[0].partner_id
+                                                     and l.account_id == lines[0].account_id
+                                                     and l.currency_id == lines[0].currency_id)
+                if lines:
+                    rec['pay_move_line_ids'] = [(6, 0, lines.ids)]
+                else:
+                    rec['pay_move_line_ids'] = False
+                    return rec
+            line_defaults = self.resolve_2many_commands('pay_move_line_ids', rec.get('pay_move_line_ids'))
+            if line_defaults and len(line_defaults) >= 1:
+                line = line_defaults[0]
+                rec['communication'] = ', '.join([line['name'] or line['ref'] for line in line_defaults])
+                rec['currency_id'] = line['currency_id'] and line['currency_id'][0] or line['company_currency_id'][0]
+                rec['payment_type'] = line['debit'] and 'inbound' or 'outbound'
+                rec['partner_type'] = line['debit'] and 'customer' or 'supplier'
+                rec['partner_id'] = line['partner_id'][0]
+                rec['amount'] = sum([abs(line['amount_residual_currency'] or line['amount_residual']) for line in line_defaults])
         return rec
 
     @api.multi
@@ -598,8 +616,8 @@ class account_payment(models.Model):
             if any(len(record.invoice_ids) != 1 for record in self):
                 # For multiple invoices, there is account.register.payments wizard
                 raise UserError(_("This method should only be called to process a single invoice's payment."))
-        else:
-            if any(len(record.pay_move_line_ids) != 1 for record in self):
+        elif self.mapped('pay_move_line_ids'):
+            if any(len(record.pay_move_line_ids) < 1 for record in self):
                 # For multiple entries, there is account.register.payments wizard
                 raise UserError(_("This method should only be called to process a single account entry's payment."))
         return self.post()
@@ -613,6 +631,8 @@ class account_payment(models.Model):
         if self.invoice_ids and all([x.currency_id == self.invoice_ids[0].currency_id for x in self.invoice_ids]):
             #if all the invoices selected share the same currency, record the paiement in that currency too
             invoice_currency = self.invoice_ids[0].currency_id
+        elif self.pay_move_line_ids and all([x.currency_id == self.pay_move_line_ids[0].currency_id for x in self.pay_move_line_ids]):
+            invoice_currency = self.pay_move_line_ids[0].currency_id or self.company_id.currency_id
         debit, credit, amount_currency, currency_id = aml_obj.with_context(date=self.payment_date).compute_amount_fields(amount, self.currency_id, self.company_id.currency_id, invoice_currency)
 
         move = self.env['account.move'].create(self._get_move_vals())
@@ -631,6 +651,9 @@ class account_payment(models.Model):
             # minus the payment amount in company currency, and not from the payment difference in the payment currency
             # to avoid loss of precision during the currency rate computations. See revision 20935462a0cabeb45480ce70114ff2f4e91eaf79 for a detailed example.
             total_residual_company_signed = sum(invoice.residual_company_signed for invoice in self.invoice_ids)
+            if self.pay_move_line_ids:
+                total_residual_company_signed = sum(line.amount_residual for line in self.pay_move_line_ids)
+
             total_payment_company_signed = self.currency_id.with_context(date=self.payment_date).compute(self.amount, self.company_id.currency_id)
             # amout_wo must be positive for out_invoice and in_refund and negative for in_invoice and out_refund in standard use case
             #               |   total_payment_company_signed   |    total_residual_company_signed    |    amount_wo
@@ -644,14 +667,21 @@ class account_payment(models.Model):
             # out_refund    |   positive                       |    negative                         |    negative
             #----------------------------------------------------------------------------------------------------------------------
             # DO NOT FORWARD-PORT
-            if self.invoice_ids[0].type == 'in_invoice':
-                amount_wo = total_payment_company_signed - total_residual_company_signed
-            elif self.invoice_ids[0].type == 'in_refund':
-                amount_wo = - total_payment_company_signed - total_residual_company_signed
-            elif self.invoice_ids[0].type == 'out_refund':
-                amount_wo = total_payment_company_signed + total_residual_company_signed
-            else:
-                amount_wo = total_residual_company_signed - total_payment_company_signed
+            if self.invoice_ids:
+                if self.invoice_ids[0].type == 'in_invoice':
+                    amount_wo = total_payment_company_signed - total_residual_company_signed
+                elif self.invoice_ids[0].type == 'in_refund':
+                    amount_wo = - total_payment_company_signed - total_residual_company_signed
+                elif self.invoice_ids[0].type == 'out_refund':
+                    amount_wo = total_payment_company_signed + total_residual_company_signed
+                else:
+                    amount_wo = total_residual_company_signed - total_payment_company_signed
+            elif self.pay_move_line_ids:
+                # if self.pay_move_line_ids.mapped('journal_id')[0].type == 'sale_refund':
+                #     amount_wo = total_payment_company_signed + total_residual_company_signed
+                # else:
+                amount_wo = self.currency_id.with_context(date=self.payment_date).compute(self.payment_difference, self.company_id.currency_id)
+                    #amount_wo = total_payment_company_signed - total_residual_company_signed
             # Align the sign of the secondary currency writeoff amount with the sign of the writeoff
             # amount in the company currency
             if amount_wo > 0:

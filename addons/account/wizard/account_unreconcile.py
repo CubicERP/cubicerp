@@ -8,6 +8,10 @@ class AccountUnreconcile(models.TransientModel):
     @api.multi
     def trans_unrec(self):
         context = dict(self._context or {})
-        if context.get('active_ids', False):
+        res = {'type': 'ir.actions.act_window_close'}
+        if context.get('active_ids', False) and context.get('active_model') == 'account.move.line':
             self.env['account.move.line'].browse(context.get('active_ids')).remove_move_reconcile()
-        return {'type': 'ir.actions.act_window_close'}
+        elif context.get('active_ids', False) and context.get('active_model') == 'account.full.reconcile':
+            self.env['account.full.reconcile'].browse(context['active_ids']).mapped('reconciled_line_ids').remove_move_reconcile()
+            res = True
+        return res

@@ -17,7 +17,7 @@ class AccountMoveLine(models.Model):
         return res
 
     def remove_move_reconcile(self):
-        move_ids = self.full_reconcile_id.reconciled_line_ids.mapped('move_id')
+        move_ids = self.mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id')
         res = super(AccountMoveLine, self).remove_move_reconcile()
         slips = self.env['hr.payslip'].search([('move_id', 'in', move_ids.ids)])
         slips.write({'state': 'done'})

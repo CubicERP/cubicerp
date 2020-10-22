@@ -393,8 +393,8 @@
                                         <field name="group_invoice_lines" attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}"/>
                                     </group>
                                     <group string="Accounting App Options" groups="account.group_account_user">
-                                        <field name="profit_account_id" attrs="{'invisible': [('type', '!=', 'cash')]}"/>
-                                        <field name="loss_account_id" attrs="{'invisible': [('type', '!=', 'cash')]}"/>
+                                        <field name="profit_account_id" attrs="{'invisible': [('type', 'not in', ['cash','bank'])]}"/>
+                                        <field name="loss_account_id" attrs="{'invisible': [('type', 'not in', ['cash','bank'])]}"/>
                                         <field name="transfer_account_id" attrs="{'invisible': ['|',('type', '!=', 'cash'),('type', '!=', 'cash')]}"/>
                                         <field name="show_on_dashboard" groups="base.group_no_one"/>
                                     </group>

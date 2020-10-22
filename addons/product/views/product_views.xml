@@ -17,6 +17,29 @@
 
 
     <!-- base structure of product.template, common with product.product -->
+    <record id="product_attribute_value_view_tree" model="ir.ui.view">
+        <field name="name">product.attribute.value.view.tree</field>
+        <field name="model">product.attribute.value</field>
+        <field name="arch" type="xml">
+            <tree string="Attributes" editable="top">
+                <field name="sequence" widget="handle"/>
+                <field name="attribute_id"/>
+                <field name="name"/>
+                <field name="price_extra"/>
+            </tree>
+        </field>
+    </record>
+    <record id="product_attribute_value_action" model="ir.actions.act_window">
+        <field name="name">Variant Values</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.attribute.value</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="product_attribute_value_view_tree"/>
+        <field name="domain">[('product_ids.product_tmpl_id', '=', active_id)]</field>
+        <field name="context">{'default_product_tmpl_id': active_id}</field>
+    </record>
+
     <record id="product_template_form_view" model="ir.ui.view">
         <field name="name">product.template.common.form</field>
         <field name="model">product.template</field>

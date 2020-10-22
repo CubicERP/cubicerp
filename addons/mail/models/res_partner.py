@@ -24,6 +24,12 @@ class Partner(models.Model):
         'Opt-Out', help="If opt-out is checked, this contact has refused to receive emails for mass mailing and marketing campaign. "
                         "Filter 'Available for Mass Mailing' allows users to filter the partners when performing mass mailing.")
     channel_ids = fields.Many2many('mail.channel', 'mail_channel_partner', 'partner_id', 'channel_id', string='Channels', copy=False)
+    street = fields.Char(track_visibility='onchange')
+    street2 = fields.Char(track_visibility='onchange')
+    city = fields.Char(track_visibility='onchange')
+    email = fields.Char(track_visibility='onchange')
+    phone = fields.Char(track_visibility='onchange')
+    mobile = fields.Char(track_visibility='onchange')
 
     @api.multi
     def message_get_suggested_recipients(self):

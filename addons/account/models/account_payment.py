@@ -307,8 +307,6 @@ class account_payment(models.Model):
                 self.payment_difference = self.amount - self._compute_total_pay_move_line_amount()
             else:
                 self.payment_difference = self._compute_total_pay_move_line_amount() - self.amount
-        if self.payment_difference and self.journal_id:
-            self.writeoff_account_id = self.journal_id.loss_account_id if self.payment_difference > 0 else self.journal_id.profit_account_id
 
     company_id = fields.Many2one(store=True)
     name = fields.Char(readonly=True, copy=False) # The name is attributed upon post()
@@ -396,6 +394,8 @@ class account_payment(models.Model):
                 self.journal_id = self.env['account.journal'].search(domain_on_types + domain_currency, limit=1)
         else:
             journal_domain = journal_domain.append(('id', '=', default_journal_id))
+        if self.payment_difference and self.journal_id:
+            self.writeoff_account_id = (self.journal_id.loss_account_id if self.payment_difference > 0 else self.journal_id.profit_account_id) or self.writeoff_account_id
 
         return {'domain': {'journal_id': journal_domain}}
 

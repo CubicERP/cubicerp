@@ -33,7 +33,7 @@
                     <field name="list_price" position="after">
                         <field name="valuation" invisible="1" readonly="1"/>
                         <field name="cost_method" invisible="1" readonly="1"/>
-                        <field name="property_cost_method" invisible="1"/>
+
                     </field>
                     <field name="standard_price" position="replace">
                         <div class="o_row">
@@ -55,6 +55,7 @@
                                 domain="[('deprecated', '=', False)]"/>
                             <field name="property_stock_valuation_account_id"
                                 domain="[('deprecated', '=', False)]"/>
+                            <field name="property_cost_method"/>
                         </group>
                     </group>
                 </data>

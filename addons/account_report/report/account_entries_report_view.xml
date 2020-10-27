@@ -73,6 +73,7 @@
                 <filter string="Closing F.Year" name="closing_filter" domain="[('journal_type','=','shutdown')]" help="Closing fiscal year journal entries"/>
                 <field name="account_id"/>
                 <field name="journal_id"/>
+                <field name="analytic_account_id"/>
                 <group expand="0" string="Extended Filters...">
                     <field name="product_id"/>
                     <field name="partner_id"/>

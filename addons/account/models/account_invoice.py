@@ -1310,7 +1310,7 @@ class AccountInvoice(models.Model):
         return self._get_refund_common_fields() + self._get_refund_prepare_fields() + copy_fields
 
     def _get_currency_rate_date(self):
-        return self.date or self.date_invoice
+        return self.date_invoice
 
     @api.model
     def _prepare_refund(self, invoice, date_invoice=None, date=None, description=None, journal_id=None):

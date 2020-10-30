@@ -63,6 +63,9 @@
                     options="{'no_create': True}" context="{'show_total_amount': True}"
                     domain="[('partner_id','child_of',partner_id)]"/>
             </field>
+            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                <attribute name="force_save">1</attribute>
+            </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
                 <field name="purchase_line_id" invisible="1" readonly="0"/>
                 <field name="purchase_id" invisible="1" readonly="0"/>

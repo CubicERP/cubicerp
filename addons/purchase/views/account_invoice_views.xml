@@ -59,8 +59,9 @@
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="before" >
-                 <field name="purchase_id" attrs="{'readonly': [('state','not in',['draft'])], 'invisible': ['|', ('state', '=', 'purchase'), ('type', '=', 'in_refund')]}" class="oe_edit_only"
-                    options="{'no_create': True}" context="{'show_total_amount': True}"/>
+                 <field name="purchase_id" attrs="{'readonly': [('state','not in',['draft','open','paid'])], 'invisible': ['|', ('state', '=', 'purchase'), ('type', '=', 'in_refund')]}" class="oe_edit_only"
+                    options="{'no_create': True}" context="{'show_total_amount': True}"
+                    domain="[('partner_id','child_of',partner_id)]"/>
             </field>
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
                 <field name="purchase_line_id" invisible="1" readonly="0"/>

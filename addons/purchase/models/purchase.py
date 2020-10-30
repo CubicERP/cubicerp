@@ -189,7 +189,7 @@ class PurchaseOrder(models.Model):
             if po.partner_ref:
                 name += ' ('+po.partner_ref+')'
             if self.env.context.get('show_total_amount') and po.amount_total:
-                name += ': ' + formatLang(self.env, po.amount_total, currency_obj=po.currency_id)
+                name += ': ' + formatLang(self.env, po.amount_total, currency_obj=po.currency_id) + ' [%s]'%po.date_order
             result.append((po.id, name))
         return result
 

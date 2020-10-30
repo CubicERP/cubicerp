@@ -78,15 +78,21 @@ class AccountInvoice(models.Model):
             return {}
         if not self.partner_id:
             self.partner_id = self.purchase_id.partner_id.id
+            self.currency_id = self.purchase_id.currency_id.id
 
-        new_lines = self.env['account.invoice.line']
-        for line in self.purchase_id.order_line - self.invoice_line_ids.mapped('purchase_line_id'):
-            data = self._prepare_invoice_line_from_po_line(line)
-            new_line = new_lines.new(data)
-            new_line._set_additional_fields(self)
-            new_lines += new_line
+        if self.state == 'draft':
+            new_lines = self.env['account.invoice.line']
+            for line in self.purchase_id.order_line - self.invoice_line_ids.mapped('purchase_line_id'):
+                data = self._prepare_invoice_line_from_po_line(line)
+                new_line = new_lines.new(data)
+                new_line._set_additional_fields(self)
+                new_lines += new_line
 
-        self.invoice_line_ids += new_lines
+            self.invoice_line_ids += new_lines
+        elif self.state in ('open', 'paid'):
+            for line in self.invoice_line_ids.filtered(lambda l: not l.purchase_line_id and l.product_id in self.purchase_id.order_line.mapped('product_id')):
+                line.purchase_line_id = self.purchase_id.order_line.filtered(lambda l: l.product_id == line.product_id)[0].id
+
         self.payment_term_id = self.purchase_id.payment_term_id
         self.env.context = dict(self.env.context, from_purchase_order_change=True)
         self.origin = (self.origin and "%s, "%self.origin or '') + self.purchase_id.name

@@ -228,6 +228,9 @@ class StockMove(models.Model):
         """
         return self.location_id.usage == 'customer' and self.location_dest_id.usage == 'supplier'
 
+    def _fifo_write(self, candidate_vals, move):
+        return self.write(candidate_vals)
+
     @api.model
     def _run_fifo(self, move, quantity=None):
         """ Value `move` according to the FIFO rule, meaning we consume the
@@ -267,7 +270,7 @@ class StockMove(models.Model):
                 'remaining_qty': candidate.remaining_qty - qty_taken_on_candidate,
                 'remaining_value': candidate.remaining_value - value_taken_on_candidate,
             }
-            candidate.write(candidate_vals)
+            candidate._fifo_write(candidate_vals, move)
 
             qty_to_take_on_candidates -= qty_taken_on_candidate
             tmp_value += value_taken_on_candidate

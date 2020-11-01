@@ -138,6 +138,7 @@
                 <tree>
                     <field name="date" />
                     <field name="ref" />
+                    <field name="name" />
                     <field name="product_id" />
                     <field name="quantity" />
                     <field name="product_uom_id" groups="product.group_uom" />

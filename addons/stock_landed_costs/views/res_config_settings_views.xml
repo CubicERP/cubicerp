@@ -10,6 +10,10 @@
                 <div class="mt16" attrs="{'invisible': [('module_stock_landed_costs','=',False)]}">
                     <button name="%(stock_landed_costs.stock_landed_cost_type_action)d" icon="fa-arrow-right" type="action" string="Landed Cost Types" class="btn-link"/>
                 </div>
+                <div class="row mt16">
+                    <label for="landed_cost_journal_id" class="col-md-3 o_light_label"/>
+                    <field name="landed_cost_journal_id"/>
+                </div>
             </div>
         </field>
     </record>

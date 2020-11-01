@@ -3,3 +3,8 @@
 
 from . import product
 from . import stock_landed_cost
+from . import purchase
+from . import stock
+from . import account
+from . import company
+from . import res_config_settings

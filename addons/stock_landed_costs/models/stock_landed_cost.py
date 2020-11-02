@@ -136,7 +136,10 @@ class LandedCost(models.Model):
         #         _('Validated landed costs cannot be cancelled, but you could create negative landed costs to reverse them'))
         for cost in self.filtered(lambda c: c.state != 'draft'):
             cost.with_context(price_unit_sign=-1.0, landed_cost_state=cost.state).compute_landed_cost()
-            cost.with_context(move_ref_label=_("CANCEL: "), landed_cost_state=cost.state, price_unit_sign=-1.0).button_validate()
+            if cost.state == 'post':
+                cost.with_context(move_ref_label=_("CANCEL: "), landed_cost_state=cost.state, price_unit_sign=-1.0, account_move_revert=True).button_validate()
+            else:
+                cost.with_context(move_ref_label=_("CANCEL: "), landed_cost_state=cost.state, price_unit_sign=-1.0).button_validate()
             cost.picking_ids.mapped('move_lines').write({'landed_cost_id': False})
         self.env['stock.landed.cost'].search([('state','=','post')])._assing_to_fifo_candidates()
         return self.write({'state': 'cancel'})

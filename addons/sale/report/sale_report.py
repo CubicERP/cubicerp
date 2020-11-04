@@ -48,7 +48,7 @@ class SaleReport(models.Model):
 
     def _select(self):
         select_str = """
-            WITH currency_rate as (%s)
+            WITH currency_rate AS MATERIALIZED (%s)
              SELECT min(l.id) as id,
                     l.product_id as product_id,
                     t.uom_id as product_uom,

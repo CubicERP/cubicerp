@@ -27,7 +27,7 @@ class PosSaleReport(models.Model):
 
     def _so(self):
         so_str = """
-            WITH currency_rate as (%s)
+            WITH currency_rate AS MATERIALIZED (%s)
                 SELECT sol.id AS id,
                     so.name AS name,
                     so.partner_id AS partner_id,

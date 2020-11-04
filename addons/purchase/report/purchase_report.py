@@ -53,7 +53,7 @@ class PurchaseReport(models.Model):
         tools.drop_view_if_exists(self._cr, 'purchase_report')
         self._cr.execute("""
             create view purchase_report as (
-                WITH currency_rate as (%s)
+                WITH currency_rate AS MATERIALIZED (%s)
                 select
                     min(l.id) as id,
                     s.date_order as date_order,

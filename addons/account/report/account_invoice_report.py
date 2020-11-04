@@ -168,7 +168,7 @@ class AccountInvoiceReport(models.Model):
         # self._table = account_invoice_report
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
-            WITH currency_rate AS (%s)
+            WITH currency_rate AS MATERIALIZED (%s)
             %s
             FROM (
                 %s %s %s

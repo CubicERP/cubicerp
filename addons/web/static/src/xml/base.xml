@@ -1335,7 +1335,8 @@
 
 <t t-name="UserMenu.Actions">
     <li><a href="#" data-menu="settings">Preferences</a></li>
-    <li><a href="#" data-menu="support">Support</a></li>
+    <li><a href="#" data-menu="support">Live Support</a></li>
+    <li><a href="#" data-menu="documentation">Documentation</a></li>
     <li t-if="widget.getSession().uid == 1"><a href="#" data-menu="database">Database Manager</a></li>
     <li><a href="#" data-menu="logout">Log out</a></li>
 </t>

@@ -95,13 +95,13 @@ var UserMenu = Widget.extend({
      * @private
      */
     _onMenuDocumentation: function () {
-        window.open('https://www.cubicerp.com/', '_blank');
+        window.open('https://doc.cubicerp.com/', '_blank');
     },
     /**
      * @private
      */
     _onMenuSupport: function () {
-        window.open('https://www.cubicerp.com/help', '_blank');
+        window.open('https://meet.cubicerp.com', '_blank');
     },
     /**
      * @private

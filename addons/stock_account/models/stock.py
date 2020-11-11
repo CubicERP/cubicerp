@@ -139,12 +139,18 @@ class StockMoveLine(models.Model):
 class StockMove(models.Model):
     _inherit = "stock.move"
 
+    @api.depends('state')
+    def _account_move_count(self):
+        for move in self:
+            move.account_move_count = len(move.account_move_ids)
+
     to_refund = fields.Boolean(string="To Refund (update SO/PO)", copy=False,
                                help='Trigger a decrease of the delivered/received quantity in the associated Sale Order/Purchase Order')
     value = fields.Float(copy=False)
     remaining_qty = fields.Float(copy=False)
     remaining_value = fields.Float(copy=False)
     account_move_ids = fields.One2many('account.move', 'stock_move_id')
+    account_move_count = fields.Integer(compute=_account_move_count)
 
     @api.multi
     def action_get_account_moves(self):
@@ -159,6 +165,9 @@ class StockMove(models.Model):
 
     def _get_price_unit(self):
         """ Returns the unit price to store on the quant """
+        if self._context.get('fifo_price_unit', False) and self.id in self._context['fifo_price_unit'] \
+                and (self.product_id.property_cost_method or self.product_id.categ_id.property_cost_method) == 'fifo':
+            return self._context['fifo_price_unit'][self.id]
         return not self.company_id.currency_id.is_zero(self.price_unit) and self.price_unit or self.product_id.standard_price
 
     @api.model
@@ -562,7 +571,7 @@ class StockMove(models.Model):
 
         partner_id = (self.picking_id.partner_id and self.env['res.partner']._find_accounting_partner(self.picking_id.partner_id).id) or False
         debit_line_vals = {
-            'name': self.name,
+            'name': self.product_id.name,
             'product_id': self.product_id.id,
             'quantity': qty,
             'product_uom_id': self.product_id.uom_id.id,
@@ -573,7 +582,7 @@ class StockMove(models.Model):
             'account_id': debit_account_id,
         }
         credit_line_vals = {
-            'name': self.name,
+            'name': self.product_id.name,
             'product_id': self.product_id.id,
             'quantity': qty,
             'product_uom_id': self.product_id.uom_id.id,
@@ -593,7 +602,7 @@ class StockMove(models.Model):
             if not price_diff_account:
                 raise UserError(_('Configuration error. Please configure the price difference account on the product or its category to process this operation.'))
             price_diff_line = {
-                'name': self.name,
+                'name': self.product_id.name,
                 'product_id': self.product_id.id,
                 'quantity': qty,
                 'product_uom_id': self.product_id.uom_id.id,
@@ -619,7 +628,7 @@ class StockMove(models.Model):
 
         # Make an informative `ref` on the created account move to differentiate between classic
         # movements, vacuum and edition of past moves.
-        ref = self.picking_id.name
+        ref = self.picking_id.name or self.origin or self.name
         if self.env.context.get('force_valuation_amount'):
             if self.env.context.get('forced_quantity') == 0:
                 ref = 'Revaluation of %s (negative inventory)' % ref
@@ -685,7 +694,7 @@ class StockPicking(models.Model):
     @api.depends('move_lines','state')
     def _account_move_count(self):
         for picking in self:
-            picking.account_move_count = len(self.move_lines.mapped('account_move_ids'))
+            picking.account_move_count = len(picking.move_lines.mapped('account_move_ids'))
 
     account_move_count = fields.Integer(compute=_account_move_count)
 

@@ -1275,6 +1275,7 @@
                                         <field name="debit" attrs="{'readonly':[('parent_state','=','posted')]}"/>
                                         <field name="credit" attrs="{'readonly':[('parent_state','=','posted')]}"/>
                                         <field name="quantity"/>
+                                        <field name="product_id" attrs="{'invisible': [('product_id','=',False)]}"/>
                                     </group>
                                     <group string="Accounting Documents">
                                         <field name="move_id" attrs="{'readonly':[('parent_state','=','posted')]}"/>

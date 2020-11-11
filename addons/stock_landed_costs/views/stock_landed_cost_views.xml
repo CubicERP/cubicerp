@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <!-- Top menu item -->
-        <menuitem name="Import" id="top_menu" sequence="31" web_icon="fas fa-ship faa-burst > color:#a4b8df;"/>
+        <menuitem name="Costing M X" id="top_menu" sequence="31" web_icon="fas fa-ship faa-burst > color:#a4b8df;"/>
 
         <!--Budgets, Reports and Configuration Menu-->
         <menuitem id="menu_operation" name="Operations" parent="top_menu" sequence="60"/>

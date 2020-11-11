@@ -9,6 +9,7 @@
         groups="base.group_user"/>
 
     <menuitem name="Main Data" id="data_menu" parent="menu_product_root" sequence="50"/>
+    <menuitem name="Operations" id="operation_menu" parent="menu_product_root" sequence="60"/>
     <menuitem name="Configuration" id="configuration_menu" parent="menu_product_root" sequence="80"/>
 
     <menuitem name="Unit of Measure" id="configuration_menu_uom" parent="configuration_menu" sequence="40"/>

@@ -26,6 +26,7 @@
     </record>
 
     <menuitem action="action_procurement_compute" id="menu_procurement_compute" parent="menu_stock_warehouse_mgmt" sequence="135"/>
+    <menuitem action="action_procurement_compute" id="menu_op_procurement_compute" parent="product.operation_menu" sequence="135"/>
 
 
 </odoo>

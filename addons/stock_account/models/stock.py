@@ -265,10 +265,19 @@ class StockMove(models.Model):
         tmp_value = 0  # to accumulate the value taken on the candidates
         for candidate in candidates:
             new_standard_price = candidate.price_unit
-            if candidate.remaining_qty <= qty_to_take_on_candidates:
-                qty_taken_on_candidate = candidate.remaining_qty
+            if move.product_id.tracking != 'none':
+                _qty_to_take_on_candidates = sum(move.move_line_ids.filtered(lambda l: l.lot_id in candidate.move_line_ids.mapped('lot_id')).mapped('qty_done'))
+                if _qty_to_take_on_candidates > qty_to_take_on_candidates:
+                    _qty_to_take_on_candidates = qty_to_take_on_candidates
+                if candidate.remaining_qty <= _qty_to_take_on_candidates:
+                    qty_taken_on_candidate = candidate.remaining_qty
+                else:
+                    qty_taken_on_candidate = _qty_to_take_on_candidates
             else:
-                qty_taken_on_candidate = qty_to_take_on_candidates
+                if candidate.remaining_qty <= qty_to_take_on_candidates:
+                    qty_taken_on_candidate = candidate.remaining_qty
+                else:
+                    qty_taken_on_candidate = qty_to_take_on_candidates
 
             # As applying a landed cost do not update the unit price, naivelly doing
             # something like qty_taken_on_candidate * candidate.price_unit won't make

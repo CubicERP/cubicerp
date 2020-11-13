@@ -117,9 +117,13 @@ class StockMoveLine(models.Model):
                         # no need to adapt `remaining_qty` and `remaining_value` as `_run_fifo` took care of it
                         move_vals['value'] = move_id.value - correction_value
                     elif move_id._is_out() and qty_difference < 0:
-                        candidates_receipt = self.env['stock.move'].search(move_id._get_in_domain(), order='date, id desc', limit=1)
+                        candidates_receipt = self.env['stock.move'].search(move_id._get_in_domain(), order='date, id desc')
+                        if all(tracking != 'none' for tracking in self.mapped('product_id.tracking')):
+                            _candidates_receipt = candidates_receipt.filtered(lambda c: c.move_line_ids.mapped('lot_id') in self.mapped('lot_id'))
+                            if _candidates_receipt:
+                                candidates_receipt = _candidates_receipt[0]
                         if candidates_receipt:
-                            candidates_receipt.write({
+                            candidates_receipt[0].write({
                                 'remaining_qty': candidates_receipt.remaining_qty + -qty_difference,
                                 'remaining_value': candidates_receipt.remaining_value + (-qty_difference * candidates_receipt.price_unit),
                             })
@@ -151,6 +155,11 @@ class StockMove(models.Model):
     remaining_value = fields.Float(copy=False)
     account_move_ids = fields.One2many('account.move', 'stock_move_id')
     account_move_count = fields.Integer(compute=_account_move_count)
+
+    def unlink(self):
+        if any(bool(move.account_move_ids) for move in self):
+            raise UserError(_('You can only delete moves without account entries.'))
+        return super(StockMove, self).unlink()
 
     @api.multi
     def action_get_account_moves(self):

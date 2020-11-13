@@ -370,10 +370,10 @@ class MrpProduction(models.Model):
             production._generate_finished_moves()
             factor = production.product_uom_id._compute_quantity(production.product_qty, production.bom_id.product_uom_id) / production.bom_id.product_qty
             boms, lines = production.bom_id.explode(production.product_id, factor, picking_type=production.bom_id.picking_type_id)
-            production._generate_raw_moves(lines)
+            raws = production._generate_raw_moves(lines)
             # Check for all draft moves whether they are mto or not
-            production._adjust_procure_method()
-            production.move_raw_ids._action_confirm()
+            production._adjust_procure_method(raws)
+            raws._action_confirm()
         return True
 
     def _generate_finished_moves(self):
@@ -445,12 +445,12 @@ class MrpProduction(models.Model):
         return self.env['stock.move'].create(data)
 
     @api.multi
-    def _adjust_procure_method(self):
+    def _adjust_procure_method(self, moves):
         try:
             mto_route = self.env['stock.warehouse']._get_mto_route()
         except:
             mto_route = False
-        for move in self.move_raw_ids:
+        for move in moves:
             product = move.product_id
             routes = product.route_ids + product.route_from_categ_ids
             # TODO: optimize with read_group?
@@ -626,11 +626,19 @@ class MrpProduction(models.Model):
         for production in self:
             production.workorder_ids.filtered(lambda x: x.state != 'cancel').action_cancel()
 
-            finish_moves = production.move_finished_ids.filtered(lambda x: x.state not in ('done', 'cancel'))
-            raw_moves = production.move_raw_ids.filtered(lambda x: x.state not in ('done', 'cancel'))
+            finish_moves = production.move_finished_ids.filtered(lambda x: x.state not in ('cancel'))
+            raw_moves = production.move_raw_ids.filtered(lambda x: x.state not in ('cancel'))
             (finish_moves | raw_moves)._action_cancel()
 
         self.write({'state': 'cancel', 'is_locked': True})
+        return True
+
+    def button_confirmed(self):
+        old_moves = (self.move_raw_ids | self.move_finished_ids).filtered(lambda m: m.state=='cancel')
+        old_moves._action_draft()
+        old_moves.unlink()
+        self._generate_moves()
+        self.write({'state': 'confirmed'})
         return True
 
     def _cal_price(self, consumed_moves):

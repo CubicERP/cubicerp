@@ -55,7 +55,7 @@
                                 domain="[('deprecated', '=', False)]"/>
                             <field name="property_stock_valuation_account_id"
                                 domain="[('deprecated', '=', False)]"/>
-                            <field name="property_cost_method"/>
+                            <field name="cost_method"/>
                         </group>
                     </group>
                 </data>

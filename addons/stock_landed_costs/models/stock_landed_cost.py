@@ -305,7 +305,7 @@ class LandedCost(models.Model):
         towrite_dict = {}
         sign = self._context.get("price_unit_sign", 1.0)
         state = self._context.get("landed_cost_state", 'post')
-        for cost in self.filtered(lambda cost: cost.picking_ids):
+        for cost in self:
             total_qty = 0.0
             total_cost = 0.0
             total_weight = 0.0

@@ -652,7 +652,7 @@ class MrpProduction(models.Model):
             moves_to_do = order.move_raw_ids.filtered(lambda x: x.state not in ('done', 'cancel'))
             for move in moves_to_do.filtered(lambda m: m.product_qty == 0.0 and m.quantity_done > 0):
                 move.product_uom_qty = move.quantity_done
-            moves_to_do._action_done()
+            moves_to_do.with_context(production_id=order.id)._action_done()
             moves_to_do = order.move_raw_ids.filtered(lambda x: x.state == 'done') - moves_not_to_do
             order._cal_price(moves_to_do)
             moves_to_finish = order.move_finished_ids.filtered(lambda x: x.state not in ('done','cancel'))

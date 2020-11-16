@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    journal_id = fields.Many2one("account.journal", "Journal", domain=[('type','=','stock')],
+    journal_id = fields.Many2one("account.journal", "Journal",
                                  help="This stock journal replace to the journal defined in the product category.")
 
 

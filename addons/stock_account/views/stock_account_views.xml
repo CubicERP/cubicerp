@@ -61,7 +61,7 @@
             <field name="model">stock.picking.type</field>
             <field name="arch" type="xml">
                 <field name="warehouse_id" position="after">
-                    <field name="journal_id" context="{'default_type': 'stock', 'default_show_on_dashboard': 0}"/>
+                    <field name="journal_id" domain="[('type','in',['stock','general'])]" context="{'default_type': 'stock', 'default_show_on_dashboard': 0}"/>
                 </field>
             </field>
         </record>

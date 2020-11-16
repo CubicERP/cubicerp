@@ -236,7 +236,7 @@ class ProductProduct(models.Model):
                         product.qty_at_date = product.with_context(company_owned=True, owner_id=False).qty_available
                         product.stock_fifo_manual_move_ids = StockMove.browse(product_move_ids[product])
                     elif product.product_tmpl_id.valuation == 'real_time':
-                        valuation_account_id = product.categ_id.property_stock_valuation_account_id.id
+                        valuation_account_id = product.property_stock_valuation_account_id.id or product.categ_id.property_stock_valuation_account_id.id
                         value, quantity, aml_ids = fifo_automated_values.get((product.id, valuation_account_id)) or (0, 0, [])
                         product.stock_value = value
                         product.qty_at_date = quantity
@@ -247,7 +247,7 @@ class ProductProduct(models.Model):
                     if product.product_tmpl_id.valuation == 'manual_periodic':
                         product.stock_fifo_manual_move_ids = moves
                     elif product.product_tmpl_id.valuation == 'real_time':
-                        valuation_account_id = product.categ_id.property_stock_valuation_account_id.id
+                        valuation_account_id = product.property_stock_valuation_account_id.id or product.categ_id.property_stock_valuation_account_id.id
                         value, quantity, aml_ids = fifo_automated_values.get((product.id, valuation_account_id)) or (0, 0, [])
                         product.stock_fifo_real_time_aml_ids = self.env['account.move.line'].browse(aml_ids)
 

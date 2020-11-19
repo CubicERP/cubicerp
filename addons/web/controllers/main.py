@@ -681,9 +681,14 @@ class Database(http.Controller):
         d['countries'] = odoo.service.db.exp_list_countries()
         # databases list
         d['databases'] = []
+        d['daily_backups'] = []
         try:
             d['databases'] = http.db_list()
             d['incompatible_databases'] = odoo.service.db.list_db_incompatible(d['databases'])
+            for database in http.db_list():
+                for file in glob.glob("%s/backup/%s/*"%(odoo.tools.config['data_dir'], database)):
+                    filen = file.split('/')
+                    d['daily_backups'].append("%s/%s"%(filen[-2], filen[-1]))
         except odoo.exceptions.AccessDenied:
             monodb = db_monodb()
             if monodb:
@@ -752,6 +757,22 @@ class Database(http.Controller):
             ]
             dump_stream = odoo.service.db.dump_db(name, None, backup_format)
             response = werkzeug.wrappers.Response(dump_stream, headers=headers, direct_passthrough=True)
+            return response
+        except Exception as e:
+            _logger.exception('Database.backup')
+            error = "Database backup error: %s" % (str(e) or repr(e))
+            return self._render_template(error=error)
+
+    @http.route('/web/database/daily_backup', type='http', auth="none", methods=['GET'], csrf=False)
+    def daily_backup(self, file):
+        try:
+            filename = file.split('/')[-1]
+            headers = [
+                ('Content-Type', 'application/octet-stream; charset=binary'),
+                ('Content-Disposition', content_disposition(filename)),
+            ]
+            dump_stream = open("%s/backup/%s"%(odoo.tools.config['data_dir'],file),'rb')
+            response = werkzeug.wrappers.Response(dump_stream.read(), headers=headers, direct_passthrough=True)
             return response
         except Exception as e:
             _logger.exception('Database.backup')

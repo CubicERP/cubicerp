@@ -163,6 +163,9 @@
             Set Master Password
           </button>
           {% endif %}
+          <button type="button" data-toggle="modal" data-target=".o_database_daily" class="btn btn-sm ">
+            Daily Backup
+          </button>
         </div>
         {% else %}
         <div class="text-center">
@@ -180,6 +183,30 @@
       {% endif %}
     </div>
   </div>
+
+  <!-- Daily Backup DB -->
+  <div class="modal fade o_database_daily" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Daily Backups</h4>
+        </div>
+
+
+        <div class="list-group">
+          {% for file in daily_backups %}
+          <a href="/web/database/daily_backup?file={{ file }}" class="list-group-item" >
+            {{ file }}
+          </a>
+          {% endfor %}
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
 
   <!-- Create -->
   <div class="modal fade o_database_create" role="dialog">

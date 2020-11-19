@@ -163,9 +163,11 @@
             Set Master Password
           </button>
           {% endif %}
+          {% if session_db %}
           <button type="button" data-toggle="modal" data-target=".o_database_daily" class="btn btn-sm ">
             Daily Backup
           </button>
+          {% endif %}
         </div>
         {% else %}
         <div class="text-center">

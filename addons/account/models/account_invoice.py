@@ -200,6 +200,8 @@ class AccountInvoice(models.Model):
             if float_is_zero(amount_to_show, precision_rounding=self.currency_id.rounding):
                 continue
             payment_ref = payment.move_id.name
+            if payment.payment_id:
+                payment_ref = "[%s] %s"%(payment.payment_id.name, payment_ref)
             if payment.move_id.ref:
                 payment_ref += ' (' + payment.move_id.ref + ')'
             payment_vals.append({

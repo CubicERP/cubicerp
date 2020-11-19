@@ -314,7 +314,7 @@ class account_payment(models.Model):
 
     payment_type = fields.Selection(selection_add=[('transfer', 'Internal Transfer')])
     payment_reference = fields.Char(copy=False, readonly=True, help="Reference of the document used to issue this payment. Eg. check number, file name, etc.")
-    move_name = fields.Char(string='Journal Entry Name', readonly=True,
+    move_name = fields.Char(string='Journal Entry Name', readonly=True, states={'draft': [('readonly', False)]},
         default=False, copy=False,
         help="Technical field holding the number given to the journal entry, automatically set when the statement line is reconciled then stored to set the same number again if the line is cancelled, set to draft and re-processed again.")
 
@@ -324,7 +324,7 @@ class account_payment(models.Model):
     destination_journal_id = fields.Many2one('account.journal', string='Transfer To', domain=[('type', 'in', ('bank', 'cash'))])
 
     pay_move_line_ids = fields.Many2many('account.move.line', 'account_pay_move_line_payment_rel', 'payment_id', 'move_line_id', string="Account Entry to Pay", copy=False, readonly=True)
-    invoice_ids = fields.Many2many('account.invoice', 'account_invoice_payment_rel', 'payment_id', 'invoice_id', string="Invoices", copy=False, readonly=True)
+    invoice_ids = fields.Many2many('account.invoice', 'account_invoice_payment_rel', 'payment_id', 'invoice_id', string="Invoices", copy=False, readonly=True, states={'draft': [('readonly', False)]})
     has_invoices = fields.Boolean(compute="_get_has_invoices", help="Technical field used for usability purposes")
     payment_difference = fields.Monetary(compute='_compute_payment_difference', readonly=True)
     payment_difference_handling = fields.Selection([('open', 'Keep open'), ('reconcile', 'Mark invoice as fully paid')], default='open', string="Payment Difference", copy=False)

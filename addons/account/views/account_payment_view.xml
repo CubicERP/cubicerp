@@ -184,6 +184,8 @@
                                 <field name="hide_date_due" invisible="1"/>
                                 <field name="payment_date_due" attrs="{'invisible':[('hide_date_due','=',True)],'required':[('hide_date_due','=',False)],'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="communication" attrs="{'invisible': [('state', '!=', 'draft'), ('communication', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="move_name" attrs="{'invisible':[('move_name','=',False)]}" readonly="1"/>
+                                <field name="invoice_ids" widget="many2many_tags" invisible="1" domain="[('partner_id','=',partner_id),('state','=','open')]"/>
                             </group>
                         </group>
                     </sheet>

@@ -323,7 +323,8 @@
               </p>
             </field>
         </record>
-        <menuitem id="menu_product_variant" action="product_variant_action" parent="data_menu" sequence="10"/>
+
+        <menuitem id="menu_product_variant" action="product_normal_action" parent="data_menu" sequence="10"/>
 
         <record id="product_product_tree_view" model="ir.ui.view">
             <field name="name">product.product.tree</field>

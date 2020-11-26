@@ -13,6 +13,8 @@ class PaymentAcquirer(models.Model):
     _inherit = "payment.acquirer"
 
     confirm_sale_order = fields.Boolean(help="Confirm the sale order linked when transaction is done")
+    sale_send_email = fields.Boolean("Send Email", default=True,
+                                     help="Send a email with the sale order confirmation invoice when transaction is done")
     pay_invoice = fields.Boolean(help="Create and pay the invoice when transaction is done")
 
 
@@ -79,7 +81,7 @@ class PaymentTransaction(models.Model):
         if self.state == 'authorized' and (self.acquirer_id.capture_manually or self.acquirer_id.confirm_sale_order):
             _logger.info('<%s> transaction authorized, auto-confirming order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             if self.sale_order_id.state in ('draft', 'sent'):
-                self.sale_order_id.with_context(send_email=True).action_confirm()
+                self.sale_order_id.with_context(send_email=self.acquirer_id.sale_send_email).action_confirm()
         elif self.state == 'done':
             _logger.info('<%s> transaction completed, auto-confirming order %s (ID %s)', self.acquirer_id.provider, self.sale_order_id.name, self.sale_order_id.id)
             if self.sale_order_id.state in ('draft', 'sent'):
@@ -99,7 +101,9 @@ class PaymentTransaction(models.Model):
         # company_id needed for default_get on account.journal
         # force_company needed for company_dependent fields
         ctx_company = {'company_id': self.sale_order_id.company_id.id,
-                       'force_company': self.sale_order_id.company_id.id}
+                       'force_company': self.sale_order_id.company_id.id,
+                       'active_model': 'sale.order',
+                       'active_id': self.sale_order_id.id,}
 
         # We might fail to create the invoice because there is no invoiceable lines. This will
         # raise a UserError and break the workflow. Better catch the error.

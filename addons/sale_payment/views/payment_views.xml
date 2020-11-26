@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr='//group[@name="acquirer_config"]' position='inside'>
                 <field name="confirm_sale_order"/>
+                <field name="sale_send_email" attrs="{'invisible':[('confirm_sale_order','=',False)]}"/>
                 <field name="pay_invoice" attrs="{'invisible':[('confirm_sale_order','=',False)]}"/>
             </xpath>
         </field>

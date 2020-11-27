@@ -18,13 +18,16 @@ class ProductProduct(models.Model):
                 lang=lang or self.env.user.lang or 'en_US'
             )
             product_qty = product_uom._compute_quantity(product_uom_qty, self.uom_id)
-            if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
+            virtual_available = product.virtual_available
+            if self._context.get("after_picking_confirm", False):
+                virtual_available += product_qty
+            if float_compare(virtual_available, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing(warehouse_id, route_id)
                 if not is_available and self._context.get('warning-available-stock',True):
                     message =  _('You plan to sell %s %s but you only have %s %s available in %s warehouse.') % \
-                            (product_uom_qty, product_uom.name, product.virtual_available, product.uom_id.name, warehouse_id.name)
+                            (product_uom_qty, product_uom.name, virtual_available, product.uom_id.name, "(%s) %s"%(product.name, warehouse_id.name))
                     # We check if some products are available in other warehouses.
-                    if float_compare(product.virtual_available, self.virtual_available, precision_digits=precision) == -1:
+                    if float_compare(virtual_available, self.virtual_available, precision_digits=precision) == -1:
                         message += _('\nThere are %s %s available accross all warehouses.') % \
                                 (self.virtual_available, product.uom_id.name)
                     for warehouse in self.env['stock.warehouse'].search([('id','!=',warehouse_id.id)]):

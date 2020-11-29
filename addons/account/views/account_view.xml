@@ -1701,7 +1701,13 @@
                 </form>
             </field>
         </record>
-
+        <record id="action_full_reconcile_tree" model="ir.actions.act_window">
+            <field name="name">Full Reconcile</field>
+            <field name="res_model">account.full.reconcile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_action_full_reconciliation" parent="menu_finance_entries_actions" action="action_full_reconcile_tree" sequence="30"/>
 
         <!--Payment Terms -->
         <record id="view_payment_term_line_tree" model="ir.ui.view">

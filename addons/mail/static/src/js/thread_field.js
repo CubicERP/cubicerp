@@ -97,7 +97,7 @@ var ThreadField = AbstractField.extend(chat_mixin, {
         }
         var fetch_def = this.dp.add(this._getMessages(options));
         return fetch_def.then(function (raw_messages) {
-            self.thread.render(raw_messages, {display_load_more: raw_messages.length < ids.length});
+            self.thread.render(raw_messages, {display_load_more: (raw_messages || []).length < ids.length});
         });
     },
 

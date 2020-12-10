@@ -1017,6 +1017,13 @@ readers do not read off random characters that represent icons */
 .fa-coffee:before {
   content: "\f0f4"; }
 
+.fa-coffee-o {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 400; }
+
+.fa-coffee-o:before {
+  content: "\f0f4"; }
+
 .fa-cog:before {
   content: "\f013"; }
 

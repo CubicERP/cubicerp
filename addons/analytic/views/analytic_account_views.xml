@@ -134,7 +134,7 @@
             <field name="arch" type="xml">
                 <tree string="Analytic Accounts" colors="blue:type=='view'">
                     <field name="type" invisible="1"/>
-                    <field name="display_name"/>
+                    <field name="full_name"/>
                     <field name="code"/>
                     <field name="partner_id"/>
                     <field name="active" invisible="1"/>

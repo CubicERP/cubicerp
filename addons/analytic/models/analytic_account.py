@@ -8,7 +8,7 @@ class AccountAnalyticTag(models.Model):
     _name = 'account.analytic.tag'
     _description = 'Analytic Tags'
     name = fields.Char(string='Analytic Tag', index=True, required=True)
-    color = fields.Integer('Color Index', default=10)
+    color = fields.Char('Color Index', default='10')
     active = fields.Boolean(default=True, help="Set active to false to hide the Analytic Tag without removing it.")
 
 
@@ -16,7 +16,7 @@ class AccountAnalyticAccount(models.Model):
     _name = 'account.analytic.account'
     _inherit = ['mail.thread']
     _description = 'Analytic Account'
-    _order = 'code, name asc'
+    _order = 'code, full_name asc'
 
     @api.multi
     def _compute_debit_credit_balance(self):
@@ -45,7 +45,13 @@ class AccountAnalyticAccount(models.Model):
             account.credit = data_credit.get(account.id, 0.0)
             account.balance = account.credit - account.debit
 
+    @api.depends("parent_id","name")
+    def _full_name(self):
+        for analytic in self:
+            analytic.full_name = self._get_full(analytic)
+
     name = fields.Char(string='Analytic Account', index=True, required=True, track_visibility='onchange')
+    full_name = fields.Char('Analytic Account', compute=_full_name, store=True)
     code = fields.Char(string='Reference', index=True, track_visibility='onchange')
     active = fields.Boolean('Active', help="If the active field is set to False, it will allow you to hide the account without removing it.", default=True)
     parent_id = fields.Many2one("account.analytic.account", string="Analytic Parent", domain=[('type','=','view')], index=True)

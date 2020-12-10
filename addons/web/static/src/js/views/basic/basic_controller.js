@@ -634,9 +634,10 @@ var BasicController = AbstractController.extend(FieldManagerMixin, {
      */
     _onRefresh: function () {
         var self = this;
+        //self._setMode('edit');
+        //self.discardChanges();
         self._setMode('readonly');
-        self.discardChanges();
-        self.reload();
+        return self.reload();
     },
 });
 

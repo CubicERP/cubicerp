@@ -1695,6 +1695,7 @@ var FieldMany2ManyTags = AbstractField.extend({
         var elements = this.value ? _.pluck(this.value.data, 'data') : [];
         return {
             colorField: this.colorField,
+            Number: Number,
             elements: elements,
             readonly: this.mode === "readonly",
         };

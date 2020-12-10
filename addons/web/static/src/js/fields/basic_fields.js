@@ -1369,6 +1369,16 @@ var PriorityWidget = AbstractField.extend({
     },
     supportedFieldTypes: ['selection'],
 
+    /**
+     * @constructor
+     */
+    init: function () {
+        this._super.apply(this, arguments);
+
+        this.iconOn = this.nodeOptions.icon_on || 'fa-star';
+        this.iconOff = this.nodeOptions.icon_off || 'fa-star-o';
+    },
+
     //--------------------------------------------------------------------------
     // Public
     //--------------------------------------------------------------------------
@@ -1419,8 +1429,8 @@ var PriorityWidget = AbstractField.extend({
             .attr('title', tip)
             .attr('data-index', index)
             .addClass('o_priority_star fa')
-            .toggleClass('fa-star', isFull)
-            .toggleClass('fa-star-o', !isFull);
+            .toggleClass(this.iconOn, isFull)
+            .toggleClass(this.iconOff, !isFull);
     },
 
     //--------------------------------------------------------------------------
@@ -1465,8 +1475,8 @@ var PriorityWidget = AbstractField.extend({
      */
     _onMouseOver: function (event) {
         clearTimeout(this.hoverTimer);
-        this.$('.o_priority_star').removeClass('fa-star-o').addClass('fa-star');
-        $(event.currentTarget).nextAll().removeClass('fa-star').addClass('fa-star-o');
+        this.$('.o_priority_star').removeClass(this.iconOff).addClass(this.iconOn);
+        $(event.currentTarget).nextAll().removeClass(this.iconOn).addClass(this.iconOff);
     },
 });
 

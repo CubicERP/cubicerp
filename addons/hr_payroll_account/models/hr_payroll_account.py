@@ -197,10 +197,10 @@ class HrPayslip(models.Model):
     def _get_move_lines_ids(self):
         res = []
         for slip in self:
-            full_move_ids = self.move_id.line_ids.mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id')
-            credit_move_ids = self.move_id.line_ids.mapped('matched_debit_ids').mapped('debit_move_id').mapped('move_id')
-            debit_move_ids = self.move_id.line_ids.mapped('matched_credit_ids').mapped('credit_move_id').mapped('move_id')
-            res += (self.move_id | full_move_ids | credit_move_ids | debit_move_ids).mapped('line_ids').ids
+            full_move_ids = slip.move_id.line_ids.mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id')
+            credit_move_ids = slip.move_id.line_ids.mapped('matched_debit_ids').mapped('debit_move_id').mapped('move_id')
+            debit_move_ids = slip.move_id.line_ids.mapped('matched_credit_ids').mapped('credit_move_id').mapped('move_id')
+            res += (slip.move_id | full_move_ids | credit_move_ids | debit_move_ids).mapped('line_ids').ids
         return res
 
     def action_get_account_moves(self):

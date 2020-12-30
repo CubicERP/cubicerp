@@ -118,6 +118,7 @@
                                 <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
                             </group>
                         </group>
+                        <notebook></notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
@@ -254,7 +255,7 @@
                     <field name="account_id"/>
                     <field name="tag_ids" widget="many2many_tags"/>
                     <group string="Group By..." expand="0" name="groupby">
-                        <filter string="Analytic Account" context="{'group_by':'account_id'}" name="account_id"/>
+                        <filter string="Analytic Account" context="{'group_by':'account_id'}" name="group_account_id"/>
                         <filter string="Tasks Month" context="{'group_by':'date'}" name="group_date"/>
                     </group>
                 </search>

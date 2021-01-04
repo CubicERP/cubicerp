@@ -134,9 +134,9 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Analytic Accounts" colors="blue:type=='view'">
-                    <field name="type" invisible="1"/>
                     <field name="full_name"/>
                     <field name="code"/>
+                    <field name="type" invisible="1"/>
                     <field name="partner_id"/>
                     <field name="active" invisible="1"/>
                     <field name="company_id" groups="base.group_multi_company"/>

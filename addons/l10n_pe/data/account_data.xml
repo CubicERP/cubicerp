@@ -9,5 +9,8 @@
         <record id="tax_group_2" model="account.tax.group">
             <field name="name">IGV 2%</field>
         </record>
+        <record id="tax_group_ICBPER" model="account.tax.group">
+            <field name="name">ICBPER</field>
+        </record>
     </data>
 </odoo>

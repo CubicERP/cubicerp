@@ -55,6 +55,7 @@ class AccountEntriesReport(models.Model):
     reconcile_id = fields.Many2one('account.full.reconcile', 'Reconciliation number', readonly=True)
     partner_id = fields.Many2one('res.partner','Partner', readonly=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
+    parent_analytic_id = fields.Many2one('account.analytic.account', 'Parent Analytic', readonly=True)
     product_quantity = fields.Float('Products Quantity', digits=(16,2), readonly=True)
     user_type = fields.Many2one('account.account.type', 'Account Type', readonly=True)
     report_type = fields.Many2one('account.financial.report', 'Financial Report', readonly=True)
@@ -96,6 +97,7 @@ class AccountEntriesReport(models.Model):
                 l.account_id as account_id,
                 a.group_id as parent_account_id,
                 l.analytic_account_id as analytic_account_id,
+                aaa.parent_id as parent_analytic_id,
                 a.user_type_id as user_type,
                 at.financial_report_id as report_type,
                 a.chart_account_id as chart_account,
@@ -113,6 +115,7 @@ class AccountEntriesReport(models.Model):
                 inner join account_move am on (am.id=l.move_id)
                 inner join account_journal aj on (aj.id=am.journal_id)
                 left join account_account_type at on (a.user_type_id = at.id)
+                left join account_analytic_account aaa on (l.analytic_account_id = aaa.id)
                 
                 %s
                 where l.id > 0

@@ -15,6 +15,32 @@
         <field name="applicability">taxes</field>
     </record>
 
+    <record id="OTAX_030" model="account.tax.template">
+      <field name="chart_template_id" ref="pe_chart_template"/>
+      <field name="name">S/0.30 ICBPER</field>
+      <field name="description">ICBPER</field>
+      <field name="amount">0.30</field>
+      <field name="amount_type">fixed</field>
+        <field name="price_include" eval="False"/>
+      <field name="type_tax_use">purchase</field>
+      <field name="account_id" ref="401890"/>
+      <field name="refund_account_id" ref="401890"/>
+      <field name="tax_group_id" ref="tax_group_ICBPER"/>
+    </record>
+
+    <record id="ITAX_030" model="account.tax.template">
+      <field name="chart_template_id" ref="pe_chart_template"/>
+      <field name="name">S/0.30 ICBPER</field>
+      <field name="description">ICBPER</field>
+      <field name="amount">0.30</field>
+      <field name="amount_type">fixed</field>
+        <field name="price_include" eval="False"/>
+      <field name="type_tax_use">sale</field>
+      <field name="account_id" ref="641900"/>
+      <field name="refund_account_id" ref="641900"/>
+      <field name="tax_group_id" ref="tax_group_ICBPER"/>
+    </record>
+
     <record id="ITAX_18" model="account.tax.template">
       <field name="chart_template_id" ref="pe_chart_template"/>
       <field name="name">IGV 18% Venta</field>
@@ -41,32 +67,6 @@
       <field name="refund_account_id" ref="401110"/>
       <field name="tag_ids" eval="[(6,0,[ref('tax_tag_purchase_18')])]"/>
       <field name="tax_group_id" ref="tax_group_18"/>
-    </record>
-
-    <record id="OTAX_030" model="account.tax.template">
-      <field name="chart_template_id" ref="pe_chart_template"/>
-      <field name="name">S/0.30 ICBPER</field>
-      <field name="description">ICBPER</field>
-      <field name="amount">0.30</field>
-      <field name="amount_type">fixed</field>
-        <field name="price_include" eval="False"/>
-      <field name="type_tax_use">purchase</field>
-      <field name="account_id" ref="401890"/>
-      <field name="refund_account_id" ref="401890"/>
-      <field name="tax_group_id" ref="tax_group_ICBPER"/>
-    </record>
-
-    <record id="ITAX_030" model="account.tax.template">
-      <field name="chart_template_id" ref="pe_chart_template"/>
-      <field name="name">S/0.30 ICBPER</field>
-      <field name="description">ICBPER</field>
-      <field name="amount">0.30</field>
-      <field name="amount_type">fixed</field>
-        <field name="price_include" eval="False"/>
-      <field name="type_tax_use">sale</field>
-      <field name="account_id" ref="641900"/>
-      <field name="refund_account_id" ref="641900"/>
-      <field name="tax_group_id" ref="tax_group_ICBPER"/>
     </record>
 
 </odoo>

@@ -1631,7 +1631,7 @@ class AccountInvoiceLine(models.Model):
             self.name = product.partner_ref
             account = self.get_invoice_line_account(type, product, fpos, company)
             if account:
-                self.account_id = isinstance(account, int) and account or account.id
+                self.account_id = account.id
             self._set_taxes()
 
             if type in ('in_invoice', 'in_refund'):

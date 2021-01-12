@@ -117,9 +117,12 @@
                                 <separator string="Purchase Orders"/>
                                 <field name="purchase_ids"/>
                                 <separator string="Pickings"/>
-                                <field name="picking_ids" domain="[('state', '=', 'done'), ('picking_type_code', '!=', 'internal')]"/>
+                                <field name="picking_ids"
+                                       domain="[('state', '=', 'done'), ('picking_type_code', '!=', 'internal')]"/>
                                 <separator string="Expense Invoices"/>
-                                <field name="invoice_ids" domain="[('state','in',('paid','open'))]" context="{'type':'in_invoice'}"/>
+                                <field name="invoice_ids"
+                                       domain="[('state','in',('paid','open')),('landed_cost_ids','=',False)]"
+                                       context="{'type':'in_invoice'}"/>
                             </page>
                             <page string="Stock Move to Adjust" attrs="{'invisible':[('state','=','draft')]}">
                                 <field name="product_ids" invisible="1"/>

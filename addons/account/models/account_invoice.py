@@ -1098,6 +1098,16 @@ class AccountInvoice(models.Model):
             'invoice_id': inv.id
         }
 
+    def _get_move_vals(self, line, journal, date):
+        inv = self
+        return {
+                'ref': inv.reference,
+                'line_ids': line,
+                'journal_id': journal.id,
+                'date': date,
+                'narration': inv.comment,
+            }
+
     @api.multi
     def action_move_create(self):
         """ Creates invoice related analytics and financial move lines """
@@ -1154,13 +1164,7 @@ class AccountInvoice(models.Model):
             line = inv.finalize_invoice_move_lines(line)
 
             date = inv.date or inv.date_invoice
-            move_vals = {
-                'ref': inv.reference,
-                'line_ids': line,
-                'journal_id': journal.id,
-                'date': date,
-                'narration': inv.comment,
-            }
+            move_vals = inv._get_move_vals(line, journal, date)
             ctx['company_id'] = inv.company_id.id
             ctx['invoice'] = inv
             ctx_nolang = ctx.copy()
@@ -1627,7 +1631,7 @@ class AccountInvoiceLine(models.Model):
             self.name = product.partner_ref
             account = self.get_invoice_line_account(type, product, fpos, company)
             if account:
-                self.account_id = account.id
+                self.account_id = isinstance(account, int) and account or account.id
             self._set_taxes()
 
             if type in ('in_invoice', 'in_refund'):

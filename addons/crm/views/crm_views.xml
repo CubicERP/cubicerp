@@ -61,8 +61,8 @@
 
         <menuitem id="sales_team_menu_report_crm"
             name="Sales Channels"
-            parent="crm_menu_report"
+            parent="crm_menu_root"
             action="sales_team.crm_team_salesteams_act"
-            sequence="10"/>
+            sequence="3"/>
 
 </odoo>

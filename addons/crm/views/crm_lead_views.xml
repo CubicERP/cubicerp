@@ -781,12 +781,12 @@ for rec in records:
             id="crm_menu_pipeline"
             name="Pipeline"
             parent="crm_menu_root"
-            sequence="1"/>
+            sequence="5"/>
 
         <menuitem id="res_partner_menu_crm"
             parent="crm_menu_root"
             action="base.action_partner_form"
-            sequence="2"/>
+            sequence="6"/>
 
         <!-- Lead Menu -->
         <record model="ir.actions.act_window" id="crm_lead_all_leads">

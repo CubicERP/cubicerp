@@ -708,7 +708,8 @@ class IrActionsReport(models.Model):
                 'view_id': template.id,
                 'target': 'new',
             }
-
+        if data['form'].get('report_type', False) and data['form']['report_type'] != self.report_type:
+            self.report_type = data['form']['report_type']
         context = self.env.context
         if docids:
             if isinstance(docids, models.Model):

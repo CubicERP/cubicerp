@@ -17,7 +17,7 @@
                              <field name="name"/>
                              <field name="user_type_id" widget="selection"/>
                              <field name="tax_ids" widget="many2many_tags" domain="[('company_id','=',company_id)]"/>
-                             <field name="tag_ids" widget="many2many_tags" domain="[('applicability', '!=', 'taxes')]" context="{'default_applicability': 'accounts'}" options="{'no_create_edit': True}"/>
+                             <field name="tag_ids" widget="many2many_tags" domain="[('applicability', '=', 'accounts')]" context="{'default_applicability': 'accounts'}" options="{'no_create_edit': True}"/>
                              <field name="group_id"/>
                              <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                              <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
@@ -377,6 +377,7 @@
                                         <field name="default_debit_account_id" domain="[('deprecated', '=', False)]" groups="account.group_account_user"/>
                                         <field name="default_credit_account_id" domain="[('deprecated', '=', False)]" groups="account.group_account_user"/>
                                         <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                                        <field name="default_tag_ids" widget="many2many_tags" domain="[('applicability', '=', 'move')]" context="{'default_applicability': 'move'}" options="{'no_create_edit': True}"/>
                                     </group>
                                 </group>
                             </page>
@@ -601,13 +602,33 @@
            view_mode="tree"/>
 
         <!-- Tags -->
+        <record model="ir.actions.act_window" id="account_move_tag_list_action">
+            <field name="name">Moves</field>
+            <field name="res_model">account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tag_ids','=',active_id)]</field>
+        </record>
+        <record id="account_tag_view_tree" model="ir.ui.view">
+            <field name="name">account.tag.tree</field>
+            <field name="model">account.account.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags">
+                    <field name="name"/>
+                    <field name="applicability"/>
+                </tree>
+            </field>
+        </record>
         <record id="account_tag_view_form" model="ir.ui.view">
-            <field name="name">Tags</field>
+            <field name="name">account.tag.form</field>
             <field name="model">account.account.tag</field>
             <field name="arch" type="xml">
                 <form string="Tags">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
+                            <button type="action" class="oe_stat_button" string="Moves"
+                                    attrs="{'invisible':[('applicability','!=','move')]}"
+                                    name="%(account.account_move_tag_list_action)d" icon="fa-list"/>
                             <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
                                 <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
                             </button>
@@ -616,6 +637,10 @@
                             <field name="name"/>
                             <field name="applicability"/>
                         </group>
+                        <field name="account_ids" attrs="{'invisible':[('applicability','!=','accounts')]}"/>
+                        <field name="tax_ids" attrs="{'invisible':[('applicability','!=','taxes')]}"/>
+                        <field name="group_ids" attrs="{'invisible':[('applicability','!=','group')]}"/>
+                        <field name="default_journal_ids" attrs="{'invisible':[('applicability','!=','move')]}"/>
                     </sheet>
                 </form>
             </field>
@@ -1220,7 +1245,7 @@
                                 <group>
                                     <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
                                     <field name="tax_group_id"/>
-                                    <field name="tag_ids" domain="[('applicability', '!=', 'accounts')]" widget="many2many_tags" context="{'default_applicability': 'taxes'}"/>
+                                    <field name="tag_ids" domain="[('applicability', '=', 'taxes')]" widget="many2many_tags" context="{'default_applicability': 'taxes'}"/>
                                     <field name="analytic" attrs="{'invisible':[('amount_type','=', 'group')]}" groups="analytic.group_analytic_accounting" />
                                     <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                                 </group>
@@ -1579,6 +1604,7 @@
                         </group>
                         <group>
                             <field name="journal_id" options="{'no_create': True}"/>
+                            <field name="tag_ids" widget="many2many_tags" domain="[('applicability', '=', 'move')]" context="{'default_applicability': 'move'}" options="{'no_create_edit': True}"/>
                             <field name="company_id" required="1" groups="base.group_multi_company"/>
                             <field name="amount" invisible="1"/>
                             <field name="currency_id" invisible="1"/>
@@ -2337,17 +2363,37 @@
 
         <menuitem id="menu_action_manual_reconciliation" parent="menu_finance_entries_actions" action="action_manual_reconciliation" sequence="25"/>
 
+        <record model="ir.actions.act_window" id="account_account_group_list_action">
+            <field name="name">Accounts</field>
+            <field name="res_model">account.account</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('group_id','=',active_id)]</field>
+        </record>
         <record id="view_account_group_form" model="ir.ui.view">
             <field name="name">account.group.form</field>
             <field name="model">account.group</field>
             <field name="arch" type="xml">
                 <form string="Account Group">
-                    <group>
-                        <field name="name"/>
-                        <field name="code_prefix"/>
-                        <field name="parent_id"/>
-                        <field name="complete_name"/>
-                    </group>
+                    <sheet>
+                        <div class="oe_button_box">
+                            <button type="action" class="oe_stat_button" string="Accounts"
+                                    name="%(account.account_account_group_list_action)d" icon="fa-list"/>
+                        </div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="code_prefix"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="tag_ids" widget="many2many_tags" domain="[('applicability', '=', 'group')]" context="{'default_applicability': 'group'}" options="{'no_create_edit': True}"/>
+                                <field name="complete_name"/>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -2385,6 +2431,18 @@
 
         <menuitem id="menu_action_account_group" parent="account.account_account_menu"
                   action="action_account_group_tree" sequence="0" groups="account.group_account_manager"/>
+
+        <record id="action_account_group_fill_accounts" model="ir.actions.server">
+            <field name="name">Fill Accounts</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="account.model_account_group"/>
+            <field name="binding_model_id" ref="account.model_account_group"/>
+            <field name="code">
+for group in records.filtered('code_prefix'):
+    prefix = "%s%%"%group.code_prefix
+    env['account.account'].search([('code','=like',prefix),('group_id','=',False)]).write({'group_id':group.id})</field>
+        </record>
 
     </data>
 </odoo>

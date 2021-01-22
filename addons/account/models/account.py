@@ -53,9 +53,18 @@ class AccountAccountTag(models.Model):
     _description = 'Account Tag'
 
     name = fields.Char(required=True)
-    applicability = fields.Selection([('accounts', 'Accounts'), ('taxes', 'Taxes')], required=True, default='accounts')
+    applicability = fields.Selection([('accounts', 'Accounts'),
+                                      ('taxes', 'Taxes'),
+                                      ('group','Account Group'),
+                                      ('move','Account Move')], required=True, default='accounts')
+    internal_code = fields.Char(readonly=True, help="Technical field used in sql querys.")
     color = fields.Integer('Color Index', default=10)
     active = fields.Boolean(default=True, help="Set active to false to hide the Account Tag without removing it.")
+    tax_ids = fields.Many2many('account.tax', 'account_tax_account_tag', string='Taxes')
+    account_ids = fields.Many2many('account.account', 'account_account_account_tag', string='Accounts')
+    group_ids = fields.Many2many('account.group', 'account_group_account_tag', string='Groups')
+    move_ids = fields.Many2many('account.move', 'account_move_account_tag', string='Account Moves')
+    default_journal_ids = fields.Many2many('account.journal', 'account_journal_account_tag', string='Default Journals')
 
 #----------------------------------------------------------
 # Accounts
@@ -325,6 +334,8 @@ class AccountGroup(models.Model):
     name = fields.Char(required=True)
     code_prefix = fields.Char()
     complete_name = fields.Char('Full Name', compute="_get_full_name")
+    tag_ids = fields.Many2many('account.account.tag', 'account_group_account_tag', string='Tags',
+                               help="Optional tags you may want to assign for custom reporting")
 
     @api.depends('name', 'parent_id')
     def _get_full_name(self):
@@ -391,6 +402,9 @@ class AccountJournal(models.Model):
         domain=[('deprecated', '=', False)], help="It acts as a default account for credit amount")
     default_debit_account_id = fields.Many2one('account.account', string='Default Debit Account',
         domain=[('deprecated', '=', False)], help="It acts as a default account for debit amount")
+    default_tag_ids = fields.Many2many('account.account.tag', 'account_journal_account_tag', string='Tags',
+                                       domain=[('applicability', '=', 'move')],
+                               help="Default tags you may want to assign for custom reporting on account moves")
     update_posted = fields.Boolean(string='Allow Cancelling Entries',
         help="Check this box if you want to allow the cancellation the entries related to this journal or of the invoice related to this journal")
     group_invoice_lines = fields.Boolean(string='Group Invoice Lines',

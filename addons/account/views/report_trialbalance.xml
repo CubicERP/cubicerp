@@ -33,11 +33,17 @@
                 <table class="table table-condensed">
                     <thead>
                         <tr>
+                            <th class="text-center" colspan="2"/>
+                            <t t-foreach="top_header" t-as="top">
+                                <th class="text-center" t-att-colspan="top['span']" t-esc="top['name']"/>
+                            </t>
+                        </tr>
+                        <tr>
                             <th>Code</th>
                             <th>Account</th>
-                            <th class="text-right">Debit</th>
-                            <th class="text-right">Credit</th>
-                            <th class="text-right">Balance</th>
+                            <t t-foreach="sum_header" t-as="header">
+                                <th class="text-center" t-esc="header"/>
+                            </t>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,18 +52,14 @@
                                 <span t-att-style="style" t-esc="account['code']"/>
                             </td>
                             <td>
-                                <span style="color: white;" t-esc="'..'"/>
+                                <!--span style="color: white;" t-esc="'..'"/-->
                                 <span t-att-style="style" t-esc="account['name']"/>
                             </td>
-                            <td class="text-right">
-                                 <span t-att-style="style" t-esc="account['debit']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-att-style="style" t-esc="account['credit']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-att-style="style" t-esc="account['balance']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
-                            </td>
+                            <t t-foreach="sum_fields" t-as="field">
+                                <td class="text-right">
+                                     <span t-att-style="style" t-esc="account[field]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                </td>
+                            </t>
                         </tr>
                     </tbody>
                 </table>

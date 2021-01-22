@@ -112,6 +112,9 @@ class AccountMove(models.Model):
         string='Tax Cash Basis Entry of',
         help="Technical field used to keep track of the tax cash basis reconciliation. "
         "This is needed when cancelling the source: it will post the inverse journal entry to cancel that part too.")
+    tag_ids = fields.Many2many('account.account.tag', 'account_move_account_tag', string='Tags',
+                               states={'posted': [('readonly', True)]},
+                               help="Optional tags you may want to assign for custom reporting")
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):

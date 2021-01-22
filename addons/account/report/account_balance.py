@@ -32,31 +32,73 @@ class ReportTrialBalance(models.AbstractModel):
             wheres.append(where_clause.strip())
         filters = " AND ".join(wheres)
         # compute the balance, debit and credit for the provided accounts
-        request = ("SELECT account_id AS id, SUM(debit) AS debit, SUM(credit) AS credit, (SUM(debit) - SUM(credit)) AS balance" +\
-                   " FROM " + tables + " WHERE account_id IN %s " + filters + " GROUP BY account_id")
+        request = ("SELECT account_move_line.account_id AS id, SUM(account_move_line.debit - account_move_line.credit) as balance" + self._select_sum_fields() +\
+                   " FROM " + self._from_sum_fields(tables) + " WHERE account_id IN %s " + filters + " GROUP BY account_id" + self._group_sum_fields())
         params = (tuple(accounts.ids),) + tuple(where_params)
         self.env.cr.execute(request, params)
         for row in self.env.cr.dictfetchall():
             account_result[row.pop('id')] = row
 
         account_res = []
+        sum_fields = self._get_sum_fields()
+        total = dict((fn, 0.0) for fn in sum_fields)
+        total.update({'code': '', 'name': ''})
         for account in accounts:
-            res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
+            res = dict((fn, 0.0) for fn in sum_fields)
             currency = account.currency_id and account.currency_id or account.company_id.currency_id
             res['code'] = account.code
             res['name'] = account.name
+            balance = 0.0
             if account.id in account_result:
-                res['debit'] = account_result[account.id].get('debit')
-                res['credit'] = account_result[account.id].get('credit')
-                res['balance'] = account_result[account.id].get('balance')
+                balance = account_result[account.id]['balance']
+                for k in sum_fields:
+                    res[k] = account_result[account.id][k]
+                    if display_account == 'not_zero' and not currency.is_zero(balance):
+                        total[k] += res[k]
+                    elif display_account == 'all' or display_account == 'movement':
+                        total[k] += res[k]
             if display_account == 'all':
                 account_res.append(res)
-            if display_account == 'not_zero' and not currency.is_zero(res['balance']):
+            if display_account == 'not_zero' and not currency.is_zero(balance):
                 account_res.append(res)
-            if display_account == 'movement' and (not currency.is_zero(res['debit']) or not currency.is_zero(res['credit'])):
+            if display_account == 'movement' and (account.id in account_result):
                 account_res.append(res)
+        account_res.append(total)
         return account_res
 
+    @api.model
+    def _get_sum_fields(self):
+        return ['open_debit', 'open_credit', 'debit', 'credit', 'balance_debit', 'balance_credit']
+
+    @api.model
+    def _get_sum_header(self):
+        return ['Debit', 'Credit', 'Debit', 'Credit', 'Debit', 'Credit',]
+
+    @api.model
+    def _get_top_header(self):
+        return [
+            {'span':'2','name':_('Opening')},
+            {'span':'2','name':_('Moves')},
+            {'span':'2','name':_('Balance')},
+        ]
+
+    @api.model
+    def _select_sum_fields(self):
+        return ", SUM(CASE account_journal.type WHEN 'opening' THEN account_move_line.debit ELSE 0 END) AS open_debit, " \
+               "SUM(CASE account_journal.type WHEN 'opening' THEN account_move_line.credit ELSE 0 END) AS open_credit, " \
+               "SUM(CASE account_journal.type WHEN 'opening' THEN 0 WHEN 'closing' THEN 0 ELSE account_move_line.debit END) AS debit, " \
+               "SUM(CASE account_journal.type WHEN 'opening' THEN 0 WHEN 'closing' THEN 0 ELSE account_move_line.credit END) AS credit, " \
+               "CASE WHEN SUM(account_move_line.debit - account_move_line.credit) > 0 THEN SUM(account_move_line.debit - account_move_line.credit) ELSE 0 END AS balance_debit, " \
+               "CASE WHEN SUM(account_move_line.credit - account_move_line.debit) > 0 THEN SUM(account_move_line.credit - account_move_line.debit) ELSE 0 END AS balance_credit"
+
+    @api.model
+    def _from_sum_fields(self, tables):
+        tables = "%s INNER JOIN account_journal on (account_move_line.journal_id = account_journal.id) "%tables
+        return tables
+
+    @api.model
+    def _group_sum_fields(self):
+        return ""
 
     @api.model
     def get_report_values(self, docids, data=None):
@@ -76,4 +118,7 @@ class ReportTrialBalance(models.AbstractModel):
             'docs': docs,
             'time': time,
             'Accounts': account_res,
+            'sum_fields': self._get_sum_fields(),
+            'sum_header': self._get_sum_header(),
+            'top_header': self._get_top_header(),
         }

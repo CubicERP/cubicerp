@@ -353,8 +353,8 @@ msgstr "IMPRIMIR"
 
 #. module: account_report
 #: model:ir.model.fields,field_description:account_report.field_account_entries_report_parent_account_id
-msgid "Parent Account"
-msgstr "Cuenta padre"
+msgid "Account Group"
+msgstr "Grupo de Cuentas"
 
 #. module: account_report
 #: model:ir.model.fields,field_description:account_report.field_account_entries_report_partner_id

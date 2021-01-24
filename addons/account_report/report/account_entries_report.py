@@ -42,7 +42,7 @@ class AccountEntriesReport(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
     amount_currency = fields.Float('Amount Currency', digits=dp.get_precision('Account'), readonly=True)
     account_id = fields.Many2one('account.account', 'Account', readonly=True)
-    parent_account_id = fields.Many2one('account.group', 'Parent Account', readonly=True)
+    parent_account_id = fields.Many2one('account.group', 'Account Group', readonly=True)
     journal_id = fields.Many2one('account.journal', 'Journal', readonly=True)
     journal_type = fields.Selection([
             ('regular', 'Regular Operations'),

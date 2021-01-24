@@ -17,6 +17,7 @@
                             <field name="datas_fname" invisible="1" attrs="{'invisible':[('type','=','url')]}" class="oe_inline oe_right"/>
                             <field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
                             <field name="mimetype" groups="base.group_no_one"/>
+                            <field name="public"/>
                         </group>
                         <group string="Attached To" groups="base.group_no_one">
                             <field name="res_model"/>
@@ -24,7 +25,6 @@
                             <field name="res_id"/>
                             <field name="res_name"/>
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                            <field name="public"/>
                         </group>
                         <group string="History" groups="base.group_no_one">
                             <label for="create_uid" string="Creation"/>

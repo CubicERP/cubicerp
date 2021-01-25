@@ -10,5 +10,30 @@
             <input type='hidden' name='amount' t-att-value='amount'/>
             <input type='hidden' name='currency' t-att-value='currency.name'/>
         </template>
+
+
+        <template id="transfer_s2s_form">
+            <input type="hidden" name="data_set" data-create-route="/payment/transfer/s2s"/>
+            <div t-attf-class="mt8 #{'' if bootstrap_formatting else 'o_card_brand_detail'}">
+                <div t-att-class="'form-group col-md-9' if bootstrap_formatting else 'form-group'">
+                    <select id="op_account" name="op_account" class="form-control">
+                        <option t-attf-value="bcp" t-attf-selected="selected">Banco Cta.Cte. xxx-xxxxxxxxx-x-x</option>
+                        <option t-attf-value="cci">CCI ssxxx-xxxxxxxxx-x-x</option>
+                    </select>
+                </div>
+                <div t-att-class="'form-group col-md-3' if bootstrap_formatting else 'form-group'">
+                    <input type="text" name="op_number" id="op_number" class="form-control" maxlength="12" placeholder="Operation Number" data-is-required="true"/>
+                </div>
+            </div>
+
+            <input type="hidden" name="acquirer_id" t-att-value="id"/>
+            <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input t-if="return_url" type="hidden" name="return_url" t-att-value="return_url"/>
+            <input t-if="partner_id" type="hidden" name="partner_id" t-att-value="partner_id"/>
+
+            <input type='hidden' name='reference' t-att-value='reference'/>
+            <input type='hidden' name='amount' t-att-value='amount'/>
+            <input type='hidden' name='currency' t-att-value='currency.name'/>
+         </template>
     </data>
 </odoo>

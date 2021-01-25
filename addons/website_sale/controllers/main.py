@@ -757,6 +757,9 @@ class WebsiteSale(http.Controller):
 
         values = dict(
             website_sale_order=order,
+            reference=order.name,
+            amount=order.amount_total,
+            currency=order.pricelist_id.currency_id or self.env.user.company_id.currency_id,
             errors=[],
             partner=order.partner_id.id,
             order=order,

@@ -8,6 +8,7 @@
             <field name="provider">transfer</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="view_template_id" ref="transfer_form"/>
+            <field name="registration_view_template_id" ref="transfer_s2s_form"/>
             <field name="environment">test</field>
             <field name="website_published" eval="True"/>
             <field name="pre_msg"><![CDATA[

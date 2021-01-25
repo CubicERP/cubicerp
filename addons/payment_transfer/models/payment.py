@@ -15,6 +15,34 @@ class TransferPaymentAcquirer(models.Model):
 
     provider = fields.Selection(selection_add=[('transfer', 'Wire Transfer')], default='transfer')
 
+    def _get_feature_support(self):
+        """Get advanced feature support by provider.
+
+        Each provider should add its technical in the corresponding
+        key for the following features:
+            * fees: support payment fees computations
+            * authorize: support authorizing payment (separates
+                         authorization and capture)
+            * tokenize: support saving payment data in a payment.tokenize
+                        object
+        """
+        res = super(TransferPaymentAcquirer, self)._get_feature_support()
+        res['tokenize'].append('transfer')
+        res['authorize'].append('transfer')
+        return res
+
+    @api.model
+    def transfer_s2s_form_process(self, data):
+        values = {
+            'acquirer_id': int(data.get('acquirer_id')),
+            'partner_id': int(data.get('partner_id')),
+            'acquirer_ref': data.get('op_number'),
+            'name': data.get('reference'),
+            'active': False,
+        }
+        PaymentMethod = self.env['payment.token'].sudo().create(values)
+        return PaymentMethod
+
     @api.model
     def _create_missing_journal_for_acquirers(self, company=None):
         # By default, the wire transfer method uses the default Bank journal.

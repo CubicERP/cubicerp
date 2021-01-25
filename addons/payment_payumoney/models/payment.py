@@ -21,6 +21,21 @@ class PaymentAcquirerPayumoney(models.Model):
     payumoney_merchant_key = fields.Char(string='Merchant Key', required_if_provider='payumoney', groups='base.group_user')
     payumoney_merchant_salt = fields.Char(string='Merchant Salt', required_if_provider='payumoney', groups='base.group_user')
 
+    def _get_feature_support(self):
+        """Get advanced feature support by provider.
+
+        Each provider should add its technical in the corresponding
+        key for the following features:
+            * fees: support payment fees computations
+            * authorize: support authorizing payment (separates
+                         authorization and capture)
+            * tokenize: support saving payment data in a payment.tokenize
+                        object
+        """
+        res = super(PaymentAcquirerPayumoney, self)._get_feature_support()
+        res['tokenize'].append('payumoney')
+        return res
+
     def _get_payumoney_urls(self, environment):
         """ PayUmoney URLs"""
         if environment == 'prod':

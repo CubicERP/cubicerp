@@ -71,4 +71,8 @@
         <field name="name">Interbank</field>
         <field name="image" type="base64" file="payment/static/img/interbank.png"/>
     </record>
+    <record id="payment_icon_cc_scotiabank" model="payment.icon">
+        <field name="name">Scotiabank</field>
+        <field name="image" type="base64" file="payment/static/img/scotiabank.png"/>
+    </record>
 </odoo>

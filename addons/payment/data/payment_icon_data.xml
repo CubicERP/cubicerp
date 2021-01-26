@@ -54,4 +54,21 @@
         <field name="name">Bancontact</field>
         <field name="image" type="base64" file="payment/static/img/bancontact.png"/>
     </record>
+
+    <record id="payment_icon_cc_bbva_continental" model="payment.icon">
+        <field name="name">BBVA Continental</field>
+        <field name="image" type="base64" file="payment/static/img/bbva_continental.png"/>
+    </record>
+    <record id="payment_icon_cc_bcp" model="payment.icon">
+        <field name="name">BCP</field>
+        <field name="image" type="base64" file="payment/static/img/bcp.png"/>
+    </record>
+    <record id="payment_icon_cc_caja_cuzco" model="payment.icon">
+        <field name="name">Caja Cuzco CMAC</field>
+        <field name="image" type="base64" file="payment/static/img/caja_cuzco.png"/>
+    </record>
+    <record id="payment_icon_cc_interbank" model="payment.icon">
+        <field name="name">Interbank</field>
+        <field name="image" type="base64" file="payment/static/img/interbank.png"/>
+    </record>
 </odoo>

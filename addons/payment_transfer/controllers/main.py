@@ -28,7 +28,7 @@ class OgoneController(http.Controller):
         tx = request.env['payment.transaction'].sudo()
         acquirer = request.env['payment.acquirer'].browse(int(kwargs['acquirer_id']))
         payment_token = None
-        order = request.env['sale.order'].browse(request.session.sale_order_id)
+        order = request.env['sale.order'].sudo().browse(request.session.sale_order_id)
         tx = tx._check_or_create_sale_tx(order, acquirer, payment_token=payment_token, tx_type=tx_type)
         request.session['sale_transaction_id'] = tx.id
 

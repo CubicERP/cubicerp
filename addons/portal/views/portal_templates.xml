@@ -312,7 +312,7 @@
                                     <option value="">select...</option>
                                     <t t-foreach="states or []" t-as="state">
                                         <option t-att-value="state.id" style="display:none;" t-att-data-country_id="state.country_id.id" t-att-selected="state.id == partner.state_id.id">
-                                            <t t-esc="state.name" />
+                                            <t t-esc="state.display_name" />
                                         </option>
                                     </t>
                                 </select>

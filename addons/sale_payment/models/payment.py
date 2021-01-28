@@ -203,6 +203,7 @@ class PaymentTransaction(models.Model):
                 'partner_country_id': order.partner_id.country_id.id,
                 'reference': self._get_next_reference(order.name, acquirer=acquirer),
                 'sale_order_id': order.id,
+                'partner_lang': order.partner_id.lang,
             }
             if add_tx_values:
                 tx_values.update(add_tx_values)

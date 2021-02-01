@@ -395,7 +395,7 @@
                                     <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name" />
                                 </li>
                                 <li class="active">
-                                    <span t-field="product.name" />
+                                    <span t-field="product.display_name" />
                                 </li>
                             </ol>
                         </div>

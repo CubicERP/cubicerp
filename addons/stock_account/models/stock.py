@@ -175,7 +175,7 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         """ Returns the unit price to store on the quant """
         if self._context.get('fifo_price_unit', False) and self.id in self._context['fifo_price_unit'] \
-                and (self.product_id.property_cost_method or self.product_id.categ_id.property_cost_method) == 'fifo':
+                and (self.product_id.property_cost_method or self.product_id.categ_id.property_cost_method) in ('fifo', 'average'):
             return self._context['fifo_price_unit'][self.id]
         return not self.company_id.currency_id.is_zero(self.price_unit) and self.price_unit or self.product_id.standard_price
 

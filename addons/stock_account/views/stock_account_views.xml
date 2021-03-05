@@ -27,6 +27,14 @@
                             attrs="{'invisible':[('account_move_count','=',0)]}"
                             string="Accounting Entries" type="object"/>
                 </xpath>
+                <xpath expr="//group[@name='origin_grp']" position="after">
+                    <group string="Values" groups="base.group_no_one">
+                          <field name="price_unit"/>
+                          <field name="value"/>
+                          <field name="remaining_value"/>
+                          <field name="remaining_qty"/>
+                    </group>
+                </xpath>
             </field>
         </record>
 

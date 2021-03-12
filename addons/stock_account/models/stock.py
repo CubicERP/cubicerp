@@ -124,10 +124,10 @@ class StockMoveLine(models.Model):
                                 candidates_receipt = _candidates_receipt[0]
                         if candidates_receipt:
                             candidates_receipt[0].write({
-                                'remaining_qty': candidates_receipt.remaining_qty + -qty_difference,
-                                'remaining_value': candidates_receipt.remaining_value + (-qty_difference * candidates_receipt.price_unit),
+                                'remaining_qty': candidates_receipt[0].remaining_qty + -qty_difference,
+                                'remaining_value': candidates_receipt[0].remaining_value + (-qty_difference * candidates_receipt[0].price_unit),
                             })
-                            correction_value = qty_difference * candidates_receipt.price_unit
+                            correction_value = qty_difference * candidates_receipt[0].price_unit
                         else:
                             correction_value = qty_difference * move_id.product_id.standard_price
                         move_vals['value'] = move_id.value - correction_value
@@ -315,7 +315,7 @@ class StockMove(models.Model):
         if qty_to_take_on_candidates == 0:
             move.write({
                 'value': -tmp_value if not quantity else move.value or -tmp_value,  # outgoing move are valued negatively
-                'price_unit': -tmp_value / move.product_qty,
+                'price_unit': quantity and -tmp_value / quantity or move.price_unit, #move.product_qty,
             })
         elif qty_to_take_on_candidates > 0:
             last_fifo_price = new_standard_price or move.product_id.standard_price

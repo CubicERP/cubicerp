@@ -12,13 +12,15 @@ class AccountMoveLine(models.Model):
     def reconcile(self, writeoff_acc_id=False, writeoff_journal_id=False):
         res = super(AccountMoveLine, self).reconcile(writeoff_acc_id=writeoff_acc_id, writeoff_journal_id=writeoff_journal_id)
         if self.mapped('full_reconcile_id'):
-            slips = self.env['hr.payslip'].search([('move_id','in',self.mapped('move_id').ids)])
-            slips.write({'state': 'paid'})
+            slips = self.env['hr.payslip'].search([('move_id','in',self.mapped('move_id').ids),('employee_id.address_home_id','in',self.mapped('partner_id').ids)])
+            if slips:
+                slips.write({'state': 'paid'})
         return res
 
     def remove_move_reconcile(self):
         move_ids = self.mapped('full_reconcile_id').mapped('reconciled_line_ids').mapped('move_id')
         res = super(AccountMoveLine, self).remove_move_reconcile()
-        slips = self.env['hr.payslip'].search([('move_id', 'in', move_ids.ids)])
-        slips.write({'state': 'done'})
+        slips = self.env['hr.payslip'].search([('move_id', 'in', move_ids.ids),('employee_id.address_home_id','in',self.mapped('partner_id').ids)])
+        if slips:
+            slips.write({'state': 'done'})
         return res

@@ -677,7 +677,7 @@ class account_invoice(models.Model):
                 if not self.journal_id.analytic_journal_id:
                     raise except_orm(_('No Analytic Journal!'),
                         _("You have to define an analytic journal on the '%s' journal!") % (self.journal_id.name,))
-                currency = self.currency_id.with_context(date=self.date_invoice)
+                currency = self.currency_id.with_context(date=self.get_analytic_lines())
                 il['analytic_lines'] = [(0,0, {
                     'name': il['name'],
                     'date': self.date_invoice,
@@ -742,7 +742,7 @@ class account_invoice(models.Model):
         total_currency = 0
         for line in invoice_move_lines:
             if self.currency_id != company_currency:
-                currency = self.currency_id.with_context(date=self.date_invoice or fields.Date.context_today(self))
+                currency = self.currency_id.with_context(date=self._get_currency_rate_date() or fields.Date.context_today(self))
                 line['currency_id'] = currency.id
                 line['amount_currency'] = currency.round(line['price'])
                 line['price'] = currency.compute(line['price'], company_currency)
@@ -828,6 +828,9 @@ class account_invoice(models.Model):
                 'ref': ref,
             }
 
+    def _get_currency_rate_date(self):
+        return self.date_invoice
+
     @api.multi
     def action_move_create(self):
         """ Creates invoice related analytics and financial move lines """
@@ -889,7 +892,7 @@ class account_invoice(models.Model):
                 totlines = inv.with_context(ctx).payment_term.compute(total, date_invoice)[0]
             if totlines:
                 res_amount_currency = total_currency
-                ctx['date'] = date_invoice
+                ctx['date'] = inv._get_currency_rate_date() #date_invoice
                 for i, t in enumerate(totlines):
                     if inv.currency_id != company_currency:
                         amount_currency = company_currency.with_context(ctx).compute(t[1], inv.currency_id)
@@ -1432,7 +1435,7 @@ class account_invoice_line(models.Model):
     @api.model
     def move_line_get(self, invoice_id):
         inv = self.env['account.invoice'].browse(invoice_id)
-        currency = inv.currency_id.with_context(date=inv.date_invoice)
+        currency = inv.currency_id.with_context(date=inv._get_currency_rate_date())
         company_currency = inv.company_id.currency_id
 
         res = []
@@ -1564,7 +1567,7 @@ class account_invoice_tax(models.Model):
     @api.v8
     def compute(self, invoice):
         tax_grouped = {}
-        currency = invoice.currency_id.with_context(date=invoice.date_invoice or fields.Date.context_today(invoice))
+        currency = invoice.currency_id.with_context(date=invoice._get_currency_rate_date() or fields.Date.context_today(invoice))
         company_currency = invoice.company_id.currency_id
         for line in invoice.invoice_line:
             taxes = line.invoice_line_tax_id.compute_all(

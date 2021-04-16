@@ -21,7 +21,7 @@
     <record id="103000" model="account.account.template">
         <field name="name">Efectivo en tránsito</field>
         <field name="code">103100</field>
-        <field name="reconcile" eval="False"/>
+        <field name="reconcile" eval="True"/>
         <field ref="account.data_account_type_liquidity" name="user_type_id"/>
     </record>
 

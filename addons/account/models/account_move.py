@@ -1391,7 +1391,7 @@ class AccountMoveLine(models.Model):
         for record in self:
             if 'statement_line_id' in vals and record.payment_id:
                 # In case of an internal transfer, there are 2 liquidity move lines to match with a bank statement
-                if all(line.statement_id for line in record.payment_id.move_line_ids.filtered(lambda r: r.id != record.id and r.account_id.internal_type=='liquidity')):
+                if all(line.statement_id for line in record.payment_id.move_line_ids.filtered(lambda r: r.id != record.id and r.account_id != record.company_id.transfer_account_id and r.account_id.internal_type=='liquidity')):
                     record.payment_id.state = 'reconciled'
 
         result = super(AccountMoveLine, self).write(vals)

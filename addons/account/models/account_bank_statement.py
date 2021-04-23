@@ -835,6 +835,11 @@ class AccountBankStatementLine(models.Model):
                 del aml_dict['counterpart_aml_id']
             if datum.get('partner_id') is not None:
                 st_line.write({'partner_id': datum['partner_id']})
+            new_aml_dicts = datum.get('new_aml_dicts', [])
+            for new_aml_dict in new_aml_dicts:
+                if 'analytic_tag_id' in new_aml_dict:
+                    new_aml_dict['analytic_tag_ids'] = [(4, new_aml_dict['analytic_tag_id'])]
+                    del new_aml_dict['analytic_tag_id']
             st_line.with_context(ctx).process_reconciliation(datum.get('counterpart_aml_dicts', []), payment_aml_rec, datum.get('new_aml_dicts', []))
 
     def fast_counterpart_creation(self):

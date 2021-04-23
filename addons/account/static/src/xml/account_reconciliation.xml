@@ -178,6 +178,10 @@
             <td class="o_td_label">Analytic Acc.</td>
             <td class="o_td_field"></td>
         </tr>
+        <tr class="create_analytic_tag_id">
+            <td class="o_td_label">Analytic Tag</td>
+            <td class="o_td_field"></td>
+        </tr>
     </table>
     <table class="pull-right">
         <tbody>

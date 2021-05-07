@@ -104,7 +104,7 @@ class PaymentTransaction(models.Model):
                        'force_company': self.sale_order_id.company_id.id,
                        'active_model': 'sale.order',
                        'active_id': self.sale_order_id.id,
-                       'default_date_invoice': self.date_validate,}
+                       'default_date_invoice': self.date_validate and self.date_validate[0:10] or False,}
 
         # We might fail to create the invoice because there is no invoiceable lines. This will
         # raise a UserError and break the workflow. Better catch the error.

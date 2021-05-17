@@ -129,6 +129,7 @@
                                 <field name="subtask_project_id" groups="project.group_subtask_project"/>
                                 <field name="privacy_visibility" widget="radio"/>
                                 <field name="partner_id" string="Customer"/>
+                                <field name="type_ids" widget="many2many_tags"/>
                             </group>
                             <group name="misc">
                                 <group string="Configuration" groups="base.group_no_one">

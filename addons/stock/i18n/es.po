@@ -7559,7 +7559,7 @@ msgid ""
 "When you run the schedulers, Odoo tries to reserve the available stock to fulfill the existing pickings\n"
 "                and verify if some reordering rules should be triggered."
 msgstr ""
-"Cuando ejecuta los programadores, Odoo intenta reservar el stock disponible para cumplir con las operaciones existentes\n"
+"Cuando ejecuta los programadores, se intenta reservar el stock disponible para cumplir con las operaciones existentes\n"
 "                 y verificar si se deben activar algunas reglas de reordenamiento."
 
 #. module: stock

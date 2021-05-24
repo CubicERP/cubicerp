@@ -133,6 +133,8 @@ class MrpProduction(models.Model):
         'mrp.workorder', 'production_id', 'Work Orders',
         copy=False, oldname='workcenter_lines', readonly=True)
     workorder_count = fields.Integer('# Work Orders', compute='_compute_workorder_count')
+    duration = fields.Float('Real Duration', compute='_compute_workorder_count')
+    duration_expected = fields.Float('Expected Duration', compute='_compute_workorder_count')
     workorder_done_count = fields.Integer('# Done Work Orders', compute='_compute_workorder_done_count')
     move_dest_ids = fields.One2many('stock.move', 'created_production_id',
         string="Stock Movements of Produced Goods")
@@ -214,10 +216,14 @@ class MrpProduction(models.Model):
     @api.multi
     @api.depends('workorder_ids')
     def _compute_workorder_count(self):
-        data = self.env['mrp.workorder'].read_group([('production_id', 'in', self.ids)], ['production_id'], ['production_id'])
+        data = self.env['mrp.workorder'].read_group([('production_id', 'in', self.ids)], ['production_id','duration','duration_expected'], ['production_id'])
         count_data = dict((item['production_id'][0], item['production_id_count']) for item in data)
+        duration_data = dict((item['production_id'][0], item['duration']) for item in data)
+        expected_data = dict((item['production_id'][0], item['duration_expected']) for item in data)
         for production in self:
             production.workorder_count = count_data.get(production.id, 0)
+            production.duration = duration_data.get(production.id, 0)
+            production.duration_expected = expected_data.get(production.id, 0)
 
     @api.multi
     @api.depends('workorder_ids.state')

@@ -191,6 +191,17 @@
                                         <span><field name="inefficiency_percent" attrs="{'invisible': [('state', 'not in', ('done','cancel'))]}"/></span>
                                         <span attrs="{'invisible': [('state', 'not in', ('done','cancel'))]}"> %</span>
                                     </div>
+                                    <label for="duration_expected" attrs="{'invisible': [('workorder_count', '=', 0)]}" />
+                                    <div attrs="{'invisible': [('workorder_count', '=', 0)]}" >
+                                        <field name="duration_expected" widget="float_time" class="oe_inline"/>
+                                        minutes
+                                    </div>
+                                    <label for="duration" attrs="{'invisible': [('workorder_count', '=', 0)]}" />
+                                    <div attrs="{'invisible': [('workorder_count', '=', 0)]}" >
+                                        <button style="pointer-events: none;" class="oe_inline label label-default">
+                                            <field name="duration" widget="mrp_time_counter" help="Total time on all workorders."/>
+                                        </button>
+                                    </div>
                                 </group>
                             </group>
                         </page>

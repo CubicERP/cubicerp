@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CubicERP Server 2020.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 14:33+0000\n"
-"PO-Revision-Date: 2021-05-21 09:34-0500\n"
+"POT-Creation-Date: 2021-05-24 23:21+0000\n"
+"PO-Revision-Date: 2021-05-24 18:22-0500\n"
 "Last-Translator: CubicERP Team <info@cubicerp.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "<span class=\"o_stat_text\">Perdidos</span>"
 #: model:ir.ui.view,arch_db:mrp.mrp_workcenter_view
 #, fuzzy
 msgid "<span class=\"o_stat_text\">OEE</span>"
-msgstr "<span class=\"o_stat_text\">Oee</span>"
+msgstr "<span class=\"o_stat_text\">OEE</span>"
 
 #. module: mrp
 #: model:ir.ui.view,arch_db:mrp.mrp_workcenter_view
@@ -578,7 +578,7 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:359
+#: code:addons/mrp/models/mrp_production.py:365
 #, python-format
 msgid "Cannot delete a manufacturing order not in cancel state"
 msgstr "No se puede eliminar una orden de fabricación no esté en estado 'Cancelada'"
@@ -1046,6 +1046,7 @@ msgid "End Date"
 msgstr "Fecha final"
 
 #. module: mrp
+#: model:ir.model.fields,field_description:mrp.field_mrp_production_duration_expected
 #: model:ir.model.fields,field_description:mrp.field_mrp_workorder_duration_expected
 msgid "Expected Duration"
 msgstr "Duración esperada"
@@ -1460,7 +1461,7 @@ msgid "Late Activities"
 msgstr "Actividades tardías"
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:479
+#: code:addons/mrp/models/mrp_production.py:485
 #, python-format
 msgid "Lines need to be deleted, but can not as you still have some quantities to consume in them. "
 msgstr "Las líneas deben ser eliminadas, pero no puede, ya que todavía tiene algunas cantidades para consumir en ellas."
@@ -1781,8 +1782,8 @@ msgstr "Nombre"
 
 #. module: mrp
 #: code:addons/mrp/models/mrp_production.py:64
-#: code:addons/mrp/models/mrp_production.py:345
-#: code:addons/mrp/models/mrp_production.py:349
+#: code:addons/mrp/models/mrp_production.py:351
+#: code:addons/mrp/models/mrp_production.py:355
 #: code:addons/mrp/models/mrp_routing.py:18
 #: code:addons/mrp/models/mrp_routing.py:34
 #: code:addons/mrp/models/mrp_routing.py:35
@@ -2410,6 +2411,7 @@ msgid "Ready to produce"
 msgstr "Listo para producir"
 
 #. module: mrp
+#: model:ir.model.fields,field_description:mrp.field_mrp_production_duration
 #: model:ir.model.fields,field_description:mrp.field_mrp_workorder_duration
 msgid "Real Duration"
 msgstr "Duración real"
@@ -2665,7 +2667,7 @@ msgid "Scheduled Month"
 msgstr "Mes planificado"
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:706
+#: code:addons/mrp/models/mrp_production.py:712
 #: code:addons/mrp/models/mrp_workorder.py:520
 #: model:ir.model.fields,field_description:mrp.field_mrp_workorder_scrap_ids
 #: model:ir.ui.view,arch_db:mrp.mrp_production_form_view
@@ -3166,6 +3168,12 @@ msgid "Total duration"
 msgstr "Duración total"
 
 #. module: mrp
+#: model:ir.ui.view,arch_db:mrp.mrp_production_form_view
+#, fuzzy
+msgid "Total time on all workorders."
+msgstr "Tiempo total en todos los órdenes de trabajo."
+
+#. module: mrp
 #: model:ir.ui.menu,name:mrp.menu_mrp_traceability
 msgid "Traceability: Lots"
 msgstr "Trazabilidad: Lotes"
@@ -3591,7 +3599,7 @@ msgid "Work Sheet"
 msgstr "Hoja de cálculo"
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:679
+#: code:addons/mrp/models/mrp_production.py:685
 #, python-format
 msgid "Work order %s is still running"
 msgstr "La orden de trabajo %s está en marcha"
@@ -3664,7 +3672,7 @@ msgid "You can either upload a file from your computer or copy/paste an internet
 msgstr "Puede tanto subir un archivo de su ordenador como copiar/pegar un enlace de internet a su fichero."
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:625
+#: code:addons/mrp/models/mrp_production.py:631
 #, python-format
 msgid "You can not cancel production order, a work order is still in progress."
 msgstr "No puede cancelar la orden de fabricación, hay una orden de trabajo en curso."
@@ -3676,7 +3684,7 @@ msgid "You can not change the finished work order."
 msgstr "No puede modificar la orden de trabajo terminada."
 
 #. module: mrp
-#: code:addons/mrp/models/mrp_production.py:665
+#: code:addons/mrp/models/mrp_production.py:671
 #, python-format
 msgid "You can not consume without telling for which lot you consumed it"
 msgstr "No puede consumirlos sin decir para qué lote lo consumió"
@@ -3795,6 +3803,7 @@ msgid "minute(s)"
 msgstr "minuto(s)"
 
 #. module: mrp
+#: model:ir.ui.view,arch_db:mrp.mrp_production_form_view
 #: model:ir.ui.view,arch_db:mrp.mrp_production_workcenter_form_view_inherit
 #: model:ir.ui.view,arch_db:mrp.mrp_routing_workcenter_form_view
 #: model:ir.ui.view,arch_db:mrp.mrp_workcenter_view

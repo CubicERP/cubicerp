@@ -268,6 +268,11 @@ class MrpWorkorder(models.Model):
                     })
                     qty -= 1
             else:
+                lot_id = False
+                if not self._context.get('reset_final_lot', True):
+                    for lot in move.move_line_ids.mapped('lot_id'):
+                        lot_id = lot.id
+                        break
                 MoveLine.create({
                     'move_id': move.id,
                     'product_uom_qty': 0,
@@ -279,6 +284,7 @@ class MrpWorkorder(models.Model):
                     'done_wo': False,
                     'location_id': move.location_id.id,
                     'location_dest_id': move.location_dest_id.id,
+                    'lot_id': lot_id,
                     })
 
     def _assign_default_final_lot_id(self):
@@ -391,7 +397,8 @@ class MrpWorkorder(models.Model):
 
         if self.final_lot_id:
             self.final_lot_id.use_next_on_work_order_id = self.next_work_order_id
-            self.final_lot_id = False
+            if self._context.get('reset_final_lot', True):
+                self.final_lot_id = False
 
         # Set a qty producing
         rounding = self.production_id.product_uom_id.rounding
@@ -402,7 +409,10 @@ class MrpWorkorder(models.Model):
             self.qty_producing = 1.0
             self._generate_lot_ids()
         else:
-            self.qty_producing = float_round(self.production_id.product_qty - self.qty_produced, precision_rounding=rounding)
+            if self._context.get('compute_qty_producing', True):
+                self.qty_producing = float_round(self.production_id.product_qty - self.qty_produced, precision_rounding=rounding)
+            else:
+                self.qty_producing = 0.0
             self._generate_lot_ids()
 
         if self.next_work_order_id and self.production_id.product_id.tracking != 'none':
@@ -410,6 +420,8 @@ class MrpWorkorder(models.Model):
 
         if float_compare(self.qty_produced, self.production_id.product_qty, precision_rounding=rounding) >= 0:
             self.button_finish()
+        elif self._context.get('stop_partial_wo', False):
+            self.end_previous()
         return True
 
     @api.multi
